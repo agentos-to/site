@@ -429,11 +429,13 @@ See [llm.md](llm.md) for the full reference — checkpoint lives alongside agent
 
 | What | Convention | Example |
 |------|-----------|---------|
-| Python functions (tools) | `snake_case` | `def list_posts(**params)` |
+| Python functions (tools) | `snake_case`, no prefix | `def list_posts(**params)` |
 | Shape field keys (entity data) | `camelCase` | `"startDate"`, `"postedBy"` |
 | Non-shape keys (API passthrough) | Keep source format | `"access_token"` from an API response |
 
 Python is snake_case. Data going into the graph is camelCase. That's it.
+
+**No `run_` / `op_` / `do_` prefixes on tool functions.** The engine parses Python as text and the tool name is the function name verbatim — `async def search_books` is called as `tool: "search_books"`. The skill id is already the namespace.
 
 ## Shape conventions
 
@@ -697,6 +699,45 @@ headers = {"User-Agent": "Mozilla/5.0 ..."}
 http.headers(ua="chrome-desktop")  # or just http.headers() — chrome-desktop is default
 ```
 
+**`run_`, `op_`, `do_` prefixes on tool functions** — the engine parses Python as text and the **tool name is the function name, verbatim**. No prefix stripping. The skill id is already the namespace — don't repeat it.
+
+```python
+# WRONG — skill caller now has to say tool: "run_search_books"
+@returns("book[]")
+async def run_search_books(**params): ...
+
+# RIGHT
+@returns("book[]")
+async def search_books(**params): ...
+```
+
+This matters for the readme `test:` block too — the YAML key must match the Python function name exactly.
+
+**Async chain half-converted** — if a helper eventually calls `http.get/post/…`, it must be `async def` and every caller of it must `await` it. Adding `await` to a sync helper raises `SyntaxError`; forgetting `await` on an async helper silently returns a coroutine and breaks at the first `.get("ok")`. There is no middle ground.
+
+```python
+# WRONG — broken_fn will return a coroutine, caller crashes
+def _fetch_one(url):
+    return http.get(url)   # missing await, and enclosing fn isn't async
+
+# RIGHT — lift everything down to http.get into async
+async def _fetch_one(url):
+    resp = await http.get(url)
+    return resp
+```
+
+`agent-sdk validate` flags both halves. If you touch one helper in a chain, walk the chain up and down.
+
+**No `account` on a multi-account skill** — if more than one credential row exists for a skill (e.g. Brave synced two Goodreads cookies), the engine refuses to pick. Every `run()` call must include `"account": "<name>"`. This applies even to tools that don't actually need auth.
+
+```bash
+# Check what accounts exist:
+agentos call accounts '{"skill":"goodreads"}'
+
+# Then pass one by name:
+agentos call run '{"skill":"goodreads","tool":"get_book","params":{"book_id":"4934"},"account":"26631647"}'
+```
+
 ## Special return keys
 
 Tools can return special keys alongside or instead of shape data:
@@ -719,6 +760,111 @@ return http.skill_result(status="code_sent", email=email)
 # Return structured error
 return http.skill_error("API key expired", status=401)
 ```
+
+## Testing
+
+AgentOS tests skills against **real services**, never mocks. The bar
+is the same one a human gets the first time they try a tool: "did it
+come back without an error?" If it did, the tool works. If it didn't,
+the skill is broken and the quality sweep notices.
+
+Two places declare tests, one runner executes them.
+
+### 1. Declare tests in the readme `test:` block
+
+Every tool in a skill should have a line in the readme frontmatter's
+`test:` block. The key is the tool name; the value is either
+`skip: true`, `{}` (no params), or
+`{ params: { … } }` with real live-service inputs.
+
+```yaml
+---
+id: hackernews
+# … other frontmatter …
+
+test:
+  list_posts:
+    params:
+      feed: front
+      limit: 3
+  get_post:
+    params:
+      id: '1'
+      url: null
+---
+```
+
+Real examples — same shape, different domains:
+
+- `skills/media/hackernews/readme.md` — public API, no auth.
+- `skills/macos/macos-control/readme.md` — local shell/OS skill.
+- `skills/media/goodreads/readme.md` — cookie-auth + AppSync GraphQL.
+
+### 2. `agent-sdk validate` — static checks
+
+```bash
+agent-sdk validate skills/<skill>
+# or across the whole tree:
+agent-sdk validate --all
+```
+
+15 static checks, including: banned imports (sandbox), missing
+`await`, sync `time.sleep` in async bodies, tool-name collisions,
+shape conformance of return dicts, camelCase enforcement, frontmatter
+field validation. Runs automatically on `pre-commit` — you will not
+commit a skill that fails these.
+
+### 3. `_quality/bin/run_tests.py` — effectiveness sweep
+
+The integration test runner. Walks every skill readme, calls every
+tool declared in `test:` through `agentos call run`, records
+pass/fail, and writes an effectiveness percentage.
+
+```bash
+python3 _quality/bin/run_tests.py --skills-dir ~/dev/agentos/skills
+```
+
+Pass = the call returned without a top-level `_error`. No assertions
+on output shape. Green means the tool hit the real service and came
+back with something.
+
+Tracked over time by the quality charter (`_quality/charter.md`) as
+one of three numbers (effectiveness, size, active-surface). Deletion
+should not drop effectiveness. Additions should not drop it either.
+
+### 4. `agentos test-skill` / `agentos call run` — while iterating
+
+For single-tool debugging during development:
+
+```bash
+# Single tool, via the running engine (full boot, auth, dispatch):
+agentos call run '{"skill":"goodreads","tool":"search_books","params":{"query":"dune","limit":3},"account":"26631647"}'
+
+# All testable tools in a skill, via a lightweight harness:
+agentos test-skill goodreads
+
+# Just one op:
+agentos test-skill goodreads --op search_books
+```
+
+`agentos call run` exercises the whole live stack (engine, MCP,
+Python worker, SDK, auth resolution) and is the closest thing to
+what a client MCP would do. Use it when `run_tests.py` flags a tool
+and you need to see the actual error.
+
+### What NOT to do
+
+- **No unit tests, no mocks.** Every test hits the real service. This
+  is a deliberate project rule (`CLAUDE.md` rule 11). A mocked test
+  that passes while production breaks is worse than no test at all.
+- **No assertions on output structure beyond "did not throw".** Shape
+  conformance is already enforced by `agent-sdk validate` at the AST
+  level; runtime assertions duplicate that and rot faster than the
+  API does.
+- **No test-only params.** The readme `test:` block uses the same
+  params a real caller would — public IDs, real queries. If a tool
+  needs auth to be useful, the quality sweep will tell you via the
+  credential-missing error; add the account and rerun.
 
 ## Quick reference
 
