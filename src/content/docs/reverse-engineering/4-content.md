@@ -73,7 +73,7 @@ operations:
     connection: web
     python:
       module: ./web_scraper.py
-      function: run_list_friends
+      function: list_friends
       params: true
 ```
 
