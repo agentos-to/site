@@ -92,17 +92,8 @@ export default defineConfig({
 						{ label: 'Vision', slug: 'introduction/vision' },
 						{ label: 'Inspiration', slug: 'introduction/inspiration' },
 						{ label: 'The two users', slug: 'introduction/two-users' },
-					],
-				},
-				{
-					label: 'Principles',
-					collapsed: true,
-					items: [
-						{ label: 'Design principles', slug: 'principles/design-principles' },
-						{ label: 'Architectural laws', slug: 'principles/architectural-laws' },
-						{ label: 'Agent empathy', slug: 'principles/agent-empathy' },
-						{ label: 'How we build', slug: 'principles/how-we-build' },
-						{ label: 'Roadmap & proposals', slug: 'principles/roadmap-and-proposals' },
+						{ label: 'How we build', slug: 'introduction/how-we-build' },
+						{ label: 'Roadmap & proposals', slug: 'introduction/roadmap-and-proposals' },
 					],
 				},
 				{
@@ -110,6 +101,8 @@ export default defineConfig({
 					collapsed: true,
 					items: [
 						{ label: 'Overview', slug: 'architecture/overview' },
+						{ label: 'Design principles', slug: 'architecture/design-principles' },
+						{ label: 'Architectural laws', slug: 'architecture/architectural-laws' },
 						{ label: 'Security', slug: 'architecture/security' },
 						{ label: 'Local-first', slug: 'architecture/local-first' },
 						{ label: 'Data model', slug: 'architecture/data-model' },
@@ -145,6 +138,7 @@ export default defineConfig({
 					collapsed: true,
 					items: [
 						{ label: 'Overview', slug: 'skills/overview' },
+						{ label: 'Agent empathy', slug: 'skills/agent-empathy' },
 						{ label: 'Connections', slug: 'skills/connections' },
 						{ label: 'Auth flows', slug: 'skills/auth-flows' },
 						{ label: 'Data', slug: 'skills/data' },

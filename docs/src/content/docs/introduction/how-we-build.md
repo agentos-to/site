@@ -14,7 +14,7 @@ We are **co-CTOs** — human and AI — making strategic decisions together. Thi
 - **Pain-driven.** If you can't articulate the pain, don't build it.
 - **Blast radius is not a cost — stale architecture is.** An "audacious" refactor that touches the engine and every skill in one shot is *not more expensive* than a one-line fix. Pre-launch means zero migration cost.
 
-See [Architectural laws](/docs/principles/architectural-laws/) for the full rule set.
+See [Architectural laws](/docs/architecture/architectural-laws/) for the full rule set.
 
 ## Skills
 
@@ -36,7 +36,7 @@ See [Apps overview](/docs/apps/overview/).
 
 ## Proposals & roadmap
 
-Design thinking lives in `_roadmap/` — pain, proposal, review, closeout. The pipeline is described in [Roadmap & proposals](/docs/principles/roadmap-and-proposals/).
+Design thinking lives in `_roadmap/` — pain, proposal, review, closeout. The pipeline is described in [Roadmap & proposals](/docs/introduction/roadmap-and-proposals/).
 
 **Proposals must include prior art.** Don't design in a vacuum — search for how others solved similar problems before proposing.
 

@@ -45,6 +45,6 @@ Entities, skills, and apps are independent concerns that compose into the full e
 
 ## See also
 
-- [Architectural laws](/docs/principles/architectural-laws/) — the structural constraints that keep the engine generic.
-- [Agent empathy](/docs/principles/agent-empathy/) — the practice of building for the smallest model.
+- [Architectural laws](/docs/architecture/architectural-laws/) — the structural constraints that keep the engine generic.
+- [Agent empathy](/docs/skills/agent-empathy/) — the practice of building for the smallest model.
 - [Shape design principles](/docs/shapes/shape-design-principles/) — how these apply at the ontology level.

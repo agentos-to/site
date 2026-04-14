@@ -49,4 +49,4 @@ That's the vision. We're not there yet. But every entity we model correctly, eve
 - [The two users](/docs/introduction/two-users/) — why we serve humans and agents as equal first-class citizens.
 - [Local-first](/docs/architecture/local-first/) — why your data never leaves your machine.
 - [Inspiration](/docs/introduction/inspiration/) — the shoulders we stand on.
-- [Design principles](/docs/principles/design-principles/) — how these ideas become code.
+- [Design principles](/docs/architecture/design-principles/) — how these ideas become code.
