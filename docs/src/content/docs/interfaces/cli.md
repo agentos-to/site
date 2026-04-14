@@ -3,7 +3,7 @@ title: CLI
 description: The agentos binary — call operations, run the engine daemon, inspect auth, test skills. Same binary, multiple subcommands.
 ---
 
-The `agentos` binary is the Swiss Army knife of AgentOS. It's **the same fat binary** for all subcommands — the engine, the web bridge, the MCP proxy, the skill tester — which means one install, one upgrade path, one thing to restart.
+The `agentos` binary is the Swiss Army knife of AgentOS. It's **the same fat binary** for all subcommands — [the engine](/architecture/overview/), the web bridge, the [MCP](/interfaces/mcp/) proxy, the [skill](/skills/overview/) tester — which means one install, one upgrade path, one thing to restart.
 
 ## The subcommands
 
@@ -24,7 +24,7 @@ agentos call skills.run --params '{"skill": "goodreads", "op": "search_books", "
 
 By default the output is pretty-printed markdown if the engine returns a structured response. Pass `--json` to get raw JSON — useful for piping into `jq` or another tool.
 
-`agentos call` is the fastest way to poke at anything. If a skill is broken, an MCP tool is misbehaving, or you just want to check what's in the graph — reach for `call` first.
+`agentos call` is the fastest way to poke at anything. If a skill is broken, an [MCP](/interfaces/mcp/) tool is misbehaving, or you just want to check what's in the graph — reach for `call` first.
 
 ### `agentos engine [--daemon]`
 

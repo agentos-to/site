@@ -17,7 +17,7 @@ See [Shape design principles](/shapes/shape-design-principles/) for how this sha
 
 ## The user owns the graph
 
-Skills are connectors, not owners. They sync data in, but the graph is the authority. Installing a skill imports data; uninstalling it doesn't delete what was imported. "Source of truth" is the graph, always — skills are remotes you pull from, not landlords who control your data.
+[Skills](/skills/overview/) are connectors, not owners. They sync data in, but the graph is the authority. Installing a skill imports data; uninstalling it doesn't delete what was imported. "Source of truth" is the graph, always — skills are remotes you pull from, not landlords who control your data.
 
 ## Changes are entities
 
@@ -41,7 +41,7 @@ Entities, skills, and apps are independent concerns that compose into the full e
 
 **Skills** are the capability layer — connecting to external services, providing agent instructions. A YouTube skill knows how to fetch video metadata. A Todoist skill knows how to create tasks via their API. Skills can also be pure markdown — instructions that help AI agents understand a domain, with no API bindings at all. You can have skills without apps (AI-only workflows).
 
-**Apps** are optional UI experiences for humans. The Videos app renders video entities with an embed player. The default entity viewer renders any entity with schema-driven components. A headless AgentOS — API and AI only — works perfectly without apps. You can have apps without skills (local-only data).
+**[Apps](/apps/overview/)** are optional UI experiences for humans. The Videos app renders video entities with an embed player. The default entity viewer renders any entity with schema-driven components. A headless AgentOS — API and AI only — works perfectly without apps. You can have apps without skills (local-only data).
 
 ## See also
 

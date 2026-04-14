@@ -3,7 +3,7 @@ title: Overview
 description: How AgentOS is built — a Rust engine, Python skill workers, optional apps, and a generic graph. Four boundaries, three primitives.
 ---
 
-AgentOS is a **Rust engine** that brokers between **Python skills** (that write to the graph) and **apps** (that read from it). The engine is the matchmaker: apps ask for capabilities, the engine picks a skill that provides them, and neither side learns the other's name.
+AgentOS is a **Rust engine** that brokers between **Python [skills](/skills/overview/)** (that write to the graph) and **[apps](/apps/overview/)** (that read from it). The engine is the matchmaker: apps ask for capabilities, the engine picks a skill that provides them, and neither side learns the other's name.
 
 The entire system is built from a small number of primitives. Learn these and the rest of the docs fall into place.
 
@@ -23,13 +23,13 @@ Read more: [Memex & the graph](/shapes/memex-and-graph/) · [Identity & change](
 
 Data moves across four inter-process boundaries. Understanding these is how you reason about security, failure modes, and where code belongs.
 
-### 1. MCP STDIO → engine socket
+### 1. [MCP](/interfaces/mcp/) STDIO → engine socket
 
 AI clients (Cursor, Claude Code, Claude Desktop) speak Model Context Protocol over STDIO to `agentos-mcp`, a thin proxy. The proxy translates MCP calls to JSON-RPC and forwards them over the engine's Unix socket.
 
 ### 2. Engine Unix socket (`~/.agentos/engine.sock`)
 
-The engine daemon is a single Rust binary. One engine per machine, enforced by a flock on `~/.agentos/engine.lock`. The socket accepts JSON-RPC from MCP, from the `agentos` CLI, and from the web bridge. Everything funnels through here.
+The engine daemon is a single Rust binary. One engine per machine, enforced by a flock on `~/.agentos/engine.lock`. The socket accepts JSON-RPC from MCP, from the `agentos` [CLI](/interfaces/cli/), and from the web bridge. Everything funnels through here.
 
 ### 3. Python subprocess dispatch
 
@@ -87,11 +87,3 @@ This is the decoupling law. Installing or uninstalling an app has zero impact on
 ```
 
 One directory. Portable. Back it up, copy it, nuke it. [Local-first](/architecture/local-first/) explains what is and isn't committed to that directory.
-
-## Where to go next
-
-- [Security](/architecture/security/) — capability brokering, auth resolution, credential storage.
-- [Local-first](/architecture/local-first/) — what stays on your machine, what leaves it, the state map.
-- [Data model](/architecture/data-model/) — shapes, identity, how skills emit shape-conformant dicts.
-- [Shapes overview](/shapes/overview/) — the ontology proper.
-- [Architectural laws](/architecture/architectural-laws/) — the hard rules the engine won't break.

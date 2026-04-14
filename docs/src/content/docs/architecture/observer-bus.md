@@ -145,9 +145,3 @@ Same daemon, same flock — just two listening sockets.
 | **Skill emits faster than the channel drains** | Broadcast ring overruns the slow subscriber. That subscriber gets `RecvError::Lagged(n)`, which the engine surfaces as a synthetic `phase: "lagged"` event over the wire. Fast subscribers are unaffected. The graph's persistent activity log is unaffected — durability lives in the graph, not in the channel. |
 | **Bridge can't reach the engine** | After 20 failed connect attempts, `/observer/stream` and `/observer/history` return `503`. `/healthz` reports `engine: false` (`web-bridge/src/lib.rs:99-103`). |
 | **Observer socket exists but engine is wedged** | Bridge connects, sends subscribe line, reads zero lines; `read_line` returns `Ok(0)` and the SSE stream closes cleanly. No retry inside a single connection — the browser's `EventSource` will reconnect and try again. |
-
-## Further reading
-
-- [HTTP](/interfaces/http/) — the `/observer/*` route table and SSE contract.
-- [Overview](/architecture/overview/) — where the bridge and engine sit in the broader picture.
-- [Local-first](/architecture/local-first/) — what the activity log persists and what stays ephemeral.

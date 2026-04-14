@@ -74,8 +74,8 @@ The engine knows *about* shapes — field types, relations, identity keys. It do
 
 This is the principle that keeps the engine generic. If the engine ever learned that tasks have priorities and priorities are sortable, every new entity type would require a Rust change. Instead, meaning lives in:
 
-- **Skills** — they decide what gets extracted and how.
-- **Apps** — they decide how to render, sort, group.
+- **[Skills](/skills/overview/)** — they decide what gets extracted and how.
+- **[Apps](/apps/overview/)** — they decide how to render, sort, group.
 - **Shapes** — they describe the structure everyone agrees on.
 
 See [Architectural laws](/architecture/architectural-laws/) for the full list of things the engine refuses to do.
@@ -105,10 +105,3 @@ And edge values live in `edge_vals`, parallel to `node_vals`. Same story: no typ
 From an app: read shape-conformant records via the web bridge (`/graph` endpoint, JSON). From a skill: write shape-conformant dicts via `@returns(...)`. From MCP: both, through the engine.
 
 Nobody queries SQL directly. The API surface is the shape registry + the capability broker. The DDL is internal.
-
-## Further reading
-
-- [Shapes overview](/shapes/overview/) — authoring format, tactical rules, review checklist.
-- [Shape design principles](/shapes/shape-design-principles/) — the higher-order rules.
-- [Memex & the graph](/shapes/memex-and-graph/) — why your entire knowledge graph fits in one SQLite file.
-- [Identity & change](/shapes/identity-and-change/) — every change is an entity too.

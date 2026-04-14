@@ -148,10 +148,3 @@ The extraction module imports exactly one piece of shape knowledge: `crate::shap
 That's the line. The engine is **shape-aware** (it consults the registry for field types, relations, identity) but **entity-agnostic** (it has no opinion about what `book` or `person` means). Adding a new shape is a YAML file, a graph seed, an engine restart. No Rust change, no recompile, no migration.
 
 The day the engine learns that `book.pages` is sortable, every new entity becomes a Rust diff. That door is closed by architecture, not discipline.
-
-## Further reading
-
-- [Data model](/architecture/data-model/) — the three primitives and why semantic type lives in data, not DDL.
-- [Shapes overview](/shapes/overview/) — authoring format, design principles, the review checklist.
-- [Skill dispatch](/architecture/skill-dispatch/) — what runs *before* extraction: the wire protocol that delivers the dict.
-- [Identity & change](/shapes/identity-and-change/) — identity across time, why every change is itself an entity.
