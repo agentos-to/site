@@ -52,6 +52,14 @@ class Shape:
     name: str           # YAML name (snake_case)
     class_name: str     # PascalCase
     fields: list[Field] = field(default_factory=list)
+    # Below fields are ignored by language emitters; used by the MDX doc emitter.
+    also: list[str] = field(default_factory=list)           # raw `also:` list (tag chain)
+    plural: str | None = None
+    subtitle: str | None = None
+    identity: list[str] = field(default_factory=list)        # identity / identity_any field names
+    leading_comment: str = ""                                # top-of-file `# ...` lines, stripped
+    own_fields: list[Field] = field(default_factory=list)    # fields declared on THIS shape, not inherited
+    own_relations: list[Field] = field(default_factory=list) # relations declared on THIS shape
 
 
 # =============================================================================
@@ -176,7 +184,7 @@ def load_shapes_from_api(agentos_bin: str) -> list[Shape]:
         if isinstance(defn, dict):
             raw[shape_name] = defn
 
-    return _build_shapes(raw)
+    return _build_shapes(raw, {})
 
 
 def load_shapes(shapes_dir: Path) -> list[Shape]:
@@ -188,18 +196,34 @@ def load_shapes(shapes_dir: Path) -> list[Shape]:
         sys.exit(1)
 
     raw: dict[str, dict] = {}
+    comments: dict[str, str] = {}
     for f in sorted(shapes_dir.glob("*.yaml")):
-        data = yaml.safe_load(f.read_text())
+        text = f.read_text()
+        data = yaml.safe_load(text)
         if data and isinstance(data, dict):
+            # Capture leading `# ...` comment block (before first non-comment, non-blank line).
+            lead_lines = []
+            for line in text.splitlines():
+                stripped = line.strip()
+                if stripped.startswith("#"):
+                    lead_lines.append(stripped.lstrip("#").strip())
+                elif stripped == "":
+                    continue
+                else:
+                    break
+            lead = "\n".join(lead_lines).strip()
             for name, defn in data.items():
                 if isinstance(defn, dict):
                     raw[name] = defn
+                    if lead:
+                        comments[name] = lead
 
-    return _build_shapes(raw)
+    return _build_shapes(raw, comments)
 
 
-def _build_shapes(raw: dict[str, dict]) -> list[Shape]:
+def _build_shapes(raw: dict[str, dict], comments: dict[str, str] | None = None) -> list[Shape]:
     """Convert raw shape dicts into Shape objects with resolved inheritance."""
+    comments = comments or {}
 
     def resolve_fields(name: str, seen: set | None = None) -> dict[str, str]:
         if seen is None:
@@ -231,7 +255,29 @@ def _build_shapes(raw: dict[str, dict]) -> list[Shape]:
 
     shapes = []
     for shape_name in sorted(raw.keys()):
+        defn = raw.get(shape_name, {})
         s = Shape(name=shape_name, class_name=to_class_name(shape_name))
+
+        # Metadata used by the doc emitter
+        s.also = list(defn.get("also") or [])
+        s.plural = defn.get("plural")
+        s.subtitle = defn.get("subtitle")
+        if "identity" in defn:
+            ident = defn["identity"]
+            s.identity = ident if isinstance(ident, list) else [ident]
+        elif "identity_any" in defn:
+            ident = defn["identity_any"]
+            s.identity = ident if isinstance(ident, list) else [ident]
+        s.leading_comment = comments.get(shape_name, "")
+
+        # Own fields — declared on THIS shape only (not inherited).
+        for fname, ftype in (defn.get("fields") or {}).items():
+            is_array = str(ftype).endswith("[]")
+            s.own_fields.append(Field(fname, str(ftype), False, is_array, None))
+        for label, target in (defn.get("relations") or {}).items():
+            tgt_s = str(target)
+            is_array = tgt_s.endswith("[]")
+            s.own_relations.append(Field(label, tgt_s, True, is_array, tgt_s.rstrip("[]")))
 
         # Standard fields first
         for wk_name, wk_type in STANDARD_FIELDS:
@@ -581,6 +627,355 @@ def _rust_type(f: Field) -> str:
 
 
 # =============================================================================
+# MDX emitter — one doc page per shape (Starlight-compatible)
+# =============================================================================
+
+def _shape_link(target: str) -> str:
+    """Produce a markdown link to another shape's reference page."""
+    base = target.rstrip("[]")
+    return f"[`{target}`](/docs/reference/shapes/{base}/)"
+
+
+def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, list[dict]]) -> None:
+    """Write one MDX file per shape into `out_dir`, plus an index page.
+
+    skills_index maps shape-name → list of {skill_id, path, operations} dicts,
+    so each shape page can show 'skills that produce this shape'.
+    """
+    out_dir.mkdir(parents=True, exist_ok=True)
+    by_name = {s.name: s for s in shapes}
+
+    for s in shapes:
+        desc = s.leading_comment.split("\n")[0] if s.leading_comment else f"Shape reference for `{s.name}`."
+        # Starlight YAML-safe description: single line, no backticks, no quotes.
+        desc_safe = desc.replace('"', "'").replace("`", "").strip()
+        if len(desc_safe) > 160:
+            desc_safe = desc_safe[:157] + "..."
+
+        lines = [
+            "---",
+            f"title: {s.name}",
+            f'description: "{desc_safe}"',
+            "sidebar:",
+            f"  label: {s.name}",
+            "---",
+            "",
+        ]
+
+        # Leading comment as intro prose, if present
+        if s.leading_comment:
+            lines.append(s.leading_comment)
+            lines.append("")
+
+        # Metadata table: plural, subtitle, identity, also chain
+        meta_rows = []
+        if s.plural:
+            meta_rows.append(("Plural", f"`{s.plural}`"))
+        if s.subtitle:
+            meta_rows.append(("Subtitle field", f"`{s.subtitle}`"))
+        if s.identity:
+            meta_rows.append(("Identity", ", ".join(f"`{i}`" for i in s.identity)))
+        if s.also:
+            chain = " · ".join(_shape_link(a) for a in s.also)
+            meta_rows.append(("Also", chain))
+        if meta_rows:
+            lines.append("| | |")
+            lines.append("|---|---|")
+            for k, v in meta_rows:
+                lines.append(f"| **{k}** | {v} |")
+            lines.append("")
+
+        # Own fields
+        if s.own_fields:
+            lines.append("## Fields")
+            lines.append("")
+            lines.append("| Field | Type |")
+            lines.append("|---|---|")
+            for f in s.own_fields:
+                lines.append(f"| `{f.name}` | `{f.type}` |")
+            lines.append("")
+
+        # Own relations
+        if s.own_relations:
+            lines.append("## Relations")
+            lines.append("")
+            lines.append("| Relation | Target |")
+            lines.append("|---|---|")
+            for f in s.own_relations:
+                tgt = f.target or f.type.rstrip("[]")
+                arr = "[]" if f.is_array else ""
+                lines.append(f"| `{f.name}` | {_shape_link(tgt + arr)} |")
+            lines.append("")
+
+        # Inherited fields (resolved - own, minus standard)
+        own_names = {f.name for f in s.own_fields}
+        own_rel_names = {f.name for f in s.own_relations}
+        std_names = {n for n, _ in STANDARD_FIELDS}
+        inherited_fields = [
+            f for f in s.fields
+            if not f.is_relation and f.name not in own_names and f.name not in std_names
+        ]
+        inherited_rels = [
+            f for f in s.fields if f.is_relation and f.name not in own_rel_names
+        ]
+        if inherited_fields or inherited_rels:
+            lines.append("## Inherited")
+            lines.append("")
+            if s.also:
+                chain = " · ".join(_shape_link(a) for a in s.also)
+                lines.append(f"From {chain}:")
+                lines.append("")
+            if inherited_fields:
+                lines.append("| Field | Type |")
+                lines.append("|---|---|")
+                for f in inherited_fields:
+                    lines.append(f"| `{f.name}` | `{f.type}` |")
+                lines.append("")
+            if inherited_rels:
+                lines.append("| Relation | Target |")
+                lines.append("|---|---|")
+                for f in inherited_rels:
+                    tgt = f.target or f.type.rstrip("[]")
+                    arr = "[]" if f.is_array else ""
+                    lines.append(f"| `{f.name}` | {_shape_link(tgt + arr)} |")
+                lines.append("")
+
+        # Shapes that declare THIS shape in their `also:` chain (children)
+        children = sorted([c.name for c in shapes if s.name in c.also])
+        if children:
+            lines.append("## Used as a base by")
+            lines.append("")
+            for child in children:
+                lines.append(f"- {_shape_link(child)}")
+            lines.append("")
+
+        # Skills that return this shape
+        producers = skills_index.get(s.name, [])
+        if producers:
+            lines.append("## Skills that produce this shape")
+            lines.append("")
+            for p in producers:
+                sid = p["skill_id"]
+                ops = ", ".join(f"`{op}`" for op in p["operations"])
+                lines.append(f"- [{sid}](/docs/reference/skills/{sid}/) — {ops}")
+            lines.append("")
+
+        (out_dir / f"{s.name}.md").write_text("\n".join(lines).rstrip() + "\n")
+
+    # Index page — flat A-Z list with one-line descriptions
+    idx = [
+        "---",
+        "title: Shapes",
+        'description: "Every shape in the AgentOS ontology. Browse all 81, or follow a tag chain."',
+        "---",
+        "",
+        f"The AgentOS ontology — **{len(shapes)}** shapes. Each shape defines what an entity *is* (fields, relations, display hints). Shapes can extend other shapes via `also:`, which makes that shape a **tag** on the entity — a person is also an actor; a book is also a product.",
+        "",
+        "See [Ontology overview](/docs/ontology/overview/) for the tactical reference and [Shape design principles](/docs/ontology/shape-design-principles/) for the rules.",
+        "",
+        "## All shapes",
+        "",
+    ]
+    for s in shapes:
+        desc = (s.leading_comment.split("\n")[0] if s.leading_comment else "").strip().rstrip(".")
+        also = ""
+        if s.also:
+            also = f" — also {', '.join(f'`{a}`' for a in s.also)}"
+        desc_part = f" — {desc}" if desc else ""
+        idx.append(f"- [`{s.name}`](/docs/reference/shapes/{s.name}/){also}{desc_part}")
+    (out_dir / "index.md").write_text("\n".join(idx) + "\n")
+
+
+# =============================================================================
+# Skill docs emitter — one MDX per skill, reading each skill's readme.md
+# =============================================================================
+
+_SKILL_IGNORE_DIRS = {"_sdk", "_prototype", "_code-reviews", "agent-sdk", "bin", "node_modules", "__pycache__"}
+
+
+def _parse_readme_frontmatter(text: str) -> tuple[dict, str]:
+    """Parse YAML frontmatter from a readme. Returns (meta, body)."""
+    try:
+        import yaml
+    except ImportError:
+        return {}, text
+    if not text.startswith("---"):
+        return {}, text
+    end = text.find("\n---", 3)
+    if end < 0:
+        return {}, text
+    meta = yaml.safe_load(text[3:end]) or {}
+    body = text[end + 4:].lstrip("\n")
+    return (meta if isinstance(meta, dict) else {}), body
+
+
+def _extract_returns(py_text: str) -> list[tuple[str, str]]:
+    """Find @returns('shape') decorators over def/async-def. Returns [(func_name, shape), ...]."""
+    import ast
+    try:
+        tree = ast.parse(py_text)
+    except SyntaxError:
+        return []
+    out = []
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            for dec in node.decorator_list:
+                if isinstance(dec, ast.Call) and isinstance(dec.func, ast.Name) and dec.func.id == "returns":
+                    if dec.args and isinstance(dec.args[0], ast.Constant) and isinstance(dec.args[0].value, str):
+                        out.append((node.name, dec.args[0].value))
+    return out
+
+
+def discover_skills(skills_root: Path) -> list[dict]:
+    """Walk skills/ looking for readme.md files. Return list of skill records."""
+    records = []
+    for readme in skills_root.rglob("readme.md"):
+        rel = readme.parent.relative_to(skills_root)
+        parts = rel.parts
+        if any(p in _SKILL_IGNORE_DIRS or p.startswith(".") for p in parts):
+            continue
+        if readme.parent == skills_root:
+            continue
+        text = readme.read_text()
+        meta, body = _parse_readme_frontmatter(text)
+        skill_id = meta.get("id") or rel.name
+        category = parts[0] if len(parts) > 1 else "misc"
+        # Scan .py files for @returns shape names
+        returns = {}  # shape → [func_name, ...]
+        for py in readme.parent.glob("*.py"):
+            for fn, shape in _extract_returns(py.read_text()):
+                returns.setdefault(shape, []).append(fn)
+        records.append({
+            "skill_id": skill_id,
+            "rel_path": str(rel),
+            "category": category,
+            "meta": meta,
+            "body": body,
+            "returns": returns,
+        })
+    return records
+
+
+def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -> None:
+    """Write one MDX file per skill + an index page.
+
+    `known_shapes` is the set of shape names that have their own reference page;
+    return-types outside this set (e.g. `void`) are rendered as plain code without
+    a link so generated pages never produce dead `/docs/reference/shapes/void/` URLs.
+    """
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for rec in skills:
+        meta = rec["meta"]
+        sid = rec["skill_id"]
+        name = meta.get("name", sid)
+        desc = (meta.get("description") or "").replace('"', "'").strip()
+        if len(desc) > 160:
+            desc = desc[:157] + "..."
+
+        lines = [
+            "---",
+            f"title: {name}",
+            f'description: "{desc}"' if desc else f'description: "Skill reference for {sid}."',
+            "sidebar:",
+            f"  label: {sid}",
+            "---",
+            "",
+        ]
+
+        # Badge row: category + capabilities
+        badges = [f"**Category:** `{rec['category']}`"]
+        if meta.get("capabilities"):
+            caps = ", ".join(f"`{c}`" for c in meta["capabilities"])
+            badges.append(f"**Capabilities:** {caps}")
+        if meta.get("website"):
+            badges.append(f"**Website:** {meta['website']}")
+        lines.append(" · ".join(badges))
+        lines.append("")
+
+        # Shapes produced
+        if rec["returns"]:
+            lines.append("## Returns shapes")
+            lines.append("")
+            for shape, fns in sorted(rec["returns"].items()):
+                fn_list = ", ".join(f"`{fn}`" for fn in fns)
+                bare = shape.rstrip("[]")
+                if bare in known_shapes:
+                    rendered = f"[`{shape}`](/docs/reference/shapes/{bare}/)"
+                else:
+                    rendered = f"`{shape}`"
+                lines.append(f"- {rendered} — from {fn_list}")
+            lines.append("")
+
+        # Connections block — just list connection names
+        if meta.get("connections"):
+            lines.append("## Connections")
+            lines.append("")
+            for cname, cval in meta["connections"].items():
+                cdesc = cval.get("description") if isinstance(cval, dict) else ""
+                if cdesc:
+                    lines.append(f"- **`{cname}`** — {cdesc}")
+                else:
+                    lines.append(f"- **`{cname}`**")
+            lines.append("")
+
+        # Body (the agent-facing readme) — strip first H1 if any (title already in frontmatter)
+        body = rec["body"].strip()
+        if body.startswith("# "):
+            body = body.split("\n", 1)[1].lstrip("\n") if "\n" in body else ""
+        if body:
+            lines.append("## Readme")
+            lines.append("")
+            lines.append(body)
+            lines.append("")
+
+        (out_dir / f"{sid}.md").write_text("\n".join(lines).rstrip() + "\n")
+
+    # Index — group by category
+    by_cat: dict[str, list[dict]] = {}
+    for rec in skills:
+        by_cat.setdefault(rec["category"], []).append(rec)
+    idx = [
+        "---",
+        "title: Skills",
+        'description: "Every skill in the AgentOS catalog. Browse all or filter by category."',
+        "---",
+        "",
+        f"The AgentOS skill catalog — **{len(skills)}** skills across **{len(by_cat)}** categories. Each skill is a Python adapter that connects to a service or provides a pure agent capability.",
+        "",
+        "See [Contributing → Skills](/docs/contributing/skills/overview/) for how to build one.",
+        "",
+    ]
+    for cat in sorted(by_cat.keys()):
+        idx.append(f"## {cat}")
+        idx.append("")
+        for rec in sorted(by_cat[cat], key=lambda r: r["skill_id"]):
+            name = rec["meta"].get("name", rec["skill_id"])
+            desc = (rec["meta"].get("description") or "").strip().rstrip(".")
+            desc_part = f" — {desc}" if desc else ""
+            idx.append(f"- [**{name}**](/docs/reference/skills/{rec['skill_id']}/){desc_part}")
+        idx.append("")
+    (out_dir / "index.md").write_text("\n".join(idx) + "\n")
+
+
+def build_skills_index(skills: list[dict], known_shapes: set[str]) -> dict[str, list[dict]]:
+    """Invert skills list into shape-name → skills that produce it (arrays stripped).
+
+    Only keeps entries for shapes that have a reference page (`known_shapes`).
+    """
+    idx: dict[str, list[dict]] = {}
+    for rec in skills:
+        for shape in rec["returns"]:
+            bare = shape.rstrip("[]")
+            if bare not in known_shapes:
+                continue
+            idx.setdefault(bare, []).append({
+                "skill_id": rec["skill_id"],
+                "operations": rec["returns"][shape],
+            })
+    return idx
+
+
+# =============================================================================
 # CLI
 # =============================================================================
 
@@ -608,6 +1003,9 @@ def main():
     parser.add_argument("--from-api", action="store_true", help="Load shapes from graph via agentos CLI instead of YAML files")
     parser.add_argument("--agentos-bin", type=str, help="Path to agentos binary (default: agentos)")
     parser.add_argument("--dump-yaml", type=Path, help="With --from-api: also dump each shape as YAML to this directory (backup/export)")
+    parser.add_argument("--docs", action="store_true", help="Emit MDX reference pages for shapes + skills (Starlight)")
+    parser.add_argument("--skills-root", type=Path, help="Path to skills/ tree for --docs (default: ../../skills)")
+    parser.add_argument("--docs-out", type=Path, help="Reference output root for --docs (default: src/content/docs/reference)")
     args = parser.parse_args()
 
     sdk_dir = Path(__file__).parent
@@ -633,6 +1031,22 @@ def main():
         "python": sdk_dir / "skills-sdk" / "agentos" / "_generated.py",
         "typescript": sdk_dir / "apps-sdk" / "src" / "shapes.ts",
     }
+
+    if args.docs:
+        skills_root = args.skills_root or (sdk_dir / ".." / ".." / "skills").resolve()
+        docs_out = args.docs_out or (sdk_dir / "src" / "content" / "docs" / "reference")
+        if not skills_root.is_dir():
+            print(f"Skills root not found: {skills_root}", file=sys.stderr)
+            sys.exit(1)
+        skills = discover_skills(skills_root)
+        print(f"Discovered {len(skills)} skills in {skills_root}")
+        known_shapes = {s.name for s in shapes}
+        skills_index = build_skills_index(skills, known_shapes)
+        emit_shape_docs(shapes, docs_out / "shapes", skills_index)
+        print(f"  shapes: {docs_out / 'shapes'} ({len(shapes)} pages + index)")
+        emit_skill_docs(skills, docs_out / "skills", known_shapes)
+        print(f"  skills: {docs_out / 'skills'} ({len(skills)} pages + index)")
+        return
 
     langs = [args.lang] if args.lang else list(EMITTERS.keys())
     for lang in langs:
