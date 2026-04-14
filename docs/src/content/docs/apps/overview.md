@@ -11,7 +11,7 @@ An app asks *"give me an LLM"*. The engine picks a skill that `@provides(llm)`. 
 
 This is **security by architecture**. If an app and a skill can't name each other, they can't trust each other. Every capability request and every credential dereference passes through the engine.
 
-See [Local-first](/docs/introduction/local-first/) for the full framing.
+See [Local-first](/docs/architecture/local-first/) for the full framing.
 
 ## Shipped apps
 

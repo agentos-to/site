@@ -22,9 +22,61 @@ export default defineConfig({
 							const topUl = document.querySelector('nav[aria-label="Main"] ul.top-level');
 							if (!topUl) return;
 							const topLevel = Array.from(topUl.querySelectorAll(':scope > li > details'));
+							const DURATION = 200;
+							const EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
+
+							// Animate a <details> open/close by measuring its body <ul>
+							// and animating max-height. <details open> toggles are not
+							// animatable natively, so we hijack the click.
+							const animate = (details, shouldOpen) => {
+								const body = details.querySelector(':scope > ul');
+								if (!body) {
+									details.open = shouldOpen;
+									return;
+								}
+								details.dataset.animating = '1';
+								if (shouldOpen) {
+									details.open = true;
+									const end = body.scrollHeight;
+									body.style.overflow = 'hidden';
+									const anim = body.animate(
+										[{ maxHeight: '0px' }, { maxHeight: end + 'px' }],
+										{ duration: DURATION, easing: EASING },
+									);
+									anim.onfinish = () => {
+										body.style.overflow = '';
+										delete details.dataset.animating;
+									};
+								} else {
+									const start = body.scrollHeight;
+									body.style.overflow = 'hidden';
+									const anim = body.animate(
+										[{ maxHeight: start + 'px' }, { maxHeight: '0px' }],
+										{ duration: DURATION, easing: EASING },
+									);
+									anim.onfinish = () => {
+										details.open = false;
+										body.style.overflow = '';
+										delete details.dataset.animating;
+									};
+								}
+							};
+
 							topLevel.forEach((d) => {
-								d.addEventListener('toggle', () => {
-									if (d.open) topLevel.forEach((o) => { if (o !== d) o.open = false; });
+								const summary = d.querySelector(':scope > summary');
+								if (!summary) return;
+								summary.addEventListener('click', (e) => {
+									e.preventDefault();
+									if (d.dataset.animating) return;
+									const willOpen = !d.open;
+									// Close any siblings first, then open target in series
+									if (willOpen) {
+										const siblingsToClose = topLevel.filter((o) => o !== d && o.open);
+										siblingsToClose.forEach((o) => animate(o, false));
+										setTimeout(() => animate(d, true), siblingsToClose.length ? DURATION : 0);
+									} else {
+										animate(d, false);
+									}
 								});
 							});
 						});
@@ -40,7 +92,6 @@ export default defineConfig({
 						{ label: 'Vision', slug: 'introduction/vision' },
 						{ label: 'Inspiration', slug: 'introduction/inspiration' },
 						{ label: 'The two users', slug: 'introduction/two-users' },
-						{ label: 'Local-first', slug: 'introduction/local-first' },
 					],
 				},
 				{
@@ -52,6 +103,16 @@ export default defineConfig({
 						{ label: 'Agent empathy', slug: 'principles/agent-empathy' },
 						{ label: 'How we build', slug: 'principles/how-we-build' },
 						{ label: 'Roadmap & proposals', slug: 'principles/roadmap-and-proposals' },
+					],
+				},
+				{
+					label: 'Architecture',
+					collapsed: true,
+					items: [
+						{ label: 'Overview', slug: 'architecture/overview' },
+						{ label: 'Security', slug: 'architecture/security' },
+						{ label: 'Local-first', slug: 'architecture/local-first' },
+						{ label: 'Data model', slug: 'architecture/data-model' },
 					],
 				},
 				{

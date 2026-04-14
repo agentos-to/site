@@ -25,5 +25,5 @@ Skills and apps never know about each other. The engine is the sole broker — *
 
 - [Vision](/docs/introduction/vision/) — the full story of the memex, the graph, and symbiosis.
 - [The two users](/docs/introduction/two-users/) — why we design for humans and agents as equal first-class citizens.
-- [Local-first](/docs/introduction/local-first/) — why your data never leaves your machine.
+- [Local-first](/docs/architecture/local-first/) — why your data never leaves your machine.
 - [Skills → Overview](/docs/skills/overview/) — start building.
