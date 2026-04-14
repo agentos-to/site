@@ -17,3 +17,18 @@ software:
   relations:
     developer:         organization  # who makes it
     repository:        repository    # source code repo (if open source)
+  prior_art:
+    - source: schema.org/SoftwareApplication
+      url: https://schema.org/SoftwareApplication
+      notes: >-
+        Our version = softwareVersion; license matches; platform[] ≈
+        operatingSystem; developer = creator/author.
+    - source: SPDX License List
+      url: https://spdx.org/licenses/
+      notes: >-
+        Our license values are canonical SPDX identifiers.
+    - source: schema.org/SoftwareSourceCode
+      url: https://schema.org/SoftwareSourceCode
+      notes: >-
+        Our repositoryUrl ≈ codeRepository; openSource implied by SPDX-license
+        + codeRepository presence.

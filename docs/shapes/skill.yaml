@@ -15,3 +15,19 @@ skill:
     website:           website   # the service's homepage
     privacyPolicy:    webpage   # privacy policy page
     termsOfService:  webpage   # terms of service page
+  prior_art:
+    - source: Model Context Protocol (MCP) — Server
+      url: https://modelcontextprotocol.io/specification
+      notes: >-
+        Our skill = an MCP-registerable capability provider. skillId ≈ MCP
+        server name; status tracks connection lifecycle.
+    - source: OpenAPI 3.1 (Info + Servers)
+      url: https://spec.openapis.org/oas/v3.1.0
+      notes: >-
+        Our description/website/privacyPolicy/termsOfService ≈ OpenAPI
+        info.description/info.termsOfService/info.license/contact.
+    - source: Anthropic Tool Use (skills-as-tools)
+      url: https://docs.anthropic.com/en/docs/build-with-claude/tool-use
+      notes: >-
+        Each AgentOS skill publishes tools consumed via MCP/Tool-Use.
+        status/error surface tool-call health back to the agent.

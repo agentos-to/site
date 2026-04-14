@@ -12,3 +12,14 @@ hardware:
     specs:             json      # technical specifications
   relations:
     manufacturer:      organization
+  prior_art:
+    - source: schema.org/Product (IndividualProduct subtype)
+      url: https://schema.org/IndividualProduct
+      notes: >-
+        Our serialNumber = serialNumber; modelNumber ≈ model; specs ≈
+        additionalProperty (PropertyValue list).
+    - source: GS1 Global Trade Item Number (GTIN)
+      url: https://www.gs1.org/standards/id-keys/gtin
+      notes: >-
+        Hardware bar-codes are GTIN-12/13/14 — we reuse the product shape's
+        barcode alignment.

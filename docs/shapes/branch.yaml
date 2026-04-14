@@ -13,3 +13,14 @@ branch:
     isRemote:         boolean
   relations:
     repository:        repository
+  prior_art:
+    - source: Git Internals — Branches
+      url: https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell
+      notes: >-
+        A branch is a movable pointer to a commit. Our commit field is the
+        HEAD sha; ahead/behind mirror `git rev-list --count`.
+    - source: GitHub REST — branches
+      url: https://docs.github.com/en/rest/branches/branches
+      notes: >-
+        Practical API surface. Our upstream ≈ the remote tracking ref; we
+        flatten protection/commit metadata that GitHub nests.

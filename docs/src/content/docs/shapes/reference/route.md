@@ -68,3 +68,10 @@ From [`schedule`](/docs/shapes/reference/schedule/):
 |---|---|
 | `produces` | [`trip`](/docs/shapes/reference/trip/) |
 | `provider` | [`skill`](/docs/shapes/reference/skill/) |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[GTFS routes.txt](https://gtfs.org/documentation/schedule/reference/#routestxt)** — Direct source. Our routeType maps to GTFS route_type (integer vocab); routeNumber = route_short_name; color = route_color.
+- **[schema.org/BusOrCoach + FlightRoute](https://schema.org/BusOrCoach)** — Per-mode peers. Our stops[]/origin/destination are modeled separately per mode in schema.org.

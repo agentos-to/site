@@ -12,3 +12,19 @@ episode:
     series:            podcast   # which podcast this belongs to
     transcribe:        transcript
     guest:             person[]
+  prior_art:
+    - source: Apple Podcasts RSS Extensions (itunes:episode)
+      url: https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+      notes: >-
+        De-facto podcast metadata standard. Our episodeNumber/seasonNumber/
+        durationMs = itunes:episode/itunes:season/itunes:duration.
+    - source: schema.org/PodcastEpisode
+      url: https://schema.org/PodcastEpisode
+      notes: >-
+        Our series ≈ partOfSeries (PodcastSeries); transcribe ≈ transcript;
+        guest ≈ actor.
+    - source: Podcast Namespace (podcast:*)
+      url: https://podcastindex.org/namespace/1.0
+      notes: >-
+        Modern open extension to RSS. Covers our guest, season, episode, and
+        transcript relations via podcast:person, podcast:season, etc.

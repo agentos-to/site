@@ -21,3 +21,20 @@ task:
     children:          task[]
     blockedBy:        task[]
     blocks:            task[]
+  prior_art:
+    - source: GitHub REST API — Issues
+      url: https://docs.github.com/en/rest/issues/issues
+      notes: >-
+        Direct source. Our remoteId/state/labels/assignedTo/parent/
+        children/blockedBy/blocks map to GitHub Issue + sub-issues + task-list
+        tracking.
+    - source: Linear GraphQL API — Issue
+      url: https://developers.linear.app/docs/graphql/working-with-the-graphql-api
+      notes: >-
+        Practical canonical. Our priority/state/project/targetDate align with
+        Linear's Issue model exactly.
+    - source: Todoist REST API v2 — Tasks
+      url: https://developer.todoist.com/rest/v2/
+      notes: >-
+        Consumer-grade task model. Our startedAt/targetDate ≈ created_at/due;
+        labels match directly.

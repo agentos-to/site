@@ -8,3 +8,13 @@ shelf:
     isExclusive:      boolean   # true = a book can only be on one exclusive shelf (read, to-read, currently-reading)
   relations:
     contains:          book[]
+  prior_art:
+    - source: Goodreads API — Shelves
+      url: https://www.goodreads.com/api
+      notes: >-
+        Direct source. Our isExclusive maps to Goodreads' "exclusive shelves"
+        (read, to-read, currently-reading).
+    - source: schema.org/ItemList (bookshelf)
+      url: https://schema.org/ItemList
+      notes: >-
+        Generic collection peer. contains(book[]) ≈ itemListElement.

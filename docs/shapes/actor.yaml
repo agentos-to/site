@@ -5,3 +5,14 @@ actor:
   subtitle: actorType
   fields:
     actorType:        string    # person, organization, or agent
+  prior_art:
+    - source: FOAF Agent
+      url: http://xmlns.com/foaf/spec/#term_Agent
+      notes: >-
+        FOAF Agent is the base class for Person, Organization, and Group. Our
+        actorType mirrors FOAF's agent taxonomy.
+    - source: ActivityStreams 2.0 Actor
+      url: https://www.w3.org/TR/activitystreams-vocabulary/#actor-types
+      notes: >-
+        AS2 defines Actor types (Person, Organization, Group, Service,
+        Application). Our agent ≈ Service/Application.

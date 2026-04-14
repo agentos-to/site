@@ -26,3 +26,19 @@ vehicle:
     odometer:          integer   # miles or km (last known)
   relations:
     manufacturer:      organization
+  prior_art:
+    - source: ISO 3779 — VIN (Vehicle Identification Number)
+      url: https://www.iso.org/standard/52200.html
+      notes: >-
+        Canonical 17-char VIN. Our vin field uses ISO 3779 syntax (WMI + VDS +
+        VIS).
+    - source: schema.org/Vehicle
+      url: https://schema.org/Vehicle
+      notes: >-
+        Our year ≈ vehicleModelDate; model = model; fuelType = fuelType;
+        bodyType = bodyType; drivetrain = driveWheelConfiguration.
+    - source: NHTSA vPIC VIN Decoder API
+      url: https://vpic.nhtsa.dot.gov/api/
+      notes: >-
+        Practical decoder for year/model/trim/bodyType/fuelType from VIN. Our
+        fields align with vPIC's decoded result.

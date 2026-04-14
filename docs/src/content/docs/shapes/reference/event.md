@@ -56,6 +56,14 @@ Example sources: Google Calendar, Apple Calendar, Partiful, Luma, Austin Boulder
 - [`class`](/docs/shapes/reference/class/)
 - [`meeting`](/docs/shapes/reference/meeting/)
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/Event](https://schema.org/Event)** — Core event type. Our startDate/endDate map 1:1; eventType is free-form vs. schema.org's subtype hierarchy (Concert, Conference, BusinessEvent). organizer/location match directly.
+- **[RFC 5545 (iCalendar) VEVENT](https://datatracker.ietf.org/doc/html/rfc5545)** — Our icalUid is their UID; recurrence is their RRULE; status maps to STATUS (TENTATIVE/CONFIRMED/CANCELLED); showAs ≈ TRANSP; involves[] ≈ ATTENDEE.
+- **[ActivityStreams 2.0 Event](https://www.w3.org/TR/activitystreams-vocabulary/#dfn-event)** — Fediverse inbox format. Thinner than iCal — no native recurrence or showAs; our involves[] ≈ attendees via as:Relationship.
+
 ## Skills that produce this shape
 
 - [google-calendar](/docs/skills/reference/productivity/google-calendar/) — `list_events`, `search_events`

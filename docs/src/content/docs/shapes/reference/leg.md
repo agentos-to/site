@@ -49,3 +49,11 @@ Example sources: SerpAPI (flight segments), Uber (ride waypoints)
 ## Used as a base by
 
 - [`flight`](/docs/shapes/reference/flight/)
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[IATA NDC "segment"](https://www.iata.org/en/programs/airline-distribution/retailing/ndc/)** — NDC segment = our leg. flightNumber, departureTime, arrivalTime, cabinClass come straight from NDC OfferItem Segment.
+- **[GTFS stop_times.txt](https://gtfs.org/documentation/schedule/reference/#stop_timestxt)** — Transit leg model. Our sequence = stop_sequence; departureTime/ arrivalTime = arrival_time/departure_time.
+- **[Google Encoded Polyline Algorithm](https://developers.google.com/maps/documentation/utilities/polylinealgorithmformat)** — Our polyline field is the standard Google encoded polyline. trace is a denser GPS breadcrumb alternative (GeoJSON-adjacent).

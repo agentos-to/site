@@ -14,3 +14,13 @@ platform:
   fields:
     website:           url       # https://amazon.com, https://gmail.com
     platformType:     string    # marketplace, social, messaging, productivity, finance
+  prior_art:
+    - source: schema.org/SoftwareApplication
+      url: https://schema.org/SoftwareApplication
+      notes: >-
+        Our website ≈ url; platformType ≈ applicationCategory.
+    - source: schema.org/WebSite
+      url: https://schema.org/WebSite
+      notes: >-
+        A platform often IS a website. Our website field is canonical identity
+        — matches schema.org's url/sameAs.

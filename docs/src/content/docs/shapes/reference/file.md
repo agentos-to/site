@@ -44,6 +44,14 @@ Example sources: GitHub, Cursor, Mimestream, filesystem
 - [`spec`](/docs/shapes/reference/spec/)
 - [`video`](/docs/shapes/reference/video/)
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[IANA Media Types (RFC 6838)](https://datatracker.ietf.org/doc/html/rfc6838)** — Our mimeType follows type/subtype syntax (text/plain, application/pdf). Canonical source for format identification.
+- **[schema.org/DigitalDocument](https://schema.org/DigitalDocument)** — Our filename ≈ name; size ≈ contentSize; mimeType ≈ encodingFormat.
+- **[Git Internals (blob objects)](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)** — Our sha is a Git blob SHA-1 (40-hex). Git's content-addressable model underlies our repo-file identity.
+
 ## Skills that produce this shape
 
 - [cursor](/docs/skills/reference/dev/cursor/) — `op_pull_document`

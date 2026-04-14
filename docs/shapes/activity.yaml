@@ -18,3 +18,15 @@ activity:
     # until the activity ontology spec redesigns this as a proper typed relation.
     session:          session     # during which session
     folder:           folder      # working directory
+  prior_art:
+    - source: ActivityStreams 2.0
+      url: https://www.w3.org/TR/activitystreams-core/
+      notes: >-
+        AS2's Create/Update/Delete activities match our action values. We
+        diverge by tracking changedKeys explicitly instead of encoding full
+        object replacement.
+    - source: OpenTelemetry Traces
+      url: https://opentelemetry.io/docs/concepts/signals/traces/
+      notes: >-
+        Closest fit for toolName/duration/success — span-shaped. Our activity
+        is closer to a span event than a full span.

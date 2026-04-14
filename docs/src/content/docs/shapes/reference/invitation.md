@@ -52,6 +52,14 @@ Example sources: Greptile, GitHub, Slack, Google Calendar, Linear
 | `organization` | [`organization`](/docs/shapes/reference/organization/) |
 | `platform` | [`product`](/docs/shapes/reference/product/) |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[ActivityStreams 2.0 Invite activity](https://www.w3.org/TR/activitystreams-vocabulary/#dfn-invite)** — AS2 Invite is the canonical fediverse verb. Our inviter = actor; invitee = target; status tracks Accept/Reject/TentativeAccept responses.
+- **[iCalendar ATTENDEE + PARTSTAT (RFC 5545)](https://datatracker.ietf.org/doc/html/rfc5545)** — Calendar-style invitations. Our status maps to PARTSTAT (NEEDS-ACTION/ACCEPTED/DECLINED/DELEGATED).
+- **[SCIM 2.0 (RFC 7644) — user provisioning](https://datatracker.ietf.org/doc/html/rfc7644)** — Enterprise invitation/provisioning. Our email/role/organization align with SCIM User resource's email + entitlements + group membership.
+
 ## Skills that produce this shape
 
 - [greptile](/docs/skills/reference/dev/greptile/) — `list_invites`

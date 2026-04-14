@@ -68,3 +68,10 @@ From [`software`](/docs/shapes/reference/software/):
 | `manufacturer` | [`organization`](/docs/shapes/reference/organization/) |
 | `repository` | [`repository`](/docs/shapes/reference/repository/) |
 | `tagged` | [`tag[]`](/docs/shapes/reference/tag/) |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/SoftwareApplication](https://schema.org/SoftwareApplication)** — Our website ≈ url; platformType ≈ applicationCategory.
+- **[schema.org/WebSite](https://schema.org/WebSite)** — A platform often IS a website. Our website field is canonical identity — matches schema.org's url/sameAs.

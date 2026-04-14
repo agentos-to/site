@@ -15,3 +15,20 @@ organization:
     domain:            domain
     website:           website
     headquarters:      place
+  prior_art:
+    - source: schema.org/Organization
+      url: https://schema.org/Organization
+      notes: >-
+        Our industry ≈ naics/isicV4 (loosely); founded = foundingDate; member[]
+        = member; headquarters = location (or subOrganization with a Place).
+    - source: vCard 4.0 KIND=org (RFC 6350)
+      url: https://datatracker.ietf.org/doc/html/rfc6350
+      notes: >-
+        Organization-as-contact. Our website/domain ≈ URL; headquarters ≈ ADR.
+        Thinner than schema.org for industry/founded.
+    - source: Wikidata (Organization, Q43229)
+      url: https://www.wikidata.org/wiki/Q43229
+      notes: >-
+        Cross-reference identity. Useful for deduping; no direct field
+        alignment but industry maps to P452 (industry) and founded to P571
+        (inception).

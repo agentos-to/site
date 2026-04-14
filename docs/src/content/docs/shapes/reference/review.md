@@ -49,6 +49,13 @@ From [`post`](/docs/shapes/reference/post/):
 | `replies` | [`post[]`](/docs/shapes/reference/post/) |
 | `repliesTo` | [`post`](/docs/shapes/reference/post/) |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/Review](https://schema.org/Review)** — Our rating ≈ reviewRating.ratingValue; ratingMax ≈ bestRating; reviews = itemReviewed; isVerified has no direct property (extension).
+- **[schema.org/AggregateRating](https://schema.org/AggregateRating)** — For product review aggregates. Our rating/ratingMax map to ratingValue/bestRating; reviewCount is inherited when computed.
+
 ## Skills that produce this shape
 
 - [goodreads](/docs/skills/reference/media/goodreads/) — `list_book_reviews`, `list_reviews`

@@ -15,3 +15,19 @@ note:
     createdBy:        person
     references:        note[]    # links to other notes
     extractedFrom:    webpage   # source material this note was taken from
+  prior_art:
+    - source: Zettelkasten / Luhmann slip-box
+      url: https://zettelkasten.de/overview/
+      notes: >-
+        Our noteType (fleeting/literature/permanent) is the canonical
+        Zettelkasten triad; references[] ≈ Luhmann's permanent links.
+    - source: W3C Web Annotation Data Model
+      url: https://www.w3.org/TR/annotation-model/
+      notes: >-
+        Our extractedFrom = target; createdBy = creator. Notes are annotations
+        without a structured position selector.
+    - source: Obsidian / Roam / Logseq PKM conventions
+      url: https://obsidian.md/
+      notes: >-
+        Practical PKM lineage. isPinned/noteType mirror the
+        "pinned/daily/permanent" UX of modern note apps.

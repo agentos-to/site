@@ -16,3 +16,19 @@ website:
   relations:
     domain:            domain
     ownedBy:          organization
+  prior_art:
+    - source: schema.org/WebSite
+      url: https://schema.org/WebSite
+      notes: >-
+        Our url-as-identity matches; ownedBy ≈ publisher; domain relation ≈
+        url host.
+    - source: WHOIS (RFC 3912)
+      url: https://datatracker.ietf.org/doc/html/rfc3912
+      notes: >-
+        Our expiresAt/domain source from WHOIS records; claimToken has no
+        direct WHOIS peer (HERE.NOW-specific).
+    - source: RFC 7033 WebFinger (host-meta)
+      url: https://datatracker.ietf.org/doc/html/rfc7033
+      notes: >-
+        Website metadata discovery. Our claimUrl parallels
+        /.well-known/host-meta patterns.

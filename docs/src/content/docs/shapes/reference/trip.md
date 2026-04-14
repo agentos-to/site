@@ -59,6 +59,14 @@ Example sources: Uber (rides), Uber Eats (delivery), SerpAPI (flights)
 | `driver` | [`person`](/docs/shapes/reference/person/) |
 | `order` | [`order`](/docs/shapes/reference/order/) |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/Trip + subTrip](https://schema.org/Trip)** — Our origin/destination/departureTime/arrivalTime map exactly; legs[] ≈ subTrip or itinerary.
+- **[IATA NDC Slice (airline itineraries)](https://www.iata.org/en/programs/airline-distribution/retailing/ndc/)** — NDC slice = our trip; NDC segment = our leg. cabinClass, bookingToken come from NDC offer items.
+- **[Uber API — Trip resource](https://developer.uber.com/docs/riders/references/api)** — Practical source for ride trips. Our fare/fareAmount/ trackingUrl/isSurge/isScheduled lifted from Uber's Trip model.
+
 ## Skills that produce this shape
 
 - [uber](/docs/skills/reference/logistics/uber/) — `list_trips`

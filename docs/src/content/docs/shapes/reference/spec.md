@@ -63,3 +63,11 @@ From [`task`](/docs/shapes/reference/task/) · [`file`](/docs/shapes/reference/f
 | `parent` | [`task`](/docs/shapes/reference/task/) |
 | `project` | [`project`](/docs/shapes/reference/project/) |
 | `repository` | [`repository`](/docs/shapes/reference/repository/) |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[IETF RFC process](https://www.ietf.org/standards/rfcs/)** — Canonical "design doc with problem statement and success criteria" lineage. Our problem/successCriteria mirror the RFC structure.
+- **[Architectural Decision Records (ADR / MADR)](https://adr.github.io/)** — Modern in-repo equivalent. supersedes[] matches ADR's "Supersedes" link; dependsOn[] has no direct ADR peer.
+- **[Python PEP (spec-as-markdown)](https://peps.python.org/pep-0001/)** — PEP states problem, rationale, spec, rejected alternatives. Our fields are a slim version of the PEP template.

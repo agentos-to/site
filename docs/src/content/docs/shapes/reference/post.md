@@ -40,6 +40,14 @@ Example sources: Reddit, Hacker News, YouTube, Moltbook
 
 - [`review`](/docs/shapes/reference/review/)
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[ActivityStreams 2.0 (Note/Article + Create)](https://www.w3.org/TR/activitystreams-vocabulary/)** — Fediverse post model. Our postedBy ≈ actor/attributedTo; publish(community) ≈ audience/to; repliesTo/replies ≈ inReplyTo/replies; media/attachment ≈ attachment.
+- **[OpenGraph protocol](https://ogp.me/)** — How posts surface when linked. Our externalUrl + media[] correspond to og:url and og:image/og:video; postType loosely parallels og:type (article, video).
+- **[ATProto app.bsky.feed.post](https://atproto.com/lexicons/app-bsky-feed)** — Modern practical lexicon. Our repliesTo ≈ reply.parent; media ≈ embed.images; externalUrl ≈ embed.external.
+
 ## Skills that produce this shape
 
 - [hackernews](/docs/skills/reference/media/hackernews/) — `list_posts`, `search_posts`, `comments_post`

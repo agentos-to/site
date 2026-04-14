@@ -28,3 +28,19 @@ memex:
     owner:             person
     forkedFrom:        memex           # if this was forked from another
     snapshots:         memex[]         # point-in-time saves of this memex
+  prior_art:
+    - source: Vannevar Bush — "As We May Think" (1945)
+      url: https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/
+      notes: >-
+        The original concept. Our memex is named after and modeled on Bush's
+        personal knowledge store with associative trails.
+    - source: W3C RDF 1.1 + Named Graphs
+      url: https://www.w3.org/TR/rdf11-concepts/
+      notes: >-
+        Formal underpinning. Our nodeCount/edgeCount mirror RDF
+        subject-predicate-object triples; snapshots ≈ named-graph versioning.
+    - source: Roam Research / Obsidian / Logseq PKM model
+      url: https://obsidian.md/
+      notes: >-
+        Practical modern precedents. Our origin values (personal, domain,
+        fork) generalize the single-user PKM model to shareable graphs.

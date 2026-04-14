@@ -7,3 +7,14 @@ playlist:
   also: [list]        # a playlist is also a list
   relations:
     contains:          video[]
+  prior_art:
+    - source: schema.org/MusicPlaylist / ItemList
+      url: https://schema.org/MusicPlaylist
+      notes: >-
+        Our contains(video[]) ≈ track/itemListElement. We generalize beyond
+        music to any ordered media list.
+    - source: YouTube Data API — Playlist
+      url: https://developers.google.com/youtube/v3/docs/playlists
+      notes: >-
+        Practical source. Playlist = ordered Video collection — inherits list
+        identity semantics.

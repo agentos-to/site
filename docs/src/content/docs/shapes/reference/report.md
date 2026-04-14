@@ -72,3 +72,11 @@ From [`document`](/docs/shapes/reference/document/):
 | `citedBy` | [`document[]`](/docs/shapes/reference/document/) |
 | `references` | [`document[]`](/docs/shapes/reference/document/) |
 | `repository` | [`repository`](/docs/shapes/reference/repository/) |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/Report](https://schema.org/Report)** — Our reportType ≈ reportNumber/about; methodology ≈ description; findings = text; recommendations has no direct peer.
+- **[W3C DCAT 3 (Data Catalog)](https://www.w3.org/TR/vocab-dcat-3/)** — Our dataSources[] map to dcat:distribution/prov:used; methodology ≈ dcterms:description.
+- **[PROV-O (W3C Provenance)](https://www.w3.org/TR/prov-o/)** — commissionedBy aligns with prov:wasAttributedTo; dataSources with prov:used. Canonical for auditable agent output.

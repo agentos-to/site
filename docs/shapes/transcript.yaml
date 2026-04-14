@@ -10,3 +10,18 @@ transcript:
     durationMs:       integer
     segmentCount:     integer
     segments:          json      # timestamped text segments
+  prior_art:
+    - source: WebVTT (W3C)
+      url: https://www.w3.org/TR/webvtt1/
+      notes: >-
+        Our segments are WebVTT cues (start/end/text). language follows
+        WebVTT's LANGUAGE header.
+    - source: SRT SubRip Subtitles
+      url: https://matroska.org/technical/subtitles.html#srt-subtitles
+      notes: >-
+        Practical alternative cue format. Same segment shape.
+    - source: Whisper JSON output
+      url: https://github.com/openai/whisper
+      notes: >-
+        Practical source — many transcript skills return Whisper-shaped JSON
+        (segments with start/end/text). Direct match.

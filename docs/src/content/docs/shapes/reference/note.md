@@ -32,3 +32,11 @@ Example sources: future PKM integrations (Obsidian, Apple Notes, Google Keep)
 | `createdBy` | [`person`](/docs/shapes/reference/person/) |
 | `references` | [`note[]`](/docs/shapes/reference/note/) |
 | `extractedFrom` | [`webpage`](/docs/shapes/reference/webpage/) |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[Zettelkasten / Luhmann slip-box](https://zettelkasten.de/overview/)** — Our noteType (fleeting/literature/permanent) is the canonical Zettelkasten triad; references[] ≈ Luhmann's permanent links.
+- **[W3C Web Annotation Data Model](https://www.w3.org/TR/annotation-model/)** — Our extractedFrom = target; createdBy = creator. Notes are annotations without a structured position selector.
+- **[Obsidian / Roam / Logseq PKM conventions](https://obsidian.md/)** — Practical PKM lineage. isPinned/noteType mirror the "pinned/daily/permanent" UX of modern note apps.

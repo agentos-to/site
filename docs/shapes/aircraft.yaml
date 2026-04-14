@@ -15,3 +15,14 @@ aircraft:
     icaoCode:         string    # 4-letter type code (e.g. B738, B77W)
   relations:
     manufacturer:      organization
+  prior_art:
+    - source: ICAO Aircraft Type Designators (Doc 8643)
+      url: https://www.icao.int/publications/DOC8643/Pages/Search.aspx
+      notes: >-
+        Our icaoCode is the canonical 4-char type code (B738, A320); iataCode
+        is the 3-char IATA equivalent (738, 320).
+    - source: schema.org/Vehicle
+      url: https://schema.org/Vehicle
+      notes: >-
+        Our model/seatCapacity map to vehicleModelDate/vehicleSeatingCapacity;
+        manufacturer matches directly.

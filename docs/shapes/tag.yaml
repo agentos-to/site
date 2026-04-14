@@ -9,3 +9,17 @@ tag:
   fields:
     color:             string    # hex color (#EA4335) or named color
     tagType:          string    # system, user — distinguishes built-in vs custom
+  prior_art:
+    - source: GitHub REST API — Labels
+      url: https://docs.github.com/en/rest/issues/labels
+      notes: >-
+        Our color/name/tagType ≈ GitHub Label's color/name/default.
+    - source: Gmail API — Labels
+      url: https://developers.google.com/gmail/api/reference/rest/v1/users.labels
+      notes: >-
+        Practical source. Our tagType distinguishes Gmail's SYSTEM vs USER
+        label types.
+    - source: Dublin Core dc:subject
+      url: https://www.dublincore.org/specifications/dublin-core/dces/
+      notes: >-
+        Generic classification vocabulary — tags on any resource.

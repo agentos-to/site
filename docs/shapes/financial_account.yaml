@@ -19,3 +19,20 @@ financial_account:
     cardType:         string    # visa, mastercard, amex
     expiresAt:        datetime  # card expiration
     interestRate:     number    # APR
+  prior_art:
+    - source: OFX (Open Financial Exchange)
+      url: https://financialdataexchange.org/ofx
+      notes: >-
+        Bank-feed canonical. Our accountNumber/routingNumber/balance/
+        available map to OFX BANKACCTFROM/LEDGERBAL/AVAILBAL.
+    - source: ISO 20022 Financial Messaging
+      url: https://www.iso20022.org/
+      notes: >-
+        Modern bank-messaging standard. Our last4/cardType/creditLimit/
+        interestRate align with ISO 20022 Card/Account components.
+    - source: schema.org/BankAccount
+      url: https://schema.org/BankAccount
+      notes: >-
+        Our accountNumber ≈ accountId; balance/available are
+        accountMinimumInflow/accountOverdraftLimit loosely; cardType fits
+        schema.org/CreditCard.

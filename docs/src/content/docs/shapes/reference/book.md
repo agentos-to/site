@@ -75,6 +75,14 @@ From [`product`](/docs/shapes/reference/product/):
 | `manufacturer` | [`organization`](/docs/shapes/reference/organization/) |
 | `tagged` | [`tag[]`](/docs/shapes/reference/tag/) |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/Book](https://schema.org/Book)** — Our isbn maps to isbn; writtenBy = author; publisher matches; pages = numberOfPages; language = inLanguage; format ≈ bookFormat (Hardcover/Paperback/EBook).
+- **[ONIX for Books 3.0](https://www.editeur.org/83/Overview/)** — Publishing-industry canonical. Our isbn/isbn13/pages/format/language/series/originalTitle align with ONIX Product Identifier, Extent, ProductForm, Language, Collection, and OriginalLanguageTitle composites.
+- **[Open Library Books API](https://openlibrary.org/developers/api)** — Practical lookup by ISBN. Our genres/characters/places/awardsWon map to subjects/subject_people/subject_places/subject_times (awards less standardized).
+
 ## Skills that produce this shape
 
 - [goodreads](/docs/skills/reference/media/goodreads/) — `get_book`

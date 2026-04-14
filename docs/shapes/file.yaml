@@ -19,3 +19,18 @@ file:
   relations:
     attachedTo:       message   # email/message this file was attached to
     repository:        repository
+  prior_art:
+    - source: IANA Media Types (RFC 6838)
+      url: https://datatracker.ietf.org/doc/html/rfc6838
+      notes: >-
+        Our mimeType follows type/subtype syntax (text/plain,
+        application/pdf). Canonical source for format identification.
+    - source: schema.org/DigitalDocument
+      url: https://schema.org/DigitalDocument
+      notes: >-
+        Our filename ≈ name; size ≈ contentSize; mimeType ≈ encodingFormat.
+    - source: Git Internals (blob objects)
+      url: https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
+      notes: >-
+        Our sha is a Git blob SHA-1 (40-hex). Git's content-addressable model
+        underlies our repo-file identity.

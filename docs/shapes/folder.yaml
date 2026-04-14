@@ -13,3 +13,13 @@ folder:
   relations:
     repository:        repository  # git repo at this path
     contains:          file[]
+  prior_art:
+    - source: POSIX / Single Unix Specification
+      url: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html
+      notes: >-
+        Our path is a POSIX pathname. hasReadme is AgentOS-specific (README
+        convention from repos).
+    - source: schema.org/DataCatalog
+      url: https://schema.org/DataCatalog
+      notes: >-
+        Folder-as-collection loose fit. contains(file[]) ≈ hasPart.

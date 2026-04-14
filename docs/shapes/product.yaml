@@ -33,3 +33,21 @@ product:
     brand:             brand
     manufacturer:      organization
     tagged:            tag[]     # dietary (VEGAN), allergens, certifications (Organic), departments
+  prior_art:
+    - source: schema.org/Product + Offer
+      url: https://schema.org/Product
+      notes: >-
+        Product on schema.org, price/priceAmount/currency/availability on
+        nested Offer. Our sku/barcode map to sku/gtin13/gtin12;
+        brand/manufacturer match directly.
+    - source: GS1 GTIN (UPC/EAN)
+      url: https://www.gs1.org/standards/id-keys/gtin
+      notes: >-
+        Canonical barcode standard. Our barcode field is a GTIN-8/12/13/14;
+        GS1 also underlies schema.org's gtin* properties.
+    - source: Open Food Facts API
+      url: https://openfoodfacts.github.io/openfoodfacts-server/api/
+      notes: >-
+        Best practical source for food attributes. Our
+        nutritionScore/novaGroup/calories/servingSize mirror
+        nutriscore_grade/nova_group/nutriments.energy-kcal/serving_size.

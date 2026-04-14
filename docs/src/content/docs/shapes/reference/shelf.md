@@ -43,6 +43,13 @@ From [`list`](/docs/shapes/reference/list/):
 | `belongsTo` | [`account`](/docs/shapes/reference/account/) |
 | `platform` | [`product`](/docs/shapes/reference/product/) |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[Goodreads API — Shelves](https://www.goodreads.com/api)** — Direct source. Our isExclusive maps to Goodreads' "exclusive shelves" (read, to-read, currently-reading).
+- **[schema.org/ItemList (bookshelf)](https://schema.org/ItemList)** — Generic collection peer. contains(book[]) ≈ itemListElement.
+
 ## Skills that produce this shape
 
 - [goodreads](/docs/skills/reference/media/goodreads/) — `list_shelves`

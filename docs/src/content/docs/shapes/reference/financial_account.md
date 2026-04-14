@@ -58,3 +58,11 @@ From [`account`](/docs/shapes/reference/account/):
 | `follows` | [`account[]`](/docs/shapes/reference/account/) |
 | `owner` | [`person`](/docs/shapes/reference/person/) |
 | `platform` | [`product`](/docs/shapes/reference/product/) |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[OFX (Open Financial Exchange)](https://financialdataexchange.org/ofx)** — Bank-feed canonical. Our accountNumber/routingNumber/balance/ available map to OFX BANKACCTFROM/LEDGERBAL/AVAILBAL.
+- **[ISO 20022 Financial Messaging](https://www.iso20022.org/)** — Modern bank-messaging standard. Our last4/cardType/creditLimit/ interestRate align with ISO 20022 Card/Account components.
+- **[schema.org/BankAccount](https://schema.org/BankAccount)** — Our accountNumber ≈ accountId; balance/available are accountMinimumInflow/accountOverdraftLimit loosely; cardType fits schema.org/CreditCard.

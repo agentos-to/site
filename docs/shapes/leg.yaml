@@ -28,3 +28,19 @@ leg:
     carrier:           organization  # airline or operator for this leg
     aircraft:          aircraft  # aircraft type (flights)
     trip:              trip      # parent trip
+  prior_art:
+    - source: IATA NDC "segment"
+      url: https://www.iata.org/en/programs/airline-distribution/retailing/ndc/
+      notes: >-
+        NDC segment = our leg. flightNumber, departureTime, arrivalTime,
+        cabinClass come straight from NDC OfferItem Segment.
+    - source: GTFS stop_times.txt
+      url: https://gtfs.org/documentation/schedule/reference/#stop_timestxt
+      notes: >-
+        Transit leg model. Our sequence = stop_sequence; departureTime/
+        arrivalTime = arrival_time/departure_time.
+    - source: Google Encoded Polyline Algorithm
+      url: https://developers.google.com/maps/documentation/utilities/polylinealgorithmformat
+      notes: >-
+        Our polyline field is the standard Google encoded polyline. trace is a
+        denser GPS breadcrumb alternative (GeoJSON-adjacent).

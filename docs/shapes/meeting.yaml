@@ -14,3 +14,19 @@ meeting:
     phoneDialIn:       string    # phone entry point URI (tel:+1-...)
   relations:
     transcribe:        transcript # meeting recording transcript
+  prior_art:
+    - source: RFC 5545 VEVENT + conference property (RFC 7986)
+      url: https://datatracker.ietf.org/doc/html/rfc7986#section-5.11
+      notes: >-
+        Our meetingUrl ≈ CONFERENCE URI; phoneDialIn = tel: URI in CONFERENCE
+        feature=PHONE; conferenceProvider ≈ CONFERENCE LABEL.
+    - source: schema.org/Event — location.VirtualLocation
+      url: https://schema.org/VirtualLocation
+      notes: >-
+        Our isVirtual triggers VirtualLocation; meetingUrl ≈
+        VirtualLocation.url.
+    - source: Google Calendar Event conferenceData
+      url: https://developers.google.com/calendar/api/v3/reference/events
+      notes: >-
+        Practical API mirror. Our conferenceProvider ≈
+        conferenceData.conferenceSolution.name; meetingUrl = entryPoints[uri].

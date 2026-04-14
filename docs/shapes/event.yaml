@@ -33,3 +33,21 @@ event:
     organizer:         person    # who organized/hosts it
     creator:           person    # who created it (may differ from organizer)
     attachments:       file[]    # documents attached to the event
+  prior_art:
+    - source: schema.org/Event
+      url: https://schema.org/Event
+      notes: >-
+        Core event type. Our startDate/endDate map 1:1; eventType is free-form
+        vs. schema.org's subtype hierarchy (Concert, Conference, BusinessEvent).
+        organizer/location match directly.
+    - source: RFC 5545 (iCalendar) VEVENT
+      url: https://datatracker.ietf.org/doc/html/rfc5545
+      notes: >-
+        Our icalUid is their UID; recurrence is their RRULE; status maps to
+        STATUS (TENTATIVE/CONFIRMED/CANCELLED); showAs ≈ TRANSP; involves[] ≈
+        ATTENDEE.
+    - source: ActivityStreams 2.0 Event
+      url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-event
+      notes: >-
+        Fediverse inbox format. Thinner than iCal — no native recurrence or
+        showAs; our involves[] ≈ attendees via as:Relationship.

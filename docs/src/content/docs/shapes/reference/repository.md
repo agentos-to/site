@@ -37,6 +37,14 @@ Example sources: GitHub
 | `forkedFrom` | [`repository`](/docs/shapes/reference/repository/) |
 | `owner` | [`account`](/docs/shapes/reference/account/) |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[Git internals + Git refs](https://git-scm.com/book/en/v2/Git-Internals-Git-References)** — Our defaultBranch is a Git ref (refs/heads/main); forkedFrom is explicit in our model vs. implicit in Git (recorded only by forges).
+- **[GitHub REST API — Repository](https://docs.github.com/en/rest/repos/repos)** — Direct source. Our stars/forks/openIssues/topics/defaultBranch/ license/size/isArchived/isPrivate all come from the GitHub Repository resource.
+- **[SPDX License List](https://spdx.org/licenses/)** — Our license values are SPDX identifiers (MIT, Apache-2.0, GPL-3.0-or-later).
+
 ## Skills that produce this shape
 
 - [git](/docs/skills/reference/dev/git/) — `get_repository`

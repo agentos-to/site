@@ -43,6 +43,14 @@ Example sources: Linear, Todoist, GitHub
 
 - [`spec`](/docs/shapes/reference/spec/)
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[GitHub REST API — Issues](https://docs.github.com/en/rest/issues/issues)** — Direct source. Our remoteId/state/labels/assignedTo/parent/ children/blockedBy/blocks map to GitHub Issue + sub-issues + task-list tracking.
+- **[Linear GraphQL API — Issue](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)** — Practical canonical. Our priority/state/project/targetDate align with Linear's Issue model exactly.
+- **[Todoist REST API v2 — Tasks](https://developer.todoist.com/rest/v2/)** — Consumer-grade task model. Our startedAt/targetDate ≈ created_at/due; labels match directly.
+
 ## Skills that produce this shape
 
 - [todoist](/docs/skills/reference/productivity/todoist/) — `list_tasks`, `list_all_tasks`, `filter_task`

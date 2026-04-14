@@ -33,3 +33,19 @@ schedule:
     produces:          trip      # what each occurrence creates (transport schedules)
     provider:          skill     # which skill runs this (claude, launchd, etc.)
     operator:          organization  # who operates the service (airline, transit agency)
+  prior_art:
+    - source: RFC 5545 RRULE (iCalendar)
+      url: https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10
+      notes: >-
+        Our rrule field IS an RFC 5545 RRULE string; timezone follows iCal
+        TZID conventions.
+    - source: POSIX cron
+      url: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html
+      notes: >-
+        Our cronExpression is a 5-field cron string (minute, hour, dom, month,
+        dow).
+    - source: GTFS calendar.txt + calendar_dates.txt
+      url: https://gtfs.org/documentation/schedule/reference/#calendartxt
+      notes: >-
+        Transit schedules. Our hours (operating-hours JSON) and
+        scheduleType=timetable map to GTFS service-id + day flags.

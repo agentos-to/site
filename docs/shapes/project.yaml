@@ -8,3 +8,18 @@ project:
   fields:
     state:             string
     color:             string
+  prior_art:
+    - source: Linear API — Project
+      url: https://developers.linear.app/docs/graphql/working-with-the-graphql-api
+      notes: >-
+        Our state/color come directly from Linear's Project model.
+    - source: GitHub Projects (v2)
+      url: https://docs.github.com/en/graphql/reference/objects#projectv2
+      notes: >-
+        Canonical open-source project-board model. state ≈
+        ProjectV2SingleSelectFieldOption; color is per-field metadata.
+    - source: schema.org/Project
+      url: https://schema.org/Project
+      notes: >-
+        Generic project-as-effort type. Thinner than the practical APIs;
+        mainly useful for outbound JSON-LD.

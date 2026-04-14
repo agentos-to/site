@@ -11,3 +11,19 @@ highlight:
   relations:
     extractedFrom:    book      # or article, webpage — the source work
     createdBy:        person    # who highlighted it
+  prior_art:
+    - source: W3C Web Annotation Data Model
+      url: https://www.w3.org/TR/annotation-model/
+      notes: >-
+        Our extractedFrom = target; createdBy = creator; position ≈
+        TextPositionSelector/TextQuoteSelector; color ≈ rendering preference.
+    - source: Hypothes.is annotation schema
+      url: https://h.readthedocs.io/en/latest/api-reference/
+      notes: >-
+        Practical W3C-compatible implementation. Our highlight is shaped like
+        a Hypothes.is annotation minus the body text.
+    - source: Readwise Reader API
+      url: https://readwise.io/reader_api
+      notes: >-
+        Practical source. Our color/position come directly from Readwise's
+        highlight export.

@@ -32,3 +32,10 @@ From [`actor`](/docs/shapes/reference/actor/):
 | Field | Type |
 |---|---|
 | `actorType` | `string` |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[ActivityStreams 2.0 Service](https://www.w3.org/TR/activitystreams-vocabulary/#dfn-service)** — AS2's Service Actor is the closest peer for an automated agent. We add model/provider/sessionId for AI-specific lineage.
+- **[Anthropic Tool Use API (Claude)](https://docs.anthropic.com/en/docs/build-with-claude/tool-use)** — Mirrors our model/provider fields. sessionId groups related tool invocations from a single agent run.

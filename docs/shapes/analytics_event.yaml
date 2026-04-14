@@ -10,3 +10,19 @@ analytics_event:
     currentUrl:       url       # page URL where the action fired
   relations:
     person:            person
+  prior_art:
+    - source: PostHog Events API
+      url: https://posthog.com/docs/api/events
+      notes: >-
+        Direct source: our distinctId/properties/currentUrl are PostHog's
+        distinct_id/properties/$current_url.
+    - source: Segment Track Spec
+      url: https://segment.com/docs/connections/spec/track/
+      notes: >-
+        Generic product-analytics event model: event(name) + properties blob +
+        user id. Our fields are compatible with Segment payloads.
+    - source: Google Analytics 4 Event Schema
+      url: https://developers.google.com/analytics/devguides/collection/protocol/ga4
+      notes: >-
+        GA4 is the other de-facto analytics event standard; our properties
+        parallels GA4's event_params array.

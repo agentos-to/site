@@ -17,3 +17,14 @@ git_commit:
     committer:         account   # who committed (may differ from author)
     repository:        repository
     parent:            git_commit   # parent commit(s)
+  prior_art:
+    - source: Git Internals — commit object
+      url: https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
+      notes: >-
+        Our sha/shortHash/message/parent match the commit object exactly.
+        author/committer follow Git's distinct author-vs-committer model.
+    - source: Conventional Commits 1.0
+      url: https://www.conventionalcommits.org/en/v1.0.0/
+      notes: >-
+        Practical structure for message field (type(scope): subject). Optional
+        — we don't enforce but it's compatible.

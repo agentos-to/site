@@ -11,3 +11,14 @@ agent:
     model:             string    # model identifier (e.g. "claude-sonnet-4-5", "gpt-4o")
     provider:          string    # who runs the model (e.g. "anthropic", "openai")
     sessionId:        string    # groups related requests from this agent
+  prior_art:
+    - source: ActivityStreams 2.0 Service
+      url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-service
+      notes: >-
+        AS2's Service Actor is the closest peer for an automated agent. We add
+        model/provider/sessionId for AI-specific lineage.
+    - source: Anthropic Tool Use API (Claude)
+      url: https://docs.anthropic.com/en/docs/build-with-claude/tool-use
+      notes: >-
+        Mirrors our model/provider fields. sessionId groups related tool
+        invocations from a single agent run.

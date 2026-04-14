@@ -18,3 +18,23 @@ article:
   relations:
     publisher:         organization
     publishedIn:      website
+  prior_art:
+    - source: schema.org/Article
+      url: https://schema.org/Article
+      notes: >-
+        Our wordCount = wordCount; section = articleSection; language =
+        inLanguage; publisher matches; publishedIn(website) ≈
+        isPartOf/publisher. readingTime has no direct property (often
+        timeRequired in ISO 8601 duration).
+    - source: JATS (NISO Z39.96, Journal Article Tag Suite)
+      url: https://jats.nlm.nih.gov/
+      notes: >-
+        Scholarly-article XML standard. Our section ≈
+        <article-categories>/<subj-group>; language ≈ @xml:lang; publisher ≈
+        <publisher-name>. Heavier than needed for non-scholarly content.
+    - source: OpenGraph article:* properties
+      url: https://ogp.me/#type_article
+      notes: >-
+        Web-article metadata in the wild. Our section ≈ article:section;
+        publisher ≈ article:publisher; language ≈ og:locale. No
+        wordCount/readingTime in OG.

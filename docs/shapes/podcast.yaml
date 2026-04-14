@@ -11,3 +11,19 @@ podcast:
     host:              person[]
     platform:          product   # Spotify, Apple Podcasts, etc.
     episode:           episode[]
+  prior_art:
+    - source: RSS 2.0 (feed + channel)
+      url: https://www.rssboard.org/rss-specification
+      notes: >-
+        Our feedUrl is a canonical RSS feed URL; episodes relation ≈ channel's
+        item elements.
+    - source: Apple Podcasts RSS extensions (itunes:*)
+      url: https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+      notes: >-
+        De-facto standard. Our host[] ≈ itunes:author; our series-episode
+        hierarchy aligns with itunes:episode/itunes:season.
+    - source: Podcast Namespace (podcast:*)
+      url: https://podcastindex.org/namespace/1.0
+      notes: >-
+        Modern open extension. podcast:person covers guests/hosts;
+        podcast:transcript covers our transcribe relation.

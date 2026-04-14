@@ -18,3 +18,19 @@ document:
     author:            actor     # person or agent who produced this
     references:        document[]  # documents this document cites
     citedBy:          document[]  # documents that cite this one
+  prior_art:
+    - source: Dublin Core Metadata Initiative
+      url: https://www.dublincore.org/specifications/dublin-core/dces/
+      notes: >-
+        Our contentType ≈ dc:format; language = dc:language; author =
+        dc:creator; references/citedBy ≈ dc:relation.
+    - source: schema.org/DigitalDocument
+      url: https://schema.org/DigitalDocument
+      notes: >-
+        Our abstract ≈ abstract; tableOfContents = hasPart or
+        accessModeSufficient; wordCount = wordCount.
+    - source: W3C Web Annotation Data Model
+      url: https://www.w3.org/TR/annotation-model/
+      notes: >-
+        Our references[]/citedBy[] are annotation target/body relationships
+        between documents.

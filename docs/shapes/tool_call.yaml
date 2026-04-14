@@ -20,3 +20,19 @@ tool_call:
     from:              actor     # the agent that made the call
     inMessage:         message   # the message this call was part of
     repliesTo:         tool_call # chain calls that reference a prior call's output
+  prior_art:
+    - source: Anthropic Tool Use API
+      url: https://docs.anthropic.com/en/docs/build-with-claude/tool-use
+      notes: >-
+        Our name/input/output/isError map to tool_use/tool_result blocks in
+        Claude's message API.
+    - source: OpenAI Function Calling / tool_calls
+      url: https://platform.openai.com/docs/guides/function-calling
+      notes: >-
+        Our name/input = function.name/function.arguments; output is the
+        tool-result message content.
+    - source: OpenTelemetry GenAI semconv
+      url: https://opentelemetry.io/docs/specs/semconv/gen-ai/
+      notes: >-
+        Emerging observability standard. Our durationMs/isError align with
+        gen_ai.tool.* span attributes.

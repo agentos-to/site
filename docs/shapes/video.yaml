@@ -17,3 +17,20 @@ video:
     channel:           channel   # channel this was uploaded to
     transcribe:        transcript
     addTo:            playlist
+  prior_art:
+    - source: schema.org/VideoObject
+      url: https://schema.org/VideoObject
+      notes: >-
+        Our durationMs ≈ duration (ISO 8601 period); resolution ≈
+        videoFrameSize; frameRate has no direct property; codec ≈
+        encodingFormat.
+    - source: IANA Media Types (video/*)
+      url: https://www.iana.org/assignments/media-types/media-types.xhtml#video
+      notes: >-
+        Our codec values map to registered video/* media types (mp4, webm,
+        ogg).
+    - source: MPEG / ITU video codec specs
+      url: https://www.itu.int/rec/T-REC-H.264
+      notes: >-
+        Canonical codec definitions. Our codec values are MPEG/ITU codec short
+        names (h264, vp9, av1).

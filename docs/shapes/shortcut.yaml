@@ -20,3 +20,19 @@ shortcut:
     builtin:          boolean   # true for boot-seeded shortcuts, false for user-created
   relations:
     skill:            skill     # skill that registered this shortcut (if any)
+  prior_art:
+    - source: Unix shell aliases (bash/zsh)
+      url: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/alias.html
+      notes: >-
+        Our name→target expansion follows the alias pattern. builtin vs
+        user-created parallels shell builtins vs. rc-file aliases.
+    - source: Vannevar Bush — "As We May Think" (1945, associative trails)
+      url: https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/
+      notes: >-
+        Named trails through the memex. Our named shortcut-to-URI mapping is a
+        mechanized version of Bush's trail idea.
+    - source: RFC 3986 URI Generic Syntax
+      url: https://datatracker.ietf.org/doc/html/rfc3986
+      notes: >-
+        Our target is a URI (location URI). Shortcut names resolve to RFC
+        3986-compliant references.

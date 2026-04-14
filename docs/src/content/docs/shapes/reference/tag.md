@@ -23,6 +23,14 @@ Example sources: Gmail, Todoist, GitHub
 | `color` | `string` |
 | `tagType` | `string` |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[GitHub REST API — Labels](https://docs.github.com/en/rest/issues/labels)** — Our color/name/tagType ≈ GitHub Label's color/name/default.
+- **[Gmail API — Labels](https://developers.google.com/gmail/api/reference/rest/v1/users.labels)** — Practical source. Our tagType distinguishes Gmail's SYSTEM vs USER label types.
+- **[Dublin Core dc:subject](https://www.dublincore.org/specifications/dublin-core/dces/)** — Generic classification vocabulary — tags on any resource.
+
 ## Skills that produce this shape
 
 - [todoist](/docs/skills/reference/productivity/todoist/) — `list_tags`

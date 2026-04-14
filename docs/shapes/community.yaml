@@ -9,3 +9,19 @@ community:
     privacy:           string    # public, private, closed
   relations:
     platform:          product
+  prior_art:
+    - source: ActivityPub Group Actor
+      url: https://www.w3.org/TR/activitypub/
+      notes: >-
+        AP Group Actor models shared-inbox communities (Lemmy, Kbin, Mbin).
+        Our privacy ≈ audience/to visibility.
+    - source: schema.org/Organization
+      url: https://schema.org/Organization
+      notes: >-
+        A community-as-organization is a loose fit; privacy has no direct
+        schema.org property.
+    - source: Reddit API — Subreddit
+      url: https://www.reddit.com/dev/api/#GET_subreddits_where
+      notes: >-
+        Practical source. Our privacy ≈ subreddit_type (public/private/
+        restricted); text ≈ public_description.

@@ -26,3 +26,19 @@ report:
   relations:
     commissionedBy:   actor     # person or agent that requested this report
     relatedSpecs:     spec[]    # specs this report informs or was written for
+  prior_art:
+    - source: schema.org/Report
+      url: https://schema.org/Report
+      notes: >-
+        Our reportType ≈ reportNumber/about; methodology ≈ description;
+        findings = text; recommendations has no direct peer.
+    - source: W3C DCAT 3 (Data Catalog)
+      url: https://www.w3.org/TR/vocab-dcat-3/
+      notes: >-
+        Our dataSources[] map to dcat:distribution/prov:used; methodology ≈
+        dcterms:description.
+    - source: PROV-O (W3C Provenance)
+      url: https://www.w3.org/TR/prov-o/
+      notes: >-
+        commissionedBy aligns with prov:wasAttributedTo; dataSources with
+        prov:used. Canonical for auditable agent output.

@@ -61,6 +61,14 @@ From [`event`](/docs/shapes/reference/event/):
 | `organizer` | [`person`](/docs/shapes/reference/person/) |
 | `platform` | [`product`](/docs/shapes/reference/product/) |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[RFC 5545 VEVENT + conference property (RFC 7986)](https://datatracker.ietf.org/doc/html/rfc7986#section-5.11)** — Our meetingUrl ≈ CONFERENCE URI; phoneDialIn = tel: URI in CONFERENCE feature=PHONE; conferenceProvider ≈ CONFERENCE LABEL.
+- **[schema.org/Event — location.VirtualLocation](https://schema.org/VirtualLocation)** — Our isVirtual triggers VirtualLocation; meetingUrl ≈ VirtualLocation.url.
+- **[Google Calendar Event conferenceData](https://developers.google.com/calendar/api/v3/reference/events)** — Practical API mirror. Our conferenceProvider ≈ conferenceData.conferenceSolution.name; meetingUrl = entryPoints[uri].
+
 ## Skills that produce this shape
 
 - [granola](/docs/skills/reference/productivity/granola/) — `op_list_meetings`

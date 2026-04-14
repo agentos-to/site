@@ -17,3 +17,19 @@ airport:
   relations:
     location:          place
     operator:          organization
+  prior_art:
+    - source: IATA/ICAO Airport Codes
+      url: https://www.iata.org/en/publications/directories/code-search/
+      notes: >-
+        iataCode is 3-letter (LAX, JFK); icaoCode is 4-letter (KLAX, KJFK).
+        Canonical identifiers for global airport routing.
+    - source: schema.org/Airport
+      url: https://schema.org/Airport
+      notes: >-
+        Our iataCode/icaoCode = iataCode/icaoCode; city/country = address
+        fields; elevationFt ≈ elevation. Direct alignment.
+    - source: OurAirports open dataset
+      url: https://ourairports.com/data/
+      notes: >-
+        Practical open dataset covering terminalCount, elevation, and country
+        codes (ISO 3166-1) aligning with our countryCode field.
