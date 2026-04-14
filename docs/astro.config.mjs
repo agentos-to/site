@@ -4,11 +4,13 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://agentos.to',
+	base: '/docs',
 	trailingSlash: 'always',
 	build: { format: 'directory' },
 	integrations: [
 		starlight({
-			title: 'AgentOS SDK',
+			title: 'AgentOS Docs',
 			sidebar: [
 				{ label: 'Principles', slug: 'principles' },
 				{ label: 'Shapes', slug: 'shapes' },

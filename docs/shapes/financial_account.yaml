@@ -1,0 +1,21 @@
+# A financial account — bank account, credit card, or investment account.
+# Inherits platform identity fields from account. Financial-specific fields
+# (balance, credit limit, card type) live here, not on the generic account shape.
+#
+# Example sources: Chase, Copilot Money
+financial_account:
+  plural: financial_accounts
+  also: [account]
+  subtitle: last4
+  fields:
+    accountNumber:    string    # full or masked account number
+    routingNumber:    string    # bank routing number
+    last4:            string    # last 4 digits
+    balance:           number    # current balance
+    available:         number    # available balance or credit
+    creditLimit:      number
+    minimumPayment:   number
+    paymentDueDate:  datetime
+    cardType:         string    # visa, mastercard, amex
+    expiresAt:        datetime  # card expiration
+    interestRate:     number    # APR

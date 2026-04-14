@@ -1,0 +1,19 @@
+# A git commit — a single point in version control history.
+#
+# Example sources: git skill
+git_commit:
+  plural: git_commits
+  subtitle: author
+  fields:
+    sha:               string    # full 40-char SHA hash
+    shortHash:        string    # abbreviated SHA (7-char)
+    message:           text      # commit message
+    additions:         integer   # lines added
+    deletions:         integer   # lines deleted
+    filesChanged:     integer
+    committedAt:      datetime
+  relations:
+    author:            account   # who authored the commit
+    committer:         account   # who committed (may differ from author)
+    repository:        repository
+    parent:            git_commit   # parent commit(s)

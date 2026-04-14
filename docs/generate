@@ -1,0 +1,16 @@
+#!/bin/bash
+# Generate typed shapes from YAML definitions.
+#
+# Usage:
+#   ./generate              # Python + TypeScript from YAML files
+#   ./generate --from-api   # from running agentOS graph instead
+#   ./generate --lang python
+#   ./generate --lang typescript
+#
+# Output goes to:
+#   generated/          — standalone files
+#   skills-sdk/agentos/ — Python TypedDicts (bundled in SDK)
+#   apps-sdk/src/       — TypeScript interfaces (bundled in SDK)
+
+cd "$(dirname "$0")"
+python3 generate.py "$@"

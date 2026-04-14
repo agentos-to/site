@@ -1,0 +1,14 @@
+# A single episode of a podcast or show. Transcribable.
+#
+# Example sources: YouTube, future podcast skill
+episode:
+  plural: episodes
+  subtitle: author
+  fields:
+    durationMs:       integer
+    episodeNumber:    integer
+    seasonNumber:     integer
+  relations:
+    series:            podcast   # which podcast this belongs to
+    transcribe:        transcript
+    guest:             person[]
