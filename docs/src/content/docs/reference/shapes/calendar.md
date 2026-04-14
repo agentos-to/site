@@ -9,7 +9,7 @@ A calendar — container for events.
 
 Example sources: Google Calendar, Apple Calendar
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `calendars` |
 | **Subtitle field** | `source` |
@@ -38,4 +38,4 @@ Example sources: Google Calendar, Apple Calendar
 
 ## Skills that produce this shape
 
-- [google-calendar](/docs/reference/skills/google-calendar/) — `list_calendars`
+- [google-calendar](/docs/reference/skills/productivity/google-calendar/) — `list_calendars`

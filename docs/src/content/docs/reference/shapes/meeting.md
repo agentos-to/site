@@ -10,7 +10,7 @@ Querying by "event" returns meetings too.
 
 Example sources: Google Calendar, Apple Calendar, Granola
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `meetings` |
 | **Subtitle field** | `location` |
@@ -63,5 +63,5 @@ From [`event`](/docs/reference/shapes/event/):
 
 ## Skills that produce this shape
 
-- [granola](/docs/reference/skills/granola/) — `op_list_meetings`
-- [granola](/docs/reference/skills/granola/) — `op_get_meeting`
+- [granola](/docs/reference/skills/productivity/granola/) — `op_list_meetings`
+- [granola](/docs/reference/skills/productivity/granola/) — `op_get_meeting`

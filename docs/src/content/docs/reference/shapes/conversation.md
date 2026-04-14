@@ -10,7 +10,7 @@ transcript, etc. Contains messages and links to participants.
 
 Example sources: iMessage, WhatsApp, Gmail, Claude Code
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `conversations` |
 | **Subtitle field** | `text` |
@@ -39,15 +39,15 @@ Example sources: iMessage, WhatsApp, Gmail, Claude Code
 
 ## Skills that produce this shape
 
-- [granola](/docs/reference/skills/granola/) — `op_list_conversations`
-- [granola](/docs/reference/skills/granola/) — `op_get_conversation`
-- [claude](/docs/reference/skills/claude/) — `list_conversations`, `search_conversations`, `list_conversations_cli`
-- [claude](/docs/reference/skills/claude/) — `get_conversation`, `read_conversation_cli`
-- [mimestream](/docs/reference/skills/mimestream/) — `list_conversations`
-- [mimestream](/docs/reference/skills/mimestream/) — `get_conversation`
-- [imessage](/docs/reference/skills/imessage/) — `op_list_conversations`
-- [imessage](/docs/reference/skills/imessage/) — `op_get_conversation`
-- [gmail](/docs/reference/skills/gmail/) — `list_conversations`
-- [gmail](/docs/reference/skills/gmail/) — `get_conversation`
-- [whatsapp](/docs/reference/skills/whatsapp/) — `op_list_conversations`
-- [whatsapp](/docs/reference/skills/whatsapp/) — `op_get_conversation`
+- [granola](/docs/reference/skills/productivity/granola/) — `op_list_conversations`
+- [granola](/docs/reference/skills/productivity/granola/) — `op_get_conversation`
+- [claude](/docs/reference/skills/ai/claude/) — `list_conversations`, `search_conversations`, `list_conversations_cli`
+- [claude](/docs/reference/skills/ai/claude/) — `get_conversation`, `read_conversation_cli`
+- [mimestream](/docs/reference/skills/comms/mimestream/) — `list_conversations`
+- [mimestream](/docs/reference/skills/comms/mimestream/) — `get_conversation`
+- [imessage](/docs/reference/skills/comms/imessage/) — `op_list_conversations`
+- [imessage](/docs/reference/skills/comms/imessage/) — `op_get_conversation`
+- [gmail](/docs/reference/skills/comms/gmail/) — `list_conversations`
+- [gmail](/docs/reference/skills/comms/gmail/) — `get_conversation`
+- [whatsapp](/docs/reference/skills/comms/whatsapp/) — `op_list_conversations`
+- [whatsapp](/docs/reference/skills/comms/whatsapp/) — `op_get_conversation`

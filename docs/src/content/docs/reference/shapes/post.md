@@ -11,7 +11,7 @@ just a post that replies_to another post. Reviews extend post via `also`.
 
 Example sources: Reddit, Hacker News, YouTube, Moltbook
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `posts` |
 | **Subtitle field** | `author` |
@@ -42,10 +42,10 @@ Example sources: Reddit, Hacker News, YouTube, Moltbook
 
 ## Skills that produce this shape
 
-- [hackernews](/docs/reference/skills/hackernews/) — `list_posts`, `search_posts`, `comments_post`
-- [hackernews](/docs/reference/skills/hackernews/) — `get_post`
-- [youtube](/docs/reference/skills/youtube/) — `list_posts`
-- [moltbook](/docs/reference/skills/moltbook/) — `list_posts`, `get_feed`, `list_comments`
-- [moltbook](/docs/reference/skills/moltbook/) — `get_post`
-- [reddit](/docs/reference/skills/reddit/) — `search_posts`, `list_posts`, `comments_post`
-- [reddit](/docs/reference/skills/reddit/) — `get_post`
+- [hackernews](/docs/reference/skills/media/hackernews/) — `list_posts`, `search_posts`, `comments_post`
+- [hackernews](/docs/reference/skills/media/hackernews/) — `get_post`
+- [youtube](/docs/reference/skills/media/youtube/) — `list_posts`
+- [moltbook](/docs/reference/skills/media/moltbook/) — `list_posts`, `get_feed`, `list_comments`
+- [moltbook](/docs/reference/skills/media/moltbook/) — `get_post`
+- [reddit](/docs/reference/skills/media/reddit/) — `search_posts`, `list_posts`, `comments_post`
+- [reddit](/docs/reference/skills/media/reddit/) — `get_post`

@@ -12,7 +12,7 @@ The user's pref:theme on their person entity points to a theme by themeId.
 Identity: themeId — unique per source namespace (e.g., "xp", "macos9").
 Qualified references use sourceId.themeId (e.g., "community.xp").
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `themes` |
 | **Subtitle field** | `family` |

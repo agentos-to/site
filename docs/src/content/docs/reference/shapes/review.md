@@ -9,7 +9,7 @@ A user review of a product. Reviews are also posts, so they carry engagement met
 
 Example sources: Goodreads, Amazon
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `reviews` |
 | **Subtitle field** | `author` |
@@ -51,4 +51,4 @@ From [`post`](/docs/reference/shapes/post/):
 
 ## Skills that produce this shape
 
-- [goodreads](/docs/reference/skills/goodreads/) — `list_book_reviews`, `list_reviews`
+- [goodreads](/docs/reference/skills/media/goodreads/) — `list_book_reviews`, `list_reviews`

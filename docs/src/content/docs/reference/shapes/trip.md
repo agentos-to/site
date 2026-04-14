@@ -18,7 +18,7 @@ Train journey = trip         |  each train boarded = leg
 
 Example sources: Uber (rides), Uber Eats (delivery), SerpAPI (flights)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `trips` |
 | **Subtitle field** | `tripType` |
@@ -61,5 +61,5 @@ Example sources: Uber (rides), Uber Eats (delivery), SerpAPI (flights)
 
 ## Skills that produce this shape
 
-- [uber](/docs/reference/skills/uber/) — `list_trips`
-- [uber](/docs/reference/skills/uber/) — `get_trip`
+- [uber](/docs/reference/skills/logistics/uber/) — `list_trips`
+- [uber](/docs/reference/skills/logistics/uber/) — `get_trip`

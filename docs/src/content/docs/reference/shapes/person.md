@@ -10,7 +10,7 @@ Resolved from contacts, message senders, meeting attendees, etc.
 
 Example sources: Apple Contacts, WhatsApp, PostHog, iMessage (inferred from handles)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `people` |
 | **Subtitle field** | `about` |
@@ -50,10 +50,10 @@ From [`actor`](/docs/reference/shapes/actor/):
 
 ## Skills that produce this shape
 
-- [goodreads](/docs/reference/skills/goodreads/) — `get_author`, `get_person`
-- [goodreads](/docs/reference/skills/goodreads/) — `search_people`, `list_friends`, `resolve_email`, `list_following`, `list_followers`
-- [google-contacts](/docs/reference/skills/google-contacts/) — `list_contacts`, `search_contacts`
-- [google-contacts](/docs/reference/skills/google-contacts/) — `get_contact`, `create_contact`, `update_contact`
-- [whatsapp](/docs/reference/skills/whatsapp/) — `op_list_persons`
-- [posthog](/docs/reference/skills/posthog/) — `list_persons`, `search_persons`
-- [posthog](/docs/reference/skills/posthog/) — `get_person`
+- [goodreads](/docs/reference/skills/media/goodreads/) — `get_author`, `get_person`
+- [goodreads](/docs/reference/skills/media/goodreads/) — `search_people`, `list_friends`, `resolve_email`, `list_following`, `list_followers`
+- [google-contacts](/docs/reference/skills/productivity/google-contacts/) — `list_contacts`, `search_contacts`
+- [google-contacts](/docs/reference/skills/productivity/google-contacts/) — `get_contact`, `create_contact`, `update_contact`
+- [whatsapp](/docs/reference/skills/comms/whatsapp/) — `op_list_persons`
+- [posthog](/docs/reference/skills/web/posthog/) — `list_persons`, `search_persons`
+- [posthog](/docs/reference/skills/web/posthog/) — `get_person`

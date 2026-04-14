@@ -9,7 +9,7 @@ A registered domain name. Also auto-created from email sender/recipient addresse
 
 Example sources: Gandi, Porkbun (registered domains); Gmail (extracted from addresses)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `domains` |
 | **Identity** | `name` |
@@ -26,6 +26,6 @@ Example sources: Gandi, Porkbun (registered domains); Gmail (extracted from addr
 
 ## Skills that produce this shape
 
-- [gandi](/docs/reference/skills/gandi/) — `list_domains`
-- [gandi](/docs/reference/skills/gandi/) — `get_domain`
-- [porkbun](/docs/reference/skills/porkbun/) — `list_domains`
+- [gandi](/docs/reference/skills/hosting/gandi/) — `list_domains`
+- [gandi](/docs/reference/skills/hosting/gandi/) — `get_domain`
+- [porkbun](/docs/reference/skills/hosting/porkbun/) — `list_domains`

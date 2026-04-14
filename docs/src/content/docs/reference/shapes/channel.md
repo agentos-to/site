@@ -9,7 +9,7 @@ A content channel — typically a YouTube channel. Videos are uploaded to channe
 
 Example sources: YouTube
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `channels` |
 | **Identity** | `platform`, `id` |
@@ -28,4 +28,4 @@ Example sources: YouTube
 
 ## Skills that produce this shape
 
-- [youtube](/docs/reference/skills/youtube/) — `get_channel`, `get_avatar_channel`
+- [youtube](/docs/reference/skills/media/youtube/) — `get_channel`, `get_avatar_channel`

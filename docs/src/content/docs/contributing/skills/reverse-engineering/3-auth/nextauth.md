@@ -10,7 +10,7 @@ engineering because the endpoint structure, cookie names, and flow mechanics
 are predictable.
 
 Part of [Layer 3: Auth & Runtime](./overview.md). Discovered during the
-[Exa skill](../../../../reference/skills/exa.md) reverse engineering session.
+[Exa skill](../../../../reference/skills/web/exa.md) reverse engineering session.
 
 ---
 
@@ -344,7 +344,7 @@ browser-free** — every step uses HTTPX.
 - Session: encrypted JWT in `next-auth.session-token` on `.exa.ai`
 - Transport: `httpx(http2=False)` for dashboard (Vercel checkpoint blocks h2)
 
-**Skill operations:**
+**Skill tools:**
 - `send_login_code` — triggers verification email via HTTPX
 - `verify_login_code` — verifies OTP code, constructs token, completes login (fully HTTPX)
 - `store_session_cookies` — fallback for Google SSO (Playwright cookies)

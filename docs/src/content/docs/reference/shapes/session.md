@@ -10,7 +10,7 @@ One node per unique client+project+branch combo, updated on reconnection.
 
 Example sources: agentOS engine (MCP session registration)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `sessions` |
 | **Subtitle field** | `client` |
@@ -38,5 +38,5 @@ Example sources: agentOS engine (MCP session registration)
 
 ## Skills that produce this shape
 
-- [cursor](/docs/reference/skills/cursor/) — `op_list_sessions`, `op_backfill_session`
-- [cursor](/docs/reference/skills/cursor/) — `op_get_session`
+- [cursor](/docs/reference/skills/dev/cursor/) — `op_list_sessions`, `op_backfill_session`
+- [cursor](/docs/reference/skills/dev/cursor/) — `op_get_session`

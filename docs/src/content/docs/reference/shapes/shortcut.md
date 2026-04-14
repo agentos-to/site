@@ -16,7 +16,7 @@ before shortcut lookup — shortcuts don't need pattern matching.
 
 Example sources: boot seed, skill registration, user creation
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `shortcuts` |
 | **Subtitle field** | `target` |

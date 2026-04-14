@@ -10,7 +10,7 @@ Fields for what happened, relations for who/what/where.
 
 Example sources: agentOS engine (all tool calls)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `activities` |
 | **Subtitle field** | `action` |

@@ -16,7 +16,7 @@ Use startDate / endDate for the actual event timing.
 
 Example sources: Google Calendar, Apple Calendar, Partiful, Luma, Austin Boulder Project
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `events` |
 | **Subtitle field** | `eventType` |
@@ -58,9 +58,9 @@ Example sources: Google Calendar, Apple Calendar, Partiful, Luma, Austin Boulder
 
 ## Skills that produce this shape
 
-- [google-calendar](/docs/reference/skills/google-calendar/) — `list_events`, `search_events`
-- [google-calendar](/docs/reference/skills/google-calendar/) — `get_event`, `create_event`, `update_event`
-- [spacex](/docs/reference/skills/spacex/) — `list_upcoming`, `list_past`
-- [spacex](/docs/reference/skills/spacex/) — `get_launch`
-- [posthog](/docs/reference/skills/posthog/) — `list_events`
-- [posthog](/docs/reference/skills/posthog/) — `get_event`
+- [google-calendar](/docs/reference/skills/productivity/google-calendar/) — `list_events`, `search_events`
+- [google-calendar](/docs/reference/skills/productivity/google-calendar/) — `get_event`, `create_event`, `update_event`
+- [spacex](/docs/reference/skills/fun/spacex/) — `list_upcoming`, `list_past`
+- [spacex](/docs/reference/skills/fun/spacex/) — `get_launch`
+- [posthog](/docs/reference/skills/web/posthog/) — `list_events`
+- [posthog](/docs/reference/skills/web/posthog/) — `get_event`

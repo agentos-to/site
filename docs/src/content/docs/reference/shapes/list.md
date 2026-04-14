@@ -9,7 +9,7 @@ A generic collection of items. Base type for shelf (books) and playlist (videos)
 
 Example sources: Goodreads (via shelf), YouTube (via playlist)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `lists` |
 | **Identity** | `platform`, `id` |
@@ -39,5 +39,5 @@ Example sources: Goodreads (via shelf), YouTube (via playlist)
 
 ## Skills that produce this shape
 
-- [amazon](/docs/reference/skills/amazon/) — `list_lists`
-- [amazon](/docs/reference/skills/amazon/) — `get_list`
+- [amazon](/docs/reference/skills/logistics/amazon/) — `list_lists`
+- [amazon](/docs/reference/skills/logistics/amazon/) — `get_list`

@@ -9,7 +9,7 @@ An airport. Created from flight search results and linked to flights.
 
 Example sources: SerpAPI (flight search)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `airports` |
 | **Subtitle field** | `iataCode` |

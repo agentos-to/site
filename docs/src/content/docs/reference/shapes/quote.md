@@ -16,7 +16,7 @@ quote --inspired--> anything
 
 Example sources: Goodreads, RFCs, papers, talks, podcasts, interviews
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `quotes` |
 
@@ -29,4 +29,4 @@ Example sources: Goodreads, RFCs, papers, talks, podcasts, interviews
 
 ## Skills that produce this shape
 
-- [goodreads](/docs/reference/skills/goodreads/) — `list_quotes`
+- [goodreads](/docs/reference/skills/media/goodreads/) — `list_quotes`

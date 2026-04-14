@@ -11,7 +11,7 @@ people and organizations.
 
 Examples: Claude in Cursor, a background job agent, a scheduled task runner.
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `agents` |
 | **Subtitle field** | `model` |

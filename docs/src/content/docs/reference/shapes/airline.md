@@ -9,7 +9,7 @@ A commercial airline. Created from flight search results.
 
 Example sources: SerpAPI (flight search)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `airlines` |
 | **Subtitle field** | `iataCode` |

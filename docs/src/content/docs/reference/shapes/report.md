@@ -19,7 +19,7 @@ review      — qualitative assessment (code review, skill review, etc.)
 
 Example sources: agent output (claude-code, cursor), skill runs, manual creation
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `reports` |
 | **Subtitle field** | `reportType` |

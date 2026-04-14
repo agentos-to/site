@@ -8,7 +8,7 @@ sidebar:
 Base type for anything that can be attributed as "who did this" in the graph.
 Not used directly — person, organization, and agent extend it via `also`.
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `actors` |
 | **Subtitle field** | `actorType` |

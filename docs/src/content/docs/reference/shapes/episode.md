@@ -9,7 +9,7 @@ A single episode of a podcast or show. Transcribable.
 
 Example sources: YouTube, future podcast skill
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `episodes` |
 | **Subtitle field** | `author` |

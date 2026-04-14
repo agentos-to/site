@@ -12,7 +12,7 @@ drive has no likes.
 
 Example sources: YouTube (via post), local files
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `videos` |
 | **Subtitle field** | `author` |
@@ -58,5 +58,5 @@ From [`file`](/docs/reference/shapes/file/):
 
 ## Skills that produce this shape
 
-- [youtube](/docs/reference/skills/youtube/) — `search_videos`, `search_recent_video`, `list_videos`
-- [youtube](/docs/reference/skills/youtube/) — `get_video`, `transcript_video`
+- [youtube](/docs/reference/skills/media/youtube/) — `search_videos`, `search_recent_video`, `list_videos`
+- [youtube](/docs/reference/skills/media/youtube/) — `get_video`, `transcript_video`

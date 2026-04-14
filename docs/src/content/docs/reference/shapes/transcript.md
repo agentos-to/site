@@ -9,7 +9,7 @@ A text transcript of audio/video content. Linked from meetings and videos.
 
 Example sources: YouTube (auto-captions), Granola (meeting recordings)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `transcripts` |
 

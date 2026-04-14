@@ -9,7 +9,7 @@ A physical hardware product — computer, phone, appliance, component.
 
 Examples: MacBook Pro, iPhone, Arduino, server rack
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `hardware` |
 | **Subtitle field** | `author` |

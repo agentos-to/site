@@ -10,7 +10,7 @@ and adapts external data into graph entities.
 
 Example sources: agentOS engine (auto-registered from skill YAML files)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `skills` |
 | **Subtitle field** | `description` |

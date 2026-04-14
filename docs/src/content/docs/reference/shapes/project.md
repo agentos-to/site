@@ -9,7 +9,7 @@ A project that groups tasks. Tasks belong to projects.
 
 Example sources: Linear, Todoist
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `projects` |
 | **Subtitle field** | `state` |
@@ -24,5 +24,5 @@ Example sources: Linear, Todoist
 
 ## Skills that produce this shape
 
-- [todoist](/docs/reference/skills/todoist/) — `list_projects`
-- [linear](/docs/reference/skills/linear/) — `list_projects`
+- [todoist](/docs/reference/skills/productivity/todoist/) — `list_projects`
+- [linear](/docs/reference/skills/dev/linear/) — `list_projects`

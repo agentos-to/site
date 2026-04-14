@@ -9,7 +9,7 @@ A git commit — a single point in version control history.
 
 Example sources: git skill
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `git_commits` |
 | **Subtitle field** | `author` |
@@ -37,5 +37,5 @@ Example sources: git skill
 
 ## Skills that produce this shape
 
-- [git](/docs/reference/skills/git/) — `list_git_commits`, `search_git_commits`
-- [git](/docs/reference/skills/git/) — `get_git_commit`
+- [git](/docs/reference/skills/dev/git/) — `list_git_commits`, `search_git_commits`
+- [git](/docs/reference/skills/dev/git/) — `get_git_commit`

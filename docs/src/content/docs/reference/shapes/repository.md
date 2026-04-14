@@ -9,7 +9,7 @@ A source code repository.
 
 Example sources: GitHub
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `repositories` |
 | **Subtitle field** | `language` |
@@ -39,4 +39,4 @@ Example sources: GitHub
 
 ## Skills that produce this shape
 
-- [git](/docs/reference/skills/git/) — `get_repository`
+- [git](/docs/reference/skills/dev/git/) — `get_repository`

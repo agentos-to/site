@@ -13,7 +13,7 @@ ran Grep on this repo" or "every tool call that errored."
 Example sources: Claude Code transcripts, OpenAI function-calling logs,
 any agent framework that records tool use.
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `tool_calls` |
 | **Subtitle field** | `name` |

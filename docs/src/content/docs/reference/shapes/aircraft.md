@@ -9,7 +9,7 @@ An aircraft type (not an individual plane). Linked from flight search results.
 
 Example sources: SerpAPI (flight search)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `aircraft` |
 | **Subtitle field** | `model` |

@@ -9,7 +9,7 @@ A consumer brand. Extracted from product listings.
 
 Example sources: Amazon
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `brands` |
 | **Subtitle field** | `tagline` |

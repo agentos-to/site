@@ -12,7 +12,7 @@ gain also: [document] in a future migration once the shape stabilizes.
 
 Example sources: filesystem, agent output, skill results
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `documents` |
 | **Subtitle field** | `author` |

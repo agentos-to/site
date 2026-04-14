@@ -611,10 +611,10 @@ To map boundaries: send each request without auth. If you get data, it's
 public. If you get partial data with errors on some fields, it's suggested
 auth. If you get a 401/403 or an auth error, it's required.
 
-In the skill manifest, mark public operations with `auth: none`:
+In the skill manifest, mark public tools with `auth: none`:
 
 ```yaml
-operations:
+tools:
   search:         # public — no cookies
     auth: none
   get_api_keys:   # requires dashboard session

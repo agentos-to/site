@@ -10,7 +10,7 @@ Used for both e-commerce (Amazon) and delivery (Uber Eats) orders.
 
 Example sources: Amazon, Uber Eats
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `orders` |
 | **Subtitle field** | `total` |
@@ -51,7 +51,7 @@ Example sources: Amazon, Uber Eats
 
 ## Skills that produce this shape
 
-- [uber](/docs/reference/skills/uber/) — `list_deliveries`, `get_cart`
-- [uber](/docs/reference/skills/uber/) — `get_delivery`, `get_messages`, `add_to_cart`, `checkout`, `track_delivery`
-- [amazon](/docs/reference/skills/amazon/) — `list_orders`
-- [amazon](/docs/reference/skills/amazon/) — `get_order`
+- [uber](/docs/reference/skills/logistics/uber/) — `list_deliveries`, `get_cart`
+- [uber](/docs/reference/skills/logistics/uber/) — `get_delivery`, `get_messages`, `add_to_cart`, `checkout`, `track_delivery`
+- [amazon](/docs/reference/skills/logistics/amazon/) — `list_orders`
+- [amazon](/docs/reference/skills/logistics/amazon/) — `get_order`

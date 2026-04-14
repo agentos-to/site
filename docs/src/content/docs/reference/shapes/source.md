@@ -15,7 +15,7 @@ Platform tells the engine which scanner to use:
 - "agentos" scans for skills/, themes/, apps/, shapes/, wallpapers/ subdirs
 - Future: homebrew, apt, synology, etc.
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `sources` |
 | **Subtitle field** | `sourceId` |

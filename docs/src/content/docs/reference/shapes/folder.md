@@ -10,7 +10,7 @@ working directories, and document collections.
 
 Example sources: agentOS engine (session working directories), filesystem
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `folders` |
 | **Subtitle field** | `path` |

@@ -10,7 +10,7 @@ NOT a life event — see event.yaml for births, marriages, etc.
 
 Example sources: PostHog
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `analytics_events` |
 

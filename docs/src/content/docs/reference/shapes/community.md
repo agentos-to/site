@@ -9,7 +9,7 @@ An online community — a subreddit, Facebook group, or similar.
 
 Example sources: Reddit, Facebook
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `communities` |
 | **Subtitle field** | `text` |
@@ -29,8 +29,8 @@ Example sources: Reddit, Facebook
 
 ## Skills that produce this shape
 
-- [moltbook](/docs/reference/skills/moltbook/) — `list_communities`
-- [moltbook](/docs/reference/skills/moltbook/) — `get_community`, `create_community`
-- [facebook](/docs/reference/skills/facebook/) — `get_community`
-- [reddit](/docs/reference/skills/reddit/) — `get_community`
-- [reddit](/docs/reference/skills/reddit/) — `search_communities`
+- [moltbook](/docs/reference/skills/media/moltbook/) — `list_communities`
+- [moltbook](/docs/reference/skills/media/moltbook/) — `get_community`, `create_community`
+- [facebook](/docs/reference/skills/media/facebook/) — `get_community`
+- [reddit](/docs/reference/skills/media/reddit/) — `get_community`
+- [reddit](/docs/reference/skills/media/reddit/) — `search_communities`

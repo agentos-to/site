@@ -13,7 +13,7 @@ A direct Uber ride is one leg. A multi-stop Uber ride has one leg per stop pair.
 
 Example sources: SerpAPI (flight segments), Uber (ride waypoints)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `legs` |
 | **Subtitle field** | `flightNumber` |

@@ -11,7 +11,7 @@ Inherits platform identity fields from account. Financial-specific fields
 
 Example sources: Chase, Copilot Money
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `financial_accounts` |
 | **Subtitle field** | `last4` |

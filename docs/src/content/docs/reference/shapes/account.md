@@ -14,7 +14,7 @@ identifier = platform-specific handle (e.g. "joecontini", "joe@adavia.com")
 
 Example sources: GitHub, Gmail, WhatsApp, iMessage, Reddit, Hacker News, PostHog
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `accounts` |
 | **Subtitle field** | `identifier` |
@@ -52,10 +52,10 @@ Example sources: GitHub, Gmail, WhatsApp, iMessage, Reddit, Hacker News, PostHog
 
 ## Skills that produce this shape
 
-- [goodreads](/docs/reference/skills/goodreads/) — `get_profile`
-- [moltbook](/docs/reference/skills/moltbook/) — `me_account`, `get_account`
-- [amazon](/docs/reference/skills/amazon/) — `whoami`
-- [chase](/docs/reference/skills/chase/) — `check_session`
-- [chase](/docs/reference/skills/chase/) — `get_accounts`
-- [copilot-money](/docs/reference/skills/copilot-money/) — `load_accounts`
-- [greptile](/docs/reference/skills/greptile/) — `list_members`
+- [goodreads](/docs/reference/skills/media/goodreads/) — `get_profile`
+- [moltbook](/docs/reference/skills/media/moltbook/) — `me_account`, `get_account`
+- [amazon](/docs/reference/skills/logistics/amazon/) — `whoami`
+- [chase](/docs/reference/skills/finance/chase/) — `check_session`
+- [chase](/docs/reference/skills/finance/chase/) — `get_accounts`
+- [copilot-money](/docs/reference/skills/finance/copilot-money/) — `load_accounts`
+- [greptile](/docs/reference/skills/dev/greptile/) — `list_members`

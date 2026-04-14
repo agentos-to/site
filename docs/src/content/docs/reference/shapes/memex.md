@@ -19,7 +19,7 @@ Plural is "memex" (same word, like aircraft or fish).
 
 Examples: joe.db (personal), astronomy.db (domain), spacex-history.db (community)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `memex` |
 | **Subtitle field** | `description` |

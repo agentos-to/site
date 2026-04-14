@@ -11,7 +11,7 @@ Claude transcripts, etc.
 
 Example sources: iMessage, WhatsApp, Claude Code; extended by email (Gmail, Mimestream)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `messages` |
 | **Subtitle field** | `from` |
@@ -40,8 +40,8 @@ Example sources: iMessage, WhatsApp, Claude Code; extended by email (Gmail, Mime
 
 ## Skills that produce this shape
 
-- [claude](/docs/reference/skills/claude/) — `import_conversation`
-- [imessage](/docs/reference/skills/imessage/) — `op_list_messages`, `op_search_messages`
-- [imessage](/docs/reference/skills/imessage/) — `op_get_message`
-- [whatsapp](/docs/reference/skills/whatsapp/) — `op_list_messages`, `op_search_messages`
-- [whatsapp](/docs/reference/skills/whatsapp/) — `op_get_message`
+- [claude](/docs/reference/skills/ai/claude/) — `import_conversation`
+- [imessage](/docs/reference/skills/comms/imessage/) — `op_list_messages`, `op_search_messages`
+- [imessage](/docs/reference/skills/comms/imessage/) — `op_get_message`
+- [whatsapp](/docs/reference/skills/comms/whatsapp/) — `op_list_messages`, `op_search_messages`
+- [whatsapp](/docs/reference/skills/comms/whatsapp/) — `op_get_message`

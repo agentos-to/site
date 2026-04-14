@@ -10,7 +10,7 @@ Links a person to an organization with a time range.
 
 Example sources: Apple Contacts, LinkedIn (via enrichment)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `roles` |
 | **Subtitle field** | `name` |

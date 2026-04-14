@@ -13,6 +13,23 @@ export default defineConfig({
 		starlight({
 			title: 'AgentOS Docs',
 			plugins: [starlightThemeGalaxy()],
+			head: [
+				{
+					tag: 'script',
+					content: `
+						document.addEventListener('DOMContentLoaded', () => {
+							const topUl = document.querySelector('nav[aria-label="Main"] ul.top-level');
+							if (!topUl) return;
+							const topLevel = Array.from(topUl.querySelectorAll(':scope > li > details'));
+							topLevel.forEach((d) => {
+								d.addEventListener('toggle', () => {
+									if (d.open) topLevel.forEach((o) => { if (o !== d) o.open = false; });
+								});
+							});
+						});
+					`,
+				},
+			],
 			sidebar: [
 				{
 					label: 'Introduction',
@@ -118,7 +135,26 @@ export default defineConfig({
 					collapsed: true,
 					items: [
 						{ label: 'Shapes', autogenerate: { directory: 'reference/shapes' }, collapsed: true },
-						{ label: 'Skills', autogenerate: { directory: 'reference/skills' }, collapsed: true },
+						{
+							label: 'Skills',
+							collapsed: true,
+							items: [
+								{ label: 'Skills index', slug: 'reference/skills' },
+								{ label: 'agents', autogenerate: { directory: 'reference/skills/agents' }, collapsed: true },
+								{ label: 'ai', autogenerate: { directory: 'reference/skills/ai' }, collapsed: true },
+								{ label: 'browsers', autogenerate: { directory: 'reference/skills/browsers' }, collapsed: true },
+								{ label: 'comms', autogenerate: { directory: 'reference/skills/comms' }, collapsed: true },
+								{ label: 'dev', autogenerate: { directory: 'reference/skills/dev' }, collapsed: true },
+								{ label: 'finance', autogenerate: { directory: 'reference/skills/finance' }, collapsed: true },
+								{ label: 'fun', autogenerate: { directory: 'reference/skills/fun' }, collapsed: true },
+								{ label: 'hosting', autogenerate: { directory: 'reference/skills/hosting' }, collapsed: true },
+								{ label: 'logistics', autogenerate: { directory: 'reference/skills/logistics' }, collapsed: true },
+								{ label: 'macos', autogenerate: { directory: 'reference/skills/macos' }, collapsed: true },
+								{ label: 'media', autogenerate: { directory: 'reference/skills/media' }, collapsed: true },
+								{ label: 'productivity', autogenerate: { directory: 'reference/skills/productivity' }, collapsed: true },
+								{ label: 'web', autogenerate: { directory: 'reference/skills/web' }, collapsed: true },
+							],
+						},
 					],
 				},
 			],

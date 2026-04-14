@@ -10,7 +10,7 @@ An offer wraps one or more flights into a bookable unit.
 
 Example sources: SerpAPI (Google Flights)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `offers` |
 
@@ -36,4 +36,4 @@ Example sources: SerpAPI (Google Flights)
 
 ## Skills that produce this shape
 
-- [serpapi](/docs/reference/skills/serpapi/) — `search_offers`, `list_offers`, `get_offer`
+- [serpapi](/docs/reference/skills/web/serpapi/) — `search_offers`, `list_offers`, `get_offer`

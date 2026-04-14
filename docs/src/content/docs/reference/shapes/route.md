@@ -22,7 +22,7 @@ GTFS "stop_times" = our leg origins/destinations.
 
 Example sources: future (GTFS, flight timetables, Uber Eats store hours)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `routes` |
 | **Subtitle field** | `routeNumber` |

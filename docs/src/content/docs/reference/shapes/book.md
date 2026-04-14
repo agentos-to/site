@@ -10,7 +10,7 @@ User-specific state (rating, shelf, dates) and platform metrics are modeled as e
 
 Example sources: Goodreads
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `books` |
 | **Subtitle field** | `author` |
@@ -77,5 +77,5 @@ From [`product`](/docs/reference/shapes/product/):
 
 ## Skills that produce this shape
 
-- [goodreads](/docs/reference/skills/goodreads/) — `get_book`
-- [goodreads](/docs/reference/skills/goodreads/) — `list_similar_books`, `list_series_books`, `search_books`, `list_author_books`, `list_books`, `list_shelf_books`
+- [goodreads](/docs/reference/skills/media/goodreads/) — `get_book`
+- [goodreads](/docs/reference/skills/media/goodreads/) — `list_similar_books`, `list_series_books`, `search_books`, `list_author_books`, `list_books`, `list_shelf_books`

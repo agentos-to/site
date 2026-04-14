@@ -9,7 +9,7 @@ An AI model — LLM, embedding model, or other ML model.
 
 Example sources: Ollama, OpenRouter, Anthropic API
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `models` |
 | **Subtitle field** | `provider` |
@@ -37,6 +37,6 @@ Example sources: Ollama, OpenRouter, Anthropic API
 
 ## Skills that produce this shape
 
-- [openrouter](/docs/reference/skills/openrouter/) — `list_models`
-- [claude](/docs/reference/skills/claude/) — `list_models`, `list_models_cli`
-- [ollama](/docs/reference/skills/ollama/) — `list_models`, `list_models_cli`
+- [openrouter](/docs/reference/skills/ai/openrouter/) — `list_models`
+- [claude](/docs/reference/skills/ai/claude/) — `list_models`, `list_models_cli`
+- [ollama](/docs/reference/skills/ai/ollama/) — `list_models`, `list_models_cli`

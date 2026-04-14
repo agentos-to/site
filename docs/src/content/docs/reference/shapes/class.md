@@ -14,7 +14,7 @@ capacity, and is typically part of a recurring schedule.
 
 Example sources: Austin Boulder Project, Mindbody, future gym/studio integrations
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `classes` |
 | **Subtitle field** | `activityType` |
@@ -67,4 +67,4 @@ From [`event`](/docs/reference/shapes/event/):
 
 ## Skills that produce this shape
 
-- [austin-boulder-project](/docs/reference/skills/austin-boulder-project/) — `op_get_schedule`
+- [austin-boulder-project](/docs/reference/skills/fun/austin-boulder-project/) — `op_get_schedule`

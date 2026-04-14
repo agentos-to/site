@@ -1,7 +1,9 @@
 ---
 title: "LLM & Agent Workflows"
 description: "The llm module provides LLM inference: one-shot calls, multi-turn agent loops with tool calling, and structured output."
----The `llm` module provides LLM inference: one-shot calls, multi-turn agent loops with tool calling, and structured output.
+---
+
+The `llm` module provides LLM inference: one-shot calls, multi-turn agent loops with tool calling, and structured output.
 
 ```python
 from agentos import llm

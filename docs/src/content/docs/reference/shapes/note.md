@@ -14,7 +14,7 @@ extracted from sources (literature notes from books, articles, videos).
 
 Example sources: future PKM integrations (Obsidian, Apple Notes, Google Keep)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `notes` |
 

@@ -9,7 +9,7 @@ A video playlist. Playlists are lists that contain videos instead of products.
 
 Example sources: YouTube
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `playlists` |
 | **Subtitle field** | `text` |

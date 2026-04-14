@@ -11,7 +11,7 @@ A quote is a canonical attribution to a speaker.
 
 Example sources: Goodreads (highlights), future Kindle/Readwise/Hypothesis integration
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `highlights` |
 

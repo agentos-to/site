@@ -23,7 +23,7 @@ published = when the invitation was created/sent.
 
 Example sources: Greptile, GitHub, Slack, Google Calendar, Linear
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `invitations` |
 | **Subtitle field** | `invitationType` |
@@ -54,5 +54,5 @@ Example sources: Greptile, GitHub, Slack, Google Calendar, Linear
 
 ## Skills that produce this shape
 
-- [greptile](/docs/reference/skills/greptile/) — `list_invites`
-- [greptile](/docs/reference/skills/greptile/) — `send_invite`
+- [greptile](/docs/reference/skills/dev/greptile/) — `list_invites`
+- [greptile](/docs/reference/skills/dev/greptile/) — `send_invite`

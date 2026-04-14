@@ -11,7 +11,7 @@ Base type for image. Covers repo files (GitHub, Cursor), email attachments
 
 Example sources: GitHub, Cursor, Mimestream, filesystem
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `files` |
 | **Subtitle field** | `path` |
@@ -46,7 +46,7 @@ Example sources: GitHub, Cursor, Mimestream, filesystem
 
 ## Skills that produce this shape
 
-- [cursor](/docs/reference/skills/cursor/) — `op_pull_document`
-- [github](/docs/reference/skills/github/) — `list_documents`
-- [github](/docs/reference/skills/github/) — `read_document`
-- [gmail](/docs/reference/skills/gmail/) — `get_attachment`
+- [cursor](/docs/reference/skills/dev/cursor/) — `op_pull_document`
+- [github](/docs/reference/skills/dev/github/) — `list_documents`
+- [github](/docs/reference/skills/dev/github/) — `read_document`
+- [gmail](/docs/reference/skills/comms/gmail/) — `get_attachment`

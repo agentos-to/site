@@ -9,7 +9,7 @@ A DNS record for a domain. One domain has many records (A, CNAME, MX, TXT, etc.)
 
 Example sources: Gandi, Porkbun
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `dns_records` |
 | **Subtitle field** | `recordType` |
@@ -27,6 +27,6 @@ Example sources: Gandi, Porkbun
 
 ## Skills that produce this shape
 
-- [gandi](/docs/reference/skills/gandi/) — `list_dns_records`
-- [gandi](/docs/reference/skills/gandi/) — `get_dns_record`
-- [porkbun](/docs/reference/skills/porkbun/) — `list_dns_records`
+- [gandi](/docs/reference/skills/hosting/gandi/) — `list_dns_records`
+- [gandi](/docs/reference/skills/hosting/gandi/) — `get_dns_record`
+- [porkbun](/docs/reference/skills/hosting/porkbun/) — `list_dns_records`

@@ -11,7 +11,7 @@ The result just carries search-specific metadata (when indexed, what type).
 
 Example sources: Brave Search, Exa, Moltbook
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `results` |
 | **Subtitle field** | `url` |
@@ -25,6 +25,6 @@ Example sources: Brave Search, Exa, Moltbook
 
 ## Skills that produce this shape
 
-- [moltbook](/docs/reference/skills/moltbook/) — `search_posts`
-- [brave](/docs/reference/skills/brave/) — `search`
-- [exa](/docs/reference/skills/exa/) — `search`
+- [moltbook](/docs/reference/skills/media/moltbook/) — `search_posts`
+- [brave](/docs/reference/skills/web/brave/) — `search`
+- [exa](/docs/reference/skills/web/exa/) — `search`

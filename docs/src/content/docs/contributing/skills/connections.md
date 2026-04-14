@@ -1,7 +1,9 @@
 ---
 title: "Connections & Auth"
-description: "Every skill declares its external service dependencies as named connections:. Each connection can carry baseurl, auth (with a type discriminator), optional…"
----Every skill declares its external service dependencies as **named** `connections:`. Each connection can carry `base_url`, `auth` (with a `type` discriminator), optional `description`, `label`, `help_url`, `optional`, and **local data sources**:
+description: "Every skill declares its external service dependencies as named connections. Each connection carries base_url, auth, optional description, label, and local data sources."
+---
+
+Every skill declares its external service dependencies as **named** `connections:`. Each connection can carry `base_url`, `auth` (with a `type` discriminator), optional `description`, `label`, `help_url`, `optional`, and **local data sources**:
 
 - **`sqlite:`** — path to a SQLite file (tilde-expanded). SQL operations bind to the connection that declares the database; there is **no** top-level `database:` on the skill.
 - **`vars:`** — non-secret config (paths, filenames) merged into the executor context (e.g. `params.connection.vars` for Python) so scripts can read local files without hardcoding home-directory paths.
@@ -255,7 +257,7 @@ adapters:
     issuer: .issuer
     data.marketplace_id: .marketplace_id
 
-operations:
+tools:
   check_session:
     returns: account
     connection: web

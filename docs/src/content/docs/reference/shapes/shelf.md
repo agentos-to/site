@@ -9,7 +9,7 @@ A bookshelf. Shelves are lists that contain books instead of generic products.
 
 Example sources: Goodreads
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `shelves` |
 | **Also** | [`list`](/docs/reference/shapes/list/) |
@@ -45,4 +45,4 @@ From [`list`](/docs/reference/shapes/list/):
 
 ## Skills that produce this shape
 
-- [goodreads](/docs/reference/skills/goodreads/) — `list_shelves`
+- [goodreads](/docs/reference/skills/media/goodreads/) — `list_shelves`

@@ -16,7 +16,7 @@ like a pull request for your knowledge graph.
 Examples: research-agent (forked joe.db + astronomy.db read-only),
 legal-review (forked joe.db + law.db read-only)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `simulations` |
 | **Subtitle field** | `status` |

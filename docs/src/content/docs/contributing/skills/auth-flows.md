@@ -1,7 +1,9 @@
 ---
 title: "Auth Flows"
-description: "When a skill needs credentials from a web dashboard (API keys, session tokens), the flow is: discover with Playwright, implement with agentos.http. For…"
----When a skill needs credentials from a web dashboard (API keys, session tokens), the flow is: **discover with Playwright, implement with `agentos.http`**. For steps that `agentos.http` can't replay (native form POSTs, complex redirect chains), the agent uses Playwright for that step and `agentos.http` for everything after.
+description: "When a skill needs credentials from a web dashboard, the flow is: discover with Playwright, implement with agentos.http."
+---
+
+When a skill needs credentials from a web dashboard (API keys, session tokens), the flow is: **discover with Playwright, implement with `agentos.http`**. For steps that `agentos.http` can't replay (native form POSTs, complex redirect chains), the agent uses Playwright for that step and `agentos.http` for everything after.
 
 ## The pattern
 

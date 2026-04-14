@@ -10,7 +10,7 @@ A nonstop itinerary has one flight. A connection has multiple flights.
 
 Example sources: SerpAPI (Google Flights)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `flights` |
 | **Subtitle field** | `airline` |

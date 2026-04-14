@@ -11,7 +11,7 @@ State is derived from location: docs/specs/ = active, docs/specs/done/ = done.
 
 Example sources: filesystem (docs/specs/)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `specs` |
 | **Subtitle field** | `state` |

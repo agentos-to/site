@@ -9,7 +9,7 @@ A git branch.
 
 Example sources: git
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `branches` |
 | **Subtitle field** | `commit` |
@@ -33,5 +33,5 @@ Example sources: git
 
 ## Skills that produce this shape
 
-- [git](/docs/reference/skills/git/) — `list_branches`
-- [git](/docs/reference/skills/git/) — `get_branch`
+- [git](/docs/reference/skills/dev/git/) — `list_branches`
+- [git](/docs/reference/skills/dev/git/) — `get_branch`

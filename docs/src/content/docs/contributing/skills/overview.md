@@ -1,7 +1,9 @@
 ---
 title: "Skills"
 description: "A skill connects agentOS to an external service. Read this once, build a skill."
----A skill connects agentOS to an external service. Read this once, build a skill.
+---
+
+A skill connects agentOS to an external service. Read this once, build a skill.
 
 A skill is a directory with a `readme.md` (identity + config) and one or more `*.py` files (tools).
 

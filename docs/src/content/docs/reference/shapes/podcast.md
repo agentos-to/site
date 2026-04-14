@@ -9,7 +9,7 @@ A podcast series. Contains episodes. Not the audio itself — that's on the epis
 
 Example sources: YouTube (some channels are podcasts), future podcast skill
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `podcasts` |
 | **Subtitle field** | `author` |

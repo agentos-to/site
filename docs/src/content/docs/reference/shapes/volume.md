@@ -10,7 +10,7 @@ Distinct from folder: volumes have capacity, filesystem type, and mount state.
 
 Example sources: macos-control (local volumes), future: Google Drive, Dropbox, iCloud
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `volumes` |
 | **Subtitle field** | `path` |

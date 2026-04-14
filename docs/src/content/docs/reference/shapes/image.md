@@ -9,7 +9,7 @@ An image file. Photos, screenshots, diagrams, artwork.
 
 Example sources: macOS screenshots, email attachments, web scraping
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `images` |
 | **Also** | [`file`](/docs/reference/shapes/file/) |
@@ -49,4 +49,4 @@ From [`file`](/docs/reference/shapes/file/):
 
 ## Skills that produce this shape
 
-- [macos-control](/docs/reference/skills/macos-control/) — `screenshot_display`, `screenshot_window`
+- [macos-control](/docs/reference/skills/macos/macos-control/) — `screenshot_display`, `screenshot_window`

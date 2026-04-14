@@ -22,7 +22,7 @@ a trip (transport), an event (class/meeting), or nothing typed (just runs a prom
 Example sources: Claude Code (cron agents), GTFS (transit), Uber Eats (store hours),
 future: flight timetables, gym class schedules
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `schedules` |
 | **Subtitle field** | `cronExpression` |

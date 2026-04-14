@@ -9,7 +9,7 @@ A financial transaction — credit card charge, bank transfer, etc.
 
 Example sources: Chase, Copilot Money
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `transactions` |
 | **Subtitle field** | `category` |
@@ -38,5 +38,5 @@ Example sources: Chase, Copilot Money
 
 ## Skills that produce this shape
 
-- [chase](/docs/reference/skills/chase/) — `get_transactions`
-- [copilot-money](/docs/reference/skills/copilot-money/) — `fetch_transactions`
+- [chase](/docs/reference/skills/finance/chase/) — `get_transactions`
+- [copilot-money](/docs/reference/skills/finance/copilot-money/) — `fetch_transactions`

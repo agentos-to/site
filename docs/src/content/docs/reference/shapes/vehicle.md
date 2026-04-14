@@ -16,7 +16,7 @@ Registration: vehicle registered in a jurisdiction (edge with plate, dates)
 
 Example sources: manual entry, document extraction
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `vehicles` |
 | **Subtitle field** | `vin` |

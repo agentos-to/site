@@ -11,7 +11,7 @@ versions, and runtime requirements.
 
 Examples: Gmail, Cursor, Slack, yt-dlp, agentOS itself
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `software` |
 | **Subtitle field** | `text` |

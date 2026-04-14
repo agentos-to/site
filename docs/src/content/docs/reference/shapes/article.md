@@ -15,7 +15,7 @@ article and post are siblings, not parent-child. When something is both
 
 Example sources: Exa (web articles), Firecrawl, future RSS integration
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `articles` |
 | **Subtitle field** | `author` |

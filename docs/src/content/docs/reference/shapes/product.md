@@ -10,7 +10,7 @@ Cross-skill: Amazon products, Uber Eats grocery items, any retail catalog.
 
 Example sources: Amazon, Uber Eats (grocery), Open Food Facts (enrichment)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `products` |
 | **Subtitle field** | `brand` |
@@ -59,7 +59,7 @@ Example sources: Amazon, Uber Eats (grocery), Open Food Facts (enrichment)
 
 ## Skills that produce this shape
 
-- [uber](/docs/reference/skills/uber/) — `get_item_customizations`
-- [uber](/docs/reference/skills/uber/) — `search_products`
-- [amazon](/docs/reference/skills/amazon/) — `search_products`, `buy_again`
-- [amazon](/docs/reference/skills/amazon/) — `get_product`
+- [uber](/docs/reference/skills/logistics/uber/) — `get_item_customizations`
+- [uber](/docs/reference/skills/logistics/uber/) — `search_products`
+- [amazon](/docs/reference/skills/logistics/amazon/) — `search_products`, `buy_again`
+- [amazon](/docs/reference/skills/logistics/amazon/) — `get_product`

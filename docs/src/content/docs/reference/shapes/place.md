@@ -15,7 +15,7 @@ The company (Costco Inc.) is an organization. The location is a place.
 
 Example sources: Apple Calendar, Amazon (shipping), Mapbox (geocoding)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `places` |
 | **Subtitle field** | `fullAddress` |
@@ -63,5 +63,5 @@ Example sources: Apple Calendar, Amazon (shipping), Mapbox (geocoding)
 
 ## Skills that produce this shape
 
-- [uber](/docs/reference/skills/uber/) — `get_store`
-- [uber](/docs/reference/skills/uber/) — `search_address`, `list_addresses`, `search_stores`, `list_nearby_stores`
+- [uber](/docs/reference/skills/logistics/uber/) — `get_store`
+- [uber](/docs/reference/skills/logistics/uber/) — `search_address`, `list_addresses`, `search_stores`, `list_nearby_stores`

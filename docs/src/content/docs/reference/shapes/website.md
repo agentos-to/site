@@ -10,7 +10,7 @@ Websites are created/managed by the here.now publishing skill.
 
 Example sources: here.now
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `websites` |
 | **Subtitle field** | `url` |
@@ -36,5 +36,5 @@ Example sources: here.now
 
 ## Skills that produce this shape
 
-- [here-now](/docs/reference/skills/here-now/) — `list_websites`
-- [here-now](/docs/reference/skills/here-now/) — `op_create_website`, `op_update_website`
+- [here-now](/docs/reference/skills/hosting/here-now/) — `list_websites`
+- [here-now](/docs/reference/skills/hosting/here-now/) — `op_create_website`, `op_update_website`

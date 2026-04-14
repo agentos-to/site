@@ -10,7 +10,7 @@ can be attributed as "who" in the graph alongside people and agents.
 
 Example sources: extracted from various skills (email domains, product manufacturers, etc.)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `organizations` |
 | **Subtitle field** | `industry` |

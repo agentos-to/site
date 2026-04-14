@@ -679,7 +679,7 @@ def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, 
             chain = " · ".join(_shape_link(a) for a in s.also)
             meta_rows.append(("Also", chain))
         if meta_rows:
-            lines.append("| | |")
+            lines.append("| Metadata | Value |")
             lines.append("|---|---|")
             for k, v in meta_rows:
                 lines.append(f"| **{k}** | {v} |")
@@ -756,8 +756,10 @@ def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, 
             lines.append("")
             for p in producers:
                 sid = p["skill_id"]
+                cat = p.get("category", "")
                 ops = ", ".join(f"`{op}`" for op in p["operations"])
-                lines.append(f"- [{sid}](/docs/reference/skills/{sid}/) — {ops}")
+                url = f"/docs/reference/skills/{cat}/{sid}/" if cat else f"/docs/reference/skills/{sid}/"
+                lines.append(f"- [{sid}]({url}) — {ops}")
             lines.append("")
 
         (out_dir / f"{s.name}.md").write_text("\n".join(lines).rstrip() + "\n")
@@ -857,13 +859,21 @@ def discover_skills(skills_root: Path) -> list[dict]:
 
 
 def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -> None:
-    """Write one MDX file per skill + an index page.
+    """Write one MDX file per skill under `<category>/<id>.md` + an index page.
+
+    Skills are laid out by **category** — the same taxonomy the skills/ tree
+    uses on disk (comms/, web/, finance/, …). The sidebar mirrors this,
+    giving agents a fast scan path: "where are the email skills?" → `comms/`.
 
     `known_shapes` is the set of shape names that have their own reference page;
     return-types outside this set (e.g. `void`) are rendered as plain code without
     a link so generated pages never produce dead `/docs/reference/shapes/void/` URLs.
     """
     out_dir.mkdir(parents=True, exist_ok=True)
+    # Group skills by category so we can emit per-category index pages below.
+    by_cat: dict[str, list[dict]] = {}
+    for rec in skills:
+        by_cat.setdefault(rec["category"], []).append(rec)
     for rec in skills:
         meta = rec["meta"]
         sid = rec["skill_id"]
@@ -882,14 +892,17 @@ def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -
             "",
         ]
 
-        # Badge row: category + capabilities
-        badges = [f"**Category:** `{rec['category']}`"]
+        # Metadata table: category, capabilities, website
+        meta_rows = [("Category", f"`{rec['category']}`")]
         if meta.get("capabilities"):
             caps = ", ".join(f"`{c}`" for c in meta["capabilities"])
-            badges.append(f"**Capabilities:** {caps}")
+            meta_rows.append(("Capabilities", caps))
         if meta.get("website"):
-            badges.append(f"**Website:** {meta['website']}")
-        lines.append(" · ".join(badges))
+            meta_rows.append(("Website", f"<{meta['website']}>"))
+        lines.append("| Metadata | Value |")
+        lines.append("|---|---|")
+        for k, v in meta_rows:
+            lines.append(f"| **{k}** | {v} |")
         lines.append("")
 
         # Shapes produced
@@ -928,15 +941,14 @@ def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -
             lines.append(body)
             lines.append("")
 
-        (out_dir / f"{sid}.md").write_text("\n".join(lines).rstrip() + "\n")
+        cat_dir = out_dir / rec["category"]
+        cat_dir.mkdir(parents=True, exist_ok=True)
+        (cat_dir / f"{sid}.md").write_text("\n".join(lines).rstrip() + "\n")
 
-    # Index — group by category
-    by_cat: dict[str, list[dict]] = {}
-    for rec in skills:
-        by_cat.setdefault(rec["category"], []).append(rec)
+    # Top-level index — flat listing of all skills, grouped visually by category.
     idx = [
         "---",
-        "title: Skills",
+        "title: Skills index",
         'description: "Every skill in the AgentOS catalog. Browse all or filter by category."',
         "---",
         "",
@@ -946,15 +958,36 @@ def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -
         "",
     ]
     for cat in sorted(by_cat.keys()):
-        idx.append(f"## {cat}")
+        idx.append(f"## [{cat}](/docs/reference/skills/{cat}/)")
         idx.append("")
         for rec in sorted(by_cat[cat], key=lambda r: r["skill_id"]):
             name = rec["meta"].get("name", rec["skill_id"])
             desc = (rec["meta"].get("description") or "").strip().rstrip(".")
             desc_part = f" — {desc}" if desc else ""
-            idx.append(f"- [**{name}**](/docs/reference/skills/{rec['skill_id']}/){desc_part}")
+            idx.append(f"- [**{name}**](/docs/reference/skills/{cat}/{rec['skill_id']}/){desc_part}")
         idx.append("")
     (out_dir / "index.md").write_text("\n".join(idx) + "\n")
+
+    # Per-category index pages — each category folder gets its own landing.
+    for cat, recs in sorted(by_cat.items()):
+        cat_lines = [
+            "---",
+            f"title: {cat}",
+            f'description: "Skills in the {cat} category."',
+            "sidebar:",
+            "  label: Overview",
+            "  order: -1",
+            "---",
+            "",
+            f"**{len(recs)}** skills in `{cat}`.",
+            "",
+        ]
+        for rec in sorted(recs, key=lambda r: r["skill_id"]):
+            name = rec["meta"].get("name", rec["skill_id"])
+            desc = (rec["meta"].get("description") or "").strip().rstrip(".")
+            desc_part = f" — {desc}" if desc else ""
+            cat_lines.append(f"- [**{name}**](/docs/reference/skills/{cat}/{rec['skill_id']}/){desc_part}")
+        (out_dir / cat / "index.md").write_text("\n".join(cat_lines).rstrip() + "\n")
 
 
 def build_skills_index(skills: list[dict], known_shapes: set[str]) -> dict[str, list[dict]]:
@@ -970,6 +1003,7 @@ def build_skills_index(skills: list[dict], known_shapes: set[str]) -> dict[str, 
                 continue
             idx.setdefault(bare, []).append({
                 "skill_id": rec["skill_id"],
+                "category": rec["category"],
                 "operations": rec["returns"][shape],
             })
     return idx

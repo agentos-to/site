@@ -49,10 +49,10 @@ connections:
     label: MySite Session
 ```
 
-Operations reference the appropriate connection:
+Tools reference the appropriate connection:
 
 ```yaml
-operations:
+tools:
   search_books:        # public
     connection: graphql
     python:

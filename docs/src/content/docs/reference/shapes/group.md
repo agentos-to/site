@@ -9,7 +9,7 @@ A group or community — online group, reading group, etc.
 
 Example sources: Goodreads
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `groups` |
 | **Subtitle field** | `category` |
@@ -24,4 +24,4 @@ Example sources: Goodreads
 
 ## Skills that produce this shape
 
-- [goodreads](/docs/reference/skills/goodreads/) — `list_groups`
+- [goodreads](/docs/reference/skills/media/goodreads/) — `list_groups`

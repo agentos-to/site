@@ -9,7 +9,7 @@ A currently loaded/running AI model instance.
 
 Example sources: Ollama
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `loaded_models` |
 | **Subtitle field** | `size` |
@@ -27,4 +27,4 @@ Example sources: Ollama
 
 ## Skills that produce this shape
 
-- [ollama](/docs/reference/skills/ollama/) — `ps`
+- [ollama](/docs/reference/skills/ai/ollama/) — `ps`

@@ -14,7 +14,7 @@ or products. The "platform" tag is for services that host user data.
 
 Example sources: seeded by skills at load time
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `platforms` |
 | **Subtitle field** | `website` |

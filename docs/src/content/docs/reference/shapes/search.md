@@ -10,7 +10,7 @@ tracking — re-searching shows previously-found results first.
 
 Example sources: location system (cross-scheme search)
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `searches` |
 | **Subtitle field** | `query` |

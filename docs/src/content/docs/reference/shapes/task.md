@@ -10,7 +10,7 @@ and dependency tracking (blocked_by/blocks).
 
 Example sources: Linear, Todoist, GitHub
 
-| | |
+| Metadata | Value |
 |---|---|
 | **Plural** | `tasks` |
 | **Subtitle field** | `state` |
@@ -45,9 +45,9 @@ Example sources: Linear, Todoist, GitHub
 
 ## Skills that produce this shape
 
-- [todoist](/docs/reference/skills/todoist/) — `list_tasks`, `list_all_tasks`, `filter_task`
-- [todoist](/docs/reference/skills/todoist/) — `get_task`, `create_task`, `update_task`, `move_task`
-- [linear](/docs/reference/skills/linear/) — `list_tasks`
-- [linear](/docs/reference/skills/linear/) — `get_task`, `create_task`, `update_task`
-- [github](/docs/reference/skills/github/) — `list_tasks`
-- [github](/docs/reference/skills/github/) — `get_task`
+- [todoist](/docs/reference/skills/productivity/todoist/) — `list_tasks`, `list_all_tasks`, `filter_task`
+- [todoist](/docs/reference/skills/productivity/todoist/) — `get_task`, `create_task`, `update_task`, `move_task`
+- [linear](/docs/reference/skills/dev/linear/) — `list_tasks`
+- [linear](/docs/reference/skills/dev/linear/) — `get_task`, `create_task`, `update_task`
+- [github](/docs/reference/skills/dev/github/) — `list_tasks`
+- [github](/docs/reference/skills/dev/github/) — `get_task`
