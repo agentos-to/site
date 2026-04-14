@@ -116,6 +116,16 @@ export default defineConfig({
 					],
 				},
 				{
+					label: 'Interfaces',
+					collapsed: true,
+					items: [
+						{ label: 'Overview', slug: 'interfaces/overview' },
+						{ label: 'MCP', slug: 'interfaces/mcp' },
+						{ label: 'CLI', slug: 'interfaces/cli' },
+						{ label: 'HTTP', slug: 'interfaces/http' },
+					],
+				},
+				{
 					label: 'Shapes',
 					collapsed: true,
 					items: [
