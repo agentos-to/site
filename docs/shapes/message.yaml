@@ -1,0 +1,18 @@
+# A single message in a conversation. Base type — email extends this via `also`.
+# Querying by "message" returns emails alongside iMessages, WhatsApp messages,
+# Claude transcripts, etc.
+#
+# Example sources: iMessage, WhatsApp, Claude Code; extended by email (Gmail, Mimestream)
+message:
+  plural: messages
+  identity: [platform, id]
+  subtitle: from
+  fields:
+    isOutgoing:       boolean   # true if sent by the user
+    isStarred:        boolean   # user-flagged as important
+  relations:
+    platform:          product
+    from:              actor     # sender — a person, agent, or organization
+    inConversation:   conversation
+    repliesTo:        message
+    toolCalls:        tool_call[]  # tool calls made within this message (typically assistant turns)

@@ -1,0 +1,11 @@
+# A tag or label — Gmail label, Todoist label, GitHub label, git tag, etc.
+# Cross-skill: anything can carry tags. An email has labels, a task has tags,
+# a PR has labels, a git commit has tags.
+#
+# Example sources: Gmail, Todoist, GitHub
+tag:
+  plural: tags
+  subtitle: tagType
+  fields:
+    color:             string    # hex color (#EA4335) or named color
+    tagType:          string    # system, user — distinguishes built-in vs custom

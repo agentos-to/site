@@ -1,0 +1,22 @@
+# A single tool invocation made by an agent during a message.
+# Captures the tool name, input arguments, and the result that came back.
+# Tool calls are first-class entities so you can query "every time Claude
+# ran Grep on this repo" or "every tool call that errored."
+#
+# Example sources: Claude Code transcripts, OpenAI function-calling logs,
+# any agent framework that records tool use.
+tool_call:
+  plural: tool_calls
+  identity: [platform, id]
+  subtitle: name
+  fields:
+    name:              string    # tool name (e.g. "Read", "Grep", "Bash")
+    input:             text      # JSON-serialized input arguments
+    output:            text      # tool result body (plain text or JSON)
+    isError:           boolean   # true if the tool reported an error
+    durationMs:       integer   # optional — how long the tool ran
+  relations:
+    platform:          product
+    from:              actor     # the agent that made the call
+    inMessage:         message   # the message this call was part of
+    repliesTo:         tool_call # chain calls that reference a prior call's output

@@ -1,0 +1,30 @@
+# A memex — a portable knowledge graph. Named for Vannevar Bush's
+# 1945 vision of a personal knowledge store with associative trails.
+#
+# A memex is a SQLite database file containing entities, relationships,
+# and trails. It's the "disk image" to a simulation's "VM" — persistent
+# knowledge that can be loaded, forked, snapshotted, and shared.
+#
+# Types: personal (your mind), domain (expertise), snapshot (point-in-time),
+# fork (experimental copy), community (published for others).
+#
+# Plural is "memex" (same word, like aircraft or fish).
+#
+# Examples: joe.db (personal), astronomy.db (domain), spacex-history.db (community)
+memex:
+  plural: memex
+  subtitle: description
+  icon: brain
+  fields:
+    description:      text       # what this memex contains / knows about
+    origin:           string     # personal, domain, snapshot, fork, community
+    filePath:         string     # path to the SQLite database file
+    nodeCount:        integer    # entities in this graph
+    edgeCount:        integer    # relationships in this graph
+    fileSize:         string     # human-readable database size
+    snapshotOf:       datetime   # if snapshot: when was the source captured
+    published:        boolean    # available on the intergalactic network
+  relations:
+    owner:             person
+    forkedFrom:        memex           # if this was forked from another
+    snapshots:         memex[]         # point-in-time saves of this memex

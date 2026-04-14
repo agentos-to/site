@@ -1,0 +1,10 @@
+# A content channel — typically a YouTube channel. Videos are uploaded to channels.
+#
+# Example sources: YouTube
+channel:
+  plural: channels
+  identity: [platform, id]
+  fields:
+    banner:            url       # channel banner/header image
+  relations:
+    platform:          product

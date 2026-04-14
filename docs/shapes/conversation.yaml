@@ -1,0 +1,21 @@
+# A message thread — an iMessage chat, WhatsApp group, email thread, Claude
+# transcript, etc. Contains messages and links to participants.
+#
+# Example sources: iMessage, WhatsApp, Gmail, Claude Code
+conversation:
+  plural: conversations
+  identity: [platform, id]
+  subtitle: text
+  fields:
+    isGroup:          boolean
+    isArchived:       boolean
+    unreadCount:      integer
+    messageCount:     integer   # number of messages in the thread
+    accountEmail:     string    # which account this conversation belongs to
+    cwd:               string    # working directory (for dev-tool transcripts)
+    gitBranch:        string    # git branch at the time of the conversation
+  relations:
+    platform:          product
+    participant:       actor[]   # participants — people, agents, or organizations
+    message:           message[]
+    in:                folder    # directory this conversation happened in

@@ -1,0 +1,11 @@
+# An online community — a subreddit, Facebook group, or similar.
+#
+# Example sources: Reddit, Facebook
+community:
+  plural: communities
+  identity: [platform, id]
+  subtitle: text
+  fields:
+    privacy:           string    # public, private, closed
+  relations:
+    platform:          product

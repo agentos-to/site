@@ -1,0 +1,10 @@
+# A group or community — online group, reading group, etc.
+#
+# Example sources: Goodreads
+group:
+  plural: groups
+  identity: [platform, id]
+  subtitle: category
+  fields:
+    memberCount:      integer
+    category:          string

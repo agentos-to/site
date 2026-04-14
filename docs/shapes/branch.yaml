@@ -1,0 +1,15 @@
+# A git branch.
+#
+# Example sources: git
+branch:
+  plural: branches
+  subtitle: commit
+  fields:
+    commit:            string    # HEAD commit hash
+    upstream:          string    # remote tracking branch
+    ahead:             integer
+    behind:            integer
+    isCurrent:        boolean
+    isRemote:         boolean
+  relations:
+    repository:        repository

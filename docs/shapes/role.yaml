@@ -1,0 +1,16 @@
+# A person's position at an organization (job title, board seat, etc.).
+# Links a person to an organization with a time range.
+#
+# Example sources: Apple Contacts, LinkedIn (via enrichment)
+role:
+  plural: roles
+  subtitle: name
+  fields:
+    title:             string
+    department:        string
+    roleType:         string    # employment, board, advisor, contractor, etc.
+    startDate:        datetime
+    endDate:          datetime
+  relations:
+    person:            person
+    organization:      organization

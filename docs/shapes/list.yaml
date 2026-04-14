@@ -1,0 +1,16 @@
+# A generic collection of items. Base type for shelf (books) and playlist (videos).
+#
+# Example sources: Goodreads (via shelf), YouTube (via playlist)
+list:
+  plural: lists
+  identity: [platform, id]
+  fields:
+    listId:           string    # platform list ID (may differ from graph id)
+    privacy:           string
+    listType:         string
+    isDefault:        boolean   # platform-created list (e.g. "Watch Later")
+    isPublic:         boolean
+  relations:
+    platform:          product
+    belongsTo:        account   # who owns this list
+    contains:          product[]

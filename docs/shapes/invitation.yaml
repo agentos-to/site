@@ -1,0 +1,36 @@
+# An invitation to join something — an organization, a workspace, a team, a
+# calendar event. The universal "you're invited" primitive.
+#
+# Invitations have a lifecycle: pending → accepted / declined / revoked / expired.
+# They cross platforms: Greptile org invites, GitHub org invites, Slack workspace
+# invites, Google Calendar event invites, Linear team invites — all the same shape.
+#
+# Identity: [platform, id] — one node per platform+invite combo. The id is
+# typically the invite token or a platform-specific invite id.
+#
+# invitationType is an open vocabulary — skills set whatever makes sense:
+# "organization", "workspace", "team", "repository", "event", "channel", etc.
+#
+# Standard fields (inherited): id, name, url, image, published, content
+# published = when the invitation was created/sent.
+#
+# Example sources: Greptile, GitHub, Slack, Google Calendar, Linear
+invitation:
+  plural: invitations
+  identity: [platform, id]
+  subtitle: invitationType
+  fields:
+    invitationType:   string    # organization, workspace, team, event, channel, etc.
+    email:             string    # target email address (if email-based invite)
+    role:              string    # role being offered: admin, member, viewer, etc.
+    status:            string    # pending, accepted, declined, revoked, expired
+    token:             string    # invite token / link token (if applicable)
+    expiresAt:        datetime  # when the invite expires (if it does)
+    acceptedAt:       datetime  # when it was accepted
+    revokedAt:        datetime  # when it was revoked
+    message:           text      # optional personal message attached to the invite
+  relations:
+    inviter:           account   # who sent the invite (the account that created it)
+    invitee:           account   # who is being invited (may not exist yet — email-only)
+    organization:      organization  # the org/workspace being invited into
+    platform:          product   # the service this invite lives on

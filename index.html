@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AgentOS — a local operating system for human–AI collaboration</title>
+  <meta name="description" content="A local operating system for human-AI collaboration, built for agents first. Inspired by Licklider and Vannevar Bush. Research project, not a product." />
+  <link rel="icon" href="/docs/favicon.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --fg: #e8e8ee;
+      --muted: #8b8b98;
+      --accent: #c9b5ff;
+      --warn: #ffb84d;
+      --warn-bg: #2a1d07;
+      --border: #22222c;
+      --code-bg: #141420;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .banner {
+      background: var(--warn-bg);
+      color: var(--warn);
+      border-bottom: 1px solid #3a2a10;
+      padding: 10px 24px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 72px 24px 96px;
+    }
+    h1 {
+      font-size: clamp(32px, 6vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 20px;
+      font-weight: 600;
+    }
+    h1 .accent { color: var(--accent); }
+    .lede {
+      font-size: 20px;
+      color: var(--muted);
+      margin: 0 0 40px;
+      line-height: 1.5;
+    }
+    h2 {
+      font-size: 22px;
+      margin: 48px 0 16px;
+      letter-spacing: -0.01em;
+      font-weight: 600;
+    }
+    p { margin: 0 0 16px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code {
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font: 14px ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: #d4c7ff;
+    }
+    .sdks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0 8px;
+    }
+    @media (max-width: 560px) { .sdks { grid-template-columns: 1fr; } }
+    .sdk {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      background: #101018;
+    }
+    .sdk h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .sdk .lang {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0 0 10px;
+    }
+    .sdk p { margin: 0 0 12px; font-size: 14px; color: var(--muted); line-height: 1.5; }
+    .sdk a { font-size: 14px; }
+    .repos {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .repos li {
+      padding: 10px 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 16px;
+      align-items: baseline;
+    }
+    .repos li:last-child { border-bottom: 1px solid var(--border); }
+    .repos .name {
+      font: 14px ui-monospace, SFMono-Regular, Menlo, monospace;
+      min-width: 80px;
+    }
+    .repos .what { color: var(--muted); font-size: 14px; }
+    footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    footer a { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    Beta research project. Known security issues. Not for production use.
+  </div>
+  <main>
+    <h1>AgentOS <span class="accent">—</span> a local operating system for human–AI collaboration</h1>
+    <p class="lede">
+      Built for agents first. Inspired by J.C.R. Licklider (human–computer
+      symbiosis) and Vannevar Bush (the Memex). Your data stays on your machine.
+    </p>
+
+    <h2>What it is</h2>
+    <p>
+      A local engine that runs a personal knowledge graph and speaks
+      <a href="https://modelcontextprotocol.io/">MCP</a>, so any MCP-capable
+      agent (Claude Code, Cursor, etc.) can use it as its tool surface.
+      Skills connect the engine to services — GitHub, Google, iMessage, your
+      browser. Apps render optional UIs on top of the graph.
+    </p>
+    <p>
+      The engine is a generic entity-and-relationship runtime. Everything
+      service-specific lives in skills and shapes.
+    </p>
+
+    <h2>Who it's for</h2>
+    <p>
+      Right now: nobody. This is a research project, pre-release, with known
+      security issues. If you're a researcher interested in human–agent
+      collaboration, the architecture may be worth reading. Everyone else
+      should wait.
+    </p>
+
+    <h2>Two SDKs</h2>
+    <div class="sdks">
+      <div class="sdk">
+        <h3>Skills SDK</h3>
+        <p class="lang">Python</p>
+        <p>Write an adapter — connect the engine to any service, expose agent tools.</p>
+        <a href="/docs/skills/">Read the guide →</a>
+      </div>
+      <div class="sdk">
+        <h3>Apps SDK</h3>
+        <p class="lang">TypeScript</p>
+        <p>Write a UI — React components rendered by the engine's optional GUI layer.</p>
+        <a href="/docs/">Docs →</a>
+      </div>
+    </div>
+
+    <h2>Repos</h2>
+    <ul class="repos">
+      <li><span class="name"><a href="https://github.com/agentos-to/core">core</a></span><span class="what">Engine, CLI, MCP server — Rust</span></li>
+      <li><span class="name"><a href="https://github.com/agentos-to/skills">skills</a></span><span class="what">Skills + Python SDK</span></li>
+      <li><span class="name"><a href="https://github.com/agentos-to/apps">apps</a></span><span class="what">Apps + TypeScript SDK + React components</span></li>
+      <li><span class="name"><a href="https://github.com/agentos-to/site">site</a></span><span class="what">This landing page + the docs at <a href="/docs/">/docs/</a></span></li>
+    </ul>
+
+    <footer>
+      <p>
+        <a href="/docs/">Docs</a> ·
+        <a href="https://github.com/agentos-to">GitHub</a>
+      </p>
+      <p>MIT licensed. No users. No warranty. No legacy, no redirects, no fallbacks.</p>
+    </footer>
+  </main>
+</body>
+</html>
