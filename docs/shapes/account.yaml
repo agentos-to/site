@@ -4,8 +4,6 @@
 # Identity: [issuer, identifier] — one node per platform+handle combo.
 # issuer = platform domain (e.g. "github.com", "gmail.com")
 # identifier = platform-specific handle (e.g. "joecontini", "joe@adavia.com")
-#
-# Example sources: GitHub, Gmail, WhatsApp, iMessage, Reddit, Hacker News, PostHog
 account:
   plural: accounts
   identity: [issuer, identifier]

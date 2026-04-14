@@ -20,8 +20,6 @@ Costco delivery (Sat 9:30a-7p) — route_type: delivery, store as origin
 GTFS alignment: GTFS "route" = this shape. GTFS "trip" = our trip shape.
 GTFS "stop_times" = our leg origins/destinations.
 
-Example sources: future (GTFS, flight timetables, Uber Eats store hours)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `routes` |
@@ -71,7 +69,7 @@ From [`schedule`](/docs/shapes/reference/schedule/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[GTFS routes.txt](https://gtfs.org/documentation/schedule/reference/#routestxt)** — Direct source. Our routeType maps to GTFS route_type (integer vocab); routeNumber = route_short_name; color = route_color.
 - **[schema.org/BusOrCoach + FlightRoute](https://schema.org/BusOrCoach)** — Per-mode peers. Our stops[]/origin/destination are modeled separately per mode in schema.org.

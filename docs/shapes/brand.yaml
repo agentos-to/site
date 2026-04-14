@@ -1,6 +1,4 @@
 # A consumer brand. Extracted from product listings.
-#
-# Example sources: Amazon
 brand:
   plural: brands
   identity: url

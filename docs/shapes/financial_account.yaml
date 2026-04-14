@@ -1,8 +1,6 @@
 # A financial account — bank account, credit card, or investment account.
 # Inherits platform identity fields from account. Financial-specific fields
 # (balance, credit limit, card type) live here, not on the generic account shape.
-#
-# Example sources: Chase, Copilot Money
 financial_account:
   plural: financial_accounts
   also: [account]

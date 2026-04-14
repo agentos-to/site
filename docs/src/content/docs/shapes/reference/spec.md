@@ -9,8 +9,6 @@ A spec — a design document describing work to be done.
 Specs are markdown files with YAML frontmatter in docs/specs/.
 State is derived from location: docs/specs/ = active, docs/specs/done/ = done.
 
-Example sources: filesystem (docs/specs/)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `specs` |
@@ -66,7 +64,7 @@ From [`task`](/docs/shapes/reference/task/) · [`file`](/docs/shapes/reference/f
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[IETF RFC process](https://www.ietf.org/standards/rfcs/)** — Canonical "design doc with problem statement and success criteria" lineage. Our problem/successCriteria mirror the RFC structure.
 - **[Architectural Decision Records (ADR / MADR)](https://adr.github.io/)** — Modern in-repo equivalent. supersedes[] matches ADR's "Supersedes" link; dependsOn[] has no direct ADR peer.

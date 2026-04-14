@@ -1,6 +1,4 @@
 # An airport. Created from flight search results and linked to flights.
-#
-# Example sources: SerpAPI (flight search)
 airport:
   plural: airports
   identity: iataCode

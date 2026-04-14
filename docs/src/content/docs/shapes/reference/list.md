@@ -7,8 +7,6 @@ sidebar:
 
 A generic collection of items. Base type for shelf (books) and playlist (videos).
 
-Example sources: Goodreads (via shelf), YouTube (via playlist)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `lists` |
@@ -39,12 +37,11 @@ Example sources: Goodreads (via shelf), YouTube (via playlist)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/ItemList](https://schema.org/ItemList)** — Our listType ≈ itemListOrder; contains ≈ itemListElement; isPublic ≈ publicAccess.
 - **[ActivityStreams 2.0 Collection / OrderedCollection](https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection)** — Our contains[] ≈ items; isDefault has no AS2 peer (platform-level concept).
 
 ## Skills that produce this shape
 
-- [amazon](/docs/skills/reference/logistics/amazon/) — `list_lists`
-- [amazon](/docs/skills/reference/logistics/amazon/) — `get_list`
+- [amazon](/docs/skills/reference/logistics/amazon/) — `list_lists`, `get_list`

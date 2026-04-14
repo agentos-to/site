@@ -12,8 +12,6 @@
 #
 # GTFS alignment: GTFS "route" = this shape. GTFS "trip" = our trip shape.
 # GTFS "stop_times" = our leg origins/destinations.
-#
-# Example sources: future (GTFS, flight timetables, Uber Eats store hours)
 route:
   plural: routes
   subtitle: routeNumber

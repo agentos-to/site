@@ -12,8 +12,6 @@ Not to be confused with a meeting (1:1 or small group, calendar-driven)
 or a conference (large, multi-track). A class has an instructor, a fixed
 capacity, and is typically part of a recurring schedule.
 
-Example sources: Austin Boulder Project, Mindbody, future gym/studio integrations
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `classes` |
@@ -67,7 +65,7 @@ From [`event`](/docs/shapes/reference/event/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/EducationEvent](https://schema.org/EducationEvent)** — schema.org's closest peer for a bookable class. Our instructor = performer; capacity = maximumAttendeeCapacity; spotsRemaining ≈ remainingAttendeeCapacity.
 - **[schema.org/ExerciseAction](https://schema.org/ExerciseAction)** — Fitness-specific vocabulary: activityType ≈ exerciseType; venue matches directly as location.

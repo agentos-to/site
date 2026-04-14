@@ -8,8 +8,6 @@ sidebar:
 A company, nonprofit, or other organization. Organizations are actors — they
 can be attributed as "who" in the graph alongside people and agents.
 
-Example sources: extracted from various skills (email domains, product manufacturers, etc.)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `organizations` |
@@ -47,7 +45,7 @@ From [`actor`](/docs/shapes/reference/actor/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Organization](https://schema.org/Organization)** — Our industry ≈ naics/isicV4 (loosely); founded = foundingDate; member[] = member; headquarters = location (or subOrganization with a Place).
 - **[vCard 4.0 KIND=org (RFC 6350)](https://datatracker.ietf.org/doc/html/rfc6350)** — Organization-as-contact. Our website/domain ≈ URL; headquarters ≈ ADR. Thinner than schema.org for industry/founded.

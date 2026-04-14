@@ -8,8 +8,6 @@ sidebar:
 An immutable change event — a graph mutation, skill run, search, or load.
 Fields for what happened, relations for who/what/where.
 
-Example sources: agentOS engine (all tool calls)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `activities` |
@@ -35,7 +33,7 @@ Example sources: agentOS engine (all tool calls)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[ActivityStreams 2.0](https://www.w3.org/TR/activitystreams-core/)** — AS2's Create/Update/Delete activities match our action values. We diverge by tracking changedKeys explicitly instead of encoding full object replacement.
 - **[OpenTelemetry Traces](https://opentelemetry.io/docs/concepts/signals/traces/)** — Closest fit for toolName/duration/success — span-shaped. Our activity is closer to a span event than a full span.

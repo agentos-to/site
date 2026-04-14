@@ -9,8 +9,6 @@ A file — source code, attachment, download, or any discrete digital artifact.
 Base type for image. Covers repo files (GitHub, Cursor), email attachments
 (Mimestream), filesystem entries, and downloads.
 
-Example sources: GitHub, Cursor, Mimestream, filesystem
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `files` |
@@ -46,7 +44,7 @@ Example sources: GitHub, Cursor, Mimestream, filesystem
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[IANA Media Types (RFC 6838)](https://datatracker.ietf.org/doc/html/rfc6838)** — Our mimeType follows type/subtype syntax (text/plain, application/pdf). Canonical source for format identification.
 - **[schema.org/DigitalDocument](https://schema.org/DigitalDocument)** — Our filename ≈ name; size ≈ contentSize; mimeType ≈ encodingFormat.
@@ -55,6 +53,5 @@ External standards this shape draws from or aligns with. See [Shape design princ
 ## Skills that produce this shape
 
 - [cursor](/docs/skills/reference/dev/cursor/) — `op_pull_document`
-- [github](/docs/skills/reference/dev/github/) — `list_documents`
-- [github](/docs/skills/reference/dev/github/) — `read_document`
+- [github](/docs/skills/reference/dev/github/) — `list_documents`, `read_document`
 - [gmail](/docs/skills/reference/comms/gmail/) — `get_attachment`

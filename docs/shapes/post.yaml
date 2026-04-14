@@ -1,8 +1,6 @@
 # A piece of published content — a Reddit submission, HN story, YouTube upload,
 # tweet, etc. Posts can contain media (videos, images, files). A comment is
 # just a post that replies_to another post. Reviews extend post via `also`.
-#
-# Example sources: Reddit, Hacker News, YouTube, Moltbook
 post:
   plural: posts
   identity: [platform, id]

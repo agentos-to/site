@@ -1,7 +1,5 @@
 # A product analytics action — a single user interaction tracked by PostHog.
 # NOT a life event — see event.yaml for births, marriages, etc.
-#
-# Example sources: PostHog
 analytics_event:
   plural: analytics_events
   fields:

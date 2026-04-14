@@ -1,7 +1,5 @@
 # A storage volume — local disk, external drive, network share, or cloud drive.
 # Distinct from folder: volumes have capacity, filesystem type, and mount state.
-#
-# Example sources: macos-control (local volumes), future: Google Drive, Dropbox, iCloud
 volume:
   plural: volumes
   subtitle: path

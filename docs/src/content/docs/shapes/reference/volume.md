@@ -8,8 +8,6 @@ sidebar:
 A storage volume — local disk, external drive, network share, or cloud drive.
 Distinct from folder: volumes have capacity, filesystem type, and mount state.
 
-Example sources: macos-control (local volumes), future: Google Drive, Dropbox, iCloud
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `volumes` |
@@ -36,7 +34,7 @@ Example sources: macos-control (local volumes), future: Google Drive, Dropbox, i
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[POSIX / Single Unix Specification (mount)](https://pubs.opengroup.org/onlinepubs/9699919799/functions/mount.html)** — Our path = mount point; filesystem ≈ fs type; readOnly ≈ ro mount option.
 - **[macOS DiskArbitration + diskutil](https://ss64.com/osx/diskutil.html)** — Practical source. Our totalBytes/freeBytes/usedBytes/removable/ volumeType match diskutil info output.

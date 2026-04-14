@@ -2,8 +2,6 @@
 # Base type for reports, manuscripts, briefs, whitepapers, analyses.
 # article, note, and webpage are siblings (not children) for now; they may
 # gain also: [document] in a future migration once the shape stabilizes.
-#
-# Example sources: filesystem, agent output, skill results
 document:
   plural: documents
   subtitle: author

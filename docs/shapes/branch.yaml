@@ -1,6 +1,4 @@
 # A git branch.
-#
-# Example sources: git
 branch:
   plural: branches
   subtitle: commit

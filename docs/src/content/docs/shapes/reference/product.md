@@ -8,8 +8,6 @@ sidebar:
 A purchasable item. Base type for book and aircraft.
 Cross-skill: Amazon products, Uber Eats grocery items, any retail catalog.
 
-Example sources: Amazon, Uber Eats (grocery), Open Food Facts (enrichment)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `products` |
@@ -59,7 +57,7 @@ Example sources: Amazon, Uber Eats (grocery), Open Food Facts (enrichment)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Product + Offer](https://schema.org/Product)** — Product on schema.org, price/priceAmount/currency/availability on nested Offer. Our sku/barcode map to sku/gtin13/gtin12; brand/manufacturer match directly.
 - **[GS1 GTIN (UPC/EAN)](https://www.gs1.org/standards/id-keys/gtin)** — Canonical barcode standard. Our barcode field is a GTIN-8/12/13/14; GS1 also underlies schema.org's gtin* properties.
@@ -67,7 +65,5 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [uber](/docs/skills/reference/logistics/uber/) — `get_item_customizations`
-- [uber](/docs/skills/reference/logistics/uber/) — `search_products`
-- [amazon](/docs/skills/reference/logistics/amazon/) — `search_products`, `buy_again`
-- [amazon](/docs/skills/reference/logistics/amazon/) — `get_product`
+- [uber](/docs/skills/reference/logistics/uber/) — `get_item_customizations`, `search_products`
+- [amazon](/docs/skills/reference/logistics/amazon/) — `search_products`, `buy_again`, `get_product`

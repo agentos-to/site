@@ -1,6 +1,4 @@
 # A bookshelf. Shelves are lists that contain books instead of generic products.
-#
-# Example sources: Goodreads
 shelf:
   plural: shelves
   also: [list]        # a shelf is also a list

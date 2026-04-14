@@ -8,8 +8,6 @@ sidebar:
 A purchase order. Contains products and tracks delivery.
 Used for both e-commerce (Amazon) and delivery (Uber Eats) orders.
 
-Example sources: Amazon, Uber Eats
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `orders` |
@@ -51,7 +49,7 @@ Example sources: Amazon, Uber Eats
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Order](https://schema.org/Order)** — Our orderId = orderNumber; orderDate = orderDate; total = totalPaymentDue; status = orderStatus; shippingAddress = orderDelivery.
 - **[schema.org/OrderStatus (enum)](https://schema.org/OrderStatus)** — Our status values (placed, confirmed, delivering, completed, cancelled) map to OrderProcessing/OrderInTransit/OrderDelivered/ OrderCancelled.
@@ -59,7 +57,5 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [uber](/docs/skills/reference/logistics/uber/) — `list_deliveries`, `get_cart`
-- [uber](/docs/skills/reference/logistics/uber/) — `get_delivery`, `get_messages`, `add_to_cart`, `checkout`, `track_delivery`
-- [amazon](/docs/skills/reference/logistics/amazon/) — `list_orders`
-- [amazon](/docs/skills/reference/logistics/amazon/) — `get_order`
+- [uber](/docs/skills/reference/logistics/uber/) — `list_deliveries`, `get_cart`, `get_delivery`, `get_messages`, `add_to_cart`, `checkout`, `track_delivery`
+- [amazon](/docs/skills/reference/logistics/amazon/) — `list_orders`, `get_order`

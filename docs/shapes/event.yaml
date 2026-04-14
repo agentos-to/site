@@ -6,8 +6,6 @@
 # Standard fields (inherited): id, name, url, image, published, content
 # published is when the event was *posted/announced* — NOT when it happens.
 # Use startDate / endDate for the actual event timing.
-#
-# Example sources: Google Calendar, Apple Calendar, Partiful, Luma, Austin Boulder Project
 event:
   plural: events
   identity: [platform, id]

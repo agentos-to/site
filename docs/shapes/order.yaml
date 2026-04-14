@@ -1,7 +1,5 @@
 # A purchase order. Contains products and tracks delivery.
 # Used for both e-commerce (Amazon) and delivery (Uber Eats) orders.
-#
-# Example sources: Amazon, Uber Eats
 order:
   plural: orders
   identity: [platform, orderId]

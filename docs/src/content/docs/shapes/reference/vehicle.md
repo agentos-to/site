@@ -14,8 +14,6 @@ Ownership history: person --owns--> vehicle (edge with start/end dates)
 Purchase: a transaction between buyer, seller, and vehicle
 Registration: vehicle registered in a jurisdiction (edge with plate, dates)
 
-Example sources: manual entry, document extraction
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `vehicles` |
@@ -79,7 +77,7 @@ From [`product`](/docs/shapes/reference/product/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[ISO 3779 — VIN (Vehicle Identification Number)](https://www.iso.org/standard/52200.html)** — Canonical 17-char VIN. Our vin field uses ISO 3779 syntax (WMI + VDS + VIS).
 - **[schema.org/Vehicle](https://schema.org/Vehicle)** — Our year ≈ vehicleModelDate; model = model; fuelType = fuelType; bodyType = bodyType; drivetrain = driveWheelConfiguration.

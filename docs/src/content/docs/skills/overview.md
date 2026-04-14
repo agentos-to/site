@@ -441,7 +441,7 @@ Python is snake_case. Data going into the graph is camelCase. That's it.
 
 ## Shape conventions
 
-Shapes define the structure of entities. See the [Ontology overview](/docs/ontology/overview/) for the full reference (design principles, the `also` inheritance chain, `_tag` polymorphism, identity rules).
+Shapes define the structure of entities. See the [Ontology overview](/docs/shapes/overview/) for the full reference (design principles, the `also` inheritance chain, `_tag` polymorphism, identity rules).
 
 **Standard fields** (available on all shapes):
 - `id` (string) — unique identifier

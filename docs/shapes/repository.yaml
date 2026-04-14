@@ -1,6 +1,4 @@
 # A source code repository.
-#
-# Example sources: GitHub
 repository:
   plural: repositories
   identity_any: [path, url]

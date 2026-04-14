@@ -8,8 +8,6 @@ sidebar:
 A flight — a specific leg of air travel. A flight IS a leg.
 A nonstop itinerary has one flight. A connection has multiple flights.
 
-Example sources: SerpAPI (Google Flights)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `flights` |
@@ -60,7 +58,7 @@ From [`leg`](/docs/shapes/reference/leg/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[IATA Resolution 753 / Flight Codeshare](https://www.iata.org/en/programs/ops-infra/baggage/baggage-tracking/)** — Our flightNumber follows IATA carrier-code + digits format (UA 1234). Canonical for cross-carrier flight identity.
 - **[Duffel / IATA NDC Slice+Segment](https://duffel.com/docs/api/v2/overview)** — NDC models a trip (slice) as multiple flights (segments). Our flight shape = NDC segment; our trip = NDC slice.

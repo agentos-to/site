@@ -1,6 +1,4 @@
 # A financial transaction — credit card charge, bank transfer, etc.
-#
-# Example sources: Chase, Copilot Money
 transaction:
   plural: transactions
   identity: [platform, id]

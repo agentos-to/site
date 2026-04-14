@@ -1,8 +1,6 @@
 # A spec — a design document describing work to be done.
 # Specs are markdown files with YAML frontmatter in docs/specs/.
 # State is derived from location: docs/specs/ = active, docs/specs/done/ = done.
-#
-# Example sources: filesystem (docs/specs/)
 spec:
   plural: specs
   subtitle: state

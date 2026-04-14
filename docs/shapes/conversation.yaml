@@ -1,7 +1,5 @@
 # A message thread — an iMessage chat, WhatsApp group, email thread, Claude
 # transcript, etc. Contains messages and links to participants.
-#
-# Example sources: iMessage, WhatsApp, Gmail, Claude Code
 conversation:
   plural: conversations
   identity: [platform, id]

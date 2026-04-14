@@ -2,8 +2,6 @@
 # Captures the tool name, input arguments, and the result that came back.
 # Tool calls are first-class entities so you can query "every time Claude
 # ran Grep on this repo" or "every tool call that errored."
-#
-# Example sources: Claude Code transcripts, OpenAI function-calling logs,
 # any agent framework that records tool use.
 tool_call:
   plural: tool_calls

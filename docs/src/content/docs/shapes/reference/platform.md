@@ -12,8 +12,6 @@ produces data, and is the context for entity identity.
 Not all skills connect to platforms — some connect to plain software
 or products. The "platform" tag is for services that host user data.
 
-Example sources: seeded by skills at load time
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `platforms` |
@@ -71,7 +69,7 @@ From [`software`](/docs/shapes/reference/software/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/SoftwareApplication](https://schema.org/SoftwareApplication)** — Our website ≈ url; platformType ≈ applicationCategory.
 - **[schema.org/WebSite](https://schema.org/WebSite)** — A platform often IS a website. Our website field is canonical identity — matches schema.org's url/sameAs.

@@ -11,8 +11,6 @@
 #
 # The `produces` relation links a schedule to what each occurrence creates:
 # a trip (transport), an event (class/meeting), or nothing typed (just runs a prompt).
-#
-# Example sources: Claude Code (cron agents), GTFS (transit), Uber Eats (store hours),
 #          future: flight timetables, gym class schedules
 schedule:
   plural: schedules

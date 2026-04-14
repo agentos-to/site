@@ -1,7 +1,5 @@
 # A purchasable item. Base type for book and aircraft.
 # Cross-skill: Amazon products, Uber Eats grocery items, any retail catalog.
-#
-# Example sources: Amazon, Uber Eats (grocery), Open Food Facts (enrichment)
 product:
   plural: products
   subtitle: brand

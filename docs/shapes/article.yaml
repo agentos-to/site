@@ -5,8 +5,6 @@
 #
 # article and post are siblings, not parent-child. When something is both
 # (a modern blog post with comments), it gets both tags.
-#
-# Example sources: Exa (web articles), Firecrawl, future RSS integration
 article:
   plural: articles
   subtitle: author

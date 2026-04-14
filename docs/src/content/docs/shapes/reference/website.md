@@ -8,8 +8,6 @@ sidebar:
 A published website (not a single page — see webpage for that).
 Websites are created/managed by the here.now publishing skill.
 
-Example sources: here.now
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `websites` |
@@ -36,7 +34,7 @@ Example sources: here.now
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/WebSite](https://schema.org/WebSite)** — Our url-as-identity matches; ownedBy ≈ publisher; domain relation ≈ url host.
 - **[WHOIS (RFC 3912)](https://datatracker.ietf.org/doc/html/rfc3912)** — Our expiresAt/domain source from WHOIS records; claimToken has no direct WHOIS peer (HERE.NOW-specific).
@@ -44,5 +42,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [here-now](/docs/skills/reference/hosting/here-now/) — `list_websites`
-- [here-now](/docs/skills/reference/hosting/here-now/) — `op_create_website`, `op_update_website`
+- [here-now](/docs/skills/reference/hosting/here-now/) — `list_websites`, `op_create_website`, `op_update_website`

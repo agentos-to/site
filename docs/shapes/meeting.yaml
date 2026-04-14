@@ -1,7 +1,5 @@
 # A calendar meeting — an event with virtual meeting details and transcripts.
 # Querying by "event" returns meetings too.
-#
-# Example sources: Google Calendar, Apple Calendar, Granola
 meeting:
   plural: meetings
   subtitle: location

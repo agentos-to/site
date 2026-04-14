@@ -8,8 +8,6 @@ sidebar:
 A filesystem directory or workspace. Used to track project roots,
 working directories, and document collections.
 
-Example sources: agentOS engine (session working directories), filesystem
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `folders` |
@@ -33,7 +31,7 @@ Example sources: agentOS engine (session working directories), filesystem
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[POSIX / Single Unix Specification](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html)** — Our path is a POSIX pathname. hasReadme is AgentOS-specific (README convention from repos).
 - **[schema.org/DataCatalog](https://schema.org/DataCatalog)** — Folder-as-collection loose fit. contains(file[]) ≈ hasPart.

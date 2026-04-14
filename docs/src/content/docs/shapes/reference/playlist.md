@@ -7,8 +7,6 @@ sidebar:
 
 A video playlist. Playlists are lists that contain videos instead of products.
 
-Example sources: YouTube
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `playlists` |
@@ -40,7 +38,7 @@ From [`list`](/docs/shapes/reference/list/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/MusicPlaylist / ItemList](https://schema.org/MusicPlaylist)** — Our contains(video[]) ≈ track/itemListElement. We generalize beyond music to any ordered media list.
 - **[YouTube Data API — Playlist](https://developers.google.com/youtube/v3/docs/playlists)** — Practical source. Playlist = ordered Video collection — inherits list identity semantics.

@@ -3,8 +3,6 @@
 #
 # A nonstop flight is one leg. A connecting flight has one leg per segment.
 # A direct Uber ride is one leg. A multi-stop Uber ride has one leg per stop pair.
-#
-# Example sources: SerpAPI (flight segments), Uber (ride waypoints)
 leg:
   plural: legs
   subtitle: flightNumber

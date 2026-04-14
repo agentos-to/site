@@ -13,8 +13,6 @@
 #
 # Standard fields (inherited): id, name, url, image, published, content
 # published = when the invitation was created/sent.
-#
-# Example sources: Greptile, GitHub, Slack, Google Calendar, Linear
 invitation:
   plural: invitations
   identity: [platform, id]

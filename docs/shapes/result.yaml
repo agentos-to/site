@@ -1,8 +1,6 @@
 # A search result — a pointer to something found. Not the thing itself.
 # A search might return webpages, products, people, articles — anything.
 # The result just carries search-specific metadata (when indexed, what type).
-#
-# Example sources: Brave Search, Exa, Moltbook
 result:
   plural: results
   subtitle: url

@@ -1,6 +1,4 @@
 # An AI model — LLM, embedding model, or other ML model.
-#
-# Example sources: Ollama, OpenRouter, Anthropic API
 model:
   plural: models
   identity: [provider, name]

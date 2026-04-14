@@ -7,8 +7,6 @@ sidebar:
 
 A bookshelf. Shelves are lists that contain books instead of generic products.
 
-Example sources: Goodreads
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `shelves` |
@@ -45,7 +43,7 @@ From [`list`](/docs/shapes/reference/list/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[Goodreads API — Shelves](https://www.goodreads.com/api)** — Direct source. Our isExclusive maps to Goodreads' "exclusive shelves" (read, to-read, currently-reading).
 - **[schema.org/ItemList (bookshelf)](https://schema.org/ItemList)** — Generic collection peer. contains(book[]) ≈ itemListElement.

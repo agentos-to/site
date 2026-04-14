@@ -1,6 +1,4 @@
 # A calendar — container for events.
-#
-# Example sources: Google Calendar, Apple Calendar
 calendar:
   plural: calendars
   identity: [platform, calendarId]

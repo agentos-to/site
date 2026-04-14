@@ -1,7 +1,5 @@
 # A purchasable offer — typically a flight itinerary with a price.
 # An offer wraps one or more flights into a bookable unit.
-#
-# Example sources: SerpAPI (Google Flights)
 offer:
   plural: offers
   fields:

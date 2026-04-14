@@ -7,8 +7,6 @@ sidebar:
 
 A financial transaction — credit card charge, bank transfer, etc.
 
-Example sources: Chase, Copilot Money
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `transactions` |
@@ -38,7 +36,7 @@ Example sources: Chase, Copilot Money
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[OFX (Open Financial Exchange) STMTTRN](https://financialdataexchange.org/ofx)** — Direct source. Our amount/type/postingDate/balance map to STMTTRN TRNAMT/TRNTYPE/DTPOSTED/BALAMT.
 - **[ISO 20022 payments messaging](https://www.iso20022.org/)** — Modern bank-messaging. Our currency = Ccy; category ≈ purpose code; details ≈ RemittanceInformation.

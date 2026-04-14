@@ -2,8 +2,6 @@
 # Engagement metrics (views, likes, comments) belong on the post that
 # contains this video, not on the video itself. A video on your hard
 # drive has no likes.
-#
-# Example sources: YouTube (via post), local files
 video:
   plural: videos
   subtitle: author

@@ -14,8 +14,6 @@ Users can create, modify, or delete any shortcut.
 Structural input (URLs, domains, absolute paths) is handled by the normalizer
 before shortcut lookup — shortcuts don't need pattern matching.
 
-Example sources: boot seed, skill registration, user creation
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `shortcuts` |
@@ -39,7 +37,7 @@ Example sources: boot seed, skill registration, user creation
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[Unix shell aliases (bash/zsh)](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/alias.html)** — Our name→target expansion follows the alias pattern. builtin vs user-created parallels shell builtins vs. rc-file aliases.
 - **[Vannevar Bush — "As We May Think" (1945, associative trails)](https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/)** — Named trails through the memex. Our named shortcut-to-URI mapping is a mechanized version of Bush's trail idea.

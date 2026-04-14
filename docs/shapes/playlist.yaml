@@ -1,6 +1,4 @@
 # A video playlist. Playlists are lists that contain videos instead of products.
-#
-# Example sources: YouTube
 playlist:
   plural: playlists
   subtitle: text

@@ -18,8 +18,7 @@ hero:
 
 - **[Introduction](/docs/introduction/what-is-agentos/)** — [what AgentOS is](/docs/introduction/what-is-agentos/), [the vision](/docs/introduction/vision/), [who it's for](/docs/introduction/two-users/), and [why local-first](/docs/introduction/local-first/).
 - **[Principles](/docs/principles/design-principles/)** — the [design principles](/docs/principles/design-principles/), [architectural laws](/docs/principles/architectural-laws/), and the practice of [agent empathy](/docs/principles/agent-empathy/).
-- **[Ontology](/docs/ontology/overview/)** — the [graph](/docs/ontology/memex-and-graph/) and how things are modeled. Shape design is [covered here](/docs/ontology/shape-design-principles/).
-- **[Shapes](/docs/shapes/)** — the ontology reference, every shape browsable.
+- **[Shapes](/docs/shapes/overview/)** — the ontology: [how shapes work](/docs/shapes/overview/), the [memex graph](/docs/shapes/memex-and-graph/), [design principles](/docs/shapes/shape-design-principles/), and the [full reference](/docs/shapes/reference/).
 - **[Skills](/docs/skills/overview/)** — how to build skills, plus the full [skill catalog](/docs/skills/reference/).
 - **[Apps](/docs/apps/overview/)** — the optional GUI layer.
 - **[Research](/docs/research/ontology/relationship-modeling/)** — prior art on ontologies, platforms, identity, relationships, and PKM.

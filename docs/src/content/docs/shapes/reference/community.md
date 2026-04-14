@@ -7,8 +7,6 @@ sidebar:
 
 An online community — a subreddit, Facebook group, or similar.
 
-Example sources: Reddit, Facebook
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `communities` |
@@ -29,7 +27,7 @@ Example sources: Reddit, Facebook
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[ActivityPub Group Actor](https://www.w3.org/TR/activitypub/)** — AP Group Actor models shared-inbox communities (Lemmy, Kbin, Mbin). Our privacy ≈ audience/to visibility.
 - **[schema.org/Organization](https://schema.org/Organization)** — A community-as-organization is a loose fit; privacy has no direct schema.org property.
@@ -37,8 +35,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [moltbook](/docs/skills/reference/media/moltbook/) — `list_communities`
-- [moltbook](/docs/skills/reference/media/moltbook/) — `get_community`, `create_community`
+- [moltbook](/docs/skills/reference/media/moltbook/) — `list_communities`, `get_community`, `create_community`
 - [facebook](/docs/skills/reference/media/facebook/) — `get_community`
-- [reddit](/docs/skills/reference/media/reddit/) — `get_community`
-- [reddit](/docs/skills/reference/media/reddit/) — `search_communities`
+- [reddit](/docs/skills/reference/media/reddit/) — `get_community`, `search_communities`

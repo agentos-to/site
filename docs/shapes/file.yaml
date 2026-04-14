@@ -1,8 +1,6 @@
 # A file — source code, attachment, download, or any discrete digital artifact.
 # Base type for image. Covers repo files (GitHub, Cursor), email attachments
 # (Mimestream), filesystem entries, and downloads.
-#
-# Example sources: GitHub, Cursor, Mimestream, filesystem
 file:
   plural: files
   subtitle: path

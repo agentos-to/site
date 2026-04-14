@@ -5,8 +5,6 @@
 # Follows the Google Places / Mapbox model: a place IS the thing. A Costco
 # location is a place with feature_type "poi", hours, rating, and delivery.
 # The company (Costco Inc.) is an organization. The location is a place.
-#
-# Example sources: Apple Calendar, Amazon (shipping), Mapbox (geocoding)
 place:
   plural: places
   identity_any: [googlePlaceId, mapboxId]

@@ -8,8 +8,6 @@ sidebar:
 An MCP session — a client connected, made some calls, disconnected.
 One node per unique client+project+branch combo, updated on reconnection.
 
-Example sources: agentOS engine (MCP session registration)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `sessions` |
@@ -38,7 +36,7 @@ Example sources: agentOS engine (MCP session registration)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[Model Context Protocol (MCP) session](https://modelcontextprotocol.io/specification)** — Direct source. Our client/sessionType come from MCP's client/transport concepts (STDIO, HTTP+SSE).
 - **[OpenTelemetry Spans (root span ≈ session)](https://opentelemetry.io/docs/concepts/signals/traces/)** — Our startedAt/endedAt/messageCount/tokenCount align with span lifecycle + attributes in a trace context.
@@ -46,5 +44,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [cursor](/docs/skills/reference/dev/cursor/) — `op_list_sessions`, `op_backfill_session`
-- [cursor](/docs/skills/reference/dev/cursor/) — `op_get_session`
+- [cursor](/docs/skills/reference/dev/cursor/) — `op_list_sessions`, `op_backfill_session`, `op_get_session`

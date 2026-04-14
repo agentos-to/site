@@ -6,8 +6,6 @@
 #
 # Structural input (URLs, domains, absolute paths) is handled by the normalizer
 # before shortcut lookup — shortcuts don't need pattern matching.
-#
-# Example sources: boot seed, skill registration, user creation
 shortcut:
   plural: shortcuts
   identity: [name]

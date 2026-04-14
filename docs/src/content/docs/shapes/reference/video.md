@@ -10,8 +10,6 @@ Engagement metrics (views, likes, comments) belong on the post that
 contains this video, not on the video itself. A video on your hard
 drive has no likes.
 
-Example sources: YouTube (via post), local files
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `videos` |
@@ -58,7 +56,7 @@ From [`file`](/docs/shapes/reference/file/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/VideoObject](https://schema.org/VideoObject)** — Our durationMs ≈ duration (ISO 8601 period); resolution ≈ videoFrameSize; frameRate has no direct property; codec ≈ encodingFormat.
 - **[IANA Media Types (video/*)](https://www.iana.org/assignments/media-types/media-types.xhtml#video)** — Our codec values map to registered video/* media types (mp4, webm, ogg).
@@ -66,5 +64,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [youtube](/docs/skills/reference/media/youtube/) — `search_videos`, `search_recent_video`, `list_videos`
-- [youtube](/docs/skills/reference/media/youtube/) — `get_video`, `transcript_video`
+- [youtube](/docs/skills/reference/media/youtube/) — `search_videos`, `search_recent_video`, `list_videos`, `get_video`, `transcript_video`

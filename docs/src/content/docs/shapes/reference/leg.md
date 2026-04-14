@@ -11,8 +11,6 @@ boarding to alighting, pickup to dropoff. No transfers within a leg.
 A nonstop flight is one leg. A connecting flight has one leg per segment.
 A direct Uber ride is one leg. A multi-stop Uber ride has one leg per stop pair.
 
-Example sources: SerpAPI (flight segments), Uber (ride waypoints)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `legs` |
@@ -52,7 +50,7 @@ Example sources: SerpAPI (flight segments), Uber (ride waypoints)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[IATA NDC "segment"](https://www.iata.org/en/programs/airline-distribution/retailing/ndc/)** — NDC segment = our leg. flightNumber, departureTime, arrivalTime, cabinClass come straight from NDC OfferItem Segment.
 - **[GTFS stop_times.txt](https://gtfs.org/documentation/schedule/reference/#stop_timestxt)** — Transit leg model. Our sequence = stop_sequence; departureTime/ arrivalTime = arrival_time/departure_time.

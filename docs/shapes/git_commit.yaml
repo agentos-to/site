@@ -1,6 +1,4 @@
 # A git commit — a single point in version control history.
-#
-# Example sources: git skill
 git_commit:
   plural: git_commits
   subtitle: author

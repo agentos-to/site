@@ -1,7 +1,5 @@
 # An email message. Emails are also messages — querying by "message"
 # returns emails alongside WhatsApp, iMessage, etc.
-#
-# Example sources: Gmail, Mimestream
 # RFC headers (message_id, in_reply_to, references) enable threading.
 # Domain relations auto-extracted from sender/recipient addresses.
 email:

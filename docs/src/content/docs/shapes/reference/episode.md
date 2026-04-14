@@ -7,8 +7,6 @@ sidebar:
 
 A single episode of a podcast or show. Transcribable.
 
-Example sources: YouTube, future podcast skill
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `episodes` |
@@ -32,7 +30,7 @@ Example sources: YouTube, future podcast skill
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[Apple Podcasts RSS Extensions (itunes:episode)](https://help.apple.com/itc/podcasts_connect/#/itcb54353390)** — De-facto podcast metadata standard. Our episodeNumber/seasonNumber/ durationMs = itunes:episode/itunes:season/itunes:duration.
 - **[schema.org/PodcastEpisode](https://schema.org/PodcastEpisode)** — Our series ≈ partOfSeries (PodcastSeries); transcribe ≈ transcript; guest ≈ actor.

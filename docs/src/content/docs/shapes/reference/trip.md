@@ -16,8 +16,6 @@ SerpAPI result = trip        |  flights[] element = leg
 Schema.org Trip > subTrip    |  Uber ride = trip (1+ legs)
 Train journey = trip         |  each train boarded = leg
 
-Example sources: Uber (rides), Uber Eats (delivery), SerpAPI (flights)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `trips` |
@@ -61,7 +59,7 @@ Example sources: Uber (rides), Uber Eats (delivery), SerpAPI (flights)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Trip + subTrip](https://schema.org/Trip)** — Our origin/destination/departureTime/arrivalTime map exactly; legs[] ≈ subTrip or itinerary.
 - **[IATA NDC Slice (airline itineraries)](https://www.iata.org/en/programs/airline-distribution/retailing/ndc/)** — NDC slice = our trip; NDC segment = our leg. cabinClass, bookingToken come from NDC offer items.
@@ -69,5 +67,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [uber](/docs/skills/reference/logistics/uber/) — `list_trips`
-- [uber](/docs/skills/reference/logistics/uber/) — `get_trip`
+- [uber](/docs/skills/reference/logistics/uber/) — `list_trips`, `get_trip`

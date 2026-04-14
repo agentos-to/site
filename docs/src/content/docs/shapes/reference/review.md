@@ -7,8 +7,6 @@ sidebar:
 
 A user review of a product. Reviews are also posts, so they carry engagement metrics.
 
-Example sources: Goodreads, Amazon
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `reviews` |
@@ -51,7 +49,7 @@ From [`post`](/docs/shapes/reference/post/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Review](https://schema.org/Review)** — Our rating ≈ reviewRating.ratingValue; ratingMax ≈ bestRating; reviews = itemReviewed; isVerified has no direct property (extension).
 - **[schema.org/AggregateRating](https://schema.org/AggregateRating)** — For product review aggregates. Our rating/ratingMax map to ratingValue/bestRating; reviewCount is inherited when computed.

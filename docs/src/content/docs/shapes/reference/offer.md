@@ -8,8 +8,6 @@ sidebar:
 A purchasable offer — typically a flight itinerary with a price.
 An offer wraps one or more flights into a bookable unit.
 
-Example sources: SerpAPI (Google Flights)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `offers` |
@@ -36,7 +34,7 @@ Example sources: SerpAPI (Google Flights)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Offer](https://schema.org/Offer)** — Our price = price; currency = priceCurrency; availability = availability; validFrom/validUntil match directly.
 - **[IATA NDC OfferItem](https://www.iata.org/en/programs/airline-distribution/retailing/ndc/)** — Our bookingToken ≈ OfferItemID; validUntil ≈ TimeLimits/ OfferExpirationDateTime; trips[] ≈ Itinerary.

@@ -1,7 +1,5 @@
 # A real human. People are actors — they can own accounts, hold roles, attend meetings.
 # Resolved from contacts, message senders, meeting attendees, etc.
-#
-# Example sources: Apple Contacts, WhatsApp, PostHog, iMessage (inferred from handles)
 person:
   plural: people
   subtitle: about

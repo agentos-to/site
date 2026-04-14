@@ -1,6 +1,4 @@
 # A single episode of a podcast or show. Transcribable.
-#
-# Example sources: YouTube, future podcast skill
 episode:
   plural: episodes
   subtitle: author

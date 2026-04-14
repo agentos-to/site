@@ -65,7 +65,7 @@ From [`product`](/docs/shapes/reference/product/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Product (IndividualProduct subtype)](https://schema.org/IndividualProduct)** — Our serialNumber = serialNumber; modelNumber ≈ model; specs ≈ additionalProperty (PropertyValue list).
 - **[GS1 Global Trade Item Number (GTIN)](https://www.gs1.org/standards/id-keys/gtin)** — Hardware bar-codes are GTIN-12/13/14 — we reuse the product shape's barcode alignment.

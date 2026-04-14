@@ -7,8 +7,6 @@ sidebar:
 
 An aircraft type (not an individual plane). Linked from flight search results.
 
-Example sources: SerpAPI (flight search)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `aircraft` |
@@ -68,7 +66,7 @@ From [`product`](/docs/shapes/reference/product/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[ICAO Aircraft Type Designators (Doc 8643)](https://www.icao.int/publications/DOC8643/Pages/Search.aspx)** — Our icaoCode is the canonical 4-char type code (B738, A320); iataCode is the 3-char IATA equivalent (738, 320).
 - **[schema.org/Vehicle](https://schema.org/Vehicle)** — Our model/seatCapacity map to vehicleModelDate/vehicleSeatingCapacity; manufacturer matches directly.

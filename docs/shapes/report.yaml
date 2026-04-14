@@ -9,8 +9,6 @@
 #   comparison  — side-by-side evaluation of multiple options
 #   audit       — compliance or quality check against known criteria
 #   review      — qualitative assessment (code review, skill review, etc.)
-#
-# Example sources: agent output (claude-code, cursor), skill runs, manual creation
 report:
   plural: reports
   subtitle: reportType

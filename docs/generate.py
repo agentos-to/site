@@ -765,7 +765,7 @@ def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, 
         if s.prior_art:
             lines.append("## Prior art")
             lines.append("")
-            lines.append("External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.")
+            lines.append("External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.")
             lines.append("")
             for entry in s.prior_art:
                 src = entry["source"]
@@ -799,7 +799,7 @@ def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, 
         "",
         f"The AgentOS ontology — **{len(shapes)}** shapes. Each shape defines what an entity *is* (fields, relations, display hints). Shapes can extend other shapes via `also:`, which makes that shape a **tag** on the entity — a person is also an actor; a book is also a product.",
         "",
-        "See [Ontology overview](/docs/ontology/overview/) for the tactical reference and [Shape design principles](/docs/ontology/shape-design-principles/) for the rules.",
+        "See [Overview](/docs/shapes/overview/) for the tactical reference and [Shape design principles](/docs/shapes/shape-design-principles/) for the rules.",
         "",
         "## All shapes",
         "",
@@ -1020,18 +1020,44 @@ def build_skills_index(skills: list[dict], known_shapes: set[str]) -> dict[str, 
     """Invert skills list into shape-name → skills that produce it (arrays stripped).
 
     Only keeps entries for shapes that have a reference page (`known_shapes`).
+    Operations from multiple SOPs of the same skill are merged and deduped, so
+    a skill appears at most once per shape.
     """
-    idx: dict[str, list[dict]] = {}
+    # shape -> { skill_id -> {category, operations: [ordered unique]} }
+    tmp: dict[str, dict[str, dict]] = {}
     for rec in skills:
         for shape in rec["returns"]:
             bare = shape.rstrip("[]")
             if bare not in known_shapes:
                 continue
-            idx.setdefault(bare, []).append({
-                "skill_id": rec["skill_id"],
-                "category": rec["category"],
-                "operations": rec["returns"][shape],
-            })
+            bucket = tmp.setdefault(bare, {})
+            entry = bucket.get(rec["skill_id"])
+            if entry is None:
+                entry = {
+                    "skill_id": rec["skill_id"],
+                    "category": rec["category"],
+                    "operations": [],
+                }
+                bucket[rec["skill_id"]] = entry
+            seen = set(entry["operations"])
+            for op in rec["returns"][shape]:
+                if op not in seen:
+                    entry["operations"].append(op)
+                    seen.add(op)
+
+    idx: dict[str, list[dict]] = {
+        shape: list(bucket.values()) for shape, bucket in tmp.items()
+    }
+    # Invariant: each skill appears at most once per shape. If this trips,
+    # bucket aggregation above has regressed.
+    for shape, entries in idx.items():
+        seen: set[str] = set()
+        for e in entries:
+            if e["skill_id"] in seen:
+                raise AssertionError(
+                    f"build_skills_index: skill {e['skill_id']!r} listed twice for shape {shape!r}"
+                )
+            seen.add(e["skill_id"])
     return idx
 
 

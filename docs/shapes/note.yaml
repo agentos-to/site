@@ -4,8 +4,6 @@
 #
 # A note can reference other notes (Zettelkasten-style linking) and can be
 # extracted from sources (literature notes from books, articles, videos).
-#
-# Example sources: future PKM integrations (Obsidian, Apple Notes, Google Keep)
 note:
   plural: notes
   fields:

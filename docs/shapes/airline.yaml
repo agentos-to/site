@@ -1,6 +1,4 @@
 # A commercial airline. Created from flight search results.
-#
-# Example sources: SerpAPI (flight search)
 airline:
   plural: airlines
   identity: iataCode

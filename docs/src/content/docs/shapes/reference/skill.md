@@ -8,8 +8,6 @@ sidebar:
 A connected service/integration in agentOS. Each skill provides tools
 and adapts external data into graph entities.
 
-Example sources: agentOS engine (auto-registered from skill YAML files)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `skills` |
@@ -35,7 +33,7 @@ Example sources: agentOS engine (auto-registered from skill YAML files)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[Model Context Protocol (MCP) — Server](https://modelcontextprotocol.io/specification)** — Our skill = an MCP-registerable capability provider. skillId ≈ MCP server name; status tracks connection lifecycle.
 - **[OpenAPI 3.1 (Info + Servers)](https://spec.openapis.org/oas/v3.1.0)** — Our description/website/privacyPolicy/termsOfService ≈ OpenAPI info.description/info.termsOfService/info.license/contact.

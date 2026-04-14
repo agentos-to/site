@@ -1,6 +1,4 @@
 # A project that groups tasks. Tasks belong to projects.
-#
-# Example sources: Linear, Todoist
 project:
   plural: projects
   identity: [platform, id]

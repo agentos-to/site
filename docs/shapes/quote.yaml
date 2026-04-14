@@ -6,8 +6,6 @@
 #   document/book/article --contains--> quote
 #   person --attributed--> quote (when we know who said it)
 #   quote --inspired--> anything
-#
-# Example sources: Goodreads, RFCs, papers, talks, podcasts, interviews
 quote:
   plural: quotes
   fields:

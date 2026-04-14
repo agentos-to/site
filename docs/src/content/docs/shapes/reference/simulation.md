@@ -47,7 +47,7 @@ legal-review (forked joe.db + law.db read-only)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[OpenTelemetry Traces (root span + attributes)](https://opentelemetry.io/docs/concepts/signals/traces/)** — Span-shaped observation of an agent run. Our startedAt/endedAt/ actionCount/writeCount ≈ span attributes; status ≈ span status.
 - **[QEMU / VM snapshots](https://qemu-project.gitlab.io/qemu/system/images.html)** — "Disk image vs. VM" metaphor is direct. Our primaryMemex ≈ writable disk; mountedMemex[] ≈ read-only overlays; forkedFrom ≈ snapshot-based fork.

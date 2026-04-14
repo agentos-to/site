@@ -12,8 +12,6 @@ Identity: [issuer, identifier] — one node per platform+handle combo.
 issuer = platform domain (e.g. "github.com", "gmail.com")
 identifier = platform-specific handle (e.g. "joecontini", "joe@adavia.com")
 
-Example sources: GitHub, Gmail, WhatsApp, iMessage, Reddit, Hacker News, PostHog
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `accounts` |
@@ -52,7 +50,7 @@ Example sources: GitHub, Gmail, WhatsApp, iMessage, Reddit, Hacker News, PostHog
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[OpenID Connect (OIDC) Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html)** — Our issuer/identifier maps to OIDC's iss/sub claims. OIDC is the canonical federated-identity model for "account = (issuer, subject)".
 - **[WebFinger (RFC 7033)](https://datatracker.ietf.org/doc/html/rfc7033)** — Resolves issuer+identifier pairs to profile metadata. Our identifier aligns with WebFinger's acct: URI scheme (user@host).
@@ -63,7 +61,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - [goodreads](/docs/skills/reference/media/goodreads/) — `get_profile`
 - [moltbook](/docs/skills/reference/media/moltbook/) — `me_account`, `get_account`
 - [amazon](/docs/skills/reference/logistics/amazon/) — `whoami`
-- [chase](/docs/skills/reference/finance/chase/) — `check_session`
-- [chase](/docs/skills/reference/finance/chase/) — `get_accounts`
+- [chase](/docs/skills/reference/finance/chase/) — `check_session`, `get_accounts`
 - [copilot-money](/docs/skills/reference/finance/copilot-money/) — `load_accounts`
 - [greptile](/docs/skills/reference/dev/greptile/) — `list_members`

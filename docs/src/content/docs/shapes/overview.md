@@ -1,6 +1,6 @@
 ---
-title: Ontology overview
-description: Shapes are agentOS's ontology. A shape declares what a record looks like — field names, types, relations to other records, display rules.
+title: Overview
+description: Shapes are AgentOS's ontology. A shape declares what a record looks like — field names, types, relations to other records, display rules.
 ---
 
 Shapes are agentOS's ontology. A shape declares what a record looks like — field names, types, relations to other records, display rules. Think of shapes as **ISO standards**: skills that *write* to the graph and apps that *read* from it agree on the shape of a `message`, a `product`, a `person`. The engine itself is shape-agnostic — it's a generic entity store.
@@ -114,7 +114,7 @@ Use `identity` for compound keys (must all match) and `identity_any` for alterna
 
 ## Design Principles
 
-Tactical principles — concrete patterns for field types, relations, and display. Use the [review checklist](#review-checklist) below after writing or editing a shape. For the higher-order framing ("a shape describes what something IS, not where it came from"), see [Shape design principles](/docs/ontology/shape-design-principles/).
+Tactical principles — concrete patterns for field types, relations, and display. Use the [review checklist](#review-checklist) below after writing or editing a shape. For the higher-order framing ("a shape describes what something IS, not where it came from"), see [Shape design principles](/docs/shapes/shape-design-principles/).
 
 ### 1. Entities over fields
 

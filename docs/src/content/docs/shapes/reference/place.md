@@ -13,8 +13,6 @@ Follows the Google Places / Mapbox model: a place IS the thing. A Costco
 location is a place with feature_type "poi", hours, rating, and delivery.
 The company (Costco Inc.) is an organization. The location is a place.
 
-Example sources: Apple Calendar, Amazon (shipping), Mapbox (geocoding)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `places` |
@@ -63,7 +61,7 @@ Example sources: Apple Calendar, Amazon (shipping), Mapbox (geocoding)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Place + PostalAddress](https://schema.org/Place)** — Our latitude/longitude = geo.latitude/longitude; street/city/region/postalCode/countryCode map to PostalAddress streetAddress/addressLocality/addressRegion/postalCode/addressCountry; hours ≈ openingHoursSpecification; rating/reviewCount ≈ aggregateRating.
 - **[Google Places API (Place resource)](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places)** — Practical POI schema. Our googlePlaceId = id; featureType/categories ≈ types/primaryType; businessStatus, priceLevel, rating match directly.
@@ -71,5 +69,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [uber](/docs/skills/reference/logistics/uber/) — `get_store`
-- [uber](/docs/skills/reference/logistics/uber/) — `search_address`, `list_addresses`, `search_stores`, `list_nearby_stores`
+- [uber](/docs/skills/reference/logistics/uber/) — `get_store`, `search_address`, `list_addresses`, `search_stores`, `list_nearby_stores`

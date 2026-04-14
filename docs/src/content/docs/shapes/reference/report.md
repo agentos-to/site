@@ -17,8 +17,6 @@ comparison  — side-by-side evaluation of multiple options
 audit       — compliance or quality check against known criteria
 review      — qualitative assessment (code review, skill review, etc.)
 
-Example sources: agent output (claude-code, cursor), skill runs, manual creation
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `reports` |
@@ -75,7 +73,7 @@ From [`document`](/docs/shapes/reference/document/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Report](https://schema.org/Report)** — Our reportType ≈ reportNumber/about; methodology ≈ description; findings = text; recommendations has no direct peer.
 - **[W3C DCAT 3 (Data Catalog)](https://www.w3.org/TR/vocab-dcat-3/)** — Our dataSources[] map to dcat:distribution/prov:used; methodology ≈ dcterms:description.

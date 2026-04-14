@@ -1,6 +1,4 @@
 # An aircraft type (not an individual plane). Linked from flight search results.
-#
-# Example sources: SerpAPI (flight search)
 aircraft:
   plural: aircraft
   identity: icaoCode

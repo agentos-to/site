@@ -1,6 +1,4 @@
 # A DNS record for a domain. One domain has many records (A, CNAME, MX, TXT, etc.).
-#
-# Example sources: Gandi, Porkbun
 dns_record:
   plural: dns_records
   identity: [domain, recordType, recordName]

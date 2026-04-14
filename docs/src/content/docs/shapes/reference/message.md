@@ -9,8 +9,6 @@ A single message in a conversation. Base type — email extends this via `also`.
 Querying by "message" returns emails alongside iMessages, WhatsApp messages,
 Claude transcripts, etc.
 
-Example sources: iMessage, WhatsApp, Claude Code; extended by email (Gmail, Mimestream)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `messages` |
@@ -40,7 +38,7 @@ Example sources: iMessage, WhatsApp, Claude Code; extended by email (Gmail, Mime
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[ActivityStreams 2.0 Note/Activity](https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note)** — Closest open standard for generic messages. Our from ≈ actor; inConversation ≈ context/conversation; repliesTo ≈ inReplyTo.
 - **[Matrix m.room.message](https://spec.matrix.org/latest/client-server-api/#mroommessage)** — Practical cross-platform message event schema. Our isOutgoing has no Matrix analog (sender identity instead); repliesTo ≈ m.relates_to rel_type m.thread/m.in_reply_to.
@@ -49,7 +47,5 @@ External standards this shape draws from or aligns with. See [Shape design princ
 ## Skills that produce this shape
 
 - [claude](/docs/skills/reference/ai/claude/) — `import_conversation`
-- [imessage](/docs/skills/reference/comms/imessage/) — `op_list_messages`, `op_search_messages`
-- [imessage](/docs/skills/reference/comms/imessage/) — `op_get_message`
-- [whatsapp](/docs/skills/reference/comms/whatsapp/) — `op_list_messages`, `op_search_messages`
-- [whatsapp](/docs/skills/reference/comms/whatsapp/) — `op_get_message`
+- [imessage](/docs/skills/reference/comms/imessage/) — `op_list_messages`, `op_search_messages`, `op_get_message`
+- [whatsapp](/docs/skills/reference/comms/whatsapp/) — `op_list_messages`, `op_search_messages`, `op_get_message`

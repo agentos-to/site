@@ -1,6 +1,4 @@
 # A currently loaded/running AI model instance.
-#
-# Example sources: Ollama
 loaded_model:
   plural: loaded_models
   subtitle: size

@@ -1,7 +1,5 @@
 # A web page. Base type for search result. Also used for browser history
 # and as a generic container when reading arbitrary URLs.
-#
-# Example sources: Brave Browser, Firefox (history); Exa, Firecrawl, Curl (web reading)
 webpage:
   plural: webpages
   identity: url

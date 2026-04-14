@@ -8,8 +8,6 @@ sidebar:
 A book. Books are also products, so they inherit price/brand fields.
 User-specific state (rating, shelf, dates) and platform metrics are modeled as edge values.
 
-Example sources: Goodreads
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `books` |
@@ -77,7 +75,7 @@ From [`product`](/docs/shapes/reference/product/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Book](https://schema.org/Book)** — Our isbn maps to isbn; writtenBy = author; publisher matches; pages = numberOfPages; language = inLanguage; format ≈ bookFormat (Hardcover/Paperback/EBook).
 - **[ONIX for Books 3.0](https://www.editeur.org/83/Overview/)** — Publishing-industry canonical. Our isbn/isbn13/pages/format/language/series/originalTitle align with ONIX Product Identifier, Extent, ProductForm, Language, Collection, and OriginalLanguageTitle composites.
@@ -85,5 +83,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [goodreads](/docs/skills/reference/media/goodreads/) — `get_book`
-- [goodreads](/docs/skills/reference/media/goodreads/) — `list_similar_books`, `list_series_books`, `search_books`, `list_author_books`, `list_books`, `list_shelf_books`
+- [goodreads](/docs/skills/reference/media/goodreads/) — `get_book`, `list_similar_books`, `list_series_books`, `search_books`, `list_author_books`, `list_books`, `list_shelf_books`

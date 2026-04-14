@@ -7,8 +7,6 @@ sidebar:
 
 A source code repository.
 
-Example sources: GitHub
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `repositories` |
@@ -39,7 +37,7 @@ Example sources: GitHub
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[Git internals + Git refs](https://git-scm.com/book/en/v2/Git-Internals-Git-References)** — Our defaultBranch is a Git ref (refs/heads/main); forkedFrom is explicit in our model vs. implicit in Git (recorded only by forges).
 - **[GitHub REST API — Repository](https://docs.github.com/en/rest/repos/repos)** — Direct source. Our stars/forks/openIssues/topics/defaultBranch/ license/size/isArchived/isPrivate all come from the GitHub Repository resource.

@@ -35,7 +35,7 @@ Qualified references use sourceId.themeId (e.g., "community.xp").
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[CSS color-scheme (W3C CSS Color Adjustment)](https://www.w3.org/TR/css-color-adjust-1/#color-scheme-prop)** — Our colorScheme = CSS color-scheme values (light/dark/both).
 - **[System theme APIs (macOS NSAppearance, Windows WinUI)](https://developer.apple.com/documentation/appkit/nsappearance)** — OS-level theme abstraction. Our family parallels NSAppearance.Name (aqua, darkAqua) and Windows theme families.

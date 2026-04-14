@@ -9,8 +9,6 @@ A personal extraction from a source — a passage you highlighted, annotated,
 or saved. Different from a quote: a highlight is YOUR selection from a work.
 A quote is a canonical attribution to a speaker.
 
-Example sources: Goodreads (highlights), future Kindle/Readwise/Hypothesis integration
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `highlights` |
@@ -31,7 +29,7 @@ Example sources: Goodreads (highlights), future Kindle/Readwise/Hypothesis integ
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[W3C Web Annotation Data Model](https://www.w3.org/TR/annotation-model/)** — Our extractedFrom = target; createdBy = creator; position ≈ TextPositionSelector/TextQuoteSelector; color ≈ rendering preference.
 - **[Hypothes.is annotation schema](https://h.readthedocs.io/en/latest/api-reference/)** — Practical W3C-compatible implementation. Our highlight is shaped like a Hypothes.is annotation minus the body text.

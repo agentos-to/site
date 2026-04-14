@@ -1,7 +1,5 @@
 # An MCP session — a client connected, made some calls, disconnected.
 # One node per unique client+project+branch combo, updated on reconnection.
-#
-# Example sources: agentOS engine (MCP session registration)
 session:
   plural: sessions
   identity: [client, projectId, gitBranch]

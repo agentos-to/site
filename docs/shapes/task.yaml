@@ -1,7 +1,5 @@
 # A work item — issue, ticket, or to-do. Supports hierarchy (parent/children)
 # and dependency tracking (blocked_by/blocks).
-#
-# Example sources: Linear, Todoist, GitHub
 task:
   plural: tasks
   identity: [platform, id]

@@ -1,8 +1,6 @@
 # A single message in a conversation. Base type — email extends this via `also`.
 # Querying by "message" returns emails alongside iMessages, WhatsApp messages,
 # Claude transcripts, etc.
-#
-# Example sources: iMessage, WhatsApp, Claude Code; extended by email (Gmail, Mimestream)
 message:
   plural: messages
   identity: [platform, id]

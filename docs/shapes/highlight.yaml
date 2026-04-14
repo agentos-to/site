@@ -1,8 +1,6 @@
 # A personal extraction from a source — a passage you highlighted, annotated,
 # or saved. Different from a quote: a highlight is YOUR selection from a work.
 # A quote is a canonical attribution to a speaker.
-#
-# Example sources: Goodreads (highlights), future Kindle/Readwise/Hypothesis integration
 highlight:
   plural: highlights
   fields:

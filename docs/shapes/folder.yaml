@@ -1,7 +1,5 @@
 # A filesystem directory or workspace. Used to track project roots,
 # working directories, and document collections.
-#
-# Example sources: agentOS engine (session working directories), filesystem
 folder:
   plural: folders
   identity: path

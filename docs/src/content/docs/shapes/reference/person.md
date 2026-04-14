@@ -8,8 +8,6 @@ sidebar:
 A real human. People are actors — they can own accounts, hold roles, attend meetings.
 Resolved from contacts, message senders, meeting attendees, etc.
 
-Example sources: Apple Contacts, WhatsApp, PostHog, iMessage (inferred from handles)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `people` |
@@ -50,7 +48,7 @@ From [`actor`](/docs/shapes/reference/actor/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Person](https://schema.org/Person)** — Our firstName/lastName = givenName/familyName; nickname = additionalName/alternateName; birthday = birthDate; about = description. We diverge by modeling accounts[] as a first-class relation rather than sameAs URLs.
 - **[vCard 4.0 (RFC 6350)](https://datatracker.ietf.org/doc/html/rfc6350)** — Contact-card canonical. Our fields map to FN/N/NICKNAME/BDAY/NOTE; our accounts[] ≈ IMPP/X-SOCIALPROFILE; location ≈ ADR.
@@ -58,10 +56,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [goodreads](/docs/skills/reference/media/goodreads/) — `get_author`, `get_person`
-- [goodreads](/docs/skills/reference/media/goodreads/) — `search_people`, `list_friends`, `resolve_email`, `list_following`, `list_followers`
-- [google-contacts](/docs/skills/reference/productivity/google-contacts/) — `list_contacts`, `search_contacts`
-- [google-contacts](/docs/skills/reference/productivity/google-contacts/) — `get_contact`, `create_contact`, `update_contact`
+- [goodreads](/docs/skills/reference/media/goodreads/) — `get_author`, `get_person`, `search_people`, `list_friends`, `resolve_email`, `list_following`, `list_followers`
+- [google-contacts](/docs/skills/reference/productivity/google-contacts/) — `list_contacts`, `search_contacts`, `get_contact`, `create_contact`, `update_contact`
 - [whatsapp](/docs/skills/reference/comms/whatsapp/) — `op_list_persons`
-- [posthog](/docs/skills/reference/web/posthog/) — `list_persons`, `search_persons`
-- [posthog](/docs/skills/reference/web/posthog/) — `get_person`
+- [posthog](/docs/skills/reference/web/posthog/) — `list_persons`, `search_persons`, `get_person`

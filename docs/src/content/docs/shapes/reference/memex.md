@@ -47,7 +47,7 @@ Examples: joe.db (personal), astronomy.db (domain), spacex-history.db (community
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[Vannevar Bush — "As We May Think" (1945)](https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/)** — The original concept. Our memex is named after and modeled on Bush's personal knowledge store with associative trails.
 - **[W3C RDF 1.1 + Named Graphs](https://www.w3.org/TR/rdf11-concepts/)** — Formal underpinning. Our nodeCount/edgeCount mirror RDF subject-predicate-object triples; snapshots ≈ named-graph versioning.

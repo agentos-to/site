@@ -7,8 +7,6 @@ sidebar:
 
 An image file. Photos, screenshots, diagrams, artwork.
 
-Example sources: macOS screenshots, email attachments, web scraping
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `images` |
@@ -49,7 +47,7 @@ From [`file`](/docs/shapes/reference/file/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/ImageObject](https://schema.org/ImageObject)** — Our width/height = width/height; format ≈ encodingFormat; altText = caption/accessibilityCaption.
 - **[IANA Media Types (image/*)](https://www.iana.org/assignments/media-types/media-types.xhtml#image)** — Our format values (PNG, JPEG, WebP, SVG) align with registered image/* media types.

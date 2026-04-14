@@ -7,8 +7,6 @@ sidebar:
 
 An email message. Emails are also messages — querying by "message"
 returns emails alongside WhatsApp, iMessage, etc.
-
-Example sources: Gmail, Mimestream
 RFC headers (message_id, in_reply_to, references) enable threading.
 Domain relations auto-extracted from sender/recipient addresses.
 
@@ -83,7 +81,7 @@ From [`message`](/docs/shapes/reference/message/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[RFC 5322 (Internet Message Format)](https://datatracker.ietf.org/doc/html/rfc5322)** — Supersedes RFC 2822. Our messageId/inReplyTo/references/replyTo map directly to Message-ID/In-Reply-To/References/Reply-To headers; toRaw/ccRaw/bccRaw are the literal header values.
 - **[RFC 2369 + RFC 8058 (List headers, one-click unsubscribe)](https://datatracker.ietf.org/doc/html/rfc2369)** — Our unsubscribe/unsubscribeOneClick/listId are List-Unsubscribe/List-Unsubscribe-Post/List-ID. RFC 8058 defines the one-click POST semantics.
@@ -91,7 +89,5 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [mimestream](/docs/skills/reference/comms/mimestream/) — `list_emails`, `search_emails`
-- [mimestream](/docs/skills/reference/comms/mimestream/) — `get_email`
-- [gmail](/docs/skills/reference/comms/gmail/) — `list_email_stubs`, `list_emails`, `search_emails`, `list_drafts`
-- [gmail](/docs/skills/reference/comms/gmail/) — `get_email`, `get_draft`, `send_email`, `reply_email`, `forward_email`, `modify_email`, `trash_email`, `untrash_email`, `create_draft`, `update_draft`, `send_draft`
+- [mimestream](/docs/skills/reference/comms/mimestream/) — `list_emails`, `search_emails`, `get_email`
+- [gmail](/docs/skills/reference/comms/gmail/) — `list_email_stubs`, `list_emails`, `search_emails`, `list_drafts`, `get_email`, `get_draft`, `send_email`, `reply_email`, `forward_email`, `modify_email`, `trash_email`, `untrash_email`, `create_draft`, `update_draft`, `send_draft`

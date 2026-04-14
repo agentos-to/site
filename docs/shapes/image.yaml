@@ -1,6 +1,4 @@
 # An image file. Photos, screenshots, diagrams, artwork.
-#
-# Example sources: macOS screenshots, email attachments, web scraping
 image:
   plural: images
   also: [file]        # an image is also a file

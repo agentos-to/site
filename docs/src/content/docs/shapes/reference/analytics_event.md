@@ -8,8 +8,6 @@ sidebar:
 A product analytics action — a single user interaction tracked by PostHog.
 NOT a life event — see event.yaml for births, marriages, etc.
 
-Example sources: PostHog
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `analytics_events` |
@@ -30,7 +28,7 @@ Example sources: PostHog
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[PostHog Events API](https://posthog.com/docs/api/events)** — Direct source: our distinctId/properties/currentUrl are PostHog's distinct_id/properties/$current_url.
 - **[Segment Track Spec](https://segment.com/docs/connections/spec/track/)** — Generic product-analytics event model: event(name) + properties blob + user id. Our fields are compatible with Segment payloads.

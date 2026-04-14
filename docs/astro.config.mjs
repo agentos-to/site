@@ -13,6 +13,7 @@ export default defineConfig({
 		starlight({
 			title: 'AgentOS Docs',
 			plugins: [starlightThemeGalaxy()],
+			customCss: ['./src/styles/custom.css'],
 			head: [
 				{
 					tag: 'script',
@@ -54,20 +55,13 @@ export default defineConfig({
 					],
 				},
 				{
-					label: 'Ontology',
-					collapsed: true,
-					items: [
-						{ label: 'Overview', slug: 'ontology/overview' },
-						{ label: 'Shape design principles', slug: 'ontology/shape-design-principles' },
-						{ label: 'Memex & the graph', slug: 'ontology/memex-and-graph' },
-						{ label: 'Identity & change', slug: 'ontology/identity-and-change' },
-					],
-				},
-				{
 					label: 'Shapes',
 					collapsed: true,
 					items: [
-						{ label: 'Shapes index', slug: 'shapes' },
+						{ label: 'Overview', slug: 'shapes/overview' },
+						{ label: 'Shape design principles', slug: 'shapes/shape-design-principles' },
+						{ label: 'Memex & the graph', slug: 'shapes/memex-and-graph' },
+						{ label: 'Identity & change', slug: 'shapes/identity-and-change' },
 						{ label: 'Reference', autogenerate: { directory: 'shapes/reference' }, collapsed: true },
 					],
 				},

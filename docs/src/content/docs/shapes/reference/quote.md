@@ -14,8 +14,6 @@ document/book/article --contains--> quote
 person --attributed--> quote (when we know who said it)
 quote --inspired--> anything
 
-Example sources: Goodreads, RFCs, papers, talks, podcasts, interviews
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `quotes` |
@@ -29,7 +27,7 @@ Example sources: Goodreads, RFCs, papers, talks, podcasts, interviews
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Quotation](https://schema.org/Quotation)** — Our context ≈ about; year ≈ datePublished. schema.org models spokenByCharacter/creator — we model attribution via graph edges instead.
 - **[Wikiquote data model](https://en.wikiquote.org/wiki/Help:Sources)** — Practical canonical quote source. Our provenance-via-edges (document --contains--> quote --attributedTo--> person) matches Wikiquote's source-citation discipline.

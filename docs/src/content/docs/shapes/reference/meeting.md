@@ -8,8 +8,6 @@ sidebar:
 A calendar meeting — an event with virtual meeting details and transcripts.
 Querying by "event" returns meetings too.
 
-Example sources: Google Calendar, Apple Calendar, Granola
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `meetings` |
@@ -63,7 +61,7 @@ From [`event`](/docs/shapes/reference/event/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[RFC 5545 VEVENT + conference property (RFC 7986)](https://datatracker.ietf.org/doc/html/rfc7986#section-5.11)** — Our meetingUrl ≈ CONFERENCE URI; phoneDialIn = tel: URI in CONFERENCE feature=PHONE; conferenceProvider ≈ CONFERENCE LABEL.
 - **[schema.org/Event — location.VirtualLocation](https://schema.org/VirtualLocation)** — Our isVirtual triggers VirtualLocation; meetingUrl ≈ VirtualLocation.url.
@@ -71,5 +69,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [granola](/docs/skills/reference/productivity/granola/) — `op_list_meetings`
-- [granola](/docs/skills/reference/productivity/granola/) — `op_get_meeting`
+- [granola](/docs/skills/reference/productivity/granola/) — `op_list_meetings`, `op_get_meeting`

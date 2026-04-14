@@ -5,7 +5,7 @@ description: "Every shape in the AgentOS ontology. Browse all 81, or follow a ta
 
 The AgentOS ontology — **81** shapes. Each shape defines what an entity *is* (fields, relations, display hints). Shapes can extend other shapes via `also:`, which makes that shape a **tag** on the entity — a person is also an actor; a book is also a product.
 
-See [Ontology overview](/docs/ontology/overview/) for the tactical reference and [Shape design principles](/docs/ontology/shape-design-principles/) for the rules.
+See [Overview](/docs/shapes/overview/) for the tactical reference and [Shape design principles](/docs/shapes/shape-design-principles/) for the rules.
 
 ## All shapes
 

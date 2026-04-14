@@ -1,6 +1,4 @@
 # A user review of a product. Reviews are also posts, so they carry engagement metrics.
-#
-# Example sources: Goodreads, Amazon
 review:
   plural: reviews
   subtitle: author

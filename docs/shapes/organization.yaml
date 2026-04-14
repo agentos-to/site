@@ -1,7 +1,5 @@
 # A company, nonprofit, or other organization. Organizations are actors — they
 # can be attributed as "who" in the graph alongside people and agents.
-#
-# Example sources: extracted from various skills (email domains, product manufacturers, etc.)
 organization:
   plural: organizations
   identity: url

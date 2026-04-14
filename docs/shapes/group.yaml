@@ -1,6 +1,4 @@
 # A group or community — online group, reading group, etc.
-#
-# Example sources: Goodreads
 group:
   plural: groups
   identity: [platform, id]

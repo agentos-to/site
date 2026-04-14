@@ -8,8 +8,6 @@ sidebar:
 A person's position at an organization (job title, board seat, etc.).
 Links a person to an organization with a time range.
 
-Example sources: Apple Contacts, LinkedIn (via enrichment)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `roles` |
@@ -34,7 +32,7 @@ Example sources: Apple Contacts, LinkedIn (via enrichment)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Role + OrganizationRole](https://schema.org/OrganizationRole)** — Our title = roleName; startDate/endDate match; department ≈ name of a subOrganization; person/organization = Role's nested pattern.
 - **[FOAF + Bio vocabularies (position)](http://vocab.org/bio/0.1/.html)** — Period-of-employment modeling. Our startDate/endDate ≈ bio:date; roleType has no FOAF peer.

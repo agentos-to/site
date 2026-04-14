@@ -14,8 +14,6 @@ Standard fields (inherited): id, name, url, image, published, content
 published is when the event was *posted/announced* — NOT when it happens.
 Use startDate / endDate for the actual event timing.
 
-Example sources: Google Calendar, Apple Calendar, Partiful, Luma, Austin Boulder Project
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `events` |
@@ -58,7 +56,7 @@ Example sources: Google Calendar, Apple Calendar, Partiful, Luma, Austin Boulder
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Event](https://schema.org/Event)** — Core event type. Our startDate/endDate map 1:1; eventType is free-form vs. schema.org's subtype hierarchy (Concert, Conference, BusinessEvent). organizer/location match directly.
 - **[RFC 5545 (iCalendar) VEVENT](https://datatracker.ietf.org/doc/html/rfc5545)** — Our icalUid is their UID; recurrence is their RRULE; status maps to STATUS (TENTATIVE/CONFIRMED/CANCELLED); showAs ≈ TRANSP; involves[] ≈ ATTENDEE.
@@ -66,9 +64,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [google-calendar](/docs/skills/reference/productivity/google-calendar/) — `list_events`, `search_events`
-- [google-calendar](/docs/skills/reference/productivity/google-calendar/) — `get_event`, `create_event`, `update_event`
-- [spacex](/docs/skills/reference/fun/spacex/) — `list_upcoming`, `list_past`
-- [spacex](/docs/skills/reference/fun/spacex/) — `get_launch`
-- [posthog](/docs/skills/reference/web/posthog/) — `list_events`
-- [posthog](/docs/skills/reference/web/posthog/) — `get_event`
+- [google-calendar](/docs/skills/reference/productivity/google-calendar/) — `list_events`, `search_events`, `get_event`, `create_event`, `update_event`
+- [spacex](/docs/skills/reference/fun/spacex/) — `list_upcoming`, `list_past`, `get_launch`
+- [posthog](/docs/skills/reference/web/posthog/) — `list_events`, `get_event`

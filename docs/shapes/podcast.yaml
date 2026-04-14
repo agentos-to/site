@@ -1,6 +1,4 @@
 # A podcast series. Contains episodes. Not the audio itself — that's on the episode.
-#
-# Example sources: YouTube (some channels are podcasts), future podcast skill
 podcast:
   plural: podcasts
   identity: [platform, id]

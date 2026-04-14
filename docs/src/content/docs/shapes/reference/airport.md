@@ -7,8 +7,6 @@ sidebar:
 
 An airport. Created from flight search results and linked to flights.
 
-Example sources: SerpAPI (flight search)
-
 | Metadata | Value |
 |---|---|
 | **Plural** | `airports` |
@@ -37,7 +35,7 @@ Example sources: SerpAPI (flight search)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[IATA/ICAO Airport Codes](https://www.iata.org/en/publications/directories/code-search/)** — iataCode is 3-letter (LAX, JFK); icaoCode is 4-letter (KLAX, KJFK). Canonical identifiers for global airport routing.
 - **[schema.org/Airport](https://schema.org/Airport)** — Our iataCode/icaoCode = iataCode/icaoCode; city/country = address fields; elevationFt ≈ elevation. Direct alignment.
