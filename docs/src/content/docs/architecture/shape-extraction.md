@@ -11,40 +11,13 @@ This page assumes the [data model](/docs/architecture/data-model/) — the three
 
 The pipeline is a single function — `extract_entities_from_response` (`crates/core/src/execution/extraction.rs:114`) — invoked after every successful skill operation. The `tag` argument is the shape name from the operation's `@returns("book")` decorator. Items are unwrapped (single-object responses and `_items`-wrapped arrays are both handled, lines 129-140), then each item walks through `extract_single_node` (line 572).
 
-```
-skill returns dict ─┐
-                    │
-@returns("book") ───┤  tag = "book"
-                    │
-                    ▼
-       ┌─────────────────────────────┐
-       │ shape registry lookup       │  shapes::registry().get("book")
-       │ (also-chain expansion)      │  also: [product]  →  fields merge
-       └──────────────┬──────────────┘
-                      │
-                      ▼
-       ┌─────────────────────────────┐
-       │ shape relations stripped    │  nested dicts → recursed as child nodes
-       │ from field data             │  (lines 590-599)
-       └──────────────┬──────────────┘
-                      │
-                      ▼
-       ┌─────────────────────────────┐
-       │ typed_val() per field       │  "495" → ("495", "integer")
-       │ (shape-driven coercion)     │  shapes/registry.rs:491
-       └──────────────┬──────────────┘
-                      │
-                      ▼
-       ┌─────────────────────────────┐
-       │ identity keys assembled     │  build_identity_keys()
-       │ (vals + relation edges)     │  extraction.rs:410
-       └──────────────┬──────────────┘
-                      │
-                      ▼
-       ┌─────────────────────────────┐
-       │ upsert_by_identity_on()     │  match → UPDATE, else CREATE
-       │ + imported_from edge        │  graph/database.rs:1923
-       └─────────────────────────────┘
+```mermaid
+flowchart TD
+    IN["skill returns dict<br/>@returns('book') → tag = 'book'"] --> SR["shape registry lookup<br/>(also-chain expansion)<br/>shapes::registry().get('book')<br/>also: [product] → fields merge"]
+    SR --> REL["shape relations stripped from field data<br/>nested dicts → recursed as child nodes<br/>(lines 590-599)"]
+    REL --> TV["typed_val() per field<br/>(shape-driven coercion)<br/>'495' → ('495', 'integer')<br/>shapes/registry.rs:491"]
+    TV --> IK["identity keys assembled<br/>(vals + relation edges)<br/>build_identity_keys()<br/>extraction.rs:410"]
+    IK --> UP["upsert_by_identity_on()<br/>match → UPDATE, else CREATE<br/>+ imported_from edge<br/>graph/database.rs:1923"]
 ```
 
 Everything happens inside one SQLite transaction (`begin_transaction` at line 159, `commit` at line 191) — partial extraction never lands.

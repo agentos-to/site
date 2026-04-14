@@ -7,11 +7,10 @@ description: Model Context Protocol is how AI clients (Claude Desktop, Cursor, C
 
 ## Wire model
 
-```
-┌────────────────┐     stdio JSON-RPC     ┌───────────────┐     JSON-RPC    ┌──────────────┐
-│  AI client     │ ─────────────────────→ │  agentos-mcp  │ ──────────────→ │  Engine      │
-│  (Cursor, etc) │ ←───────────────────── │  (byte bridge)│ ←────────────── │  (daemon)    │
-└────────────────┘                        └───────────────┘   Unix socket   └──────────────┘
+```mermaid
+flowchart LR
+    AI["AI client<br/>(Cursor, etc)"] <-->|stdio JSON-RPC| MCP["agentos-mcp<br/>(byte bridge)"]
+    MCP <-->|JSON-RPC<br/>Unix socket| ENG["Engine<br/>(daemon)"]
 ```
 
 - **Client → proxy** — newline-delimited JSON-RPC over stdin/stdout. Standard MCP.

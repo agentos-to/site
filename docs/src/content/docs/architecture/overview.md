@@ -43,19 +43,14 @@ Optional. For apps that want a browser UI, the web bridge serves `/graph`, `/obs
 
 ## What runs where
 
-```
-┌─────────────────┐    STDIO     ┌──────────────┐    JSON-RPC    ┌──────────────────┐
-│  AI client      │ ───────────→ │  agentos-mcp │ ─────────────→ │  Engine daemon   │
-│  (Cursor, etc)  │              │  (proxy)     │   Unix sock    │  (Rust, Tokio)   │
-└─────────────────┘              └──────────────┘                └───┬──────────────┘
-                                                                     │
-                                                                     ├── subprocess ──→ Python skill worker
-                                                                     │                  (reads, writes, http, auth)
-                                                                     │
-                                                                     ├── SQLite pool ──→ ~/.agentos/data/agentos.db
-                                                                     │                   (graph + encrypted creds)
-                                                                     │
-                                                                     └── HTTP :3456 ────→ Web bridge → apps (React, TS)
+```mermaid
+flowchart LR
+    AI["AI client<br/>(Cursor, etc)"] -->|STDIO| MCP["agentos-mcp<br/>(proxy)"]
+    MCP -->|JSON-RPC<br/>Unix sock| ENG["Engine daemon<br/>(Rust, Tokio)"]
+    ENG -->|subprocess| PY["Python skill worker<br/>(reads, writes, http, auth)"]
+    ENG -->|SQLite pool| DB["~/.agentos/data/agentos.db<br/>(graph + encrypted creds)"]
+    ENG -->|HTTP :3456| BR["Web bridge"]
+    BR --> APPS["apps (React, TS)"]
 ```
 
 ## The capability broker
