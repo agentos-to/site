@@ -51,5 +51,5 @@ See [Research → Relationships and events](/docs/research/relationships-and-eve
 
 ## See also
 
-- [Design principles](/docs/principles/design-principles/) — "changes are entities" and "every actor has an identity" listed among the first-principles rules.
+- [Design principles](/docs/architecture/design-principles/) — "changes are entities" and "every actor has an identity" listed among the first-principles rules.
 - [Ontology overview](/docs/shapes/overview/) — the `change` and `actor` shapes.

@@ -82,4 +82,4 @@ A few things that CLAUDE.md and the principles assert but the code does not full
 - **Multi-device is not implemented.** The graph is portable (one file, copy it), but there is no sync daemon, conflict resolution, or merge layer. If two machines edit the same graph file, last-writer-wins via filesystem timestamps.
 - **Keychain fallback is unencrypted.** On systems without Keychain, the credential store currently emits a warning and stores values in plaintext.
 
-See [Architectural laws](/docs/principles/architectural-laws/) for the full structural constraints.
+See [Architectural laws](/docs/architecture/architectural-laws/) for the full structural constraints.

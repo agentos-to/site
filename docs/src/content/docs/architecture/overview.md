@@ -99,4 +99,4 @@ One directory. Portable. Back it up, copy it, nuke it. [Local-first](/docs/archi
 - [Local-first](/docs/architecture/local-first/) — what stays on your machine, what leaves it, the state map.
 - [Data model](/docs/architecture/data-model/) — shapes, identity, how skills emit shape-conformant dicts.
 - [Shapes overview](/docs/shapes/overview/) — the ontology proper.
-- [Architectural laws](/docs/principles/architectural-laws/) — the hard rules the engine won't break.
+- [Architectural laws](/docs/architecture/architectural-laws/) — the hard rules the engine won't break.

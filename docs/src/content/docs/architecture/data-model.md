@@ -78,7 +78,7 @@ This is the principle that keeps the engine generic. If the engine ever learned 
 - **Apps** — they decide how to render, sort, group.
 - **Shapes** — they describe the structure everyone agrees on.
 
-See [Architectural laws](/docs/principles/architectural-laws/) for the full list of things the engine refuses to do.
+See [Architectural laws](/docs/architecture/architectural-laws/) for the full list of things the engine refuses to do.
 
 ## Edges as first-class data
 
