@@ -13,11 +13,11 @@ The agent is the primary customer. AgentOS is the operating system *for* agents,
 
 ## The pieces
 
-**The engine** — a Rust binary that runs the graph (a SQLite database — the "memex"), executes skills, resolves auth, and speaks **MCP** so any MCP-capable agent (Claude Code, Cursor, etc.) can use AgentOS as its tool surface.
+**The engine** — a Rust binary that runs the graph (a SQLite database — the "memex"), executes skills, resolves auth, and speaks **[MCP](/interfaces/mcp/)** so any MCP-capable agent (Claude Code, Cursor, etc.) can use AgentOS as its tool surface.
 
-**Skills** — Python adapters that connect to external services (macOS apps, cloud services, keychains) or act as pure agent tools. They declare the *capabilities* they provide (`@provides(llm)`, `@provides(web_search)`), and the engine matchmakes requests to the best available provider.
+**[Skills](/skills/overview/)** — Python adapters that connect to external services (macOS apps, cloud services, keychains) or act as pure agent tools. They declare the *capabilities* they provide (`@provides(llm)`, `@provides(web_search)`), and the engine matchmakes requests to the best available provider.
 
-**GUI** — an optional layer for humans (TypeScript/React, served by the engine, browsed via Tauri or a standard browser). Think Linux plus an optional desktop environment: the CLI and engine work fully without it.
+**[GUI](/apps/overview/)** — an optional layer for humans (TypeScript/React, served by the engine, browsed via Tauri or a standard browser). Think Linux plus an optional desktop environment: the [CLI](/interfaces/cli/) and engine work fully without it.
 
 **The graph** — your personal knowledge store. Everything is an entity; entities connect via relationships. It all lives in a single portable SQLite file at `~/.agentos/data/agentos.db`.
 

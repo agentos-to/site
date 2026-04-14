@@ -43,6 +43,6 @@ A headless AgentOS — API and AI only — works perfectly without apps. Apps ar
 
 ## See also
 
-- [Principles → How we build](/introduction/how-we-build/)
-- [Principles → Design principles → Three concerns](/architecture/design-principles/#three-concerns) — entities, skills, and apps as independent concerns.
+- [How we build](/introduction/how-we-build/)
+- [Three concerns](/architecture/design-principles/#three-concerns) — entities, skills, and apps as independent concerns.
 - The [`apps/` repo](https://github.com/agentos-to/apps) — where apps live.

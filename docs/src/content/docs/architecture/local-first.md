@@ -27,7 +27,7 @@ Everything that counts as *your data*:
 
 AgentOS itself makes zero outbound calls. The engine never phones home — there's no telemetry, no update check, no "anonymous usage stats."
 
-What *does* go over the network is whatever the **skills you installed** choose to send. A GitHub skill makes requests to `api.github.com`. An LLM skill makes requests to Anthropic or OpenAI. That's the skill's business, not the engine's — and the skill's code is on your disk for you to read.
+What *does* go over the network is whatever the **[skills](/skills/overview/) you installed** choose to send. A [GitHub skill](/skills/reference/dev/github/) makes requests to `api.github.com`. An LLM skill makes requests to Anthropic or OpenAI. That's the skill's business, not the engine's — and the skill's code is on your disk for you to read.
 
 The contract: the engine is the authority for what's *stored locally*. What a skill *sends out* is what you installed it to do.
 
