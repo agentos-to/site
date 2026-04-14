@@ -32,35 +32,14 @@ A single tool call (graph read, skill run, etc.) emits **at three points**:
 
 Display metadata (`title`, `address`, `icon`, `body_markdown`, `accent_color`) is computed by `observer_display()` (`lib.rs:236-273`) and embedded into every event so consumers don't have to re-derive it. Skill colors are looked up from the skill manifest at emit time.
 
-```
-                                          ┌──────────────────┐
-                                          │ engine handler   │
-                                          │ call_tool()      │ lib.rs:430
-                                          └────────┬─────────┘
-                                                   │ observer_event(...)
-                                                   ▼
-                            ┌─────────────────────────────────────┐
-                            │ broadcast::Sender<Value>  (cap 256) │ lib.rs:130
-                            └────────┬────────────────────────────┘
-                                     │ fan-out (clone per subscriber)
-                ┌────────────────────┼────────────────────┐
-                ▼                    ▼                    ▼
-       ┌────────────────┐   ┌────────────────┐   ┌────────────────┐
-       │ observer.sock  │   │ observer.sock  │   │  CLI watcher   │
-       │  conn #1       │   │  conn #2       │   │  (subscriber)  │
-       └───────┬────────┘   └────────────────┘   └────────────────┘
-               │ JSON line + '\n'        write_observer_line  lib.rs:390
-               ▼
-       ┌────────────────┐
-       │ web bridge     │   connect_observer()  web-bridge/src/lib.rs:68
-       │ tail + filter  │
-       └───────┬────────┘
-               │ SSE frame
-               ▼
-       ┌────────────────┐
-       │ EventSource    │
-       │ (browser)      │
-       └────────────────┘
+```mermaid
+flowchart TD
+    H["engine handler<br/>call_tool()<br/>lib.rs:430"] -->|"observer_event(...)"| BC["broadcast::Sender&lt;Value&gt; (cap 256)<br/>lib.rs:130"]
+    BC -->|"fan-out (clone per subscriber)"| S1["observer.sock<br/>conn #1"]
+    BC --> S2["observer.sock<br/>conn #2"]
+    BC --> CLI["CLI watcher<br/>(subscriber)"]
+    S1 -->|"JSON line + '\n' — write_observer_line lib.rs:390"| WB["web bridge<br/>tail + filter<br/>connect_observer() web-bridge/src/lib.rs:68"]
+    WB -->|SSE frame| ES["EventSource<br/>(browser)"]
 ```
 
 The observer connection handler (`handle_observer_connection`, `lib.rs:1537`) calls `subscribe()`, optionally drains a history prefix from the graph, then loops `rx.recv()` → `write_observer_line()`.

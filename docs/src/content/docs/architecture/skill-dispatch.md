@@ -11,19 +11,17 @@ For framing — the four boundaries, the capability broker, where state lives �
 
 One Python process per machine, not per call. The async worker is spawned lazily on the first dispatch and held behind a global `OnceLock<TokioMutex<Option<Arc<AsyncPythonWorker>>>>` (`crates/kernel/src/python_worker.rs:53`). All subsequent calls multiplex onto its asyncio event loop. Each operation runs as an asyncio task; multiple calls — and multiple sideband dispatches inside each call — are in flight concurrently on a single Python interpreter.
 
-```
- engine                       worker (one Python process)            engine (broker)
-   │                                  │                                    │
-   │── call(__id__=R) ───────────────→│                                    │
-   │                            asyncio.create_task(handle_call)           │
-   │                                  │                                    │
-   │                                  │── dispatch(__id__=R, dis=D) ──────→│
-   │                                  │                          OpRegistry.get(op)
-   │                                  │                          policy gate
-   │                                  │                          handler(params, ctx)
-   │                                  │←──────── dispatch_result(dis=D) ───│
-   │                                  │                                    │
-   │←─────────── result(__id__=R) ────│                                    │
+```mermaid
+sequenceDiagram
+    participant E as Engine
+    participant W as Worker<br/>(Python)
+    participant B as Engine<br/>(broker)
+    E->>W: call(__id__=R)
+    Note over W: asyncio.create_task(handle_call)
+    W->>B: dispatch(__id__=R, dis=D)
+    Note over B: OpRegistry.get(op)<br/>policy gate<br/>handler(params, ctx)
+    B-->>W: dispatch_result(dis=D)
+    W-->>E: result(__id__=R)
 ```
 
 Three messages on the wire (`call`, `dispatch`, `dispatch_result`, plus the terminal `result`), two correlation IDs. That's the whole protocol.
