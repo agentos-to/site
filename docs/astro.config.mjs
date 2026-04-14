@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightThemeGalaxy from 'starlight-theme-galaxy';
+import starlightSidebarTopics from 'starlight-sidebar-topics';
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,7 +12,167 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'AgentOS Docs',
-			plugins: [starlightThemeGalaxy()],
+			plugins: [
+				starlightThemeGalaxy(),
+				starlightSidebarTopics([
+					{
+						label: 'Learn',
+						link: '/introduction/what-is-agentos/',
+						icon: 'open-book',
+						items: [
+							{
+								label: 'Introduction',
+								collapsed: true,
+								items: [
+									{ label: 'What is AgentOS', slug: 'introduction/what-is-agentos' },
+									{ label: 'Inspiration', slug: 'introduction/inspiration' },
+									{ label: 'The two users', slug: 'introduction/two-users' },
+									{ label: 'How we build', slug: 'introduction/how-we-build' },
+									{ label: 'Roadmap & proposals', slug: 'introduction/roadmap-and-proposals' },
+								],
+							},
+							{
+								label: 'Architecture',
+								collapsed: true,
+								items: [
+									{ label: 'Overview', slug: 'architecture/overview' },
+									{ label: 'Design principles', slug: 'architecture/design-principles' },
+									{ label: 'Architectural laws', slug: 'architecture/architectural-laws' },
+									{ label: 'Security', slug: 'architecture/security' },
+									{ label: 'Local-first', slug: 'architecture/local-first' },
+									{ label: 'Data model', slug: 'architecture/data-model' },
+									{ label: 'Skill dispatch', slug: 'architecture/skill-dispatch' },
+									{ label: 'Auth resolution', slug: 'architecture/auth-resolution' },
+									{ label: 'Observer bus', slug: 'architecture/observer-bus' },
+									{ label: 'Shape extraction', slug: 'architecture/shape-extraction' },
+								],
+							},
+						],
+					},
+					{
+						label: 'Build',
+						link: '/skills/overview/',
+						icon: 'puzzle',
+						items: [
+							{
+								label: 'Skills',
+								collapsed: true,
+								items: [
+									{ label: 'Overview', slug: 'skills/overview' },
+									{ label: 'Agent empathy', slug: 'skills/agent-empathy' },
+									{ label: 'Connections', slug: 'skills/connections' },
+									{ label: 'Auth flows', slug: 'skills/auth-flows' },
+									{ label: 'Data', slug: 'skills/data' },
+									{ label: 'LLM', slug: 'skills/llm' },
+									{
+										label: 'Reverse engineering',
+										collapsed: true,
+										items: [
+											{ label: 'Overview', slug: 'skills/reverse-engineering/overview' },
+											{ label: '1. Transport', slug: 'skills/reverse-engineering/1-transport' },
+											{ label: '2. Discovery', slug: 'skills/reverse-engineering/2-discovery' },
+											{
+												label: '3. Auth',
+												collapsed: true,
+												items: [
+													{ label: 'Overview', slug: 'skills/reverse-engineering/3-auth/overview' },
+													{ label: 'NextAuth', slug: 'skills/reverse-engineering/3-auth/nextauth' },
+													{ label: 'WorkOS', slug: 'skills/reverse-engineering/3-auth/workos' },
+													{ label: 'macOS Keychain', slug: 'skills/reverse-engineering/3-auth/macos-keychain' },
+												],
+											},
+											{ label: '4. Content', slug: 'skills/reverse-engineering/4-content' },
+											{ label: '5. Social', slug: 'skills/reverse-engineering/5-social' },
+											{
+												label: '6. Desktop apps',
+												collapsed: true,
+												items: [
+													{ label: 'Overview', slug: 'skills/reverse-engineering/6-desktop-apps/overview' },
+													{ label: 'Electron', slug: 'skills/reverse-engineering/6-desktop-apps/electron' },
+												],
+											},
+											{ label: '7. MCP', slug: 'skills/reverse-engineering/7-mcp' },
+										],
+									},
+								],
+							},
+							{
+								label: 'Interfaces',
+								collapsed: true,
+								items: [
+									{ label: 'Overview', slug: 'interfaces/overview' },
+									{ label: 'MCP', slug: 'interfaces/mcp' },
+									{ label: 'CLI', slug: 'interfaces/cli' },
+									{ label: 'HTTP', slug: 'interfaces/http' },
+								],
+							},
+							{
+								label: 'Shapes',
+								collapsed: true,
+								items: [
+									{ label: 'Overview', slug: 'shapes/overview' },
+									{ label: 'Shape design principles', slug: 'shapes/shape-design-principles' },
+									{ label: 'Memex & the graph', slug: 'shapes/memex-and-graph' },
+									{ label: 'Identity & change', slug: 'shapes/identity-and-change' },
+								],
+							},
+							{
+								label: 'Apps',
+								collapsed: true,
+								items: [
+									{ label: 'Overview', slug: 'apps/overview' },
+								],
+							},
+						],
+					},
+					{
+						label: 'Reference',
+						link: '/skills/reference/',
+						icon: 'information',
+						items: [
+							{
+								label: 'Skills',
+								collapsed: false,
+								items: [
+									{ label: 'Skills index', slug: 'skills/reference' },
+									{ label: 'agents', autogenerate: { directory: 'skills/reference/agents' }, collapsed: true },
+									{ label: 'ai', autogenerate: { directory: 'skills/reference/ai' }, collapsed: true },
+									{ label: 'browsers', autogenerate: { directory: 'skills/reference/browsers' }, collapsed: true },
+									{ label: 'comms', autogenerate: { directory: 'skills/reference/comms' }, collapsed: true },
+									{ label: 'dev', autogenerate: { directory: 'skills/reference/dev' }, collapsed: true },
+									{ label: 'finance', autogenerate: { directory: 'skills/reference/finance' }, collapsed: true },
+									{ label: 'fun', autogenerate: { directory: 'skills/reference/fun' }, collapsed: true },
+									{ label: 'hosting', autogenerate: { directory: 'skills/reference/hosting' }, collapsed: true },
+									{ label: 'logistics', autogenerate: { directory: 'skills/reference/logistics' }, collapsed: true },
+									{ label: 'macos', autogenerate: { directory: 'skills/reference/macos' }, collapsed: true },
+									{ label: 'media', autogenerate: { directory: 'skills/reference/media' }, collapsed: true },
+									{ label: 'productivity', autogenerate: { directory: 'skills/reference/productivity' }, collapsed: true },
+									{ label: 'web', autogenerate: { directory: 'skills/reference/web' }, collapsed: true },
+								],
+							},
+							{
+								label: 'Shapes',
+								autogenerate: { directory: 'shapes/reference' },
+								collapsed: false,
+							},
+						],
+					},
+					{
+						label: 'Research',
+						link: '/research/ontology/relationship-modeling/',
+						icon: 'document',
+						items: [
+							{ label: 'Ontology', autogenerate: { directory: 'research/ontology' }, collapsed: true },
+							{ label: 'Platforms', autogenerate: { directory: 'research/platforms' }, collapsed: true },
+							{ label: 'Identity & spaces', autogenerate: { directory: 'research/identity-and-spaces' }, collapsed: true },
+							{ label: 'Relationships & events', autogenerate: { directory: 'research/relationships-and-events' }, collapsed: true },
+							{ label: 'Context & ecosystem', autogenerate: { directory: 'research/context' }, collapsed: true },
+							{ label: 'DX patterns', autogenerate: { directory: 'research/dx-patterns' }, collapsed: true },
+							{ label: 'Interfaces', autogenerate: { directory: 'research/interfaces' }, collapsed: true },
+						],
+					},
+				]),
+			],
 			customCss: ['./src/styles/custom.css'],
 			head: [
 				{
@@ -130,137 +291,6 @@ export default defineConfig({
 							});
 						});
 					`,
-				},
-			],
-			sidebar: [
-				{
-					label: 'Introduction',
-					collapsed: true,
-					items: [
-						{ label: 'What is AgentOS', slug: 'introduction/what-is-agentos' },
-						{ label: 'Inspiration', slug: 'introduction/inspiration' },
-						{ label: 'The two users', slug: 'introduction/two-users' },
-						{ label: 'How we build', slug: 'introduction/how-we-build' },
-						{ label: 'Roadmap & proposals', slug: 'introduction/roadmap-and-proposals' },
-					],
-				},
-				{
-					label: 'Architecture',
-					collapsed: true,
-					items: [
-						{ label: 'Overview', slug: 'architecture/overview' },
-						{ label: 'Design principles', slug: 'architecture/design-principles' },
-						{ label: 'Architectural laws', slug: 'architecture/architectural-laws' },
-						{ label: 'Security', slug: 'architecture/security' },
-						{ label: 'Local-first', slug: 'architecture/local-first' },
-						{ label: 'Data model', slug: 'architecture/data-model' },
-						{ label: 'Skill dispatch', slug: 'architecture/skill-dispatch' },
-						{ label: 'Auth resolution', slug: 'architecture/auth-resolution' },
-						{ label: 'Observer bus', slug: 'architecture/observer-bus' },
-						{ label: 'Shape extraction', slug: 'architecture/shape-extraction' },
-					],
-				},
-				{
-					label: 'Interfaces',
-					collapsed: true,
-					items: [
-						{ label: 'Overview', slug: 'interfaces/overview' },
-						{ label: 'MCP', slug: 'interfaces/mcp' },
-						{ label: 'CLI', slug: 'interfaces/cli' },
-						{ label: 'HTTP', slug: 'interfaces/http' },
-					],
-				},
-				{
-					label: 'Shapes',
-					collapsed: true,
-					items: [
-						{ label: 'Overview', slug: 'shapes/overview' },
-						{ label: 'Shape design principles', slug: 'shapes/shape-design-principles' },
-						{ label: 'Memex & the graph', slug: 'shapes/memex-and-graph' },
-						{ label: 'Identity & change', slug: 'shapes/identity-and-change' },
-						{ label: 'Reference', autogenerate: { directory: 'shapes/reference' }, collapsed: true },
-					],
-				},
-				{
-					label: 'Skills',
-					collapsed: true,
-					items: [
-						{ label: 'Overview', slug: 'skills/overview' },
-						{ label: 'Agent empathy', slug: 'skills/agent-empathy' },
-						{ label: 'Connections', slug: 'skills/connections' },
-						{ label: 'Auth flows', slug: 'skills/auth-flows' },
-						{ label: 'Data', slug: 'skills/data' },
-						{ label: 'LLM', slug: 'skills/llm' },
-						{
-							label: 'Reverse engineering',
-							collapsed: true,
-							items: [
-								{ label: 'Overview', slug: 'skills/reverse-engineering/overview' },
-								{ label: '1. Transport', slug: 'skills/reverse-engineering/1-transport' },
-								{ label: '2. Discovery', slug: 'skills/reverse-engineering/2-discovery' },
-								{
-									label: '3. Auth',
-									collapsed: true,
-									items: [
-										{ label: 'Overview', slug: 'skills/reverse-engineering/3-auth/overview' },
-										{ label: 'NextAuth', slug: 'skills/reverse-engineering/3-auth/nextauth' },
-										{ label: 'WorkOS', slug: 'skills/reverse-engineering/3-auth/workos' },
-										{ label: 'macOS Keychain', slug: 'skills/reverse-engineering/3-auth/macos-keychain' },
-									],
-								},
-								{ label: '4. Content', slug: 'skills/reverse-engineering/4-content' },
-								{ label: '5. Social', slug: 'skills/reverse-engineering/5-social' },
-								{
-									label: '6. Desktop apps',
-									collapsed: true,
-									items: [
-										{ label: 'Overview', slug: 'skills/reverse-engineering/6-desktop-apps/overview' },
-										{ label: 'Electron', slug: 'skills/reverse-engineering/6-desktop-apps/electron' },
-									],
-								},
-								{ label: '7. MCP', slug: 'skills/reverse-engineering/7-mcp' },
-							],
-						},
-						{
-							label: 'Reference',
-							collapsed: true,
-							items: [
-								{ label: 'Skills index', slug: 'skills/reference' },
-								{ label: 'agents', autogenerate: { directory: 'skills/reference/agents' }, collapsed: true },
-								{ label: 'ai', autogenerate: { directory: 'skills/reference/ai' }, collapsed: true },
-								{ label: 'browsers', autogenerate: { directory: 'skills/reference/browsers' }, collapsed: true },
-								{ label: 'comms', autogenerate: { directory: 'skills/reference/comms' }, collapsed: true },
-								{ label: 'dev', autogenerate: { directory: 'skills/reference/dev' }, collapsed: true },
-								{ label: 'finance', autogenerate: { directory: 'skills/reference/finance' }, collapsed: true },
-								{ label: 'fun', autogenerate: { directory: 'skills/reference/fun' }, collapsed: true },
-								{ label: 'hosting', autogenerate: { directory: 'skills/reference/hosting' }, collapsed: true },
-								{ label: 'logistics', autogenerate: { directory: 'skills/reference/logistics' }, collapsed: true },
-								{ label: 'macos', autogenerate: { directory: 'skills/reference/macos' }, collapsed: true },
-								{ label: 'media', autogenerate: { directory: 'skills/reference/media' }, collapsed: true },
-								{ label: 'productivity', autogenerate: { directory: 'skills/reference/productivity' }, collapsed: true },
-								{ label: 'web', autogenerate: { directory: 'skills/reference/web' }, collapsed: true },
-							],
-						},
-					],
-				},
-				{
-					label: 'Apps',
-					collapsed: true,
-					items: [
-						{ label: 'Overview', slug: 'apps/overview' },
-					],
-				},
-				{
-					label: 'Research',
-					collapsed: true,
-					items: [
-						{ label: 'Ontology', autogenerate: { directory: 'research/ontology' }, collapsed: true },
-						{ label: 'Platforms', autogenerate: { directory: 'research/platforms' }, collapsed: true },
-						{ label: 'Identity & spaces', autogenerate: { directory: 'research/identity-and-spaces' }, collapsed: true },
-						{ label: 'Relationships & events', autogenerate: { directory: 'research/relationships-and-events' }, collapsed: true },
-						{ label: 'Context & ecosystem', autogenerate: { directory: 'research/context' }, collapsed: true },
-						{ label: 'DX patterns', autogenerate: { directory: 'research/dx-patterns' }, collapsed: true },
-					],
 				},
 			],
 		}),
