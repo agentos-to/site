@@ -1,0 +1,57 @@
+---
+title: order
+description: "A purchase order. Contains products and tracks delivery."
+sidebar:
+  label: order
+---
+
+A purchase order. Contains products and tracks delivery.
+Used for both e-commerce (Amazon) and delivery (Uber Eats) orders.
+
+Example sources: Amazon, Uber Eats
+
+| Metadata | Value |
+|---|---|
+| **Plural** | `orders` |
+| **Subtitle field** | `total` |
+| **Identity** | `platform`, `orderId` |
+
+## Fields
+
+| Field | Type |
+|---|---|
+| `orderId` | `string` |
+| `orderDate` | `datetime` |
+| `total` | `string` |
+| `totalAmount` | `number` |
+| `originalTotal` | `string` |
+| `originalTotalAmount` | `number` |
+| `savings` | `number` |
+| `currency` | `string` |
+| `status` | `string` |
+| `deliveryDate` | `datetime` |
+| `eta` | `string` |
+| `subtotal` | `number` |
+| `tipAmount` | `number` |
+| `deliveryFee` | `number` |
+| `taxes` | `number` |
+| `summary` | `string` |
+| `fareBreakdown` | `json` |
+
+## Relations
+
+| Relation | Target |
+|---|---|
+| `platform` | [`platform`](/docs/shapes/reference/platform/) |
+| `contains` | [`product[]`](/docs/shapes/reference/product/) |
+| `shippingAddress` | [`place`](/docs/shapes/reference/place/) |
+| `store` | [`place`](/docs/shapes/reference/place/) |
+| `delivery` | [`trip`](/docs/shapes/reference/trip/) |
+| `tracking` | [`webpage`](/docs/shapes/reference/webpage/) |
+
+## Skills that produce this shape
+
+- [uber](/docs/skills/reference/logistics/uber/) — `list_deliveries`, `get_cart`
+- [uber](/docs/skills/reference/logistics/uber/) — `get_delivery`, `get_messages`, `add_to_cart`, `checkout`, `track_delivery`
+- [amazon](/docs/skills/reference/logistics/amazon/) — `list_orders`
+- [amazon](/docs/skills/reference/logistics/amazon/) — `get_order`

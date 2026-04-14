@@ -114,7 +114,7 @@ Use `identity` for compound keys (must all match) and `identity_any` for alterna
 
 ## Design Principles
 
-These principles guide shape design. Use the review checklist below after writing or editing a shape.
+Tactical principles — concrete patterns for field types, relations, and display. Use the [review checklist](#review-checklist) below after writing or editing a shape. For the higher-order framing ("a shape describes what something IS, not where it came from"), see [Shape design principles](/docs/ontology/shape-design-principles/).
 
 ### 1. Entities over fields
 
@@ -446,7 +446,7 @@ The engine itself does **not** validate shapes at runtime. It's a generic entity
 
 ## Prior Research
 
-Our ontology research lives in [Research](/docs/research/overview/). It's exploratory, not authoritative — some pieces are outdated — but contains principles and platform analysis worth consulting when designing new shapes.
+Our ontology research lives in [Research → Ontology](/docs/research/ontology/relationship-modeling/). It's exploratory, not authoritative — some pieces are outdated — but contains principles and platform analysis worth consulting when designing new shapes.
 
 ### Entity & Ontology Research
 - [Schema entities](/docs/research/ontology/schema-entities/) — Core entity type definitions, OGP foundation, hypotheses on note vs article
