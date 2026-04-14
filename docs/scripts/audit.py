@@ -105,10 +105,20 @@ class Hit:
         )
 
 
+# Auto-generated from upstream by generate.py. Fixes must go to the source,
+# not the generated output — anything we edit here is overwritten on next
+# regen. Audit skips these trees entirely.
+AUTOGEN_PREFIXES = ("skills/reference/", "shapes/reference/")
+
+
 def _iter_md_files(root: Path) -> Iterable[Path]:
     for p in sorted(root.rglob("*")):
-        if p.suffix in (".md", ".mdx") and p.is_file():
-            yield p
+        if p.suffix not in (".md", ".mdx") or not p.is_file():
+            continue
+        rel = p.relative_to(root).as_posix()
+        if rel.startswith(AUTOGEN_PREFIXES):
+            continue
+        yield p
 
 
 def _lc(text: str, idx: int) -> tuple[int, int]:

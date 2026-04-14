@@ -1,0 +1,32 @@
+---
+title: tag
+description: "A tag or label — Gmail label, Todoist label, GitHub label, git tag, etc."
+sidebar:
+  label: tag
+---
+
+A tag or label — Gmail label, Todoist label, GitHub label, git tag, etc.
+Cross-skill: anything can carry tags. An email has labels, a task has tags,
+a PR has labels, a git commit has tags.
+
+Example sources: Gmail, Todoist, GitHub
+
+| Metadata | Value |
+|---|---|
+| **Plural** | `tags` |
+| **Subtitle field** | `tagType` |
+
+## Fields
+
+| Field | Type |
+|---|---|
+| `color` | `string` |
+| `tagType` | `string` |
+
+## Skills that produce this shape
+
+- [todoist](/docs/skills/reference/productivity/todoist/) — `list_tags`
+- [git](/docs/skills/reference/dev/git/) — `list_tags`
+- [git](/docs/skills/reference/dev/git/) — `get_tag`
+- [gmail](/docs/skills/reference/comms/gmail/) — `list_labels`
+- [gmail](/docs/skills/reference/comms/gmail/) — `create_label`, `update_label`
