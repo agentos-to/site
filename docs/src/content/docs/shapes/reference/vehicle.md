@@ -76,3 +76,11 @@ From [`product`](/docs/shapes/reference/product/):
 |---|---|
 | `brand` | [`brand`](/docs/shapes/reference/brand/) |
 | `tagged` | [`tag[]`](/docs/shapes/reference/tag/) |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[ISO 3779 — VIN (Vehicle Identification Number)](https://www.iso.org/standard/52200.html)** — Canonical 17-char VIN. Our vin field uses ISO 3779 syntax (WMI + VDS + VIS).
+- **[schema.org/Vehicle](https://schema.org/Vehicle)** — Our year ≈ vehicleModelDate; model = model; fuelType = fuelType; bodyType = bodyType; drivetrain = driveWheelConfiguration.
+- **[NHTSA vPIC VIN Decoder API](https://vpic.nhtsa.dot.gov/api/)** — Practical decoder for year/model/trim/bodyType/fuelType from VIN. Our fields align with vPIC's decoded result.

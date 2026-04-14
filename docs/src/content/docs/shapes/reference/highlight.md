@@ -28,3 +28,11 @@ Example sources: Goodreads (highlights), future Kindle/Readwise/Hypothesis integ
 |---|---|
 | `extractedFrom` | [`book`](/docs/shapes/reference/book/) |
 | `createdBy` | [`person`](/docs/shapes/reference/person/) |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[W3C Web Annotation Data Model](https://www.w3.org/TR/annotation-model/)** — Our extractedFrom = target; createdBy = creator; position ≈ TextPositionSelector/TextQuoteSelector; color ≈ rendering preference.
+- **[Hypothes.is annotation schema](https://h.readthedocs.io/en/latest/api-reference/)** — Practical W3C-compatible implementation. Our highlight is shaped like a Hypothes.is annotation minus the body text.
+- **[Readwise Reader API](https://readwise.io/reader_api)** — Practical source. Our color/position come directly from Readwise's highlight export.

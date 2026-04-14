@@ -23,3 +23,23 @@ book:
     writtenBy:        person
     contributors:      person[]  # editors, translators, illustrators
     publisher:         organization
+  prior_art:
+    - source: schema.org/Book
+      url: https://schema.org/Book
+      notes: >-
+        Our isbn maps to isbn; writtenBy = author; publisher matches; pages =
+        numberOfPages; language = inLanguage; format ≈ bookFormat
+        (Hardcover/Paperback/EBook).
+    - source: ONIX for Books 3.0
+      url: https://www.editeur.org/83/Overview/
+      notes: >-
+        Publishing-industry canonical. Our
+        isbn/isbn13/pages/format/language/series/originalTitle align with
+        ONIX Product Identifier, Extent, ProductForm, Language, Collection,
+        and OriginalLanguageTitle composites.
+    - source: Open Library Books API
+      url: https://openlibrary.org/developers/api
+      notes: >-
+        Practical lookup by ISBN. Our genres/characters/places/awardsWon map
+        to subjects/subject_people/subject_places/subject_times (awards less
+        standardized).

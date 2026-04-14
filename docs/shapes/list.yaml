@@ -14,3 +14,14 @@ list:
     platform:          product
     belongsTo:        account   # who owns this list
     contains:          product[]
+  prior_art:
+    - source: schema.org/ItemList
+      url: https://schema.org/ItemList
+      notes: >-
+        Our listType ≈ itemListOrder; contains ≈ itemListElement; isPublic ≈
+        publicAccess.
+    - source: ActivityStreams 2.0 Collection / OrderedCollection
+      url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection
+      notes: >-
+        Our contains[] ≈ items; isDefault has no AS2 peer (platform-level
+        concept).

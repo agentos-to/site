@@ -49,6 +49,14 @@ Example sources: Amazon, Uber Eats
 | `delivery` | [`trip`](/docs/shapes/reference/trip/) |
 | `tracking` | [`webpage`](/docs/shapes/reference/webpage/) |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/Order](https://schema.org/Order)** — Our orderId = orderNumber; orderDate = orderDate; total = totalPaymentDue; status = orderStatus; shippingAddress = orderDelivery.
+- **[schema.org/OrderStatus (enum)](https://schema.org/OrderStatus)** — Our status values (placed, confirmed, delivering, completed, cancelled) map to OrderProcessing/OrderInTransit/OrderDelivered/ OrderCancelled.
+- **[Amazon Order Reports (MWS / SP-API)](https://developer-docs.amazon.com/sp-api/docs/orders-api-v0-reference)** — Practical source. Our orderId, fareBreakdown, savings, eta are lifted from Amazon/Uber Eats order structures.
+
 ## Skills that produce this shape
 
 - [uber](/docs/skills/reference/logistics/uber/) — `list_deliveries`, `get_cart`

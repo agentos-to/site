@@ -13,3 +13,14 @@ review:
   relations:
     reviews:           product   # what this review is about
     postedBy:         account
+  prior_art:
+    - source: schema.org/Review
+      url: https://schema.org/Review
+      notes: >-
+        Our rating ≈ reviewRating.ratingValue; ratingMax ≈ bestRating; reviews
+        = itemReviewed; isVerified has no direct property (extension).
+    - source: schema.org/AggregateRating
+      url: https://schema.org/AggregateRating
+      notes: >-
+        For product review aggregates. Our rating/ratingMax map to
+        ratingValue/bestRating; reviewCount is inherited when computed.

@@ -11,3 +11,19 @@ webpage:
     lastVisitUnix:   integer   # browser history last visit timestamp
     contentType:      string    # MIME type (e.g. text/html, text/markdown)
     error:             string    # error message if fetch failed
+  prior_art:
+    - source: schema.org/WebPage
+      url: https://schema.org/WebPage
+      notes: >-
+        Our URL-as-identity matches schema.org's @id/url convention;
+        contentType ≈ encodingFormat.
+    - source: HTTP semantics (RFC 9110)
+      url: https://datatracker.ietf.org/doc/html/rfc9110
+      notes: >-
+        Our contentType is the Content-Type response header; error ≈ non-2xx
+        status text.
+    - source: Chrome history / WebExtensions History API
+      url: https://developer.chrome.com/docs/extensions/reference/api/history
+      notes: >-
+        Practical source. Our visitCount/lastVisitUnix lift from the history
+        API's VisitItem structure.

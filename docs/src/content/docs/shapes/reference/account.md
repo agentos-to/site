@@ -50,6 +50,14 @@ Example sources: GitHub, Gmail, WhatsApp, iMessage, Reddit, Hacker News, PostHog
 
 - [`financial_account`](/docs/shapes/reference/financial_account/)
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[OpenID Connect (OIDC) Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html)** — Our issuer/identifier maps to OIDC's iss/sub claims. OIDC is the canonical federated-identity model for "account = (issuer, subject)".
+- **[WebFinger (RFC 7033)](https://datatracker.ietf.org/doc/html/rfc7033)** — Resolves issuer+identifier pairs to profile metadata. Our identifier aligns with WebFinger's acct: URI scheme (user@host).
+- **[vCard 4.0 (RFC 6350)](https://datatracker.ietf.org/doc/html/rfc6350)** — Defines displayName/email/phone/org in contact cards. We adopt vCard's contact semantics for the human-readable fields.
+
 ## Skills that produce this shape
 
 - [goodreads](/docs/skills/reference/media/goodreads/) — `get_profile`

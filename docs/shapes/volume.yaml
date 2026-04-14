@@ -16,3 +16,19 @@ volume:
     readOnly:         boolean
   relations:
     contains:          folder[]
+  prior_art:
+    - source: POSIX / Single Unix Specification (mount)
+      url: https://pubs.opengroup.org/onlinepubs/9699919799/functions/mount.html
+      notes: >-
+        Our path = mount point; filesystem ≈ fs type; readOnly ≈ ro mount
+        option.
+    - source: macOS DiskArbitration + diskutil
+      url: https://ss64.com/osx/diskutil.html
+      notes: >-
+        Practical source. Our totalBytes/freeBytes/usedBytes/removable/
+        volumeType match diskutil info output.
+    - source: Linux /proc/mounts + statvfs
+      url: https://man7.org/linux/man-pages/man5/proc.5.html
+      notes: >-
+        POSIX-family source. Our filesystem values (apfs, hfs+, ext4, ntfs)
+        are standard /proc/mounts fs-types.

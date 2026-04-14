@@ -25,6 +25,14 @@ Example sources: Brave Browser, Firefox (history); Exa, Firecrawl, Curl (web rea
 | `contentType` | `string` |
 | `error` | `string` |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/WebPage](https://schema.org/WebPage)** — Our URL-as-identity matches schema.org's @id/url convention; contentType ≈ encodingFormat.
+- **[HTTP semantics (RFC 9110)](https://datatracker.ietf.org/doc/html/rfc9110)** — Our contentType is the Content-Type response header; error ≈ non-2xx status text.
+- **[Chrome history / WebExtensions History API](https://developer.chrome.com/docs/extensions/reference/api/history)** — Practical source. Our visitCount/lastVisitUnix lift from the history API's VisitItem structure.
+
 ## Skills that produce this shape
 
 - [brave-browser](/docs/skills/reference/browsers/brave-browser/) — `list_webpages`, `search_webpages`

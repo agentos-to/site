@@ -18,3 +18,21 @@ post:
     contains:          video[]   # embedded videos
     media:             image[]   # embedded images
     attachment:        file[]    # attached files
+  prior_art:
+    - source: ActivityStreams 2.0 (Note/Article + Create)
+      url: https://www.w3.org/TR/activitystreams-vocabulary/
+      notes: >-
+        Fediverse post model. Our postedBy ≈ actor/attributedTo;
+        publish(community) ≈ audience/to; repliesTo/replies ≈
+        inReplyTo/replies; media/attachment ≈ attachment.
+    - source: OpenGraph protocol
+      url: https://ogp.me/
+      notes: >-
+        How posts surface when linked. Our externalUrl + media[] correspond to
+        og:url and og:image/og:video; postType loosely parallels og:type
+        (article, video).
+    - source: ATProto app.bsky.feed.post
+      url: https://atproto.com/lexicons/app-bsky-feed
+      notes: >-
+        Modern practical lexicon. Our repliesTo ≈ reply.parent; media ≈
+        embed.images; externalUrl ≈ embed.external.

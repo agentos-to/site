@@ -16,3 +16,20 @@ message:
     inConversation:   conversation
     repliesTo:        message
     toolCalls:        tool_call[]  # tool calls made within this message (typically assistant turns)
+  prior_art:
+    - source: ActivityStreams 2.0 Note/Activity
+      url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note
+      notes: >-
+        Closest open standard for generic messages. Our from ≈ actor;
+        inConversation ≈ context/conversation; repliesTo ≈ inReplyTo.
+    - source: Matrix m.room.message
+      url: https://spec.matrix.org/latest/client-server-api/#mroommessage
+      notes: >-
+        Practical cross-platform message event schema. Our isOutgoing has no
+        Matrix analog (sender identity instead); repliesTo ≈ m.relates_to
+        rel_type m.thread/m.in_reply_to.
+    - source: XMPP (RFC 6121) message stanza
+      url: https://datatracker.ietf.org/doc/html/rfc6121
+      notes: >-
+        IETF instant-messaging baseline. from/to/thread correspond to our
+        from/inConversation; no standardized isStarred.

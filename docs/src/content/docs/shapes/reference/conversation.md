@@ -37,6 +37,14 @@ Example sources: iMessage, WhatsApp, Gmail, Claude Code
 | `message` | [`message[]`](/docs/shapes/reference/message/) |
 | `in` | [`folder`](/docs/shapes/reference/folder/) |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[ActivityStreams 2.0 context/inReplyTo](https://www.w3.org/TR/activitystreams-vocabulary/#dfn-context)** — Conversations are AS2 contexts — the thread that groups replies. Our participant[] ≈ to/cc/audience.
+- **[Matrix Room (m.room)](https://spec.matrix.org/latest/client-server-api/#room-events)** — Practical thread model. Our isGroup ≈ room.join_rules; unreadCount ≈ unread_notifications.highlight_count.
+- **[Gmail API — Thread resource](https://developers.google.com/gmail/api/reference/rest/v1/users.threads)** — Our messageCount ≈ messages.length; unreadCount derived from UNREAD labels on Thread messages.
+
 ## Skills that produce this shape
 
 - [granola](/docs/skills/reference/productivity/granola/) — `op_list_conversations`

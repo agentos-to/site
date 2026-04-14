@@ -18,3 +18,20 @@ class:
   relations:
     instructor:        person    # who teaches/leads the class
     venue:             place     # specific room/studio within a location
+  prior_art:
+    - source: schema.org/EducationEvent
+      url: https://schema.org/EducationEvent
+      notes: >-
+        schema.org's closest peer for a bookable class. Our instructor =
+        performer; capacity = maximumAttendeeCapacity; spotsRemaining ≈
+        remainingAttendeeCapacity.
+    - source: schema.org/ExerciseAction
+      url: https://schema.org/ExerciseAction
+      notes: >-
+        Fitness-specific vocabulary: activityType ≈ exerciseType; venue
+        matches directly as location.
+    - source: Mindbody Public API (class schedules)
+      url: https://developers.mindbodyonline.com/PublicDocumentation/V6
+      notes: >-
+        Practical API mirror. Our capacity/spotsRemaining/isFull come from
+        Mindbody's MaxCapacity/TotalBooked/IsWaitlistAvailable.

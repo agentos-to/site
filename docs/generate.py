@@ -60,6 +60,7 @@ class Shape:
     leading_comment: str = ""                                # top-of-file `# ...` lines, stripped
     own_fields: list[Field] = field(default_factory=list)    # fields declared on THIS shape, not inherited
     own_relations: list[Field] = field(default_factory=list) # relations declared on THIS shape
+    prior_art: list[dict] = field(default_factory=list)      # [{source, url, notes}, ...] — external standards this shape aligns with
 
 
 # =============================================================================
@@ -269,6 +270,17 @@ def _build_shapes(raw: dict[str, dict], comments: dict[str, str] | None = None) 
             ident = defn["identity_any"]
             s.identity = ident if isinstance(ident, list) else [ident]
         s.leading_comment = comments.get(shape_name, "")
+
+        # Prior art — optional list of external standards this shape aligns with.
+        pa = defn.get("prior_art") or []
+        if isinstance(pa, list):
+            for entry in pa:
+                if isinstance(entry, dict) and entry.get("source"):
+                    s.prior_art.append({
+                        "source": str(entry.get("source", "")).strip(),
+                        "url": str(entry.get("url", "")).strip(),
+                        "notes": str(entry.get("notes", "")).strip(),
+                    })
 
         # Own fields — declared on THIS shape only (not inherited).
         for fname, ftype in (defn.get("fields") or {}).items():
@@ -747,6 +759,20 @@ def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, 
             lines.append("")
             for child in children:
                 lines.append(f"- {_shape_link(child)}")
+            lines.append("")
+
+        # Prior art — external standards this shape aligns with
+        if s.prior_art:
+            lines.append("## Prior art")
+            lines.append("")
+            lines.append("External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.")
+            lines.append("")
+            for entry in s.prior_art:
+                src = entry["source"]
+                url = entry["url"]
+                notes = entry["notes"]
+                heading = f"[{src}]({url})" if url else src
+                lines.append(f"- **{heading}** — {notes}" if notes else f"- **{heading}**")
             lines.append("")
 
         # Skills that return this shape

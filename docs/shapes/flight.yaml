@@ -19,3 +19,21 @@ flight:
     departsFrom:      airport
     arrivesAt:        airport
     aircraft:          aircraft
+  prior_art:
+    - source: IATA Resolution 753 / Flight Codeshare
+      url: https://www.iata.org/en/programs/ops-infra/baggage/baggage-tracking/
+      notes: >-
+        Our flightNumber follows IATA carrier-code + digits format (UA 1234).
+        Canonical for cross-carrier flight identity.
+    - source: Duffel / IATA NDC Slice+Segment
+      url: https://duffel.com/docs/api/v2/overview
+      notes: >-
+        NDC models a trip (slice) as multiple flights (segments). Our flight
+        shape = NDC segment; our trip = NDC slice.
+    - source: schema.org/Flight
+      url: https://schema.org/Flight
+      notes: >-
+        Our flightNumber = flightNumber; departsFrom/arrivesAt =
+        departureAirport/arrivalAirport; departureTime/arrivalTime match
+        directly; carbonEmissions ≈ estimatedFlightDuration + emissions
+        extensions.

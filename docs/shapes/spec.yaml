@@ -13,3 +13,19 @@ spec:
   relations:
     dependsOn:        spec[]
     supersedes:        spec[]
+  prior_art:
+    - source: IETF RFC process
+      url: https://www.ietf.org/standards/rfcs/
+      notes: >-
+        Canonical "design doc with problem statement and success criteria"
+        lineage. Our problem/successCriteria mirror the RFC structure.
+    - source: Architectural Decision Records (ADR / MADR)
+      url: https://adr.github.io/
+      notes: >-
+        Modern in-repo equivalent. supersedes[] matches ADR's "Supersedes"
+        link; dependsOn[] has no direct ADR peer.
+    - source: Python PEP (spec-as-markdown)
+      url: https://peps.python.org/pep-0001/
+      notes: >-
+        PEP states problem, rationale, spec, rejected alternatives. Our fields
+        are a slim version of the PEP template.

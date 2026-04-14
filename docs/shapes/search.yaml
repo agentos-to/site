@@ -14,3 +14,14 @@ search:
     resultCount:      integer   # total results from last execution
   # Results are --found--> edges to any entity (not a typed relation, since
   # search results can be any shape). Edge carries: click_count, first_seen, rank.
+  prior_art:
+    - source: OpenSearch Description (Url templates)
+      url: https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md
+      notes: >-
+        Our query field is the searchTerm in OpenSearch's Url template.
+        resultCount ≈ totalResults header.
+    - source: schema.org/SearchAction
+      url: https://schema.org/SearchAction
+      notes: >-
+        Our query + searchedAt ≈ SearchAction.query + startTime. searchCount
+        is AgentOS-specific (reuse telemetry).

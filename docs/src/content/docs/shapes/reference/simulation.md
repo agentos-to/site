@@ -44,3 +44,11 @@ legal-review (forked joe.db + law.db read-only)
 | `tether` | [`hardware`](/docs/shapes/reference/hardware/) |
 | `forkedFrom` | [`simulation`](/docs/shapes/reference/simulation/) |
 | `startedBy` | [`person`](/docs/shapes/reference/person/) |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[OpenTelemetry Traces (root span + attributes)](https://opentelemetry.io/docs/concepts/signals/traces/)** — Span-shaped observation of an agent run. Our startedAt/endedAt/ actionCount/writeCount ≈ span attributes; status ≈ span status.
+- **[QEMU / VM snapshots](https://qemu-project.gitlab.io/qemu/system/images.html)** — "Disk image vs. VM" metaphor is direct. Our primaryMemex ≈ writable disk; mountedMemex[] ≈ read-only overlays; forkedFrom ≈ snapshot-based fork.
+- **[Kubernetes Pod + Volume mounts](https://kubernetes.io/docs/concepts/workloads/pods/)** — Our tether (hardware kill-switch) ≈ Pod security context; mountedMemex[] ≈ ConfigMap/PVC read-only mounts.

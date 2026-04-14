@@ -48,3 +48,22 @@ email:
     toDomain:         domain[]  # recipient domains
     ccDomain:         domain[]  # cc domains
     tag:               tag[]     # labels (Gmail), categories, flags
+  prior_art:
+    - source: RFC 5322 (Internet Message Format)
+      url: https://datatracker.ietf.org/doc/html/rfc5322
+      notes: >-
+        Supersedes RFC 2822. Our messageId/inReplyTo/references/replyTo map
+        directly to Message-ID/In-Reply-To/References/Reply-To headers;
+        toRaw/ccRaw/bccRaw are the literal header values.
+    - source: RFC 2369 + RFC 8058 (List headers, one-click unsubscribe)
+      url: https://datatracker.ietf.org/doc/html/rfc2369
+      notes: >-
+        Our unsubscribe/unsubscribeOneClick/listId are
+        List-Unsubscribe/List-Unsubscribe-Post/List-ID. RFC 8058 defines the
+        one-click POST semantics.
+    - source: Gmail API Message resource
+      url: https://developers.google.com/gmail/api/reference/rest/v1/users.messages
+      notes: >-
+        Practical API mirror. Our sizeEstimate and
+        isUnread/isStarred/isDraft/isSent/isTrash/isSpam correspond to Gmail's
+        sizeEstimate and labelIds (UNREAD, STARRED, DRAFT, SENT, TRASH, SPAM).

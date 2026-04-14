@@ -27,6 +27,13 @@ Example sources: Goodreads, RFCs, papers, talks, podcasts, interviews
 | `context` | `string` |
 | `year` | `integer` |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/Quotation](https://schema.org/Quotation)** — Our context ≈ about; year ≈ datePublished. schema.org models spokenByCharacter/creator — we model attribution via graph edges instead.
+- **[Wikiquote data model](https://en.wikiquote.org/wiki/Help:Sources)** — Practical canonical quote source. Our provenance-via-edges (document --contains--> quote --attributedTo--> person) matches Wikiquote's source-citation discipline.
+
 ## Skills that produce this shape
 
 - [goodreads](/docs/skills/reference/media/goodreads/) — `list_quotes`

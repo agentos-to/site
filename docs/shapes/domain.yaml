@@ -10,3 +10,14 @@ domain:
     expiresAt:        datetime
     autoRenew:        boolean
     nameservers:       string[]
+  prior_art:
+    - source: RFC 1035 (Domain Names)
+      url: https://datatracker.ietf.org/doc/html/rfc1035
+      notes: >-
+        Canonical domain-name syntax + nameservers + TTL. Our nameservers are
+        NS records for the apex.
+    - source: RFC 3912 (WHOIS)
+      url: https://datatracker.ietf.org/doc/html/rfc3912
+      notes: >-
+        Our registrar/status/expiresAt/autoRenew come from WHOIS response
+        fields.

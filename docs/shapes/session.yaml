@@ -19,3 +19,19 @@ session:
   relations:
     participant:       actor
     folder:            folder
+  prior_art:
+    - source: Model Context Protocol (MCP) session
+      url: https://modelcontextprotocol.io/specification
+      notes: >-
+        Direct source. Our client/sessionType come from MCP's client/transport
+        concepts (STDIO, HTTP+SSE).
+    - source: OpenTelemetry Spans (root span ≈ session)
+      url: https://opentelemetry.io/docs/concepts/signals/traces/
+      notes: >-
+        Our startedAt/endedAt/messageCount/tokenCount align with span
+        lifecycle + attributes in a trace context.
+    - source: OpenID Connect Session Management 1.0
+      url: https://openid.net/specs/openid-connect-session-1_0.html
+      notes: >-
+        Classical web-session model. Our participant ≈ authenticated subject;
+        projectId/gitBranch are AgentOS-specific scoping.

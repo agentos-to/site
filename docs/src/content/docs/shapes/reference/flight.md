@@ -57,3 +57,11 @@ From [`leg`](/docs/shapes/reference/leg/):
 | `destination` | [`place`](/docs/shapes/reference/place/) |
 | `origin` | [`place`](/docs/shapes/reference/place/) |
 | `trip` | [`trip`](/docs/shapes/reference/trip/) |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[IATA Resolution 753 / Flight Codeshare](https://www.iata.org/en/programs/ops-infra/baggage/baggage-tracking/)** — Our flightNumber follows IATA carrier-code + digits format (UA 1234). Canonical for cross-carrier flight identity.
+- **[Duffel / IATA NDC Slice+Segment](https://duffel.com/docs/api/v2/overview)** — NDC models a trip (slice) as multiple flights (segments). Our flight shape = NDC segment; our trip = NDC slice.
+- **[schema.org/Flight](https://schema.org/Flight)** — Our flightNumber = flightNumber; departsFrom/arrivesAt = departureAirport/arrivalAirport; departureTime/arrivalTime match directly; carbonEmissions ≈ estimatedFlightDuration + emissions extensions.

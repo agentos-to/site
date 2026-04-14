@@ -9,3 +9,14 @@ result:
   fields:
     indexedAt:        datetime  # when the search engine last crawled this
     resultType:       string    # web, image, video, news, etc.
+  prior_art:
+    - source: OpenSearch Description Document
+      url: https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md
+      notes: >-
+        Result-pointer model: each hit has a URL + metadata. Our resultType ≈
+        Url template's type attribute.
+    - source: Web Search API conventions (Brave/Bing)
+      url: https://api.search.brave.com/app/documentation/web-search/get-started
+      notes: >-
+        Practical source. Our indexedAt/resultType align with common fields
+        across Brave, Bing, and Exa web APIs.

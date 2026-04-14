@@ -11,3 +11,14 @@ loaded_model:
     vramUsage:        string
     sizeVram:         integer   # VRAM bytes used by this model
     digest:            string    # content-addressable hash
+  prior_art:
+    - source: Ollama API — /api/ps
+      url: https://github.com/ollama/ollama/blob/main/docs/api.md#list-running-models
+      notes: >-
+        Direct source. Our size/vramUsage/sizeVram/quantization/digest/
+        expiresAt map to Ollama's ListRunningModelsResponse fields.
+    - source: OpenTelemetry Resource semconv (ML/AI)
+      url: https://opentelemetry.io/docs/specs/semconv/gen-ai/
+      notes: >-
+        Emerging conventions for GenAI observability. Our size/digest align
+        with gen_ai.model.* resource attributes.

@@ -16,3 +16,19 @@ offer:
     for:               product   # what this offer is selling
     offeredBy:        organization
     trips:             trip[]    # the trip(s) this offer books (flights: outbound + return)
+  prior_art:
+    - source: schema.org/Offer
+      url: https://schema.org/Offer
+      notes: >-
+        Our price = price; currency = priceCurrency; availability =
+        availability; validFrom/validUntil match directly.
+    - source: IATA NDC OfferItem
+      url: https://www.iata.org/en/programs/airline-distribution/retailing/ndc/
+      notes: >-
+        Our bookingToken ≈ OfferItemID; validUntil ≈ TimeLimits/
+        OfferExpirationDateTime; trips[] ≈ Itinerary.
+    - source: schema.org/AggregateOffer
+      url: https://schema.org/AggregateOffer
+      notes: >-
+        For price-range offers (SerpAPI flight results). offerType is
+        AgentOS-specific.

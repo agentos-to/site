@@ -58,3 +58,21 @@ place:
   relations:
     brand:             organization  # the company this location belongs to
     offers:            product[]     # products available at this location (store catalog)
+  prior_art:
+    - source: schema.org/Place + PostalAddress
+      url: https://schema.org/Place
+      notes: >-
+        Our latitude/longitude = geo.latitude/longitude;
+        street/city/region/postalCode/countryCode map to PostalAddress
+        streetAddress/addressLocality/addressRegion/postalCode/addressCountry;
+        hours ≈ openingHoursSpecification; rating/reviewCount ≈ aggregateRating.
+    - source: Google Places API (Place resource)
+      url: https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places
+      notes: >-
+        Practical POI schema. Our googlePlaceId = id; featureType/categories ≈
+        types/primaryType; businessStatus, priceLevel, rating match directly.
+    - source: GeoJSON (RFC 7946) + ISO 3166-1
+      url: https://datatracker.ietf.org/doc/html/rfc7946
+      notes: >-
+        Our latitude/longitude are a GeoJSON Point [lon, lat]; countryCode
+        follows ISO 3166-1 alpha-2.

@@ -18,3 +18,19 @@ transaction:
     details:           json
   relations:
     account:           account   # the financial account this posted to
+  prior_art:
+    - source: OFX (Open Financial Exchange) STMTTRN
+      url: https://financialdataexchange.org/ofx
+      notes: >-
+        Direct source. Our amount/type/postingDate/balance map to STMTTRN
+        TRNAMT/TRNTYPE/DTPOSTED/BALAMT.
+    - source: ISO 20022 payments messaging
+      url: https://www.iso20022.org/
+      notes: >-
+        Modern bank-messaging. Our currency = Ccy; category ≈ purpose code;
+        details ≈ RemittanceInformation.
+    - source: Plaid Transactions API
+      url: https://plaid.com/docs/api/products/transactions/
+      notes: >-
+        Practical mirror. Our category/pending/recurring/notes match Plaid's
+        category/pending/personal_finance_category/name fields.

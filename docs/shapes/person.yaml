@@ -22,3 +22,23 @@ person:
     roles:             role[]    # positions at organizations
     location:          place
     website:           website
+  prior_art:
+    - source: schema.org/Person
+      url: https://schema.org/Person
+      notes: >-
+        Our firstName/lastName = givenName/familyName; nickname =
+        additionalName/alternateName; birthday = birthDate; about = description.
+        We diverge by modeling accounts[] as a first-class relation rather than
+        sameAs URLs.
+    - source: vCard 4.0 (RFC 6350)
+      url: https://datatracker.ietf.org/doc/html/rfc6350
+      notes: >-
+        Contact-card canonical. Our fields map to FN/N/NICKNAME/BDAY/NOTE; our
+        accounts[] ≈ IMPP/X-SOCIALPROFILE; location ≈ ADR.
+    - source: FOAF (Friend of a Friend)
+      url: http://xmlns.com/foaf/spec/
+      notes: >-
+        Original social-graph vocabulary. foaf:Person with
+        givenName/familyName/nick/homepage; foaf:account ≈ our accounts[].
+        Largely superseded by schema.org but still a reference for
+        account-centric modeling.

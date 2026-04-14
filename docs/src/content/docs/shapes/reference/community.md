@@ -27,6 +27,14 @@ Example sources: Reddit, Facebook
 |---|---|
 | `platform` | [`product`](/docs/shapes/reference/product/) |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[ActivityPub Group Actor](https://www.w3.org/TR/activitypub/)** — AP Group Actor models shared-inbox communities (Lemmy, Kbin, Mbin). Our privacy ≈ audience/to visibility.
+- **[schema.org/Organization](https://schema.org/Organization)** — A community-as-organization is a loose fit; privacy has no direct schema.org property.
+- **[Reddit API — Subreddit](https://www.reddit.com/dev/api/#GET_subreddits_where)** — Practical source. Our privacy ≈ subreddit_type (public/private/ restricted); text ≈ public_description.
+
 ## Skills that produce this shape
 
 - [moltbook](/docs/skills/reference/media/moltbook/) — `list_communities`

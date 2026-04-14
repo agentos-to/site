@@ -19,3 +19,20 @@ repository:
   relations:
     forkedFrom:       repository  # source repo this was forked from
     owner:             account
+  prior_art:
+    - source: Git internals + Git refs
+      url: https://git-scm.com/book/en/v2/Git-Internals-Git-References
+      notes: >-
+        Our defaultBranch is a Git ref (refs/heads/main); forkedFrom is
+        explicit in our model vs. implicit in Git (recorded only by forges).
+    - source: GitHub REST API — Repository
+      url: https://docs.github.com/en/rest/repos/repos
+      notes: >-
+        Direct source. Our stars/forks/openIssues/topics/defaultBranch/
+        license/size/isArchived/isPrivate all come from the GitHub Repository
+        resource.
+    - source: SPDX License List
+      url: https://spdx.org/licenses/
+      notes: >-
+        Our license values are SPDX identifiers (MIT, Apache-2.0,
+        GPL-3.0-or-later).

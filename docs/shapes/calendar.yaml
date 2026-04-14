@@ -18,3 +18,19 @@ calendar:
   relations:
     owner:             person    # who owns this calendar
     events:            event[]   # events in this calendar
+  prior_art:
+    - source: RFC 5545 VCALENDAR
+      url: https://datatracker.ietf.org/doc/html/rfc5545
+      notes: >-
+        Our calendarId ≈ VCALENDAR's X-WR-CALID; timezone = X-WR-TIMEZONE;
+        events relation mirrors VCALENDAR's VEVENT components.
+    - source: CalDAV (RFC 4791)
+      url: https://datatracker.ietf.org/doc/html/rfc4791
+      notes: >-
+        CalDAV calendar collections define accessRole semantics
+        (owner/writer/reader) that match our field directly.
+    - source: Google Calendar API CalendarList
+      url: https://developers.google.com/calendar/api/v3/reference/calendarList
+      notes: >-
+        Practical API mirror. Our color/backgroundColor/foregroundColor,
+        isPrimary, accessRole come from Google's CalendarList resource.

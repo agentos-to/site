@@ -13,3 +13,19 @@ image:
     windowId:         integer   # macOS window ID (for screenshots)
     displayId:        integer   # macOS display ID (for screenshots)
     displayIndex:     integer   # display index (for screenshots)
+  prior_art:
+    - source: schema.org/ImageObject
+      url: https://schema.org/ImageObject
+      notes: >-
+        Our width/height = width/height; format ≈ encodingFormat; altText =
+        caption/accessibilityCaption.
+    - source: IANA Media Types (image/*)
+      url: https://www.iana.org/assignments/media-types/media-types.xhtml#image
+      notes: >-
+        Our format values (PNG, JPEG, WebP, SVG) align with registered image/*
+        media types.
+    - source: Exif 2.3 (JEITA CP-3451)
+      url: https://www.cipa.jp/std/documents/e/DC-008-Translation-2019-E.pdf
+      notes: >-
+        Source of most image metadata fields. width/height come from Exif
+        PixelXDimension/PixelYDimension.

@@ -21,3 +21,19 @@ model:
     format:            string    # e.g., "gguf"
     family:            string    # model family, e.g., "llama", "qwen"
     digest:            string    # content-addressable hash of model weights
+  prior_art:
+    - source: Hugging Face Model Cards
+      url: https://huggingface.co/docs/hub/en/model-cards
+      notes: >-
+        Our provider/contextLength/modality/family/quantization/ parameterSize
+        align with HF model-card metadata conventions.
+    - source: Ollama /api/show + Modelfile
+      url: https://github.com/ollama/ollama/blob/main/docs/modelfile.md
+      notes: >-
+        Our quantization/quantizationLevel/format/digest/parameterSize come
+        directly from Ollama's show-model response.
+    - source: OpenRouter Models API
+      url: https://openrouter.ai/docs/models
+      notes: >-
+        Our contextLength/contextWindow/maxOutput/pricingInput/ pricingOutput
+        mirror OpenRouter's model spec.

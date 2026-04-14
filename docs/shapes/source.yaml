@@ -21,3 +21,19 @@ source:
     lastSynced:       datetime  # when items were last scanned from this source
   relations:
     folder:            folder    # local sources → the folder entity at this path
+  prior_art:
+    - source: Homebrew Taps
+      url: https://docs.brew.sh/Taps
+      notes: >-
+        Direct precedent. Our sourceId/address match tap name/URL; our
+        platform=agentos parallels tap formulae discovery.
+    - source: Cydia / Sileo (APT repos for iOS)
+      url: https://wiki.theapebox.com/index.php/Package_Management
+      notes: >-
+        Namespaced third-party source model. Our sourceId prefix is the Cydia
+        repo-namespace pattern.
+    - source: Debian APT sources.list
+      url: https://wiki.debian.org/SourcesList
+      notes: >-
+        Canonical third-party source mechanism. Our enabled flag parallels APT
+        source enable/disable; lastSynced ≈ apt-get update timestamp.

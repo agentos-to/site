@@ -65,6 +65,14 @@ From [`event`](/docs/shapes/reference/event/):
 | `organizer` | [`person`](/docs/shapes/reference/person/) |
 | `platform` | [`product`](/docs/shapes/reference/product/) |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/EducationEvent](https://schema.org/EducationEvent)** — schema.org's closest peer for a bookable class. Our instructor = performer; capacity = maximumAttendeeCapacity; spotsRemaining ≈ remainingAttendeeCapacity.
+- **[schema.org/ExerciseAction](https://schema.org/ExerciseAction)** — Fitness-specific vocabulary: activityType ≈ exerciseType; venue matches directly as location.
+- **[Mindbody Public API (class schedules)](https://developers.mindbodyonline.com/PublicDocumentation/V6)** — Practical API mirror. Our capacity/spotsRemaining/isFull come from Mindbody's MaxCapacity/TotalBooked/IsWaitlistAvailable.
+
 ## Skills that produce this shape
 
 - [austin-boulder-project](/docs/skills/reference/fun/austin-boulder-project/) — `op_get_schedule`

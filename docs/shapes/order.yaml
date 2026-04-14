@@ -31,3 +31,21 @@ order:
     store:             place         # store/restaurant LOCATION (place with feature_type: poi)
     delivery:          trip          # delivery trip (Uber Eats: store → customer)
     tracking:          webpage       # carrier tracking page
+  prior_art:
+    - source: schema.org/Order
+      url: https://schema.org/Order
+      notes: >-
+        Our orderId = orderNumber; orderDate = orderDate; total =
+        totalPaymentDue; status = orderStatus; shippingAddress =
+        orderDelivery.
+    - source: schema.org/OrderStatus (enum)
+      url: https://schema.org/OrderStatus
+      notes: >-
+        Our status values (placed, confirmed, delivering, completed,
+        cancelled) map to OrderProcessing/OrderInTransit/OrderDelivered/
+        OrderCancelled.
+    - source: Amazon Order Reports (MWS / SP-API)
+      url: https://developer-docs.amazon.com/sp-api/docs/orders-api-v0-reference
+      notes: >-
+        Practical source. Our orderId, fareBreakdown, savings, eta are lifted
+        from Amazon/Uber Eats order structures.

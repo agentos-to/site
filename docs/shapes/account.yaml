@@ -28,3 +28,19 @@ account:
     owner:             person    # the real person behind this account
     follows:           account[]
     followers:         account[]
+  prior_art:
+    - source: OpenID Connect (OIDC) Core 1.0
+      url: https://openid.net/specs/openid-connect-core-1_0.html
+      notes: >-
+        Our issuer/identifier maps to OIDC's iss/sub claims. OIDC is the
+        canonical federated-identity model for "account = (issuer, subject)".
+    - source: WebFinger (RFC 7033)
+      url: https://datatracker.ietf.org/doc/html/rfc7033
+      notes: >-
+        Resolves issuer+identifier pairs to profile metadata. Our identifier
+        aligns with WebFinger's acct: URI scheme (user@host).
+    - source: vCard 4.0 (RFC 6350)
+      url: https://datatracker.ietf.org/doc/html/rfc6350
+      notes: >-
+        Defines displayName/email/phone/org in contact cards. We adopt vCard's
+        contact semantics for the human-readable fields.

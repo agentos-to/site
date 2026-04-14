@@ -13,3 +13,16 @@ quote:
   fields:
     context:           string    # when/where it was said, any extra notes
     year:              integer   # year of first known appearance
+  prior_art:
+    - source: schema.org/Quotation
+      url: https://schema.org/Quotation
+      notes: >-
+        Our context ≈ about; year ≈ datePublished. schema.org models
+        spokenByCharacter/creator — we model attribution via graph edges
+        instead.
+    - source: Wikiquote data model
+      url: https://en.wikiquote.org/wiki/Help:Sources
+      notes: >-
+        Practical canonical quote source. Our provenance-via-edges (document
+        --contains--> quote --attributedTo--> person) matches Wikiquote's
+        source-citation discipline.

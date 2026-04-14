@@ -57,6 +57,14 @@ Example sources: Amazon, Uber Eats (grocery), Open Food Facts (enrichment)
 - [`software`](/docs/shapes/reference/software/)
 - [`vehicle`](/docs/shapes/reference/vehicle/)
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/Product + Offer](https://schema.org/Product)** — Product on schema.org, price/priceAmount/currency/availability on nested Offer. Our sku/barcode map to sku/gtin13/gtin12; brand/manufacturer match directly.
+- **[GS1 GTIN (UPC/EAN)](https://www.gs1.org/standards/id-keys/gtin)** — Canonical barcode standard. Our barcode field is a GTIN-8/12/13/14; GS1 also underlies schema.org's gtin* properties.
+- **[Open Food Facts API](https://openfoodfacts.github.io/openfoodfacts-server/api/)** — Best practical source for food attributes. Our nutritionScore/novaGroup/calories/servingSize mirror nutriscore_grade/nova_group/nutriments.energy-kcal/serving_size.
+
 ## Skills that produce this shape
 
 - [uber](/docs/skills/reference/logistics/uber/) — `get_item_customizations`

@@ -11,3 +11,14 @@ dns_record:
     recordType:       string    # A, AAAA, CNAME, MX, TXT, NS, etc.
     ttl:               integer   # time-to-live in seconds
     values:            string[]  # one or more record values
+  prior_art:
+    - source: RFC 1035 (DNS)
+      url: https://datatracker.ietf.org/doc/html/rfc1035
+      notes: >-
+        Foundational spec. Our domain/recordName/recordType/ttl/values map
+        directly to NAME/TYPE/CLASS/TTL/RDATA.
+    - source: RFC 7208 (SPF), RFC 6376 (DKIM), RFC 7489 (DMARC)
+      url: https://datatracker.ietf.org/doc/html/rfc7208
+      notes: >-
+        TXT-record vocabularies that frequently populate our values[] for SPF,
+        DKIM, and DMARC policy records.

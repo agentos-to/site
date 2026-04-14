@@ -37,3 +37,11 @@ Platform tells the engine which scanner to use:
 | Relation | Target |
 |---|---|
 | `folder` | [`folder`](/docs/shapes/reference/folder/) |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[Homebrew Taps](https://docs.brew.sh/Taps)** — Direct precedent. Our sourceId/address match tap name/URL; our platform=agentos parallels tap formulae discovery.
+- **[Cydia / Sileo (APT repos for iOS)](https://wiki.theapebox.com/index.php/Package_Management)** — Namespaced third-party source model. Our sourceId prefix is the Cydia repo-namespace pattern.
+- **[Debian APT sources.list](https://wiki.debian.org/SourcesList)** — Canonical third-party source mechanism. Our enabled flag parallels APT source enable/disable; lastSynced ≈ apt-get update timestamp.

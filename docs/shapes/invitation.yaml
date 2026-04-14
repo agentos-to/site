@@ -34,3 +34,20 @@ invitation:
     invitee:           account   # who is being invited (may not exist yet — email-only)
     organization:      organization  # the org/workspace being invited into
     platform:          product   # the service this invite lives on
+  prior_art:
+    - source: ActivityStreams 2.0 Invite activity
+      url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-invite
+      notes: >-
+        AS2 Invite is the canonical fediverse verb. Our inviter = actor;
+        invitee = target; status tracks Accept/Reject/TentativeAccept
+        responses.
+    - source: iCalendar ATTENDEE + PARTSTAT (RFC 5545)
+      url: https://datatracker.ietf.org/doc/html/rfc5545
+      notes: >-
+        Calendar-style invitations. Our status maps to PARTSTAT
+        (NEEDS-ACTION/ACCEPTED/DECLINED/DELEGATED).
+    - source: SCIM 2.0 (RFC 7644) — user provisioning
+      url: https://datatracker.ietf.org/doc/html/rfc7644
+      notes: >-
+        Enterprise invitation/provisioning. Our email/role/organization align
+        with SCIM User resource's email + entitlements + group membership.

@@ -33,3 +33,11 @@ Example sources: macos-control (local volumes), future: Google Drive, Dropbox, i
 | Relation | Target |
 |---|---|
 | `contains` | [`folder[]`](/docs/shapes/reference/folder/) |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[POSIX / Single Unix Specification (mount)](https://pubs.opengroup.org/onlinepubs/9699919799/functions/mount.html)** — Our path = mount point; filesystem ≈ fs type; readOnly ≈ ro mount option.
+- **[macOS DiskArbitration + diskutil](https://ss64.com/osx/diskutil.html)** — Practical source. Our totalBytes/freeBytes/usedBytes/removable/ volumeType match diskutil info output.
+- **[Linux /proc/mounts + statvfs](https://man7.org/linux/man-pages/man5/proc.5.html)** — POSIX-family source. Our filesystem values (apfs, hfs+, ext4, ntfs) are standard /proc/mounts fs-types.

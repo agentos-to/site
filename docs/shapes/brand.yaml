@@ -12,3 +12,14 @@ brand:
   relations:
     ownedBy:          organization
     website:           website
+  prior_art:
+    - source: schema.org/Brand
+      url: https://schema.org/Brand
+      notes: >-
+        Our tagline ≈ slogan; founded = foundingDate; ownedBy ≈
+        parentOrganization (on the owning Organization).
+    - source: Wikidata (Brand, Q431289)
+      url: https://www.wikidata.org/wiki/Q431289
+      notes: >-
+        Cross-reference identity for dedupe. country maps to P17 (country);
+        founded to P571 (inception); ownedBy to P127 (owned by).

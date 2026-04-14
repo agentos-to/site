@@ -15,3 +15,13 @@ theme:
     description:       text
   relations:
     wallpaper:         image     # theme's default wallpaper image
+  prior_art:
+    - source: CSS color-scheme (W3C CSS Color Adjustment)
+      url: https://www.w3.org/TR/css-color-adjust-1/#color-scheme-prop
+      notes: >-
+        Our colorScheme = CSS color-scheme values (light/dark/both).
+    - source: System theme APIs (macOS NSAppearance, Windows WinUI)
+      url: https://developer.apple.com/documentation/appkit/nsappearance
+      notes: >-
+        OS-level theme abstraction. Our family parallels NSAppearance.Name
+        (aqua, darkAqua) and Windows theme families.

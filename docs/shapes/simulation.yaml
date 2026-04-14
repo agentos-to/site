@@ -28,3 +28,20 @@ simulation:
     tether:            hardware        # physical kill switch
     forkedFrom:        simulation      # if this is a parallel run
     startedBy:         person
+  prior_art:
+    - source: OpenTelemetry Traces (root span + attributes)
+      url: https://opentelemetry.io/docs/concepts/signals/traces/
+      notes: >-
+        Span-shaped observation of an agent run. Our startedAt/endedAt/
+        actionCount/writeCount ≈ span attributes; status ≈ span status.
+    - source: QEMU / VM snapshots
+      url: https://qemu-project.gitlab.io/qemu/system/images.html
+      notes: >-
+        "Disk image vs. VM" metaphor is direct. Our primaryMemex ≈ writable
+        disk; mountedMemex[] ≈ read-only overlays; forkedFrom ≈ snapshot-based
+        fork.
+    - source: Kubernetes Pod + Volume mounts
+      url: https://kubernetes.io/docs/concepts/workloads/pods/
+      notes: >-
+        Our tether (hardware kill-switch) ≈ Pod security context;
+        mountedMemex[] ≈ ConfigMap/PVC read-only mounts.

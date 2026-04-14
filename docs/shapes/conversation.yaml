@@ -19,3 +19,19 @@ conversation:
     participant:       actor[]   # participants — people, agents, or organizations
     message:           message[]
     in:                folder    # directory this conversation happened in
+  prior_art:
+    - source: ActivityStreams 2.0 context/inReplyTo
+      url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-context
+      notes: >-
+        Conversations are AS2 contexts — the thread that groups replies. Our
+        participant[] ≈ to/cc/audience.
+    - source: Matrix Room (m.room)
+      url: https://spec.matrix.org/latest/client-server-api/#room-events
+      notes: >-
+        Practical thread model. Our isGroup ≈ room.join_rules; unreadCount ≈
+        unread_notifications.highlight_count.
+    - source: Gmail API — Thread resource
+      url: https://developers.google.com/gmail/api/reference/rest/v1/users.threads
+      notes: >-
+        Our messageCount ≈ messages.length; unreadCount derived from UNREAD
+        labels on Thread messages.

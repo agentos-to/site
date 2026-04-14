@@ -41,3 +41,19 @@ trip:
     carrier:           organization  # primary airline, transit agency
     driver:            person    # driver/courier (rides/delivery)
     order:             order     # the order this trip fulfills (delivery, ride booking)
+  prior_art:
+    - source: schema.org/Trip + subTrip
+      url: https://schema.org/Trip
+      notes: >-
+        Our origin/destination/departureTime/arrivalTime map exactly; legs[] ≈
+        subTrip or itinerary.
+    - source: IATA NDC Slice (airline itineraries)
+      url: https://www.iata.org/en/programs/airline-distribution/retailing/ndc/
+      notes: >-
+        NDC slice = our trip; NDC segment = our leg. cabinClass, bookingToken
+        come from NDC offer items.
+    - source: Uber API — Trip resource
+      url: https://developer.uber.com/docs/riders/references/api
+      notes: >-
+        Practical source for ride trips. Our fare/fareAmount/
+        trackingUrl/isSurge/isScheduled lifted from Uber's Trip model.

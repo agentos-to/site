@@ -14,3 +14,14 @@ role:
   relations:
     person:            person
     organization:      organization
+  prior_art:
+    - source: schema.org/Role + OrganizationRole
+      url: https://schema.org/OrganizationRole
+      notes: >-
+        Our title = roleName; startDate/endDate match; department ≈ name of a
+        subOrganization; person/organization = Role's nested pattern.
+    - source: FOAF + Bio vocabularies (position)
+      url: http://vocab.org/bio/0.1/.html
+      notes: >-
+        Period-of-employment modeling. Our startDate/endDate ≈ bio:date;
+        roleType has no FOAF peer.

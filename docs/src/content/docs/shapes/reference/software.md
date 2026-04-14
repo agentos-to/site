@@ -72,3 +72,11 @@ From [`product`](/docs/shapes/reference/product/):
 ## Used as a base by
 
 - [`platform`](/docs/shapes/reference/platform/)
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/SoftwareApplication](https://schema.org/SoftwareApplication)** — Our version = softwareVersion; license matches; platform[] ≈ operatingSystem; developer = creator/author.
+- **[SPDX License List](https://spdx.org/licenses/)** — Our license values are canonical SPDX identifiers.
+- **[schema.org/SoftwareSourceCode](https://schema.org/SoftwareSourceCode)** — Our repositoryUrl ≈ codeRepository; openSource implied by SPDX-license + codeRepository presence.

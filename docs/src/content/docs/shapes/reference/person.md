@@ -48,6 +48,14 @@ From [`actor`](/docs/shapes/reference/actor/):
 |---|---|
 | `actorType` | `string` |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/Person](https://schema.org/Person)** — Our firstName/lastName = givenName/familyName; nickname = additionalName/alternateName; birthday = birthDate; about = description. We diverge by modeling accounts[] as a first-class relation rather than sameAs URLs.
+- **[vCard 4.0 (RFC 6350)](https://datatracker.ietf.org/doc/html/rfc6350)** — Contact-card canonical. Our fields map to FN/N/NICKNAME/BDAY/NOTE; our accounts[] ≈ IMPP/X-SOCIALPROFILE; location ≈ ADR.
+- **[FOAF (Friend of a Friend)](http://xmlns.com/foaf/spec/)** — Original social-graph vocabulary. foaf:Person with givenName/familyName/nick/homepage; foaf:account ≈ our accounts[]. Largely superseded by schema.org but still a reference for account-centric modeling.
+
 ## Skills that produce this shape
 
 - [goodreads](/docs/skills/reference/media/goodreads/) — `get_author`, `get_person`

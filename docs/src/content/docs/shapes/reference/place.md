@@ -61,6 +61,14 @@ Example sources: Apple Calendar, Amazon (shipping), Mapbox (geocoding)
 | `brand` | [`organization`](/docs/shapes/reference/organization/) |
 | `offers` | [`product[]`](/docs/shapes/reference/product/) |
 
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/docs/ontology/shape-design-principles/) for how prior art informs shape design.
+
+- **[schema.org/Place + PostalAddress](https://schema.org/Place)** — Our latitude/longitude = geo.latitude/longitude; street/city/region/postalCode/countryCode map to PostalAddress streetAddress/addressLocality/addressRegion/postalCode/addressCountry; hours ≈ openingHoursSpecification; rating/reviewCount ≈ aggregateRating.
+- **[Google Places API (Place resource)](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places)** — Practical POI schema. Our googlePlaceId = id; featureType/categories ≈ types/primaryType; businessStatus, priceLevel, rating match directly.
+- **[GeoJSON (RFC 7946) + ISO 3166-1](https://datatracker.ietf.org/doc/html/rfc7946)** — Our latitude/longitude are a GeoJSON Point [lon, lat]; countryCode follows ISO 3166-1 alpha-2.
+
 ## Skills that produce this shape
 
 - [uber](/docs/skills/reference/logistics/uber/) — `get_store`

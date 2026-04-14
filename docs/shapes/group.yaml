@@ -8,3 +8,14 @@ group:
   fields:
     memberCount:      integer
     category:          string
+  prior_art:
+    - source: schema.org/Group (via Organization/memberOf)
+      url: https://schema.org/Organization
+      notes: >-
+        schema.org models groups as Organization. Our memberCount ≈
+        numberOfEmployees loosely; category ≈ naics/knowsAbout.
+    - source: FOAF Group
+      url: http://xmlns.com/foaf/spec/#term_Group
+      notes: >-
+        Foundational social-graph vocabulary. foaf:member populates
+        membership; category has no direct FOAF peer.
