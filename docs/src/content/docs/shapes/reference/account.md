@@ -10,7 +10,7 @@ Created by most skills. Links a person to their platform-specific identity.
 
 Identity: [issuer, identifier] — one node per platform+handle combo.
 issuer = platform domain (e.g. "github.com", "gmail.com")
-identifier = platform-specific handle (e.g. "joecontini", "joe@adavia.com")
+identifier = platform-specific handle (e.g. "octocat", "user@example.com")
 
 | Metadata | Value |
 |---|---|
