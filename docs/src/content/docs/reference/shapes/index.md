@@ -1,0 +1,92 @@
+---
+title: Shapes
+description: "Every shape in the AgentOS ontology. Browse all 81, or follow a tag chain."
+---
+
+The AgentOS ontology — **81** shapes. Each shape defines what an entity *is* (fields, relations, display hints). Shapes can extend other shapes via `also:`, which makes that shape a **tag** on the entity — a person is also an actor; a book is also a product.
+
+See [Ontology overview](/docs/ontology/overview/) for the tactical reference and [Shape design principles](/docs/ontology/shape-design-principles/) for the rules.
+
+## All shapes
+
+- [`account`](/docs/reference/shapes/account/) — A user's presence on a platform — their GitHub handle, Gmail address, etc
+- [`activity`](/docs/reference/shapes/activity/) — An immutable change event — a graph mutation, skill run, search, or load
+- [`actor`](/docs/reference/shapes/actor/) — Base type for anything that can be attributed as "who did this" in the graph
+- [`agent`](/docs/reference/shapes/agent/) — also `actor` — An AI agent that acts on behalf of a user. Agents are actors — they
+- [`aircraft`](/docs/reference/shapes/aircraft/) — also `product` — An aircraft type (not an individual plane). Linked from flight search results
+- [`airline`](/docs/reference/shapes/airline/) — also `organization` — A commercial airline. Created from flight search results
+- [`airport`](/docs/reference/shapes/airport/) — An airport. Created from flight search results and linked to flights
+- [`analytics_event`](/docs/reference/shapes/analytics_event/) — A product analytics action — a single user interaction tracked by PostHog
+- [`article`](/docs/reference/shapes/article/) — A published written work — essay, news article, blog post, paper, newsletter
+- [`book`](/docs/reference/shapes/book/) — also `product` — A book. Books are also products, so they inherit price/brand fields
+- [`branch`](/docs/reference/shapes/branch/) — A git branch
+- [`brand`](/docs/reference/shapes/brand/) — A consumer brand. Extracted from product listings
+- [`calendar`](/docs/reference/shapes/calendar/) — A calendar — container for events
+- [`channel`](/docs/reference/shapes/channel/) — A content channel — typically a YouTube channel. Videos are uploaded to channels
+- [`class`](/docs/reference/shapes/class/) — also `event` — A scheduled, bookable group activity — gym classes, workshops, courses
+- [`community`](/docs/reference/shapes/community/) — An online community — a subreddit, Facebook group, or similar
+- [`conversation`](/docs/reference/shapes/conversation/) — A message thread — an iMessage chat, WhatsApp group, email thread, Claude
+- [`dns_record`](/docs/reference/shapes/dns_record/) — A DNS record for a domain. One domain has many records (A, CNAME, MX, TXT, etc.)
+- [`document`](/docs/reference/shapes/document/) — also `file` — A document — any human-readable text content with structure and authorship
+- [`domain`](/docs/reference/shapes/domain/) — A registered domain name. Also auto-created from email sender/recipient addresses
+- [`email`](/docs/reference/shapes/email/) — also `message` — An email message. Emails are also messages — querying by "message"
+- [`episode`](/docs/reference/shapes/episode/) — A single episode of a podcast or show. Transcribable
+- [`event`](/docs/reference/shapes/event/) — Something that happens — at a time, optionally at a place, involving people
+- [`file`](/docs/reference/shapes/file/) — A file — source code, attachment, download, or any discrete digital artifact
+- [`financial_account`](/docs/reference/shapes/financial_account/) — also `account` — A financial account — bank account, credit card, or investment account
+- [`flight`](/docs/reference/shapes/flight/) — also `leg` — A flight — a specific leg of air travel. A flight IS a leg
+- [`folder`](/docs/reference/shapes/folder/) — A filesystem directory or workspace. Used to track project roots,
+- [`git_commit`](/docs/reference/shapes/git_commit/) — A git commit — a single point in version control history
+- [`group`](/docs/reference/shapes/group/) — A group or community — online group, reading group, etc
+- [`hardware`](/docs/reference/shapes/hardware/) — also `product` — A physical hardware product — computer, phone, appliance, component
+- [`highlight`](/docs/reference/shapes/highlight/) — A personal extraction from a source — a passage you highlighted, annotated,
+- [`image`](/docs/reference/shapes/image/) — also `file` — An image file. Photos, screenshots, diagrams, artwork
+- [`invitation`](/docs/reference/shapes/invitation/) — An invitation to join something — an organization, a workspace, a team, a
+- [`leg`](/docs/reference/shapes/leg/) — One continuous movement on a single vehicle — takeoff to landing,
+- [`list`](/docs/reference/shapes/list/) — A generic collection of items. Base type for shelf (books) and playlist (videos)
+- [`loaded_model`](/docs/reference/shapes/loaded_model/) — A currently loaded/running AI model instance
+- [`meeting`](/docs/reference/shapes/meeting/) — also `event` — A calendar meeting — an event with virtual meeting details and transcripts
+- [`memex`](/docs/reference/shapes/memex/) — A memex — a portable knowledge graph. Named for Vannevar Bush's
+- [`message`](/docs/reference/shapes/message/) — A single message in a conversation. Base type — email extends this via `also`
+- [`model`](/docs/reference/shapes/model/) — An AI model — LLM, embedding model, or other ML model
+- [`note`](/docs/reference/shapes/note/) — Private text content, primarily for the author. Journal entries, PKM notes,
+- [`offer`](/docs/reference/shapes/offer/) — A purchasable offer — typically a flight itinerary with a price
+- [`order`](/docs/reference/shapes/order/) — A purchase order. Contains products and tracks delivery
+- [`organization`](/docs/reference/shapes/organization/) — also `actor` — A company, nonprofit, or other organization. Organizations are actors — they
+- [`person`](/docs/reference/shapes/person/) — also `actor` — A real human. People are actors — they can own accounts, hold roles, attend meetings
+- [`place`](/docs/reference/shapes/place/) — A physical location — address, building, city, or point of interest
+- [`platform`](/docs/reference/shapes/platform/) — also `software` — A service that users interact with — Amazon, Gmail, Reddit, WhatsApp
+- [`playlist`](/docs/reference/shapes/playlist/) — also `list` — A video playlist. Playlists are lists that contain videos instead of products
+- [`podcast`](/docs/reference/shapes/podcast/) — A podcast series. Contains episodes. Not the audio itself — that's on the episode
+- [`post`](/docs/reference/shapes/post/) — A piece of published content — a Reddit submission, HN story, YouTube upload,
+- [`product`](/docs/reference/shapes/product/) — A purchasable item. Base type for book and aircraft
+- [`project`](/docs/reference/shapes/project/) — A project that groups tasks. Tasks belong to projects
+- [`quote`](/docs/reference/shapes/quote/) — A notable quote. Attribution is a graph relationship, not a field —
+- [`report`](/docs/reference/shapes/report/) — also `document` — A report — structured output from a research task, analysis, or agent run
+- [`repository`](/docs/reference/shapes/repository/) — A source code repository
+- [`result`](/docs/reference/shapes/result/) — A search result — a pointer to something found. Not the thing itself
+- [`review`](/docs/reference/shapes/review/) — also `post` — A user review of a product. Reviews are also posts, so they carry engagement metrics
+- [`role`](/docs/reference/shapes/role/) — A person's position at an organization (job title, board seat, etc.)
+- [`route`](/docs/reference/shapes/route/) — also `schedule` — A transport service that operates between places on a schedule
+- [`schedule`](/docs/reference/shapes/schedule/) — A recurring pattern that produces instances when it fires
+- [`search`](/docs/reference/shapes/search/) — A search query and its results. Every search is a graph entity with click
+- [`session`](/docs/reference/shapes/session/) — An MCP session — a client connected, made some calls, disconnected
+- [`shelf`](/docs/reference/shapes/shelf/) — also `list` — A bookshelf. Shelves are lists that contain books instead of generic products
+- [`shortcut`](/docs/reference/shapes/shortcut/) — A named alias that expands to a location URI at parse time
+- [`simulation`](/docs/reference/shapes/simulation/) — A simulation — an isolated runtime where an agent runs. The "VM"
+- [`skill`](/docs/reference/shapes/skill/) — A connected service/integration in agentOS. Each skill provides tools
+- [`software`](/docs/reference/shapes/software/) — also `product` — A software application — web app, desktop app, mobile app, CLI tool
+- [`source`](/docs/reference/shapes/source/) — A content source — where skills, themes, shapes, and wallpapers live
+- [`spec`](/docs/reference/shapes/spec/) — also `task`, `file` — A spec — a design document describing work to be done
+- [`tag`](/docs/reference/shapes/tag/) — A tag or label — Gmail label, Todoist label, GitHub label, git tag, etc
+- [`task`](/docs/reference/shapes/task/) — A work item — issue, ticket, or to-do. Supports hierarchy (parent/children)
+- [`theme`](/docs/reference/shapes/theme/) — An OS theme — window chrome, taskbar, scrollbars, desktop styling
+- [`tool_call`](/docs/reference/shapes/tool_call/) — A single tool invocation made by an agent during a message
+- [`transaction`](/docs/reference/shapes/transaction/) — A financial transaction — credit card charge, bank transfer, etc
+- [`transcript`](/docs/reference/shapes/transcript/) — A text transcript of audio/video content. Linked from meetings and videos
+- [`trip`](/docs/reference/shapes/trip/) — A directed journey from origin to destination — one direction of travel
+- [`vehicle`](/docs/reference/shapes/vehicle/) — also `product` — A vehicle — the physical object. VIN, specs, color
+- [`video`](/docs/reference/shapes/video/) — also `file` — A video file — the media artifact, not the social context around it
+- [`volume`](/docs/reference/shapes/volume/) — A storage volume — local disk, external drive, network share, or cloud drive
+- [`webpage`](/docs/reference/shapes/webpage/) — A web page. Base type for search result. Also used for browser history
+- [`website`](/docs/reference/shapes/website/) — A published website (not a single page — see webpage for that)

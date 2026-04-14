@@ -1,17 +1,24 @@
 ---
-title: AgentOS SDK
-description: Reference for writing skills (Python) and apps (TypeScript) against AgentOS.
+title: AgentOS Docs
+description: A local operating system for human-AI collaboration, built for agents first.
+template: splash
+hero:
+  title: AgentOS
+  tagline: A local operating system for human-AI collaboration. Built for agents first. Inspired by J.C.R. Licklider and Vannevar Bush. Your data stays on your machine.
+  actions:
+    - text: What is AgentOS
+      link: /docs/introduction/what-is-agentos/
+      icon: right-arrow
+    - text: Read the vision
+      link: /docs/introduction/vision/
+      variant: minimal
 ---
 
-This is the SDK documentation. The sidebar is the map:
+## Explore
 
-- **Principles** — why the SDK is shaped the way it is.
-- **Shapes** — the data ontology every skill and app speaks.
-- **Skills** — Python connectors to external services.
-- **LLM** — inference, prompting, and model routing.
-- **Connections** — HTTP, cookies, API keys, auth.
-- **Auth flows** — OAuth, NextAuth, WorkOS, Keychain patterns.
-- **Data** — the graph, storage, and query semantics.
-- **Reverse engineering** — how to map an unfamiliar service.
-
-Information architecture here mirrors the repo's `docs/` layout — it will be redesigned in phase 2 of the migration.
+- **[Introduction](/docs/introduction/what-is-agentos/)** — [what AgentOS is](/docs/introduction/what-is-agentos/), [the vision](/docs/introduction/vision/), [who it's for](/docs/introduction/two-users/), and [why local-first](/docs/introduction/local-first/).
+- **[Principles](/docs/principles/design-principles/)** — the [design principles](/docs/principles/design-principles/), [architectural laws](/docs/principles/architectural-laws/), and the practice of [agent empathy](/docs/principles/agent-empathy/).
+- **[Ontology](/docs/ontology/overview/)** — the [graph](/docs/ontology/memex-and-graph/) and how things are modeled. Shape design is [covered here](/docs/ontology/shape-design-principles/).
+- **[Contributing](/docs/contributing/how-we-build/)** — build [skills](/docs/contributing/skills/overview/) and [apps](/docs/contributing/apps/overview/). Read [how we build](/docs/contributing/how-we-build/).
+- **[Research](/docs/research/overview/)** — [prior art](/docs/research/overview/) on ontologies, platforms, identity, relationships, and PKM.
+- **[Reference](/docs/reference/shapes/)** — auto-generated per-[shape](/docs/reference/shapes/) and per-[skill](/docs/reference/skills/) pages.
