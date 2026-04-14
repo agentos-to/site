@@ -31,12 +31,12 @@ One node per unique client+project+branch combo, updated on reconnection.
 
 | Relation | Target |
 |---|---|
-| `participant` | [`actor`](/docs/shapes/reference/actor/) |
-| `folder` | [`folder`](/docs/shapes/reference/folder/) |
+| `participant` | [`actor`](/shapes/reference/actor/) |
+| `folder` | [`folder`](/shapes/reference/folder/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[Model Context Protocol (MCP) session](https://modelcontextprotocol.io/specification)** — Direct source. Our client/sessionType come from MCP's client/transport concepts (STDIO, HTTP+SSE).
 - **[OpenTelemetry Spans (root span ≈ session)](https://opentelemetry.io/docs/concepts/signals/traces/)** — Our startedAt/endedAt/messageCount/tokenCount align with span lifecycle + attributes in a trace context.
@@ -44,4 +44,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [cursor](/docs/skills/reference/dev/cursor/) — `op_list_sessions`, `op_backfill_session`, `op_get_session`
+- [cursor](/skills/reference/dev/cursor/) — `op_list_sessions`, `op_backfill_session`, `op_get_session`

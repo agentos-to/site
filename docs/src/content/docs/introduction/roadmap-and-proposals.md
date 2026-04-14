@@ -48,7 +48,7 @@ Proposals get **adversarial reviews** — an agent (or Joe) reads the proposal a
 - What's the weakest link? What assumption, if wrong, collapses the plan?
 - Where are the escape hatches? If this is wrong, can we roll back, or does it lock us in?
 
-A single critical blocker means **revise**. All critical pass means **implement**. See [Agent empathy → Scoring](/docs/skills/agent-empathy/) for why we use pass/fail/partial labels instead of numeric scores.
+A single critical blocker means **revise**. All critical pass means **implement**. See [Agent empathy → Scoring](/skills/agent-empathy/) for why we use pass/fail/partial labels instead of numeric scores.
 
 ## Closeout
 
@@ -56,5 +56,5 @@ After a project ships, a `closeout.md` captures what actually happened vs. what 
 
 ## See also
 
-- [How we build](/docs/introduction/how-we-build/) — the posture behind the pipeline.
-- [Architectural laws](/docs/architecture/architectural-laws/) — the rules a proposal is evaluated against.
+- [How we build](/introduction/how-we-build/) — the posture behind the pipeline.
+- [Architectural laws](/architecture/architectural-laws/) — the rules a proposal is evaluated against.

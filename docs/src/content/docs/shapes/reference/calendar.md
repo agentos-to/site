@@ -31,12 +31,12 @@ A calendar — container for events.
 
 | Relation | Target |
 |---|---|
-| `owner` | [`person`](/docs/shapes/reference/person/) |
-| `events` | [`event[]`](/docs/shapes/reference/event/) |
+| `owner` | [`person`](/shapes/reference/person/) |
+| `events` | [`event[]`](/shapes/reference/event/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[RFC 5545 VCALENDAR](https://datatracker.ietf.org/doc/html/rfc5545)** — Our calendarId ≈ VCALENDAR's X-WR-CALID; timezone = X-WR-TIMEZONE; events relation mirrors VCALENDAR's VEVENT components.
 - **[CalDAV (RFC 4791)](https://datatracker.ietf.org/doc/html/rfc4791)** — CalDAV calendar collections define accessRole semantics (owner/writer/reader) that match our field directly.
@@ -44,4 +44,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [google-calendar](/docs/skills/reference/productivity/google-calendar/) — `list_calendars`
+- [google-calendar](/skills/reference/productivity/google-calendar/) — `list_calendars`

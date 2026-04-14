@@ -14,7 +14,7 @@ Examples: MacBook Pro, iPhone, Arduino, server rack
 | **Plural** | `hardware` |
 | **Subtitle field** | `author` |
 | **Identity** | `serialNumber` |
-| **Also** | [`product`](/docs/shapes/reference/product/) |
+| **Also** | [`product`](/shapes/reference/product/) |
 
 ## Fields
 
@@ -28,11 +28,11 @@ Examples: MacBook Pro, iPhone, Arduino, server rack
 
 | Relation | Target |
 |---|---|
-| `manufacturer` | [`organization`](/docs/shapes/reference/organization/) |
+| `manufacturer` | [`organization`](/shapes/reference/organization/) |
 
 ## Inherited
 
-From [`product`](/docs/shapes/reference/product/):
+From [`product`](/shapes/reference/product/):
 
 | Field | Type |
 |---|---|
@@ -60,12 +60,12 @@ From [`product`](/docs/shapes/reference/product/):
 
 | Relation | Target |
 |---|---|
-| `brand` | [`brand`](/docs/shapes/reference/brand/) |
-| `tagged` | [`tag[]`](/docs/shapes/reference/tag/) |
+| `brand` | [`brand`](/shapes/reference/brand/) |
+| `tagged` | [`tag[]`](/shapes/reference/tag/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Product (IndividualProduct subtype)](https://schema.org/IndividualProduct)** — Our serialNumber = serialNumber; modelNumber ≈ model; specs ≈ additionalProperty (PropertyValue list).
 - **[GS1 Global Trade Item Number (GTIN)](https://www.gs1.org/standards/id-keys/gtin)** — Hardware bar-codes are GTIN-12/13/14 — we reuse the product shape's barcode alignment.

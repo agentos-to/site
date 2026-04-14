@@ -24,7 +24,7 @@ GTFS "stop_times" = our leg origins/destinations.
 |---|---|
 | **Plural** | `routes` |
 | **Subtitle field** | `routeNumber` |
-| **Also** | [`schedule`](/docs/shapes/reference/schedule/) |
+| **Also** | [`schedule`](/shapes/reference/schedule/) |
 
 ## Fields
 
@@ -39,14 +39,14 @@ GTFS "stop_times" = our leg origins/destinations.
 
 | Relation | Target |
 |---|---|
-| `stops` | [`place[]`](/docs/shapes/reference/place/) |
-| `origin` | [`place`](/docs/shapes/reference/place/) |
-| `destination` | [`place`](/docs/shapes/reference/place/) |
-| `operator` | [`organization`](/docs/shapes/reference/organization/) |
+| `stops` | [`place[]`](/shapes/reference/place/) |
+| `origin` | [`place`](/shapes/reference/place/) |
+| `destination` | [`place`](/shapes/reference/place/) |
+| `operator` | [`organization`](/shapes/reference/organization/) |
 
 ## Inherited
 
-From [`schedule`](/docs/shapes/reference/schedule/):
+From [`schedule`](/shapes/reference/schedule/):
 
 | Field | Type |
 |---|---|
@@ -64,12 +64,12 @@ From [`schedule`](/docs/shapes/reference/schedule/):
 
 | Relation | Target |
 |---|---|
-| `produces` | [`trip`](/docs/shapes/reference/trip/) |
-| `provider` | [`skill`](/docs/shapes/reference/skill/) |
+| `produces` | [`trip`](/shapes/reference/trip/) |
+| `provider` | [`skill`](/shapes/reference/skill/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[GTFS routes.txt](https://gtfs.org/documentation/schedule/reference/#routestxt)** — Direct source. Our routeType maps to GTFS route_type (integer vocab); routeNumber = route_short_name; color = route_color.
 - **[schema.org/BusOrCoach + FlightRoute](https://schema.org/BusOrCoach)** — Per-mode peers. Our stops[]/origin/destination are modeled separately per mode in schema.org.

@@ -13,7 +13,7 @@ sidebar:
 
 ## Returns shapes
 
-- [`class[]`](/docs/shapes/reference/class/) — from `op_get_schedule`
+- [`class[]`](/shapes/reference/class/) — from `op_get_schedule`
 - `void` — from `public_authenticate`
 
 ## Connections

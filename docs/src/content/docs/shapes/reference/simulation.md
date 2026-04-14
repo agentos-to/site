@@ -38,16 +38,16 @@ legal-review (forked joe.db + law.db read-only)
 
 | Relation | Target |
 |---|---|
-| `primaryMemex` | [`memex`](/docs/shapes/reference/memex/) |
-| `mountedMemex` | [`memex[]`](/docs/shapes/reference/memex/) |
-| `agent` | [`agent`](/docs/shapes/reference/agent/) |
-| `tether` | [`hardware`](/docs/shapes/reference/hardware/) |
-| `forkedFrom` | [`simulation`](/docs/shapes/reference/simulation/) |
-| `startedBy` | [`person`](/docs/shapes/reference/person/) |
+| `primaryMemex` | [`memex`](/shapes/reference/memex/) |
+| `mountedMemex` | [`memex[]`](/shapes/reference/memex/) |
+| `agent` | [`agent`](/shapes/reference/agent/) |
+| `tether` | [`hardware`](/shapes/reference/hardware/) |
+| `forkedFrom` | [`simulation`](/shapes/reference/simulation/) |
+| `startedBy` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[OpenTelemetry Traces (root span + attributes)](https://opentelemetry.io/docs/concepts/signals/traces/)** — Span-shaped observation of an agent run. Our startedAt/endedAt/ actionCount/writeCount ≈ span attributes; status ≈ span status.
 - **[QEMU / VM snapshots](https://qemu-project.gitlab.io/qemu/system/images.html)** — "Disk image vs. VM" metaphor is direct. Our primaryMemex ≈ writable disk; mountedMemex[] ≈ read-only overlays; forkedFrom ≈ snapshot-based fork.

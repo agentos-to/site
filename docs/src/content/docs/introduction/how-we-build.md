@@ -14,29 +14,29 @@ We are **co-CTOs** — human and AI — making strategic decisions together. Thi
 - **Pain-driven.** If you can't articulate the pain, don't build it.
 - **Blast radius is not a cost — stale architecture is.** An "audacious" refactor that touches the engine and every skill in one shot is *not more expensive* than a one-line fix. Pre-launch means zero migration cost.
 
-See [Architectural laws](/docs/architecture/architectural-laws/) for the full rule set.
+See [Architectural laws](/architecture/architectural-laws/) for the full rule set.
 
 ## Skills
 
 Each skill is a directory with a `readme.md` (YAML frontmatter for identity + connections, markdown body for the agent-facing guide) plus one or more `.py` files whose `@returns`-decorated functions are the tools. No separate manifest — operations are extracted from the Python AST at load time. The community repo tracks shipped skills under `skills/`.
 
-Start at the [Skills overview](/docs/skills/overview/).
+Start at the [Skills overview](/skills/overview/).
 
 ## Shapes
 
 The ontology is a directory of YAML files — one shape per file — at `site/docs/shapes/`. Shapes describe entity types (fields, relations, display hints, operations). Add a shape, reseed, restart the engine; the graph now knows about a new entity type. No Rust change required.
 
-Read the [Shape design principles](/docs/shapes/shape-design-principles/) before proposing a new shape.
+Read the [Shape design principles](/shapes/shape-design-principles/) before proposing a new shape.
 
 ## Apps
 
 TypeScript/React UIs for humans. Each app is self-contained and built against the `apps/_sdk/`. Apps never talk to skills directly — they ask the engine for a capability, the engine routes to a skill that `@provides(...)` it.
 
-See [Apps overview](/docs/apps/overview/).
+See [Apps overview](/apps/overview/).
 
 ## Proposals & roadmap
 
-Design thinking lives in `_roadmap/` — pain, proposal, review, closeout. The pipeline is described in [Roadmap & proposals](/docs/introduction/roadmap-and-proposals/).
+Design thinking lives in `_roadmap/` — pain, proposal, review, closeout. The pipeline is described in [Roadmap & proposals](/introduction/roadmap-and-proposals/).
 
 **Proposals must include prior art.** Don't design in a vacuum — search for how others solved similar problems before proposing.
 

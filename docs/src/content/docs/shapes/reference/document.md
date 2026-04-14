@@ -14,7 +14,7 @@ gain also: [document] in a future migration once the shape stabilizes.
 |---|---|
 | **Plural** | `documents` |
 | **Subtitle field** | `author` |
-| **Also** | [`file`](/docs/shapes/reference/file/) |
+| **Also** | [`file`](/shapes/reference/file/) |
 
 ## Fields
 
@@ -30,13 +30,13 @@ gain also: [document] in a future migration once the shape stabilizes.
 
 | Relation | Target |
 |---|---|
-| `author` | [`actor`](/docs/shapes/reference/actor/) |
-| `references` | [`document[]`](/docs/shapes/reference/document/) |
-| `citedBy` | [`document[]`](/docs/shapes/reference/document/) |
+| `author` | [`actor`](/shapes/reference/actor/) |
+| `references` | [`document[]`](/shapes/reference/document/) |
+| `citedBy` | [`document[]`](/shapes/reference/document/) |
 
 ## Inherited
 
-From [`file`](/docs/shapes/reference/file/):
+From [`file`](/shapes/reference/file/):
 
 | Field | Type |
 |---|---|
@@ -52,16 +52,16 @@ From [`file`](/docs/shapes/reference/file/):
 
 | Relation | Target |
 |---|---|
-| `attachedTo` | [`message`](/docs/shapes/reference/message/) |
-| `repository` | [`repository`](/docs/shapes/reference/repository/) |
+| `attachedTo` | [`message`](/shapes/reference/message/) |
+| `repository` | [`repository`](/shapes/reference/repository/) |
 
 ## Used as a base by
 
-- [`report`](/docs/shapes/reference/report/)
+- [`report`](/shapes/reference/report/)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[Dublin Core Metadata Initiative](https://www.dublincore.org/specifications/dublin-core/dces/)** — Our contentType ≈ dc:format; language = dc:language; author = dc:creator; references/citedBy ≈ dc:relation.
 - **[schema.org/DigitalDocument](https://schema.org/DigitalDocument)** — Our abstract ≈ abstract; tableOfContents = hasPart or accessModeSufficient; wordCount = wordCount.

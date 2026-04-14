@@ -32,19 +32,19 @@ Base type for image. Covers repo files (GitHub, Cursor), email attachments
 
 | Relation | Target |
 |---|---|
-| `attachedTo` | [`message`](/docs/shapes/reference/message/) |
-| `repository` | [`repository`](/docs/shapes/reference/repository/) |
+| `attachedTo` | [`message`](/shapes/reference/message/) |
+| `repository` | [`repository`](/shapes/reference/repository/) |
 
 ## Used as a base by
 
-- [`document`](/docs/shapes/reference/document/)
-- [`image`](/docs/shapes/reference/image/)
-- [`spec`](/docs/shapes/reference/spec/)
-- [`video`](/docs/shapes/reference/video/)
+- [`document`](/shapes/reference/document/)
+- [`image`](/shapes/reference/image/)
+- [`spec`](/shapes/reference/spec/)
+- [`video`](/shapes/reference/video/)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[IANA Media Types (RFC 6838)](https://datatracker.ietf.org/doc/html/rfc6838)** — Our mimeType follows type/subtype syntax (text/plain, application/pdf). Canonical source for format identification.
 - **[schema.org/DigitalDocument](https://schema.org/DigitalDocument)** — Our filename ≈ name; size ≈ contentSize; mimeType ≈ encodingFormat.
@@ -52,6 +52,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [cursor](/docs/skills/reference/dev/cursor/) — `op_pull_document`
-- [github](/docs/skills/reference/dev/github/) — `list_documents`, `read_document`
-- [gmail](/docs/skills/reference/comms/gmail/) — `get_attachment`
+- [cursor](/skills/reference/dev/cursor/) — `op_pull_document`
+- [github](/skills/reference/dev/github/) — `list_documents`, `read_document`
+- [gmail](/skills/reference/comms/gmail/) — `get_attachment`

@@ -13,10 +13,10 @@ sidebar:
 
 ## Returns shapes
 
-- [`file`](/docs/shapes/reference/file/) — from `read_document`
-- [`file[]`](/docs/shapes/reference/file/) — from `list_documents`
-- [`task`](/docs/shapes/reference/task/) — from `get_task`
-- [`task[]`](/docs/shapes/reference/task/) — from `list_tasks`
+- [`file`](/shapes/reference/file/) — from `read_document`
+- [`file[]`](/shapes/reference/file/) — from `list_documents`
+- [`task`](/shapes/reference/task/) — from `get_task`
+- [`task[]`](/shapes/reference/task/) — from `list_tasks`
 
 ## Readme
 

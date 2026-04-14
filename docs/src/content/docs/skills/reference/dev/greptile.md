@@ -13,9 +13,9 @@ sidebar:
 
 ## Returns shapes
 
-- [`account[]`](/docs/shapes/reference/account/) — from `list_members`
-- [`invitation`](/docs/shapes/reference/invitation/) — from `send_invite`
-- [`invitation[]`](/docs/shapes/reference/invitation/) — from `list_invites`
+- [`account[]`](/shapes/reference/account/) — from `list_members`
+- [`invitation`](/shapes/reference/invitation/) — from `send_invite`
+- [`invitation[]`](/shapes/reference/invitation/) — from `list_invites`
 
 ## Connections
 

@@ -13,7 +13,7 @@ sidebar:
 
 ## Returns shapes
 
-- [`webpage`](/docs/shapes/reference/webpage/) — from `read_webpage`
+- [`webpage`](/shapes/reference/webpage/) — from `read_webpage`
 
 ## Readme
 

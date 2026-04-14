@@ -24,12 +24,12 @@ A quote is a canonical attribution to a speaker.
 
 | Relation | Target |
 |---|---|
-| `extractedFrom` | [`book`](/docs/shapes/reference/book/) |
-| `createdBy` | [`person`](/docs/shapes/reference/person/) |
+| `extractedFrom` | [`book`](/shapes/reference/book/) |
+| `createdBy` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[W3C Web Annotation Data Model](https://www.w3.org/TR/annotation-model/)** — Our extractedFrom = target; createdBy = creator; position ≈ TextPositionSelector/TextQuoteSelector; color ≈ rendering preference.
 - **[Hypothes.is annotation schema](https://h.readthedocs.io/en/latest/api-reference/)** — Practical W3C-compatible implementation. Our highlight is shaped like a Hypothes.is annotation minus the body text.

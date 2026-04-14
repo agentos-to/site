@@ -26,19 +26,19 @@ Claude transcripts, etc.
 
 | Relation | Target |
 |---|---|
-| `platform` | [`product`](/docs/shapes/reference/product/) |
-| `from` | [`actor`](/docs/shapes/reference/actor/) |
-| `inConversation` | [`conversation`](/docs/shapes/reference/conversation/) |
-| `repliesTo` | [`message`](/docs/shapes/reference/message/) |
-| `toolCalls` | [`tool_call[]`](/docs/shapes/reference/tool_call/) |
+| `platform` | [`product`](/shapes/reference/product/) |
+| `from` | [`actor`](/shapes/reference/actor/) |
+| `inConversation` | [`conversation`](/shapes/reference/conversation/) |
+| `repliesTo` | [`message`](/shapes/reference/message/) |
+| `toolCalls` | [`tool_call[]`](/shapes/reference/tool_call/) |
 
 ## Used as a base by
 
-- [`email`](/docs/shapes/reference/email/)
+- [`email`](/shapes/reference/email/)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[ActivityStreams 2.0 Note/Activity](https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note)** — Closest open standard for generic messages. Our from ≈ actor; inConversation ≈ context/conversation; repliesTo ≈ inReplyTo.
 - **[Matrix m.room.message](https://spec.matrix.org/latest/client-server-api/#mroommessage)** — Practical cross-platform message event schema. Our isOutgoing has no Matrix analog (sender identity instead); repliesTo ≈ m.relates_to rel_type m.thread/m.in_reply_to.
@@ -46,6 +46,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [claude](/docs/skills/reference/ai/claude/) — `import_conversation`
-- [imessage](/docs/skills/reference/comms/imessage/) — `op_list_messages`, `op_search_messages`, `op_get_message`
-- [whatsapp](/docs/skills/reference/comms/whatsapp/) — `op_list_messages`, `op_search_messages`, `op_get_message`
+- [claude](/skills/reference/ai/claude/) — `import_conversation`
+- [imessage](/skills/reference/comms/imessage/) — `op_list_messages`, `op_search_messages`, `op_get_message`
+- [whatsapp](/skills/reference/comms/whatsapp/) — `op_list_messages`, `op_search_messages`, `op_get_message`

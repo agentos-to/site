@@ -30,11 +30,11 @@ Distinct from folder: volumes have capacity, filesystem type, and mount state.
 
 | Relation | Target |
 |---|---|
-| `contains` | [`folder[]`](/docs/shapes/reference/folder/) |
+| `contains` | [`folder[]`](/shapes/reference/folder/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[POSIX / Single Unix Specification (mount)](https://pubs.opengroup.org/onlinepubs/9699919799/functions/mount.html)** — Our path = mount point; filesystem ≈ fs type; readOnly ≈ ro mount option.
 - **[macOS DiskArbitration + diskutil](https://ss64.com/osx/diskutil.html)** — Practical source. Our totalBytes/freeBytes/usedBytes/removable/ volumeType match diskutil info output.

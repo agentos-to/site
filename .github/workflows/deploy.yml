@@ -36,9 +36,8 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: |
           mkdir -p _site
-          cp index.html _site/
           cp CNAME _site/
-          cp -r docs/dist _site/docs
+          cp -r docs/dist/. _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

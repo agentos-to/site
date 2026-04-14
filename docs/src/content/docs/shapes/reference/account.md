@@ -39,18 +39,18 @@ identifier = platform-specific handle (e.g. "octocat", "user@example.com")
 
 | Relation | Target |
 |---|---|
-| `platform` | [`product`](/docs/shapes/reference/product/) |
-| `owner` | [`person`](/docs/shapes/reference/person/) |
-| `follows` | [`account[]`](/docs/shapes/reference/account/) |
-| `followers` | [`account[]`](/docs/shapes/reference/account/) |
+| `platform` | [`product`](/shapes/reference/product/) |
+| `owner` | [`person`](/shapes/reference/person/) |
+| `follows` | [`account[]`](/shapes/reference/account/) |
+| `followers` | [`account[]`](/shapes/reference/account/) |
 
 ## Used as a base by
 
-- [`financial_account`](/docs/shapes/reference/financial_account/)
+- [`financial_account`](/shapes/reference/financial_account/)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[OpenID Connect (OIDC) Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html)** — Our issuer/identifier maps to OIDC's iss/sub claims. OIDC is the canonical federated-identity model for "account = (issuer, subject)".
 - **[WebFinger (RFC 7033)](https://datatracker.ietf.org/doc/html/rfc7033)** — Resolves issuer+identifier pairs to profile metadata. Our identifier aligns with WebFinger's acct: URI scheme (user@host).
@@ -58,9 +58,9 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [goodreads](/docs/skills/reference/media/goodreads/) — `get_profile`
-- [moltbook](/docs/skills/reference/media/moltbook/) — `me_account`, `get_account`
-- [amazon](/docs/skills/reference/logistics/amazon/) — `whoami`
-- [chase](/docs/skills/reference/finance/chase/) — `check_session`, `get_accounts`
-- [copilot-money](/docs/skills/reference/finance/copilot-money/) — `load_accounts`
-- [greptile](/docs/skills/reference/dev/greptile/) — `list_members`
+- [goodreads](/skills/reference/media/goodreads/) — `get_profile`
+- [moltbook](/skills/reference/media/moltbook/) — `me_account`, `get_account`
+- [amazon](/skills/reference/logistics/amazon/) — `whoami`
+- [chase](/skills/reference/finance/chase/) — `check_session`, `get_accounts`
+- [copilot-money](/skills/reference/finance/copilot-money/) — `load_accounts`
+- [greptile](/skills/reference/dev/greptile/) — `list_members`

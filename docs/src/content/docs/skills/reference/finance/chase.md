@@ -13,9 +13,9 @@ sidebar:
 
 ## Returns shapes
 
-- [`account`](/docs/shapes/reference/account/) — from `check_session`
-- [`account[]`](/docs/shapes/reference/account/) — from `get_accounts`
-- [`transaction[]`](/docs/shapes/reference/transaction/) — from `get_transactions`
+- [`account`](/shapes/reference/account/) — from `check_session`
+- [`account[]`](/shapes/reference/account/) — from `get_accounts`
+- [`transaction[]`](/shapes/reference/transaction/) — from `get_transactions`
 
 ## Connections
 

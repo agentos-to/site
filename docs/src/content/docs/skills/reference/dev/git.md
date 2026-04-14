@@ -13,13 +13,13 @@ sidebar:
 
 ## Returns shapes
 
-- [`branch`](/docs/shapes/reference/branch/) — from `get_branch`
-- [`branch[]`](/docs/shapes/reference/branch/) — from `list_branches`
-- [`git_commit`](/docs/shapes/reference/git_commit/) — from `get_git_commit`
-- [`git_commit[]`](/docs/shapes/reference/git_commit/) — from `list_git_commits`, `search_git_commits`
-- [`repository`](/docs/shapes/reference/repository/) — from `get_repository`
-- [`tag`](/docs/shapes/reference/tag/) — from `get_tag`
-- [`tag[]`](/docs/shapes/reference/tag/) — from `list_tags`
+- [`branch`](/shapes/reference/branch/) — from `get_branch`
+- [`branch[]`](/shapes/reference/branch/) — from `list_branches`
+- [`git_commit`](/shapes/reference/git_commit/) — from `get_git_commit`
+- [`git_commit[]`](/shapes/reference/git_commit/) — from `list_git_commits`, `search_git_commits`
+- [`repository`](/shapes/reference/repository/) — from `get_repository`
+- [`tag`](/shapes/reference/tag/) — from `get_tag`
+- [`tag[]`](/shapes/reference/tag/) — from `list_tags`
 
 ## Readme
 

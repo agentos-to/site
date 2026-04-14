@@ -13,7 +13,7 @@ sidebar:
 
 ## Returns shapes
 
-- [`model[]`](/docs/shapes/reference/model/) — from `list_models`
+- [`model[]`](/shapes/reference/model/) — from `list_models`
 
 ## Connections
 

@@ -13,7 +13,7 @@ can be attributed as "who" in the graph alongside people and agents.
 | **Plural** | `organizations` |
 | **Subtitle field** | `industry` |
 | **Identity** | `url` |
-| **Also** | [`actor`](/docs/shapes/reference/actor/) |
+| **Also** | [`actor`](/shapes/reference/actor/) |
 
 ## Fields
 
@@ -26,14 +26,14 @@ can be attributed as "who" in the graph alongside people and agents.
 
 | Relation | Target |
 |---|---|
-| `member` | [`person[]`](/docs/shapes/reference/person/) |
-| `domain` | [`domain`](/docs/shapes/reference/domain/) |
-| `website` | [`website`](/docs/shapes/reference/website/) |
-| `headquarters` | [`place`](/docs/shapes/reference/place/) |
+| `member` | [`person[]`](/shapes/reference/person/) |
+| `domain` | [`domain`](/shapes/reference/domain/) |
+| `website` | [`website`](/shapes/reference/website/) |
+| `headquarters` | [`place`](/shapes/reference/place/) |
 
 ## Inherited
 
-From [`actor`](/docs/shapes/reference/actor/):
+From [`actor`](/shapes/reference/actor/):
 
 | Field | Type |
 |---|---|
@@ -41,11 +41,11 @@ From [`actor`](/docs/shapes/reference/actor/):
 
 ## Used as a base by
 
-- [`airline`](/docs/shapes/reference/airline/)
+- [`airline`](/shapes/reference/airline/)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Organization](https://schema.org/Organization)** — Our industry ≈ naics/isicV4 (loosely); founded = foundingDate; member[] = member; headquarters = location (or subOrganization with a Place).
 - **[vCard 4.0 KIND=org (RFC 6350)](https://datatracker.ietf.org/doc/html/rfc6350)** — Organization-as-contact. Our website/domain ≈ URL; headquarters ≈ ADR. Thinner than schema.org for industry/founded.

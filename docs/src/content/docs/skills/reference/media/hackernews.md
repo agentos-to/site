@@ -13,8 +13,8 @@ sidebar:
 
 ## Returns shapes
 
-- [`post`](/docs/shapes/reference/post/) — from `get_post`
-- [`post[]`](/docs/shapes/reference/post/) — from `list_posts`, `search_posts`, `comments_post`
+- [`post`](/shapes/reference/post/) — from `get_post`
+- [`post[]`](/shapes/reference/post/) — from `list_posts`, `search_posts`, `comments_post`
 
 ## Readme
 

@@ -38,19 +38,19 @@ A direct Uber ride is one leg. A multi-stop Uber ride has one leg per stop pair.
 
 | Relation | Target |
 |---|---|
-| `origin` | [`place`](/docs/shapes/reference/place/) |
-| `destination` | [`place`](/docs/shapes/reference/place/) |
-| `carrier` | [`organization`](/docs/shapes/reference/organization/) |
-| `aircraft` | [`aircraft`](/docs/shapes/reference/aircraft/) |
-| `trip` | [`trip`](/docs/shapes/reference/trip/) |
+| `origin` | [`place`](/shapes/reference/place/) |
+| `destination` | [`place`](/shapes/reference/place/) |
+| `carrier` | [`organization`](/shapes/reference/organization/) |
+| `aircraft` | [`aircraft`](/shapes/reference/aircraft/) |
+| `trip` | [`trip`](/shapes/reference/trip/) |
 
 ## Used as a base by
 
-- [`flight`](/docs/shapes/reference/flight/)
+- [`flight`](/shapes/reference/flight/)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[IATA NDC "segment"](https://www.iata.org/en/programs/airline-distribution/retailing/ndc/)** — NDC segment = our leg. flightNumber, departureTime, arrivalTime, cabinClass come straight from NDC OfferItem Segment.
 - **[GTFS stop_times.txt](https://gtfs.org/documentation/schedule/reference/#stop_timestxt)** — Transit leg model. Our sequence = stop_sequence; departureTime/ arrivalTime = arrival_time/departure_time.

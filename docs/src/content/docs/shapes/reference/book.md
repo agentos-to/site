@@ -13,7 +13,7 @@ User-specific state (rating, shelf, dates) and platform metrics are modeled as e
 | **Plural** | `books` |
 | **Subtitle field** | `author` |
 | **Identity** | `isbn13`, `isbn` |
-| **Also** | [`product`](/docs/shapes/reference/product/) |
+| **Also** | [`product`](/shapes/reference/product/) |
 
 ## Fields
 
@@ -35,13 +35,13 @@ User-specific state (rating, shelf, dates) and platform metrics are modeled as e
 
 | Relation | Target |
 |---|---|
-| `writtenBy` | [`person`](/docs/shapes/reference/person/) |
-| `contributors` | [`person[]`](/docs/shapes/reference/person/) |
-| `publisher` | [`organization`](/docs/shapes/reference/organization/) |
+| `writtenBy` | [`person`](/shapes/reference/person/) |
+| `contributors` | [`person[]`](/shapes/reference/person/) |
+| `publisher` | [`organization`](/shapes/reference/organization/) |
 
 ## Inherited
 
-From [`product`](/docs/shapes/reference/product/):
+From [`product`](/shapes/reference/product/):
 
 | Field | Type |
 |---|---|
@@ -69,13 +69,13 @@ From [`product`](/docs/shapes/reference/product/):
 
 | Relation | Target |
 |---|---|
-| `brand` | [`brand`](/docs/shapes/reference/brand/) |
-| `manufacturer` | [`organization`](/docs/shapes/reference/organization/) |
-| `tagged` | [`tag[]`](/docs/shapes/reference/tag/) |
+| `brand` | [`brand`](/shapes/reference/brand/) |
+| `manufacturer` | [`organization`](/shapes/reference/organization/) |
+| `tagged` | [`tag[]`](/shapes/reference/tag/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Book](https://schema.org/Book)** — Our isbn maps to isbn; writtenBy = author; publisher matches; pages = numberOfPages; language = inLanguage; format ≈ bookFormat (Hardcover/Paperback/EBook).
 - **[ONIX for Books 3.0](https://www.editeur.org/83/Overview/)** — Publishing-industry canonical. Our isbn/isbn13/pages/format/language/series/originalTitle align with ONIX Product Identifier, Extent, ProductForm, Language, Collection, and OriginalLanguageTitle composites.
@@ -83,4 +83,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [goodreads](/docs/skills/reference/media/goodreads/) — `get_book`, `list_similar_books`, `list_series_books`, `search_books`, `list_author_books`, `list_books`, `list_shelf_books`
+- [goodreads](/skills/reference/media/goodreads/) — `get_book`, `list_similar_books`, `list_series_books`, `search_books`, `list_author_books`, `list_books`, `list_shelf_books`

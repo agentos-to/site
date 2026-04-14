@@ -5,7 +5,7 @@ description: Higher-order principles for shape design. Extracted from practice, 
 
 Higher-order principles for shape design. Extracted from practice, updated as we learn.
 
-For the tactical reference (field types, format, display rules), see the [Ontology overview](/docs/shapes/overview/).
+For the tactical reference (field types, format, display rules), see the [Ontology overview](/shapes/overview/).
 
 ## 1. A shape describes what something IS, not where it came from
 

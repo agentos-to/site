@@ -30,12 +30,12 @@ An airport. Created from flight search results and linked to flights.
 
 | Relation | Target |
 |---|---|
-| `location` | [`place`](/docs/shapes/reference/place/) |
-| `operator` | [`organization`](/docs/shapes/reference/organization/) |
+| `location` | [`place`](/shapes/reference/place/) |
+| `operator` | [`organization`](/shapes/reference/organization/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[IATA/ICAO Airport Codes](https://www.iata.org/en/publications/directories/code-search/)** — iataCode is 3-letter (LAX, JFK); icaoCode is 4-letter (KLAX, KJFK). Canonical identifiers for global airport routing.
 - **[schema.org/Airport](https://schema.org/Airport)** — Our iataCode/icaoCode = iataCode/icaoCode; city/country = address fields; elevationFt ≈ elevation. Direct alignment.

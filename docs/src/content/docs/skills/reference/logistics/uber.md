@@ -13,14 +13,14 @@ sidebar:
 
 ## Returns shapes
 
-- [`order`](/docs/shapes/reference/order/) — from `get_delivery`, `get_messages`, `add_to_cart`, `checkout`, `track_delivery`
-- [`order[]`](/docs/shapes/reference/order/) — from `list_deliveries`, `get_cart`
-- [`place`](/docs/shapes/reference/place/) — from `get_store`
-- [`place[]`](/docs/shapes/reference/place/) — from `search_address`, `list_addresses`, `search_stores`, `list_nearby_stores`
-- [`product`](/docs/shapes/reference/product/) — from `get_item_customizations`
-- [`product[]`](/docs/shapes/reference/product/) — from `search_products`
-- [`trip`](/docs/shapes/reference/trip/) — from `get_trip`
-- [`trip[]`](/docs/shapes/reference/trip/) — from `list_trips`
+- [`order`](/shapes/reference/order/) — from `get_delivery`, `get_messages`, `add_to_cart`, `checkout`, `track_delivery`
+- [`order[]`](/shapes/reference/order/) — from `list_deliveries`, `get_cart`
+- [`place`](/shapes/reference/place/) — from `get_store`
+- [`place[]`](/shapes/reference/place/) — from `search_address`, `list_addresses`, `search_stores`, `list_nearby_stores`
+- [`product`](/shapes/reference/product/) — from `get_item_customizations`
+- [`product[]`](/shapes/reference/product/) — from `search_products`
+- [`trip`](/shapes/reference/trip/) — from `get_trip`
+- [`trip[]`](/shapes/reference/trip/) — from `list_trips`
 
 ## Connections
 

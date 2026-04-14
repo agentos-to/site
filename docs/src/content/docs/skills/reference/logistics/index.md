@@ -8,5 +8,5 @@ sidebar:
 
 **2** skills in `logistics`.
 
-- [**Amazon**](/docs/skills/reference/logistics/amazon/) — Search products, get details, and access your Amazon account
-- [**Uber**](/docs/skills/reference/logistics/uber/) — Ride history, trip details, Eats order history, and account info from Uber
+- [**Amazon**](/skills/reference/logistics/amazon/) — Search products, get details, and access your Amazon account
+- [**Uber**](/skills/reference/logistics/uber/) — Ride history, trip details, Eats order history, and account info from Uber

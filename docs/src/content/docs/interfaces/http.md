@@ -60,7 +60,7 @@ This is the primitive behind any "live activity feed" UI — you can see skills 
 
 The bridge is **localhost only**. It binds to `127.0.0.1`, not `0.0.0.0`. Nothing from another machine can reach it without explicit tunneling.
 
-Within localhost, there is no additional auth. Any process on the machine that can open a TCP connection to `:3456` can read the graph. This is the same trust model as the [CLI](/docs/interfaces/cli/): if you're on the machine, you have access.
+Within localhost, there is no additional auth. Any process on the machine that can open a TCP connection to `:3456` can read the graph. This is the same trust model as the [CLI](/interfaces/cli/): if you're on the machine, you have access.
 
 **Writes go through the engine, not the bridge.** The bridge's SQLite connection is opened read-only; the only mutating endpoints (`PUT /user/pref`, `POST /graph` with `tool: delete`, `tool: run`) proxy to the engine socket, which enforces the usual dispatch and auth flow.
 
@@ -88,7 +88,7 @@ A minimal app is:
 2. A manifest at `app.json` the bridge picks up via `/apps`.
 3. JavaScript that calls `fetch('/graph', { method: 'POST', body: JSON.stringify({tool: 'read', params: {...}}) })`.
 
-See [Apps overview](/docs/apps/overview/) for the full shape.
+See [Apps overview](/apps/overview/) for the full shape.
 
 ## Port configuration
 

@@ -10,7 +10,7 @@ An image file. Photos, screenshots, diagrams, artwork.
 | Metadata | Value |
 |---|---|
 | **Plural** | `images` |
-| **Also** | [`file`](/docs/shapes/reference/file/) |
+| **Also** | [`file`](/shapes/reference/file/) |
 
 ## Fields
 
@@ -27,7 +27,7 @@ An image file. Photos, screenshots, diagrams, artwork.
 
 ## Inherited
 
-From [`file`](/docs/shapes/reference/file/):
+From [`file`](/shapes/reference/file/):
 
 | Field | Type |
 |---|---|
@@ -42,12 +42,12 @@ From [`file`](/docs/shapes/reference/file/):
 
 | Relation | Target |
 |---|---|
-| `attachedTo` | [`message`](/docs/shapes/reference/message/) |
-| `repository` | [`repository`](/docs/shapes/reference/repository/) |
+| `attachedTo` | [`message`](/shapes/reference/message/) |
+| `repository` | [`repository`](/shapes/reference/repository/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/ImageObject](https://schema.org/ImageObject)** — Our width/height = width/height; format ≈ encodingFormat; altText = caption/accessibilityCaption.
 - **[IANA Media Types (image/*)](https://www.iana.org/assignments/media-types/media-types.xhtml#image)** — Our format values (PNG, JPEG, WebP, SVG) align with registered image/* media types.
@@ -55,4 +55,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [macos-control](/docs/skills/reference/macos/macos-control/) — `screenshot_display`, `screenshot_window`
+- [macos-control](/skills/reference/macos/macos-control/) — `screenshot_display`, `screenshot_window`

@@ -12,7 +12,7 @@ An aircraft type (not an individual plane). Linked from flight search results.
 | **Plural** | `aircraft` |
 | **Subtitle field** | `model` |
 | **Identity** | `icaoCode` |
-| **Also** | [`product`](/docs/shapes/reference/product/) |
+| **Also** | [`product`](/shapes/reference/product/) |
 
 ## Fields
 
@@ -29,11 +29,11 @@ An aircraft type (not an individual plane). Linked from flight search results.
 
 | Relation | Target |
 |---|---|
-| `manufacturer` | [`organization`](/docs/shapes/reference/organization/) |
+| `manufacturer` | [`organization`](/shapes/reference/organization/) |
 
 ## Inherited
 
-From [`product`](/docs/shapes/reference/product/):
+From [`product`](/shapes/reference/product/):
 
 | Field | Type |
 |---|---|
@@ -61,12 +61,12 @@ From [`product`](/docs/shapes/reference/product/):
 
 | Relation | Target |
 |---|---|
-| `brand` | [`brand`](/docs/shapes/reference/brand/) |
-| `tagged` | [`tag[]`](/docs/shapes/reference/tag/) |
+| `brand` | [`brand`](/shapes/reference/brand/) |
+| `tagged` | [`tag[]`](/shapes/reference/tag/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[ICAO Aircraft Type Designators (Doc 8643)](https://www.icao.int/publications/DOC8643/Pages/Search.aspx)** — Our icaoCode is the canonical 4-char type code (B738, A320); iataCode is the 3-char IATA equivalent (738, 320).
 - **[schema.org/Vehicle](https://schema.org/Vehicle)** — Our model/seatCapacity map to vehicleModelDate/vehicleSeatingCapacity; manufacturer matches directly.

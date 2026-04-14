@@ -13,10 +13,10 @@ sidebar:
 
 ## Returns shapes
 
-- [`dns_record`](/docs/shapes/reference/dns_record/) — from `get_dns_record`
-- [`dns_record[]`](/docs/shapes/reference/dns_record/) — from `list_dns_records`
-- [`domain`](/docs/shapes/reference/domain/) — from `get_domain`
-- [`domain[]`](/docs/shapes/reference/domain/) — from `list_domains`
+- [`dns_record`](/shapes/reference/dns_record/) — from `get_dns_record`
+- [`dns_record[]`](/shapes/reference/dns_record/) — from `list_dns_records`
+- [`domain`](/shapes/reference/domain/) — from `get_domain`
+- [`domain[]`](/shapes/reference/domain/) — from `list_domains`
 
 ## Connections
 

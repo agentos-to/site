@@ -11,7 +11,7 @@ An app asks *"give me an LLM"*. The engine picks a skill that `@provides(llm)`. 
 
 This is **security by architecture**. If an app and a skill can't name each other, they can't trust each other. Every capability request and every credential dereference passes through the engine.
 
-See [Local-first](/docs/architecture/local-first/) for the full framing.
+See [Local-first](/architecture/local-first/) for the full framing.
 
 ## Shipped apps
 
@@ -43,6 +43,6 @@ A headless AgentOS — API and AI only — works perfectly without apps. Apps ar
 
 ## See also
 
-- [Principles → How we build](/docs/introduction/how-we-build/)
-- [Principles → Design principles → Three concerns](/docs/architecture/design-principles/#three-concerns) — entities, skills, and apps as independent concerns.
+- [Principles → How we build](/introduction/how-we-build/)
+- [Principles → Design principles → Three concerns](/architecture/design-principles/#three-concerns) — entities, skills, and apps as independent concerns.
 - The [`apps/` repo](https://github.com/agentos-to/apps) — where apps live.

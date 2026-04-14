@@ -10,7 +10,7 @@ A bookshelf. Shelves are lists that contain books instead of generic products.
 | Metadata | Value |
 |---|---|
 | **Plural** | `shelves` |
-| **Also** | [`list`](/docs/shapes/reference/list/) |
+| **Also** | [`list`](/shapes/reference/list/) |
 
 ## Fields
 
@@ -22,11 +22,11 @@ A bookshelf. Shelves are lists that contain books instead of generic products.
 
 | Relation | Target |
 |---|---|
-| `contains` | [`book[]`](/docs/shapes/reference/book/) |
+| `contains` | [`book[]`](/shapes/reference/book/) |
 
 ## Inherited
 
-From [`list`](/docs/shapes/reference/list/):
+From [`list`](/shapes/reference/list/):
 
 | Field | Type |
 |---|---|
@@ -38,16 +38,16 @@ From [`list`](/docs/shapes/reference/list/):
 
 | Relation | Target |
 |---|---|
-| `belongsTo` | [`account`](/docs/shapes/reference/account/) |
-| `platform` | [`product`](/docs/shapes/reference/product/) |
+| `belongsTo` | [`account`](/shapes/reference/account/) |
+| `platform` | [`product`](/shapes/reference/product/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[Goodreads API — Shelves](https://www.goodreads.com/api)** — Direct source. Our isExclusive maps to Goodreads' "exclusive shelves" (read, to-read, currently-reading).
 - **[schema.org/ItemList (bookshelf)](https://schema.org/ItemList)** — Generic collection peer. contains(book[]) ≈ itemListElement.
 
 ## Skills that produce this shape
 
-- [goodreads](/docs/skills/reference/media/goodreads/) — `list_shelves`
+- [goodreads](/skills/reference/media/goodreads/) — `list_shelves`

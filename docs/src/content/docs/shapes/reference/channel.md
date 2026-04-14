@@ -22,11 +22,11 @@ A content channel — typically a YouTube channel. Videos are uploaded to channe
 
 | Relation | Target |
 |---|---|
-| `platform` | [`product`](/docs/shapes/reference/product/) |
+| `platform` | [`product`](/shapes/reference/product/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[ActivityStreams 2.0 Collection](https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection)** — A channel is a platform-specific Collection of media items. Our banner is channel branding; AS2 doesn't model that directly.
 - **[YouTube Data API — Channel resource](https://developers.google.com/youtube/v3/docs/channels)** — Practical source. Our channel id/banner map to YouTube's channelId and brandingSettings.image.bannerExternalUrl.
@@ -34,4 +34,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [youtube](/docs/skills/reference/media/youtube/) — `get_channel`, `get_avatar_channel`
+- [youtube](/skills/reference/media/youtube/) — `get_channel`, `get_avatar_channel`

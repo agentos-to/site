@@ -13,13 +13,13 @@ sidebar:
 
 ## Returns shapes
 
-- [`account`](/docs/shapes/reference/account/) — from `whoami`
-- [`list`](/docs/shapes/reference/list/) — from `get_list`
-- [`list[]`](/docs/shapes/reference/list/) — from `list_lists`
-- [`order`](/docs/shapes/reference/order/) — from `get_order`
-- [`order[]`](/docs/shapes/reference/order/) — from `list_orders`
-- [`product`](/docs/shapes/reference/product/) — from `get_product`
-- [`product[]`](/docs/shapes/reference/product/) — from `search_products`, `buy_again`
+- [`account`](/shapes/reference/account/) — from `whoami`
+- [`list`](/shapes/reference/list/) — from `get_list`
+- [`list[]`](/shapes/reference/list/) — from `list_lists`
+- [`order`](/shapes/reference/order/) — from `get_order`
+- [`order[]`](/shapes/reference/order/) — from `list_orders`
+- [`product`](/shapes/reference/product/) — from `get_product`
+- [`product[]`](/shapes/reference/product/) — from `search_products`, `buy_again`
 
 ## Connections
 

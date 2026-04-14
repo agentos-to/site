@@ -27,13 +27,13 @@ extracted from sources (literature notes from books, articles, videos).
 
 | Relation | Target |
 |---|---|
-| `createdBy` | [`person`](/docs/shapes/reference/person/) |
-| `references` | [`note[]`](/docs/shapes/reference/note/) |
-| `extractedFrom` | [`webpage`](/docs/shapes/reference/webpage/) |
+| `createdBy` | [`person`](/shapes/reference/person/) |
+| `references` | [`note[]`](/shapes/reference/note/) |
+| `extractedFrom` | [`webpage`](/shapes/reference/webpage/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[Zettelkasten / Luhmann slip-box](https://zettelkasten.de/overview/)** — Our noteType (fleeting/literature/permanent) is the canonical Zettelkasten triad; references[] ≈ Luhmann's permanent links.
 - **[W3C Web Annotation Data Model](https://www.w3.org/TR/annotation-model/)** — Our extractedFrom = target; createdBy = creator. Notes are annotations without a structured position selector.

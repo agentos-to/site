@@ -56,12 +56,12 @@ The company (Costco Inc.) is an organization. The location is a place.
 
 | Relation | Target |
 |---|---|
-| `brand` | [`organization`](/docs/shapes/reference/organization/) |
-| `offers` | [`product[]`](/docs/shapes/reference/product/) |
+| `brand` | [`organization`](/shapes/reference/organization/) |
+| `offers` | [`product[]`](/shapes/reference/product/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Place + PostalAddress](https://schema.org/Place)** — Our latitude/longitude = geo.latitude/longitude; street/city/region/postalCode/countryCode map to PostalAddress streetAddress/addressLocality/addressRegion/postalCode/addressCountry; hours ≈ openingHoursSpecification; rating/reviewCount ≈ aggregateRating.
 - **[Google Places API (Place resource)](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places)** — Practical POI schema. Our googlePlaceId = id; featureType/categories ≈ types/primaryType; businessStatus, priceLevel, rating match directly.
@@ -69,4 +69,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [uber](/docs/skills/reference/logistics/uber/) — `get_store`, `search_address`, `list_addresses`, `search_stores`, `list_nearby_stores`
+- [uber](/skills/reference/logistics/uber/) — `get_store`, `search_address`, `list_addresses`, `search_stores`, `list_nearby_stores`

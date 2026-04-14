@@ -29,12 +29,12 @@ Websites are created/managed by the here.now publishing skill.
 
 | Relation | Target |
 |---|---|
-| `domain` | [`domain`](/docs/shapes/reference/domain/) |
-| `ownedBy` | [`organization`](/docs/shapes/reference/organization/) |
+| `domain` | [`domain`](/shapes/reference/domain/) |
+| `ownedBy` | [`organization`](/shapes/reference/organization/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/WebSite](https://schema.org/WebSite)** — Our url-as-identity matches; ownedBy ≈ publisher; domain relation ≈ url host.
 - **[WHOIS (RFC 3912)](https://datatracker.ietf.org/doc/html/rfc3912)** — Our expiresAt/domain source from WHOIS records; claimToken has no direct WHOIS peer (HERE.NOW-specific).
@@ -42,4 +42,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [here-now](/docs/skills/reference/hosting/here-now/) — `list_websites`, `op_create_website`, `op_update_website`
+- [here-now](/skills/reference/hosting/here-now/) — `list_websites`, `op_create_website`, `op_update_website`

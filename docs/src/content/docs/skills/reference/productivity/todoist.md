@@ -13,10 +13,10 @@ sidebar:
 
 ## Returns shapes
 
-- [`project[]`](/docs/shapes/reference/project/) — from `list_projects`
-- [`tag[]`](/docs/shapes/reference/tag/) — from `list_tags`
-- [`task`](/docs/shapes/reference/task/) — from `get_task`, `create_task`, `update_task`, `move_task`
-- [`task[]`](/docs/shapes/reference/task/) — from `list_tasks`, `list_all_tasks`, `filter_task`
+- [`project[]`](/shapes/reference/project/) — from `list_projects`
+- [`tag[]`](/shapes/reference/tag/) — from `list_tags`
+- [`task`](/shapes/reference/task/) — from `get_task`, `create_task`, `update_task`, `move_task`
+- [`task[]`](/shapes/reference/task/) — from `list_tasks`, `list_all_tasks`, `filter_task`
 
 ## Connections
 

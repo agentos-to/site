@@ -13,7 +13,7 @@ sidebar:
 
 ## Returns shapes
 
-- [`webpage[]`](/docs/shapes/reference/webpage/) — from `list_webpages`, `search_webpages`
+- [`webpage[]`](/shapes/reference/webpage/) — from `list_webpages`, `search_webpages`
 
 ## Connections
 

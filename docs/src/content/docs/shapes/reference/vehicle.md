@@ -19,7 +19,7 @@ Registration: vehicle registered in a jurisdiction (edge with plate, dates)
 | **Plural** | `vehicles` |
 | **Subtitle field** | `vin` |
 | **Identity** | `vin` |
-| **Also** | [`product`](/docs/shapes/reference/product/) |
+| **Also** | [`product`](/shapes/reference/product/) |
 
 ## Fields
 
@@ -40,11 +40,11 @@ Registration: vehicle registered in a jurisdiction (edge with plate, dates)
 
 | Relation | Target |
 |---|---|
-| `manufacturer` | [`organization`](/docs/shapes/reference/organization/) |
+| `manufacturer` | [`organization`](/shapes/reference/organization/) |
 
 ## Inherited
 
-From [`product`](/docs/shapes/reference/product/):
+From [`product`](/shapes/reference/product/):
 
 | Field | Type |
 |---|---|
@@ -72,12 +72,12 @@ From [`product`](/docs/shapes/reference/product/):
 
 | Relation | Target |
 |---|---|
-| `brand` | [`brand`](/docs/shapes/reference/brand/) |
-| `tagged` | [`tag[]`](/docs/shapes/reference/tag/) |
+| `brand` | [`brand`](/shapes/reference/brand/) |
+| `tagged` | [`tag[]`](/shapes/reference/tag/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[ISO 3779 — VIN (Vehicle Identification Number)](https://www.iso.org/standard/52200.html)** — Canonical 17-char VIN. Our vin field uses ISO 3779 syntax (WMI + VDS + VIS).
 - **[schema.org/Vehicle](https://schema.org/Vehicle)** — Our year ≈ vehicleModelDate; model = model; fuelType = fuelType; bodyType = bodyType; drivetrain = driveWheelConfiguration.

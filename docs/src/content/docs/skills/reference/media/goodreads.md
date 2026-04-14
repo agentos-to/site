@@ -13,15 +13,15 @@ sidebar:
 
 ## Returns shapes
 
-- [`account`](/docs/shapes/reference/account/) — from `get_profile`
-- [`book`](/docs/shapes/reference/book/) — from `get_book`
-- [`book[]`](/docs/shapes/reference/book/) — from `list_similar_books`, `list_series_books`, `search_books`, `list_author_books`, `list_books`, `list_shelf_books`
-- [`group[]`](/docs/shapes/reference/group/) — from `list_groups`
-- [`person`](/docs/shapes/reference/person/) — from `get_author`, `get_person`
-- [`person[]`](/docs/shapes/reference/person/) — from `search_people`, `list_friends`, `resolve_email`, `list_following`, `list_followers`
-- [`quote[]`](/docs/shapes/reference/quote/) — from `list_quotes`
-- [`review[]`](/docs/shapes/reference/review/) — from `list_book_reviews`, `list_reviews`
-- [`shelf[]`](/docs/shapes/reference/shelf/) — from `list_shelves`
+- [`account`](/shapes/reference/account/) — from `get_profile`
+- [`book`](/shapes/reference/book/) — from `get_book`
+- [`book[]`](/shapes/reference/book/) — from `list_similar_books`, `list_series_books`, `search_books`, `list_author_books`, `list_books`, `list_shelf_books`
+- [`group[]`](/shapes/reference/group/) — from `list_groups`
+- [`person`](/shapes/reference/person/) — from `get_author`, `get_person`
+- [`person[]`](/shapes/reference/person/) — from `search_people`, `list_friends`, `resolve_email`, `list_following`, `list_followers`
+- [`quote[]`](/shapes/reference/quote/) — from `list_quotes`
+- [`review[]`](/shapes/reference/review/) — from `list_book_reviews`, `list_reviews`
+- [`shelf[]`](/shapes/reference/shelf/) — from `list_shelves`
 - `void` — from `public_authenticate`
 
 ## Connections

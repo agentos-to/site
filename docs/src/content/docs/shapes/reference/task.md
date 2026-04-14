@@ -29,21 +29,21 @@ and dependency tracking (blocked_by/blocks).
 
 | Relation | Target |
 |---|---|
-| `assignedTo` | [`person`](/docs/shapes/reference/person/) |
-| `project` | [`project`](/docs/shapes/reference/project/) |
-| `repository` | [`repository`](/docs/shapes/reference/repository/) |
-| `parent` | [`task`](/docs/shapes/reference/task/) |
-| `children` | [`task[]`](/docs/shapes/reference/task/) |
-| `blockedBy` | [`task[]`](/docs/shapes/reference/task/) |
-| `blocks` | [`task[]`](/docs/shapes/reference/task/) |
+| `assignedTo` | [`person`](/shapes/reference/person/) |
+| `project` | [`project`](/shapes/reference/project/) |
+| `repository` | [`repository`](/shapes/reference/repository/) |
+| `parent` | [`task`](/shapes/reference/task/) |
+| `children` | [`task[]`](/shapes/reference/task/) |
+| `blockedBy` | [`task[]`](/shapes/reference/task/) |
+| `blocks` | [`task[]`](/shapes/reference/task/) |
 
 ## Used as a base by
 
-- [`spec`](/docs/shapes/reference/spec/)
+- [`spec`](/shapes/reference/spec/)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[GitHub REST API — Issues](https://docs.github.com/en/rest/issues/issues)** — Direct source. Our remoteId/state/labels/assignedTo/parent/ children/blockedBy/blocks map to GitHub Issue + sub-issues + task-list tracking.
 - **[Linear GraphQL API — Issue](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)** — Practical canonical. Our priority/state/project/targetDate align with Linear's Issue model exactly.
@@ -51,6 +51,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [todoist](/docs/skills/reference/productivity/todoist/) — `list_tasks`, `list_all_tasks`, `filter_task`, `get_task`, `create_task`, `update_task`, `move_task`
-- [linear](/docs/skills/reference/dev/linear/) — `list_tasks`, `get_task`, `create_task`, `update_task`
-- [github](/docs/skills/reference/dev/github/) — `list_tasks`, `get_task`
+- [todoist](/skills/reference/productivity/todoist/) — `list_tasks`, `list_all_tasks`, `filter_task`, `get_task`, `create_task`, `update_task`, `move_task`
+- [linear](/skills/reference/dev/linear/) — `list_tasks`, `get_task`, `create_task`, `update_task`
+- [github](/skills/reference/dev/github/) — `list_tasks`, `get_task`

@@ -32,4 +32,4 @@ These principles make the system better for humans too. A readme that a 1B model
 
 Designing for the most constrained user has always been the shortcut to designing for everyone. The accessibility movement proved this for humans. We're proving it for agents.
 
-For the full practice of designing-for-agents, see [Agent empathy](/docs/skills/agent-empathy/).
+For the full practice of designing-for-agents, see [Agent empathy](/skills/agent-empathy/).

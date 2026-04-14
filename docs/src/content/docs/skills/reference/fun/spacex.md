@@ -13,8 +13,8 @@ sidebar:
 
 ## Returns shapes
 
-- [`event`](/docs/shapes/reference/event/) — from `get_launch`
-- [`event[]`](/docs/shapes/reference/event/) — from `list_upcoming`, `list_past`
+- [`event`](/shapes/reference/event/) — from `get_launch`
+- [`event[]`](/shapes/reference/event/) — from `list_upcoming`, `list_past`
 
 ## Readme
 

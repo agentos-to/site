@@ -45,14 +45,14 @@ published = when the invitation was created/sent.
 
 | Relation | Target |
 |---|---|
-| `inviter` | [`account`](/docs/shapes/reference/account/) |
-| `invitee` | [`account`](/docs/shapes/reference/account/) |
-| `organization` | [`organization`](/docs/shapes/reference/organization/) |
-| `platform` | [`product`](/docs/shapes/reference/product/) |
+| `inviter` | [`account`](/shapes/reference/account/) |
+| `invitee` | [`account`](/shapes/reference/account/) |
+| `organization` | [`organization`](/shapes/reference/organization/) |
+| `platform` | [`product`](/shapes/reference/product/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[ActivityStreams 2.0 Invite activity](https://www.w3.org/TR/activitystreams-vocabulary/#dfn-invite)** — AS2 Invite is the canonical fediverse verb. Our inviter = actor; invitee = target; status tracks Accept/Reject/TentativeAccept responses.
 - **[iCalendar ATTENDEE + PARTSTAT (RFC 5545)](https://datatracker.ietf.org/doc/html/rfc5545)** — Calendar-style invitations. Our status maps to PARTSTAT (NEEDS-ACTION/ACCEPTED/DECLINED/DELEGATED).
@@ -60,4 +60,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [greptile](/docs/skills/reference/dev/greptile/) — `list_invites`, `send_invite`
+- [greptile](/skills/reference/dev/greptile/) — `list_invites`, `send_invite`

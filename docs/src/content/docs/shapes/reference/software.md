@@ -16,7 +16,7 @@ Examples: Gmail, Cursor, Slack, yt-dlp, agentOS itself
 | **Plural** | `software` |
 | **Subtitle field** | `text` |
 | **Identity** | `url` |
-| **Also** | [`product`](/docs/shapes/reference/product/) |
+| **Also** | [`product`](/shapes/reference/product/) |
 
 ## Fields
 
@@ -32,12 +32,12 @@ Examples: Gmail, Cursor, Slack, yt-dlp, agentOS itself
 
 | Relation | Target |
 |---|---|
-| `developer` | [`organization`](/docs/shapes/reference/organization/) |
-| `repository` | [`repository`](/docs/shapes/reference/repository/) |
+| `developer` | [`organization`](/shapes/reference/organization/) |
+| `repository` | [`repository`](/shapes/reference/repository/) |
 
 ## Inherited
 
-From [`product`](/docs/shapes/reference/product/):
+From [`product`](/shapes/reference/product/):
 
 | Field | Type |
 |---|---|
@@ -65,17 +65,17 @@ From [`product`](/docs/shapes/reference/product/):
 
 | Relation | Target |
 |---|---|
-| `brand` | [`brand`](/docs/shapes/reference/brand/) |
-| `manufacturer` | [`organization`](/docs/shapes/reference/organization/) |
-| `tagged` | [`tag[]`](/docs/shapes/reference/tag/) |
+| `brand` | [`brand`](/shapes/reference/brand/) |
+| `manufacturer` | [`organization`](/shapes/reference/organization/) |
+| `tagged` | [`tag[]`](/shapes/reference/tag/) |
 
 ## Used as a base by
 
-- [`platform`](/docs/shapes/reference/platform/)
+- [`platform`](/shapes/reference/platform/)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/SoftwareApplication](https://schema.org/SoftwareApplication)** — Our version = softwareVersion; license matches; platform[] ≈ operatingSystem; developer = creator/author.
 - **[SPDX License List](https://spdx.org/licenses/)** — Our license values are canonical SPDX identifiers.

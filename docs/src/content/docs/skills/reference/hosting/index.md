@@ -8,6 +8,6 @@ sidebar:
 
 **3** skills in `hosting`.
 
-- [**Gandi**](/docs/skills/reference/hosting/gandi/) — Domain and DNS management via the Gandi API
-- [**here.now**](/docs/skills/reference/hosting/here-now/) — Publish static websites instantly — HTML, images, PDFs — no account needed
-- [**Porkbun**](/docs/skills/reference/hosting/porkbun/) — Domain and DNS management via the Porkbun API
+- [**Gandi**](/skills/reference/hosting/gandi/) — Domain and DNS management via the Gandi API
+- [**here.now**](/skills/reference/hosting/here-now/) — Publish static websites instantly — HTML, images, PDFs — no account needed
+- [**Porkbun**](/skills/reference/hosting/porkbun/) — Domain and DNS management via the Porkbun API

@@ -33,7 +33,7 @@ Shapes are YAML files in `site/docs/shapes/` that get loaded into the graph at e
 
 The engine uses the shape registry for type coercion (`"495"` → integer, `"true"` → boolean) and for validation when skills write. It does **not** use the registry to branch on entity types — coercion is a shape-level operation, not a type-level one.
 
-See [Shapes overview](/docs/shapes/overview/) for the authoring format and [Identity & change](/docs/shapes/identity-and-change/) for how identity works across time.
+See [Shapes overview](/shapes/overview/) for the authoring format and [Identity & change](/shapes/identity-and-change/) for how identity works across time.
 
 ## Identity and deduplication
 
@@ -78,7 +78,7 @@ This is the principle that keeps the engine generic. If the engine ever learned 
 - **Apps** — they decide how to render, sort, group.
 - **Shapes** — they describe the structure everyone agrees on.
 
-See [Architectural laws](/docs/architecture/architectural-laws/) for the full list of things the engine refuses to do.
+See [Architectural laws](/architecture/architectural-laws/) for the full list of things the engine refuses to do.
 
 ## Edges as first-class data
 
@@ -108,7 +108,7 @@ Nobody queries SQL directly. The API surface is the shape registry + the capabil
 
 ## Further reading
 
-- [Shapes overview](/docs/shapes/overview/) — authoring format, tactical rules, review checklist.
-- [Shape design principles](/docs/shapes/shape-design-principles/) — the higher-order rules.
-- [Memex & the graph](/docs/shapes/memex-and-graph/) — why your entire knowledge graph fits in one SQLite file.
-- [Identity & change](/docs/shapes/identity-and-change/) — every change is an entity too.
+- [Shapes overview](/shapes/overview/) — authoring format, tactical rules, review checklist.
+- [Shape design principles](/shapes/shape-design-principles/) — the higher-order rules.
+- [Memex & the graph](/shapes/memex-and-graph/) — why your entire knowledge graph fits in one SQLite file.
+- [Identity & change](/shapes/identity-and-change/) — every change is an entity too.

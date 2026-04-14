@@ -13,8 +13,8 @@ sidebar:
 
 ## Returns shapes
 
-- [`result[]`](/docs/shapes/reference/result/) — from `search`
-- [`webpage`](/docs/shapes/reference/webpage/) — from `read_webpage`
+- [`result[]`](/shapes/reference/result/) — from `search`
+- [`webpage`](/shapes/reference/webpage/) — from `read_webpage`
 
 ## Connections
 

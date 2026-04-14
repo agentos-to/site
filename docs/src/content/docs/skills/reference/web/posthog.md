@@ -13,10 +13,10 @@ sidebar:
 
 ## Returns shapes
 
-- [`event`](/docs/shapes/reference/event/) — from `get_event`
-- [`event[]`](/docs/shapes/reference/event/) — from `list_events`
-- [`person`](/docs/shapes/reference/person/) — from `get_person`
-- [`person[]`](/docs/shapes/reference/person/) — from `list_persons`, `search_persons`
+- [`event`](/shapes/reference/event/) — from `get_event`
+- [`event[]`](/shapes/reference/event/) — from `list_events`
+- [`person`](/shapes/reference/person/) — from `get_person`
+- [`person[]`](/shapes/reference/person/) — from `list_persons`, `search_persons`
 
 ## Connections
 

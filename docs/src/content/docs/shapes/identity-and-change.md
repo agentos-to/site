@@ -47,9 +47,9 @@ No audit log table. No `created_by` / `updated_at` duplication per entity. One c
 - **ActivityStreams / ActivityPub** — the fediverse's answer to "what happened?" is an activity entity with an actor.
 - **Git** — every commit is an entity with an author, a parent, and a diff. Same pattern, different domain.
 
-See [Research → Relationships and events](/docs/research/relationships-and-events/causal-chains-entity-graphs/) for deeper background.
+See [Research → Relationships and events](/research/relationships-and-events/causal-chains-entity-graphs/) for deeper background.
 
 ## See also
 
-- [Design principles](/docs/architecture/design-principles/) — "changes are entities" and "every actor has an identity" listed among the first-principles rules.
-- [Ontology overview](/docs/shapes/overview/) — the `change` and `actor` shapes.
+- [Design principles](/architecture/design-principles/) — "changes are entities" and "every actor has an identity" listed among the first-principles rules.
+- [Ontology overview](/shapes/overview/) — the `change` and `actor` shapes.

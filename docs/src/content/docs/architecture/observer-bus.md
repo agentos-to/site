@@ -3,7 +3,7 @@ title: Observer bus
 description: How tool-call activity flows from the engine's broadcast channel through the observer Unix socket to the bridge's SSE endpoint and into a browser EventSource — end-to-end.
 ---
 
-The observer bus is how AgentOS turns every tool call into a live event you can watch from a browser. The [HTTP page](/docs/interfaces/http/) shows the two routes (`/observer/history`, `/observer/stream`); this page is the deep dive — what's behind those routes, why it's shaped the way it is, and how it survives restarts and slow consumers.
+The observer bus is how AgentOS turns every tool call into a live event you can watch from a browser. The [HTTP page](/interfaces/http/) shows the two routes (`/observer/history`, `/observer/stream`); this page is the deep dive — what's behind those routes, why it's shaped the way it is, and how it survives restarts and slow consumers.
 
 ## The bus
 
@@ -148,6 +148,6 @@ Same daemon, same flock — just two listening sockets.
 
 ## Further reading
 
-- [HTTP](/docs/interfaces/http/) — the `/observer/*` route table and SSE contract.
-- [Overview](/docs/architecture/overview/) — where the bridge and engine sit in the broader picture.
-- [Local-first](/docs/architecture/local-first/) — what the activity log persists and what stays ephemeral.
+- [HTTP](/interfaces/http/) — the `/observer/*` route table and SSE contract.
+- [Overview](/architecture/overview/) — where the bridge and engine sit in the broader picture.
+- [Local-first](/architecture/local-first/) — what the activity log persists and what stays ephemeral.

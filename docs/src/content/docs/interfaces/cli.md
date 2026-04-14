@@ -42,11 +42,11 @@ You rarely start the engine by hand — `agentos-mcp` and `agentos bridge` both 
 
 ### `agentos bridge [--port 3456]`
 
-Runs the web bridge (the [HTTP interface](/docs/interfaces/http/)). Same singleton model — one bridge per port. Port configurable via `--port` or the `AGENTOS_BRIDGE_PORT` env var.
+Runs the web bridge (the [HTTP interface](/interfaces/http/)). Same singleton model — one bridge per port. Port configurable via `--port` or the `AGENTOS_BRIDGE_PORT` env var.
 
 ### `agentos mcp`
 
-Runs the [MCP stdio proxy](/docs/interfaces/mcp/). You don't invoke this directly; an AI client spawns it.
+Runs the [MCP stdio proxy](/interfaces/mcp/). You don't invoke this directly; an AI client spawns it.
 
 ### `agentos browse [subcommand]`
 
@@ -82,7 +82,7 @@ Most commands emit pretty-printed structured output by default. When a command r
 
 The CLI inherits the trust of the user running it. There is no `agentos login`, no API key, no per-command ACLs. If you can exec `agentos` and read `~/.agentos/engine.sock`, you have full access.
 
-This is intentional: CLI access is for the user who owns the machine. The [MCP interface](/docs/interfaces/mcp/) has the same trust model by extension — an AI client running as your user gets the same access.
+This is intentional: CLI access is for the user who owns the machine. The [MCP interface](/interfaces/mcp/) has the same trust model by extension — an AI client running as your user gets the same access.
 
 ## Exit codes
 

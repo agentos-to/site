@@ -13,9 +13,9 @@ sidebar:
 
 ## Returns shapes
 
-- [`project[]`](/docs/shapes/reference/project/) — from `list_projects`
-- [`task`](/docs/shapes/reference/task/) — from `get_task`, `create_task`, `update_task`
-- [`task[]`](/docs/shapes/reference/task/) — from `list_tasks`
+- [`project[]`](/shapes/reference/project/) — from `list_projects`
+- [`task`](/shapes/reference/task/) — from `get_task`, `create_task`, `update_task`
+- [`task[]`](/shapes/reference/task/) — from `list_tasks`
 
 ## Connections
 

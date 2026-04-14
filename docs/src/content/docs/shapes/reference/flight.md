@@ -12,7 +12,7 @@ A nonstop itinerary has one flight. A connection has multiple flights.
 |---|---|
 | **Plural** | `flights` |
 | **Subtitle field** | `airline` |
-| **Also** | [`leg`](/docs/shapes/reference/leg/) |
+| **Also** | [`leg`](/shapes/reference/leg/) |
 
 ## Fields
 
@@ -30,14 +30,14 @@ A nonstop itinerary has one flight. A connection has multiple flights.
 
 | Relation | Target |
 |---|---|
-| `airline` | [`airline`](/docs/shapes/reference/airline/) |
-| `departsFrom` | [`airport`](/docs/shapes/reference/airport/) |
-| `arrivesAt` | [`airport`](/docs/shapes/reference/airport/) |
-| `aircraft` | [`aircraft`](/docs/shapes/reference/aircraft/) |
+| `airline` | [`airline`](/shapes/reference/airline/) |
+| `departsFrom` | [`airport`](/shapes/reference/airport/) |
+| `arrivesAt` | [`airport`](/shapes/reference/airport/) |
+| `aircraft` | [`aircraft`](/shapes/reference/aircraft/) |
 
 ## Inherited
 
-From [`leg`](/docs/shapes/reference/leg/):
+From [`leg`](/shapes/reference/leg/):
 
 | Field | Type |
 |---|---|
@@ -51,14 +51,14 @@ From [`leg`](/docs/shapes/reference/leg/):
 
 | Relation | Target |
 |---|---|
-| `carrier` | [`organization`](/docs/shapes/reference/organization/) |
-| `destination` | [`place`](/docs/shapes/reference/place/) |
-| `origin` | [`place`](/docs/shapes/reference/place/) |
-| `trip` | [`trip`](/docs/shapes/reference/trip/) |
+| `carrier` | [`organization`](/shapes/reference/organization/) |
+| `destination` | [`place`](/shapes/reference/place/) |
+| `origin` | [`place`](/shapes/reference/place/) |
+| `trip` | [`trip`](/shapes/reference/trip/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[IATA Resolution 753 / Flight Codeshare](https://www.iata.org/en/programs/ops-infra/baggage/baggage-tracking/)** — Our flightNumber follows IATA carrier-code + digits format (UA 1234). Canonical for cross-carrier flight identity.
 - **[Duffel / IATA NDC Slice+Segment](https://duffel.com/docs/api/v2/overview)** — NDC models a trip (slice) as multiple flights (segments). Our flight shape = NDC segment; our trip = NDC slice.

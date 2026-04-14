@@ -14,7 +14,7 @@ drive has no likes.
 |---|---|
 | **Plural** | `videos` |
 | **Subtitle field** | `author` |
-| **Also** | [`file`](/docs/shapes/reference/file/) |
+| **Also** | [`file`](/shapes/reference/file/) |
 
 ## Fields
 
@@ -29,13 +29,13 @@ drive has no likes.
 
 | Relation | Target |
 |---|---|
-| `channel` | [`channel`](/docs/shapes/reference/channel/) |
-| `transcribe` | [`transcript`](/docs/shapes/reference/transcript/) |
-| `addTo` | [`playlist`](/docs/shapes/reference/playlist/) |
+| `channel` | [`channel`](/shapes/reference/channel/) |
+| `transcribe` | [`transcript`](/shapes/reference/transcript/) |
+| `addTo` | [`playlist`](/shapes/reference/playlist/) |
 
 ## Inherited
 
-From [`file`](/docs/shapes/reference/file/):
+From [`file`](/shapes/reference/file/):
 
 | Field | Type |
 |---|---|
@@ -51,12 +51,12 @@ From [`file`](/docs/shapes/reference/file/):
 
 | Relation | Target |
 |---|---|
-| `attachedTo` | [`message`](/docs/shapes/reference/message/) |
-| `repository` | [`repository`](/docs/shapes/reference/repository/) |
+| `attachedTo` | [`message`](/shapes/reference/message/) |
+| `repository` | [`repository`](/shapes/reference/repository/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/VideoObject](https://schema.org/VideoObject)** — Our durationMs ≈ duration (ISO 8601 period); resolution ≈ videoFrameSize; frameRate has no direct property; codec ≈ encodingFormat.
 - **[IANA Media Types (video/*)](https://www.iana.org/assignments/media-types/media-types.xhtml#video)** — Our codec values map to registered video/* media types (mp4, webm, ogg).
@@ -64,4 +64,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [youtube](/docs/skills/reference/media/youtube/) — `search_videos`, `search_recent_video`, `list_videos`, `get_video`, `transcript_video`
+- [youtube](/skills/reference/media/youtube/) — `search_videos`, `search_recent_video`, `list_videos`, `get_video`, `transcript_video`

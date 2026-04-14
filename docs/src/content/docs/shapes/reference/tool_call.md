@@ -31,14 +31,14 @@ any agent framework that records tool use.
 
 | Relation | Target |
 |---|---|
-| `platform` | [`product`](/docs/shapes/reference/product/) |
-| `from` | [`actor`](/docs/shapes/reference/actor/) |
-| `inMessage` | [`message`](/docs/shapes/reference/message/) |
-| `repliesTo` | [`tool_call`](/docs/shapes/reference/tool_call/) |
+| `platform` | [`product`](/shapes/reference/product/) |
+| `from` | [`actor`](/shapes/reference/actor/) |
+| `inMessage` | [`message`](/shapes/reference/message/) |
+| `repliesTo` | [`tool_call`](/shapes/reference/tool_call/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[Anthropic Tool Use API](https://docs.anthropic.com/en/docs/build-with-claude/tool-use)** — Our name/input/output/isError map to tool_use/tool_result blocks in Claude's message API.
 - **[OpenAI Function Calling / tool_calls](https://platform.openai.com/docs/guides/function-calling)** — Our name/input = function.name/function.arguments; output is the tool-result message content.

@@ -114,7 +114,7 @@ Use `identity` for compound keys (must all match) and `identity_any` for alterna
 
 ## Design Principles
 
-Tactical principles — concrete patterns for field types, relations, and display. Use the [review checklist](#review-checklist) below after writing or editing a shape. For the higher-order framing ("a shape describes what something IS, not where it came from"), see [Shape design principles](/docs/shapes/shape-design-principles/).
+Tactical principles — concrete patterns for field types, relations, and display. Use the [review checklist](#review-checklist) below after writing or editing a shape. For the higher-order framing ("a shape describes what something IS, not where it came from"), see [Shape design principles](/shapes/shape-design-principles/).
 
 ### 1. Entities over fields
 
@@ -446,27 +446,27 @@ The engine itself does **not** validate shapes at runtime. It's a generic entity
 
 ## Prior Research
 
-Our ontology research lives in [Research → Ontology](/docs/research/ontology/relationship-modeling/). It's exploratory, not authoritative — some pieces are outdated — but contains principles and platform analysis worth consulting when designing new shapes.
+Our ontology research lives in [Research → Ontology](/research/ontology/relationship-modeling/). It's exploratory, not authoritative — some pieces are outdated — but contains principles and platform analysis worth consulting when designing new shapes.
 
 ### Entity & Ontology Research
-- [Schema entities](/docs/research/ontology/schema-entities/) — Core entity type definitions, OGP foundation, hypotheses on note vs article
-- [Schema relationships](/docs/research/ontology/schema-relationships/) — Relationship type catalog and design patterns
-- [Open Graph Protocol](/docs/research/ontology/open-graph-protocol/) — OGP types, why flat beats hierarchical
-- [Google structured data](/docs/research/ontology/google-structured-data/) — Schema.org structured data patterns
+- [Schema entities](/research/ontology/schema-entities/) — Core entity type definitions, OGP foundation, hypotheses on note vs article
+- [Schema relationships](/research/ontology/schema-relationships/) — Relationship type catalog and design patterns
+- [Open Graph Protocol](/research/ontology/open-graph-protocol/) — OGP types, why flat beats hierarchical
+- [Google structured data](/research/ontology/google-structured-data/) — Schema.org structured data patterns
 
 ### Platform Research
-- [Google Takeout](/docs/research/platforms/google-takeout/) — 72 Google products analyzed for entity types (Contacts, Calendar, Drive, Gmail, Photos, YouTube, Maps, Chrome, Pay, Play)
-- [Facebook Graph](/docs/research/platforms/facebook-graph/) — Facebook Graph API entity model
-- [FamilySearch](/docs/research/platforms/familysearch/) — GEDCOM X genealogical data model (two relationship types + qualifiers, computed derivations, source citations)
+- [Google Takeout](/research/platforms/google-takeout/) — 72 Google products analyzed for entity types (Contacts, Calendar, Drive, Gmail, Photos, YouTube, Maps, Chrome, Pay, Play)
+- [Facebook Graph](/research/platforms/facebook-graph/) — Facebook Graph API entity model
+- [FamilySearch](/research/platforms/familysearch/) — GEDCOM X genealogical data model (two relationship types + qualifiers, computed derivations, source citations)
 
 ### Relationship Research
-- [Genealogical relationships](/docs/research/ontology/genealogical-relationships/) — Family relationship modeling patterns
-- [Relationship modeling](/docs/research/ontology/relationship-modeling/) — General relationship design
-- [Schema.org relationships](/docs/research/ontology/schema-org-relationships/) — Schema.org relationship types
-- [OGP relationships](/docs/research/ontology/ogp-relationships/) — OGP relationship patterns
-- [No-orphans constraint](/docs/research/ontology/no-orphans-constraint/) — Why every entity needs at least one connection
+- [Genealogical relationships](/research/ontology/genealogical-relationships/) — Family relationship modeling patterns
+- [Relationship modeling](/research/ontology/relationship-modeling/) — General relationship design
+- [Schema.org relationships](/research/ontology/schema-org-relationships/) — Schema.org relationship types
+- [OGP relationships](/research/ontology/ogp-relationships/) — OGP relationship patterns
+- [No-orphans constraint](/research/ontology/no-orphans-constraint/) — Why every entity needs at least one connection
 
 ### Systems Research
-- [Outcome entity](/docs/research/ontology/outcome-entity/) — Outcome/goal entity modeling
-- [PKM community](/docs/research/context/pkm-community/) — Personal knowledge management patterns
-- [Semantic file systems](/docs/research/context/semantic-file-systems/) — NEPOMUK and semantic desktop research
+- [Outcome entity](/research/ontology/outcome-entity/) — Outcome/goal entity modeling
+- [PKM community](/research/context/pkm-community/) — Personal knowledge management patterns
+- [Semantic file systems](/research/context/semantic-file-systems/) — NEPOMUK and semantic desktop research

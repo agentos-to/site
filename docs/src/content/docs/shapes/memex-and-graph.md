@@ -26,7 +26,7 @@ The graph is the foundation. Every feature we build — search, feeds, timelines
 
 The graph has one entity table and one relationship table. Entity **shape** is carried by the entity itself, via a `_type` entity that describes which fields, relations, and display hints apply. The engine doesn't know about `task` or `message` or `person` — it only knows that there's an entity whose `_type` points to a shape.
 
-This is what makes the engine generic. Adding a new entity type is a YAML file in `site/docs/shapes/`, not a Rust change. See the [Ontology overview](/docs/shapes/overview/) for the full shape system.
+This is what makes the engine generic. Adding a new entity type is a YAML file in `site/docs/shapes/`, not a Rust change. See the [Ontology overview](/shapes/overview/) for the full shape system.
 
 ## Content vs. storage
 
@@ -36,7 +36,7 @@ This is why "local" and "remote" aren't two different things in AgentOS. Our own
 
 ## See also
 
-- [Ontology overview](/docs/shapes/overview/) — the full shape system and the tactical reference.
-- [Identity & change](/docs/shapes/identity-and-change/) — why every actor and every change is an entity too.
-- [Research → Ontology](/docs/research/ontology/genealogical-relationships/) — prior art on knowledge graphs we studied.
-- [Research → Context → Semantic file systems](/docs/research/context/semantic-file-systems/) — why desktop OSes keep trying and failing to build something like this.
+- [Ontology overview](/shapes/overview/) — the full shape system and the tactical reference.
+- [Identity & change](/shapes/identity-and-change/) — why every actor and every change is an entity too.
+- [Research → Ontology](/research/ontology/genealogical-relationships/) — prior art on knowledge graphs we studied.
+- [Research → Context → Semantic file systems](/research/context/semantic-file-systems/) — why desktop OSes keep trying and failing to build something like this.

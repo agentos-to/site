@@ -3,7 +3,7 @@ title: Auth resolution
 description: How the engine picks one credential when multiple sources offer candidates for the same issuer. Timestamp-based, no fixed priority — the freshest cookie wins.
 ---
 
-This page is the algorithm behind ["freshest wins"](/docs/architecture/security/#auth-resolution--freshest-wins). It assumes you've read [Security](/docs/architecture/security/) and want the actual decision procedure: who's asked, what's compared, who breaks ties, and what happens when the resolved cookie turns out to be stale.
+This page is the algorithm behind ["freshest wins"](/architecture/security/#auth-resolution--freshest-wins). It assumes you've read [Security](/architecture/security/) and want the actual decision procedure: who's asked, what's compared, who breaks ties, and what happens when the resolved cookie turns out to be stale.
 
 ## The problem
 

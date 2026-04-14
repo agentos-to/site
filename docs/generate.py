@@ -645,7 +645,7 @@ def _rust_type(f: Field) -> str:
 def _shape_link(target: str) -> str:
     """Produce a markdown link to another shape's reference page."""
     base = target.rstrip("[]")
-    return f"[`{target}`](/docs/shapes/reference/{base}/)"
+    return f"[`{target}`](/shapes/reference/{base}/)"
 
 
 def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, list[dict]]) -> None:
@@ -765,7 +765,7 @@ def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, 
         if s.prior_art:
             lines.append("## Prior art")
             lines.append("")
-            lines.append("External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.")
+            lines.append("External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.")
             lines.append("")
             for entry in s.prior_art:
                 src = entry["source"]
@@ -784,7 +784,7 @@ def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, 
                 sid = p["skill_id"]
                 cat = p.get("category", "")
                 ops = ", ".join(f"`{op}`" for op in p["operations"])
-                url = f"/docs/skills/reference/{cat}/{sid}/" if cat else f"/docs/skills/reference/{sid}/"
+                url = f"/skills/reference/{cat}/{sid}/" if cat else f"/skills/reference/{sid}/"
                 lines.append(f"- [{sid}]({url}) — {ops}")
             lines.append("")
 
@@ -799,7 +799,7 @@ def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, 
         "",
         f"The AgentOS ontology — **{len(shapes)}** shapes. Each shape defines what an entity *is* (fields, relations, display hints). Shapes can extend other shapes via `also:`, which makes that shape a **tag** on the entity — a person is also an actor; a book is also a product.",
         "",
-        "See [Overview](/docs/shapes/overview/) for the tactical reference and [Shape design principles](/docs/shapes/shape-design-principles/) for the rules.",
+        "See [Overview](/shapes/overview/) for the tactical reference and [Shape design principles](/shapes/shape-design-principles/) for the rules.",
         "",
         "## All shapes",
         "",
@@ -810,7 +810,7 @@ def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, 
         if s.also:
             also = f" — also {', '.join(f'`{a}`' for a in s.also)}"
         desc_part = f" — {desc}" if desc else ""
-        idx.append(f"- [`{s.name}`](/docs/shapes/reference/{s.name}/){also}{desc_part}")
+        idx.append(f"- [`{s.name}`](/shapes/reference/{s.name}/){also}{desc_part}")
     (out_dir / "index.md").write_text("\n".join(idx) + "\n")
 
 
@@ -893,7 +893,7 @@ def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -
 
     `known_shapes` is the set of shape names that have their own reference page;
     return-types outside this set (e.g. `void`) are rendered as plain code without
-    a link so generated pages never produce dead `/docs/shapes/reference/void/` URLs.
+    a link so generated pages never produce dead `/shapes/reference/void/` URLs.
     """
     out_dir.mkdir(parents=True, exist_ok=True)
     # Group skills by category so we can emit per-category index pages below.
@@ -939,7 +939,7 @@ def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -
                 fn_list = ", ".join(f"`{fn}`" for fn in fns)
                 bare = shape.rstrip("[]")
                 if bare in known_shapes:
-                    rendered = f"[`{shape}`](/docs/shapes/reference/{bare}/)"
+                    rendered = f"[`{shape}`](/shapes/reference/{bare}/)"
                 else:
                     rendered = f"`{shape}`"
                 lines.append(f"- {rendered} — from {fn_list}")
@@ -980,17 +980,17 @@ def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -
         "",
         f"The AgentOS skill catalog — **{len(skills)}** skills across **{len(by_cat)}** categories. Each skill is a Python adapter that connects to a service or provides a pure agent capability.",
         "",
-        "See [Skills → Overview](/docs/skills/overview/) for how to build one.",
+        "See [Skills → Overview](/skills/overview/) for how to build one.",
         "",
     ]
     for cat in sorted(by_cat.keys()):
-        idx.append(f"## [{cat}](/docs/skills/reference/{cat}/)")
+        idx.append(f"## [{cat}](/skills/reference/{cat}/)")
         idx.append("")
         for rec in sorted(by_cat[cat], key=lambda r: r["skill_id"]):
             name = rec["meta"].get("name", rec["skill_id"])
             desc = (rec["meta"].get("description") or "").strip().rstrip(".")
             desc_part = f" — {desc}" if desc else ""
-            idx.append(f"- [**{name}**](/docs/skills/reference/{cat}/{rec['skill_id']}/){desc_part}")
+            idx.append(f"- [**{name}**](/skills/reference/{cat}/{rec['skill_id']}/){desc_part}")
         idx.append("")
     (out_dir / "index.md").write_text("\n".join(idx) + "\n")
 
@@ -1012,7 +1012,7 @@ def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -
             name = rec["meta"].get("name", rec["skill_id"])
             desc = (rec["meta"].get("description") or "").strip().rstrip(".")
             desc_part = f" — {desc}" if desc else ""
-            cat_lines.append(f"- [**{name}**](/docs/skills/reference/{cat}/{rec['skill_id']}/){desc_part}")
+            cat_lines.append(f"- [**{name}**](/skills/reference/{cat}/{rec['skill_id']}/){desc_part}")
         (out_dir / cat / "index.md").write_text("\n".join(cat_lines).rstrip() + "\n")
 
 

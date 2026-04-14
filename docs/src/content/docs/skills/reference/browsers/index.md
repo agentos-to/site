@@ -8,4 +8,4 @@ sidebar:
 
 **1** skills in `browsers`.
 
-- [**Brave Browser**](/docs/skills/reference/browsers/brave-browser/) — Browsing history, bookmarks, and cookies from Brave Browser on macOS — including session key extraction for claude.ai
+- [**Brave Browser**](/skills/reference/browsers/brave-browser/) — Browsing history, bookmarks, and cookies from Brave Browser on macOS — including session key extraction for claude.ai

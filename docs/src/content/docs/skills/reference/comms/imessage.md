@@ -13,10 +13,10 @@ sidebar:
 
 ## Returns shapes
 
-- [`conversation`](/docs/shapes/reference/conversation/) — from `op_get_conversation`
-- [`conversation[]`](/docs/shapes/reference/conversation/) — from `op_list_conversations`
-- [`message`](/docs/shapes/reference/message/) — from `op_get_message`
-- [`message[]`](/docs/shapes/reference/message/) — from `op_list_messages`, `op_search_messages`
+- [`conversation`](/shapes/reference/conversation/) — from `op_get_conversation`
+- [`conversation[]`](/shapes/reference/conversation/) — from `op_list_conversations`
+- [`message`](/shapes/reference/message/) — from `op_get_message`
+- [`message[]`](/shapes/reference/message/) — from `op_list_messages`, `op_search_messages`
 
 ## Connections
 

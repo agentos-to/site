@@ -13,7 +13,7 @@ sidebar:
 
 ## Returns shapes
 
-- [`offer[]`](/docs/shapes/reference/offer/) — from `search_offers`, `list_offers`, `get_offer`
+- [`offer[]`](/shapes/reference/offer/) — from `search_offers`, `list_offers`, `get_offer`
 
 ## Connections
 

@@ -17,7 +17,7 @@ or products. The "platform" tag is for services that host user data.
 | **Plural** | `platforms` |
 | **Subtitle field** | `website` |
 | **Identity** | `website` |
-| **Also** | [`software`](/docs/shapes/reference/software/) |
+| **Also** | [`software`](/shapes/reference/software/) |
 
 ## Fields
 
@@ -28,7 +28,7 @@ or products. The "platform" tag is for services that host user data.
 
 ## Inherited
 
-From [`software`](/docs/shapes/reference/software/):
+From [`software`](/shapes/reference/software/):
 
 | Field | Type |
 |---|---|
@@ -61,15 +61,15 @@ From [`software`](/docs/shapes/reference/software/):
 
 | Relation | Target |
 |---|---|
-| `brand` | [`brand`](/docs/shapes/reference/brand/) |
-| `developer` | [`organization`](/docs/shapes/reference/organization/) |
-| `manufacturer` | [`organization`](/docs/shapes/reference/organization/) |
-| `repository` | [`repository`](/docs/shapes/reference/repository/) |
-| `tagged` | [`tag[]`](/docs/shapes/reference/tag/) |
+| `brand` | [`brand`](/shapes/reference/brand/) |
+| `developer` | [`organization`](/shapes/reference/organization/) |
+| `manufacturer` | [`organization`](/shapes/reference/organization/) |
+| `repository` | [`repository`](/shapes/reference/repository/) |
+| `tagged` | [`tag[]`](/shapes/reference/tag/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/SoftwareApplication](https://schema.org/SoftwareApplication)** — Our website ≈ url; platformType ≈ applicationCategory.
 - **[schema.org/WebSite](https://schema.org/WebSite)** — A platform often IS a website. Our website field is canonical identity — matches schema.org's url/sameAs.

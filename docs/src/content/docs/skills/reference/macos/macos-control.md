@@ -13,7 +13,7 @@ sidebar:
 
 ## Returns shapes
 
-- [`image`](/docs/shapes/reference/image/) — from `screenshot_display`, `screenshot_window`
+- [`image`](/shapes/reference/image/) — from `screenshot_display`, `screenshot_window`
 
 ## Readme
 

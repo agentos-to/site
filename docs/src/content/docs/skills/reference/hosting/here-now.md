@@ -13,8 +13,8 @@ sidebar:
 
 ## Returns shapes
 
-- [`website`](/docs/shapes/reference/website/) — from `op_create_website`, `op_update_website`
-- [`website[]`](/docs/shapes/reference/website/) — from `list_websites`
+- [`website`](/shapes/reference/website/) — from `op_create_website`, `op_update_website`
+- [`website[]`](/shapes/reference/website/) — from `list_websites`
 
 ## Connections
 

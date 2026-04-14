@@ -5,7 +5,7 @@ description: How a tool call actually executes — the wire protocol between the
 
 A skill call is one of the busier paths in AgentOS. The engine receives a tool invocation, hands it to a long-lived Python worker over JSON-line stdio, and then services every side-effect the skill triggers — HTTP, secrets, SQL, LLM — by routing requests back across the same pipe. This page is the close-up of that exchange.
 
-For framing — the four boundaries, the capability broker, where state lives — see the [architecture overview](/docs/architecture/overview/). This page assumes it.
+For framing — the four boundaries, the capability broker, where state lives — see the [architecture overview](/architecture/overview/). This page assumes it.
 
 ## The shape of a call
 
@@ -127,6 +127,6 @@ The whole point: every side-effect is observable, gateable, and auth-brokered at
 
 It's one more boundary than strictly necessary. A skill could in principle just open an HTTP socket. Instead it asks the engine, which asks the credential store, which asks the OS keychain, which returns bytes that get reattached as a request header that gets logged and then sent. Five hops to fetch one URL.
 
-The trade is engine-enforced brokering on every side-effect: the auth-resolution policy from [Security](/docs/architecture/security/) runs *every time*, not just at "configure." Capability gates are cheap to reason about because they're checked at a single seam. The audit log is complete by construction — if it isn't in `engine-io.jsonl`, it didn't happen. And the same worker binary serves both the engine and `agentos-exec` because the seam is protocol, not implementation.
+The trade is engine-enforced brokering on every side-effect: the auth-resolution policy from [Security](/architecture/security/) runs *every time*, not just at "configure." Capability gates are cheap to reason about because they're checked at a single seam. The audit log is complete by construction — if it isn't in `engine-io.jsonl`, it didn't happen. And the same worker binary serves both the engine and `agentos-exec` because the seam is protocol, not implementation.
 
 The skill is reduced to a pure-ish function from JSON to JSON. That's the thing that makes the rest of the system tractable.

@@ -13,7 +13,7 @@ sidebar:
 
 ## Returns shapes
 
-- [`community`](/docs/shapes/reference/community/) — from `get_community`
+- [`community`](/shapes/reference/community/) — from `get_community`
 
 ## Readme
 

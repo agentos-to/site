@@ -12,7 +12,7 @@ Querying by "event" returns meetings too.
 |---|---|
 | **Plural** | `meetings` |
 | **Subtitle field** | `location` |
-| **Also** | [`event`](/docs/shapes/reference/event/) |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -28,11 +28,11 @@ Querying by "event" returns meetings too.
 
 | Relation | Target |
 |---|---|
-| `transcribe` | [`transcript`](/docs/shapes/reference/transcript/) |
+| `transcribe` | [`transcript`](/shapes/reference/transcript/) |
 
 ## Inherited
 
-From [`event`](/docs/shapes/reference/event/):
+From [`event`](/shapes/reference/event/):
 
 | Field | Type |
 |---|---|
@@ -52,16 +52,16 @@ From [`event`](/docs/shapes/reference/event/):
 
 | Relation | Target |
 |---|---|
-| `attachments` | [`file[]`](/docs/shapes/reference/file/) |
-| `creator` | [`person`](/docs/shapes/reference/person/) |
-| `involves` | [`person[]`](/docs/shapes/reference/person/) |
-| `location` | [`place`](/docs/shapes/reference/place/) |
-| `organizer` | [`person`](/docs/shapes/reference/person/) |
-| `platform` | [`product`](/docs/shapes/reference/product/) |
+| `attachments` | [`file[]`](/shapes/reference/file/) |
+| `creator` | [`person`](/shapes/reference/person/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `location` | [`place`](/shapes/reference/place/) |
+| `organizer` | [`person`](/shapes/reference/person/) |
+| `platform` | [`product`](/shapes/reference/product/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[RFC 5545 VEVENT + conference property (RFC 7986)](https://datatracker.ietf.org/doc/html/rfc7986#section-5.11)** — Our meetingUrl ≈ CONFERENCE URI; phoneDialIn = tel: URI in CONFERENCE feature=PHONE; conferenceProvider ≈ CONFERENCE LABEL.
 - **[schema.org/Event — location.VirtualLocation](https://schema.org/VirtualLocation)** — Our isVirtual triggers VirtualLocation; meetingUrl ≈ VirtualLocation.url.
@@ -69,4 +69,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [granola](/docs/skills/reference/productivity/granola/) — `op_list_meetings`, `op_get_meeting`
+- [granola](/skills/reference/productivity/granola/) — `op_list_meetings`, `op_get_meeting`

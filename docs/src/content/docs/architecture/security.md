@@ -59,11 +59,11 @@ Things the engine will not do:
 - Sort, group, partition, or render based on entity type.
 - Call out to a bespoke fetcher for a specific kind of record.
 
-Violations are architecture bugs, caught at code review. The reason is structural: if the engine grows an opinion about what a "task" is, then skills and apps can no longer define new entity types without modifying the Rust binary. The ontology lives in [shapes](/docs/shapes/overview/), not in the engine.
+Violations are architecture bugs, caught at code review. The reason is structural: if the engine grows an opinion about what a "task" is, then skills and apps can no longer define new entity types without modifying the Rust binary. The ontology lives in [shapes](/shapes/overview/), not in the engine.
 
 ## Boundaries and trust
 
-Each of the [four boundaries](/docs/architecture/overview/#the-four-boundaries) is a trust boundary:
+Each of the [four boundaries](/architecture/overview/#the-four-boundaries) is a trust boundary:
 
 | Boundary | Trust relationship |
 |---|---|
@@ -82,4 +82,4 @@ A few things that CLAUDE.md and the principles assert but the code does not full
 - **Multi-device is not implemented.** The graph is portable (one file, copy it), but there is no sync daemon, conflict resolution, or merge layer. If two machines edit the same graph file, last-writer-wins via filesystem timestamps.
 - **Keychain fallback is unencrypted.** On systems without Keychain, the credential store currently emits a warning and stores values in plaintext.
 
-See [Architectural laws](/docs/architecture/architectural-laws/) for the full structural constraints.
+See [Architectural laws](/architecture/architectural-laws/) for the full structural constraints.

@@ -13,7 +13,7 @@ Inherits platform identity fields from account. Financial-specific fields
 |---|---|
 | **Plural** | `financial_accounts` |
 | **Subtitle field** | `last4` |
-| **Also** | [`account`](/docs/shapes/reference/account/) |
+| **Also** | [`account`](/shapes/reference/account/) |
 
 ## Fields
 
@@ -33,7 +33,7 @@ Inherits platform identity fields from account. Financial-specific fields
 
 ## Inherited
 
-From [`account`](/docs/shapes/reference/account/):
+From [`account`](/shapes/reference/account/):
 
 | Field | Type |
 |---|---|
@@ -52,14 +52,14 @@ From [`account`](/docs/shapes/reference/account/):
 
 | Relation | Target |
 |---|---|
-| `followers` | [`account[]`](/docs/shapes/reference/account/) |
-| `follows` | [`account[]`](/docs/shapes/reference/account/) |
-| `owner` | [`person`](/docs/shapes/reference/person/) |
-| `platform` | [`product`](/docs/shapes/reference/product/) |
+| `followers` | [`account[]`](/shapes/reference/account/) |
+| `follows` | [`account[]`](/shapes/reference/account/) |
+| `owner` | [`person`](/shapes/reference/person/) |
+| `platform` | [`product`](/shapes/reference/product/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[OFX (Open Financial Exchange)](https://financialdataexchange.org/ofx)** — Bank-feed canonical. Our accountNumber/routingNumber/balance/ available map to OFX BANKACCTFROM/LEDGERBAL/AVAILBAL.
 - **[ISO 20022 Financial Messaging](https://www.iso20022.org/)** — Modern bank-messaging standard. Our last4/cardType/creditLimit/ interestRate align with ISO 20022 Card/Account components.

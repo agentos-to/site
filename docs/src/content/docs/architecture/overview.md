@@ -15,9 +15,9 @@ Three kinds of thing live in SQLite at `~/.agentos/data/agentos.db`:
 - **Edges** — labeled, directional links between two nodes (`tagged_with`, `replied_to`, `parent`).
 - **Values** — keyed fields on a node or an edge (`name = "Joe"`, `done = true`).
 
-That's the whole schema. There is no "tasks" table, no "messages" table, no type column on nodes. Semantic types are defined by [shapes](/docs/shapes/overview/) — YAML files loaded into the graph at engine startup. The engine is **shape-aware but entity-agnostic**: it can coerce `priority` (integer) without knowing what "priority" means.
+That's the whole schema. There is no "tasks" table, no "messages" table, no type column on nodes. Semantic types are defined by [shapes](/shapes/overview/) — YAML files loaded into the graph at engine startup. The engine is **shape-aware but entity-agnostic**: it can coerce `priority` (integer) without knowing what "priority" means.
 
-Read more: [Memex & the graph](/docs/shapes/memex-and-graph/) · [Identity & change](/docs/shapes/identity-and-change/)
+Read more: [Memex & the graph](/shapes/memex-and-graph/) · [Identity & change](/shapes/identity-and-change/)
 
 ## The four boundaries
 
@@ -74,7 +74,7 @@ The engine picks the skill. If you install five LLM skills, the engine resolves 
 
 This is the decoupling law. Installing or uninstalling an app has zero impact on skills, and vice versa. The engine is the sole broker.
 
-[Security](/docs/architecture/security/) explains why this matters for trust and auth.
+[Security](/architecture/security/) explains why this matters for trust and auth.
 
 ## Where state lives
 
@@ -86,12 +86,12 @@ This is the decoupling law. Installing or uninstalling an app has zero impact on
   engine.pid, engine.lock  Singleton guards
 ```
 
-One directory. Portable. Back it up, copy it, nuke it. [Local-first](/docs/architecture/local-first/) explains what is and isn't committed to that directory.
+One directory. Portable. Back it up, copy it, nuke it. [Local-first](/architecture/local-first/) explains what is and isn't committed to that directory.
 
 ## Where to go next
 
-- [Security](/docs/architecture/security/) — capability brokering, auth resolution, credential storage.
-- [Local-first](/docs/architecture/local-first/) — what stays on your machine, what leaves it, the state map.
-- [Data model](/docs/architecture/data-model/) — shapes, identity, how skills emit shape-conformant dicts.
-- [Shapes overview](/docs/shapes/overview/) — the ontology proper.
-- [Architectural laws](/docs/architecture/architectural-laws/) — the hard rules the engine won't break.
+- [Security](/architecture/security/) — capability brokering, auth resolution, credential storage.
+- [Local-first](/architecture/local-first/) — what stays on your machine, what leaves it, the state map.
+- [Data model](/architecture/data-model/) — shapes, identity, how skills emit shape-conformant dicts.
+- [Shapes overview](/shapes/overview/) — the ontology proper.
+- [Architectural laws](/architecture/architectural-laws/) — the hard rules the engine won't break.

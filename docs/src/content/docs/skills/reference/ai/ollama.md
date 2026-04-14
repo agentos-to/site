@@ -13,8 +13,8 @@ sidebar:
 
 ## Returns shapes
 
-- [`loaded_model[]`](/docs/shapes/reference/loaded_model/) — from `ps`
-- [`model[]`](/docs/shapes/reference/model/) — from `list_models`, `list_models_cli`
+- [`loaded_model[]`](/shapes/reference/loaded_model/) — from `ps`
+- [`model[]`](/shapes/reference/model/) — from `list_models`, `list_models_cli`
 
 ## Connections
 

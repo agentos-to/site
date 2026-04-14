@@ -13,10 +13,10 @@ sidebar:
 
 ## Returns shapes
 
-- [`community`](/docs/shapes/reference/community/) — from `get_community`
-- [`community[]`](/docs/shapes/reference/community/) — from `search_communities`
-- [`post`](/docs/shapes/reference/post/) — from `get_post`
-- [`post[]`](/docs/shapes/reference/post/) — from `search_posts`, `list_posts`, `comments_post`
+- [`community`](/shapes/reference/community/) — from `get_community`
+- [`community[]`](/shapes/reference/community/) — from `search_communities`
+- [`post`](/shapes/reference/post/) — from `get_post`
+- [`post[]`](/shapes/reference/post/) — from `search_posts`, `list_posts`, `comments_post`
 
 ## Readme
 

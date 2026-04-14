@@ -13,10 +13,10 @@ sidebar:
 
 ## Returns shapes
 
-- [`channel`](/docs/shapes/reference/channel/) — from `get_channel`, `get_avatar_channel`
-- [`post[]`](/docs/shapes/reference/post/) — from `list_posts`
-- [`video`](/docs/shapes/reference/video/) — from `get_video`, `transcript_video`
-- [`video[]`](/docs/shapes/reference/video/) — from `search_videos`, `search_recent_video`, `list_videos`
+- [`channel`](/shapes/reference/channel/) — from `get_channel`, `get_avatar_channel`
+- [`post[]`](/shapes/reference/post/) — from `list_posts`
+- [`video`](/shapes/reference/video/) — from `get_video`, `transcript_video`
+- [`video[]`](/shapes/reference/video/) — from `search_videos`, `search_recent_video`, `list_videos`
 
 ## Readme
 

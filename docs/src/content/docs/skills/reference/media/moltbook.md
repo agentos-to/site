@@ -13,12 +13,12 @@ sidebar:
 
 ## Returns shapes
 
-- [`account`](/docs/shapes/reference/account/) — from `me_account`, `get_account`
-- [`community`](/docs/shapes/reference/community/) — from `get_community`, `create_community`
-- [`community[]`](/docs/shapes/reference/community/) — from `list_communities`
-- [`post`](/docs/shapes/reference/post/) — from `get_post`
-- [`post[]`](/docs/shapes/reference/post/) — from `list_posts`, `get_feed`, `list_comments`
-- [`result[]`](/docs/shapes/reference/result/) — from `search_posts`
+- [`account`](/shapes/reference/account/) — from `me_account`, `get_account`
+- [`community`](/shapes/reference/community/) — from `get_community`, `create_community`
+- [`community[]`](/shapes/reference/community/) — from `list_communities`
+- [`post`](/shapes/reference/post/) — from `get_post`
+- [`post[]`](/shapes/reference/post/) — from `list_posts`, `get_feed`, `list_comments`
+- [`result[]`](/shapes/reference/result/) — from `search_posts`
 
 ## Connections
 

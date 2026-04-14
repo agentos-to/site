@@ -43,21 +43,21 @@ Cross-skill: Amazon products, Uber Eats grocery items, any retail catalog.
 
 | Relation | Target |
 |---|---|
-| `brand` | [`brand`](/docs/shapes/reference/brand/) |
-| `manufacturer` | [`organization`](/docs/shapes/reference/organization/) |
-| `tagged` | [`tag[]`](/docs/shapes/reference/tag/) |
+| `brand` | [`brand`](/shapes/reference/brand/) |
+| `manufacturer` | [`organization`](/shapes/reference/organization/) |
+| `tagged` | [`tag[]`](/shapes/reference/tag/) |
 
 ## Used as a base by
 
-- [`aircraft`](/docs/shapes/reference/aircraft/)
-- [`book`](/docs/shapes/reference/book/)
-- [`hardware`](/docs/shapes/reference/hardware/)
-- [`software`](/docs/shapes/reference/software/)
-- [`vehicle`](/docs/shapes/reference/vehicle/)
+- [`aircraft`](/shapes/reference/aircraft/)
+- [`book`](/shapes/reference/book/)
+- [`hardware`](/shapes/reference/hardware/)
+- [`software`](/shapes/reference/software/)
+- [`vehicle`](/shapes/reference/vehicle/)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Product + Offer](https://schema.org/Product)** — Product on schema.org, price/priceAmount/currency/availability on nested Offer. Our sku/barcode map to sku/gtin13/gtin12; brand/manufacturer match directly.
 - **[GS1 GTIN (UPC/EAN)](https://www.gs1.org/standards/id-keys/gtin)** — Canonical barcode standard. Our barcode field is a GTIN-8/12/13/14; GS1 also underlies schema.org's gtin* properties.
@@ -65,5 +65,5 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [uber](/docs/skills/reference/logistics/uber/) — `get_item_customizations`, `search_products`
-- [amazon](/docs/skills/reference/logistics/amazon/) — `search_products`, `buy_again`, `get_product`
+- [uber](/skills/reference/logistics/uber/) — `get_item_customizations`, `search_products`
+- [amazon](/skills/reference/logistics/amazon/) — `search_products`, `buy_again`, `get_product`

@@ -16,7 +16,7 @@ capacity, and is typically part of a recurring schedule.
 |---|---|
 | **Plural** | `classes` |
 | **Subtitle field** | `activityType` |
-| **Also** | [`event`](/docs/shapes/reference/event/) |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -31,12 +31,12 @@ capacity, and is typically part of a recurring schedule.
 
 | Relation | Target |
 |---|---|
-| `instructor` | [`person`](/docs/shapes/reference/person/) |
-| `venue` | [`place`](/docs/shapes/reference/place/) |
+| `instructor` | [`person`](/shapes/reference/person/) |
+| `venue` | [`place`](/shapes/reference/place/) |
 
 ## Inherited
 
-From [`event`](/docs/shapes/reference/event/):
+From [`event`](/shapes/reference/event/):
 
 | Field | Type |
 |---|---|
@@ -56,16 +56,16 @@ From [`event`](/docs/shapes/reference/event/):
 
 | Relation | Target |
 |---|---|
-| `attachments` | [`file[]`](/docs/shapes/reference/file/) |
-| `creator` | [`person`](/docs/shapes/reference/person/) |
-| `involves` | [`person[]`](/docs/shapes/reference/person/) |
-| `location` | [`place`](/docs/shapes/reference/place/) |
-| `organizer` | [`person`](/docs/shapes/reference/person/) |
-| `platform` | [`product`](/docs/shapes/reference/product/) |
+| `attachments` | [`file[]`](/shapes/reference/file/) |
+| `creator` | [`person`](/shapes/reference/person/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `location` | [`place`](/shapes/reference/place/) |
+| `organizer` | [`person`](/shapes/reference/person/) |
+| `platform` | [`product`](/shapes/reference/product/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/EducationEvent](https://schema.org/EducationEvent)** — schema.org's closest peer for a bookable class. Our instructor = performer; capacity = maximumAttendeeCapacity; spotsRemaining ≈ remainingAttendeeCapacity.
 - **[schema.org/ExerciseAction](https://schema.org/ExerciseAction)** — Fitness-specific vocabulary: activityType ≈ exerciseType; venue matches directly as location.
@@ -73,4 +73,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [austin-boulder-project](/docs/skills/reference/fun/austin-boulder-project/) — `op_get_schedule`
+- [austin-boulder-project](/skills/reference/fun/austin-boulder-project/) — `op_get_schedule`

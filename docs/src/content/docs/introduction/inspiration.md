@@ -28,4 +28,4 @@ AgentOS draws from decades of research in knowledge representation, personal inf
 
 These aren't credits in a footer. They're architectural. The memex **is** the graph. The intergalactic network **is** how memex will connect to each other. PROV-O **is** why every change is an entity on the graph. Schema.org **is** where a lot of our shape naming comes from.
 
-See [Research](/docs/research/ontology/relationship-modeling/) for deeper dives on specific ontologies and platforms we've studied.
+See [Research](/research/ontology/relationship-modeling/) for deeper dives on specific ontologies and platforms we've studied.

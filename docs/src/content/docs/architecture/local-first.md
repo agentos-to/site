@@ -66,4 +66,4 @@ If a schema changes, we rebuild from scratch. If a decision turns out to be wron
 
 An agent that reads your messages, your bank transactions, your location history — that agent should run on a machine you trust, not on someone else's server. When the compute is remote, "trust the model" becomes "trust every layer between you and the model." Local-first collapses that chain.
 
-See [Security](/docs/architecture/security/) for why the engine's brokering architecture matters for this — and why skills can't exfiltrate data they don't have permission to touch.
+See [Security](/architecture/security/) for why the engine's brokering architecture matters for this — and why skills can't exfiltrate data they don't have permission to touch.

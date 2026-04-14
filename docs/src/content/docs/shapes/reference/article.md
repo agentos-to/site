@@ -31,12 +31,12 @@ article and post are siblings, not parent-child. When something is both
 
 | Relation | Target |
 |---|---|
-| `publisher` | [`organization`](/docs/shapes/reference/organization/) |
-| `publishedIn` | [`website`](/docs/shapes/reference/website/) |
+| `publisher` | [`organization`](/shapes/reference/organization/) |
+| `publishedIn` | [`website`](/shapes/reference/website/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Article](https://schema.org/Article)** — Our wordCount = wordCount; section = articleSection; language = inLanguage; publisher matches; publishedIn(website) ≈ isPartOf/publisher. readingTime has no direct property (often timeRequired in ISO 8601 duration).
 - **[JATS (NISO Z39.96, Journal Article Tag Suite)](https://jats.nlm.nih.gov/)** — Scholarly-article XML standard. Our section ≈ <article-categories>/<subj-group>; language ≈ @xml:lang; publisher ≈ <publisher-name>. Heavier than needed for non-scholarly content.

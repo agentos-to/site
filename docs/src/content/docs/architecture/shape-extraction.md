@@ -5,7 +5,7 @@ description: How a skill's return dict turns into a graph node — the extractio
 
 A skill returns a Python dict. Some milliseconds later, that dict has become one or more nodes in `~/.agentos/data/agentos.db`, with declared field types coerced, identity keys checked against existing nodes, and a provenance edge back to the skill. This page is the close-up of that exchange.
 
-This page assumes the [data model](/docs/architecture/data-model/) — the three primitives, shapes as schema, why identity-based dedup exists at all. It goes one layer down: into the Rust extraction module that turns dicts into graph mutations.
+This page assumes the [data model](/architecture/data-model/) — the three primitives, shapes as schema, why identity-based dedup exists at all. It goes one layer down: into the Rust extraction module that turns dicts into graph mutations.
 
 ## From dict to node
 
@@ -151,7 +151,7 @@ The day the engine learns that `book.pages` is sortable, every new entity become
 
 ## Further reading
 
-- [Data model](/docs/architecture/data-model/) — the three primitives and why semantic type lives in data, not DDL.
-- [Shapes overview](/docs/shapes/overview/) — authoring format, design principles, the review checklist.
-- [Skill dispatch](/docs/architecture/skill-dispatch/) — what runs *before* extraction: the wire protocol that delivers the dict.
-- [Identity & change](/docs/shapes/identity-and-change/) — identity across time, why every change is itself an entity.
+- [Data model](/architecture/data-model/) — the three primitives and why semantic type lives in data, not DDL.
+- [Shapes overview](/shapes/overview/) — authoring format, design principles, the review checklist.
+- [Skill dispatch](/architecture/skill-dispatch/) — what runs *before* extraction: the wire protocol that delivers the dict.
+- [Identity & change](/shapes/identity-and-change/) — identity across time, why every change is itself an entity.

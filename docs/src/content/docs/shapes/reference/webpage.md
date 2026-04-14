@@ -25,7 +25,7 @@ and as a generic container when reading arbitrary URLs.
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/WebPage](https://schema.org/WebPage)** — Our URL-as-identity matches schema.org's @id/url convention; contentType ≈ encodingFormat.
 - **[HTTP semantics (RFC 9110)](https://datatracker.ietf.org/doc/html/rfc9110)** — Our contentType is the Content-Type response header; error ≈ non-2xx status text.
@@ -33,7 +33,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [brave-browser](/docs/skills/reference/browsers/brave-browser/) — `list_webpages`, `search_webpages`
-- [firecrawl](/docs/skills/reference/web/firecrawl/) — `read_webpage`
-- [exa](/docs/skills/reference/web/exa/) — `read_webpage`
-- [curl](/docs/skills/reference/web/curl/) — `read_webpage`
+- [brave-browser](/skills/reference/browsers/brave-browser/) — `list_webpages`, `search_webpages`
+- [firecrawl](/skills/reference/web/firecrawl/) — `read_webpage`
+- [exa](/skills/reference/web/exa/) — `read_webpage`
+- [curl](/skills/reference/web/curl/) — `read_webpage`

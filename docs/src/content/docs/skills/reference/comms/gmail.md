@@ -13,13 +13,13 @@ sidebar:
 
 ## Returns shapes
 
-- [`conversation`](/docs/shapes/reference/conversation/) — from `get_conversation`
-- [`conversation[]`](/docs/shapes/reference/conversation/) — from `list_conversations`
-- [`email`](/docs/shapes/reference/email/) — from `get_email`, `get_draft`, `send_email`, `reply_email`, `forward_email`, `modify_email`, `trash_email`, `untrash_email`, `create_draft`, `update_draft`, `send_draft`
-- [`email[]`](/docs/shapes/reference/email/) — from `list_email_stubs`, `list_emails`, `search_emails`, `list_drafts`
-- [`file`](/docs/shapes/reference/file/) — from `get_attachment`
-- [`tag`](/docs/shapes/reference/tag/) — from `create_label`, `update_label`
-- [`tag[]`](/docs/shapes/reference/tag/) — from `list_labels`
+- [`conversation`](/shapes/reference/conversation/) — from `get_conversation`
+- [`conversation[]`](/shapes/reference/conversation/) — from `list_conversations`
+- [`email`](/shapes/reference/email/) — from `get_email`, `get_draft`, `send_email`, `reply_email`, `forward_email`, `modify_email`, `trash_email`, `untrash_email`, `create_draft`, `update_draft`, `send_draft`
+- [`email[]`](/shapes/reference/email/) — from `list_email_stubs`, `list_emails`, `search_emails`, `list_drafts`
+- [`file`](/shapes/reference/file/) — from `get_attachment`
+- [`tag`](/shapes/reference/tag/) — from `create_label`, `update_label`
+- [`tag[]`](/shapes/reference/tag/) — from `list_labels`
 
 ## Connections
 

@@ -1,5 +1,5 @@
 ---
-title: AgentOS Docs
+title: AgentOS
 description: A local operating system for human-AI collaboration, built for agents first.
 template: splash
 hero:
@@ -7,19 +7,23 @@ hero:
   tagline: A local operating system for human-AI collaboration. Built for agents first. Inspired by J.C.R. Licklider and Vannevar Bush. Your data stays on your machine.
   actions:
     - text: What is AgentOS
-      link: /docs/introduction/what-is-agentos/
+      link: /introduction/what-is-agentos/
       icon: right-arrow
-    - text: Read the vision
-      link: /docs/introduction/vision/
+    - text: Browse skills
+      link: /skills/reference/
       variant: minimal
 ---
 
+:::note
+AgentOS isn't available to the public yet. If you want to try it, [talk to Joe](https://github.com/joedevon).
+:::
+
 ## Explore
 
-- **[Introduction](/docs/introduction/what-is-agentos/)** — [what AgentOS is](/docs/introduction/what-is-agentos/), [the vision](/docs/introduction/vision/), [who it's for](/docs/introduction/two-users/), and [how we build](/docs/introduction/how-we-build/).
-- **[Architecture](/docs/architecture/overview/)** — [how AgentOS is built](/docs/architecture/overview/), the [design principles](/docs/architecture/design-principles/) and [architectural laws](/docs/architecture/architectural-laws/), [security by architecture](/docs/architecture/security/), [local-first](/docs/architecture/local-first/), the [data model](/docs/architecture/data-model/), and deep dives on [skill dispatch](/docs/architecture/skill-dispatch/), [auth resolution](/docs/architecture/auth-resolution/), the [observer bus](/docs/architecture/observer-bus/), and [shape extraction](/docs/architecture/shape-extraction/).
-- **[Interfaces](/docs/interfaces/overview/)** — four ways to reach the engine: [MCP](/docs/interfaces/mcp/), the [CLI](/docs/interfaces/cli/), the [HTTP bridge](/docs/interfaces/http/), and the [apps](/docs/apps/overview/) on top.
-- **[Shapes](/docs/shapes/overview/)** — the ontology: [how shapes work](/docs/shapes/overview/), the [memex graph](/docs/shapes/memex-and-graph/), [design principles](/docs/shapes/shape-design-principles/), and the [full reference](/docs/shapes/reference/).
-- **[Skills](/docs/skills/overview/)** — how to build skills, [agent empathy](/docs/skills/agent-empathy/) as a discipline, plus the full [skill catalog](/docs/skills/reference/).
-- **[Apps](/docs/apps/overview/)** — the optional GUI layer.
-- **[Research](/docs/research/ontology/relationship-modeling/)** — prior art on ontologies, platforms, identity, relationships, and PKM.
+- **[Introduction](/introduction/what-is-agentos/)** — [what AgentOS is](/introduction/what-is-agentos/), [who it's for](/introduction/two-users/), and [how we build](/introduction/how-we-build/).
+- **[Architecture](/architecture/overview/)** — [how AgentOS is built](/architecture/overview/), the [design principles](/architecture/design-principles/) and [architectural laws](/architecture/architectural-laws/), [security by architecture](/architecture/security/), [local-first](/architecture/local-first/), the [data model](/architecture/data-model/), and deep dives on [skill dispatch](/architecture/skill-dispatch/), [auth resolution](/architecture/auth-resolution/), the [observer bus](/architecture/observer-bus/), and [shape extraction](/architecture/shape-extraction/).
+- **[Interfaces](/interfaces/overview/)** — four ways to reach the engine: [MCP](/interfaces/mcp/), the [CLI](/interfaces/cli/), the [HTTP bridge](/interfaces/http/), and the [GUI](/apps/overview/) on top.
+- **[Shapes](/shapes/overview/)** — the ontology: [how shapes work](/shapes/overview/), the [memex graph](/shapes/memex-and-graph/), [design principles](/shapes/shape-design-principles/), and the [full reference](/shapes/reference/).
+- **[Skills](/skills/overview/)** — how to build skills, [agent empathy](/skills/agent-empathy/) as a discipline, plus the full [skill catalog](/skills/reference/).
+- **[Apps](/apps/overview/)** — the optional GUI layer.
+- **[Research](/research/ontology/relationship-modeling/)** — prior art on ontologies, platforms, identity, relationships, and PKM.

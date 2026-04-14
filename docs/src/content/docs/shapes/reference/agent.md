@@ -15,7 +15,7 @@ Examples: Claude in Cursor, a background job agent, a scheduled task runner.
 |---|---|
 | **Plural** | `agents` |
 | **Subtitle field** | `model` |
-| **Also** | [`actor`](/docs/shapes/reference/actor/) |
+| **Also** | [`actor`](/shapes/reference/actor/) |
 
 ## Fields
 
@@ -27,7 +27,7 @@ Examples: Claude in Cursor, a background job agent, a scheduled task runner.
 
 ## Inherited
 
-From [`actor`](/docs/shapes/reference/actor/):
+From [`actor`](/shapes/reference/actor/):
 
 | Field | Type |
 |---|---|
@@ -35,7 +35,7 @@ From [`actor`](/docs/shapes/reference/actor/):
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[ActivityStreams 2.0 Service](https://www.w3.org/TR/activitystreams-vocabulary/#dfn-service)** — AS2's Service Actor is the closest peer for an automated agent. We add model/provider/sessionId for AI-specific lineage.
 - **[Anthropic Tool Use API (Claude)](https://docs.anthropic.com/en/docs/build-with-claude/tool-use)** — Mirrors our model/provider fields. sessionId groups related tool invocations from a single agent run.

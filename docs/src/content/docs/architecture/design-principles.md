@@ -13,7 +13,7 @@ No shadow tables, no side stores, no parallel data structures. If something is w
 
 Properties that can be derived from the graph are never stored as fields — they're computed at query time or inferred by traversal. A task's status is computed from its completion state and blockers. A contact card is a view computed from graph traversals over a person's claimed accounts. The graph stores atoms; intelligence computes molecules.
 
-See [Shape design principles](/docs/shapes/shape-design-principles/) for how this shapes the ontology — in particular *#2 no counts on shapes*.
+See [Shape design principles](/shapes/shape-design-principles/) for how this shapes the ontology — in particular *#2 no counts on shapes*.
 
 ## The user owns the graph
 
@@ -23,7 +23,7 @@ Skills are connectors, not owners. They sync data in, but the graph is the autho
 
 When an entity is created, updated, or deleted, the operation itself becomes a **change entity** on the graph. A change has relationships to the actor (who did it), the target (what changed), and optionally the source (where data came from). This follows the pattern established by W3C PROV-O, ActivityStreams, and Git: make events first-class objects, not edges. Provenance isn't a static field — it's the full chain of change entities. Walk backwards to reconstruct any previous state.
 
-See [Identity & change](/docs/shapes/identity-and-change/).
+See [Identity & change](/shapes/identity-and-change/).
 
 ## Every actor has an identity
 
@@ -45,6 +45,6 @@ Entities, skills, and apps are independent concerns that compose into the full e
 
 ## See also
 
-- [Architectural laws](/docs/architecture/architectural-laws/) — the structural constraints that keep the engine generic.
-- [Agent empathy](/docs/skills/agent-empathy/) — the practice of building for the smallest model.
-- [Shape design principles](/docs/shapes/shape-design-principles/) — how these apply at the ontology level.
+- [Architectural laws](/architecture/architectural-laws/) — the structural constraints that keep the engine generic.
+- [Agent empathy](/skills/agent-empathy/) — the practice of building for the smallest model.
+- [Shape design principles](/shapes/shape-design-principles/) — how these apply at the ontology level.

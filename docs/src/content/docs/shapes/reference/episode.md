@@ -24,13 +24,13 @@ A single episode of a podcast or show. Transcribable.
 
 | Relation | Target |
 |---|---|
-| `series` | [`podcast`](/docs/shapes/reference/podcast/) |
-| `transcribe` | [`transcript`](/docs/shapes/reference/transcript/) |
-| `guest` | [`person[]`](/docs/shapes/reference/person/) |
+| `series` | [`podcast`](/shapes/reference/podcast/) |
+| `transcribe` | [`transcript`](/shapes/reference/transcript/) |
+| `guest` | [`person[]`](/shapes/reference/person/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[Apple Podcasts RSS Extensions (itunes:episode)](https://help.apple.com/itc/podcasts_connect/#/itcb54353390)** — De-facto podcast metadata standard. Our episodeNumber/seasonNumber/ durationMs = itunes:episode/itunes:season/itunes:duration.
 - **[schema.org/PodcastEpisode](https://schema.org/PodcastEpisode)** — Our series ≈ partOfSeries (PodcastSeries); transcribe ≈ transcript; guest ≈ actor.

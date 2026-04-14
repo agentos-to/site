@@ -6,7 +6,6 @@ import starlightThemeGalaxy from 'starlight-theme-galaxy';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://agentos.to',
-	base: '/docs',
 	trailingSlash: 'always',
 	build: { format: 'directory' },
 	integrations: [
@@ -139,7 +138,6 @@ export default defineConfig({
 					collapsed: true,
 					items: [
 						{ label: 'What is AgentOS', slug: 'introduction/what-is-agentos' },
-						{ label: 'Vision', slug: 'introduction/vision' },
 						{ label: 'Inspiration', slug: 'introduction/inspiration' },
 						{ label: 'The two users', slug: 'introduction/two-users' },
 						{ label: 'How we build', slug: 'introduction/how-we-build' },

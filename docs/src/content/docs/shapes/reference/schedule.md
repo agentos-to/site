@@ -45,17 +45,17 @@ future: flight timetables, gym class schedules
 
 | Relation | Target |
 |---|---|
-| `produces` | [`trip`](/docs/shapes/reference/trip/) |
-| `provider` | [`skill`](/docs/shapes/reference/skill/) |
-| `operator` | [`organization`](/docs/shapes/reference/organization/) |
+| `produces` | [`trip`](/shapes/reference/trip/) |
+| `provider` | [`skill`](/shapes/reference/skill/) |
+| `operator` | [`organization`](/shapes/reference/organization/) |
 
 ## Used as a base by
 
-- [`route`](/docs/shapes/reference/route/)
+- [`route`](/shapes/reference/route/)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[RFC 5545 RRULE (iCalendar)](https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10)** — Our rrule field IS an RFC 5545 RRULE string; timezone follows iCal TZID conventions.
 - **[POSIX cron](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html)** — Our cronExpression is a 5-field cron string (minute, hour, dom, month, dow).

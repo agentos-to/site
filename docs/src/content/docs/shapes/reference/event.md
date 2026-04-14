@@ -42,21 +42,21 @@ Use startDate / endDate for the actual event timing.
 
 | Relation | Target |
 |---|---|
-| `platform` | [`product`](/docs/shapes/reference/product/) |
-| `involves` | [`person[]`](/docs/shapes/reference/person/) |
-| `location` | [`place`](/docs/shapes/reference/place/) |
-| `organizer` | [`person`](/docs/shapes/reference/person/) |
-| `creator` | [`person`](/docs/shapes/reference/person/) |
-| `attachments` | [`file[]`](/docs/shapes/reference/file/) |
+| `platform` | [`product`](/shapes/reference/product/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `location` | [`place`](/shapes/reference/place/) |
+| `organizer` | [`person`](/shapes/reference/person/) |
+| `creator` | [`person`](/shapes/reference/person/) |
+| `attachments` | [`file[]`](/shapes/reference/file/) |
 
 ## Used as a base by
 
-- [`class`](/docs/shapes/reference/class/)
-- [`meeting`](/docs/shapes/reference/meeting/)
+- [`class`](/shapes/reference/class/)
+- [`meeting`](/shapes/reference/meeting/)
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Event](https://schema.org/Event)** — Core event type. Our startDate/endDate map 1:1; eventType is free-form vs. schema.org's subtype hierarchy (Concert, Conference, BusinessEvent). organizer/location match directly.
 - **[RFC 5545 (iCalendar) VEVENT](https://datatracker.ietf.org/doc/html/rfc5545)** — Our icalUid is their UID; recurrence is their RRULE; status maps to STATUS (TENTATIVE/CONFIRMED/CANCELLED); showAs ≈ TRANSP; involves[] ≈ ATTENDEE.
@@ -64,6 +64,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [google-calendar](/docs/skills/reference/productivity/google-calendar/) — `list_events`, `search_events`, `get_event`, `create_event`, `update_event`
-- [spacex](/docs/skills/reference/fun/spacex/) — `list_upcoming`, `list_past`, `get_launch`
-- [posthog](/docs/skills/reference/web/posthog/) — `list_events`, `get_event`
+- [google-calendar](/skills/reference/productivity/google-calendar/) — `list_events`, `search_events`, `get_event`, `create_event`, `update_event`
+- [spacex](/skills/reference/fun/spacex/) — `list_upcoming`, `list_past`, `get_launch`
+- [posthog](/skills/reference/web/posthog/) — `list_events`, `get_event`

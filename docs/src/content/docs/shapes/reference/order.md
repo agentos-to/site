@@ -40,16 +40,16 @@ Used for both e-commerce (Amazon) and delivery (Uber Eats) orders.
 
 | Relation | Target |
 |---|---|
-| `platform` | [`platform`](/docs/shapes/reference/platform/) |
-| `contains` | [`product[]`](/docs/shapes/reference/product/) |
-| `shippingAddress` | [`place`](/docs/shapes/reference/place/) |
-| `store` | [`place`](/docs/shapes/reference/place/) |
-| `delivery` | [`trip`](/docs/shapes/reference/trip/) |
-| `tracking` | [`webpage`](/docs/shapes/reference/webpage/) |
+| `platform` | [`platform`](/shapes/reference/platform/) |
+| `contains` | [`product[]`](/shapes/reference/product/) |
+| `shippingAddress` | [`place`](/shapes/reference/place/) |
+| `store` | [`place`](/shapes/reference/place/) |
+| `delivery` | [`trip`](/shapes/reference/trip/) |
+| `tracking` | [`webpage`](/shapes/reference/webpage/) |
 
 ## Prior art
 
-External standards this shape draws from or aligns with. See [Shape design principles](/docs/shapes/shape-design-principles/) for how prior art informs shape design.
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
 - **[schema.org/Order](https://schema.org/Order)** — Our orderId = orderNumber; orderDate = orderDate; total = totalPaymentDue; status = orderStatus; shippingAddress = orderDelivery.
 - **[schema.org/OrderStatus (enum)](https://schema.org/OrderStatus)** — Our status values (placed, confirmed, delivering, completed, cancelled) map to OrderProcessing/OrderInTransit/OrderDelivered/ OrderCancelled.
@@ -57,5 +57,5 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [uber](/docs/skills/reference/logistics/uber/) — `list_deliveries`, `get_cart`, `get_delivery`, `get_messages`, `add_to_cart`, `checkout`, `track_delivery`
-- [amazon](/docs/skills/reference/logistics/amazon/) — `list_orders`, `get_order`
+- [uber](/skills/reference/logistics/uber/) — `list_deliveries`, `get_cart`, `get_delivery`, `get_messages`, `add_to_cart`, `checkout`, `track_delivery`
+- [amazon](/skills/reference/logistics/amazon/) — `list_orders`, `get_order`
