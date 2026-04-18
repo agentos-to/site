@@ -77,7 +77,7 @@ All four interfaces have been verified to exist as described:
 - **`crates/mcp/`** — Confirmed stdio proxy with `UnixStream` connection, wire logging, and reconnect with handshake replay. Exact match to description.
 - **`crates/cli/`** — Fat binary with `agentos call`, `agentos engine`, `agentos bridge`, `agentos browse`, and `agentos test-skill` subcommands. Dispatch to transport crates is thin; logic lives in agentos-core.
 - **`crates/web-bridge/`** — Axum HTTP server on `:3456` serving `/healthz`, `/observer/history`, `/observer/stream`, `/graph`, `/graph/shapes`, `/apps`, `/user`, theme/wallpaper/icon routes, and file previews. Read-mostly SQLite connection separate from engine.
-- **`~/dev/agentos/apps/`** — TypeScript/React apps (accounts, messages, settings, store) shipping with `_sdk/` and `_components/` shared code. Apps speak only to the web bridge.
+- **`~/dev/agentos/apps/`** — TypeScript/React apps (accounts, messages, settings, store) with shared `_components/`. Apps consume `@agentos/sdk` from the `sdk-apps/` sibling and speak only to the web bridge.
 
 **No corrections needed.** The four-interface model is accurate.
 

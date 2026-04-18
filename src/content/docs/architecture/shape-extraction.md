@@ -129,7 +129,7 @@ Note the asymmetry: the guard is on *child* extraction, not the top-level item. 
 The engine does type coercion. It does **not** enforce required fields, semantic constraints, or `@returns` shape conformance at runtime.
 
 > *Schema validation lives elsewhere: `agent-sdk validate` (in
-> `skills/_sdk/agentos/validate.py`) is the canonical static
+> `sdk-skills/agentos/validate.py`) is the canonical static
 > check for skill YAML/Python … These structs only describe the shape — they do not validate it.*
 >
 > — `crates/core/src/skills/types.rs:5-9`

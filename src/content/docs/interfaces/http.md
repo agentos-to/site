@@ -80,7 +80,7 @@ Clients should use the browser `EventSource` API, not raw fetch. Reconnect is au
 
 ## Building an app against the bridge
 
-Apps are regular web pages that fetch from `http://127.0.0.1:3456/graph` (and friends). The apps repo at `~/dev/agentos/apps/` has a shared SDK (`_sdk/`) that wraps these endpoints — most apps use it rather than calling fetch directly.
+Apps are regular web pages that fetch from `http://127.0.0.1:3456/graph` (and friends). The `sdk-apps/` sibling repo ships `@agentos/sdk`, a TypeScript wrapper around these endpoints — most apps use it rather than calling fetch directly.
 
 A minimal app is:
 
