@@ -53,7 +53,6 @@ Cross-skill: Amazon products, Uber Eats grocery items, any retail catalog.
 - [`book`](/shapes/reference/book/)
 - [`hardware`](/shapes/reference/hardware/)
 - [`software`](/shapes/reference/software/)
-- [`vehicle`](/shapes/reference/vehicle/)
 
 ## Prior art
 

@@ -3,7 +3,7 @@ title: Shapes
 description: "Every shape in the AgentOS ontology. Browse all 81, or follow a tag chain."
 ---
 
-The AgentOS ontology — **81** shapes. Each shape defines what an entity *is* (fields, relations, display hints). Shapes can extend other shapes via `also:`, which makes that shape a **tag** on the entity — a person is also an actor; a book is also a product.
+The AgentOS ontology — **73** shapes. Each shape defines what an entity *is* (fields, relations, display hints). Shapes can extend other shapes via `also:`, which makes that shape a **tag** on the entity — a person is also an actor; a book is also a product.
 
 See [Overview](/shapes/overview/) for the tactical reference and [Shape design principles](/shapes/shape-design-principles/) for the rules.
 
@@ -14,10 +14,8 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`actor`](/shapes/reference/actor/) — Base type for anything that can be attributed as "who did this" in the graph
 - [`agent`](/shapes/reference/agent/) — also `actor` — An AI agent that acts on behalf of a user. Agents are actors — they
 - [`aircraft`](/shapes/reference/aircraft/) — also `product` — An aircraft type (not an individual plane). Linked from flight search results
-- [`airline`](/shapes/reference/airline/) — also `organization` — A commercial airline. Created from flight search results
-- [`airport`](/shapes/reference/airport/) — An airport. Created from flight search results and linked to flights
-- [`analytics_event`](/shapes/reference/analytics_event/) — A product analytics action — a single user interaction tracked by PostHog
-- [`article`](/shapes/reference/article/) — A published written work — essay, news article, blog post, paper, newsletter
+- [`album`](/shapes/reference/album/) — A curated collection of images produced by the engine or a skill
+- [`app`](/shapes/reference/app/) — A graphical app (TS/React) that runs on top of the engine — browser,
 - [`book`](/shapes/reference/book/) — also `product` — A book. Books are also products, so they inherit price/brand fields
 - [`branch`](/shapes/reference/branch/) — A git branch
 - [`brand`](/shapes/reference/brand/) — A consumer brand. Extracted from product listings
@@ -33,15 +31,13 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`episode`](/shapes/reference/episode/) — A single episode of a podcast or show. Transcribable
 - [`event`](/shapes/reference/event/) — Something that happens — at a time, optionally at a place, involving people
 - [`file`](/shapes/reference/file/) — A file — source code, attachment, download, or any discrete digital artifact
-- [`financial_account`](/shapes/reference/financial_account/) — also `account` — A financial account — bank account, credit card, or investment account
-- [`flight`](/shapes/reference/flight/) — also `leg` — A flight — a specific leg of air travel. A flight IS a leg
 - [`folder`](/shapes/reference/folder/) — A filesystem directory or workspace. Used to track project roots,
 - [`git_commit`](/shapes/reference/git_commit/) — A git commit — a single point in version control history
 - [`group`](/shapes/reference/group/) — A group or community — online group, reading group, etc
 - [`hardware`](/shapes/reference/hardware/) — also `product` — A physical hardware product — computer, phone, appliance, component
-- [`highlight`](/shapes/reference/highlight/) — A personal extraction from a source — a passage you highlighted, annotated,
 - [`image`](/shapes/reference/image/) — also `file` — An image file. Photos, screenshots, diagrams, artwork
 - [`invitation`](/shapes/reference/invitation/) — An invitation to join something — an organization, a workspace, a team, a
+- [`job`](/shapes/reference/job/) — A running or completed unit of work the engine is responsible for —
 - [`leg`](/shapes/reference/leg/) — One continuous movement on a single vehicle — takeoff to landing,
 - [`list`](/shapes/reference/list/) — A generic collection of items. Base type for shelf (books) and playlist (videos)
 - [`loaded_model`](/shapes/reference/loaded_model/) — A currently loaded/running AI model instance
@@ -62,13 +58,10 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`product`](/shapes/reference/product/) — A purchasable item. Base type for book and aircraft
 - [`project`](/shapes/reference/project/) — A project that groups tasks. Tasks belong to projects
 - [`quote`](/shapes/reference/quote/) — A notable quote. Attribution is a graph relationship, not a field —
-- [`report`](/shapes/reference/report/) — also `document` — A report — structured output from a research task, analysis, or agent run
 - [`repository`](/shapes/reference/repository/) — A source code repository
 - [`result`](/shapes/reference/result/) — A search result — a pointer to something found. Not the thing itself
 - [`review`](/shapes/reference/review/) — also `post` — A user review of a product. Reviews are also posts, so they carry engagement metrics
 - [`role`](/shapes/reference/role/) — A person's position at an organization (job title, board seat, etc.)
-- [`route`](/shapes/reference/route/) — also `schedule` — A transport service that operates between places on a schedule
-- [`schedule`](/shapes/reference/schedule/) — A recurring pattern that produces instances when it fires
 - [`search`](/shapes/reference/search/) — A search query and its results. Every search is a graph entity with click
 - [`session`](/shapes/reference/session/) — An MCP session — a client connected, made some calls, disconnected
 - [`shelf`](/shapes/reference/shelf/) — also `list` — A bookshelf. Shelves are lists that contain books instead of generic products
@@ -85,7 +78,6 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`transaction`](/shapes/reference/transaction/) — A financial transaction — credit card charge, bank transfer, etc
 - [`transcript`](/shapes/reference/transcript/) — A text transcript of audio/video content. Linked from meetings and videos
 - [`trip`](/shapes/reference/trip/) — A directed journey from origin to destination — one direction of travel
-- [`vehicle`](/shapes/reference/vehicle/) — also `product` — A vehicle — the physical object. VIN, specs, color
 - [`video`](/shapes/reference/video/) — also `file` — A video file — the media artifact, not the social context around it
 - [`volume`](/shapes/reference/volume/) — A storage volume — local disk, external drive, network share, or cloud drive
 - [`webpage`](/shapes/reference/webpage/) — A web page. Base type for search result. Also used for browser history

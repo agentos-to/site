@@ -24,7 +24,7 @@ That's the whole database. No `tasks` table, no `messages` table, no type column
 
 A **shape** is a definition — field names, types, display rules, relations. It has no data. A **record** is a stored instance that conforms to one or more shapes.
 
-Shapes are YAML files in `site/docs/shapes/` that get loaded into the graph at engine startup. They declare:
+Shapes are YAML files in `docs/shapes/` that get loaded into the graph at engine startup. They declare:
 
 - **Fields** — `name: string`, `done: boolean`, `priority: integer`.
 - **Relations** — `parent: folder`, `tags: tag[]`.

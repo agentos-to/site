@@ -21,7 +21,7 @@ If you see any of these in Rust, raise it immediately — it's a bug in the arch
 
 | Layer | Responsibility | Format |
 |-------|---------------|--------|
-| Entity schemas | Properties, validation, display hints, sort order, operations | Shape YAMLs (`site/docs/shapes/`) |
+| Entity schemas | Properties, validation, display hints, sort order, operations | Shape YAMLs (`docs/shapes/`) |
 | Templates | Rendering, layout, grouping, formatting | MiniJinja markdown |
 | Skills | API mappings, field transforms | Python + YAML frontmatter |
 

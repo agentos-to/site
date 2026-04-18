@@ -55,10 +55,6 @@ From [`file`](/shapes/reference/file/):
 | `attachedTo` | [`message`](/shapes/reference/message/) |
 | `repository` | [`repository`](/shapes/reference/repository/) |
 
-## Used as a base by
-
-- [`report`](/shapes/reference/report/)
-
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
