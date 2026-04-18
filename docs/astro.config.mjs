@@ -3,6 +3,28 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightThemeGalaxy from 'starlight-theme-galaxy';
 import starlightSidebarTopics from 'starlight-sidebar-topics';
+import { readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
+
+/** Walk skills/reference/ and return a flat, alphabetically-sorted list of { slug } entries. */
+function flatSkillsReference() {
+	const root = './src/content/docs/skills/reference';
+	const entries = [];
+	const walk = (dir, rel) => {
+		for (const name of readdirSync(dir)) {
+			const abs = join(dir, name);
+			const relPath = rel ? `${rel}/${name}` : name;
+			if (statSync(abs).isDirectory()) {
+				walk(abs, relPath);
+			} else if (name.endsWith('.md') && name !== 'index.md') {
+				entries.push({ slug: `skills/reference/${relPath.replace(/\.md$/, '')}` });
+			}
+		}
+	};
+	walk(root, '');
+	const nameOf = (e) => e.slug.split('/').pop();
+	return entries.sort((a, b) => nameOf(a).localeCompare(nameOf(b)));
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,6 +34,9 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'AgentOS Docs',
+			components: {
+				Header: './src/components/Header.astro',
+			},
 			plugins: [
 				starlightThemeGalaxy(),
 				starlightSidebarTopics([
@@ -22,18 +47,38 @@ export default defineConfig({
 						items: [
 							{
 								label: 'Introduction',
-								collapsed: true,
+								collapsed: false,
 								items: [
 									{ label: 'What is AgentOS', slug: 'introduction/what-is-agentos' },
 									{ label: 'Inspiration', slug: 'introduction/inspiration' },
 									{ label: 'The two users', slug: 'introduction/two-users' },
-									{ label: 'How we build', slug: 'introduction/how-we-build' },
 									{ label: 'Roadmap & proposals', slug: 'introduction/roadmap-and-proposals' },
 								],
 							},
 							{
+								label: 'Apps',
+								collapsed: false,
+								items: [
+									{ label: 'Overview', slug: 'apps/overview' },
+								],
+							},
+						],
+					},
+					{
+						label: 'Build',
+						link: '/introduction/how-we-build/',
+						icon: 'puzzle',
+						items: [
+							{
+								label: 'Build discipline',
+								collapsed: false,
+								items: [
+									{ label: 'How we build', slug: 'introduction/how-we-build' },
+								],
+							},
+							{
 								label: 'Architecture',
-								collapsed: true,
+								collapsed: false,
 								items: [
 									{ label: 'Overview', slug: 'architecture/overview' },
 									{ label: 'Design principles', slug: 'architecture/design-principles' },
@@ -47,16 +92,19 @@ export default defineConfig({
 									{ label: 'Shape extraction', slug: 'architecture/shape-extraction' },
 								],
 							},
-						],
-					},
-					{
-						label: 'Build',
-						link: '/skills/overview/',
-						icon: 'puzzle',
-						items: [
+							{
+								label: 'Interfaces',
+								collapsed: false,
+								items: [
+									{ label: 'Overview', slug: 'interfaces/overview' },
+									{ label: 'MCP', slug: 'interfaces/mcp' },
+									{ label: 'CLI', slug: 'interfaces/cli' },
+									{ label: 'HTTP', slug: 'interfaces/http' },
+								],
+							},
 							{
 								label: 'Skills',
-								collapsed: true,
+								collapsed: false,
 								items: [
 									{ label: 'Overview', slug: 'skills/overview' },
 									{ label: 'Agent empathy', slug: 'skills/agent-empathy' },
@@ -66,14 +114,14 @@ export default defineConfig({
 									{ label: 'LLM', slug: 'skills/llm' },
 									{
 										label: 'Reverse engineering',
-										collapsed: true,
+										collapsed: false,
 										items: [
 											{ label: 'Overview', slug: 'skills/reverse-engineering/overview' },
 											{ label: '1. Transport', slug: 'skills/reverse-engineering/1-transport' },
 											{ label: '2. Discovery', slug: 'skills/reverse-engineering/2-discovery' },
 											{
 												label: '3. Auth',
-												collapsed: true,
+												collapsed: false,
 												items: [
 													{ label: 'Overview', slug: 'skills/reverse-engineering/3-auth/overview' },
 													{ label: 'NextAuth', slug: 'skills/reverse-engineering/3-auth/nextauth' },
@@ -85,7 +133,7 @@ export default defineConfig({
 											{ label: '5. Social', slug: 'skills/reverse-engineering/5-social' },
 											{
 												label: '6. Desktop apps',
-												collapsed: true,
+												collapsed: false,
 												items: [
 													{ label: 'Overview', slug: 'skills/reverse-engineering/6-desktop-apps/overview' },
 													{ label: 'Electron', slug: 'skills/reverse-engineering/6-desktop-apps/electron' },
@@ -97,18 +145,8 @@ export default defineConfig({
 								],
 							},
 							{
-								label: 'Interfaces',
-								collapsed: true,
-								items: [
-									{ label: 'Overview', slug: 'interfaces/overview' },
-									{ label: 'MCP', slug: 'interfaces/mcp' },
-									{ label: 'CLI', slug: 'interfaces/cli' },
-									{ label: 'HTTP', slug: 'interfaces/http' },
-								],
-							},
-							{
 								label: 'Shapes',
-								collapsed: true,
+								collapsed: false,
 								items: [
 									{ label: 'Overview', slug: 'shapes/overview' },
 									{ label: 'Shape design principles', slug: 'shapes/shape-design-principles' },
@@ -117,44 +155,20 @@ export default defineConfig({
 								],
 							},
 							{
-								label: 'Apps',
+								label: 'Shape reference',
+								autogenerate: { directory: 'shapes/reference' },
 								collapsed: true,
-								items: [
-									{ label: 'Overview', slug: 'apps/overview' },
-								],
 							},
 						],
 					},
 					{
-						label: 'Reference',
+						id: 'skills',
+						label: 'Skills',
 						link: '/skills/reference/',
 						icon: 'information',
 						items: [
-							{
-								label: 'Skills',
-								collapsed: false,
-								items: [
-									{ label: 'Skills index', slug: 'skills/reference' },
-									{ label: 'agents', autogenerate: { directory: 'skills/reference/agents' }, collapsed: true },
-									{ label: 'ai', autogenerate: { directory: 'skills/reference/ai' }, collapsed: true },
-									{ label: 'browsers', autogenerate: { directory: 'skills/reference/browsers' }, collapsed: true },
-									{ label: 'comms', autogenerate: { directory: 'skills/reference/comms' }, collapsed: true },
-									{ label: 'dev', autogenerate: { directory: 'skills/reference/dev' }, collapsed: true },
-									{ label: 'finance', autogenerate: { directory: 'skills/reference/finance' }, collapsed: true },
-									{ label: 'fun', autogenerate: { directory: 'skills/reference/fun' }, collapsed: true },
-									{ label: 'hosting', autogenerate: { directory: 'skills/reference/hosting' }, collapsed: true },
-									{ label: 'logistics', autogenerate: { directory: 'skills/reference/logistics' }, collapsed: true },
-									{ label: 'macos', autogenerate: { directory: 'skills/reference/macos' }, collapsed: true },
-									{ label: 'media', autogenerate: { directory: 'skills/reference/media' }, collapsed: true },
-									{ label: 'productivity', autogenerate: { directory: 'skills/reference/productivity' }, collapsed: true },
-									{ label: 'web', autogenerate: { directory: 'skills/reference/web' }, collapsed: true },
-								],
-							},
-							{
-								label: 'Shapes',
-								autogenerate: { directory: 'shapes/reference' },
-								collapsed: false,
-							},
+							{ label: 'Skills index', slug: 'skills/reference' },
+							...flatSkillsReference(),
 						],
 					},
 					{
@@ -162,16 +176,20 @@ export default defineConfig({
 						link: '/research/ontology/relationship-modeling/',
 						icon: 'document',
 						items: [
-							{ label: 'Ontology', autogenerate: { directory: 'research/ontology' }, collapsed: true },
-							{ label: 'Platforms', autogenerate: { directory: 'research/platforms' }, collapsed: true },
-							{ label: 'Identity & spaces', autogenerate: { directory: 'research/identity-and-spaces' }, collapsed: true },
-							{ label: 'Relationships & events', autogenerate: { directory: 'research/relationships-and-events' }, collapsed: true },
-							{ label: 'Context & ecosystem', autogenerate: { directory: 'research/context' }, collapsed: true },
-							{ label: 'DX patterns', autogenerate: { directory: 'research/dx-patterns' }, collapsed: true },
-							{ label: 'Interfaces', autogenerate: { directory: 'research/interfaces' }, collapsed: true },
+							{ label: 'Ontology', autogenerate: { directory: 'research/ontology' }, collapsed: false },
+							{ label: 'Platforms', autogenerate: { directory: 'research/platforms' }, collapsed: false },
+							{ label: 'Identity & spaces', autogenerate: { directory: 'research/identity-and-spaces' }, collapsed: false },
+							{ label: 'Relationships & events', autogenerate: { directory: 'research/relationships-and-events' }, collapsed: false },
+							{ label: 'Context & ecosystem', autogenerate: { directory: 'research/context' }, collapsed: false },
+							{ label: 'DX patterns', autogenerate: { directory: 'research/dx-patterns' }, collapsed: false },
+							{ label: 'Interfaces', autogenerate: { directory: 'research/interfaces' }, collapsed: false },
 						],
 					},
-				]),
+				], {
+					topics: {
+						skills: ['/skills/reference/*'],
+					},
+				}),
 			],
 			customCss: ['./src/styles/custom.css'],
 			head: [
@@ -223,73 +241,6 @@ export default defineConfig({
 
 						// Re-run on Astro view transitions
 						document.addEventListener('astro:after-swap', render);
-					`,
-				},
-				{
-					tag: 'script',
-					content: `
-						document.addEventListener('DOMContentLoaded', () => {
-							const topUl = document.querySelector('nav[aria-label="Main"] ul.top-level');
-							if (!topUl) return;
-							const topLevel = Array.from(topUl.querySelectorAll(':scope > li > details'));
-							const DURATION = 200;
-							const EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
-
-							// Animate a <details> open/close by measuring its body <ul>
-							// and animating max-height. <details open> toggles are not
-							// animatable natively, so we hijack the click.
-							const animate = (details, shouldOpen) => {
-								const body = details.querySelector(':scope > ul');
-								if (!body) {
-									details.open = shouldOpen;
-									return;
-								}
-								details.dataset.animating = '1';
-								if (shouldOpen) {
-									details.open = true;
-									const end = body.scrollHeight;
-									body.style.overflow = 'hidden';
-									const anim = body.animate(
-										[{ maxHeight: '0px' }, { maxHeight: end + 'px' }],
-										{ duration: DURATION, easing: EASING },
-									);
-									anim.onfinish = () => {
-										body.style.overflow = '';
-										delete details.dataset.animating;
-									};
-								} else {
-									const start = body.scrollHeight;
-									body.style.overflow = 'hidden';
-									const anim = body.animate(
-										[{ maxHeight: start + 'px' }, { maxHeight: '0px' }],
-										{ duration: DURATION, easing: EASING },
-									);
-									anim.onfinish = () => {
-										details.open = false;
-										body.style.overflow = '';
-										delete details.dataset.animating;
-									};
-								}
-							};
-
-							topLevel.forEach((d) => {
-								const summary = d.querySelector(':scope > summary');
-								if (!summary) return;
-								summary.addEventListener('click', (e) => {
-									e.preventDefault();
-									if (d.dataset.animating) return;
-									const willOpen = !d.open;
-									// Close any siblings first, then open target in series
-									if (willOpen) {
-										const siblingsToClose = topLevel.filter((o) => o !== d && o.open);
-										siblingsToClose.forEach((o) => animate(o, false));
-										setTimeout(() => animate(d, true), siblingsToClose.length ? DURATION : 0);
-									} else {
-										animate(d, false);
-									}
-								});
-							});
-						});
 					`,
 				},
 			],
