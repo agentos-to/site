@@ -1,3 +1,9 @@
+/* Topics are rendered horizontally in the header override — hide the
+   duplicate list the plugin injects at the top of the sidebar. */
+.starlight-sidebar-topics {
+	display: none;
+}
+
 /* Tighter table rows — default Starlight/galaxy-theme cells come in at
    ~12px top/bottom which eats a lot of vertical real estate on shape
    reference tables (Fields/Relations/Inherited). */
@@ -6,3 +12,4 @@
 	padding-block: 0.25rem;
 	line-height: 1.35;
 }
+

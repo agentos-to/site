@@ -1,0 +1,44 @@
+---
+title: AgentOS
+description: A local operating system for human-AI collaboration, built for agents first.
+template: splash
+head:
+  - tag: style
+    content: |
+      .home-hero { display: none !important; }
+      .home-wrap { display: grid; gap: 2.5rem; align-items: center; grid-template-columns: 1fr; max-width: 72rem; margin: 0 auto; padding: 1.5rem 0; }
+      @media (min-width: 60rem) { .home-wrap { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+      .home-title { font-size: clamp(3rem, 6vw, 5rem); font-weight: 700; letter-spacing: -0.02em; margin: 0 0 1rem; line-height: 1.05; }
+      .home-tagline { font-size: 1.1rem; line-height: 1.55; color: var(--sl-color-gray-2); margin: 0 0 1.75rem; }
+      .home-ctas { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+      .home-cta-primary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.15rem; border-radius: 0.5rem; background: var(--sl-color-accent); color: var(--sl-color-black); font-weight: 600; text-decoration: none; }
+      .home-cta-minimal { color: var(--sl-color-accent-high); text-decoration: none; font-weight: 500; }
+      .home-right { display: flex; flex-direction: column; gap: 1.25rem; }
+      .home-right .sl-link-card { min-height: 0; }
+      /* Hide Starlight's built-in hero since we render our own */
+      .content-panel > .hero { display: none; }
+      .content-panel { padding-block: 1rem !important; }
+      .sl-markdown-content { margin-top: 0 !important; max-width: none !important; }
+---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+<div class="home-wrap">
+  <div class="home-left">
+    <h1 class="home-title">AgentOS</h1>
+    <p class="home-tagline">A local operating system for human-AI collaboration. Built for agents first. Inspired by J.C.R. Licklider and Vannevar Bush. Your data stays on your machine.</p>
+    <div class="home-ctas">
+      <a class="home-cta-primary" href="/introduction/what-is-agentos/">What is AgentOS →</a>
+      <a class="home-cta-minimal" href="/skills/reference/">Browse skills</a>
+    </div>
+  </div>
+
+  <div class="home-right">
+    <CardGrid>
+      <LinkCard title="Introduction" href="/introduction/what-is-agentos/" description="What AgentOS is, who it's for, and how we build." />
+      <LinkCard title="Architecture" href="/architecture/overview/" description="How it's built — design, security, data model." />
+      <LinkCard title="Skills" href="/skills/overview/" description="How to build skills and the full catalog." />
+      <LinkCard title="Shapes" href="/shapes/overview/" description="The ontology and memex graph." />
+    </CardGrid>
+  </div>
+</div>

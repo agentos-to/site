@@ -1,0 +1,102 @@
+---
+import config from 'virtual:starlight/user-config';
+import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
+import Search from 'virtual:starlight/components/Search';
+import SiteTitle from 'virtual:starlight/components/SiteTitle';
+import SocialIcons from 'virtual:starlight/components/SocialIcons';
+import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
+import ProgressScroll from 'starlight-theme-galaxy/components/ProgressScroll.astro';
+
+const shouldRenderSearch =
+	config.pagefind || config.components.Search !== '@astrojs/starlight/components/Search.astro';
+
+const baseUrl = import.meta.env.BASE_URL || '/';
+const normalizedPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/';
+const normalizedBase = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
+const isHomePage = normalizedPath === normalizedBase;
+
+const topics = Astro.locals.starlightSidebarTopics.topics.map((t) => ({
+	label: t.label,
+	link: t.link,
+	active: t.isCurrent,
+}));
+---
+
+<div class="header">
+	<div class="title-wrapper sl-flex">
+		<SiteTitle />
+	</div>
+	<nav class="topic-tabs" aria-label="Sections">
+		<ul>
+			{topics.map((t) => (
+				<li>
+					<a href={t.link} aria-current={t.active ? 'page' : undefined}>{t.label}</a>
+				</li>
+			))}
+		</ul>
+	</nav>
+	<div class="sl-flex print:hidden search-wrap">
+		{shouldRenderSearch && <Search />}
+	</div>
+	<div class="sl-hidden md:sl-flex print:hidden right-group">
+		<div class="sl-flex social-icons">
+			<SocialIcons />
+		</div>
+		<ThemeSelect />
+		<LanguageSelect />
+	</div>
+</div>
+{!isHomePage && <ProgressScroll />}
+
+<style>
+	.header {
+		display: flex;
+		gap: 1rem;
+		justify-content: space-between;
+		align-items: center;
+		height: 100%;
+	}
+	.title-wrapper {
+		overflow: visible;
+	}
+	.topic-tabs {
+		display: none;
+		flex: 1;
+		min-width: 0;
+	}
+	.topic-tabs ul {
+		display: flex;
+		gap: 0.25rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+	.topic-tabs ul::-webkit-scrollbar { display: none; }
+	.topic-tabs a {
+		display: inline-block;
+		padding: 0.4rem 0.85rem;
+		border-radius: 0.4rem;
+		color: var(--sl-color-gray-2);
+		text-decoration: none;
+		font-size: var(--sl-text-sm);
+		font-weight: 500;
+		white-space: nowrap;
+		transition: color 0.15s, background 0.15s;
+	}
+	.topic-tabs a:hover {
+		color: var(--sl-color-white);
+		background: var(--sl-color-gray-6);
+	}
+	.topic-tabs a[aria-current='page'] {
+		color: var(--sl-color-white);
+		background: var(--sl-color-accent-low);
+	}
+	.search-wrap {
+		flex: 0 1 auto;
+	}
+	@media (min-width: 50rem) {
+		.topic-tabs { display: block; }
+	}
+</style>
