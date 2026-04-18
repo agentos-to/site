@@ -3,12 +3,24 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightThemeGalaxy from 'starlight-theme-galaxy';
 import starlightSidebarTopics from 'starlight-sidebar-topics';
-import { readdirSync, statSync } from 'node:fs';
+import { readdirSync, statSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-/** Walk skills/reference/ and return a flat, alphabetically-sorted list of { slug } entries. */
-function flatSkillsReference() {
-	const root = './src/content/docs/skills/reference';
+/** Read the `title` field from a markdown file's YAML frontmatter. */
+function readTitle(path) {
+	const src = readFileSync(path, 'utf8');
+	const match = src.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+	if (!match) return null;
+	const title = match[1].match(/^title:\s*(.+)$/m);
+	if (!title) return null;
+	return title[1].trim().replace(/^['"]|['"]$/g, '');
+}
+
+/** Walk a content directory and return a flat, alphabetically-sorted list of
+ *  { label, slug } entries. `index.md` files are skipped; labels come from each
+ *  file's frontmatter `title`, falling back to the filename. */
+function flatReference(relRoot) {
+	const root = `./src/content/docs/${relRoot}`;
 	const entries = [];
 	const walk = (dir, rel) => {
 		for (const name of readdirSync(dir)) {
@@ -17,14 +29,17 @@ function flatSkillsReference() {
 			if (statSync(abs).isDirectory()) {
 				walk(abs, relPath);
 			} else if (name.endsWith('.md') && name !== 'index.md') {
-				entries.push({ slug: `skills/reference/${relPath.replace(/\.md$/, '')}` });
+				const slug = `${relRoot}/${relPath.replace(/\.md$/, '')}`;
+				const label = readTitle(abs) || name.replace(/\.md$/, '');
+				entries.push({ label, slug });
 			}
 		}
 	};
 	walk(root, '');
-	const nameOf = (e) => e.slug.split('/').pop();
-	return entries.sort((a, b) => nameOf(a).localeCompare(nameOf(b)));
+	return entries.sort((a, b) => a.label.localeCompare(b.label));
 }
+const flatSkillsReference = () => flatReference('skills/reference');
+const flatShapesReference = () => flatReference('shapes/reference');
 
 // https://astro.build/config
 export default defineConfig({
@@ -65,6 +80,7 @@ export default defineConfig({
 						],
 					},
 					{
+						id: 'build',
 						label: 'Build',
 						link: '/introduction/how-we-build/',
 						icon: 'puzzle',
@@ -112,38 +128,40 @@ export default defineConfig({
 									{ label: 'Auth flows', slug: 'skills/auth-flows' },
 									{ label: 'Data', slug: 'skills/data' },
 									{ label: 'LLM', slug: 'skills/llm' },
-									{
-										label: 'Reverse engineering',
-										collapsed: false,
-										items: [
-											{ label: 'Overview', slug: 'skills/reverse-engineering/overview' },
-											{ label: '1. Transport', slug: 'skills/reverse-engineering/1-transport' },
-											{ label: '2. Discovery', slug: 'skills/reverse-engineering/2-discovery' },
-											{
-												label: '3. Auth',
-												collapsed: false,
-												items: [
-													{ label: 'Overview', slug: 'skills/reverse-engineering/3-auth/overview' },
-													{ label: 'NextAuth', slug: 'skills/reverse-engineering/3-auth/nextauth' },
-													{ label: 'WorkOS', slug: 'skills/reverse-engineering/3-auth/workos' },
-													{ label: 'macOS Keychain', slug: 'skills/reverse-engineering/3-auth/macos-keychain' },
-												],
-											},
-											{ label: '4. Content', slug: 'skills/reverse-engineering/4-content' },
-											{ label: '5. Social', slug: 'skills/reverse-engineering/5-social' },
-											{
-												label: '6. Desktop apps',
-												collapsed: false,
-												items: [
-													{ label: 'Overview', slug: 'skills/reverse-engineering/6-desktop-apps/overview' },
-													{ label: 'Electron', slug: 'skills/reverse-engineering/6-desktop-apps/electron' },
-												],
-											},
-											{ label: '7. MCP', slug: 'skills/reverse-engineering/7-mcp' },
-										],
-									},
 								],
 							},
+							{
+								label: 'Reverse engineering',
+								collapsed: false,
+								items: [
+									{ label: 'Overview', slug: 'skills/reverse-engineering/overview' },
+									{ label: '1. Transport', slug: 'skills/reverse-engineering/1-transport' },
+									{ label: '2. Discovery', slug: 'skills/reverse-engineering/2-discovery' },
+									{ label: '3. Auth', slug: 'skills/reverse-engineering/3-auth/overview' },
+									{ label: '4. Content', slug: 'skills/reverse-engineering/4-content' },
+									{ label: '5. Social', slug: 'skills/reverse-engineering/5-social' },
+									{ label: '6. Desktop apps', slug: 'skills/reverse-engineering/6-desktop-apps/overview' },
+									{ label: '7. MCP', slug: 'skills/reverse-engineering/7-mcp' },
+								],
+							},
+						],
+					},
+					{
+						id: 'skills',
+						label: 'Skills',
+						link: '/skills/reference/',
+						icon: 'information',
+						items: [
+							{ label: 'Skills index', slug: 'skills/reference' },
+							...flatSkillsReference(),
+						],
+					},
+					{
+						id: 'shapes',
+						label: 'Shapes',
+						link: '/shapes/overview/',
+						icon: 'seti:crystal',
+						items: [
 							{
 								label: 'Shapes',
 								collapsed: false,
@@ -156,19 +174,9 @@ export default defineConfig({
 							},
 							{
 								label: 'Shape reference',
-								autogenerate: { directory: 'shapes/reference' },
-								collapsed: true,
+								collapsed: false,
+								items: flatShapesReference(),
 							},
-						],
-					},
-					{
-						id: 'skills',
-						label: 'Skills',
-						link: '/skills/reference/',
-						icon: 'information',
-						items: [
-							{ label: 'Skills index', slug: 'skills/reference' },
-							...flatSkillsReference(),
 						],
 					},
 					{
@@ -188,6 +196,11 @@ export default defineConfig({
 				], {
 					topics: {
 						skills: ['/skills/reference/*'],
+						shapes: ['/shapes/reference', '/shapes/reference/'],
+						build: [
+							'/skills/reverse-engineering/3-auth/*',
+							'/skills/reverse-engineering/6-desktop-apps/*',
+						],
 					},
 				}),
 			],

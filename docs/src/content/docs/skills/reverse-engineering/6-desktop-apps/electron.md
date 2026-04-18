@@ -8,7 +8,7 @@ bundle is readable, the storage is standard Chromium formats, and the auth
 tokens are often sitting in a JSON file. Once you know where to look, Electron
 is one of the easiest desktop targets.
 
-Part of [Layer 6: Desktop Apps](./overview.md). See also [3-auth](../3-auth/overview.md) for
+Part of [Layer 6: Desktop Apps](./overview.mdx). See also [3-auth](../3-auth/overview.mdx) for
 general auth patterns.
 
 ---
