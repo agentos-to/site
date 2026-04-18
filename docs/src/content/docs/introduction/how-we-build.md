@@ -30,7 +30,7 @@ Read the [Shape design principles](/shapes/shape-design-principles/) before prop
 
 ## Apps
 
-TypeScript/React UIs for humans. Each app is self-contained and built against the `apps/_sdk/`. Apps never talk to skills directly — they ask the engine for a capability, the engine routes to a skill that `@provides(...)` it.
+TypeScript/React UIs for humans. Each app is self-contained and built against `@agentos/sdk` from the `sdk-apps/` sibling repo. Apps never talk to skills directly — they ask the engine for a capability, the engine routes to a skill that `@provides(...)` it.
 
 See [Apps overview](/apps/overview/).
 

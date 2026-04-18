@@ -15,7 +15,7 @@ See [Local-first](/architecture/local-first/) for the full framing.
 
 ## Shipped apps
 
-Each app is a self-contained React surface built against the `_sdk/`:
+Each app is a self-contained React surface built against `@agentos/sdk`:
 
 ```
 accounts/      Identity + connection management
@@ -26,11 +26,11 @@ store/         Install skills, apps, themes
 
 ## Building an app
 
-The app SDK and shared React components live next to the apps:
+The app SDK lives in the `sdk-apps/` sibling repo; shared React components live next to the apps:
 
 ```
+sdk-apps/        TypeScript Apps SDK — the engine API surface (@agentos/sdk)
 apps/
-  _sdk/          TypeScript Apps SDK — the engine API surface for apps
   _components/   Shared React components
   <your-app>/    A self-contained app
 ```
