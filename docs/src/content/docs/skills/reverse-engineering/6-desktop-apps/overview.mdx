@@ -3,11 +3,17 @@ title: "Reverse Engineering — macOS Desktop & Electron Apps"
 description: "When the target is a desktop app (Slack, Notion, Granola, VS Code) that stores data locally and syncs with a backend — the API is often undocumented, but the app itself is your best source."
 ---
 
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
 When the target is a **desktop app** (Slack, Notion, Granola, VS Code, etc.) that
 stores data locally and syncs with a backend. The API is often undocumented;
 the app itself is your best source.
 
-**Sub-page:** [Electron deep dive](./electron.md) — asar extraction, token files, CrossAppAuth, feature flags.
+## In this section
+
+<CardGrid>
+  <LinkCard title="Electron deep dive" href="/skills/reverse-engineering/6-desktop-apps/electron/" description="asar extraction, token files, CrossAppAuth, feature flags." />
+</CardGrid>
 
 ## When to Use This Approach
 

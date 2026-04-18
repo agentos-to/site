@@ -9,7 +9,7 @@ auth (via WorkOS or similar). Understanding its conventions accelerates reverse
 engineering because the endpoint structure, cookie names, and flow mechanics
 are predictable.
 
-Part of [Layer 3: Auth & Runtime](./overview.md). Discovered during the
+Part of [Layer 3: Auth & Runtime](./overview.mdx). Discovered during the
 [Exa skill](../../reference/web/exa.md) reverse engineering session.
 
 ---
@@ -267,14 +267,14 @@ incorrectly" errors because the callback URL is missing.
 
 Some NextAuth login forms include hidden honeypot fields (e.g.
 `input[name="website"]`). Never fill these in HTTPX replay. See
-[Playwright Discovery Gotchas](./overview.md#honeypot-fields) for details.
+[Playwright Discovery Gotchas](./overview.mdx#honeypot-fields) for details.
 
 ### React forms need `type` not `fill`
 
 NextAuth login pages built with React/Next.js require Playwright's `type`
 command (real keystrokes) rather than `fill` (direct DOM manipulation). `fill`
 bypasses React's synthetic event system and leaves form state empty. See
-[Playwright Discovery Gotchas](./overview.md#type-vs-fill-on-react-forms).
+[Playwright Discovery Gotchas](./overview.mdx#type-vs-fill-on-react-forms).
 
 ### Vercel Security Checkpoint
 
@@ -325,7 +325,7 @@ values (API keys, tokens) client-side, but the underlying API returns them in
 full. During reverse engineering, use `capture_network` on authenticated pages
 and read the complete JSON response bodies.
 
-See [Dashboard APIs leak more than the UI](./overview.md#dashboard-apis-often-leak-more-than-the-ui-shows)
+See [Dashboard APIs leak more than the UI](./overview.mdx#dashboard-apis-often-leak-more-than-the-ui-shows)
 for the general pattern.
 
 ---

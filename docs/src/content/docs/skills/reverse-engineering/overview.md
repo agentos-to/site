@@ -13,10 +13,10 @@ Each layer builds on the previous. Start at transport, work up.
 |-------|---------------|-----------------|
 | [1. Transport](1-transport.md) | TLS fingerprinting, WAF bypass, Playwright stealth, HTTP/2 | Service blocks automated requests |
 | [2. Discovery](2-discovery.md) | Next.js/Apollo caches, JS bundle config, GraphQL schema scanning | Finding API endpoints and data shapes |
-| [3. Auth & Runtime](3-auth/overview.md) | Credential bootstrap, login/signup flows, CSRF, cookies, API key management, network interception | Logging in and managing session state |
+| [3. Auth & Runtime](3-auth/overview.mdx) | Credential bootstrap, login/signup flows, CSRF, cookies, API key management, network interception | Logging in and managing session state |
 | [4. Content](4-content.md) | Pagination, infinite scroll, content extraction | Scraping actual data from pages |
 | [5. Social Networks](5-social.md) | Social graph traversal, friend lists, activity feeds | Working with social platforms |
-| [6. Desktop Apps](6-desktop-apps/overview.md) | Electron asar extraction, native app IPC, plist configs | Local apps without web APIs |
+| [6. Desktop Apps](6-desktop-apps/overview.mdx) | Electron asar extraction, native app IPC, plist configs | Local apps without web APIs |
 | [7. MCP Servers](7-mcp.md) | Wrapping existing MCP servers as skills | When someone already built an MCP server |
 
 ## Core principle
@@ -49,7 +49,7 @@ The progression:
 
 See the [Browse Toolkit spec](https://github.com/agentos-to/core/blob/main/specs/browse-toolkit.md) in the engine repo for details.
 
-See [Auth & Runtime](3-auth/overview.md) for the full methodology, including:
+See [Auth & Runtime](3-auth/overview.mdx) for the full methodology, including:
 - **Credential Bootstrap Lifecycle** — the five-phase pattern from entry through API key storage
 - **Network Interception** — three layers: `capture_network` for page-load, fetch interceptors for user interactions, DOM inspection for native form POSTs
 - **Cookie Mechanics** — SameSite, HttpOnly, cross-domain behavior, extraction methods

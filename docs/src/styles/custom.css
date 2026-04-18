@@ -4,6 +4,33 @@
 	display: none;
 }
 
+/* Cross-document view transitions — quick fade between pages. Browsers
+   that don't support this simply render instantly with no regression. */
+@view-transition {
+	navigation: auto;
+}
+
+::view-transition-old(root) {
+	animation: 120ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
+}
+::view-transition-new(root) {
+	animation: 160ms cubic-bezier(0, 0, 0.2, 1) both fade-in;
+}
+
+@keyframes fade-out {
+	to { opacity: 0; }
+}
+@keyframes fade-in {
+	from { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation: none;
+	}
+}
+
 /* Tighter table rows — default Starlight/galaxy-theme cells come in at
    ~12px top/bottom which eats a lot of vertical real estate on shape
    reference tables (Fields/Relations/Inherited). */

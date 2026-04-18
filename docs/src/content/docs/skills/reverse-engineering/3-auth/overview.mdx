@@ -3,13 +3,17 @@ title: "Reverse Engineering — Auth & Credentials"
 description: "How to log into things, get API keys, and store credentials — for any web service."
 ---
 
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
 How to log into things, get API keys, and store credentials — for any web service.
 
-**Vendor-specific deep dives:**
+## In this section
 
-- [NextAuth.js / Auth.js](./nextauth.md)
-- [WorkOS](./workos.md)
-- [macOS Keychain](./macos-keychain.md)
+<CardGrid>
+  <LinkCard title="NextAuth.js / Auth.js" href="/skills/reverse-engineering/3-auth/nextauth/" description="Session cookies, CSRF double-submit, JWT vs database sessions." />
+  <LinkCard title="WorkOS" href="/skills/reverse-engineering/3-auth/workos/" description="SSO flows, session cookies, API key provisioning." />
+  <LinkCard title="macOS Keychain" href="/skills/reverse-engineering/3-auth/macos-keychain/" description="Reading credentials written by desktop apps via the Security framework." />
+</CardGrid>
 
 ## How web auth works
 

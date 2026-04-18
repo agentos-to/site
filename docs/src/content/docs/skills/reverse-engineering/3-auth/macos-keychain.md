@@ -469,7 +469,7 @@ the seconds between opening the browser and catching the redirect.
 ## See Also
 
 - [Electron deep dive](../6-desktop-apps/electron.md) — Safe Storage key extraction, asar unpacking
-- [Auth & Credentials overview](./overview.md) — web auth, CSRF, cookie patterns
-- [Desktop Apps](../6-desktop-apps/overview.md) — app bundle structure, Application Support
+- [Auth & Credentials overview](./overview.mdx) — web auth, CSRF, cookie patterns
+- [Desktop Apps](../6-desktop-apps/overview.mdx) — app bundle structure, Application Support
 - `agentos-community/skills/comms/mimestream/` — reference
   implementation of Keychain-based OAuth credential extraction
