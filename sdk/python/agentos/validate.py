@@ -1471,11 +1471,14 @@ def check_shape_conformance(skill_dir: Path, shapes_dir: Path | None) -> list[st
                         )
 
             # Extra keys advisory — ignore underscore-prefixed internals.
+            # Lazy-learned shapes absorb new keys on next run; this is a
+            # developer-typing hint, not a runtime error.
             extra = {k for k in returned_keys - all_valid_keys if not k.startswith("_")}
             if extra:
                 warnings.append(
-                    f"{rel}:{node.lineno}: {node.name} returns keys not in shape '{shape_name}': "
-                    f"{', '.join(sorted(extra))} — add to shapes/{shape_name}.yaml or remove"
+                    f"{rel}:{node.lineno}: {node.name} returns keys not declared on shape '{shape_name}': "
+                    f"{', '.join(sorted(extra))} — the engine will union-extend on next run; "
+                    f"add to docs/shapes/{shape_name}.yaml to get SDK TypedDict coverage"
                 )
     return warnings
 
