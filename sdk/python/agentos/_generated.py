@@ -1,6 +1,6 @@
 """Auto-generated TypedDict classes from shape YAML — do not edit.
 
-Generated from 81 shapes.
+Generated from 73 shapes.
 Regenerate with: python generate.py --lang python
 """
 
@@ -122,7 +122,7 @@ class Aircraft(TypedDict, total=False):
     tagged: list[Tag]
 
 
-class Airline(TypedDict, total=False):
+class Album(TypedDict, total=False):
     id: str
     name: str
     text: str
@@ -131,21 +131,10 @@ class Airline(TypedDict, total=False):
     author: str
     datePublished: str
     content: str
-    actorType: str
-    alliance: str
-    callsign: str
-    country: str
-    founded: str
-    iataCode: str
-    icaoCode: str
-    industry: str
-    domain: Domain
-    headquarters: Place
-    member: list[Person]
-    website: Website
+    contains: list[Image]
 
 
-class Airport(TypedDict, total=False):
+class App(TypedDict, total=False):
     id: str
     name: str
     text: str
@@ -154,48 +143,10 @@ class Airport(TypedDict, total=False):
     author: str
     datePublished: str
     content: str
-    city: str
-    country: str
-    countryCode: str
-    elevationFt: int
-    iataCode: str
-    icaoCode: str
-    terminalCount: int
-    timezone: str
-    location: Place
-    operator: Organization
-
-
-class AnalyticsEvent(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    currentUrl: str
-    distinctId: str
-    properties: Any
-    person: Person
-
-
-class Article(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    language: str
-    readingTime: int
-    section: str
-    wordCount: int
-    publishedIn: Website
-    publisher: Organization
+    app_id: str
+    description: str
+    entity_types: Any
+    standalone: bool
 
 
 class Book(TypedDict, total=False):
@@ -571,77 +522,6 @@ class File(TypedDict, total=False):
     repository: Repository
 
 
-class FinancialAccount(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    accountNumber: str
-    accountType: str
-    available: float
-    balance: float
-    bio: str
-    cardType: str
-    color: str
-    creditLimit: float
-    displayName: str
-    email: str
-    expiresAt: str
-    handle: str
-    identifier: str
-    interestRate: float
-    isActive: bool
-    issuer: str
-    joinedDate: str
-    last4: str
-    lastActive: str
-    minimumPayment: float
-    paymentDueDate: str
-    phone: str
-    routingNumber: str
-    followers: list[Account]
-    follows: list[Account]
-    owner: Person
-    platform: Product
-
-
-class Flight(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    arrivalTime: str
-    cabinClass: str
-    carbonEmissions: Any
-    departureTime: str
-    duration: str
-    durationMinutes: int
-    flightNumber: str
-    layoverMinutes: int
-    polyline: str
-    sequence: int
-    stops: int
-    trace: Any
-    tracePointCount: int
-    vehicleType: str
-    aircraft: Aircraft
-    airline: Airline
-    arrivesAt: Airport
-    carrier: Organization
-    departsFrom: Airport
-    destination: Place
-    origin: Place
-    trip: Trip
-
-
 class Folder(TypedDict, total=False):
     id: str
     name: str
@@ -731,21 +611,6 @@ class Hardware(TypedDict, total=False):
     tagged: list[Tag]
 
 
-class Highlight(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    color: str
-    position: str
-    createdBy: Person
-    extractedFrom: Book
-
-
 class Image(TypedDict, total=False):
     id: str
     name: str
@@ -797,6 +662,23 @@ class Invitation(TypedDict, total=False):
     inviter: Account
     organization: Organization
     platform: Product
+
+
+class Job(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    boot_epoch: int
+    config: Any
+    kind: str
+    status: str
+    produced: Conversation
+    requested_by: Account
 
 
 class Leg(TypedDict, total=False):
@@ -1281,45 +1163,6 @@ class Quote(TypedDict, total=False):
     year: int
 
 
-class Report(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    abstract: str
-    confidence: float
-    contentType: str
-    dataSources: list[str]
-    encoding: str
-    filename: str
-    findings: str
-    format: str
-    kind: str
-    language: str
-    lineCount: int
-    methodology: str
-    mimeType: str
-    path: str
-    recommendations: str
-    reportType: str
-    sha: str
-    size: int
-    subjectId: str
-    tableOfContents: str
-    wordCount: int
-    attachedTo: Message
-    author: Actor
-    citedBy: list[Document]
-    commissionedBy: Actor
-    references: list[Document]
-    relatedSpecs: list[Spec]
-    repository: Repository
-
-
 class Repository(TypedDict, total=False):
     id: str
     name: str
@@ -1397,63 +1240,6 @@ class Role(TypedDict, total=False):
     title: str
     organization: Organization
     person: Person
-
-
-class Route(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    color: str
-    cronExpression: str
-    direction: str
-    durability: str
-    enabled: bool
-    hours: Any
-    lastFiredAt: str
-    nextFireAt: str
-    prompt: str
-    providerJobId: str
-    routeNumber: str
-    routeType: str
-    rrule: str
-    scheduleType: str
-    timezone: str
-    destination: Place
-    operator: Organization
-    origin: Place
-    produces: Trip
-    provider: Skill
-    stops: list[Place]
-
-
-class Schedule(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    cronExpression: str
-    durability: str
-    enabled: bool
-    hours: Any
-    lastFiredAt: str
-    nextFireAt: str
-    prompt: str
-    providerJobId: str
-    rrule: str
-    scheduleType: str
-    timezone: str
-    operator: Organization
-    produces: Trip
-    provider: Skill
 
 
 class Search(TypedDict, total=False):
@@ -1814,51 +1600,6 @@ class Trip(TypedDict, total=False):
     legs: list[Leg]
     order: Order
     origin: Place
-
-
-class Vehicle(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    aisle: str
-    availability: str
-    barcode: str
-    bodyType: str
-    calories: float
-    categories: list[str]
-    color: str
-    currency: str
-    department: str
-    drivetrain: str
-    fuelType: str
-    images: Any
-    model: str
-    novaGroup: int
-    nutritionScore: str
-    odometer: int
-    originalPrice: str
-    originalPriceAmount: float
-    price: str
-    priceAmount: float
-    quantity: int
-    servingSize: str
-    sku: str
-    soldByWeight: bool
-    transmission: str
-    trim: str
-    vin: str
-    weight: str
-    weightUnit: str
-    weightValue: float
-    year: int
-    brand: Brand
-    manufacturer: Organization
-    tagged: list[Tag]
 
 
 class Video(TypedDict, total=False):
