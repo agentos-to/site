@@ -1,0 +1,14 @@
+{
+  "name": "@agentos/sdk",
+  "version": "0.1.0",
+  "description": "agentOS App SDK — typed shape access for TypeScript apps",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "generate": "cd ../docs && python3 generate.py --lang typescript"
+  },
+  "files": ["dist"],
+  "license": "MIT"
+}
