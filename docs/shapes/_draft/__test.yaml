@@ -1,0 +1,10 @@
+# Sentinel — if a scanner ever loads files from `_draft/`, this shape
+# will show up in the registry under the name `__test`, which every
+# validator asserts is absent. See `validate.py::_assert_no_draft_leakage`.
+#
+# Do NOT rename or delete this file without also updating the assertion.
+__test:
+  plural: __tests
+  identity: [__sentinel]
+  fields:
+    __sentinel:        string    # must never appear in a loaded registry
