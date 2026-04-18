@@ -10,7 +10,6 @@ Usage:
     python generate.py --lang python          # Python TypedDicts only
     python generate.py --from-api             # load shapes from graph instead of YAML
     python generate.py --from-api --dump-yaml ./shapes  # export graph → YAML
-    python generate.py --lang rust --out-dir ./out  # one-off export for unsupported SDKs
 """
 
 from __future__ import annotations
@@ -356,6 +355,33 @@ def emit_python(shapes: list[Shape]) -> str:
         lines.append("")
         lines.append("")
 
+    # SHAPE_DEFS: machine-readable shape defs for the skill wire protocol.
+    # The Python worker attaches the matching entry as `shape_def` alongside
+    # skill responses so the Rust engine can upsert the definition to the
+    # graph lazily (no YAML walk required at engine boot).
+    lines.append("# Machine-readable shape definitions — consumed by the skill worker")
+    lines.append("# to attach `shape_def` on every @returns(shape) response.")
+    lines.append("# Shape-lazy Phase 2 (_roadmap/p1/shapes-lazy/proposal.md §3.1).")
+    lines.append("SHAPE_DEFS: dict[str, dict] = {")
+    for s in shapes:
+        fields_map: dict[str, str] = {}
+        for f in s.fields:
+            if f.is_relation:
+                # Relations stored as the target shape name (arrays get `[]`).
+                fields_map[f.name] = f.type
+            else:
+                fields_map[f.name] = f.type
+        lines.append(f"    {s.name!r}: {{")
+        lines.append(f"        'fields': {{")
+        for k, v in fields_map.items():
+            lines.append(f"            {k!r}: {v!r},")
+        lines.append(f"        }},")
+        lines.append(f"        'identity': {s.identity!r},")
+        lines.append(f"        'also': {s.also!r},")
+        lines.append(f"    }},")
+    lines.append("}")
+    lines.append("")
+
     return "\n".join(lines)
 
 
@@ -578,40 +604,6 @@ def _go_type(f: Field) -> str:
 # =============================================================================
 # Rust emitter — names-only `pub const` mirrors for the engine
 # =============================================================================
-
-def emit_rust(shapes: list[Shape]) -> str:
-    """Names-only `pub const` mirrors — the format the Rust engine consumes.
-
-    The engine uses `shapes::ACTIVITY` in place of `"activity"` string
-    literals so the compiler catches typos and rename-refactors propagate
-    across call sites. This is NOT an emitter of full Rust structs —
-    structs would require deep decisions about Option vs default, serde
-    tags, relation representation. We pick names only and leave the rest
-    as runtime JSON.
-    """
-    names = sorted({s.name for s in shapes})
-    # Column-align the `:` for readability. Width = longest const name + 1.
-    width = max((len(n.upper()) for n in names), default=0)
-
-    lines = [
-        "// AUTO-GENERATED. Do not edit.",
-        "// Source: docs/shapes/*.yaml",
-        "// Generator: docs/generate.py --lang rust",
-        "//",
-        "// `pub const` mirrors of every shape name in the ontology. Used in",
-        "// place of string literals so the Rust engine catches typos at compile",
-        "// time and rename-refactors propagate across all callsites.",
-        "//",
-        "// Re-exported from `agentos-shapes::lib` — callers say",
-        "// `shapes::ACTIVITY` via the `agentos_core::shapes` facade.",
-        "",
-    ]
-    for name in names:
-        const = name.upper()
-        lines.append(f"pub const {const:<{width}}: &str = \"{name}\";")
-    lines.append("")  # trailing newline
-    return "\n".join(lines)
-
 
 # =============================================================================
 # MDX emitter — one doc page per shape (Starlight-compatible)
@@ -1045,7 +1037,6 @@ def build_skills_index(skills: list[dict], known_shapes: set[str]) -> dict[str, 
 EMITTERS = {
     "python": (emit_python, "_generated.py"),
     "typescript": (emit_typescript, "shape.ts"),
-    "rust": (emit_rust, "generated.rs"),
 }
 
 # Available via --lang but not written to default targets — callers must
@@ -1060,7 +1051,7 @@ ALL_EMITTERS = {**EMITTERS, **_EXTRA_EMITTERS}
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate typed shapes for Python, TypeScript, and Rust")
+    parser = argparse.ArgumentParser(description="Generate typed shapes for Python and TypeScript")
     parser.add_argument("--lang", choices=list(ALL_EMITTERS.keys()), help="Language to generate (default: all in EMITTERS)")
     parser.add_argument("--shapes-dir", type=Path, help="Path to shapes/ directory")
     parser.add_argument("--out-dir", type=Path, help="Output directory (default: target inside sibling SDK repo)")
@@ -1098,7 +1089,6 @@ def main():
     targets = {
         "python": workspace / "sdk-skills" / "agentos" / "_generated.py",
         "typescript": workspace / "sdk-apps" / "src" / "shapes.ts",
-        "rust": workspace / "core" / "crates" / "shapes" / "src" / "generated.rs",
     }
 
     if args.docs:
