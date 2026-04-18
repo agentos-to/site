@@ -39,10 +39,6 @@ From [`actor`](/shapes/reference/actor/):
 |---|---|
 | `actorType` | `string` |
 
-## Used as a base by
-
-- [`airline`](/shapes/reference/airline/)
-
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

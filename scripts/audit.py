@@ -51,7 +51,7 @@ BACKTICK_PATH_RE = re.compile(
 # `AgentOS-*` caps-prefix: capital A in "AgentOS" followed by hyphen-word is
 # never a real filesystem path — it's always broken link-talk.
 SENTINEL_PATTERNS = [
-    (re.compile(r"agentos-sdk\b", re.IGNORECASE), "agentos-sdk/ was replaced by site/docs/shapes/ or skills/_sdk/"),
+    (re.compile(r"agentos-sdk\b", re.IGNORECASE), "agentos-sdk/ was replaced by docs/shapes/ (ontology) or sdk-skills/ (Python SDK)"),
     (re.compile(r"AgentOS-[A-Z][a-zA-Z]+"), "AgentOS-* PascalCase refs are typically broken — link to real location"),
     (re.compile(r"_roadmap/_research/"), "_roadmap/_research/ moved → src/content/docs/research/"),
     (re.compile(r"core/vision\.md\b"), "core/vision.md sections moved → introduction/ + principles/"),

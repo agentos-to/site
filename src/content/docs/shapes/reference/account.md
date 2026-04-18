@@ -44,10 +44,6 @@ identifier = platform-specific handle (e.g. "octocat", "user@example.com")
 | `follows` | [`account[]`](/shapes/reference/account/) |
 | `followers` | [`account[]`](/shapes/reference/account/) |
 
-## Used as a base by
-
-- [`financial_account`](/shapes/reference/financial_account/)
-
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

@@ -26,7 +26,7 @@ The graph is the foundation. Every feature we build — search, feeds, timelines
 
 The graph has one entity table and one relationship table. Entity **shape** is carried by the entity itself, via a `_type` entity that describes which fields, relations, and display hints apply. The engine doesn't know about `task` or `message` or `person` — it only knows that there's an entity whose `_type` points to a shape.
 
-This is what makes the engine generic. Adding a new entity type is a YAML file in `site/docs/shapes/`, not a Rust change. See the [Ontology overview](/shapes/overview/) for the full shape system.
+This is what makes the engine generic. Adding a new entity type is a YAML file in `docs/shapes/`, not a Rust change. See the [Ontology overview](/shapes/overview/) for the full shape system.
 
 ## Content vs. storage
 

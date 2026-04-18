@@ -24,7 +24,7 @@ Start at the [Skills overview](/skills/overview/).
 
 ## Shapes
 
-The ontology is a directory of YAML files — one shape per file — at `site/docs/shapes/`. Shapes describe entity types (fields, relations, display hints, operations). Add a shape, reseed, restart the engine; the graph now knows about a new entity type. No Rust change required.
+The ontology is a directory of YAML files — one shape per file — at `docs/shapes/`. Shapes describe entity types (fields, relations, display hints, operations). Add a shape, reseed, restart the engine; the graph now knows about a new entity type. No Rust change required.
 
 Read the [Shape design principles](/shapes/shape-design-principles/) before proposing a new shape.
 

@@ -1094,7 +1094,10 @@ def main():
     parser.add_argument("--docs-out", type=Path, help="Reference output root for --docs (default: src/content/docs/reference)")
     args = parser.parse_args()
 
-    sdk_dir = Path(__file__).parent
+    # generate.py lives at `docs/generate.py`; docs_dir = workspace/docs,
+    # workspace = docs_dir.parent. Everything we emit lives in sibling repos.
+    docs_dir = Path(__file__).parent
+    workspace = docs_dir.parent
 
     if args.from_api:
         agentos_bin = args.agentos_bin or "agentos"
@@ -1104,23 +1107,23 @@ def main():
         if args.dump_yaml:
             _dump_yaml_from_api(agentos_bin, args.dump_yaml)
     else:
-        shapes_dir = args.shapes_dir or sdk_dir / "shapes"
+        shapes_dir = args.shapes_dir or docs_dir / "shapes"
         if not shapes_dir.is_dir():
             print(f"Shapes directory not found: {shapes_dir}", file=sys.stderr)
             sys.exit(1)
         shapes = load_shapes(shapes_dir)
         print(f"Loaded {len(shapes)} shapes from {shapes_dir}")
 
-    # Output destinations per language — write directly into SDK packages.
-    # Use --out-dir to override (e.g. for Go/Rust/Swift one-off exports).
+    # Output destinations per language — write directly into sibling SDK packages.
+    # Use --out-dir to override (e.g. for Go/Swift one-off exports).
     targets = {
-        "python": sdk_dir / "skills-sdk" / "agentos" / "_generated.py",
-        "typescript": sdk_dir / "apps-sdk" / "src" / "shapes.ts",
+        "python": workspace / "sdk-skills" / "agentos" / "_generated.py",
+        "typescript": workspace / "sdk-apps" / "src" / "shapes.ts",
     }
 
     if args.docs:
-        skills_root = args.skills_root or (sdk_dir / ".." / ".." / "skills").resolve()
-        docs_out = args.docs_out or (sdk_dir / "src" / "content" / "docs")
+        skills_root = args.skills_root or (workspace / "skills").resolve()
+        docs_out = args.docs_out or (docs_dir / "src" / "content" / "docs")
         if not skills_root.is_dir():
             print(f"Skills root not found: {skills_root}", file=sys.stderr)
             sys.exit(1)
