@@ -29,7 +29,7 @@ Shapes are YAML files in `docs/shapes/` that get loaded into the graph at engine
 - **Fields** — `name: string`, `done: boolean`, `priority: integer`.
 - **Relations** — `parent: folder`, `tags: tag[]`.
 - **Identity** — which fields uniquely identify a record of this shape.
-- **`also` chains** — tag implication. A book is *also* a product, so it inherits product's fields and can be queried as either.
+- **`also` chains** — shape implication. A book is *also* a product, so it inherits product's fields and can be queried as either.
 
 The engine uses the shape registry for type coercion (`"495"` → integer, `"true"` → boolean) and for validation when skills write. It does **not** use the registry to branch on entity types — coercion is a shape-level operation, not a type-level one.
 

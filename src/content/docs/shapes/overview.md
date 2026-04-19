@@ -50,9 +50,9 @@ product:
 
 Shape YAML is a single top-level key (the shape name) containing metadata + `fields` + `relations`. Top-level metadata keys: `plural`, `subtitle`, `icon`, `also`, `identity`, `identity_any`.
 
-### `also` (tag implication)
+### `also` (shape implication)
 
-Declares that this shape is also another shape. An email is also a message. A book is also a product. When the engine tags a record with `email`, it transitively applies `message` too. Both shapes' fields contribute to the record's type context.
+Declares that this shape is also another shape. An email is also a message. A book is also a product. When the engine applies shape `email` to a node, it transitively applies `message` too — both shape memberships are written to `node_shapes`. Both shapes' fields contribute to the record's type context.
 
 `also` is transitive: if A is also B and B is also C, then A is also B and C.
 
@@ -167,7 +167,7 @@ A shape should describe the *kind of thing*, not the *source it came from*. Flig
 
 ### 6. Use `also` for genuine "is-a" relationships
 
-`also` means tag implication: tagging a record with shape A also tags it with shape B. Use it when querying by B should include A.
+`also` means shape implication: applying shape A to a node also applies shape B. Use it when querying by B should include A.
 
 **Good uses:**
 - `email` also `message` (querying messages should include emails)
@@ -386,7 +386,7 @@ def get_email(*, id: str, **params) -> dict:
     }
 ```
 
-**Polymorphic children — `_tag` hint.** If a relation target is a supertype (like `participant: actor[]`, where an actor might be a person OR an organization OR an agent), the child dict can include a `_tag` key to override the declared target:
+**Polymorphic children — `shape` hint.** If a relation target is a supertype (like `participant: actor[]`, where an actor might be a person OR an organization OR an agent), the child dict can include a `shape` key to declare the concrete shape:
 
 ```python
 return {
@@ -394,11 +394,13 @@ return {
     "name": thread_title,
     # shape YAML: participant: actor[]
     "participant": [
-        {"_tag": "person",       "id": "joe",       "name": "Joe"},
-        {"_tag": "organization", "id": "anthropic", "name": "Anthropic"},
+        {"shape": "person",       "id": "joe",       "name": "Joe"},
+        {"shape": "organization", "id": "anthropic", "name": "Anthropic"},
     ],
 }
 ```
+
+`shape` accepts a string for one shape or a list for multi-shape membership: `"shape": ["product", "software"]`.
 
 **Identity — `_identity` hint.** For child records, the engine decides dedupe keys from the YAML shape's `identity` declaration. If you want to override or be explicit, include `_identity` with a list of field names:
 
