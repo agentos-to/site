@@ -13,11 +13,11 @@ shapes symbolically (`shapes::ACTIVITY`) instead of by bare string
      apart — that's a human judgment call — so it just reports.
 
   2. **Literals ready to migrate** — bare `"shape_name"` string
-     literals in the graph-tagging APIs (`ensure_tag`,
-     `find_tag_by_name`, `find_node_by_tag_and_val`,
-     `create_tagged_node`) where `shape_name` is a known shape that
+     literals in the graph-shape APIs (`add_shape`,
+     `find_shape_node_by_name`, `find_node_by_shape_and_val`,
+     `create_shaped_node`) where `shape_name` is a known shape that
      already has a generated const. These are the drop-in rewrites:
-     `ensure_tag("activity")` → `ensure_tag(shapes::ACTIVITY)`.
+     `add_shape(id, "activity")` → `add_shape(id, shapes::ACTIVITY)`.
 
 Output is stable and sorted so diffs against the previous run
 highlight real changes. Exit codes:
@@ -40,7 +40,7 @@ import sys
 from pathlib import Path
 
 # Reuse the producer scanner — it already knows how to find every
-# `"shape_name"` literal inside the four graph-tagging APIs. No reason
+# `"shape_name"` literal inside the four graph-shape APIs. No reason
 # to duplicate that regex matrix here; we just run it and diff the
 # result against the generated const list.
 from agentos.audit_rust_producers import scan_rust_producers
@@ -176,8 +176,8 @@ def scan_const_usage(
     consts_used = sorted(usage.keys())
     consts_unused = sorted(c for c in consts if c not in usage)
 
-    # 2. Literals in graph-tagging APIs that could become const refs.
-    #    `scan_rust_producers` already finds `ensure_tag("x")` and the
+    # 2. Literals in graph-shape APIs that could become const refs.
+    #    `scan_rust_producers` already finds `add_shape(_, "x")` and the
     #    other three APIs — its output is `{shape_name: [(path, line,
     #    api), ...]}`. We only surface the subset whose shape_name
     #    is a known generated const (i.e. a real shape in the
