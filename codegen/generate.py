@@ -55,7 +55,8 @@ class Shape:
     also: list[str] = field(default_factory=list)           # raw `also:` list (tag chain)
     plural: str | None = None
     subtitle: str | None = None
-    identity: list[str] = field(default_factory=list)        # identity / identity_any field names
+    identity: list[str] = field(default_factory=list)        # `identity:` field names (compound — all must match)
+    identity_any: list[str] = field(default_factory=list)    # `identity_any:` field names (any one match suffices)
     leading_comment: str = ""                                # top-of-file `# ...` lines, stripped
     own_fields: list[Field] = field(default_factory=list)    # fields declared on THIS shape, not inherited
     own_relations: list[Field] = field(default_factory=list) # relations declared on THIS shape
@@ -280,9 +281,9 @@ def _build_shapes(
         if "identity" in defn:
             ident = defn["identity"]
             s.identity = ident if isinstance(ident, list) else [ident]
-        elif "identity_any" in defn:
-            ident = defn["identity_any"]
-            s.identity = ident if isinstance(ident, list) else [ident]
+        if "identity_any" in defn:
+            ident_any = defn["identity_any"]
+            s.identity_any = ident_any if isinstance(ident_any, list) else [ident_any]
         s.leading_comment = comments.get(shape_name, "")
         s.source_path = source_paths.get(shape_name)
 
@@ -395,6 +396,27 @@ def emit_python(shapes: list[Shape]) -> str:
         if not s.raw_body:
             continue
         lines.append(f"    {s.name!r}: {s.raw_body!r},")
+    lines.append("}")
+    lines.append("")
+
+    # Identity sidecars — the skill worker attaches these as
+    # `__shape_identity__` and `__shape_identity_any__` next to
+    # `__shape_yaml__` on every @returns(shape) response, so the Rust
+    # engine can drive identity-based upserts without parsing YAML or
+    # consulting any in-process registry.
+    lines.append("# Identity keys per shape — sidecars for the skill worker.")
+    lines.append("SHAPE_IDENTITIES: dict[str, list[str]] = {")
+    for s in shapes:
+        if not s.identity:
+            continue
+        lines.append(f"    {s.name!r}: {list(s.identity)!r},")
+    lines.append("}")
+    lines.append("")
+    lines.append("SHAPE_IDENTITIES_ANY: dict[str, list[str]] = {")
+    for s in shapes:
+        if not s.identity_any:
+            continue
+        lines.append(f"    {s.name!r}: {list(s.identity_any)!r},")
     lines.append("}")
     lines.append("")
 
@@ -673,6 +695,12 @@ def emit_rust(shapes: list[Shape]) -> str:
         "",
     ]
 
+    def _rust_str_slice(items: list[str]) -> str:
+        if not items:
+            return "&[]"
+        body = ", ".join(f'"{s}"' for s in items)
+        return f"&[{body}]"
+
     for s in shapes_sorted:
         if not s.raw_body:
             # Shapes without a serialised body (e.g. loaded from the graph
@@ -689,6 +717,8 @@ def emit_rust(shapes: list[Shape]) -> str:
         lines.append(f"pub static {ident}: ShapeHandle = ShapeHandle {{")
         lines.append(f'    name: "{s.name}",')
         lines.append(f'    yaml_body: r{hashes}"{body}"{hashes},')
+        lines.append(f"    identity: {_rust_str_slice(s.identity)},")
+        lines.append(f"    identity_any: {_rust_str_slice(s.identity_any)},")
         lines.append("};")
         lines.append("")
 
@@ -744,6 +774,8 @@ def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, 
             meta_rows.append(("Subtitle field", f"`{s.subtitle}`"))
         if s.identity:
             meta_rows.append(("Identity", ", ".join(f"`{i}`" for i in s.identity)))
+        if s.identity_any:
+            meta_rows.append(("Identity (any)", ", ".join(f"`{i}`" for i in s.identity_any)))
         if s.also:
             chain = " · ".join(_shape_link(a) for a in s.also)
             meta_rows.append(("Also", chain))
