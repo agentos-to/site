@@ -910,7 +910,7 @@ def check_orphan_shapes(
             f"--- Orphan shapes ({len(fresh)} of {len(records)} defined in {root}) ---"
         )
         for rec in fresh:
-            path = root / f"{rec.name}.yaml"
+            path = _find_shape_yaml(root, rec.name)
             print(f"\n[shape:{rec.name}]")
             print(f"  ⚠ no producer, no reference (defined in {path})")
             print(
