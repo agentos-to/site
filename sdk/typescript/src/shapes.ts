@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 74 shapes.
+// Generated from 70 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -1373,21 +1373,6 @@ export interface Role {
     person?: Person;
 }
 
-export interface Search {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    query?: string;
-    resultCount?: number;
-    searchCount?: number;
-    searchedAt?: string;
-}
-
 export interface Shelf {
     id?: string;
     name?: string;
@@ -1408,21 +1393,6 @@ export interface Shelf {
     at?: Actor;
     belongsTo?: Account;
     contains?: Book[];
-}
-
-export interface Shortcut {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    builtin?: boolean;
-    filter?: string;
-    target?: string;
-    skill?: Skill;
 }
 
 export interface Simulation {
@@ -1467,50 +1437,6 @@ export interface Skill {
     privacyPolicy?: Webpage;
     termsOfService?: Webpage;
     website?: Website;
-}
-
-export interface Software {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    aisle?: string;
-    availability?: string;
-    barcode?: string;
-    calories?: number;
-    categories?: string[];
-    category?: string;
-    currency?: string;
-    customizationGroups?: unknown;
-    department?: string;
-    images?: unknown;
-    license?: string;
-    novaGroup?: number;
-    nutritionScore?: string;
-    openSource?: boolean;
-    originalPrice?: string;
-    originalPriceAmount?: number;
-    platform?: string[];
-    price?: string;
-    priceAmount?: number;
-    quantity?: number;
-    repositoryUrl?: string;
-    servingSize?: string;
-    sku?: string;
-    soldByWeight?: boolean;
-    version?: string;
-    weight?: string;
-    weightUnit?: string;
-    weightValue?: number;
-    brand?: Brand;
-    developer?: Organization;
-    manufacturer?: Organization;
-    repository?: Repository;
-    tagged?: Tag[];
 }
 
 export interface Source {
@@ -1761,26 +1687,6 @@ export interface Video {
     channel?: Channel;
     repository?: Repository;
     transcribe?: Transcript;
-}
-
-export interface Volume {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    filesystem?: string;
-    freeBytes?: number;
-    path?: string;
-    readOnly?: boolean;
-    removable?: boolean;
-    totalBytes?: number;
-    usedBytes?: number;
-    volumeType?: string;
-    contains?: Folder[];
 }
 
 export interface Webpage {
