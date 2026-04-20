@@ -27,7 +27,7 @@ Because AST discovery happens before import, decorators are **no-ops at runtime*
 
 The engine finds skills by walking the `skills/` subdirectory of every **source** registered on the graph (tag: `source`, val: `address` → filesystem path). No sources registered → no skills discovered. The `dev.sh` tooling registers the local dev source automatically; in production, a source is added via `settings.add_source`.
 
-Nothing about the *shapes* a skill returns has to exist on the graph first. Shapes land lazily: the first time a skill returns `@returns("widget")`, the Python worker stamps the dict with `__shape_def__` (read from `SHAPE_DEFS` in the generated SDK), and the Rust upsert path writes the shape node on first use. Running a brand-new skill on a wiped database works end-to-end as long as a source is registered; the graph fills itself as data flows.
+Nothing about the *shapes* a skill returns has to exist on the graph first. Shapes land lazily: the first time a skill returns `@returns("widget")`, the Python worker stamps the dict with `__shape_yaml__` (the raw inner YAML body read from `SHAPE_YAMLS` in the generated SDK), and the Rust upsert path byte-compares that body against the shape-def node — identical is a no-op, different overwrites. Running a brand-new skill on a wiped database works end-to-end as long as a source is registered; the graph fills itself as data flows.
 
 Two independent things, often confused:
 - **Source registration** — "where do skills live on disk?" Graph state. Needed before a skill can be *dispatched*.
