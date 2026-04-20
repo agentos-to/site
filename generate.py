@@ -61,6 +61,7 @@ class Shape:
     own_relations: list[Field] = field(default_factory=list) # relations declared on THIS shape
     prior_art: list[dict] = field(default_factory=list)      # [{source, url, notes}, ...] — external standards this shape aligns with
     source_path: str | None = None                            # relative path of the YAML file that defined this shape (e.g. "account.yaml", "agentos/theme.yaml")
+    raw_body: str = ""                                         # original YAML body as read from disk (or as serialised back from graph api). Used by SHAPE_YAMLS codegen.
 
 
 # =============================================================================
@@ -285,6 +286,17 @@ def _build_shapes(
         s.leading_comment = comments.get(shape_name, "")
         s.source_path = source_paths.get(shape_name)
 
+        # Raw YAML body for this shape — the inner mapping (fields, identity,
+        # relations, also, ...), not the outer `shape_name:` wrapper. Rust's
+        # `RawShape` deserialises from exactly this form, so we dump the
+        # parsed defn back to YAML (canonicalised — key order comes from dict
+        # insertion order, which Python preserves on py>=3.7).
+        try:
+            import yaml as _yaml
+            s.raw_body = _yaml.safe_dump(defn, sort_keys=False, default_flow_style=False)
+        except Exception:
+            s.raw_body = ""
+
         # Prior art — optional list of external standards this shape aligns with.
         pa = defn.get("prior_art") or []
         if isinstance(pa, list):
@@ -370,30 +382,19 @@ def emit_python(shapes: list[Shape]) -> str:
         lines.append("")
         lines.append("")
 
-    # SHAPE_DEFS: machine-readable shape defs for the skill wire protocol.
-    # The Python worker attaches the matching entry as `shape_def` alongside
-    # skill responses so the Rust engine can upsert the definition to the
-    # graph lazily (no YAML walk required at engine boot).
-    lines.append("# Machine-readable shape definitions — consumed by the skill worker")
-    lines.append("# to attach `shape_def` on every @returns(shape) response.")
-    lines.append("# Shape-lazy Phase 2 (_roadmap/p1/shapes-lazy/proposal.md §3.1).")
-    lines.append("SHAPE_DEFS: dict[str, dict] = {")
+    # SHAPE_YAMLS: raw YAML body per shape. The skill worker attaches the
+    # matching entry as `__shape_yaml__` on every @returns(shape) response so
+    # the Rust engine can upsert the definition on the graph with a single
+    # byte-compare — no reparse, no field-by-field merger. The body matches
+    # what the Rust ShapeHandle carries via include_str!, so SHAPE_YAMLS is
+    # the Python mirror of the shapes-generated crate.
+    lines.append("# Raw YAML bodies — consumed by the skill worker to attach")
+    lines.append("# `__shape_yaml__` on every @returns(shape) response.")
+    lines.append("SHAPE_YAMLS: dict[str, str] = {")
     for s in shapes:
-        fields_map: dict[str, str] = {}
-        for f in s.fields:
-            if f.is_relation:
-                # Relations stored as the target shape name (arrays get `[]`).
-                fields_map[f.name] = f.type
-            else:
-                fields_map[f.name] = f.type
-        lines.append(f"    {s.name!r}: {{")
-        lines.append(f"        'fields': {{")
-        for k, v in fields_map.items():
-            lines.append(f"            {k!r}: {v!r},")
-        lines.append(f"        }},")
-        lines.append(f"        'identity': {s.identity!r},")
-        lines.append(f"        'also': {s.also!r},")
-        lines.append(f"    }},")
+        if not s.raw_body:
+            continue
+        lines.append(f"    {s.name!r}: {s.raw_body!r},")
     lines.append("}")
     lines.append("")
 
@@ -643,18 +644,14 @@ def _rust_ident(shape_name: str) -> str:
 
 
 def emit_rust(shapes: list[Shape]) -> str:
-    """Emit `pub static` ShapeHandle per shape, wired to `include_str!`.
+    """Emit `pub static` ShapeHandle per shape with inline YAML body.
 
-    The file lives at `core/crates/shapes-generated/src/lib.rs`; YAML
-    sources live at `docs/shapes/<path>`. The path from the crate's
-    `src/` to `docs/shapes/` is `../../../../docs/shapes/` — out of
-    `src/`, out of `shapes-generated/`, out of `crates/`, out of
-    `core/`, then into `docs/shapes/`. Both the crate and the docs
-    repo live as siblings under the `agentos` workspace root.
+    The body embedded in each handle is the INNER mapping (fields, identity,
+    relations, also, ...) — not the outer `shape_name: {...}` wrapper. That
+    matches what Rust's `RawShape` deserialises from, and keeps the body
+    byte-identical to Python's `SHAPE_YAMLS[name]` so lazy upsert from
+    either side produces the same graph content.
     """
-    # Path from `crates/shapes-generated/src/lib.rs` to `docs/shapes/`.
-    yaml_base = "../../../../docs/shapes"
-
     # Stable ordering by shape name.
     shapes_sorted = sorted(shapes, key=lambda s: s.name)
 
@@ -664,10 +661,11 @@ def emit_rust(shapes: list[Shape]) -> str:
         "// Source: docs/shapes/*.yaml",
         "// Regen: `python3 docs/generate.py` (run from workspace root).",
         "//",
-        "// One `pub static` per shape YAML, with `yaml_body` wired to",
-        "// `include_str!` so the generated bodies compile into the crate at",
-        "// build time. Engine code imports these via",
-        "// `use agentos_shapes_generated::ACCOUNT;`.",
+        "// One `pub static` per shape YAML. `yaml_body` carries the inner",
+        "// mapping (fields/identity/relations/also) — not the outer",
+        "// `shape_name:` wrapper — so the body round-trips through",
+        "// `serde_yaml::from_str::<RawShape>` without reshaping. Engine",
+        "// code imports these via `use agentos_shapes_generated::ACCOUNT;`.",
         "",
         "#![allow(non_upper_case_globals)]",
         "",
@@ -676,16 +674,21 @@ def emit_rust(shapes: list[Shape]) -> str:
     ]
 
     for s in shapes_sorted:
-        if not s.source_path:
-            # Shapes loaded from the graph API (no on-disk file) can't
-            # be `include_str!`'d. Skip — the Rust SDK only emits
-            # YAML-sourced shapes, which is the common path.
+        if not s.raw_body:
+            # Shapes without a serialised body (e.g. loaded from the graph
+            # API and failed to round-trip) can't be embedded. Skip — the
+            # Rust SDK only emits YAML-sourced shapes, which is the common
+            # path.
             continue
         ident = _rust_ident(s.name)
-        rel = f"{yaml_base}/{s.source_path}"
+        # Use Rust raw string literal with enough `#` hashes to be unique.
+        body = s.raw_body
+        hashes = "#"
+        while f'"{hashes}' in body:
+            hashes += "#"
         lines.append(f"pub static {ident}: ShapeHandle = ShapeHandle {{")
         lines.append(f'    name: "{s.name}",')
-        lines.append(f'    yaml_body: include_str!("{rel}"),')
+        lines.append(f'    yaml_body: r{hashes}"{body}"{hashes},')
         lines.append("};")
         lines.append("")
 
