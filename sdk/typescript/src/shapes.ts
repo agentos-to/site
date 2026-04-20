@@ -49,7 +49,7 @@ export interface Activity {
     success?: boolean;
     toolName?: string;
     folder?: Folder;
-    session?: Session;
+    session?: McpSession;
 }
 
 export interface Actor {
