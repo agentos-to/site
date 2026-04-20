@@ -1,0 +1,103 @@
+# Cookie provider contract.
+#
+# The single source of truth for what a skill decorated
+# `@provides(cookie_auth, ...)` must return. Read by `docs/generate.py`
+# and codegen'd into:
+#   - Python: sdk-skills/agentos/_generated_auth_contracts.py
+#     (CookieCredential / Cookie TypedDicts + REQUIRED_FIELDS)
+#   - Rust: core/crates/auth/src/_generated_contracts.rs
+#
+# Engine consumes via crates/auth/src/source.rs::score_provider and
+# crates/auth/src/cache.rs.
+#
+# Cookie provider returns a top-level dict with a `cookies` array.
+# Each cookie inside the array has its own required + recommended fields.
+
+cookie:
+  description: >-
+    Return shape for `@provides(cookie_auth, ...)` skill operations.
+    Top-level dict with `cookies: [Cookie, ...]`; each Cookie has a
+    `name` + `value` and optional `expires` / `created` for freshness
+    arbitration in crates/auth/src/source.rs.
+
+  envelope:
+    required:
+      domain:
+        type: string
+        description: >-
+          The cookie domain this batch is scoped to (e.g. "app.greptile.com").
+          The engine uses this to bind the cookies to the right host.
+      cookies:
+        type: array
+        description: >-
+          Array of Cookie dicts (see `cookie_fields` below for the per-
+          element shape). Empty array is valid (means "no cookies for
+          this domain") and causes the resolver to skip this provider.
+
+    recommended:
+      count:
+        type: integer
+        description: >-
+          Length of `cookies` — purely informational, the engine
+          recomputes from `cookies.len()`. Useful for skill-side
+          assertions and trace summaries.
+      source:
+        type: string
+        description: >-
+          Provider identifier for trace + diagnostic output (e.g.
+          "brave-browser", "firefox", "playwright"). Helps the user
+          tell which browser the cookies came from.
+
+  cookie_fields:
+    required:
+      name:
+        type: string
+        description: >-
+          Cookie name. Used by the engine to construct the `name=value`
+          pairs for the Cookie request header
+          (crates/auth/src/source.rs::score_provider).
+      value:
+        type: string
+        description: >-
+          Cookie value. Joined with name as `name=value`; multiple cookies
+          joined by `; `. Engine does not URL-decode.
+
+    recommended:
+      expires:
+        type: number
+        description: >-
+          Unix timestamp (seconds, fractional ok) when the cookie
+          expires. The engine filters expired cookies in
+          `score_provider`; cookies without an `expires` are
+          treated as session cookies and kept. `expiry` is accepted
+          as an alias for compatibility.
+      created:
+        type: number
+        description: >-
+          Unix timestamp (seconds, fractional ok) when the cookie was
+          set. Used for freshness arbitration when multiple providers
+          return overlapping cookies — the newer one wins. Browsers
+          like Brave/Firefox supply this; Playwright/CDP doesn't.
+      domain:
+        type: string
+        description: Cookie's own domain (may differ from envelope domain on subdomains).
+      path:
+        type: string
+        description: Cookie path scope (e.g. "/", "/api"). Default "/".
+      secure:
+        type: boolean
+        description: HTTPS-only cookie.
+      httpOnly:
+        type: boolean
+        description: Inaccessible to JavaScript.
+
+  # Cookie cookies/expires/created are themselves browser-API conventions
+  # (Chromium/Brave use `expires` + `created`; Firefox uses `expiry` +
+  # `creationTime`). The engine accepts the canonical names below;
+  # `expiry` is normalised to `expires` in the resolver as a kindness.
+  forbidden_camel_case:
+    cookieName: name
+    cookieValue: value
+    expiresAt: expires
+    createdAt: created
+    httpOnlyFlag: httpOnly

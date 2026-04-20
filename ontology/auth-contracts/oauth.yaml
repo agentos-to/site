@@ -1,0 +1,85 @@
+# OAuth provider contract.
+#
+# The single source of truth for what a skill decorated
+# `@provides(oauth_auth, ...)` must return. Read by `docs/generate.py`
+# and codegen'd into:
+#   - Python: sdk-skills/agentos/_generated_auth_contracts.py
+#     (OAuthCredential TypedDict + REQUIRED_FIELDS for agent-sdk validate)
+#   - Rust: core/crates/auth/src/_generated_contracts.rs
+#     (constants used by Session::to_auth_header + token-refresh path)
+#
+# Why this exists: mimestream.credential_get returned `accessToken`
+# (camelCase) for ages; the engine resolver looked up `access_token`
+# (snake_case); credential landed in store; reads returned None;
+# every gmail/calendar/contacts call silently 401'd. The contract
+# was implicit (Rust string literals + skill-author intuition + zero
+# docs). This YAML makes it explicit, codegen propagates it, and
+# agent-sdk validate enforces it at commit time.
+#
+# All field names are snake_case. This matches:
+#   - The OAuth 2.0 spec response (RFC 6749 §5.1)
+#   - The engine resolver's existing reads
+#   - Python's PEP 8 convention
+
+oauth:
+  description: >-
+    Return shape for `@provides(oauth_auth, ...)` skill operations.
+    Engine consumes via crates/auth/src/types.rs (Session::to_auth_header,
+    auth_fields) and crates/auth/src/resolve.rs (token-refresh path).
+
+  required:
+    access_token:
+      type: string
+      description: >-
+        OAuth 2.0 access token. Used by the engine to construct the
+        Authorization: Bearer <token> header for downstream API calls.
+        Required — missing this is the single bug that motivated this
+        contract.
+
+  recommended:
+    refresh_token:
+      type: string
+      description: >-
+        OAuth 2.0 refresh token. The engine refreshes automatically when
+        the access_token is near expiry; without this the token stops
+        working at expires_in seconds and the user must re-auth.
+
+    expires_in:
+      type: integer
+      description: >-
+        Seconds until access_token expiry, per RFC 6749 §5.1. Engine
+        derives `expires_at = now + expires_in` at store time. If
+        omitted the engine assumes 1 hour (3600s).
+
+    scope:
+      type: string
+      description: >-
+        Space-separated list of granted scopes. Surfaced to the user via
+        `agentos call accounts` for visibility into what the credential
+        can do. Engine parses this into a structured `scopes` array
+        (crates/auth/src/resolve.rs::inject_scopes_array).
+
+    client_id:
+      type: string
+      description: >-
+        OAuth client ID — required for the engine to perform token
+        refresh on its own (without re-invoking the provider). If
+        omitted, refresh requires re-running the provider skill.
+
+    token_url:
+      type: string
+      description: >-
+        OAuth token endpoint URL — same as client_id, required for
+        engine-driven token refresh. If omitted, refresh round-trips
+        through the provider skill.
+
+  forbidden_camel_case:
+    # Common camelCase typos for the snake_case fields above. agent-sdk
+    # validate flags these explicitly with "did you mean <snake_case>?"
+    # so the bug becomes uncommittable instead of silently 401'ing.
+    accessToken: access_token
+    refreshToken: refresh_token
+    expiresIn: expires_in
+    clientId: client_id
+    tokenUrl: token_url
+    clientSecret: client_secret
