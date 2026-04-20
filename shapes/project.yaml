@@ -6,6 +6,8 @@ project:
   fields:
     state:             string
     color:             string
+  relations:
+    at:                actor     # the namespace this project lives within (Linear, Todoist, GitHub, etc.). Required for identity.
   prior_art:
     - source: Linear API — Project
       url: https://developers.linear.app/docs/graphql/working-with-the-graphql-api

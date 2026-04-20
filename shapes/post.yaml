@@ -9,6 +9,7 @@ post:
     externalUrl:      url       # linked URL (for link posts)
     postType:         string    # story, comment, job, poll, etc.
   relations:
+    at:                actor     # the namespace this post lives within (Reddit, HN, Moltbook, YouTube, etc.). Required for identity.
     postedBy:         account   # who posted it
     publish:           community # subreddit, group, or channel it was posted to
     repliesTo:        post      # parent post (makes this a "comment")

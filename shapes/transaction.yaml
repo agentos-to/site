@@ -15,6 +15,7 @@ transaction:
     type:              string    # debit, credit, transfer, etc.
     details:           json
   relations:
+    at:                actor     # the namespace this transaction lives within (Chase, Copilot, etc.). Required for identity.
     account:           financial_account   # the financial account this posted to
   prior_art:
     - source: OFX (Open Financial Exchange) STMTTRN

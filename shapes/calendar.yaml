@@ -14,6 +14,7 @@ calendar:
     source:            string    # e.g., "iCloud", "Google"
     timezone:          string
   relations:
+    at:                actor     # the namespace this calendar lives within (Google, iCloud, etc.). Required for identity.
     owner:             person    # who owns this calendar
     events:            event[]   # events in this calendar
   prior_art:

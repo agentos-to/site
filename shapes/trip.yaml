@@ -33,6 +33,7 @@ trip:
     bookingToken:     string    # opaque token for booking (flights)
     carbonEmissions:  json      # CO2 estimate
   relations:
+    at:                actor     # the namespace this trip lives within (Uber, SerpAPI flight feed, etc.). Required for identity.
     origin:            place     # pickup / departure airport / departure station
     destination:       place     # dropoff / arrival airport / arrival station
     legs:              leg[]     # ordered sub-movements (1 for direct, 2+ for connections/multi-stop)
