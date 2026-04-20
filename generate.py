@@ -1151,6 +1151,218 @@ def build_skills_index(skills: list[dict], known_shapes: set[str]) -> dict[str, 
 
 
 # =============================================================================
+# Auth-contract loader + emitters
+# =============================================================================
+#
+# `docs/auth-contracts/{oauth,cookie}.yaml` is the single source of truth for
+# what skills decorated `@provides(oauth_auth, ...)` / `@provides(cookie_auth, ...)`
+# must return. We codegen:
+#
+#   - Python: sdk-skills/agentos/_generated_auth_contracts.py
+#       OAuthCredential / CookieCredential / Cookie TypedDicts +
+#       AUTH_CONTRACTS dict consumed by agent-sdk validate.
+#
+#   - Rust:   core/crates/auth/src/_generated_contracts.rs
+#       OAUTH_REQUIRED_FIELDS, OAUTH_RECOMMENDED_FIELDS,
+#       COOKIE_ENVELOPE_REQUIRED, COOKIE_FIELDS_REQUIRED — replaces
+#       the literal "access_token" string scattered through the
+#       resolver and Session impl.
+#
+# Why: the mimestream camelCase / engine snake_case bug
+# (_roadmap/p1/observability/panes.md). Implicit contracts → silent
+# 401s. Explicit contracts → uncommittable bugs.
+
+def load_auth_contracts(contracts_dir: Path) -> dict:
+    """Load all *.yaml files under docs/auth-contracts/ as a dict."""
+    try:
+        import yaml
+    except ImportError:
+        print("pyyaml required: pip install pyyaml", file=sys.stderr)
+        sys.exit(1)
+    contracts = {}
+    for f in sorted(contracts_dir.glob("*.yaml")):
+        data = yaml.safe_load(f.read_text())
+        if isinstance(data, dict):
+            for name, body in data.items():
+                contracts[name] = body
+    return contracts
+
+
+_PY_PRIMITIVE = {
+    "string": "str",
+    "integer": "int",
+    "number": "float",
+    "boolean": "bool",
+    "array": "list[Any]",
+    "json": "Any",
+}
+
+
+def _py_field(name: str, type_str: str) -> str:
+    return f"    {name}: {_PY_PRIMITIVE.get(type_str, 'Any')}"
+
+
+def emit_python_auth_contracts(contracts: dict) -> str:
+    """Emit the Python auth contracts module — TypedDicts + AUTH_CONTRACTS dict."""
+    lines = [
+        '"""Auto-generated auth provider contracts — do not edit.',
+        "",
+        "Single source of truth: docs/auth-contracts/{oauth,cookie}.yaml.",
+        "Regenerate with: python docs/generate.py",
+        "",
+        "Skills decorated `@provides(oauth_auth, ...)` should return a dict",
+        "matching `OAuthCredential`. Skills decorated `@provides(cookie_auth, ...)`",
+        "return `CookieCredential`. agent-sdk validate enforces this at commit",
+        "time using the AUTH_CONTRACTS dict at the bottom of this file.",
+        '"""',
+        "",
+        "from __future__ import annotations",
+        "",
+        "from typing import Any, TypedDict",
+        "",
+    ]
+
+    if "oauth" in contracts:
+        oauth = contracts["oauth"]
+        lines += [
+            "class OAuthCredential(TypedDict, total=False):",
+            f'    """{oauth.get("description", "OAuth provider return shape.").strip()}',
+            "",
+            "    All fields snake_case to match the OAuth 2.0 spec (RFC 6749 §5.1)",
+            "    and the engine resolver (crates/auth/src/types.rs). Required:",
+            "    `access_token`. Strongly recommended for refresh:",
+            "    `refresh_token`, `expires_in`, `client_id`, `token_url`.",
+            '    """',
+        ]
+        for name, body in (oauth.get("required") or {}).items():
+            lines.append(_py_field(name, body.get("type", "string")))
+        for name, body in (oauth.get("recommended") or {}).items():
+            lines.append(_py_field(name, body.get("type", "string")))
+        lines += ["", ""]
+
+    if "cookie" in contracts:
+        cookie = contracts["cookie"]
+        lines += [
+            "class Cookie(TypedDict, total=False):",
+            '    """A single cookie in a CookieCredential.cookies array."""',
+        ]
+        for name, body in (cookie.get("cookie_fields", {}).get("required") or {}).items():
+            lines.append(_py_field(name, body.get("type", "string")))
+        for name, body in (cookie.get("cookie_fields", {}).get("recommended") or {}).items():
+            lines.append(_py_field(name, body.get("type", "string")))
+        lines += ["", ""]
+
+        lines += [
+            "class CookieCredential(TypedDict, total=False):",
+            f'    """{cookie.get("description", "Cookie provider return shape.").strip()}"""',
+        ]
+        for name, body in (cookie.get("envelope", {}).get("required") or {}).items():
+            ty = "list[Cookie]" if name == "cookies" else _PY_PRIMITIVE.get(body.get("type", "string"), "Any")
+            lines.append(f"    {name}: {ty}")
+        for name, body in (cookie.get("envelope", {}).get("recommended") or {}).items():
+            lines.append(_py_field(name, body.get("type", "string")))
+        lines += ["", ""]
+
+    # AUTH_CONTRACTS — what agent-sdk validate reads.
+    lines += [
+        "# Machine-readable contract — what agent-sdk validate enforces.",
+        "# Every key here corresponds to a `@provides(<name>_auth, ...)`",
+        "# decorator. Format:",
+        "#   {'required': [field, ...], 'recommended': [field, ...],",
+        "#    'forbidden_camel_case': {camelCase: snake_case_replacement, ...}}",
+        "AUTH_CONTRACTS: dict[str, dict] = {",
+    ]
+    for kind, body in contracts.items():
+        required = list((body.get("required") or {}).keys())
+        recommended = list((body.get("recommended") or {}).keys())
+        forbidden = body.get("forbidden_camel_case") or {}
+        lines.append(f"    {kind!r}: {{")
+        lines.append(f"        'required': {required!r},")
+        lines.append(f"        'recommended': {recommended!r},")
+        lines.append(f"        'forbidden_camel_case': {dict(forbidden)!r},")
+        # Cookie has nested cookie_fields contract too — flatten under
+        # a sibling key so the validator can check each Cookie dict.
+        if "cookie_fields" in body:
+            cf_required = list((body["cookie_fields"].get("required") or {}).keys())
+            cf_recommended = list((body["cookie_fields"].get("recommended") or {}).keys())
+            lines.append(f"        'cookie_fields_required': {cf_required!r},")
+            lines.append(f"        'cookie_fields_recommended': {cf_recommended!r},")
+        lines.append("    },")
+    lines.append("}")
+    lines.append("")
+
+    return "\n".join(lines)
+
+
+def emit_rust_auth_contracts(contracts: dict) -> str:
+    """Emit Rust constants for the auth resolver."""
+    lines = [
+        "// AUTO-GENERATED by docs/generate.py. DO NOT EDIT.",
+        "//",
+        "// Source: docs/auth-contracts/{oauth,cookie}.yaml",
+        "// Regen: `python3 docs/generate.py` (run from workspace root).",
+        "//",
+        "// Single source of truth for OAuth + cookie provider contracts.",
+        "// Replaces literal field-name strings (\"access_token\", \"refresh_token\",",
+        "// etc.) scattered through crates/auth/src/{types,resolve,source,cache}.rs.",
+        "//",
+        "// See _roadmap/p1/observability/panes.md for the bug that motivated this.",
+        "",
+        "#![allow(dead_code)]",
+        "",
+    ]
+
+    def emit_const(name: str, items: list[str]) -> list[str]:
+        body = ", ".join(f'"{i}"' for i in items)
+        return [f"pub const {name}: &[&str] = &[{body}];"]
+
+    if "oauth" in contracts:
+        oauth = contracts["oauth"]
+        required = list((oauth.get("required") or {}).keys())
+        recommended = list((oauth.get("recommended") or {}).keys())
+        forbidden = oauth.get("forbidden_camel_case") or {}
+        lines += [
+            "// ── OAuth provider contract ─────────────────────────────────────────",
+            "",
+        ]
+        lines += emit_const("OAUTH_REQUIRED_FIELDS", required)
+        lines += emit_const("OAUTH_RECOMMENDED_FIELDS", recommended)
+        lines.append("")
+        lines.append("/// camelCase variants the engine should warn loudly about when found")
+        lines.append("/// in an OAuth provider response. (camel_case_form, snake_case_replacement).")
+        lines.append("pub const OAUTH_FORBIDDEN_CAMEL_CASE: &[(&str, &str)] = &[")
+        for camel, snake in forbidden.items():
+            lines.append(f'    ("{camel}", "{snake}"),')
+        lines.append("];")
+        lines.append("")
+
+    if "cookie" in contracts:
+        cookie = contracts["cookie"]
+        env_required = list((cookie.get("envelope", {}).get("required") or {}).keys())
+        env_recommended = list((cookie.get("envelope", {}).get("recommended") or {}).keys())
+        cf_required = list((cookie.get("cookie_fields", {}).get("required") or {}).keys())
+        cf_recommended = list((cookie.get("cookie_fields", {}).get("recommended") or {}).keys())
+        forbidden = cookie.get("forbidden_camel_case") or {}
+        lines += [
+            "// ── Cookie provider contract ────────────────────────────────────────",
+            "",
+        ]
+        lines += emit_const("COOKIE_ENVELOPE_REQUIRED", env_required)
+        lines += emit_const("COOKIE_ENVELOPE_RECOMMENDED", env_recommended)
+        lines += emit_const("COOKIE_FIELDS_REQUIRED", cf_required)
+        lines += emit_const("COOKIE_FIELDS_RECOMMENDED", cf_recommended)
+        lines.append("")
+        lines.append("/// camelCase variants flagged in cookie provider responses.")
+        lines.append("pub const COOKIE_FORBIDDEN_CAMEL_CASE: &[(&str, &str)] = &[")
+        for camel, snake in forbidden.items():
+            lines.append(f'    ("{camel}", "{snake}"),')
+        lines.append("];")
+        lines.append("")
+
+    return "\n".join(lines)
+
+
+# =============================================================================
 # CLI
 # =============================================================================
 
@@ -1268,6 +1480,37 @@ def main():
                 args.out_dir.mkdir(exist_ok=True)
             out_path.write_text(output)
             print(f"  {lang}: {out_path}")
+
+    # Auth contracts — single source of truth for OAuth + cookie provider
+    # return shapes (the mimestream snake_case bug fix). Always emitted in
+    # the default run; --lang explicitly skips since auth contracts aren't
+    # tied to any one language.
+    if not args.lang:
+        contracts_dir = docs_dir / "auth-contracts"
+        if contracts_dir.is_dir():
+            contracts = load_auth_contracts(contracts_dir)
+            if contracts:
+                ac_targets = {
+                    "python": workspace / "sdk-skills" / "agentos" / "_generated_auth_contracts.py",
+                    "rust":   workspace / "core" / "crates" / "auth" / "src" / "_generated_contracts.rs",
+                }
+                ac_outputs = {
+                    "python": emit_python_auth_contracts(contracts),
+                    "rust":   emit_rust_auth_contracts(contracts),
+                }
+                for lang, out_path in ac_targets.items():
+                    output = ac_outputs[lang]
+                    if args.check:
+                        existing = out_path.read_text() if out_path.exists() else ""
+                        if existing != output:
+                            drift = True
+                            print(f"  auth-{lang}: DRIFT — {out_path} is stale", file=sys.stderr)
+                        else:
+                            print(f"  auth-{lang}: ok ({out_path})")
+                    else:
+                        out_path.parent.mkdir(parents=True, exist_ok=True)
+                        out_path.write_text(output)
+                        print(f"  auth-{lang}: {out_path}")
 
     if args.check and drift:
         sys.exit(1)
