@@ -539,7 +539,7 @@ _NON_SHAPE_RETURNS = {
 }
 
 # Decorators that mark a function as a tool. The engine reads these via AST.
-_TOOL_MARKER_DECORATORS = {"returns", "provides", "connection", "timeout"}
+_TOOL_MARKER_DECORATORS = {"returns", "provides", "connection", "timeout", "claims"}
 
 # snake_case pattern — flagged only when camelCase version is a known shape field
 _SNAKE_RE = re.compile(r"^[a-z]+_[a-z]")
@@ -1664,6 +1664,83 @@ def check_auth_provider_contract(skill_dir: Path) -> list[str]:
     return issues
 
 
+# @claims decorator is currently limited to a small, reviewed set of
+# claimants. Keep this list tight — every addition wires new semantics into
+# the engine's extraction path (see agentos_accounts::graph::ensure_claims).
+_KNOWN_CLAIMANTS = {"primary_user"}
+
+
+def _claims_value(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str | None:
+    """Extract the claimant string from @claims(...) on a tool function.
+
+    Returns the literal string argument, or None if @claims is absent.
+    Non-string / non-literal arguments return a sentinel "<dynamic>" so the
+    validator can flag them instead of silently accepting.
+    """
+    for dec in node.decorator_list:
+        if not isinstance(dec, ast.Call):
+            continue
+        if _decorator_name(dec) != "claims":
+            continue
+        if not dec.args:
+            return "<empty>"
+        arg = dec.args[0]
+        if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
+            return arg.value
+        return "<dynamic>"
+    return None
+
+
+def check_claims(skill_dir: Path) -> list[str]:
+    """Validate `@claims(who)` usage:
+
+    - **Error** if the claimant string isn't in the known set — runtime will
+      skip attachment, so catch the typo at commit time.
+    - **Warn** if `@claims` appears without `@returns(shape)` — the engine
+      only attaches claims edges to extracted top-level nodes; inline-dict
+      returns and unclaimed ops don't produce a node.
+
+    Precedent: mirrors `check_auth_provider_contract` structure.
+    """
+    issues: list[str] = []
+    for rel, _py, _src, tree in _iter_skill_py_files(skill_dir):
+        for node in tree.body:
+            if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            claimant = _claims_value(node)
+            if claimant is None:
+                continue
+            if claimant == "<empty>":
+                issues.append(
+                    f"{rel}:{node.lineno}: {node.name} uses `@claims()` with no argument. "
+                    f"Expected `@claims(\"primary_user\")`."
+                )
+                continue
+            if claimant == "<dynamic>":
+                issues.append(
+                    f"{rel}:{node.lineno}: {node.name} uses `@claims(<dynamic>)`. "
+                    f"The argument must be a string literal so the engine can "
+                    f"read it via AST. Known claimants: {sorted(_KNOWN_CLAIMANTS)}."
+                )
+                continue
+            if claimant not in _KNOWN_CLAIMANTS:
+                issues.append(
+                    f"{rel}:{node.lineno}: {node.name} uses `@claims(\"{claimant}\")` — "
+                    f"unknown claimant. Known values: {sorted(_KNOWN_CLAIMANTS)}. "
+                    f"Unknown values are silently skipped at runtime."
+                )
+                continue
+            # @claims with no @returns(shape) is a no-op — warn.
+            if _tool_return_shape(node) is None:
+                issues.append(
+                    f"{rel}:{node.lineno}: {node.name} uses `@claims(\"{claimant}\")` "
+                    f"but `@returns(...)` is missing or uses an inline dict. "
+                    f"Claims edges attach to extracted nodes — without a typed shape "
+                    f"return, no node lands on the graph and the decorator is a no-op."
+                )
+    return issues
+
+
 def check_camelcase_dict_keys(skill_dir: Path, shapes_dir: Path | None) -> list[str]:
     """Flag snake_case dict keys inside a return that should be camelCase per the declared shape.
 
@@ -1789,6 +1866,7 @@ def audit_skill_dir(skill_dir: Path, shapes_dir: Path | None) -> tuple[int, str 
     all_issues.extend(check_sync_sleep_in_async(skill_dir))
     all_issues.extend(check_camelcase_dict_keys(skill_dir, shapes_dir))
     all_issues.extend(check_auth_provider_contract(skill_dir))
+    all_issues.extend(check_claims(skill_dir))
 
     # Python checks — warnings
     all_warnings.extend(check_shape_conformance(skill_dir, shapes_dir))

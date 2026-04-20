@@ -67,3 +67,30 @@ def timeout(seconds):
         func._agentos_timeout = seconds
         return func
     return decorator
+
+
+def claims(who):
+    """Declare that this operation's emitted nodes are claimed by `who`.
+
+    The engine attaches a `Person --claims--> node` edge from the named
+    claimant to every top-level node this operation upserts — automatic
+    actor-ownership for first-party self-identity ops.
+
+    Args:
+        who: Claimant spec. Currently supports "primary_user" — the machine
+             owner (resolved via the singleton Person with primary_user=true).
+             Extensible in later phases to named people, org accounts, etc.
+
+    Example:
+        @claims("primary_user")
+        @returns("financial_account[]")
+        async def load_accounts(**params) -> list:
+            # Every financial_account this emits gets a `claims` edge from
+            # the machine owner's person node, so the graph can answer
+            # "where do I have accounts?"
+            ...
+    """
+    def decorator(func):
+        func._agentos_claims = who
+        return func
+    return decorator
