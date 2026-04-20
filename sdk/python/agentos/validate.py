@@ -1535,6 +1535,135 @@ def _inline_returns_keys(node: ast.FunctionDef | ast.AsyncFunctionDef) -> set[st
     return None
 
 
+def _provides_auth_kind(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str | None:
+    """If this function is decorated `@provides(<X>_auth, ...)`, return `X`.
+
+    Recognises:
+      @provides(oauth_auth, ...)        → "oauth"
+      @provides(cookie_auth, ...)       → "cookie"
+      @provides("oauth_auth", ...)      → "oauth"
+      @provides(name="cookie_auth")     → "cookie"
+
+    Returns None for non-auth `@provides(...)` decorators (capabilities like
+    `@provides(llm)` or `@provides(file_system)`).
+    """
+    for dec in node.decorator_list:
+        if not isinstance(dec, ast.Call):
+            continue
+        if _decorator_name(dec) != "provides":
+            continue
+        # First positional arg, OR keyword `name=`, must be `<kind>_auth`.
+        cap_node = dec.args[0] if dec.args else None
+        if cap_node is None:
+            for kw in dec.keywords:
+                if kw.arg == "name":
+                    cap_node = kw.value
+                    break
+        if cap_node is None:
+            continue
+        if isinstance(cap_node, ast.Name):
+            cap = cap_node.id
+        elif isinstance(cap_node, ast.Constant) and isinstance(cap_node.value, str):
+            cap = cap_node.value
+        else:
+            continue
+        if cap.endswith("_auth"):
+            return cap[: -len("_auth")]
+    return None
+
+
+def _load_auth_contracts() -> dict[str, dict] | None:
+    """Load codegen'd AUTH_CONTRACTS dict; returns None if generator hasn't run."""
+    try:
+        from agentos._generated_auth_contracts import AUTH_CONTRACTS
+    except ImportError:
+        return None
+    return AUTH_CONTRACTS
+
+
+def check_auth_provider_contract(skill_dir: Path) -> list[str]:
+    """Enforce the OAuth / cookie provider return contract at commit time.
+
+    Single source of truth: `docs/auth-contracts/{oauth,cookie}.yaml` →
+    codegen'd into `agentos._generated_auth_contracts.AUTH_CONTRACTS`.
+
+    For every function decorated `@provides(<kind>_auth, ...)`, this check:
+      1. Confirms `@returns(...)` is an inline dict schema (not a shape name).
+      2. Verifies all REQUIRED keys are declared.
+      3. Flags any FORBIDDEN_CAMEL_CASE keys with an explicit
+         "did you mean <snake_case>?" message.
+      4. Hints when a RECOMMENDED key is missing.
+
+    Catches the `mimestream.credential_get returned accessToken` bug (and
+    every future copy of it) before commit. See
+    `_roadmap/p1/observability/panes.md` for the full incident.
+    """
+    issues: list[str] = []
+    contracts = _load_auth_contracts()
+    if contracts is None:
+        return issues
+
+    for rel, _py, _src, tree in _iter_skill_py_files(skill_dir):
+        for node in tree.body:
+            if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            kind = _provides_auth_kind(node)
+            if kind is None or kind not in contracts:
+                continue
+            spec = contracts[kind]
+
+            keys = _inline_returns_keys(node)
+            if keys is None:
+                # Either no @returns, or @returns is a shape name, not a
+                # dict schema. Auth providers MUST declare an inline dict
+                # schema so we can validate it.
+                issues.append(
+                    f"{rel}:{node.lineno}: {node.name} is decorated "
+                    f"`@provides({kind}_auth, ...)` but `@returns(...)` is missing or "
+                    f"uses a shape name. Auth providers must declare an inline "
+                    f"return schema, e.g. `@returns({{\"access_token\": \"string\", ...}})`. "
+                    f"See docs/auth-contracts/{kind}.yaml for the contract."
+                )
+                continue
+
+            # 1. Required keys present?
+            for req in spec.get("required", []):
+                if req not in keys:
+                    issues.append(
+                        f"{rel}:{node.lineno}: {node.name} is `@provides({kind}_auth, ...)` "
+                        f"but missing required field `{req}` in @returns. "
+                        f"Engine reads `{req}` (snake_case) — without it, all downstream "
+                        f"API calls silently 401. See docs/auth-contracts/{kind}.yaml."
+                    )
+
+            # 2. Forbidden camelCase variants?
+            forbidden = spec.get("forbidden_camel_case", {})
+            for camel, snake in forbidden.items():
+                if camel in keys:
+                    issues.append(
+                        f"{rel}:{node.lineno}: {node.name} returns `{camel}` (camelCase) — "
+                        f"engine expects `{snake}` (snake_case). Did you mean `{snake}`? "
+                        f"This is the mimestream bug; see docs/auth-contracts/{kind}.yaml."
+                    )
+
+            # 3. Recommended keys missing — print as warning-style suggestion
+            #    (still in the issues list so it shows up; but framed as advice).
+            for rec in spec.get("recommended", []):
+                if rec not in keys and rec not in forbidden.values():
+                    # Don't yell about every missing optional; only shout
+                    # about ones the engine actually depends on for refresh
+                    # in the OAuth case (refresh_token, expires_in,
+                    # client_id, token_url).
+                    if kind == "oauth" and rec in ("refresh_token", "expires_in", "client_id", "token_url"):
+                        issues.append(
+                            f"{rel}:{node.lineno}: {node.name} omits recommended `{rec}` — "
+                            f"without it, engine-driven token refresh is impossible. "
+                            f"docs/auth-contracts/oauth.yaml."
+                        )
+
+    return issues
+
+
 def check_camelcase_dict_keys(skill_dir: Path, shapes_dir: Path | None) -> list[str]:
     """Flag snake_case dict keys inside a return that should be camelCase per the declared shape.
 
@@ -1659,6 +1788,7 @@ def audit_skill_dir(skill_dir: Path, shapes_dir: Path | None) -> tuple[int, str 
     all_issues.extend(check_missing_await(skill_dir))
     all_issues.extend(check_sync_sleep_in_async(skill_dir))
     all_issues.extend(check_camelcase_dict_keys(skill_dir, shapes_dir))
+    all_issues.extend(check_auth_provider_contract(skill_dir))
 
     # Python checks — warnings
     all_warnings.extend(check_shape_conformance(skill_dir, shapes_dir))
