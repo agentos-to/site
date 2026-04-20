@@ -3,7 +3,7 @@
 # just a post that replies_to another post. Reviews extend post via `also`.
 post:
   plural: posts
-  identity: [platform, id]
+  identity: [at, id]
   subtitle: author
   fields:
     externalUrl:      url       # linked URL (for link posts)

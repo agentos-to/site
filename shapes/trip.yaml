@@ -10,7 +10,7 @@
 #   Train journey = trip         |  each train boarded = leg
 trip:
   plural: trips
-  identity: [platform, id]
+  identity: [at, id]
   subtitle: tripType
   fields:
     tripType:         string    # ride, flight, delivery, train, bus

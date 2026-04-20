@@ -3,13 +3,13 @@
 # Claude transcripts, etc.
 message:
   plural: messages
-  identity: [platform, id]
+  identity: [at, id]
   subtitle: from
   fields:
     isOutgoing:       boolean   # true if sent by the user
     isStarred:        boolean   # user-flagged as important
   relations:
-    platform:          product
+    at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
     from:              actor     # sender — a person, agent, or organization
     inConversation:   conversation
     repliesTo:        message

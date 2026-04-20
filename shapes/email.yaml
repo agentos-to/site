@@ -4,7 +4,7 @@
 # Domain relations auto-extracted from sender/recipient addresses.
 email:
   plural: emails
-  identity: [platform, id]
+  identity: [at, id]
   subtitle: author
   also: [message]     # an email is also a message
   fields:

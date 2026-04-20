@@ -15,7 +15,7 @@
 # published = when the invitation was created/sent.
 invitation:
   plural: invitations
-  identity: [platform, id]
+  identity: [at, id]
   subtitle: invitationType
   fields:
     invitationType:   string    # organization, workspace, team, event, channel, etc.
@@ -31,7 +31,7 @@ invitation:
     inviter:           account   # who sent the invite (the account that created it)
     invitee:           account   # who is being invited (may not exist yet — email-only)
     organization:      organization  # the org/workspace being invited into
-    platform:          product   # the service this invite lives on
+    at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
   prior_art:
     - source: ActivityStreams 2.0 Invite activity
       url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-invite

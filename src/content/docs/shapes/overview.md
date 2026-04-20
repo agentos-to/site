@@ -35,7 +35,8 @@ product:
   plural: products                    # UI plural form
   subtitle: brand                     # field used as row subtitle in list views
   also: [other_shape]                 # "a product is also a ..." (optional, transitive)
-  identity: [platform, id]            # dedupe keys for upsert (optional)
+  identity: [at, id]                  # dedupe keys for upsert (optional;
+                                       # may include relations — see Identity below)
   fields:
     price:           string           # formatted price
     priceAmount:    number           # numeric price for math
@@ -94,15 +95,45 @@ When a skill returns a nested dict under a relation key, the engine extracts it 
 
 ### Identity
 
-`identity` declares the keys used to dedupe records. When two different skill calls return the same `[platform, id]`, the engine upserts instead of creating duplicates.
+`identity` declares the keys used to dedupe records. When two different skill calls return the same identity tuple, the engine upserts instead of creating duplicates.
 
 ```yaml
 message:
-  identity: [platform, id]   # all keys must match to count as the same record
-  identity_any: [email]       # OR: any single key in this list is sufficient
+  identity: [at, id]         # all keys must match to count as the same record
+  identity_any: [email]      # OR: any single key in this list is sufficient
 ```
 
-Use `identity` for compound keys (must all match) and `identity_any` for alternative keys (any one matches). Most shapes use `identity: [platform, id]` — the external service's native identifier scoped by the platform it came from.
+Use `identity` for compound keys (must all match) and `identity_any` for alternative keys (any one matches). Identity keys may be **fields** (string/number values) or **relations** (edges to other nodes — see "Identity via relation" below).
+
+#### Identity via relation
+
+For platform-scoped shapes (`account`, `message`, `post`, `email`, etc.), one identity key is a **relation to another node**, not a string. The convention:
+
+```yaml
+account:
+  identity: [at, identifier]
+  relations:
+    at:    actor   # the namespace this account exists within
+                   # (organization, product, software, or protocol node)
+```
+
+This is identity-via-relation: the dedupe tuple is `(node_id_of_at_target, identifier_string)`. Two skills returning `at: <github.com product node>, identifier: octocat` resolve to the same account, regardless of how each skill *named* github.com.
+
+**Why not strings?** A string-keyed identity (e.g. `[platform, id]` where `platform: "github.com"`) fragments the graph the moment two skills disagree on naming (`github.com` vs `git`/`github` vs `vcs/git`), and silently merges different entities when handles get reused. Companies rebrand (Twitter → X), banks merge (First Republic → Chase), instances move — the *node* persists across these events; a string doesn't. Identity-via-relation makes "what bank operates this account today" a graph traversal (`account → at → mergedInto`), which is impossible with strings.
+
+Skills declare relation-keyed identity inline by passing a node descriptor where a string would otherwise go:
+
+```python
+# inline upsert: the engine resolves the at target node first, then keys identity off it
+return {
+    "identifier": "octocat",
+    "at": {"shape": "product", "url": "https://github.com"},
+}
+```
+
+Multi-shape inline targets pass `shape: ["product", "software"]` (e.g. github.com is both a product and software).
+
+**Required nodes for identity targets.** A skill's `at` target node must be resolvable — either pre-existing (seeded) or upsertable inline. The engine resolves nested upserts in dependency order.
 
 ### Subtitle, plural, icon
 

@@ -1,7 +1,7 @@
 # A project that groups tasks. Tasks belong to projects.
 project:
   plural: projects
-  identity: [platform, id]
+  identity: [at, id]
   subtitle: state
   fields:
     state:             string

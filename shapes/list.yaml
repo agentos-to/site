@@ -1,7 +1,7 @@
 # A generic collection of items. Base type for shelf (books) and playlist (videos).
 list:
   plural: lists
-  identity: [platform, id]
+  identity: [at, id]
   fields:
     listId:           string    # platform list ID (may differ from graph id)
     privacy:           string
@@ -9,7 +9,7 @@ list:
     isDefault:        boolean   # platform-created list (e.g. "Watch Later")
     isPublic:         boolean
   relations:
-    platform:          product
+    at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
     belongsTo:        account   # who owns this list
     contains:          product[]
   prior_art:

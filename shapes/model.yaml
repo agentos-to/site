@@ -1,10 +1,14 @@
 # An AI model — LLM, embedding model, or other ML model.
+#
+# Identity: (at, name) — graph-native. `at` is a relation to the entity
+# providing the model (an organization like Anthropic/OpenAI, or a product
+# like ollama for self-hosted). The model node persists across provider
+# rebrands or reorganizations.
 model:
   plural: models
-  identity: [provider, name]
-  subtitle: provider
+  identity: [at, name]
+  subtitle: name
   fields:
-    provider:          string    # e.g., "anthropic", "openai", "meta"
     contextLength:    integer
     contextWindow:    integer   # alias for context_length (OpenRouter uses this name)
     maxOutput:        integer
@@ -19,6 +23,10 @@ model:
     format:            string    # e.g., "gguf"
     family:            string    # model family, e.g., "llama", "qwen"
     digest:            string    # content-addressable hash of model weights
+  relations:
+    at:                actor     # the provider entity — organization (Anthropic,
+                                  # OpenAI, Meta) or product (ollama for
+                                  # self-hosted). Required for identity.
   prior_art:
     - source: Hugging Face Model Cards
       url: https://huggingface.co/docs/hub/en/model-cards

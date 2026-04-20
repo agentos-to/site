@@ -2,7 +2,7 @@
 # transcript, etc. Contains messages and links to participants.
 conversation:
   plural: conversations
-  identity: [platform, id]
+  identity: [at, id]
   subtitle: text
   fields:
     isGroup:          boolean
@@ -13,7 +13,7 @@ conversation:
     cwd:               string    # working directory (for dev-tool transcripts)
     gitBranch:        string    # git branch at the time of the conversation
   relations:
-    platform:          product
+    at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
     participant:       actor[]   # participants — people, agents, or organizations
     message:           message[]
     in:                folder    # directory this conversation happened in

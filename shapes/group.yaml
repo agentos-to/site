@@ -1,7 +1,7 @@
 # A group or community — online group, reading group, etc.
 group:
   plural: groups
-  identity: [platform, id]
+  identity: [at, id]
   subtitle: category
   fields:
     memberCount:      integer

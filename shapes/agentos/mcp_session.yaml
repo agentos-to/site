@@ -1,7 +1,7 @@
 # An MCP session — a client connected, made some calls, disconnected.
 # One node per unique client+project+branch combo, updated on reconnection.
-session:
-  plural: sessions
+mcp_session:
+  plural: mcp_sessions
   identity: [client, projectId, gitBranch]
   subtitle: client
   icon: terminal
