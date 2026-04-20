@@ -8,6 +8,7 @@ message:
   fields:
     isOutgoing:       boolean   # true if sent by the user
     isStarred:        boolean   # user-flagged as important
+    conversationId:   string    # denormalized id of the parent conversation (authoritative edge is `inConversation`)
   relations:
     at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
     from:              actor     # sender — a person, agent, or organization

@@ -32,6 +32,12 @@ trip:
     stops:             integer   # number of intermediate stops
     bookingToken:     string    # opaque token for booking (flights)
     carbonEmissions:  json      # CO2 estimate
+    # Uber ride variants
+    isPool:           boolean   # UberPool / shared ride
+    isReserve:        boolean   # UberReserve (scheduled in advance)
+    guest:             json      # ride booked for a guest ({name, phone}) rather than the account holder
+    marketplace:       string    # Uber marketplace identifier (region/fleet)
+    vehicle:           json      # vehicle details ({name, type, year, license_plate})
   relations:
     at:                actor     # the namespace this trip lives within (Uber, SerpAPI flight feed, etc.). Required for identity.
     origin:            place     # pickup / departure airport / departure station

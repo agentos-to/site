@@ -8,6 +8,8 @@ list:
     listType:         string
     isDefault:        boolean   # platform-created list (e.g. "Watch Later")
     isPublic:         boolean
+    itemCount:        integer   # cached count of items in the list
+    items:             json      # inline items (when the API embeds them rather than requiring a separate fetch)
   relations:
     at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
     belongsTo:        account   # who owns this list

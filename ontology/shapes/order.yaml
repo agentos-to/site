@@ -22,6 +22,18 @@ order:
     taxes:             number
     summary:           string
     fareBreakdown:    json      # line items: [{label, amount, key}]
+    # Uber Eats delivery / messaging / tracking fields
+    deliveryInstructions: string  # customer-entered handoff instructions
+    interactionType:   string    # pickup, delivery, dine-in
+    orderUuid:         string    # Uber order UUID (alias of orderId for eats flows)
+    body:              text      # messaging body (getEaterMessagingContentV1)
+    head:              text      # messaging heading
+    messages:          json      # messaging thread items
+    timeline:          json      # order-status timeline entries
+    itemStates:       json      # per-line-item preparation status during fulfillment
+    latestArrival:    datetime  # latest estimated arrival
+    progress:          number    # 0-100 percent
+    progressTotal:    number
   relations:
     at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
     contains:          product[]

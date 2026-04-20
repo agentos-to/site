@@ -11,6 +11,7 @@ video:
     resolution:        string    # e.g. "1080p", "4K"
     frameRate:        number    # fps
     codec:             string    # e.g. "h264", "vp9"
+    viewCount:        integer   # platform-reported view count (YouTube) — snapshot, not live
   relations:
     channel:           channel   # channel this was uploaded to
     transcribe:        transcript

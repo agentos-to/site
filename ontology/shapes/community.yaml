@@ -5,6 +5,9 @@ community:
   subtitle: text
   fields:
     privacy:           string    # public, private, closed
+    memberCount:      integer   # Facebook Group members (roughly accurate)
+    subscriberCount:  integer   # Reddit/Moltbook subscriber count (updated periodically)
+    allowCrypto:      boolean   # Moltbook-specific: community allows crypto-topic posts
   relations:
     at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
   prior_art:

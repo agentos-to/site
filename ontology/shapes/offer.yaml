@@ -10,6 +10,7 @@ offer:
     validFrom:        datetime
     validUntil:       datetime
     bookingToken:     string    # opaque token for completing a booking
+    departureToken:   string    # SerpAPI flights: multi-leg token for resolving a return leg price
   relations:
     for:               product   # what this offer is selling
     offeredBy:        organization

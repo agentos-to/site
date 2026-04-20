@@ -32,6 +32,7 @@ product:
     novaGroup:        integer   # NOVA 1-4 ultra-processing level
     calories:          number    # per serving
     servingSize:      string    # "1 cup (240ml)"
+    customizationGroups: json   # Uber Eats item options tree (sizes, toppings, substitutions)
   relations:
     brand:             brand
     manufacturer:      organization
