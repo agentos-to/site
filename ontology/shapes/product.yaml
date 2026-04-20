@@ -2,6 +2,7 @@
 # Cross-skill: Amazon products, Uber Eats grocery items, any retail catalog.
 product:
   plural: products
+  identity_any: [url]    # url is the web-canonical identifier (https://github.com, https://greptile.com)
   subtitle: brand
   fields:
     category:          string    # product category enum: marketplace, social,
