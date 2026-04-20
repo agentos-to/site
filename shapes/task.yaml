@@ -11,6 +11,9 @@ task:
     labels:            string[]
     startedAt:        datetime
     targetDate:       datetime  # due date
+    target:            json      # structured target spec ({date, time, timezone}) — Todoist-style
+    parentId:         string    # denormalized parent task id (authoritative edge is `parent`)
+    projectId:        string    # denormalized project id (authoritative edge is `project`)
   relations:
     at:                actor     # the namespace this task lives within (Linear, Todoist, GitHub, etc.). Required for identity.
     assignedTo:       person

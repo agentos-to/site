@@ -18,6 +18,8 @@ email:
     isTrash:          boolean
     isSpam:           boolean
     hasAttachments:   boolean
+    draftId:          string    # Gmail draft-specific id alongside the message id
+    conversationId:   string    # denormalized thread id (authoritative edge is `inConversation` via `also: [message]`)
     accountEmail:     string    # which account received this
     sizeEstimate:     integer   # bytes
     references:        string    # RFC 2822 References header chain

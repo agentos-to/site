@@ -10,6 +10,8 @@ conversation:
     unreadCount:      integer
     messageCount:     integer   # number of messages in the thread
     accountEmail:     string    # which account this conversation belongs to
+    historyId:        string    # Gmail History ID for sync cursor (per-thread high-water mark)
+    source:            string    # transcript provenance (e.g., granola's "manual" vs "recording")
     cwd:               string    # working directory (for dev-tool transcripts)
     gitBranch:        string    # git branch at the time of the conversation
   relations:

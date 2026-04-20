@@ -7,6 +7,11 @@ result:
   fields:
     indexedAt:        datetime  # when the search engine last crawled this
     resultType:       string    # web, image, video, news, etc.
+    externalUrl:      url       # linked URL when the result is itself a pointer to another resource
+    postId:           string    # when the result points to a post — the post's id in the source platform
+    score:             integer   # search relevance score / post score (if surfaced in results)
+    similarity:        number    # vector/embedding similarity (0-1)
+    community:         string    # source community/subreddit/slug (for post-like results)
   prior_art:
     - source: OpenSearch Description Document
       url: https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md

@@ -4,6 +4,7 @@ channel:
   identity: [at, id]
   fields:
     banner:            url       # channel banner/header image
+    subscriberCount:  integer   # YouTube subscriber count
   relations:
     at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
   prior_art:

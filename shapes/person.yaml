@@ -15,6 +15,16 @@ person:
     about:             text
     joinedDate:       datetime  # when they joined a platform (partial OK: 2013-12)
     lastActive:       datetime  # when last seen active
+    # Analytics-platform person attributes — for data flowing in from
+    # PostHog-like user tracking. These are per-person tracking metadata,
+    # not core social attributes.
+    email:             string    # canonical email (also on account; duplicated here for tracking platforms)
+    distinctIds:      string[]  # analytics platform's distinct_ids array (PostHog)
+    browser:           string    # last-seen browser
+    os:                string    # last-seen operating system
+    initialReferrer:  string    # referrer at first touch (marketing attribution)
+    initialUtmSource: string    # UTM source at first touch
+    lastSeenAt:       datetime  # analytics-platform last-seen timestamp
   relations:
     accounts:          account[] # platform identities this person owns
     roles:             role[]    # positions at organizations

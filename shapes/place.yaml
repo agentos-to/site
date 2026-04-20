@@ -48,6 +48,11 @@ place:
     reviewCount:      integer
     priceLevel:       string    # free, inexpensive, moderate, expensive, very_expensive
     timezone:          string    # IANA timezone (e.g. "America/Chicago")
+    # Uber-Eats-specific runtime/store flags (contextual — only meaningful for stores)
+    eta:               string    # estimated delivery time window ("20-30 min")
+    isOrderable:      boolean   # store is currently accepting orders
+    closedMessage:    string    # reason message when not orderable ("Opens at 10 AM")
+    productCount:     integer   # store catalog size (loose snapshot)
 
     # External identifiers
     mapboxId:         string

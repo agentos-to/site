@@ -15,6 +15,7 @@ financial_account:
   subtitle: last4
   fields:
     identifier:        string    # account number or masked equivalent — required for identity
+    accountId:        string    # provider-internal account id (may differ from identifier when banks expose both)
     accountNumber:    string    # full or masked account number (human-facing)
     routingNumber:    string    # bank routing number (US)
     last4:             string    # last 4 digits of account or card

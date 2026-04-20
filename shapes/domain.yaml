@@ -7,6 +7,7 @@ domain:
     registrar:         string    # gandi, porkbun, etc.
     expiresAt:        datetime
     autoRenew:        boolean
+    createdAt:        datetime  # when the domain was registered (Porkbun exposes createDate)
     nameservers:       string[]
   prior_art:
     - source: RFC 1035 (Domain Names)

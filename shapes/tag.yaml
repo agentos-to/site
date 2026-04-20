@@ -7,6 +7,8 @@ tag:
   fields:
     color:             string    # hex color (#EA4335) or named color
     tagType:          string    # system, user — distinguishes built-in vs custom
+    annotated:         boolean   # git tag: annotated (with metadata) vs lightweight
+    hash:              string    # git tag: commit SHA the tag points at
   prior_art:
     - source: GitHub REST API — Labels
       url: https://docs.github.com/en/rest/issues/labels

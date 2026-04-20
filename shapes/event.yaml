@@ -24,12 +24,28 @@ event:
     sourceUrl:        url       # where entity came from (e.g. Partiful event page)
     sourceTitle:      string    # display name of source ("Partiful", "Luma", "Gmail")
     icalUid:          string    # RFC 5545 UID for cross-system dedup
+    # Analytics-platform event fields — PostHog, etc.
+    distinctId:       string    # analytics platform's distinct_id (PostHog)
+    currentUrl:       string    # URL where the event fired
+    properties:        json      # free-form event properties dict
+    # Rocket-launch-event fields (SpaceX)
+    articleUrl:       url
+    webcastUrl:       url
+    wikipediaUrl:     url
+    patchImage:       url       # mission patch image
+    flightNumber:     integer
+    rocketId:         string
+    launchpadId:      string
+    crewIds:          string[]
+    reusedBoosters:   string[]
+    landingOutcomes:  json      # per-booster outcome metadata
   relations:
     at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
     involves:          person[]  # people this event involves (many-to-many)
     location:          place     # where it happens
     organizer:         person    # who organized/hosts it
     creator:           person    # who created it (may differ from organizer)
+    person:            person    # the person this analytics event is attributed to (PostHog)
     attachments:       file[]    # documents attached to the event
   prior_art:
     - source: schema.org/Event

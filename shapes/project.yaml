@@ -6,6 +6,7 @@ project:
   fields:
     state:             string
     color:             string
+    parentId:         string    # denormalized parent project id (Todoist supports project nesting)
   relations:
     at:                actor     # the namespace this project lives within (Linear, Todoist, GitHub, etc.). Required for identity.
   prior_art:
