@@ -61,19 +61,22 @@ DEFAULT_GENERATED_RS = (
 # cover the same file set so their results line up.
 _SKIP_DIRS = {"target", "node_modules", ".git"}
 
-# Regex to extract the `NAME` of `pub const NAME: &str = "name";` from
-# the generated file. Looser than the generator's output template
-# (allows any whitespace, any single-line form) so hand-edits don't
-# break the audit — though hand-edits to a generated file are a bug.
+# Regex to extract the `NAME` and shape name from the current codegen
+# output: `pub static NAME: ShapeHandle = ShapeHandle { name: "shape", ... };`
+# Spans multiple lines, so DOTALL + non-greedy capture between NAME and
+# `name: "..."`.
 _RE_PUB_CONST = re.compile(
-    r'^\s*pub\s+const\s+([A-Z][A-Z0-9_]*)\s*:\s*&str\s*=\s*"([^"]*)"\s*;\s*$',
+    r'pub\s+static\s+([A-Z][A-Z0-9_]*)\s*:\s*ShapeHandle\s*=\s*ShapeHandle\s*\{\s*name\s*:\s*"([^"]*)"',
     re.MULTILINE,
 )
 
-# Regex for `shapes::NAME` references in hand-written Rust. Captures
-# the const name. Accepts any path prefix so both `shapes::ACTIVITY`
-# and `agentos_shapes::ACTIVITY` / `crate::shapes::ACTIVITY` count.
-_RE_SHAPES_USE = re.compile(r'\bshapes::([A-Z][A-Z0-9_]*)\b')
+# Regex for `shapes::NAME` / `shapes_generated::NAME` references in
+# hand-written Rust. Captures the const name. Accepts any path prefix so
+# `shapes::ACTIVITY`, `agentos_shapes::ACTIVITY`, and
+# `agentos_shapes_generated::ACTIVITY` all count.
+# `_` is a word char, so don't use `\b` before `shapes` — prefixes like
+# `agentos_shapes_generated` have no word boundary before `shapes`.
+_RE_SHAPES_USE = re.compile(r'shapes(?:_generated)?::([A-Z][A-Z0-9_]*)\b')
 
 # Filtering: only SCREAMING_SNAKE that could plausibly be a shape
 # const. Rust types like `HashMap::NEW` or custom consts with two-plus
@@ -118,7 +121,7 @@ def _iter_rust_files(crates_root: Path):
     from its own definition doesn't count as "usage" — so we skip it.
     """
     generated_rs = (
-        crates_root / "shapes" / "src" / "generated.rs"
+        crates_root / "shapes-generated" / "src" / "lib.rs"
     ).resolve()
     for path in crates_root.rglob("*.rs"):
         if any(part in _SKIP_DIRS for part in path.parts):

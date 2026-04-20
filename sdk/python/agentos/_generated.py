@@ -1,6 +1,6 @@
 """Auto-generated TypedDict classes from shape YAML — do not edit.
 
-Generated from 74 shapes.
+Generated from 70 shapes.
 Regenerate with: python generate.py --lang python
 """
 
@@ -1379,21 +1379,6 @@ class Role(TypedDict, total=False):
     person: Person
 
 
-class Search(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    query: str
-    resultCount: int
-    searchCount: int
-    searchedAt: str
-
-
 class Shelf(TypedDict, total=False):
     id: str
     name: str
@@ -1414,21 +1399,6 @@ class Shelf(TypedDict, total=False):
     at: Actor
     belongsTo: Account
     contains: list[Book]
-
-
-class Shortcut(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    builtin: bool
-    filter: str
-    target: str
-    skill: Skill
 
 
 class Simulation(TypedDict, total=False):
@@ -1473,50 +1443,6 @@ class Skill(TypedDict, total=False):
     privacyPolicy: Webpage
     termsOfService: Webpage
     website: Website
-
-
-class Software(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    aisle: str
-    availability: str
-    barcode: str
-    calories: float
-    categories: list[str]
-    category: str
-    currency: str
-    customizationGroups: Any
-    department: str
-    images: Any
-    license: str
-    novaGroup: int
-    nutritionScore: str
-    openSource: bool
-    originalPrice: str
-    originalPriceAmount: float
-    platform: list[str]
-    price: str
-    priceAmount: float
-    quantity: int
-    repositoryUrl: str
-    servingSize: str
-    sku: str
-    soldByWeight: bool
-    version: str
-    weight: str
-    weightUnit: str
-    weightValue: float
-    brand: Brand
-    developer: Organization
-    manufacturer: Organization
-    repository: Repository
-    tagged: list[Tag]
 
 
 class Source(TypedDict, total=False):
@@ -1769,26 +1695,6 @@ class Video(TypedDict, total=False):
     transcribe: Transcript
 
 
-class Volume(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    filesystem: str
-    freeBytes: int
-    path: str
-    readOnly: bool
-    removable: bool
-    totalBytes: int
-    usedBytes: int
-    volumeType: str
-    contains: list[Folder]
-
-
 class Webpage(TypedDict, total=False):
     id: str
     name: str
@@ -1881,12 +1787,9 @@ SHAPE_YAMLS: dict[str, str] = {
     'result': 'plural: results\nsubtitle: url\nfields:\n  indexedAt: datetime\n  resultType: string\n  externalUrl: url\n  postId: string\n  score: integer\n  similarity: number\n  community: string\nprior_art:\n- source: OpenSearch Description Document\n  url: https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md\n  notes: "Result-pointer model: each hit has a URL + metadata. Our resultType \\u2248\\\n    \\ Url template\'s type attribute."\n- source: Web Search API conventions (Brave/Bing)\n  url: https://api.search.brave.com/app/documentation/web-search/get-started\n  notes: Practical source. Our indexedAt/resultType align with common fields across\n    Brave, Bing, and Exa web APIs.\n',
     'review': 'plural: reviews\nsubtitle: author\nalso:\n- post\nfields:\n  rating: number\n  ratingMax: number\n  tags: string[]\n  isVerified: boolean\nrelations:\n  reviews: product\n  postedBy: account\nprior_art:\n- source: schema.org/Review\n  url: https://schema.org/Review\n  notes: "Our rating \\u2248 reviewRating.ratingValue; ratingMax \\u2248 bestRating;\\\n    \\ reviews = itemReviewed; isVerified has no direct property (extension)."\n- source: schema.org/AggregateRating\n  url: https://schema.org/AggregateRating\n  notes: For product review aggregates. Our rating/ratingMax map to ratingValue/bestRating;\n    reviewCount is inherited when computed.\n',
     'role': 'plural: roles\nsubtitle: name\nfields:\n  title: string\n  department: string\n  roleType: string\n  startDate: datetime\n  endDate: datetime\nrelations:\n  person: person\n  organization: organization\nprior_art:\n- source: schema.org/Role + OrganizationRole\n  url: https://schema.org/OrganizationRole\n  notes: "Our title = roleName; startDate/endDate match; department \\u2248 name of\\\n    \\ a subOrganization; person/organization = Role\'s nested pattern."\n- source: FOAF + Bio vocabularies (position)\n  url: http://vocab.org/bio/0.1/.html\n  notes: "Period-of-employment modeling. Our startDate/endDate \\u2248 bio:date; roleType\\\n    \\ has no FOAF peer."\n',
-    'search': 'plural: searches\nidentity:\n- query\nsubtitle: query\nicon: magnifying-glass\nfields:\n  query: string\n  searchedAt: datetime\n  searchCount: integer\n  resultCount: integer\nprior_art:\n- source: OpenSearch Description (Url templates)\n  url: https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md\n  notes: "Our query field is the searchTerm in OpenSearch\'s Url template. resultCount\\\n    \\ \\u2248 totalResults header."\n- source: schema.org/SearchAction\n  url: https://schema.org/SearchAction\n  notes: "Our query + searchedAt \\u2248 SearchAction.query + startTime. searchCount\\\n    \\ is AgentOS-specific (reuse telemetry)."\n',
     'shelf': 'plural: shelves\nalso:\n- list\nfields:\n  isExclusive: boolean\nrelations:\n  contains: book[]\nprior_art:\n- source: "Goodreads API \\u2014 Shelves"\n  url: https://www.goodreads.com/api\n  notes: Direct source. Our isExclusive maps to Goodreads\' "exclusive shelves" (read,\n    to-read, currently-reading).\n- source: schema.org/ItemList (bookshelf)\n  url: https://schema.org/ItemList\n  notes: "Generic collection peer. contains(book[]) \\u2248 itemListElement."\n',
-    'shortcut': 'plural: shortcuts\nidentity:\n- name\nsubtitle: target\nicon: link\nfields:\n  name: string\n  target: string\n  filter: string\n  builtin: boolean\nrelations:\n  skill: skill\nprior_art:\n- source: Unix shell aliases (bash/zsh)\n  url: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/alias.html\n  notes: "Our name\\u2192target expansion follows the alias pattern. builtin vs user-created\\\n    \\ parallels shell builtins vs. rc-file aliases."\n- source: "Vannevar Bush \\u2014 \\"As We May Think\\" (1945, associative trails)"\n  url: https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/\n  notes: Named trails through the memex. Our named shortcut-to-URI mapping is a mechanized\n    version of Bush\'s trail idea.\n- source: RFC 3986 URI Generic Syntax\n  url: https://datatracker.ietf.org/doc/html/rfc3986\n  notes: Our target is a URI (location URI). Shortcut names resolve to RFC 3986-compliant\n    references.\n',
     'simulation': 'plural: simulations\nsubtitle: status\nicon: shield\nfields:\n  status: string\n  profile: string\n  task: text\n  graphMode: string\n  startedAt: datetime\n  endedAt: datetime\n  actionCount: integer\n  writeCount: integer\nrelations:\n  primaryMemex: memex\n  mountedMemex: memex[]\n  agent: agent\n  tether: hardware\n  forkedFrom: simulation\n  startedBy: person\nprior_art:\n- source: OpenTelemetry Traces (root span + attributes)\n  url: https://opentelemetry.io/docs/concepts/signals/traces/\n  notes: "Span-shaped observation of an agent run. Our startedAt/endedAt/ actionCount/writeCount\\\n    \\ \\u2248 span attributes; status \\u2248 span status."\n- source: QEMU / VM snapshots\n  url: https://qemu-project.gitlab.io/qemu/system/images.html\n  notes: "\\"Disk image vs. VM\\" metaphor is direct. Our primaryMemex \\u2248 writable\\\n    \\ disk; mountedMemex[] \\u2248 read-only overlays; forkedFrom \\u2248 snapshot-based\\\n    \\ fork."\n- source: Kubernetes Pod + Volume mounts\n  url: https://kubernetes.io/docs/concepts/workloads/pods/\n  notes: "Our tether (hardware kill-switch) \\u2248 Pod security context; mountedMemex[]\\\n    \\ \\u2248 ConfigMap/PVC read-only mounts."\n',
     'skill': 'plural: skills\nsubtitle: description\nfields:\n  skillId: string\n  description: text\n  color: string\n  status: string\n  error: text\nrelations:\n  website: website\n  privacyPolicy: webpage\n  termsOfService: webpage\nprior_art:\n- source: "Model Context Protocol (MCP) \\u2014 Server"\n  url: https://modelcontextprotocol.io/specification\n  notes: "Our skill = an MCP-registerable capability provider. skillId \\u2248 MCP\\\n    \\ server name; status tracks connection lifecycle."\n- source: OpenAPI 3.1 (Info + Servers)\n  url: https://spec.openapis.org/oas/v3.1.0\n  notes: "Our description/website/privacyPolicy/termsOfService \\u2248 OpenAPI info.description/info.termsOfService/info.license/contact."\n- source: Anthropic Tool Use (skills-as-tools)\n  url: https://docs.anthropic.com/en/docs/build-with-claude/tool-use\n  notes: Each AgentOS skill publishes tools consumed via MCP/Tool-Use. status/error\n    surface tool-call health back to the agent.\n',
-    'software': 'plural: software\nidentity: url\nsubtitle: text\nalso:\n- product\nfields:\n  version: string\n  license: string\n  platform: string[]\n  openSource: boolean\n  repositoryUrl: url\nrelations:\n  developer: organization\n  repository: repository\nprior_art:\n- source: schema.org/SoftwareApplication\n  url: https://schema.org/SoftwareApplication\n  notes: "Our version = softwareVersion; license matches; platform[] \\u2248 operatingSystem;\\\n    \\ developer = creator/author."\n- source: SPDX License List\n  url: https://spdx.org/licenses/\n  notes: Our license values are canonical SPDX identifiers.\n- source: schema.org/SoftwareSourceCode\n  url: https://schema.org/SoftwareSourceCode\n  notes: "Our repositoryUrl \\u2248 codeRepository; openSource implied by SPDX-license\\\n    \\ + codeRepository presence."\n',
     'source': 'plural: sources\nidentity: address\nsubtitle: sourceId\nicon: "\\U0001F4E6"\nfields:\n  sourceId: string\n  address: string\n  scanner: string\n  enabled: boolean\n  description: text\n  lastSynced: datetime\nrelations:\n  folder: folder\nprior_art:\n- source: Homebrew Taps\n  url: https://docs.brew.sh/Taps\n  notes: Direct precedent. Our sourceId/address match tap name/URL; our platform=agentos\n    parallels tap formulae discovery.\n- source: Cydia / Sileo (APT repos for iOS)\n  url: https://wiki.theapebox.com/index.php/Package_Management\n  notes: Namespaced third-party source model. Our sourceId prefix is the Cydia repo-namespace\n    pattern.\n- source: Debian APT sources.list\n  url: https://wiki.debian.org/SourcesList\n  notes: "Canonical third-party source mechanism. Our enabled flag parallels APT source\\\n    \\ enable/disable; lastSynced \\u2248 apt-get update timestamp."\n',
     'spec': 'plural: specs\nsubtitle: state\nalso:\n- task\n- file\nfields:\n  problem: text\n  successCriteria: text\nrelations:\n  dependsOn: spec[]\n  supersedes: spec[]\nprior_art:\n- source: IETF RFC process\n  url: https://www.ietf.org/standards/rfcs/\n  notes: Canonical "design doc with problem statement and success criteria" lineage.\n    Our problem/successCriteria mirror the RFC structure.\n- source: Architectural Decision Records (ADR / MADR)\n  url: https://adr.github.io/\n  notes: Modern in-repo equivalent. supersedes[] matches ADR\'s "Supersedes" link;\n    dependsOn[] has no direct ADR peer.\n- source: Python PEP (spec-as-markdown)\n  url: https://peps.python.org/pep-0001/\n  notes: PEP states problem, rationale, spec, rejected alternatives. Our fields are\n    a slim version of the PEP template.\n',
     'tag': 'plural: tags\nsubtitle: tagType\nfields:\n  color: string\n  tagType: string\n  annotated: boolean\n  hash: string\nprior_art:\n- source: "GitHub REST API \\u2014 Labels"\n  url: https://docs.github.com/en/rest/issues/labels\n  notes: "Our color/name/tagType \\u2248 GitHub Label\'s color/name/default."\n- source: "Gmail API \\u2014 Labels"\n  url: https://developers.google.com/gmail/api/reference/rest/v1/users.labels\n  notes: Practical source. Our tagType distinguishes Gmail\'s SYSTEM vs USER label\n    types.\n- source: Dublin Core dc:subject\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: "Generic classification vocabulary \\u2014 tags on any resource."\n',
@@ -1897,7 +1800,6 @@ SHAPE_YAMLS: dict[str, str] = {
     'transcript': 'plural: transcripts\nfields:\n  language: string\n  sourceType: string\n  contentRole: string\n  durationMs: integer\n  segmentCount: integer\n  segments: json\nprior_art:\n- source: WebVTT (W3C)\n  url: https://www.w3.org/TR/webvtt1/\n  notes: Our segments are WebVTT cues (start/end/text). language follows WebVTT\'s\n    LANGUAGE header.\n- source: SRT SubRip Subtitles\n  url: https://matroska.org/technical/subtitles.html#srt-subtitles\n  notes: Practical alternative cue format. Same segment shape.\n- source: Whisper JSON output\n  url: https://github.com/openai/whisper\n  notes: "Practical source \\u2014 many transcript skills return Whisper-shaped JSON\\\n    \\ (segments with start/end/text). Direct match."\n',
     'trip': 'plural: trips\nidentity:\n- at\n- id\nsubtitle: tripType\nfields:\n  tripType: string\n  status: string\n  departureTime: datetime\n  arrivalTime: datetime\n  duration: string\n  durationMinutes: integer\n  distance: string\n  vehicleType: string\n  cabinClass: string\n  fare: string\n  fareAmount: number\n  currency: string\n  rating: string\n  trackingUrl: url\n  isSurge: boolean\n  isScheduled: boolean\n  stops: integer\n  bookingToken: string\n  carbonEmissions: json\n  isPool: boolean\n  isReserve: boolean\n  guest: json\n  marketplace: string\n  vehicle: json\nrelations:\n  at: actor\n  origin: place\n  destination: place\n  legs: leg[]\n  carrier: organization\n  driver: person\n  order: order\nprior_art:\n- source: schema.org/Trip + subTrip\n  url: https://schema.org/Trip\n  notes: "Our origin/destination/departureTime/arrivalTime map exactly; legs[] \\u2248\\\n    \\ subTrip or itinerary."\n- source: IATA NDC Slice (airline itineraries)\n  url: https://www.iata.org/en/programs/airline-distribution/retailing/ndc/\n  notes: NDC slice = our trip; NDC segment = our leg. cabinClass, bookingToken come\n    from NDC offer items.\n- source: "Uber API \\u2014 Trip resource"\n  url: https://developer.uber.com/docs/riders/references/api\n  notes: Practical source for ride trips. Our fare/fareAmount/ trackingUrl/isSurge/isScheduled\n    lifted from Uber\'s Trip model.\n',
     'video': 'plural: videos\nsubtitle: author\nalso:\n- file\nfields:\n  durationMs: integer\n  resolution: string\n  frameRate: number\n  codec: string\n  viewCount: integer\nrelations:\n  channel: channel\n  transcribe: transcript\n  addTo: playlist\nprior_art:\n- source: schema.org/VideoObject\n  url: https://schema.org/VideoObject\n  notes: "Our durationMs \\u2248 duration (ISO 8601 period); resolution \\u2248 videoFrameSize;\\\n    \\ frameRate has no direct property; codec \\u2248 encodingFormat."\n- source: IANA Media Types (video/*)\n  url: https://www.iana.org/assignments/media-types/media-types.xhtml#video\n  notes: Our codec values map to registered video/* media types (mp4, webm, ogg).\n- source: MPEG / ITU video codec specs\n  url: https://www.itu.int/rec/T-REC-H.264\n  notes: Canonical codec definitions. Our codec values are MPEG/ITU codec short names\n    (h264, vp9, av1).\n',
-    'volume': 'plural: volumes\nsubtitle: path\nfields:\n  path: string\n  totalBytes: integer\n  freeBytes: integer\n  usedBytes: integer\n  filesystem: string\n  volumeType: string\n  removable: boolean\n  readOnly: boolean\nrelations:\n  contains: folder[]\nprior_art:\n- source: POSIX / Single Unix Specification (mount)\n  url: https://pubs.opengroup.org/onlinepubs/9699919799/functions/mount.html\n  notes: "Our path = mount point; filesystem \\u2248 fs type; readOnly \\u2248 ro mount\\\n    \\ option."\n- source: macOS DiskArbitration + diskutil\n  url: https://ss64.com/osx/diskutil.html\n  notes: Practical source. Our totalBytes/freeBytes/usedBytes/removable/ volumeType\n    match diskutil info output.\n- source: Linux /proc/mounts + statvfs\n  url: https://man7.org/linux/man-pages/man5/proc.5.html\n  notes: POSIX-family source. Our filesystem values (apfs, hfs+, ext4, ntfs) are standard\n    /proc/mounts fs-types.\n',
     'webpage': 'plural: webpages\nidentity: url\nsubtitle: url\nfields:\n  visitCount: integer\n  lastVisitUnix: integer\n  contentType: string\n  error: string\nprior_art:\n- source: schema.org/WebPage\n  url: https://schema.org/WebPage\n  notes: "Our URL-as-identity matches schema.org\'s @id/url convention; contentType\\\n    \\ \\u2248 encodingFormat."\n- source: HTTP semantics (RFC 9110)\n  url: https://datatracker.ietf.org/doc/html/rfc9110\n  notes: "Our contentType is the Content-Type response header; error \\u2248 non-2xx\\\n    \\ status text."\n- source: Chrome history / WebExtensions History API\n  url: https://developer.chrome.com/docs/extensions/reference/api/history\n  notes: Practical source. Our visitCount/lastVisitUnix lift from the history API\'s\n    VisitItem structure.\n',
     'website': 'plural: websites\nidentity: url\nsubtitle: url\nfields:\n  status: string\n  versionId: string\n  expiresAt: datetime\n  anonymous: boolean\n  claimToken: string\n  claimUrl: url\nrelations:\n  domain: domain\n  ownedBy: organization\nprior_art:\n- source: schema.org/WebSite\n  url: https://schema.org/WebSite\n  notes: "Our url-as-identity matches; ownedBy \\u2248 publisher; domain relation \\u2248\\\n    \\ url host."\n- source: WHOIS (RFC 3912)\n  url: https://datatracker.ietf.org/doc/html/rfc3912\n  notes: Our expiresAt/domain source from WHOIS records; claimToken has no direct\n    WHOIS peer (HERE.NOW-specific).\n- source: RFC 7033 WebFinger (host-meta)\n  url: https://datatracker.ietf.org/doc/html/rfc7033\n  notes: Website metadata discovery. Our claimUrl parallels /.well-known/host-meta\n    patterns.\n',
 }
@@ -1933,9 +1835,6 @@ SHAPE_IDENTITIES: dict[str, list[str]] = {
     'post': ['at', 'id'],
     'project': ['at', 'id'],
     'protocol': ['name'],
-    'search': ['query'],
-    'shortcut': ['name'],
-    'software': ['url'],
     'source': ['address'],
     'task': ['at', 'id'],
     'theme': ['themeId'],

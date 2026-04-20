@@ -238,8 +238,8 @@ def _default_crates_roots() -> list[Path]:
 
 
 def _generated_rs_for(crates_root: Path) -> Path | None:
-    """Find `crates/shapes/src/generated.rs` relative to a crates root."""
-    candidate = Path(crates_root) / "shapes" / "src" / "generated.rs"
+    """Find the generated shapes crate's lib.rs relative to a crates root."""
+    candidate = Path(crates_root) / "shapes-generated" / "src" / "lib.rs"
     return candidate if candidate.is_file() else None
 
 
