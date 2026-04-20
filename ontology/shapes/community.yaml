@@ -1,12 +1,12 @@
 # An online community — a subreddit, Facebook group, or similar.
 community:
   plural: communities
-  identity: [platform, id]
+  identity: [at, id]
   subtitle: text
   fields:
     privacy:           string    # public, private, closed
   relations:
-    platform:          product
+    at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
   prior_art:
     - source: ActivityPub Group Actor
       url: https://www.w3.org/TR/activitypub/

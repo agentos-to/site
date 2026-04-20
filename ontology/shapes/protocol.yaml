@@ -1,0 +1,30 @@
+# A protocol or technical spec — git, bitcoin, ssh, smtp, oauth, etc.
+# Used as an `at` target by accounts that exist within a protocol's namespace
+# (a git author identity, a bitcoin wallet) rather than within an organization
+# or product. The `protocol` relation on `account` also targets this shape.
+protocol:
+  plural: protocols
+  identity: [name]
+  subtitle: name
+  fields:
+    name:              string    # canonical lowercase name: git, bitcoin, ssh, smtp, oauth, activitypub
+    homepage:          url
+    rfc:               string    # RFC number if applicable, e.g. "RFC 5321" for SMTP
+    wikidataId:       string    # Wikidata Q-ID for cross-reference, e.g. Q186431 for SMTP
+  prior_art:
+    - source: schema.org/CreativeWork
+      url: https://schema.org/CreativeWork
+      notes: >-
+        Closest match in schema.org — protocols are creative works in the
+        broadest sense. We narrow to protocols and technical specifications
+        used as identity namespaces.
+    - source: Wikidata (Communication protocol, Q15836568)
+      url: https://www.wikidata.org/wiki/Q15836568
+      notes: >-
+        wikidataId enables cross-reference for dedupe across other knowledge
+        graphs. Most well-known protocols have Q-IDs.
+    - source: IANA Protocol Registry
+      url: https://www.iana.org/protocols
+      notes: >-
+        Authoritative registry for many protocols. Our `name` aligns with IANA
+        protocol slugs where applicable.

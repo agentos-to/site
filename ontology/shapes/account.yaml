@@ -1,44 +1,82 @@
-# A user's presence on a platform — their GitHub handle, Gmail address, etc.
-# Created by most skills. Links a person to their platform-specific identity.
+# A user's presence within a namespace — their GitHub handle, Gmail address,
+# Mastodon @-handle, Chase bank login, etc.
 #
-# Identity: [issuer, identifier] — one node per platform+handle combo.
-# issuer = platform domain (e.g. "github.com", "gmail.com")
-# identifier = platform-specific handle (e.g. "octocat", "user@example.com")
+# Identity is graph-native: (at, identifier). `at` is a relation to whichever
+# entity owns the namespace (an organization, a product, or other software).
+# `identifier` is the local handle within that namespace. The relation-keyed
+# identity means rebrands (Twitter → X), bank mergers (First Republic → Chase),
+# and instance migrations don't fragment accounts on string changes — the node
+# persists, the edge persists with it.
 account:
   plural: accounts
-  identity: [issuer, identifier]
+  identity: [at, identifier]
   subtitle: identifier
   fields:
-    issuer:            string    # platform domain: github.com, gmail.com, chase.com
-    identifier:        string    # unique handle on that platform: username, email, user ID
-    handle:            string    # display handle (may differ from identifier)
+    identifier:        string    # handle within `at`'s namespace
+    handle:            string    # display handle if differs from identifier
     displayName:      string
     email:             string
     phone:             string
     bio:               text
-    accountType:      string    # user, bot, org, etc.
+    accountType:      string    # user | bot | org | service_account
     color:             string
     isActive:         boolean
     joinedDate:       datetime
     lastActive:       datetime
   relations:
-    platform:          product   # the service this account lives on
-    owner:             person    # the real person behind this account
+    at:                actor     # the namespace this account exists within.
+                                  # Target is the entity that "owns" the
+                                  # namespace: an organization (Chase, GitHub
+                                  # Inc), a product (github.com, hachyderm.io),
+                                  # or other software. Required for identity.
+    via:               product   # OPTIONAL: the software/product surface you
+                                  # interact with at `at`. Often the same node
+                                  # as `at` for centralized services. Distinct
+                                  # for federated (at=instance, via=Mastodon).
+    operator:          actor     # OPTIONAL: the actor running the namespace.
+                                  # Self for self-hosted (operator=person).
+                                  # Often `at` itself for orgs that are their
+                                  # own operator.
+    protocol:          protocol  # OPTIONAL: the protocol this account speaks
+                                  # (e.g. ActivityPub for Mastodon accounts).
+    owner:             person    # OPTIONAL: the human behind this account.
+    authenticatedVia: account   # OPTIONAL: upstream credential-issuing
+                                  # account (federated SSO).
+    previousIdentity: account[] # OPTIONAL: prior identities this account
+                                  # superseded (handle change, instance
+                                  # migration, account merge).
     follows:           account[]
     followers:         account[]
   prior_art:
-    - source: OpenID Connect (OIDC) Core 1.0
+    - source: ActivityPub Actor model
+      url: https://www.w3.org/TR/activitypub/
+      notes: >-
+        Account id is a URL; Server/Application/Operator are separate Actor
+        objects. We adopt the same separation but ground each in graph
+        nodes rather than URLs, so node lifecycle (rebrand, merge)
+        propagates to all referencing accounts.
+    - source: schema.org Offer.seller union
+      url: https://schema.org/Offer
+      notes: >-
+        seller: Person | Organization. The `actor` shape (which `at` and
+        `operator` target) is our existing union of person/org/agent —
+        same pattern.
+    - source: OpenID Connect Core 1.0 (`iss`/`sub`)
       url: https://openid.net/specs/openid-connect-core-1_0.html
       notes: >-
-        Our issuer/identifier maps to OIDC's iss/sub claims. OIDC is the
-        canonical federated-identity model for "account = (issuer, subject)".
+        OIDC keeps issuer as opaque URL because there's no shared graph
+        across token issuers. We have a graph; we replace the URL with
+        a graph node, gaining mutability and traversal at the cost of
+        requiring a node to exist before an account can reference it.
+        Trade is worth it.
     - source: WebFinger (RFC 7033)
       url: https://datatracker.ietf.org/doc/html/rfc7033
       notes: >-
-        Resolves issuer+identifier pairs to profile metadata. Our identifier
-        aligns with WebFinger's acct: URI scheme (user@host).
+        Resolves issuer+identifier pairs to profile metadata. Our
+        identifier aligns with WebFinger's acct: URI scheme (user@host),
+        but the `host` part becomes a graph node (not a string).
     - source: vCard 4.0 (RFC 6350)
       url: https://datatracker.ietf.org/doc/html/rfc6350
       notes: >-
-        Defines displayName/email/phone/org in contact cards. We adopt vCard's
-        contact semantics for the human-readable fields.
+        Defines displayName/email/phone/org in contact cards. We adopt
+        vCard's contact semantics for the human-readable fields.

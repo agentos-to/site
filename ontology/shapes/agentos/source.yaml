@@ -4,9 +4,12 @@
 # Identity: address — the canonical location (filesystem path, git URL, or HTTP URL).
 # Two entries pointing to the same address are the same source.
 #
-# Platform tells the engine which scanner to use:
+# Scanner tells the engine how to scan this source:
 # - "agentos" scans for skills/, themes/, apps/, shapes/, wallpapers/ subdirs
 # - Future: homebrew, apt, synology, etc.
+#
+# Renamed from `platform` to `scanner` to free `platform` from this overload —
+# `platform` now means "the namespace an account exists within" (see account.at).
 source:
   plural: sources
   identity: address
@@ -15,7 +18,7 @@ source:
   fields:
     sourceId:          string    # namespace prefix: "community", "joes", "retro-pack"
     address:           string    # canonical location: filesystem path, git URL, or HTTP URL
-    platform:          string    # scanner type: "agentos", "homebrew", "apt", "synology"
+    scanner:           string    # scanner type: "agentos", "homebrew", "apt", "synology"
     enabled:           boolean
     description:       text
     lastSynced:       datetime  # when items were last scanned from this source

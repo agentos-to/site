@@ -2,7 +2,7 @@
 # and dependency tracking (blocked_by/blocks).
 task:
   plural: tasks
-  identity: [platform, id]
+  identity: [at, id]
   subtitle: state
   fields:
     remoteId:         string    # source-specific ID (e.g. PROJ-123, #456)

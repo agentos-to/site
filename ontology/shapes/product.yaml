@@ -4,6 +4,10 @@ product:
   plural: products
   subtitle: brand
   fields:
+    category:          string    # product category enum: marketplace, social,
+                                  # messaging, productivity, finance, gaming,
+                                  # media, communication, etc. Migrated from
+                                  # the deleted platform.platformType.
     price:             string    # formatted price (e.g. "$29.99") — current/discounted price
     priceAmount:      number    # numeric price for math
     originalPrice:    string    # pre-discount price (e.g. "$10.99" before Uber One / Prime / sale)

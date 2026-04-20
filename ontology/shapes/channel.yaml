@@ -1,11 +1,11 @@
 # A content channel — typically a YouTube channel. Videos are uploaded to channels.
 channel:
   plural: channels
-  identity: [platform, id]
+  identity: [at, id]
   fields:
     banner:            url       # channel banner/header image
   relations:
-    platform:          product
+    at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
   prior_art:
     - source: ActivityStreams 2.0 Collection
       url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection

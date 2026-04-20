@@ -1,7 +1,7 @@
 # A financial transaction — credit card charge, bank transfer, etc.
 transaction:
   plural: transactions
-  identity: [platform, id]
+  identity: [at, id]
   subtitle: category
   fields:
     amount:            number    # positive = credit, negative = debit
