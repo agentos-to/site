@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 73 shapes.
+// Generated from 74 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -520,6 +520,34 @@ export interface File {
     size?: number;
     attachedTo?: Message;
     repository?: Repository;
+}
+
+export interface FinancialAccount {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    accountNumber?: string;
+    accountType?: string;
+    available?: number;
+    balance?: number;
+    cardType?: string;
+    creditLimit?: number;
+    currency?: string;
+    expiresAt?: string;
+    identifier?: string;
+    interestRate?: number;
+    last4?: string;
+    minimumPayment?: number;
+    paymentDueDate?: string;
+    routingNumber?: string;
+    accessedVia?: Account;
+    at?: Actor;
+    owner?: Person;
 }
 
 export interface Folder {
@@ -1519,7 +1547,7 @@ export interface Transaction {
     postingDate?: string;
     recurring?: boolean;
     type?: string;
-    account?: Account;
+    account?: FinancialAccount;
 }
 
 export interface Transcript {
