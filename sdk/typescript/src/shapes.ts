@@ -12,16 +12,23 @@ export interface Account {
     datePublished?: string;
     content?: string;
     accountType?: string;
+    authenticated?: boolean;
     bio?: string;
     color?: string;
+    customerId?: string;
+    display?: string;
     displayName?: string;
     email?: string;
     handle?: string;
     identifier?: string;
     isActive?: boolean;
+    isPrime?: boolean;
     joinedDate?: string;
     lastActive?: string;
+    marketplaceId?: string;
     phone?: string;
+    redirect?: string;
+    statusCode?: number;
     at?: Actor;
     authenticatedVia?: Account;
     followers?: Account[];
@@ -95,6 +102,7 @@ export interface Aircraft {
     categories?: string[];
     category?: string;
     currency?: string;
+    customizationGroups?: unknown;
     department?: string;
     iataCode?: string;
     icaoCode?: string;
@@ -166,6 +174,7 @@ export interface Book {
     category?: string;
     characters?: string[];
     currency?: string;
+    customizationGroups?: unknown;
     department?: string;
     format?: string;
     genres?: string[];
@@ -265,6 +274,7 @@ export interface Channel {
     datePublished?: string;
     content?: string;
     banner?: string;
+    subscriberCount?: number;
     at?: Actor;
 }
 
@@ -279,13 +289,24 @@ export interface Class {
     content?: string;
     activityType?: string;
     allDay?: boolean;
+    articleUrl?: string;
     capacity?: number;
+    crewIds?: string[];
+    currentUrl?: string;
     dateUpdated?: string;
+    distinctId?: string;
     endDate?: string;
     eventType?: string;
+    flightNumber?: number;
     icalUid?: string;
     isFull?: boolean;
+    landingOutcomes?: unknown;
+    launchpadId?: string;
+    patchImage?: string;
+    properties?: unknown;
     recurrence?: string[];
+    reusedBoosters?: string[];
+    rocketId?: string;
     showAs?: string;
     sourceTitle?: string;
     sourceUrl?: string;
@@ -294,6 +315,8 @@ export interface Class {
     status?: string;
     timezone?: string;
     visibility?: string;
+    webcastUrl?: string;
+    wikipediaUrl?: string;
     at?: Actor;
     attachments?: File[];
     creator?: Person;
@@ -301,6 +324,7 @@ export interface Class {
     involves?: Person[];
     location?: Place;
     organizer?: Person;
+    person?: Person;
     venue?: Place;
 }
 
@@ -313,7 +337,10 @@ export interface Community {
     author?: string;
     datePublished?: string;
     content?: string;
+    allowCrypto?: boolean;
+    memberCount?: number;
     privacy?: string;
+    subscriberCount?: number;
     at?: Actor;
 }
 
@@ -329,9 +356,11 @@ export interface Conversation {
     accountEmail?: string;
     cwd?: string;
     gitBranch?: string;
+    historyId?: string;
     isArchived?: boolean;
     isGroup?: boolean;
     messageCount?: number;
+    source?: string;
     unreadCount?: number;
     at?: Actor;
     in?: Folder;
@@ -349,9 +378,12 @@ export interface DnsRecord {
     datePublished?: string;
     content?: string;
     domain?: string;
+    priority?: number;
+    recordId?: string;
     recordName?: string;
     recordType?: string;
     ttl?: number;
+    type?: string;
     values?: string[];
 }
 
@@ -395,6 +427,7 @@ export interface Domain {
     datePublished?: string;
     content?: string;
     autoRenew?: boolean;
+    createdAt?: string;
     expiresAt?: string;
     nameservers?: string[];
     registrar?: string;
@@ -416,7 +449,9 @@ export interface Email {
     bccRaw?: string;
     bodyHtml?: string;
     ccRaw?: string;
+    conversationId?: string;
     deliveredTo?: string;
+    draftId?: string;
     hasAttachments?: boolean;
     inReplyTo?: string;
     isAutomated?: boolean;
@@ -481,11 +516,22 @@ export interface Event {
     datePublished?: string;
     content?: string;
     allDay?: boolean;
+    articleUrl?: string;
+    crewIds?: string[];
+    currentUrl?: string;
     dateUpdated?: string;
+    distinctId?: string;
     endDate?: string;
     eventType?: string;
+    flightNumber?: number;
     icalUid?: string;
+    landingOutcomes?: unknown;
+    launchpadId?: string;
+    patchImage?: string;
+    properties?: unknown;
     recurrence?: string[];
+    reusedBoosters?: string[];
+    rocketId?: string;
     showAs?: string;
     sourceTitle?: string;
     sourceUrl?: string;
@@ -493,12 +539,15 @@ export interface Event {
     status?: string;
     timezone?: string;
     visibility?: string;
+    webcastUrl?: string;
+    wikipediaUrl?: string;
     at?: Actor;
     attachments?: File[];
     creator?: Person;
     involves?: Person[];
     location?: Place;
     organizer?: Person;
+    person?: Person;
 }
 
 export interface File {
@@ -532,6 +581,7 @@ export interface FinancialAccount {
     author?: string;
     datePublished?: string;
     content?: string;
+    accountId?: string;
     accountNumber?: string;
     accountType?: string;
     available?: number;
@@ -618,6 +668,7 @@ export interface Hardware {
     categories?: string[];
     category?: string;
     currency?: string;
+    customizationGroups?: unknown;
     department?: string;
     images?: unknown;
     modelNumber?: string;
@@ -751,6 +802,8 @@ export interface List {
     content?: string;
     isDefault?: boolean;
     isPublic?: boolean;
+    itemCount?: number;
+    items?: unknown;
     listId?: string;
     listType?: string;
     privacy?: string;
@@ -807,16 +860,27 @@ export interface Meeting {
     datePublished?: string;
     content?: string;
     allDay?: boolean;
+    articleUrl?: string;
     calendarLink?: string;
     conferenceProvider?: string;
+    crewIds?: string[];
+    currentUrl?: string;
     dateUpdated?: string;
+    distinctId?: string;
     endDate?: string;
     eventType?: string;
+    flightNumber?: number;
     icalUid?: string;
     isVirtual?: boolean;
+    landingOutcomes?: unknown;
+    launchpadId?: string;
     meetingUrl?: string;
+    patchImage?: string;
     phoneDialIn?: string;
+    properties?: unknown;
     recurrence?: string[];
+    reusedBoosters?: string[];
+    rocketId?: string;
     showAs?: string;
     sourceTitle?: string;
     sourceUrl?: string;
@@ -824,12 +888,15 @@ export interface Meeting {
     status?: string;
     timezone?: string;
     visibility?: string;
+    webcastUrl?: string;
+    wikipediaUrl?: string;
     at?: Actor;
     attachments?: File[];
     creator?: Person;
     involves?: Person[];
     location?: Place;
     organizer?: Person;
+    person?: Person;
     transcribe?: Transcript;
 }
 
@@ -864,6 +931,7 @@ export interface Message {
     author?: string;
     datePublished?: string;
     content?: string;
+    conversationId?: string;
     isOutgoing?: boolean;
     isStarred?: boolean;
     at?: Actor;
@@ -927,6 +995,7 @@ export interface Offer {
     availability?: string;
     bookingToken?: string;
     currency?: string;
+    departureToken?: string;
     offerType?: string;
     price?: number;
     validFrom?: string;
@@ -945,20 +1014,31 @@ export interface Order {
     author?: string;
     datePublished?: string;
     content?: string;
+    body?: string;
     currency?: string;
     deliveryDate?: string;
     deliveryFee?: number;
+    deliveryInstructions?: string;
     eta?: string;
     fareBreakdown?: unknown;
+    head?: string;
+    interactionType?: string;
+    itemStates?: unknown;
+    latestArrival?: string;
+    messages?: unknown;
     orderDate?: string;
     orderId?: string;
+    orderUuid?: string;
     originalTotal?: string;
     originalTotalAmount?: number;
+    progress?: number;
+    progressTotal?: number;
     savings?: number;
     status?: string;
     subtotal?: number;
     summary?: string;
     taxes?: number;
+    timeline?: unknown;
     tipAmount?: number;
     total?: string;
     totalAmount?: number;
@@ -1000,14 +1080,21 @@ export interface Person {
     about?: string;
     actorType?: string;
     birthday?: string;
+    browser?: string;
+    distinctIds?: string[];
+    email?: string;
     firstName?: string;
     gender?: string;
+    initialReferrer?: string;
+    initialUtmSource?: string;
     joinedDate?: string;
     lastActive?: string;
     lastName?: string;
+    lastSeenAt?: string;
     middleName?: string;
     nickname?: string;
     notes?: string;
+    os?: string;
     accounts?: Account[];
     location?: Place;
     roles?: Role[];
@@ -1027,13 +1114,16 @@ export interface Place {
     businessStatus?: string;
     categories?: string[];
     city?: string;
+    closedMessage?: string;
     country?: string;
     countryCode?: string;
     district?: string;
+    eta?: string;
     featureType?: string;
     fullAddress?: string;
     googlePlaceId?: string;
     hours?: unknown;
+    isOrderable?: boolean;
     latitude?: number;
     locality?: string;
     longitude?: number;
@@ -1043,6 +1133,7 @@ export interface Place {
     placeFormatted?: string;
     postalCode?: string;
     priceLevel?: string;
+    productCount?: number;
     rating?: number;
     region?: string;
     reviewCount?: number;
@@ -1066,6 +1157,8 @@ export interface Playlist {
     content?: string;
     isDefault?: boolean;
     isPublic?: boolean;
+    itemCount?: number;
+    items?: unknown;
     listId?: string;
     listType?: string;
     privacy?: string;
@@ -1098,8 +1191,11 @@ export interface Post {
     author?: string;
     datePublished?: string;
     content?: string;
+    commentCount?: number;
+    community?: string;
     externalUrl?: string;
     postType?: string;
+    score?: number;
     at?: Actor;
     attachment?: File[];
     contains?: Video[];
@@ -1126,6 +1222,7 @@ export interface Product {
     categories?: string[];
     category?: string;
     currency?: string;
+    customizationGroups?: unknown;
     department?: string;
     images?: unknown;
     novaGroup?: number;
@@ -1156,6 +1253,7 @@ export interface Project {
     datePublished?: string;
     content?: string;
     color?: string;
+    parentId?: string;
     state?: string;
     at?: Actor;
 }
@@ -1219,8 +1317,13 @@ export interface Result {
     author?: string;
     datePublished?: string;
     content?: string;
+    community?: string;
+    externalUrl?: string;
     indexedAt?: string;
+    postId?: string;
     resultType?: string;
+    score?: number;
+    similarity?: number;
 }
 
 export interface Review {
@@ -1232,11 +1335,14 @@ export interface Review {
     author?: string;
     datePublished?: string;
     content?: string;
+    commentCount?: number;
+    community?: string;
     externalUrl?: string;
     isVerified?: boolean;
     postType?: string;
     rating?: number;
     ratingMax?: number;
+    score?: number;
     tags?: string[];
     at?: Actor;
     attachment?: File[];
@@ -1294,6 +1400,8 @@ export interface Shelf {
     isDefault?: boolean;
     isExclusive?: boolean;
     isPublic?: boolean;
+    itemCount?: number;
+    items?: unknown;
     listId?: string;
     listType?: string;
     privacy?: string;
@@ -1377,6 +1485,7 @@ export interface Software {
     categories?: string[];
     category?: string;
     currency?: string;
+    customizationGroups?: unknown;
     department?: string;
     images?: unknown;
     license?: string;
@@ -1438,15 +1547,18 @@ export interface Spec {
     labels?: string[];
     lineCount?: number;
     mimeType?: string;
+    parentId?: string;
     path?: string;
     priority?: number;
     problem?: string;
+    projectId?: string;
     remoteId?: string;
     sha?: string;
     size?: number;
     startedAt?: string;
     state?: string;
     successCriteria?: string;
+    target?: unknown;
     targetDate?: string;
     assignedTo?: Person;
     at?: Actor;
@@ -1470,7 +1582,9 @@ export interface Tag {
     author?: string;
     datePublished?: string;
     content?: string;
+    annotated?: boolean;
     color?: string;
+    hash?: string;
     tagType?: string;
 }
 
@@ -1484,10 +1598,13 @@ export interface Task {
     datePublished?: string;
     content?: string;
     labels?: string[];
+    parentId?: string;
     priority?: number;
+    projectId?: string;
     remoteId?: string;
     startedAt?: string;
     state?: string;
+    target?: unknown;
     targetDate?: string;
     assignedTo?: Person;
     at?: Actor;
@@ -1594,13 +1711,18 @@ export interface Trip {
     durationMinutes?: number;
     fare?: string;
     fareAmount?: number;
+    guest?: unknown;
+    isPool?: boolean;
+    isReserve?: boolean;
     isScheduled?: boolean;
     isSurge?: boolean;
+    marketplace?: string;
     rating?: string;
     status?: string;
     stops?: number;
     trackingUrl?: string;
     tripType?: string;
+    vehicle?: unknown;
     vehicleType?: string;
     at?: Actor;
     carrier?: Organization;
@@ -1633,6 +1755,7 @@ export interface Video {
     resolution?: string;
     sha?: string;
     size?: number;
+    viewCount?: number;
     addTo?: Playlist;
     attachedTo?: Message;
     channel?: Channel;
