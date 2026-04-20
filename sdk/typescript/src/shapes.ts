@@ -250,6 +250,7 @@ export interface Calendar {
     isReadonly?: boolean;
     source?: string;
     timezone?: string;
+    at?: Actor;
     events?: Event[];
     owner?: Person;
 }
@@ -1099,6 +1100,7 @@ export interface Post {
     content?: string;
     externalUrl?: string;
     postType?: string;
+    at?: Actor;
     attachment?: File[];
     contains?: Video[];
     media?: Image[];
@@ -1155,6 +1157,7 @@ export interface Project {
     content?: string;
     color?: string;
     state?: string;
+    at?: Actor;
 }
 
 export interface Protocol {
@@ -1235,6 +1238,7 @@ export interface Review {
     rating?: number;
     ratingMax?: number;
     tags?: string[];
+    at?: Actor;
     attachment?: File[];
     contains?: Video[];
     media?: Image[];
@@ -1445,6 +1449,7 @@ export interface Spec {
     successCriteria?: string;
     targetDate?: string;
     assignedTo?: Person;
+    at?: Actor;
     attachedTo?: Message;
     blockedBy?: Task[];
     blocks?: Task[];
@@ -1485,6 +1490,7 @@ export interface Task {
     state?: string;
     targetDate?: string;
     assignedTo?: Person;
+    at?: Actor;
     blockedBy?: Task[];
     blocks?: Task[];
     children?: Task[];
@@ -1548,6 +1554,7 @@ export interface Transaction {
     recurring?: boolean;
     type?: string;
     account?: FinancialAccount;
+    at?: Actor;
 }
 
 export interface Transcript {
@@ -1595,6 +1602,7 @@ export interface Trip {
     trackingUrl?: string;
     tripType?: string;
     vehicleType?: string;
+    at?: Actor;
     carrier?: Organization;
     destination?: Place;
     driver?: Person;
