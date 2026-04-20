@@ -19,14 +19,18 @@ export interface Account {
     handle?: string;
     identifier?: string;
     isActive?: boolean;
-    issuer?: string;
     joinedDate?: string;
     lastActive?: string;
     phone?: string;
+    at?: Actor;
+    authenticatedVia?: Account;
     followers?: Account[];
     follows?: Account[];
+    operator?: Actor;
     owner?: Person;
-    platform?: Product;
+    previousIdentity?: Account[];
+    protocol?: Protocol;
+    via?: Product;
 }
 
 export interface Activity {
@@ -89,6 +93,7 @@ export interface Aircraft {
     barcode?: string;
     calories?: number;
     categories?: string[];
+    category?: string;
     currency?: string;
     department?: string;
     iataCode?: string;
@@ -158,6 +163,7 @@ export interface Book {
     barcode?: string;
     calories?: number;
     categories?: string[];
+    category?: string;
     characters?: string[];
     currency?: string;
     department?: string;
@@ -258,7 +264,7 @@ export interface Channel {
     datePublished?: string;
     content?: string;
     banner?: string;
-    platform?: Product;
+    at?: Actor;
 }
 
 export interface Class {
@@ -287,13 +293,13 @@ export interface Class {
     status?: string;
     timezone?: string;
     visibility?: string;
+    at?: Actor;
     attachments?: File[];
     creator?: Person;
     instructor?: Person;
     involves?: Person[];
     location?: Place;
     organizer?: Person;
-    platform?: Product;
     venue?: Place;
 }
 
@@ -307,7 +313,7 @@ export interface Community {
     datePublished?: string;
     content?: string;
     privacy?: string;
-    platform?: Product;
+    at?: Actor;
 }
 
 export interface Conversation {
@@ -326,10 +332,10 @@ export interface Conversation {
     isGroup?: boolean;
     messageCount?: number;
     unreadCount?: number;
+    at?: Actor;
     in?: Folder;
     message?: Message[];
     participant?: Actor[];
-    platform?: Product;
 }
 
 export interface DnsRecord {
@@ -433,13 +439,13 @@ export interface Email {
     toRaw?: string;
     unsubscribe?: string;
     unsubscribeOneClick?: boolean;
+    at?: Actor;
     bcc?: Account[];
     cc?: Account[];
     ccDomain?: Domain[];
     domain?: Domain;
     from?: Account;
     inConversation?: Conversation;
-    platform?: Product;
     repliesTo?: Message;
     tag?: Tag[];
     to?: Account[];
@@ -486,12 +492,12 @@ export interface Event {
     status?: string;
     timezone?: string;
     visibility?: string;
+    at?: Actor;
     attachments?: File[];
     creator?: Person;
     involves?: Person[];
     location?: Place;
     organizer?: Person;
-    platform?: Product;
 }
 
 export interface File {
@@ -581,6 +587,7 @@ export interface Hardware {
     barcode?: string;
     calories?: number;
     categories?: string[];
+    category?: string;
     currency?: string;
     department?: string;
     images?: unknown;
@@ -652,10 +659,10 @@ export interface Invitation {
     role?: string;
     status?: string;
     token?: string;
+    at?: Actor;
     invitee?: Account;
     inviter?: Account;
     organization?: Organization;
-    platform?: Product;
 }
 
 export interface Job {
@@ -718,9 +725,9 @@ export interface List {
     listId?: string;
     listType?: string;
     privacy?: string;
+    at?: Actor;
     belongsTo?: Account;
     contains?: Product[];
-    platform?: Product;
 }
 
 export interface LoadedModel {
@@ -738,6 +745,27 @@ export interface LoadedModel {
     size?: string;
     sizeVram?: number;
     vramUsage?: string;
+}
+
+export interface McpSession {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    client?: string;
+    endedAt?: string;
+    gitBranch?: string;
+    messageCount?: number;
+    projectId?: string;
+    sessionType?: string;
+    startedAt?: string;
+    tokenCount?: number;
+    folder?: Folder;
+    participant?: Actor;
 }
 
 export interface Meeting {
@@ -767,12 +795,12 @@ export interface Meeting {
     status?: string;
     timezone?: string;
     visibility?: string;
+    at?: Actor;
     attachments?: File[];
     creator?: Person;
     involves?: Person[];
     location?: Place;
     organizer?: Person;
-    platform?: Product;
     transcribe?: Transcript;
 }
 
@@ -809,9 +837,9 @@ export interface Message {
     content?: string;
     isOutgoing?: boolean;
     isStarred?: boolean;
+    at?: Actor;
     from?: Actor;
     inConversation?: Conversation;
-    platform?: Product;
     repliesTo?: Message;
     toolCalls?: ToolCall[];
 }
@@ -836,10 +864,10 @@ export interface Model {
     parameterSize?: string;
     pricingInput?: string;
     pricingOutput?: string;
-    provider?: string;
     quantization?: string;
     quantizationLevel?: string;
     size?: string;
+    at?: Actor;
 }
 
 export interface Note {
@@ -905,9 +933,9 @@ export interface Order {
     tipAmount?: number;
     total?: string;
     totalAmount?: number;
+    at?: Actor;
     contains?: Product[];
     delivery?: Trip;
-    platform?: Platform;
     shippingAddress?: Place;
     store?: Place;
     tracking?: Webpage;
@@ -998,50 +1026,6 @@ export interface Place {
     offers?: Product[];
 }
 
-export interface Platform {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    aisle?: string;
-    availability?: string;
-    barcode?: string;
-    calories?: number;
-    categories?: string[];
-    currency?: string;
-    department?: string;
-    images?: unknown;
-    license?: string;
-    novaGroup?: number;
-    nutritionScore?: string;
-    openSource?: boolean;
-    originalPrice?: string;
-    originalPriceAmount?: number;
-    platform?: string[];
-    platformType?: string;
-    price?: string;
-    priceAmount?: number;
-    quantity?: number;
-    repositoryUrl?: string;
-    servingSize?: string;
-    sku?: string;
-    soldByWeight?: boolean;
-    version?: string;
-    website?: string;
-    weight?: string;
-    weightUnit?: string;
-    weightValue?: number;
-    brand?: Brand;
-    developer?: Organization;
-    manufacturer?: Organization;
-    repository?: Repository;
-    tagged?: Tag[];
-}
-
 export interface Playlist {
     id?: string;
     name?: string;
@@ -1056,9 +1040,9 @@ export interface Playlist {
     listId?: string;
     listType?: string;
     privacy?: string;
+    at?: Actor;
     belongsTo?: Account;
     contains?: Video[];
-    platform?: Product;
 }
 
 export interface Podcast {
@@ -1071,9 +1055,9 @@ export interface Podcast {
     datePublished?: string;
     content?: string;
     feedUrl?: string;
+    at?: Actor;
     episode?: Episode[];
     host?: Person[];
-    platform?: Product;
 }
 
 export interface Post {
@@ -1110,6 +1094,7 @@ export interface Product {
     barcode?: string;
     calories?: number;
     categories?: string[];
+    category?: string;
     currency?: string;
     department?: string;
     images?: unknown;
@@ -1142,6 +1127,20 @@ export interface Project {
     content?: string;
     color?: string;
     state?: string;
+}
+
+export interface Protocol {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    homepage?: string;
+    rfc?: string;
+    wikidataId?: string;
 }
 
 export interface Quote {
@@ -1251,27 +1250,6 @@ export interface Search {
     searchedAt?: string;
 }
 
-export interface Session {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    client?: string;
-    endedAt?: string;
-    gitBranch?: string;
-    messageCount?: number;
-    projectId?: string;
-    sessionType?: string;
-    startedAt?: string;
-    tokenCount?: number;
-    folder?: Folder;
-    participant?: Actor;
-}
-
 export interface Shelf {
     id?: string;
     name?: string;
@@ -1287,9 +1265,9 @@ export interface Shelf {
     listId?: string;
     listType?: string;
     privacy?: string;
+    at?: Actor;
     belongsTo?: Account;
     contains?: Book[];
-    platform?: Product;
 }
 
 export interface Shortcut {
@@ -1365,6 +1343,7 @@ export interface Software {
     barcode?: string;
     calories?: number;
     categories?: string[];
+    category?: string;
     currency?: string;
     department?: string;
     images?: unknown;
@@ -1406,7 +1385,7 @@ export interface Source {
     description?: string;
     enabled?: boolean;
     lastSynced?: string;
-    platform?: string;
+    scanner?: string;
     sourceId?: string;
     folder?: Folder;
 }
