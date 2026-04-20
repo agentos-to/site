@@ -197,7 +197,12 @@ def load_shapes(shapes_dir: Path) -> list[Shape]:
 
     raw: dict[str, dict] = {}
     comments: dict[str, str] = {}
-    for f in sorted(shapes_dir.glob("*.yaml")):
+    # Recurse one level into namespacing subdirs (e.g. `agentos/`) but skip
+    # `_`-prefixed dirs (`_draft/`).
+    yaml_files = list(shapes_dir.glob("*.yaml"))
+    for sub in sorted(p for p in shapes_dir.iterdir() if p.is_dir() and not p.name.startswith("_")):
+        yaml_files.extend(sub.glob("*.yaml"))
+    for f in sorted(yaml_files):
         text = f.read_text()
         data = yaml.safe_load(text)
         if data and isinstance(data, dict):

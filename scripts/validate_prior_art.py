@@ -45,7 +45,11 @@ def validate(shapes_dir: Path, require_all: bool) -> int:
     ok_count = 0
     total = 0
 
-    for f in sorted(shapes_dir.glob("*.yaml")):
+    yaml_files = list(shapes_dir.glob("*.yaml"))
+    for sub in shapes_dir.iterdir():
+        if sub.is_dir() and not sub.name.startswith("_"):
+            yaml_files.extend(sub.glob("*.yaml"))
+    for f in sorted(yaml_files):
         total += 1
         data = _load_yaml(f)
         if not isinstance(data, dict):
