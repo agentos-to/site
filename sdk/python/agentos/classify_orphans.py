@@ -248,17 +248,36 @@ def _generated_rs_for(crates_root: Path) -> Path | None:
 # ─────────────────────────────────────────────────────────────────────────────
 
 def _all_shape_names(shapes_dir: Path) -> set[str]:
-    """Shapes at the top level only. Anything under `_`-prefixed subdirs
-    (e.g. `_draft/`) is excluded — those are speculative/not-yet-wired."""
+    """Shapes at the top level + namespacing subdirs (e.g. `agentos/`).
+    Anything under `_`-prefixed subdirs (e.g. `_draft/`) is excluded —
+    those are speculative/not-yet-wired."""
     names: set[str] = set()
     for p in shapes_dir.glob("*.yaml"):
         if p.is_file():
             names.add(p.stem)
+    for sub in shapes_dir.iterdir():
+        if sub.is_dir() and not sub.name.startswith("_"):
+            for p in sub.glob("*.yaml"):
+                if p.is_file():
+                    names.add(p.stem)
     return names
 
 
+def _find_shape_path(shapes_dir: Path, shape: str) -> Path:
+    """Resolve a shape name to its YAML path, checking subdirs."""
+    direct = shapes_dir / f"{shape}.yaml"
+    if direct.is_file():
+        return direct
+    for sub in shapes_dir.iterdir():
+        if sub.is_dir() and not sub.name.startswith("_"):
+            candidate = sub / f"{shape}.yaml"
+            if candidate.is_file():
+                return candidate
+    return direct  # caller will hit OSError on read; preserves error path
+
+
 def _read_description(shapes_dir: Path, shape: str) -> str:
-    path = shapes_dir / f"{shape}.yaml"
+    path = _find_shape_path(shapes_dir, shape)
     try:
         raw = path.read_text(encoding="utf-8")
     except OSError:

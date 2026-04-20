@@ -95,8 +95,18 @@ def _default_shapes_dir() -> Path | None:
     return None
 
 
+def _iter_yamls(shapes_dir: Path) -> list[Path]:
+    """Yield shape YAMLs, recursing one level into namespacing subdirs
+    (e.g. `agentos/`) but skipping `_`-prefixed dirs."""
+    files = list(shapes_dir.glob("*.yaml"))
+    for sub in shapes_dir.iterdir():
+        if sub.is_dir() and not sub.name.startswith("_"):
+            files.extend(sub.glob("*.yaml"))
+    return files
+
+
 def _known_shapes(shapes_dir: Path) -> set[str]:
-    return {p.stem for p in shapes_dir.glob("*.yaml")}
+    return {p.stem for p in _iter_yamls(shapes_dir)}
 
 
 def scan_embedded_types(
@@ -112,7 +122,7 @@ def scan_embedded_types(
     known = _known_shapes(shapes_dir)
     index: dict[str, list[tuple[str, str]]] = {}
 
-    for path in sorted(shapes_dir.glob("*.yaml")):
+    for path in sorted(_iter_yamls(shapes_dir)):
         host = path.stem
         try:
             data = yaml.safe_load(path.read_text(encoding="utf-8"))

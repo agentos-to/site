@@ -28,9 +28,14 @@ def _find_shapes_dir() -> Path | None:
 
 
 def _load_all_shapes(shapes_dir: Path) -> dict:
-    """Load all shapes from YAML files."""
+    """Load all shapes from YAML files (recursing one level into namespacing
+    subdirs like `agentos/`, skipping `_`-prefixed dirs)."""
     shapes = {}
-    for f in sorted(shapes_dir.glob("*.yaml")):
+    yaml_files = list(shapes_dir.glob("*.yaml"))
+    for sub in shapes_dir.iterdir():
+        if sub.is_dir() and not sub.name.startswith("_"):
+            yaml_files.extend(sub.glob("*.yaml"))
+    for f in sorted(yaml_files):
         try:
             data = yaml.safe_load(f.read_text())
             if isinstance(data, dict):

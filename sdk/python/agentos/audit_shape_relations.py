@@ -83,7 +83,11 @@ def scan_relation_targets(shapes_dir: Path) -> dict[str, list[_SourceRef]]:
     """
     index: dict[str, list[_SourceRef]] = {}
 
-    for path in sorted(shapes_dir.glob("*.yaml")):
+    yaml_files = list(shapes_dir.glob("*.yaml"))
+    for sub in shapes_dir.iterdir():
+        if sub.is_dir() and not sub.name.startswith("_"):
+            yaml_files.extend(sub.glob("*.yaml"))
+    for path in sorted(yaml_files):
         source_name = path.stem
         try:
             data = yaml.safe_load(path.read_text(encoding="utf-8"))

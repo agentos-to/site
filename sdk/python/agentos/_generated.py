@@ -25,14 +25,18 @@ class Account(TypedDict, total=False):
     handle: str
     identifier: str
     isActive: bool
-    issuer: str
     joinedDate: str
     lastActive: str
     phone: str
+    at: Actor
+    authenticatedVia: Account
     followers: list[Account]
     follows: list[Account]
+    operator: Actor
     owner: Person
-    platform: Product
+    previousIdentity: list[Account]
+    protocol: Protocol
+    via: Product
 
 
 class Activity(TypedDict, total=False):
@@ -95,6 +99,7 @@ class Aircraft(TypedDict, total=False):
     barcode: str
     calories: float
     categories: list[str]
+    category: str
     currency: str
     department: str
     iataCode: str
@@ -164,6 +169,7 @@ class Book(TypedDict, total=False):
     barcode: str
     calories: float
     categories: list[str]
+    category: str
     characters: list[str]
     currency: str
     department: str
@@ -264,7 +270,7 @@ class Channel(TypedDict, total=False):
     datePublished: str
     content: str
     banner: str
-    platform: Product
+    at: Actor
 
 
 class Class(TypedDict, total=False):
@@ -293,13 +299,13 @@ class Class(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at: Actor
     attachments: list[File]
     creator: Person
     instructor: Person
     involves: list[Person]
     location: Place
     organizer: Person
-    platform: Product
     venue: Place
 
 
@@ -313,7 +319,7 @@ class Community(TypedDict, total=False):
     datePublished: str
     content: str
     privacy: str
-    platform: Product
+    at: Actor
 
 
 class Conversation(TypedDict, total=False):
@@ -332,10 +338,10 @@ class Conversation(TypedDict, total=False):
     isGroup: bool
     messageCount: int
     unreadCount: int
+    at: Actor
     in_: Folder  # in
     message: list[Message]
     participant: list[Actor]
-    platform: Product
 
 
 class DnsRecord(TypedDict, total=False):
@@ -439,13 +445,13 @@ class Email(TypedDict, total=False):
     toRaw: str
     unsubscribe: str
     unsubscribeOneClick: bool
+    at: Actor
     bcc: list[Account]
     cc: list[Account]
     ccDomain: list[Domain]
     domain: Domain
     from_: Account  # from
     inConversation: Conversation
-    platform: Product
     repliesTo: Message
     tag: list[Tag]
     to: list[Account]
@@ -492,12 +498,12 @@ class Event(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at: Actor
     attachments: list[File]
     creator: Person
     involves: list[Person]
     location: Place
     organizer: Person
-    platform: Product
 
 
 class File(TypedDict, total=False):
@@ -587,6 +593,7 @@ class Hardware(TypedDict, total=False):
     barcode: str
     calories: float
     categories: list[str]
+    category: str
     currency: str
     department: str
     images: Any
@@ -658,10 +665,10 @@ class Invitation(TypedDict, total=False):
     role: str
     status: str
     token: str
+    at: Actor
     invitee: Account
     inviter: Account
     organization: Organization
-    platform: Product
 
 
 class Job(TypedDict, total=False):
@@ -724,9 +731,9 @@ class List(TypedDict, total=False):
     listId: str
     listType: str
     privacy: str
+    at: Actor
     belongsTo: Account
     contains: list[Product]
-    platform: Product
 
 
 class LoadedModel(TypedDict, total=False):
@@ -744,6 +751,27 @@ class LoadedModel(TypedDict, total=False):
     size: str
     sizeVram: int
     vramUsage: str
+
+
+class McpSession(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    client: str
+    endedAt: str
+    gitBranch: str
+    messageCount: int
+    projectId: str
+    sessionType: str
+    startedAt: str
+    tokenCount: int
+    folder: Folder
+    participant: Actor
 
 
 class Meeting(TypedDict, total=False):
@@ -773,12 +801,12 @@ class Meeting(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at: Actor
     attachments: list[File]
     creator: Person
     involves: list[Person]
     location: Place
     organizer: Person
-    platform: Product
     transcribe: Transcript
 
 
@@ -815,9 +843,9 @@ class Message(TypedDict, total=False):
     content: str
     isOutgoing: bool
     isStarred: bool
+    at: Actor
     from_: Actor  # from
     inConversation: Conversation
-    platform: Product
     repliesTo: Message
     toolCalls: list[ToolCall]
 
@@ -842,10 +870,10 @@ class Model(TypedDict, total=False):
     parameterSize: str
     pricingInput: str
     pricingOutput: str
-    provider: str
     quantization: str
     quantizationLevel: str
     size: str
+    at: Actor
 
 
 class Note(TypedDict, total=False):
@@ -911,9 +939,9 @@ class Order(TypedDict, total=False):
     tipAmount: float
     total: str
     totalAmount: float
+    at: Actor
     contains: list[Product]
     delivery: Trip
-    platform: Platform
     shippingAddress: Place
     store: Place
     tracking: Webpage
@@ -1004,50 +1032,6 @@ class Place(TypedDict, total=False):
     offers: list[Product]
 
 
-class Platform(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    aisle: str
-    availability: str
-    barcode: str
-    calories: float
-    categories: list[str]
-    currency: str
-    department: str
-    images: Any
-    license: str
-    novaGroup: int
-    nutritionScore: str
-    openSource: bool
-    originalPrice: str
-    originalPriceAmount: float
-    platform: list[str]
-    platformType: str
-    price: str
-    priceAmount: float
-    quantity: int
-    repositoryUrl: str
-    servingSize: str
-    sku: str
-    soldByWeight: bool
-    version: str
-    website: str
-    weight: str
-    weightUnit: str
-    weightValue: float
-    brand: Brand
-    developer: Organization
-    manufacturer: Organization
-    repository: Repository
-    tagged: list[Tag]
-
-
 class Playlist(TypedDict, total=False):
     id: str
     name: str
@@ -1062,9 +1046,9 @@ class Playlist(TypedDict, total=False):
     listId: str
     listType: str
     privacy: str
+    at: Actor
     belongsTo: Account
     contains: list[Video]
-    platform: Product
 
 
 class Podcast(TypedDict, total=False):
@@ -1077,9 +1061,9 @@ class Podcast(TypedDict, total=False):
     datePublished: str
     content: str
     feedUrl: str
+    at: Actor
     episode: list[Episode]
     host: list[Person]
-    platform: Product
 
 
 class Post(TypedDict, total=False):
@@ -1116,6 +1100,7 @@ class Product(TypedDict, total=False):
     barcode: str
     calories: float
     categories: list[str]
+    category: str
     currency: str
     department: str
     images: Any
@@ -1148,6 +1133,20 @@ class Project(TypedDict, total=False):
     content: str
     color: str
     state: str
+
+
+class Protocol(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    homepage: str
+    rfc: str
+    wikidataId: str
 
 
 class Quote(TypedDict, total=False):
@@ -1257,27 +1256,6 @@ class Search(TypedDict, total=False):
     searchedAt: str
 
 
-class Session(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    client: str
-    endedAt: str
-    gitBranch: str
-    messageCount: int
-    projectId: str
-    sessionType: str
-    startedAt: str
-    tokenCount: int
-    folder: Folder
-    participant: Actor
-
-
 class Shelf(TypedDict, total=False):
     id: str
     name: str
@@ -1293,9 +1271,9 @@ class Shelf(TypedDict, total=False):
     listId: str
     listType: str
     privacy: str
+    at: Actor
     belongsTo: Account
     contains: list[Book]
-    platform: Product
 
 
 class Shortcut(TypedDict, total=False):
@@ -1371,6 +1349,7 @@ class Software(TypedDict, total=False):
     barcode: str
     calories: float
     categories: list[str]
+    category: str
     currency: str
     department: str
     images: Any
@@ -1412,7 +1391,7 @@ class Source(TypedDict, total=False):
     description: str
     enabled: bool
     lastSynced: str
-    platform: str
+    scanner: str
     sourceId: str
     folder: Folder
 
@@ -1707,16 +1686,20 @@ SHAPE_DEFS: dict[str, dict] = {
             'handle': 'string',
             'identifier': 'string',
             'isActive': 'boolean',
-            'issuer': 'string',
             'joinedDate': 'datetime',
             'lastActive': 'datetime',
             'phone': 'string',
+            'at': 'actor',
+            'authenticatedVia': 'account',
             'followers': 'account[]',
             'follows': 'account[]',
+            'operator': 'actor',
             'owner': 'person',
-            'platform': 'product',
+            'previousIdentity': 'account[]',
+            'protocol': 'protocol',
+            'via': 'product',
         },
-        'identity': ['issuer', 'identifier'],
+        'identity': ['at', 'identifier'],
         'also': [],
     },
     'activity': {
@@ -1789,6 +1772,7 @@ SHAPE_DEFS: dict[str, dict] = {
             'barcode': 'string',
             'calories': 'number',
             'categories': 'string[]',
+            'category': 'string',
             'currency': 'string',
             'department': 'string',
             'iataCode': 'string',
@@ -1867,6 +1851,7 @@ SHAPE_DEFS: dict[str, dict] = {
             'barcode': 'string',
             'calories': 'number',
             'categories': 'string[]',
+            'category': 'string',
             'characters': 'string[]',
             'currency': 'string',
             'department': 'string',
@@ -1965,7 +1950,7 @@ SHAPE_DEFS: dict[str, dict] = {
             'events': 'event[]',
             'owner': 'person',
         },
-        'identity': ['platform', 'calendarId'],
+        'identity': ['at', 'calendarId'],
         'also': [],
     },
     'channel': {
@@ -1979,9 +1964,9 @@ SHAPE_DEFS: dict[str, dict] = {
             'datePublished': 'string',
             'content': 'string',
             'banner': 'url',
-            'platform': 'product',
+            'at': 'actor',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': [],
     },
     'class': {
@@ -2011,13 +1996,13 @@ SHAPE_DEFS: dict[str, dict] = {
             'status': 'string',
             'timezone': 'string',
             'visibility': 'string',
+            'at': 'actor',
             'attachments': 'file[]',
             'creator': 'person',
             'instructor': 'person',
             'involves': 'person[]',
             'location': 'place',
             'organizer': 'person',
-            'platform': 'product',
             'venue': 'place',
         },
         'identity': [],
@@ -2034,9 +2019,9 @@ SHAPE_DEFS: dict[str, dict] = {
             'datePublished': 'string',
             'content': 'string',
             'privacy': 'string',
-            'platform': 'product',
+            'at': 'actor',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': [],
     },
     'conversation': {
@@ -2056,12 +2041,12 @@ SHAPE_DEFS: dict[str, dict] = {
             'isGroup': 'boolean',
             'messageCount': 'integer',
             'unreadCount': 'integer',
+            'at': 'actor',
             'in': 'folder',
             'message': 'message[]',
             'participant': 'actor[]',
-            'platform': 'product',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': [],
     },
     'dns_record': {
@@ -2174,20 +2159,20 @@ SHAPE_DEFS: dict[str, dict] = {
             'toRaw': 'string',
             'unsubscribe': 'string',
             'unsubscribeOneClick': 'boolean',
+            'at': 'actor',
             'bcc': 'account[]',
             'cc': 'account[]',
             'ccDomain': 'domain[]',
             'domain': 'domain',
             'from': 'account',
             'inConversation': 'conversation',
-            'platform': 'product',
             'repliesTo': 'message',
             'tag': 'tag[]',
             'to': 'account[]',
             'toDomain': 'domain[]',
             'toolCalls': 'tool_call[]',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': ['message'],
     },
     'episode': {
@@ -2233,14 +2218,14 @@ SHAPE_DEFS: dict[str, dict] = {
             'status': 'string',
             'timezone': 'string',
             'visibility': 'string',
+            'at': 'actor',
             'attachments': 'file[]',
             'creator': 'person',
             'involves': 'person[]',
             'location': 'place',
             'organizer': 'person',
-            'platform': 'product',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': [],
     },
     'file': {
@@ -2324,7 +2309,7 @@ SHAPE_DEFS: dict[str, dict] = {
             'category': 'string',
             'memberCount': 'integer',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': [],
     },
     'hardware': {
@@ -2342,6 +2327,7 @@ SHAPE_DEFS: dict[str, dict] = {
             'barcode': 'string',
             'calories': 'number',
             'categories': 'string[]',
+            'category': 'string',
             'currency': 'string',
             'department': 'string',
             'images': 'json',
@@ -2419,12 +2405,12 @@ SHAPE_DEFS: dict[str, dict] = {
             'role': 'string',
             'status': 'string',
             'token': 'string',
+            'at': 'actor',
             'invitee': 'account',
             'inviter': 'account',
             'organization': 'organization',
-            'platform': 'product',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': [],
     },
     'job': {
@@ -2494,11 +2480,11 @@ SHAPE_DEFS: dict[str, dict] = {
             'listId': 'string',
             'listType': 'string',
             'privacy': 'string',
+            'at': 'actor',
             'belongsTo': 'account',
             'contains': 'product[]',
-            'platform': 'product',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': [],
     },
     'loaded_model': {
@@ -2519,6 +2505,30 @@ SHAPE_DEFS: dict[str, dict] = {
             'vramUsage': 'string',
         },
         'identity': [],
+        'also': [],
+    },
+    'mcp_session': {
+        'fields': {
+            'id': 'string',
+            'name': 'string',
+            'text': 'string',
+            'url': 'string',
+            'image': 'string',
+            'author': 'string',
+            'datePublished': 'string',
+            'content': 'string',
+            'client': 'string',
+            'endedAt': 'datetime',
+            'gitBranch': 'string',
+            'messageCount': 'integer',
+            'projectId': 'string',
+            'sessionType': 'string',
+            'startedAt': 'datetime',
+            'tokenCount': 'integer',
+            'folder': 'folder',
+            'participant': 'actor',
+        },
+        'identity': ['client', 'projectId', 'gitBranch'],
         'also': [],
     },
     'meeting': {
@@ -2549,12 +2559,12 @@ SHAPE_DEFS: dict[str, dict] = {
             'status': 'string',
             'timezone': 'string',
             'visibility': 'string',
+            'at': 'actor',
             'attachments': 'file[]',
             'creator': 'person',
             'involves': 'person[]',
             'location': 'place',
             'organizer': 'person',
-            'platform': 'product',
             'transcribe': 'transcript',
         },
         'identity': [],
@@ -2597,13 +2607,13 @@ SHAPE_DEFS: dict[str, dict] = {
             'content': 'string',
             'isOutgoing': 'boolean',
             'isStarred': 'boolean',
+            'at': 'actor',
             'from': 'actor',
             'inConversation': 'conversation',
-            'platform': 'product',
             'repliesTo': 'message',
             'toolCalls': 'tool_call[]',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': [],
     },
     'model': {
@@ -2627,12 +2637,12 @@ SHAPE_DEFS: dict[str, dict] = {
             'parameterSize': 'string',
             'pricingInput': 'string',
             'pricingOutput': 'string',
-            'provider': 'string',
             'quantization': 'string',
             'quantizationLevel': 'string',
             'size': 'string',
+            'at': 'actor',
         },
-        'identity': ['provider', 'name'],
+        'identity': ['at', 'name'],
         'also': [],
     },
     'note': {
@@ -2705,14 +2715,14 @@ SHAPE_DEFS: dict[str, dict] = {
             'tipAmount': 'number',
             'total': 'string',
             'totalAmount': 'number',
+            'at': 'actor',
             'contains': 'product[]',
             'delivery': 'trip',
-            'platform': 'platform',
             'shippingAddress': 'place',
             'store': 'place',
             'tracking': 'webpage',
         },
-        'identity': ['platform', 'orderId'],
+        'identity': ['at', 'orderId'],
         'also': [],
     },
     'organization': {
@@ -2809,53 +2819,6 @@ SHAPE_DEFS: dict[str, dict] = {
         'identity': ['googlePlaceId', 'mapboxId'],
         'also': [],
     },
-    'platform': {
-        'fields': {
-            'id': 'string',
-            'name': 'string',
-            'text': 'string',
-            'url': 'string',
-            'image': 'string',
-            'author': 'string',
-            'datePublished': 'string',
-            'content': 'string',
-            'aisle': 'string',
-            'availability': 'string',
-            'barcode': 'string',
-            'calories': 'number',
-            'categories': 'string[]',
-            'currency': 'string',
-            'department': 'string',
-            'images': 'json',
-            'license': 'string',
-            'novaGroup': 'integer',
-            'nutritionScore': 'string',
-            'openSource': 'boolean',
-            'originalPrice': 'string',
-            'originalPriceAmount': 'number',
-            'platform': 'string[]',
-            'platformType': 'string',
-            'price': 'string',
-            'priceAmount': 'number',
-            'quantity': 'integer',
-            'repositoryUrl': 'url',
-            'servingSize': 'string',
-            'sku': 'string',
-            'soldByWeight': 'boolean',
-            'version': 'string',
-            'website': 'url',
-            'weight': 'string',
-            'weightUnit': 'string',
-            'weightValue': 'number',
-            'brand': 'brand',
-            'developer': 'organization',
-            'manufacturer': 'organization',
-            'repository': 'repository',
-            'tagged': 'tag[]',
-        },
-        'identity': ['website'],
-        'also': ['software'],
-    },
     'playlist': {
         'fields': {
             'id': 'string',
@@ -2871,9 +2834,9 @@ SHAPE_DEFS: dict[str, dict] = {
             'listId': 'string',
             'listType': 'string',
             'privacy': 'string',
+            'at': 'actor',
             'belongsTo': 'account',
             'contains': 'video[]',
-            'platform': 'product',
         },
         'identity': [],
         'also': ['list'],
@@ -2889,11 +2852,11 @@ SHAPE_DEFS: dict[str, dict] = {
             'datePublished': 'string',
             'content': 'string',
             'feedUrl': 'url',
+            'at': 'actor',
             'episode': 'episode[]',
             'host': 'person[]',
-            'platform': 'product',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': [],
     },
     'post': {
@@ -2916,7 +2879,7 @@ SHAPE_DEFS: dict[str, dict] = {
             'replies': 'post[]',
             'repliesTo': 'post',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': [],
     },
     'product': {
@@ -2934,6 +2897,7 @@ SHAPE_DEFS: dict[str, dict] = {
             'barcode': 'string',
             'calories': 'number',
             'categories': 'string[]',
+            'category': 'string',
             'currency': 'string',
             'department': 'string',
             'images': 'json',
@@ -2970,7 +2934,24 @@ SHAPE_DEFS: dict[str, dict] = {
             'color': 'string',
             'state': 'string',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
+        'also': [],
+    },
+    'protocol': {
+        'fields': {
+            'id': 'string',
+            'name': 'string',
+            'text': 'string',
+            'url': 'string',
+            'image': 'string',
+            'author': 'string',
+            'datePublished': 'string',
+            'content': 'string',
+            'homepage': 'url',
+            'rfc': 'string',
+            'wikidataId': 'string',
+        },
+        'identity': ['name'],
         'also': [],
     },
     'quote': {
@@ -3098,30 +3079,6 @@ SHAPE_DEFS: dict[str, dict] = {
         'identity': ['query'],
         'also': [],
     },
-    'session': {
-        'fields': {
-            'id': 'string',
-            'name': 'string',
-            'text': 'string',
-            'url': 'string',
-            'image': 'string',
-            'author': 'string',
-            'datePublished': 'string',
-            'content': 'string',
-            'client': 'string',
-            'endedAt': 'datetime',
-            'gitBranch': 'string',
-            'messageCount': 'integer',
-            'projectId': 'string',
-            'sessionType': 'string',
-            'startedAt': 'datetime',
-            'tokenCount': 'integer',
-            'folder': 'folder',
-            'participant': 'actor',
-        },
-        'identity': ['client', 'projectId', 'gitBranch'],
-        'also': [],
-    },
     'shelf': {
         'fields': {
             'id': 'string',
@@ -3138,9 +3095,9 @@ SHAPE_DEFS: dict[str, dict] = {
             'listId': 'string',
             'listType': 'string',
             'privacy': 'string',
+            'at': 'actor',
             'belongsTo': 'account',
             'contains': 'book[]',
-            'platform': 'product',
         },
         'identity': [],
         'also': ['list'],
@@ -3228,6 +3185,7 @@ SHAPE_DEFS: dict[str, dict] = {
             'barcode': 'string',
             'calories': 'number',
             'categories': 'string[]',
+            'category': 'string',
             'currency': 'string',
             'department': 'string',
             'images': 'json',
@@ -3272,7 +3230,7 @@ SHAPE_DEFS: dict[str, dict] = {
             'description': 'text',
             'enabled': 'boolean',
             'lastSynced': 'datetime',
-            'platform': 'string',
+            'scanner': 'string',
             'sourceId': 'string',
             'folder': 'folder',
         },
@@ -3360,7 +3318,7 @@ SHAPE_DEFS: dict[str, dict] = {
             'project': 'project',
             'repository': 'repository',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': [],
     },
     'theme': {
@@ -3426,7 +3384,7 @@ SHAPE_DEFS: dict[str, dict] = {
             'type': 'string',
             'account': 'account',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': [],
     },
     'transcript': {
@@ -3485,7 +3443,7 @@ SHAPE_DEFS: dict[str, dict] = {
             'order': 'order',
             'origin': 'place',
         },
-        'identity': ['platform', 'id'],
+        'identity': ['at', 'id'],
         'also': [],
     },
     'video': {

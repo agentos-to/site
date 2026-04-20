@@ -180,6 +180,34 @@ _SHAPES_CANDIDATES = (
 )
 
 
+def _iter_shape_yamls(shapes_dir: Path) -> list[Path]:
+    """Yield all shape YAMLs from a shapes dir, recursing one level into
+    namespacing subdirs (e.g. `agentos/`) but skipping `_`-prefixed dirs
+    (`_draft/`)."""
+    if not shapes_dir or not shapes_dir.is_dir():
+        return []
+    files = list(shapes_dir.glob("*.yaml"))
+    for sub in shapes_dir.iterdir():
+        if sub.is_dir() and not sub.name.startswith("_"):
+            files.extend(sub.glob("*.yaml"))
+    return files
+
+
+def _find_shape_yaml(shapes_dir: Path, name: str) -> Path:
+    """Resolve a shape name to its YAML path, checking subdirs. Returns
+    the bare top-level path if not found in any subdir (caller handles
+    the `is_file` check)."""
+    direct = shapes_dir / f"{name}.yaml"
+    if direct.is_file():
+        return direct
+    for sub in shapes_dir.iterdir():
+        if sub.is_dir() and not sub.name.startswith("_"):
+            candidate = sub / f"{name}.yaml"
+            if candidate.is_file():
+                return candidate
+    return direct
+
+
 def _probe_source_root(root: Path, origin: str) -> SkillSource:
     """Turn a source root into a SkillSource record.
 
@@ -614,9 +642,7 @@ def _sdk_async_modules() -> dict[str, set[str]]:
 
 def _load_known_shapes(shapes_dir: Path) -> set[str]:
     """Return the set of shape names (filenames without .yaml) from shapes_dir."""
-    if not shapes_dir or not shapes_dir.is_dir():
-        return set()
-    return {p.stem for p in shapes_dir.glob("*.yaml")}
+    return {p.stem for p in _iter_shape_yamls(shapes_dir)}
 
 
 def _load_shape_identity(shapes_dir: Path, shape_name: str) -> list[str] | None:
@@ -630,7 +656,7 @@ def _load_shape_identity(shapes_dir: Path, shape_name: str) -> list[str] | None:
         if current in visited:
             continue
         visited.add(current)
-        path = shapes_dir / f"{current}.yaml"
+        path = _find_shape_yaml(shapes_dir, current)
         if not path.is_file():
             continue
         try:
@@ -668,7 +694,7 @@ def _load_shape_fields(shapes_dir: Path, shape_name: str) -> tuple[set[str], set
         if current in visited:
             continue
         visited.add(current)
-        path = shapes_dir / f"{current}.yaml"
+        path = _find_shape_yaml(shapes_dir, current)
         if not path.is_file():
             if current == shape_name:
                 return None
@@ -783,9 +809,7 @@ def _expand_produced_via_inheritance(
     """
     index: dict[str, Path] = {}
     for root in shapes_roots:
-        if not root or not root.is_dir():
-            continue
-        for path in root.glob("*.yaml"):
+        for path in _iter_shape_yamls(root):
             index.setdefault(path.stem, path)
 
     def _also_of(shape: str) -> list[str]:
@@ -1807,7 +1831,7 @@ def run_validate(target: str | None = None, *, validate_all: bool = False,
 
     # Full audit — shape files first, then skills.
     if shapes_dir and not id_filter and not single_skill_dir:
-        for shape_path in sorted(shapes_dir.glob("*.yaml")):
+        for shape_path in sorted(_iter_shape_yamls(shapes_dir)):
             total_issues += audit_shape_file(shape_path, known_shapes)
 
         # Orphan-shape audit: warn for shapes that have no producer and
