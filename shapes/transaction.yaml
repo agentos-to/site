@@ -15,7 +15,7 @@ transaction:
     type:              string    # debit, credit, transfer, etc.
     details:           json
   relations:
-    account:           account   # the financial account this posted to
+    account:           financial_account   # the financial account this posted to
   prior_art:
     - source: OFX (Open Financial Exchange) STMTTRN
       url: https://financialdataexchange.org/ofx

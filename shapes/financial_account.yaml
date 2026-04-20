@@ -1,0 +1,66 @@
+# A financial account — bank checking/savings, brokerage, crypto wallet, etc.
+# Distinct from `account` (platform identity): one login can grant access to
+# many financial_accounts. A DBS login owns USD, SGD, and GBP accounts; each
+# is a separate financial_account node, accessed via the same login.
+#
+# Identity is graph-native: (at, identifier). `at` is a relation to the
+# institution (Chase Bank, DBS, Coinbase) — an organization or product node.
+# `identifier` is typically the masked account number (or last4 if that's
+# all the provider shares). Relation-keyed identity means bank mergers
+# (First Republic → Chase) don't fragment the account; the edge moves, the
+# node persists.
+financial_account:
+  plural: financial_accounts
+  identity: [at, identifier]
+  subtitle: last4
+  fields:
+    identifier:        string    # account number or masked equivalent — required for identity
+    accountNumber:    string    # full or masked account number (human-facing)
+    routingNumber:    string    # bank routing number (US)
+    last4:             string    # last 4 digits of account or card
+    currency:          string    # ISO 4217 code — USD, SGD, GBP, BTC, ETH
+    accountType:      string    # checking | savings | brokerage | crypto | credit
+    balance:           number    # current balance
+    available:         number    # available balance or credit
+    creditLimit:      number
+    minimumPayment:   number
+    paymentDueDate:  datetime
+    cardType:         string    # visa | mastercard | amex (for card-backed accounts)
+    expiresAt:        datetime  # card expiration
+    interestRate:     number    # APR
+  relations:
+    at:                actor     # the institution — Chase, DBS, Coinbase.
+                                  # Required for identity. Target is the
+                                  # organization or product that issues /
+                                  # holds the account.
+    accessedVia:      account   # OPTIONAL: the login used to read this
+                                  # account. Many-to-many: one login can
+                                  # open many accounts (DBS multi-currency);
+                                  # one account can be accessed by many
+                                  # logins (joint bank account).
+    owner:             person    # OPTIONAL: the human the account belongs to.
+  prior_art:
+    - source: OFX (Open Financial Exchange)
+      url: https://financialdataexchange.org/ofx
+      notes: >-
+        Bank-feed canonical. Our accountNumber / routingNumber / balance /
+        available map to OFX BANKACCTFROM / LEDGERBAL / AVAILBAL.
+    - source: ISO 20022 Financial Messaging
+      url: https://www.iso20022.org/
+      notes: >-
+        Modern bank-messaging standard. Our last4 / cardType / creditLimit /
+        interestRate align with ISO 20022 Card / Account components.
+    - source: schema.org/BankAccount
+      url: https://schema.org/BankAccount
+      notes: >-
+        Our accountNumber ≈ accountId; balance / available are
+        accountMinimumInflow / accountOverdraftLimit loosely; cardType fits
+        schema.org/CreditCard.
+    - source: 1Password Bank Account item
+      url: https://1password.com/
+      notes: >-
+        1P's Bank Account category holds institution + account number +
+        routing + type — same shape. Their Crypto Wallet and Credit Card
+        are separate categories; we treat them as different `accountType`
+        values on the same shape for now, splitting only if the field
+        diversity forces it.
