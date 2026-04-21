@@ -32,7 +32,7 @@ from agentos import progress
 from agentos import checkpoint
 
 # --- Operation decorators (read by engine via AST, no-ops at runtime) ---
-from agentos.decorators import returns, provides, connection, timeout, claims
+from agentos.decorators import returns, provides, connection, timeout, claims, test
 
 # --- Standard tool constants (for @provides decorator) ---
 # NOTE: `llm` tool constant is NOT imported here — `agentos.llm` is the SDK module.
@@ -54,7 +54,7 @@ __all__ = [
     # Engine-dispatched modules
     "sql", "crypto", "oauth", "shell", "llm", "progress", "checkpoint",
     # Operation decorators
-    "returns", "provides", "connection", "timeout", "claims",
+    "returns", "provides", "connection", "timeout", "claims", "test",
     # Standard tools
     "web_search", "web_read", "email_lookup", "flight_search",
     "geocoding", "map_tiles", "file_list", "file_read", "file_info",
