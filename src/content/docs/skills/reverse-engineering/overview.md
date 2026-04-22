@@ -23,19 +23,19 @@ Each layer builds on the previous. Start at transport, work up.
 
 **CDP discovers, `agentos.http` runs.**
 
-Use **`browse capture`** (CDP to a real browser) to investigate — navigate pages, capture every network request with full headers and response bodies, inspect cookies. Then implement what you learned as Python + `agentos.http` in the skill. No browser at runtime.
+Use **`browse capture`** (CDP to a real browser) to investigate — navigate pages, capture every network request with full headers and response bodies, inspect cookies. Then implement what you learned as Python + `agentos.client` in the skill. No browser at runtime.
 
 **Why CDP to real browsers, not Playwright?** Playwright's bundled Chromium has a detectable TLS fingerprint (JA3/JA4) that anti-bot systems flag. CDP to the user's real Brave/Chrome produces authentic TLS fingerprints, real GPU canvas rendering, and uses existing sessions. Sites like Amazon reject Playwright but accept real browsers. See [Transport](1-transport.md#headless-browser-stealth) for the full analysis.
 
-Headers are built in Python via `http.headers()` with independent knobs (`waf=`, `accept=`, `mode=`, `extra=`). The Rust engine is pure transport — it sets zero default headers.
+Browser-grade headers (UA, `Sec-CH-UA*`, `Sec-Fetch-*`, `Accept-*`) come from the connection's `client=` value — `"browser"` for full navigate bundle, `"fetch"` for XHR-style. The Rust engine's TLS emulation fingerprints as Chrome; the SDK's Python client-hint strings match it. Skills don't compose headers per-request.
 
 The progression:
 
 1. **Search** — check `web_search` for prior art, existing docs, API references.
 2. **Discover** — use `browse capture` to probe the live site via CDP. Launch Brave with `--remote-debugging-port=9222 --remote-allow-origins="*"`, then `python3 bin/browse-capture.py <url> --port 9222`. Captures all requests, responses, headers, cookies, and API response bodies automatically.
 3. **Extract API surface** — grep the site's JS bundles for endpoint patterns (e.g. `grep -oE 'get[A-Z][a-zA-Z]+V[0-9]+' bundle.js`). This reveals the full API surface without navigating every page.
-4. **Replay** — reproduce what you found with `agentos.http` + cookies. Use `http.headers()` for WAF bypass. Test with `agentos browse request <skill> <url>`.
-5. **Implement** — write the skill operation in Python with `agentos.http`. No browser dependency at runtime.
+4. **Replay** — reproduce what you found with `agentos.client` + a `client="browser"` or `"fetch"` connection. Cookies ride automatically via the ambient Jar. Test with `agentos browse request <skill> <url>`.
+5. **Implement** — write the skill operation in Python with `agentos.client`. No browser dependency at runtime.
 6. **Test** — `agentos test-skill <skill>` validates against shapes and expectations.
 
 ### Browse toolkit commands

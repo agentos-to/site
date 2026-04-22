@@ -3,12 +3,12 @@ title: "Auth Flows"
 description: "When a skill needs credentials from a web dashboard, the flow is: discover with Playwright, implement with agentos.http."
 ---
 
-When a skill needs credentials from a web dashboard (API keys, session tokens), the flow is: **discover with Playwright, implement with `agentos.http`**. For steps that `agentos.http` can't replay (native form POSTs, complex redirect chains), the agent uses Playwright for that step and `agentos.http` for everything after.
+When a skill needs credentials from a web dashboard (API keys, session tokens), the flow is: **discover with Playwright, implement with `agentos.client`**. For steps that `agentos.client` can't replay (native form POSTs, complex redirect chains), the agent uses Playwright for that step and `agentos.client` for everything after.
 
 ## The pattern
 
 1. **Discover** — use the Playwright skill interactively to walk through the login/signup flow. `capture_network` reveals endpoints, `cookies` shows what session cookies get set, `inspect` shows form structure.
-2. **Implement** — write the login flow as Python + `agentos.http` in the skill's `.py` file. Use `http.headers()` for WAF bypass and inject cookies from `params.auth.cookies` or `_call` to other skills (e.g. Gmail for magic links, `brave-browser` for Google session cookies).
+2. **Implement** — write the login flow as Python + `agentos.client` in the skill's `.py` file. Declare the connection with `client="browser"` (or `"fetch"`) so UA + `Sec-CH-UA*` + `Sec-Fetch-*` headers ride automatically; the ambient Jar carries cookies. Pull secrets from other skills via `_call` (e.g. Gmail for magic links, `brave-browser` for Google session cookies).
 3. **Store** — return extracted credentials via `__secrets__` so the engine stores them securely. The LLM never sees raw secret values.
 4. **Test** — `test-skills.cjs` should work without a running browser. If your skill needs Playwright at runtime, rethink the approach.
 

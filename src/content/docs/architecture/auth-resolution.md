@@ -15,8 +15,8 @@ A skill says `client.get("https://github.com/...")`. The engine needs a cookie h
 
 | # | Source | Data | Freshness signal |
 |---|---|---|---|
-| 1 | In-memory cache (`SessionCache`) | Resolved sessions from the current engine lifetime, keyed by `(domain, identifier)` | `newest_cookie_at` carried over from the original extraction, plus per-cookie writeback timestamps stamped by `merge_cookie_header` (`store.rs:398`) |
-| 2 | Credential store (SQLite) | Encrypted rows in `~/.agentos/data/agentos.db`. `value` blob holds `cookie_header` + `cookie_timestamps` map | `newest_cookie_at()` reads the max timestamp from `cookie_timestamps`; falls back to row `obtained_at` for pre-tracking rows (`store.rs:194`) |
+| 1 | In-memory cache (`SessionCache`) | Resolved sessions from the current engine lifetime, keyed by `(domain, identifier)` | `newest_cookie_at` carried over from the original extraction, plus per-cookie writeback timestamps stamped by `apply_cookie_delta` (`store.rs`) |
+| 2 | Credential store (SQLite) | Encrypted rows in `~/.agentos/data/agentos.db`. `value` blob holds a structured `cookies: [Cookie, …]` array + `cookie_timestamps` map (legacy `cookie_header` strings still tolerated on read) | `newest_cookie_at()` reads the max timestamp from `cookie_timestamps`; falls back to row `obtained_at` for pre-tracking rows (`store.rs`) |
 | 3 | Browser providers (skills) | Live extraction from [Brave](/skills/reference/browsers/brave-browser/) / Firefox / Chrome via CDP or each browser's on-disk cookie SQLite | Per-cookie `created` field (browsers that supply it) or "now" for CDP, which doesn't (`resolve.rs:326`) |
 
 Source 3 is the most expensive — it spawns a Python skill subprocess, possibly attaches CDP. It's still always called when not in `skip_providers` mode, because freshness is the whole point: if Chrome has a newer cookie, the cache and store can't know that without asking. Live-session providers (Playwright tabs the user is actively using) are deliberately *skipped* unless explicitly preferred (`resolve.rs:184`) — borrowing cookies from a live tab causes session conflicts.
@@ -100,25 +100,15 @@ If the store had also missed, `best` would be `None` and `resolve_cookies` would
 
 ## Retry and escalation
 
-The cookie that wins resolution may still fail at the wire — the server returns 401, or the skill's own response parser throws `SESSION_EXPIRED`. Two thread-locals in `crates/core/src/skills/executor.rs` handle the bounce.
+The cookie that wins resolution may still fail at the wire — the server returns 401, or the skill's own response parser throws `SESSION_EXPIRED`. The `ExecutionContext` (`crates/core/src/execution/engine.rs`) carries the last resolved session on `ctx.last_session`; the retry path in `crates/core/src/skills/executor.rs` reads from there.
 
-```rust
-// executor.rs:29
-thread_local! {
-    static COOKIE_AUTH_RETRY: RefCell<(bool, Vec<String>)> = ...;
-    static LAST_COOKIE_SESSION: RefCell<Option<Session>> = ...;
-}
-```
+When the operation fails and `err.is_auth_failure()` returns true, the retry path:
 
-`LAST_COOKIE_SESSION` is stamped after every successful resolve (`executor.rs:1183`). When the operation fails and `err.is_auth_failure()` returns true (`executor.rs:276`), the retry path:
-
-1. Reads the last session, calls `auth_store.invalidate(sess)` — drops the cache entry and deletes the store row (`resolve.rs:766`).
+1. Reads `ctx.last_session`, calls `auth_store.invalidate(sess)` — drops the cache entry and deletes the store row (`resolve.rs`).
 2. Re-runs the operation. The next `resolve_cookies()` call sees a cache miss + store miss, so it has to call providers, which forces a fresh extraction.
-3. After retry, compares the *new* `cookie_header` against the failed one. If they're byte-identical (`executor.rs:326`), the browser itself has stale cookies — re-extraction is pointless and the retry is purely diagnostic. The log line `"Retry used identical cookies — session truly expired in browser"` tells the operator to log in.
+3. After retry, compares the *new* `cookie_header` (derived from `session.cookies`) against the failed one. If they're byte-identical, the browser itself has stale cookies — re-extraction is pointless and the retry is purely diagnostic. The log line `"Retry used identical cookies — session truly expired in browser"` tells the operator to log in.
 
-`COOKIE_AUTH_RETRY` carries `(skip_store, exclude_providers)` for the rare case where you want to bypass specific sources on retry — the current path resets it to `(false, vec![])` because invalidation already cleared cache and store, so simply re-resolving is enough.
-
-A separate writeback path (`apply_http_session_close_writeback`, `executor.rs:831`) merges per-cookie updates from `Set-Cookie` response headers back into the store row — this is how rotating session cookies stay current without a full re-extraction.
+Cookie writeback during a tool call rides the `__cookie_delta__` sidecar on the tool result. The Python worker snapshot-diffs its ambient Jar (live vs seed) at tool exit and emits `{added, changed, removed}`; the engine's `apply_cookie_delta_writeback` (`executor.rs`) routes that through `agentos_auth::store::apply_cookie_delta` to upsert structured cookies into the row by `(domain, path, name)`.
 
 ## Why this shape
 

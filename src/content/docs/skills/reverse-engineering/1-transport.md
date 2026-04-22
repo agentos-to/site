@@ -5,39 +5,55 @@ description: "How to get a response from a server that doesn't want to talk to y
 
 How to get a response from a server that doesn't want to talk to you.
 
-## HTTP Client — `agentos.http` Routes Through the Engine
+## HTTP Client — `agentos.client` Routes Through the Engine
 
 ### The short answer
 
 ```python
-from agentos import http
+from agentos import client, connection
 
-# Default — works for most JSON APIs
-resp = client.get(url, **http.headers(accept="json"))
+# Public JSON API — no cookies, no browser bundle
+connection("api", base_url="https://api.example.com",
+           auth={"type": "api_key", "header": {"x-api-key": ".auth.key"}})
 
-# Behind CloudFront/Cloudflare — WAF headers + HTTP/2
-resp = client.get(url, **http.headers(waf="cf", accept="json"))
+@connection("api")
+async def list_things(**params):
+    return await client.get("/things")
 
-# Full page navigation (Amazon, Goodreads)
-with http.client(cookies=cookie_header) as c:
-    resp = c.get(url, **http.headers(waf="cf", mode="navigate", accept="html"))
+# Behind CloudFront/Cloudflare — connection says client="fetch" (XHR bundle)
+connection("service", base_url="https://service.example.com",
+           client="fetch",
+           auth={"type": "cookies", "domain": ".example.com"})
+
+# Full page navigation (Amazon, Goodreads) — client="browser"
+connection("web", base_url="https://www.example.com",
+           client="browser",
+           auth={"type": "cookies", "domain": ".example.com"})
+
+@connection("web")
+async def get_page(**params):
+    resp = await client.get("/some/path")
+    return resp["body"]
 ```
 
-All HTTP goes through the Rust engine via `agentos.http`. The engine handles transport mechanics (HTTP/2, cookie jars, decompression, timeouts, logging). **Headers are built in Python** via `http.headers()` — the engine sets zero default headers.
+All HTTP goes through the Rust engine via `agentos.client`. The engine handles transport mechanics (HTTP/2 via wreq+BoringSSL, decompression, timeouts, logging). **Headers come from the connection's `client=` kind** — the SDK composes the browser/fetch/api bundle per call, layering any caller `headers={...}` on top.
 
-> **Default rule: ALWAYS use `http.headers()`.** Never construct headers dicts manually.
-> We are acting as a real browser (Brave/Chrome). There is no reason to NOT send proper
-> browser headers. Without `http.headers()`, you get no User-Agent, no sec-ch-*, no
-> Sec-Fetch-* — and some APIs silently reject you with 500 or 403. Pass service-specific
-> headers (CSRF tokens, session IDs) via the `extra=` parameter.
+> **Default rule: pick the right `client=` kind once, per connection.** `"browser"` for
+> navigate-style pages, `"fetch"` for XHR/API endpoints that still need browser identity,
+> `"api"` for bare REST with key-in-header auth. Cookies ride the ambient Jar — the skill
+> never threads them.
 >
 > ```python
-> # WRONG — no browser headers, will fail on strict endpoints
-> client.post(url, cookies=cookies, headers={"x-csrf-token": "x"}, json=body)
+> # WRONG — api connection on a page that needs Sec-Fetch-*; Amazon will reject
+> connection("web", base_url=..., client="api", auth={"type": "cookies", ...})
 >
-> # RIGHT — browser-grade headers + service-specific extras
-> client.post(url, cookies=cookies, json=body,
->           **http.headers(waf="cf", accept="json", extra={"x-csrf-token": "x"}))
+> # RIGHT — browser bundle rides automatically; add service-specific headers only
+> connection("web", base_url=..., client="browser", auth={"type": "cookies", ...})
+>
+> @connection("web")
+> async def post_thing(**params):
+>     return await client.post("/thing", json=body,
+>                              headers={"x-csrf-token": "x"})
 > ```
 
 ### TLS fingerprinting — why the engine uses wreq with BoringSSL
@@ -56,17 +72,21 @@ Python clients (`requests`, `httpx`) have similar issues — `requests`/urllib3 
 returns `429` with a JS challenge page, regardless of cookies or headers. But
 HTTP/1.1 passes cleanly.
 
-In `http.headers()`, this is handled by the `waf=` knob:
+Per-call `http2=False` is how a skill opts out of HTTP/2 for a specific
+request or helper:
 
 ```python
-# waf="cf" → http2=True (CloudFront/Cloudflare need HTTP/2)
-resp = client.get(url, **http.headers(waf="cf", accept="json"))
+# CloudFront / Cloudflare — HTTP/2 is the default, nothing to do
+resp = await client.get(url)
 
-# waf="vercel" → http2=False (Vercel blocks HTTP/2)
-resp = client.get(url, **http.headers(waf="vercel", accept="json"))
+# Vercel Security Checkpoint — force HTTP/1.1
+resp = await client.get(url, http2=False)
 ```
 
-The WAF template automatically sets the right `http2` value. No need to remember which WAF needs what.
+Usually you wrap it once: a per-skill `_get`/`_post` helper that
+pins `http2=False` for every call on a Vercel-hosted service (see
+greptile, claude-web). The engine's TLS fingerprint still emulates
+Chrome either way.
 
 Not every Vercel-hosted endpoint enables the checkpoint. During Exa testing,
 `auth.exa.ai` (Vercel, no checkpoint) accepted h2; `dashboard.exa.ai`
@@ -129,102 +149,76 @@ Skills must use `agentos.http` for all HTTP — never `urllib`, `requests`, `htt
 
 ---
 
-## Browser-Like Headers — `http.headers()` Knobs
+## Browser-Like Headers — the `client=` kind picks the bundle
 
-Headers are built in Python via `http.headers()`, which composes four independent concerns:
+There's no per-request header composer. The connection's `client=`
+value picks one of three sealed header bundles, and every
+`client.get/post/…` call inside a tool bound to that connection
+inherits it.
 
 ```python
-from agentos import http
+from agentos import client, connection
 
-# Four knobs, ordered by network layer:
-conf = http.headers(
-    waf="cf",            # WAF vendor — "cf", "vercel", or None
-    ua="chrome-desktop", # User-Agent — preset name or raw string
-    mode="fetch",        # Request type — "fetch" (XHR) or "navigate" (page load)
-    accept="json",       # Content — "json", "html", or "any"
-    extra={"X-Custom": "value"},  # Merge last, overrides anything
-)
-# Returns {"headers": {...}, "http2": True/False}
-# Spread into client.get/post/client with **
-resp = client.get(url, **conf)
+connection("web",
+    base_url="https://www.example.com",
+    client="browser",                  # full Chrome navigate bundle
+    auth={"type": "cookies", "domain": ".example.com"})
+
+@connection("web")
+async def scrape(**params):
+    return await client.get("/path")   # bundle rides automatically
 ```
 
-### What each knob controls
+### Three bundles
 
-| Knob | What it sets | Values |
-|------|-------------|--------|
-| `waf` | Client hints (`Sec-CH-UA`, etc.) + `http2` | `"cf"` (CloudFront/Cloudflare, http2=True), `"vercel"` (http2=False), `None` |
-| `ua` | `User-Agent` header | `"chrome-desktop"`, `"chrome-mobile"`, `"safari-desktop"`, or raw string |
-| `mode` | `Sec-Fetch-*` headers (only when `waf` is set) | `"fetch"` (XHR: dest=empty, mode=cors), `"navigate"` (page: dest=document, mode=navigate + device hints) |
-| `accept` | `Accept` header | `"json"`, `"html"`, `"any"` (default: `*/*`) |
-| `extra` | Custom headers merged last | Any dict — auth tokens, CSRF, Origin, Referer, etc. |
+| `client=` | Headers | Use for |
+|-----------|---------|---------|
+| `"browser"` | UA + `Sec-CH-UA*` + `Sec-Fetch-Dest: document` + `Sec-Fetch-Mode: navigate` + `Sec-Fetch-Site: none` + `Sec-Fetch-User: ?1` + `Upgrade-Insecure-Requests: 1` + `Cache-Control: max-age=0` + full device hints (`Sec-CH-Device-Memory`, `Sec-CH-DPR`, `Sec-CH-UA-Full-Version-List`) + `Accept: text/html,application/xhtml+xml,…` | Page loads, form POSTs, top-level navigation (Amazon, Goodreads pages) |
+| `"fetch"` | UA + `Sec-CH-UA*` + `Sec-Fetch-Dest: empty` + `Sec-Fetch-Mode: cors` + `Sec-Fetch-Site: same-origin` + `Accept: application/json` | AJAX/fetch from within a page (Claude.ai /api, Greptile tRPC) |
+| `"api"` (default) | Nothing — caller supplies all headers | Bare REST with key-in-header auth (Anthropic, OpenRouter, Linear) |
 
-### Standard headers (always included)
+The SDK's Python client hints and the engine's TLS emulation (Chrome
+via wreq+BoringSSL) are byte-matched on purpose — a request from
+AgentOS looks like a real Brave/Chrome tab at every layer.
 
-Every `http.headers()` call sets `User-Agent`, `Accept-Language`, and `Accept-Encoding`. These are normal browser headers — not WAF-specific. Override via `extra=` if needed.
-
-### WAF headers — `waf="cf"` and `mode="navigate"`
-
-When `waf` is set, `http.headers()` adds Sec-Fetch-* metadata. The `mode` knob controls what type of request you're simulating:
-
-**`mode="fetch"` (default)** — XHR/fetch() API call:
-- `Sec-Fetch-Dest: empty`, `Sec-Fetch-Mode: cors`, `Sec-Fetch-Site: same-origin`
-
-**`mode="navigate"`** — Full page navigation (used by Amazon, Goodreads):
-- `Sec-Fetch-Dest: document`, `Sec-Fetch-Mode: navigate`, `Sec-Fetch-User: ?1`
-- Plus device hints: `Device-Memory`, `Downlink`, `DPR`, `ECT`, `RTT`, `Viewport-Width`
-- Plus `Cache-Control: max-age=0`, `Upgrade-Insecure-Requests: 1`
-
-Amazon's Lightsaber bot detection checks these device hints. Without them, auth pages redirect to login. The `mode="navigate"` knob handles all of this automatically.
-
-### `Sec-Fetch-Site` values
-
-| Scenario | Value | How to set |
-|---|---|---|
-| JS on `app.example.com` calling `app.example.com/api` | `same-origin` | Default in `mode="fetch"` |
-| Full page navigation (user typed URL) | `none` | Default in `mode="navigate"` |
-| Cross-origin API call | `cross-site` | `extra={"Sec-Fetch-Site": "cross-site"}` |
-
-### Common patterns
+### Per-request overrides (rare)
 
 ```python
-from agentos import http
+# One call inside a "browser" connection wants XHR behavior
+await client.get(url, client="fetch")
 
-# JSON API, no WAF (Gmail, Linear, Todoist — 15 skills)
-resp = client.get(url, **http.headers(accept="json", extra={"Authorization": f"Bearer {token}"}))
+# Force HTTP/1.1 (Vercel checkpoint, Cloudflare JA4 edge cases)
+await client.get(url, http2=False)
 
-# HTML scraping behind CloudFront (Amazon, Goodreads)
-with http.client(cookies=cookie_header) as c:
-    resp = c.get(url, **http.headers(waf="cf", mode="navigate", accept="html"))
+# Add service-specific headers (CSRF token, Authorization,
+# Referer) — merge on top of the bundle, caller wins.
+await client.post(url, json=body,
+                  headers={"x-csrf-token": "x"})
 
-# JSON API behind Cloudflare (Claude.ai)
-# Claude needs custom Sec-CH-UA (Brave v146) and http2=False
-conf = http.headers(waf="cf", accept="json", extra=CLAUDE_HEADERS)
-conf["http2"] = False  # override WAF default
-with http.client(cookies=cookie_header, **conf) as c:
-    resp = c.get(url)
+# Strip cookies from the outbound Cookie: header (Amazon's
+# csd-key / csm-hit / aws-waf-token — see Cookie Stripping below)
+await client.get(url, skip_cookies=_SKIP_COOKIES)
 
-# Vercel checkpoint bypass (Exa)
-resp = client.get(url, **http.headers(waf="vercel", accept="json"))
-
-# Full control — skip helpers entirely
-resp = client.get(url, headers={"Accept": "text/csv", "X-Custom": "value"})
-
-# Debug — print what you're sending
-print(http.headers(waf="cf", mode="navigate", accept="html"))
+# Bypass the ambient Jar entirely (third-party fetch that shouldn't
+# carry the authed session's cookies)
+await client.get(external_url, incognito=True)
 ```
 
 ### Version drift
 
-The Chrome version in `Sec-CH-UA` is pinned in `sdk/agentos/http.py` (`_UA` and `_WAF` dicts).
-If you start getting unexpected 403s months later, the pinned version may be too old.
-Update the version strings in the SDK to match the current stable Chrome release.
+The Chrome version in client hints is pinned in
+`sdk-skills/agentos/client.py::_CHROME_VERSION` and must stay in
+sync with `crates/exec-executors/src/http.rs::CHROME_EMULATION`. If
+you start getting unexpected 403s months later, bump both together
+to match the current stable Chrome release.
 
 ### How to discover the right headers
 
-Use the Playwright skill's `capture_network` or the fetch interceptor to see exactly
-what headers a real browser sends on the same request. Compare with `http.headers()` output
-and add any missing ones via `extra=`.
+Use the Playwright skill's `capture_network` or the fetch interceptor
+to see exactly what headers a real browser sends on the same request.
+Compare with what the `browser` / `fetch` bundle produces; if
+something specific is missing (auth token, CSRF, Referer, Origin),
+add it via `headers={...}` on the call.
 
 ---
 
@@ -241,17 +235,25 @@ client-side. When the `csd-key` cookie is present, Amazon sends encrypted HTML
 blobs instead of readable content. The browser decrypts them with JavaScript;
 HTTPX gets unreadable garbage.
 
-**Solution:** strip the trigger cookies using `skip_cookies=` on `http.client()`:
+**Solution:** strip the trigger cookies per call via `skip_cookies=`:
 
 ```python
 _SKIP_COOKIES = ["csd-key", "csm-hit", "aws-waf-token"]
 
-with http.client(cookies=cookie_header, skip_cookies=_SKIP_COOKIES,
-                 **http.headers(waf="cf", mode="navigate", accept="html")) as c:
-    resp = c.get(url)
+@connection("web")    # client="browser"
+async def list_orders(**params):
+    resp = await client.get(url, skip_cookies=_SKIP_COOKIES)
+    return resp["body"]
 ```
 
-The engine filters these cookies out of the jar before sending. With `csd-key` stripped, Amazon serves plain, parseable HTML. The `csm-hit` and `aws-waf-token` cookies are also stripped — they're telemetry/WAF cookies that can trigger additional client-side behavior.
+The SDK filters these names out of the outbound `Cookie:` header
+before dispatch (the jar still stores them — the filter is
+send-only). With `csd-key` stripped, Amazon serves plain, parseable
+HTML. `csm-hit` and `aws-waf-token` are telemetry/WAF cookies that
+trigger additional client-side behavior; strip them for the same
+reason. See `skills/logistics/amazon/amazon.py` for the `_get` /
+`_post` / `_warm_session` wrappers that pin `skip_cookies` on every
+authed call.
 
 ### Diagnosing encryption
 
@@ -451,20 +453,31 @@ This is automatic — skills don't need to do anything. The filtering happens in
 
 ## Cookie Resolution — `http.cookies()`
 
-Skills can resolve cookies for any domain without knowing which browser provides them:
+Skills don't resolve cookies manually — they declare a
+`connection(..., auth={"type": "cookies", "domain": ".uber.com"})`
+and the engine runs provider discovery, picks the freshest session,
+and seeds the ambient Jar automatically:
 
 ```python
-from agentos import http
+from agentos import client, connection
 
-# Resolve cookies — provider discovery is automatic
-cookie_header = http.cookies(domain=".uber.com")
-resp = client.post(url, cookies=cookie_header, **http.headers(accept="json"))
+connection("web",
+    base_url="https://riders.uber.com",
+    client="fetch",
+    auth={"type": "cookies", "domain": ".uber.com",
+          "account": {"check": "check_session"}})
 
-# Specific account (multiple people logged in on different browsers)
-cookie_header = http.cookies(domain=".uber.com", account="user@example.com")
+@connection("web")
+async def list_trips(**params):
+    # Ambient Jar has the freshest cookies from brave-browser /
+    # firefox / wherever. No resolver call in skill code.
+    return await client.post("/graphql", json={...})
 ```
 
-`http.cookies()` uses the same auth resolver as connection-based auth: it tries all installed cookie providers (brave-browser, firefox, etc.), picks the best one, and returns a cookie header string. No hardcoded provider names in skill code.
+For a skill that needs to reach a second domain one-off (rare), use
+`client.get(url, incognito=True)` for unauthed third-party fetches
+or declare a second connection — don't reintroduce manual cookie
+resolving.
 
 ### Playwright integration
 
