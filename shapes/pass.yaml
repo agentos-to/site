@@ -44,11 +44,12 @@ pass:
     price:             number
     currency:          string    # ISO 4217
   relations:
-    at:                actor    # the organization granting the pass
-    holder:            person    # who holds it
-    grantedBy:        membership  # optional: pass came with a membership
-    type:              product    # the specific pass product ("Fitness 10-Pack")
-    location:          place     # where purchased / home location
+    at:                actor       # the organization granting the pass
+    account:           account     # the account (login) this pass is tied to
+    holder:            person      # OPTIONAL: the human behind the account
+    grantedBy:        membership  # OPTIONAL: pass came with a membership
+    type:              product     # OPTIONAL: the specific pass product ("Fitness 10-Pack")
+    location:          place       # OPTIONAL: where purchased / home location
   prior_art:
     - source: schema.org/Ticket
       url: https://schema.org/Ticket

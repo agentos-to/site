@@ -59,6 +59,9 @@ place:
     wikidataId:       string
     googlePlaceId:   string
   relations:
+    at:                actor         # OPTIONAL: namespace owning this place record
+                                      # (e.g. a chain's skill id, so rows from
+                                      # different data sources don't collide).
     brand:             organization  # the company this location belongs to
     offers:            product[]     # products available at this location (store catalog)
   prior_art:
