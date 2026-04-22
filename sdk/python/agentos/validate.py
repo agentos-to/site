@@ -1300,13 +1300,26 @@ def check_tool_shape(skill_dir: Path) -> list[str]:
 
 # ── SDK surface existence check ────────────────────────────────────────────────
 
-def check_sdk_surface_existence(skill_dir: Path) -> list[str]:
-    """Flag `<sdk_module>.<attr>(...)` where attr doesn't exist on the module.
+_REMOVED_MODULE_HINTS: dict[str, str] = {
+    "http": (
+        "removed — use `client.get/post/put/delete/patch/head` for "
+        "network verbs and `url.build/parse/encode/decode` for URL "
+        "string math. Cookies ride the ambient Jar via the "
+        "connection's `client=` value."
+    ),
+}
 
-    This is the catch that would have blocked `http.request(...)` at commit
-    time. Walks every Attribute access where the value is a Name matching an
-    SDK module, and looks up the attribute in the pre-scanned SDK surface.
-    Offers a closest-match suggestion via difflib.
+
+def check_sdk_surface_existence(skill_dir: Path) -> list[str]:
+    """Flag `<sdk_module>.<attr>(...)` where attr doesn't exist on the
+    module, and also flag imports of SDK modules that have been
+    removed (with a migration hint).
+
+    This is the catch that would have blocked `http.request(...)` at
+    commit time. Walks every Attribute access where the value is a
+    Name matching an SDK module, and looks up the attribute in the
+    pre-scanned SDK surface. Offers a closest-match suggestion via
+    difflib.
     """
     issues: list[str] = []
     surface = _load_sdk_surface()
@@ -1326,6 +1339,11 @@ def check_sdk_surface_existence(skill_dir: Path) -> list[str]:
                 for alias in node.names:
                     if alias.name in surface:
                         sdk_names_in_file[alias.asname or alias.name] = alias.name
+                    elif alias.name in _REMOVED_MODULE_HINTS:
+                        issues.append(
+                            f"{rel}:{node.lineno}: `from agentos import "
+                            f"{alias.name}` — {_REMOVED_MODULE_HINTS[alias.name]}"
+                        )
             # `from agentos.macos import keychain`
             elif isinstance(node, ast.ImportFrom) and node.module and node.module.startswith("agentos."):
                 for alias in node.names:
@@ -1338,6 +1356,11 @@ def check_sdk_surface_existence(skill_dir: Path) -> list[str]:
                         leaf = alias.name.rsplit(".", 1)[-1]
                         if leaf in surface:
                             sdk_names_in_file[alias.asname or leaf] = leaf
+                        elif leaf in _REMOVED_MODULE_HINTS:
+                            issues.append(
+                                f"{rel}:{node.lineno}: `import "
+                                f"agentos.{leaf}` — {_REMOVED_MODULE_HINTS[leaf]}"
+                            )
 
         if not sdk_names_in_file:
             continue
