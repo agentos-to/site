@@ -26,6 +26,41 @@ Between those two calls, the engine picks the skill. Neither side learns the oth
 
 This isn't a policy check. It's a name-resolution architecture. There is no API an app could call that would let it invoke a specific skill by name — the engine's dispatch layer only takes capabilities.
 
+## Connections are sandboxed identities
+
+Every time a skill reaches an external service, it does so through a
+**connection** — a module-level `connection("name", ...)` declaration
+in the skill's `.py` file. Each connection is a sandboxed identity
+profile with its own cookies, its own auth, and its own mode. Tools
+on different connections never share state.
+
+Isolation is by construction, not by policy check:
+
+- **Connections key into the credential store on `(domain,
+  identifier)`, not `(skill, connection_name)`.** The connection's
+  `base_url` derives the domain (`api.exa.ai` →  `exa.ai`). Two
+  skills that both declare a connection named `portal` don't
+  collide — they resolve to different domains because their
+  `base_url`s point at different services.
+- **Cookies live in two jars.** The **credential store** is the
+  persistent vault — encrypted at rest, keyed on `(domain,
+  identifier)`. The **per-call jar** is ambient inside the SDK for
+  the duration of one tool call — seeded from the store on entry,
+  diffed back on exit. Plaintext cookies exist only in the Python
+  worker's memory, only while the tool body runs.
+- **A compromised skill cannot reach across identities.** Its
+  resolved connection maps to exactly one credential row. It has
+  no way to enumerate rows, open a jar for a different domain, or
+  read another connection's cookies.
+- **Skill rename / reorganize is safe.** Move `amazon.py`, rename
+  its `web` connection to `account` — cookies stay put because
+  they're keyed on `amazon.com`, not on the skill's directory.
+
+See [Connections as browsers](/architecture/connections-as-browsers/)
+for the full model, including the three modes (`browser`, `fetch`,
+`api`), the per-call jar lifecycle, and how `Set-Cookie` writeback
+keeps rotating session tokens current across engine restarts.
+
 ## Auth resolution — freshest wins
 
 When a skill needs a session (cookie, bearer token, OAuth pair), it asks the engine via the SDK. The engine looks in three places:

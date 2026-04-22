@@ -103,6 +103,7 @@ export default defineConfig({
 									{ label: 'Local-first', slug: 'architecture/local-first' },
 									{ label: 'Data model', slug: 'architecture/data-model' },
 									{ label: 'Skill dispatch', slug: 'architecture/skill-dispatch' },
+									{ label: 'Connections as browsers', slug: 'architecture/connections-as-browsers' },
 									{ label: 'Auth resolution', slug: 'architecture/auth-resolution' },
 									{ label: 'Observer bus', slug: 'architecture/observer-bus' },
 									{ label: 'Shape extraction', slug: 'architecture/shape-extraction' },
