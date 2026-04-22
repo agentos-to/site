@@ -285,17 +285,20 @@ You can offer **both** as connections and let the caller choose.
 
 ### Connection model
 
-```yaml
-connections:
-  api:
-    description: "Live API — token from app, freshest data"
-  cache:
-    description: "Local cache — instant, works offline (reads app's cache file)"
+```python
+from agentos import connection
+
+connection("api",
+    description="Live API — token from app, freshest data")
+
+connection("cache",
+    description="Local cache — instant, works offline (reads app's cache file)")
 ```
 
-Operations declare `connection: api` or `connection: cache`. Some operations may
-support both; others (e.g. `get_meeting` with full transcript) may be API-only if
-the cache doesn't store transcripts.
+Tools bind with `@connection("api")` or `@connection("cache")`. A tool that can
+dispatch to either uses `@connection(["api", "cache"])`; others (e.g.
+`get_meeting` with full transcript) may be API-only if the cache doesn't
+store transcripts.
 
 ### When cache is enough
 

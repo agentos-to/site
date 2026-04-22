@@ -51,7 +51,7 @@ Helper functions (any name starting with `_`) and imports are not tools, so you 
 
 ## Skill anatomy
 
-### readme.md — identity and config
+### readme.md — identity and docs
 
 ```markdown
 ---
@@ -60,20 +60,6 @@ name: My Skill
 description: What this skill does in one line
 color: "#4A90D9"
 website: https://example.com
-
-connections:
-  api:
-    base_url: https://api.example.com
-    auth:
-      type: api_key
-      header:
-        x-api-key: .auth.key
-    label: API Key
-    help_url: https://example.com/api-keys
-
-test:
-  list_items: { params: { query: "test" } }
-  get_item: { params: { id: "123" } }
 ---
 
 # My Skill
@@ -81,34 +67,42 @@ test:
 Description of what this skill connects to and what data it provides.
 ```
 
-**Required frontmatter fields:** `id`, `name`
+**Required frontmatter fields:** `id`, `name`.
+
+Connections no longer live in frontmatter — they're declared at module level
+in the `.py` file. See [connections.md](connections.md) for the full
+reference. Tests declared with `@test` decorators in the `.py` file too.
 
 **Connection auth types:**
-- `api_key` — API key in a header or query param
+- `api_key` — API key in a header, query param, or body field
 - `cookies` — browser session cookies (domain required)
 - `oauth` — OAuth2 refresh token flow
-- `none` — no auth needed (omit the connections block entirely)
 
-See [connections.md](connections.md) for the full reference.
-
-### Python module — tools
+### Python module — connection + tools
 
 ```python
 """My Skill — connects to Example API for items and searches."""
 
-from agentos import http, returns
+from agentos import connection, http, returns, test
 
+connection("api",
+    base_url="https://api.example.com",
+    auth={"type": "api_key", "header": {"x-api-key": ".auth.key"}},
+    label="API Key",
+    help_url="https://example.com/api-keys")
+
+
+@test(params={"query": "test"})
 @returns("product[]")
-def list_items(query: str = None, limit: int = 10, **params) -> list[dict]:
+async def list_items(query: str = None, limit: int = 10, **params) -> list[dict]:
     """List items matching a query.
 
     Args:
         query: Search query to filter items
         limit: Max results to return (default 10)
     """
-    resp = http.get("https://api.example.com/items",
-                    params={"q": query, "limit": limit},
-                    headers={"x-api-key": params["auth"]["key"]})
+    resp = await http.get("/items",
+                          params={"q": query, "limit": limit})
     return [{"id": str(item["id"]),
              "name": item["title"],
              "url": f"https://example.com/items/{item['id']}",

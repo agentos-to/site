@@ -14,27 +14,23 @@ When a skill needs credentials from a web dashboard (API keys, session tokens), 
 
 ## Dashboard connections
 
-Skills with web dashboards declare a `dashboard` connection alongside their `api` connection:
+Skills with web dashboards declare a `dashboard` connection alongside their `api` connection. Connections are declared at **module level** in Python; see [Connections & Auth](./connections.md) for the full surface.
 
-```yaml
-connections:
-  api:
-    base_url: "https://api.example.com"
-    auth:
-      type: api_key
-      header: { x-api-key: .auth.key }
+```python
+from agentos import connection
 
-  dashboard:
-    base_url: "https://dashboard.example.com"
-    auth:
-      type: cookies
-      domain: ".example.com"
-      login:
-        - sso: google
-        - email_link: true
+connection("api",
+    base_url="https://api.example.com",
+    auth={"type": "api_key", "header": {"x-api-key": ".auth.key"}})
+
+connection("dashboard",
+    base_url="https://dashboard.example.com",
+    auth={"type": "cookies",
+          "domain": ".example.com",
+          "login": [{"sso": "google"}, {"email_link": True}]})
 ```
 
-All auth goes under a single `auth:` key with a `type` discriminator (`api_key`, `cookies`, `oauth`). The `login` block declares available login methods. Login operations are Python functions that execute the flow with `agentos.http`. See the [auth model spec](https://github.com/agentos-to/core/blob/main/specs/auth-model.md) and the [SSO credential bootstrap spec](https://github.com/agentos-to/core/blob/main/specs/sso-credential-bootstrap.md) in the engine repo for the underlying design.
+All auth goes under a single `auth=` dict with a `type` discriminator (`api_key`, `cookies`, `oauth`). The `login` entry declares available login methods. Login tools are Python functions that execute the flow with `agentos.http`.
 
 ## Secret-safe credential return
 
