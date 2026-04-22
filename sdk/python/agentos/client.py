@@ -146,13 +146,19 @@ async def _request(method: str, url: str, **kwargs) -> dict:
       - ``incognito=True`` skips both jar read and jar write for this
         call — third-party fetches shouldn't send the authed session's
         cookies, and nothing they return should persist.
-      - ``headers={...}`` merge on top of the bundle (caller wins)."""
+      - ``headers={...}`` merge on top of the bundle (caller wins).
+      - ``skip_cookies=["name", ...]`` filters specific cookie names from
+        the outbound Cookie: header. The jar still stores them, and
+        responses still update them — the filter is send-only. Used by
+        Amazon to strip ``csd-key`` / ``csm-hit`` / ``aws-waf-token``
+        which trip Lightsaber bot detection on first request."""
     json_body = kwargs.pop("json", None)
     data = kwargs.pop("data", None)
     body = kwargs.pop("body", None)
     headers = kwargs.pop("headers", None)
     kind_override = kwargs.pop("client", None)
     incognito = kwargs.pop("incognito", False)
+    skip_cookies = kwargs.pop("skip_cookies", None) or ()
 
     out_body, caller_headers = _prepare_body(
         json=json_body, data=data, body=body, headers=headers
@@ -175,6 +181,12 @@ async def _request(method: str, url: str, **kwargs) -> dict:
     )
     if use_jar:
         cookie_header = ambient.jar.cookie_header_for(url)
+        if cookie_header and skip_cookies:
+            skip_set = set(skip_cookies)
+            parts = [p for p in (part.strip() for part in cookie_header.split(";")) if p]
+            cookie_header = "; ".join(
+                p for p in parts if p.split("=", 1)[0] not in skip_set
+            )
         if cookie_header and "cookies" not in kwargs:
             kwargs["cookies"] = cookie_header
 
