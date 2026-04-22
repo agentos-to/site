@@ -13,6 +13,19 @@ Usage:
     @timeout(60)
     def list_events(query: str = None, **params) -> list[dict]:
         ...
+
+Module-level connection declaration (replaces YAML `connections:` block):
+
+    from agentos import connection, cookies, account_ops
+
+    connection("portal",
+        client="http",
+        base_url="https://api.approach.app/v1",
+        needs=[cookies(
+            domain=".approach.app",
+            account=account_ops(check="check_session",
+                                login="login",
+                                logout="logout"))])
 """
 
 
@@ -44,16 +57,43 @@ def provides(tool, **kwargs):
     return decorator
 
 
-def connection(name):
-    """Bind this operation to a specific connection for auth resolution.
+def connection(name, **kwargs):
+    """Declare a connection at module level, or bind a tool to one.
+
+    Two call shapes:
+
+    - **Module-level declaration** — ``connection("portal", client="http",
+      base_url=..., needs=[...])``. Replaces the YAML ``connections:`` block.
+      The engine reads the full signature from the Python AST; runtime is
+      a pure no-op so the import succeeds.
+    - **Tool decorator** — ``@connection("portal")``. Binds the decorated
+      function to a previously-declared connection. Identical behavior to
+      before this SDK addition.
 
     Args:
-        name: Connection name (e.g., "api", "web") or list of names
-              (e.g., ["api", "cache"]) for caller-choosable connections.
+        name: Connection name (``"api"``, ``"web"``) or list of names
+            (``["api", "cache"]``) for caller-choosable tools.
+        client: ``"http"`` or ``"local"`` — SDK auto-wiring
+            (module-level form only).
+        base_url: Base URL for ``client="http"`` connections
+            (module-level form only).
+        needs: Conjunctive list of credential/capability constructors
+            (module-level form only).
+        label: Display label for ``agentos call accounts``
+            (module-level form only).
+        help_url: Sign-in URL for auth-required errors
+            (module-level form only).
     """
+    # Module-level declaration — call with kwargs, not used as a decorator.
+    if kwargs:
+        _ = (name, kwargs)
+        return None
+
+    # Decorator form — `@connection("portal")`.
     def decorator(func):
         func._agentos_connection = name
         return func
+
     return decorator
 
 
