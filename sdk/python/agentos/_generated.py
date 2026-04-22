@@ -1,6 +1,6 @@
 """Auto-generated TypedDict classes from shape YAML — do not edit.
 
-Generated from 70 shapes.
+Generated from 72 shapes.
 Regenerate with: python generate.py --lang python
 """
 
@@ -906,6 +906,31 @@ class Meeting(TypedDict, total=False):
     transcribe: Transcript
 
 
+class Membership(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    autoRenew: bool
+    billingType: str
+    currency: str
+    endEffectiveDate: str
+    guestPassQuantity: int
+    nextBillDate: str
+    price: float
+    startEffectiveDate: str
+    status: str
+    tier: str
+    useCount: int
+    at: Actor
+    member: Person
+    plan: Product
+
+
 class Memex(TypedDict, total=False):
     id: str
     name: str
@@ -1074,6 +1099,32 @@ class Organization(TypedDict, total=False):
     website: Website
 
 
+class Pass(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    currency: str
+    depletedDate: str
+    endEffectiveDate: str
+    isAllDayPass: bool
+    price: float
+    purchasedDate: str
+    purchasedQuantity: int
+    quantity: int
+    startEffectiveDate: str
+    status: str
+    useCount: int
+    at: Actor
+    grantedBy: Membership
+    holder: Person
+    type: Product
+
+
 class Person(TypedDict, total=False):
     id: str
     name: str
@@ -1103,6 +1154,8 @@ class Person(TypedDict, total=False):
     os: str
     accounts: list[Account]
     location: Place
+    memberships: list[Membership]
+    passes: list[Pass]
     roles: list[Role]
     website: Website
 
@@ -1767,6 +1820,7 @@ SHAPE_YAMLS: dict[str, str] = {
     'loaded_model': 'plural: loaded_models\nsubtitle: size\nfields:\n  size: string\n  quantization: string\n  expiresAt: datetime\n  vramUsage: string\n  sizeVram: integer\n  digest: string\nprior_art:\n- source: "Ollama API \\u2014 /api/ps"\n  url: https://github.com/ollama/ollama/blob/main/docs/api.md#list-running-models\n  notes: Direct source. Our size/vramUsage/sizeVram/quantization/digest/ expiresAt\n    map to Ollama\'s ListRunningModelsResponse fields.\n- source: OpenTelemetry Resource semconv (ML/AI)\n  url: https://opentelemetry.io/docs/specs/semconv/gen-ai/\n  notes: Emerging conventions for GenAI observability. Our size/digest align with\n    gen_ai.model.* resource attributes.\n',
     'mcp_session': 'plural: mcp_sessions\nidentity:\n- client\n- projectId\n- gitBranch\nsubtitle: client\nicon: terminal\nfields:\n  client: string\n  projectId: string\n  gitBranch: string\n  sessionType: string\n  startedAt: datetime\n  endedAt: datetime\n  messageCount: integer\n  tokenCount: integer\nrelations:\n  participant: actor\n  folder: folder\nprior_art:\n- source: Model Context Protocol (MCP) session\n  url: https://modelcontextprotocol.io/specification\n  notes: Direct source. Our client/sessionType come from MCP\'s client/transport concepts\n    (STDIO, HTTP+SSE).\n- source: "OpenTelemetry Spans (root span \\u2248 session)"\n  url: https://opentelemetry.io/docs/concepts/signals/traces/\n  notes: Our startedAt/endedAt/messageCount/tokenCount align with span lifecycle +\n    attributes in a trace context.\n- source: OpenID Connect Session Management 1.0\n  url: https://openid.net/specs/openid-connect-session-1_0.html\n  notes: "Classical web-session model. Our participant \\u2248 authenticated subject;\\\n    \\ projectId/gitBranch are AgentOS-specific scoping."\n',
     'meeting': 'plural: meetings\nsubtitle: location\nalso:\n- event\nfields:\n  calendarLink: url\n  isVirtual: boolean\n  meetingUrl: url\n  conferenceProvider: string\n  phoneDialIn: string\nrelations:\n  transcribe: transcript\nprior_art:\n- source: RFC 5545 VEVENT + conference property (RFC 7986)\n  url: https://datatracker.ietf.org/doc/html/rfc7986#section-5.11\n  notes: "Our meetingUrl \\u2248 CONFERENCE URI; phoneDialIn = tel: URI in CONFERENCE\\\n    \\ feature=PHONE; conferenceProvider \\u2248 CONFERENCE LABEL."\n- source: "schema.org/Event \\u2014 location.VirtualLocation"\n  url: https://schema.org/VirtualLocation\n  notes: "Our isVirtual triggers VirtualLocation; meetingUrl \\u2248 VirtualLocation.url."\n- source: Google Calendar Event conferenceData\n  url: https://developers.google.com/calendar/api/v3/reference/events\n  notes: "Practical API mirror. Our conferenceProvider \\u2248 conferenceData.conferenceSolution.name;\\\n    \\ meetingUrl = entryPoints[uri]."\n',
+    'membership': 'plural: memberships\nidentity:\n- at\n- id\nsubtitle: status\nfields:\n  status: string\n  tier: string\n  startEffectiveDate: datetime\n  endEffectiveDate: datetime\n  nextBillDate: datetime\n  autoRenew: boolean\n  price: number\n  currency: string\n  billingType: string\n  useCount: integer\n  guestPassQuantity: integer\nrelations:\n  at: actor\n  member: person\n  plan: product\nprior_art:\n- source: schema.org/ProgramMembership\n  url: https://schema.org/ProgramMembership\n  notes: "schema.org\'s canonical membership type. Our member = member; plan \\u2248\\\n    \\ programName/membershipNumber; at \\u2248 hostingOrganization. ProgramMembership\\\n    \\ covers gym, loyalty, society memberships without requiring a billing cycle \\u2014\\\n    \\ matches our non-commercial framing."\n- source: schema.org/Subscription\n  url: https://schema.org/Subscription\n  notes: "Streaming/SaaS subscriptions fit this shape \\u2014 one model covers gym\\\n    \\ memberships and Spotify Premium. billingType maps to billingPeriod; autoRenew\\\n    \\ maps directly."\n- source: Stripe Subscriptions API\n  url: https://docs.stripe.com/api/subscriptions\n  notes: "Practical API mirror for commercial memberships. Our status values (active/paused/cancelled/past_due)\\\n    \\ mirror Stripe Subscription.status. nextBillDate \\u2248 current_period_end."\n- source: Mindbody Contracts/Memberships\n  url: https://developers.mindbodyonline.com/PublicDocumentation/V6\n  notes: Gym-industry API. Our useCount, guestPassQuantity, startEffectiveDate / endEffectiveDate\n    are lifted from Mindbody\'s Membership record shape.\n- source: FOAF member / membershipClass\n  url: http://xmlns.com/foaf/spec/#term_member\n  notes: "Social-web vocabulary for \\"X is a member of Y\\". Our member \\u2194 at edge\\\n    \\ mirrors foaf:member; our tier \\u2248 foaf:membershipClass."\n',
     'memex': 'plural: memex\nsubtitle: description\nicon: brain\nfields:\n  description: text\n  origin: string\n  filePath: string\n  nodeCount: integer\n  edgeCount: integer\n  fileSize: string\n  snapshotOf: datetime\n  published: boolean\nrelations:\n  owner: person\n  forkedFrom: memex\n  snapshots: memex[]\nprior_art:\n- source: "Vannevar Bush \\u2014 \\"As We May Think\\" (1945)"\n  url: https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/\n  notes: The original concept. Our memex is named after and modeled on Bush\'s personal\n    knowledge store with associative trails.\n- source: W3C RDF 1.1 + Named Graphs\n  url: https://www.w3.org/TR/rdf11-concepts/\n  notes: "Formal underpinning. Our nodeCount/edgeCount mirror RDF subject-predicate-object\\\n    \\ triples; snapshots \\u2248 named-graph versioning."\n- source: Roam Research / Obsidian / Logseq PKM model\n  url: https://obsidian.md/\n  notes: Practical modern precedents. Our origin values (personal, domain, fork) generalize\n    the single-user PKM model to shareable graphs.\n',
     'message': 'plural: messages\nidentity:\n- at\n- id\nsubtitle: from\nfields:\n  isOutgoing: boolean\n  isStarred: boolean\n  conversationId: string\nrelations:\n  at: actor\n  from: actor\n  inConversation: conversation\n  repliesTo: message\n  toolCalls: tool_call[]\nprior_art:\n- source: ActivityStreams 2.0 Note/Activity\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note\n  notes: "Closest open standard for generic messages. Our from \\u2248 actor; inConversation\\\n    \\ \\u2248 context/conversation; repliesTo \\u2248 inReplyTo."\n- source: Matrix m.room.message\n  url: https://spec.matrix.org/latest/client-server-api/#mroommessage\n  notes: "Practical cross-platform message event schema. Our isOutgoing has no Matrix\\\n    \\ analog (sender identity instead); repliesTo \\u2248 m.relates_to rel_type m.thread/m.in_reply_to."\n- source: XMPP (RFC 6121) message stanza\n  url: https://datatracker.ietf.org/doc/html/rfc6121\n  notes: IETF instant-messaging baseline. from/to/thread correspond to our from/inConversation;\n    no standardized isStarred.\n',
     'model': "plural: models\nidentity:\n- at\n- name\nsubtitle: name\nfields:\n  contextLength: integer\n  contextWindow: integer\n  maxOutput: integer\n  pricingInput: string\n  pricingOutput: string\n  modality: string[]\n  modelType: string\n  quantization: string\n  quantizationLevel: string\n  size: string\n  parameterSize: string\n  format: string\n  family: string\n  digest: string\nrelations:\n  at: actor\nprior_art:\n- source: Hugging Face Model Cards\n  url: https://huggingface.co/docs/hub/en/model-cards\n  notes: Our provider/contextLength/modality/family/quantization/ parameterSize align\n    with HF model-card metadata conventions.\n- source: Ollama /api/show + Modelfile\n  url: https://github.com/ollama/ollama/blob/main/docs/modelfile.md\n  notes: Our quantization/quantizationLevel/format/digest/parameterSize come directly\n    from Ollama's show-model response.\n- source: OpenRouter Models API\n  url: https://openrouter.ai/docs/models\n  notes: Our contextLength/contextWindow/maxOutput/pricingInput/ pricingOutput mirror\n    OpenRouter's model spec.\n",
@@ -1774,7 +1828,8 @@ SHAPE_YAMLS: dict[str, str] = {
     'offer': 'plural: offers\nfields:\n  price: number\n  currency: string\n  offerType: string\n  availability: string\n  validFrom: datetime\n  validUntil: datetime\n  bookingToken: string\n  departureToken: string\nrelations:\n  for: product\n  offeredBy: organization\n  trips: trip[]\nprior_art:\n- source: schema.org/Offer\n  url: https://schema.org/Offer\n  notes: Our price = price; currency = priceCurrency; availability = availability;\n    validFrom/validUntil match directly.\n- source: IATA NDC OfferItem\n  url: https://www.iata.org/en/programs/airline-distribution/retailing/ndc/\n  notes: "Our bookingToken \\u2248 OfferItemID; validUntil \\u2248 TimeLimits/ OfferExpirationDateTime;\\\n    \\ trips[] \\u2248 Itinerary."\n- source: schema.org/AggregateOffer\n  url: https://schema.org/AggregateOffer\n  notes: For price-range offers (SerpAPI flight results). offerType is AgentOS-specific.\n',
     'order': 'plural: orders\nidentity:\n- at\n- orderId\nsubtitle: total\nfields:\n  orderId: string\n  orderDate: datetime\n  total: string\n  totalAmount: number\n  originalTotal: string\n  originalTotalAmount: number\n  savings: number\n  currency: string\n  status: string\n  deliveryDate: datetime\n  eta: string\n  subtotal: number\n  tipAmount: number\n  deliveryFee: number\n  taxes: number\n  summary: string\n  fareBreakdown: json\n  deliveryInstructions: string\n  interactionType: string\n  orderUuid: string\n  body: text\n  head: text\n  messages: json\n  timeline: json\n  itemStates: json\n  latestArrival: datetime\n  progress: number\n  progressTotal: number\nrelations:\n  at: actor\n  contains: product[]\n  shippingAddress: place\n  store: place\n  delivery: trip\n  tracking: webpage\nprior_art:\n- source: schema.org/Order\n  url: https://schema.org/Order\n  notes: Our orderId = orderNumber; orderDate = orderDate; total = totalPaymentDue;\n    status = orderStatus; shippingAddress = orderDelivery.\n- source: schema.org/OrderStatus (enum)\n  url: https://schema.org/OrderStatus\n  notes: Our status values (placed, confirmed, delivering, completed, cancelled) map\n    to OrderProcessing/OrderInTransit/OrderDelivered/ OrderCancelled.\n- source: Amazon Order Reports (MWS / SP-API)\n  url: https://developer-docs.amazon.com/sp-api/docs/orders-api-v0-reference\n  notes: Practical source. Our orderId, fareBreakdown, savings, eta are lifted from\n    Amazon/Uber Eats order structures.\n',
     'organization': 'plural: organizations\nidentity: url\nsubtitle: industry\nalso:\n- actor\nfields:\n  industry: string\n  founded: datetime\nrelations:\n  member: person[]\n  domain: domain\n  website: website\n  headquarters: place\nprior_art:\n- source: schema.org/Organization\n  url: https://schema.org/Organization\n  notes: "Our industry \\u2248 naics/isicV4 (loosely); founded = foundingDate; member[]\\\n    \\ = member; headquarters = location (or subOrganization with a Place)."\n- source: vCard 4.0 KIND=org (RFC 6350)\n  url: https://datatracker.ietf.org/doc/html/rfc6350\n  notes: "Organization-as-contact. Our website/domain \\u2248 URL; headquarters \\u2248\\\n    \\ ADR. Thinner than schema.org for industry/founded."\n- source: Wikidata (Organization, Q43229)\n  url: https://www.wikidata.org/wiki/Q43229\n  notes: Cross-reference identity. Useful for deduping; no direct field alignment\n    but industry maps to P452 (industry) and founded to P571 (inception).\n',
-    'person': 'plural: people\nsubtitle: about\nalso:\n- actor\nfields:\n  firstName: string\n  lastName: string\n  middleName: string\n  nickname: string\n  birthday: datetime\n  notes: text\n  gender: string\n  about: text\n  joinedDate: datetime\n  lastActive: datetime\n  email: string\n  distinctIds: string[]\n  browser: string\n  os: string\n  initialReferrer: string\n  initialUtmSource: string\n  lastSeenAt: datetime\nrelations:\n  accounts: account[]\n  roles: role[]\n  location: place\n  website: website\nprior_art:\n- source: schema.org/Person\n  url: https://schema.org/Person\n  notes: Our firstName/lastName = givenName/familyName; nickname = additionalName/alternateName;\n    birthday = birthDate; about = description. We diverge by modeling accounts[] as\n    a first-class relation rather than sameAs URLs.\n- source: vCard 4.0 (RFC 6350)\n  url: https://datatracker.ietf.org/doc/html/rfc6350\n  notes: "Contact-card canonical. Our fields map to FN/N/NICKNAME/BDAY/NOTE; our accounts[]\\\n    \\ \\u2248 IMPP/X-SOCIALPROFILE; location \\u2248 ADR."\n- source: FOAF (Friend of a Friend)\n  url: http://xmlns.com/foaf/spec/\n  notes: "Original social-graph vocabulary. foaf:Person with givenName/familyName/nick/homepage;\\\n    \\ foaf:account \\u2248 our accounts[]. Largely superseded by schema.org but still\\\n    \\ a reference for account-centric modeling."\n',
+    'pass': "plural: passes\nidentity:\n- at\n- id\nsubtitle: status\nfields:\n  status: string\n  purchasedDate: datetime\n  startEffectiveDate: datetime\n  endEffectiveDate: datetime\n  quantity: integer\n  purchasedQuantity: integer\n  useCount: integer\n  isAllDayPass: boolean\n  depletedDate: datetime\n  price: number\n  currency: string\nrelations:\n  at: actor\n  holder: person\n  grantedBy: membership\n  type: product\nprior_art:\n- source: schema.org/Ticket\n  url: https://schema.org/Ticket\n  notes: schema.org's peer for a claim-check right-of-entry. Our purchasedDate = issuedAt;\n    holder = underName; price matches directly. Ticket is event-bound; we generalize\n    to any right-of-use.\n- source: Mindbody Services (pricing options)\n  url: https://developers.mindbodyonline.com/PublicDocumentation/V6\n  notes: Gym-industry reference. Our quantity/purchasedQuantity/ useCount/depletedDate\n    are lifted from Mindbody's ClientService.Remaining / Count / DateCompleted.\n- source: GTFS fare rules / IATA fare basis\n  url: https://gtfs.org/documentation/schedule/reference/#fare_productstxt\n  notes: 'Transit-pass vocabulary: single-ride, day-pass, period-pass all fit `isAllDayPass`\n    + `startEffectiveDate` + `endEffectiveDate`.'\n",
+    'person': 'plural: people\nsubtitle: about\nalso:\n- actor\nfields:\n  firstName: string\n  lastName: string\n  middleName: string\n  nickname: string\n  birthday: datetime\n  notes: text\n  gender: string\n  about: text\n  joinedDate: datetime\n  lastActive: datetime\n  email: string\n  distinctIds: string[]\n  browser: string\n  os: string\n  initialReferrer: string\n  initialUtmSource: string\n  lastSeenAt: datetime\nrelations:\n  accounts: account[]\n  roles: role[]\n  memberships: membership[]\n  passes: pass[]\n  location: place\n  website: website\nprior_art:\n- source: schema.org/Person\n  url: https://schema.org/Person\n  notes: Our firstName/lastName = givenName/familyName; nickname = additionalName/alternateName;\n    birthday = birthDate; about = description. We diverge by modeling accounts[] as\n    a first-class relation rather than sameAs URLs.\n- source: vCard 4.0 (RFC 6350)\n  url: https://datatracker.ietf.org/doc/html/rfc6350\n  notes: "Contact-card canonical. Our fields map to FN/N/NICKNAME/BDAY/NOTE; our accounts[]\\\n    \\ \\u2248 IMPP/X-SOCIALPROFILE; location \\u2248 ADR."\n- source: FOAF (Friend of a Friend)\n  url: http://xmlns.com/foaf/spec/\n  notes: "Original social-graph vocabulary. foaf:Person with givenName/familyName/nick/homepage;\\\n    \\ foaf:account \\u2248 our accounts[]. Largely superseded by schema.org but still\\\n    \\ a reference for account-centric modeling."\n',
     'place': 'plural: places\nidentity_any:\n- googlePlaceId\n- mapboxId\nsubtitle: fullAddress\nfields:\n  fullAddress: string\n  placeFormatted: string\n  streetNumber: string\n  street: string\n  neighborhood: string\n  locality: string\n  city: string\n  district: string\n  region: string\n  postalCode: string\n  country: string\n  countryCode: string\n  latitude: number\n  longitude: number\n  accuracy: string\n  featureType: string\n  categories: string[]\n  phone: string\n  website: url\n  hours: json\n  businessStatus: string\n  rating: number\n  reviewCount: integer\n  priceLevel: string\n  timezone: string\n  eta: string\n  isOrderable: boolean\n  closedMessage: string\n  productCount: integer\n  mapboxId: string\n  wikidataId: string\n  googlePlaceId: string\nrelations:\n  brand: organization\n  offers: product[]\nprior_art:\n- source: schema.org/Place + PostalAddress\n  url: https://schema.org/Place\n  notes: "Our latitude/longitude = geo.latitude/longitude; street/city/region/postalCode/countryCode\\\n    \\ map to PostalAddress streetAddress/addressLocality/addressRegion/postalCode/addressCountry;\\\n    \\ hours \\u2248 openingHoursSpecification; rating/reviewCount \\u2248 aggregateRating."\n- source: Google Places API (Place resource)\n  url: https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places\n  notes: "Practical POI schema. Our googlePlaceId = id; featureType/categories \\u2248\\\n    \\ types/primaryType; businessStatus, priceLevel, rating match directly."\n- source: GeoJSON (RFC 7946) + ISO 3166-1\n  url: https://datatracker.ietf.org/doc/html/rfc7946\n  notes: Our latitude/longitude are a GeoJSON Point [lon, lat]; countryCode follows\n    ISO 3166-1 alpha-2.\n',
     'playlist': 'plural: playlists\nsubtitle: text\nalso:\n- list\nrelations:\n  contains: video[]\nprior_art:\n- source: schema.org/MusicPlaylist / ItemList\n  url: https://schema.org/MusicPlaylist\n  notes: "Our contains(video[]) \\u2248 track/itemListElement. We generalize beyond\\\n    \\ music to any ordered media list."\n- source: "YouTube Data API \\u2014 Playlist"\n  url: https://developers.google.com/youtube/v3/docs/playlists\n  notes: "Practical source. Playlist = ordered Video collection \\u2014 inherits list\\\n    \\ identity semantics."\n',
     'podcast': 'plural: podcasts\nidentity:\n- at\n- id\nsubtitle: author\nfields:\n  feedUrl: url\nrelations:\n  host: person[]\n  at: actor\n  episode: episode[]\nprior_art:\n- source: RSS 2.0 (feed + channel)\n  url: https://www.rssboard.org/rss-specification\n  notes: "Our feedUrl is a canonical RSS feed URL; episodes relation \\u2248 channel\'s\\\n    \\ item elements."\n- source: Apple Podcasts RSS extensions (itunes:*)\n  url: https://help.apple.com/itc/podcasts_connect/#/itcb54353390\n  notes: "De-facto standard. Our host[] \\u2248 itunes:author; our series-episode hierarchy\\\n    \\ aligns with itunes:episode/itunes:season."\n- source: Podcast Namespace (podcast:*)\n  url: https://podcastindex.org/namespace/1.0\n  notes: Modern open extension. podcast:person covers guests/hosts; podcast:transcript\n    covers our transcribe relation.\n',
@@ -1827,10 +1882,12 @@ SHAPE_IDENTITIES: dict[str, list[str]] = {
     'job': ['name', 'boot_epoch'],
     'list': ['at', 'id'],
     'mcp_session': ['client', 'projectId', 'gitBranch'],
+    'membership': ['at', 'id'],
     'message': ['at', 'id'],
     'model': ['at', 'name'],
     'order': ['at', 'orderId'],
     'organization': ['url'],
+    'pass': ['at', 'id'],
     'podcast': ['at', 'id'],
     'post': ['at', 'id'],
     'project': ['at', 'id'],
