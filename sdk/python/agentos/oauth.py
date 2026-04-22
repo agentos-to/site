@@ -11,20 +11,9 @@ Sugar over http.post() with standard OAuth2 form body.
     )
     # token["access_token"] — the Bearer token
     # token["scope"] — space-separated granted scopes (if returned by provider)
-
-## How the engine returns HTTP responses
-
-The engine's `http.request` dispatch returns:
-    {"status": int, "ok": bool, "body": "<raw text>", "json": <parsed dict or null>, ...}
-
-IMPORTANT: "body" is always the raw text string. "json" is the parsed dict.
-Always read "json" for structured data. This was the source of a silent auth
-failure (2026-04-02): oauth.exchange read "body" (a string), failed the
-isinstance(body, dict) check, and returned the wrapper — causing every
-downstream credential_get to return access_token=None.
 """
 
-from agentos._bridge import dispatch
+from agentos import http
 
 
 async def exchange(token_url, refresh_token, client_id, client_secret=None, scope=None):
@@ -52,22 +41,17 @@ async def exchange(token_url, refresh_token, client_id, client_secret=None, scop
     if scope:
         data["scope"] = scope
 
-    result = await dispatch("http.request", {
-        "method": "POST",
-        "url": token_url,
-        "data": data,
-    })
+    # http.post serializes `data=` as application/x-www-form-urlencoded
+    # and reads `.json` off the engine response for us.
+    result = await http.post(token_url, data=data)
 
-    # Engine returns {status, ok, body (raw text), json (parsed dict), ...}
-    # ALWAYS read "json" for structured data, never "body" (which is a string).
-    if isinstance(result, dict):
-        parsed = result.get("json")
-        if isinstance(parsed, dict):
-            # Check for OAuth error responses (e.g. invalid_grant)
-            if "error" in parsed:
-                raise RuntimeError(
-                    f"OAuth token exchange failed: {parsed.get('error')} "
-                    f"— {parsed.get('error_description', 'no description')}"
-                )
-            return parsed
+    parsed = result.get("json") if isinstance(result, dict) else None
+    if isinstance(parsed, dict):
+        # Check for OAuth error responses (e.g. invalid_grant, unsupported_grant_type).
+        if "error" in parsed:
+            raise RuntimeError(
+                f"OAuth token exchange failed: {parsed.get('error')} "
+                f"— {parsed.get('error_description', 'no description')}"
+            )
+        return parsed
     return result
