@@ -227,8 +227,9 @@ cross-talk between concurrent calls. No plaintext cookies persist
 anywhere except in the Python worker's memory for the duration of
 the call.
 
-You never import the jar, never see a ContextVar, never call
-`http.client()`. The connection owns the jar; you own the tool body.
+You never import the jar, never see a ContextVar, never thread
+cookies through a parameter. The connection owns the jar; you own
+the tool body.
 
 For the full architectural picture — why cookies are keyed this way,
 how the per-call jar relates to the persistent store, and what

@@ -255,78 +255,96 @@ resp = await client.post(
 
 You do NOT need a raw-bytes body mode for this — `json=dict` + `headers={"Content-Type": "..."}` is enough.
 
-### http.headers() — browser-like headers for cookie-auth
+### Browser-like headers — set by the connection's `client=` kind
 
-This is the most important function for cookie-auth skills. WAFs (Cloudflare, CloudFront, Vercel) block requests that don't look like a real browser.
-
-```python
-# Spread into any request with **
-resp = client.get(url, **http.headers(waf="cf", mode="navigate", accept="html"))
-```
-
-| Knob | Values | Default | What it does |
-|------|--------|---------|-------------|
-| `waf` | `"cf"`, `"vercel"`, `None` | `None` | WAF vendor — adds Sec-CH-UA client hints. `"cf"` covers both Cloudflare and CloudFront |
-| `ua` | `"chrome-desktop"`, `"chrome-mobile"`, `"safari-desktop"`, or raw string | `"chrome-desktop"` | User-Agent header |
-| `mode` | `"fetch"`, `"navigate"` | `"fetch"` | `"navigate"` adds Sec-Fetch-Dest: document + full browser hints |
-| `accept` | `"json"`, `"html"`, `"any"` | `"any"` | Accept header — `"html"` sends the full browser Accept string |
-| `extra` | dict | `None` | Additional headers merged last (highest priority) |
-
-**When to use what:**
-
-| Scenario | Headers call |
-|----------|-------------|
-| Public JSON API (no auth) | No headers needed — just `client.get(url)` |
-| API with key in header | `headers={"x-api-key": key}` — no `http.headers()` needed |
-| Cookie-auth, Cloudflare/CloudFront | `http.headers(waf="cf", mode="navigate", accept="html")` |
-| Cookie-auth, Vercel | `http.headers(waf="vercel", mode="navigate", accept="html")` |
-| Cookie-auth, no WAF | `http.headers(mode="navigate", accept="html")` |
-| XHR/fetch to same-origin API | `http.headers(waf="cf", mode="fetch", accept="json")` |
-| GraphQL endpoint | `http.headers(accept="json", extra={"Content-Type": "application/json"})` |
-
-**What the engine auto-injects vs what Python must set:**
-
-The engine provides:
-- TLS fingerprint emulation (Chrome 145 via wreq) — automatic, not configurable
-- Cookie jar management (Set-Cookie tracking, writeback)
-- HTTP/2 toggle (from `http2` key in headers() return)
-
-Python (your skill) provides via `http.headers()`:
-- User-Agent, Sec-CH-UA and other client hints, Sec-Fetch-* metadata
-- Accept / Accept-Language / Accept-Encoding
-- Any custom headers (Authorization, Referer, Origin, etc.)
-
-The engine is pure transport — it does NOT add browser headers automatically. For public APIs this is fine. For cookie-auth sites, you **must** use `http.headers()`.
-
-### http.client() — session with cookie jar
-
-For multi-request flows where cookies matter (login → navigate → scrape):
+Cookie-auth sites — especially ones behind Cloudflare, CloudFront, or
+Vercel — expect browser-grade headers (UA, `Sec-CH-UA*`, `Sec-Fetch-*`,
+`Accept-*`). Skills don't compose these per-request any more; the
+connection's `client=` value picks the bundle, and it rides every
+`client.get/post/…` call automatically.
 
 ```python
-from agentos import http, require_cookies
+connection("web",
+    base_url="https://example.com",
+    client="browser",   # full Chrome navigate bundle
+    auth={"type": "cookies", "domain": ".example.com"})
 
-cookie_header = require_cookies(params, "list_orders")
-
-with http.client(cookies=cookie_header) as c:
-    c.get("https://www.example.com/",
-          **http.headers(waf="cf", mode="navigate", accept="html"))
-    resp = c.get("https://www.example.com/account/orders",
-                 **http.headers(waf="cf", mode="navigate", accept="html"))
-    orders = resp["body"]
+# Every call inherits the browser bundle:
+resp = await client.get("/")
 ```
 
-The engine tracks `Set-Cookie` responses and diffs the jar on session close for automatic writeback to the credential store.
+| `client=` | Header bundle | When to use |
+|-----------|--------------|-------------|
+| `"browser"` | UA + `Sec-CH-UA*` + full `Sec-Fetch-*` navigate bundle + `Upgrade-Insecure-Requests` + `Accept: text/html,...` | Cookie-authed dashboards, login flows, top-level page scraping |
+| `"fetch"` | UA + `Sec-CH-UA*` + XHR-style `Sec-Fetch-Mode: cors` + `Accept: application/json` | AJAX-style API calls a real browser's JS would make |
+| `"api"` (default) | Nothing — caller passes any needed headers | REST APIs with key or token auth |
 
-### http.cookies() — resolve cookies by domain
+**Per-call overrides** (rare, ~5% of tools):
 
 ```python
-from agentos import http
+# Override the kind for one call
+await client.get(url, client="fetch")
 
-cookie_header = http.cookies(".uber.com")
-# Returns "name=value; name=value; ..." from best available provider
+# Strip named cookies from the outbound Cookie: header
+await client.get(url, skip_cookies=["csd-key", "csm-hit"])
+
+# Force HTTP/1.1 (claude.ai, Vercel)
+await client.get(url, http2=False)
+
+# Bypass jar for a third-party fetch
+await client.get(external_url, incognito=True)
+
+# Extra headers merge on top of the ambient bundle
+await client.post(url, headers={"x-csrf-token": "x"}, json=body)
 ```
 
-Uses the auth system's provider discovery: tries all installed cookie providers (brave-browser, firefox), picks the freshest session, validates it.
+The engine's TLS fingerprint (Chrome via wreq) and the SDK's Python
+UA/client-hint strings ship as a matched pair. When bumping Chrome,
+update `sdk-skills/agentos/client.py::_CHROME_VERSION` and
+`crates/exec-executors/src/http.rs::CHROME_EMULATION` together.
+
+### Multi-request flows — the ambient Jar handles them
+
+There's no session context manager. Every `client.get/post/...` call
+inside one `@connection(...)` tool shares the same Jar; cookies
+rotate naturally across calls:
+
+```python
+from agentos import client, connection
+
+connection("web",
+    base_url="https://www.example.com",
+    client="browser",
+    auth={"type": "cookies", "domain": ".example.com"})
+
+@connection("web")
+async def list_orders(**params):
+    # Visit homepage first — Set-Cookie responses accumulate in the
+    # ambient Jar and ride the follow-up request automatically.
+    await client.get("/")
+    resp = await client.get("/account/orders")
+    return resp["body"]
+```
+
+The engine tracks `Set-Cookie` responses through the Jar. At tool
+exit, a snapshot-diff emits `{added, changed, removed}` as
+`__cookie_delta__`, and the engine persists the changes to the
+credential-store row keyed on `(domain, identifier)`.
+
+### client.cookie(name) — look up a single cookie by name
+
+```python
+from agentos import client
+
+# Rare — when the skill needs to branch on a specific cookie value
+# (e.g. NextAuth's lastActiveOrg hint).
+last_active = client.cookie("lastActiveOrg")
+```
+
+Returns `None` outside a tool invocation or on an `api`-kind
+connection (no jar). For resolving cookies from scratch, the engine
+does that automatically when the connection declares
+`auth={"type": "cookies", ...}` — skills don't call a resolver.
 
 ### Cookie helpers
 
@@ -512,7 +530,7 @@ def read_webpage(*, url: str, **params) -> dict:
     }
 ```
 
-**Pattern:** No auth, no `http.headers()`, no `@connection`. Just `client.get()`.
+**Pattern:** No auth, no browser bundle, no `@connection`. Just `client.get()`.
 
 ### Cookie-auth (Goodreads)
 
@@ -520,19 +538,22 @@ def read_webpage(*, url: str, **params) -> dict:
 """Goodreads — profile, books, and reviews via session cookies."""
 
 from lxml import html as lxml_html
-from agentos import http, molt, returns, connection, timeout
-from agentos import require_cookies
+from agentos import client, connection, molt, returns, timeout
+
+
+connection("web",
+    base_url="https://www.goodreads.com",
+    client="browser",              # CloudFront WAF wants Chrome headers
+    auth={"type": "cookies", "domain": ".goodreads.com",
+          "account": {"check": "check_session"}})
+
 
 @returns("person")
 @connection("web")
 @timeout(30)
-def get_person(user_id: str, **params) -> dict:
-    """Get a Goodreads user profile."""
-    cookies = require_cookies(params, "get_person")
-
-    with http.client(cookies=cookies) as c:
-        resp = c.get(f"https://www.goodreads.com/user/show/{user_id}",
-                     **http.headers(waf="cf", mode="navigate", accept="html"))
+async def get_person(user_id: str, **params) -> dict:
+    """Get a Goodreads user profile. Ambient Jar carries cookies."""
+    resp = await client.get(f"/user/show/{user_id}")
 
     doc = lxml_html.fromstring(resp["body"])
     name_el = doc.cssselect("h1.userProfileName")
@@ -543,7 +564,7 @@ def get_person(user_id: str, **params) -> dict:
     }
 ```
 
-**Pattern:** `@connection("web")` → engine injects cookies into `params["auth"]`. `require_cookies()` extracts them. `http.headers(waf="cf")` for CloudFront WAF. `lxml` + `cssselect` for HTML parsing. `molt()` to clean scraped text.
+**Pattern:** `@connection("web")` → engine resolves cookies + seeds the ambient Jar; `client="browser"` supplies the CloudFront-passing header bundle automatically; `client.get` reads the Jar under the hood. `lxml` + `cssselect` for HTML parsing. `molt()` to clean scraped text.
 
 ### API-key (Exa)
 
@@ -558,11 +579,10 @@ from agentos import http, returns, provides, connection, timeout, web_search
 @timeout(30)
 def search(query: str, limit: int = 10, **params) -> list[dict]:
     """Search the web using Exa's neural search."""
-    resp = client.post("https://api.exa.ai/search",
+    resp = await client.post("https://api.exa.ai/search",
                      json={"query": query, "numResults": limit,
                            "type": "auto", "useAutoprompt": True},
-                     headers={"x-api-key": params["auth"]["key"]},
-                     **http.headers(accept="json"))
+                     headers={"x-api-key": params["auth"]["key"]})
     return [{"id": r["url"],
              "name": r.get("title", r["url"]),
              "url": r["url"],
@@ -586,7 +606,7 @@ import sqlite3               # use sql.query()
 import os; os.popen(...)     # use shell.run()
 
 # RIGHT
-from agentos import http, sql, shell
+from agentos import client, sql, shell
 ```
 
 **snake_case shape fields** — shape fields must be camelCase:
@@ -631,17 +651,19 @@ def list_items(**params): ...
 def list_items(**params) -> list[dict]: ...
 ```
 
-**No http.headers() on cookie-auth**:
+**Wrong `client=` kind on cookie-auth**:
 
 ```python
-# WRONG — naked request to a cookie-auth site
-resp = client.get("https://www.goodreads.com/user/show/123",
-                headers={"Cookie": cookies})
+# WRONG — api-kind connection on a cookie-authed site; Cloudflare
+# rejects the request because there's no UA / Sec-CH-UA* / Sec-Fetch-*.
+connection("web", base_url="https://www.goodreads.com",
+           auth={"type": "cookies", "domain": ".goodreads.com"})
 
-# RIGHT
-resp = client.get("https://www.goodreads.com/user/show/123",
-                cookies=cookies,
-                **http.headers(waf="cf", mode="navigate", accept="html"))
+# RIGHT — client="browser" supplies the full Chrome navigate bundle
+# automatically on every client.get/post call.
+connection("web", base_url="https://www.goodreads.com",
+           client="browser",
+           auth={"type": "cookies", "domain": ".goodreads.com"})
 ```
 
 **Missing `await` on async SDK calls** — the SDK is fully async. A missing `await` silently returns a coroutine instead of the real response and the failure surfaces downstream as a `'coroutine' object has no attribute 'get'` or similar:
@@ -695,14 +717,15 @@ doc = html.fromstring(body)
 elements = doc.cssselect("div.item")
 ```
 
-**Hardcoded User-Agent** — use `http.headers()`:
+**Hardcoded User-Agent** — let the connection's `client=` kind supply the UA bundle:
 
 ```python
-# WRONG
+# WRONG — hand-rolled, drifts from the engine's TLS fingerprint
 headers = {"User-Agent": "Mozilla/5.0 ..."}
 
-# RIGHT
-http.headers(ua="chrome-desktop")  # or just http.headers() — chrome-desktop is default
+# RIGHT — client="browser" or "fetch" ships UA + Sec-CH-UA* + Sec-Fetch-*
+# that match the engine's Chrome TLS emulation byte for byte.
+connection("web", ..., client="browser", ...)
 ```
 
 **`run_`, `op_`, `do_` prefixes on tool functions** — the engine parses Python as text and the **tool name is the function name, verbatim**. No prefix stripping. The skill id is already the namespace — don't repeat it.

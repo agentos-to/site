@@ -62,12 +62,15 @@ Cookie auth against `.uber.com`. The rides API uses a single GraphQL endpoint:
 POST https://riders.uber.com/graphql
 ```
 
-**IMPORTANT:** Always use `http.headers(waf="cf", accept="json", extra={...})` for all HTTP
-requests in this skill. The engine sets zero default headers — without `http.headers()`, you
-get no User-Agent, no sec-ch-*, no Sec-Fetch-* — and some Uber endpoints reject the request.
-We are acting as Brave, so always send what Brave sends. See `docs/skills/sdk.md`.
+**IMPORTANT:** Both `web` and `eats` connections declare
+`client="fetch"`. That supplies the XHR-style browser bundle
+(User-Agent, `Sec-CH-UA*`, `Sec-Fetch-*`) on every `client.get/post`
+call — some Uber endpoints reject requests without browser identity.
+We're acting as Brave, so the TLS fingerprint + client hints match
+what Brave sends. Service-specific headers ride via `headers={...}`
+on the individual call.
 
-Rides-specific headers (pass via `extra=`):
+Rides-specific headers (per-call `headers=`):
 - `x-csrf-token: x` (literal string, not a real CSRF token)
 - `x-uber-rv-session-type: desktop_session`
 

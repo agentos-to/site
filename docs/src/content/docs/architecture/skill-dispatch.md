@@ -98,7 +98,7 @@ The dispatchable surface is one `OpRegistry` lookup away. Op metas live in `crat
 
 | Topic       | Examples                                  | Why through the engine                                         |
 |-------------|-------------------------------------------|----------------------------------------------------------------|
-| `http.*`    | `client.get`, `client.post`, `http.session_open` | Auth resolution + cookie writeback + audit log                 |
+| `http.*`    | `client.get`, `client.post`, `client.delete` | Auth resolution + cookie writeback + audit log                 |
 | `secrets.*` | `secrets.read`, `secrets.write`           | Encryption key lives in process memory; never shipped to skill |
 | `sql.*`     | `sql.query`                               | DB path resolution, capability gate, read-only enforcement     |
 | `llm.*`     | `llm.chat`, `llm.resolve_tools`           | Capability brokering — picks an `@provides("llm")` skill       |

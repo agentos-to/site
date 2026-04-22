@@ -154,24 +154,42 @@ interceptor to discover token formats. See
 [Discovery: Navigation API Interception](../2-discovery.md#navigation-api-interception).
 
 ```python
-from agentos import http
+from agentos import client, connection
 
-# Example: Exa email+code login — no browser needed
-# 1. Trigger code email
-with http.client() as client:
-    csrf_token = client.get(f"{AUTH_BASE}/api/auth/csrf").json()["csrfToken"]
-    client.post(f"{AUTH_BASE}/api/auth/signin/email", data={"email": email, "csrfToken": csrf_token, ...})
+# The connection — client="browser" gives us the Chrome navigate
+# bundle and the ambient Jar that captures the session cookie across
+# calls 1 → 4 automatically.
+connection("dashboard",
+    base_url="https://dashboard.exa.ai",
+    client="browser",
+    auth={"type": "cookies", "domain": ".exa.ai"})
+
+@connection("dashboard")
+async def verify_login_code(*, email: str, code: str, **params):
+    # 1. Trigger code email
+    csrf = (await client.get(f"{AUTH_BASE}/api/auth/csrf"))["json"]["csrfToken"]
+    await client.post(
+        f"{AUTH_BASE}/api/auth/signin/email",
+        data={"email": email, "csrfToken": csrf, "callbackUrl": CALLBACK_URL},
+    )
 
     # 2. Agent reads code from email (Gmail, etc.)
 
     # 3. Verify code via custom endpoint
-    resp = client.post(f"{AUTH_BASE}/api/verify-otp", json={"email": email, "otp": code})
-    data = resp.json()  # {hashedOtp, rawOtp}
+    resp = await client.post(
+        f"{AUTH_BASE}/api/verify-otp",
+        json={"email": email, "otp": code},
+    )
+    data = resp["json"]  # {hashedOtp, rawOtp}
     token = f"{data['hashedOtp']}:{data['rawOtp']}"
 
     # 4. Hit the standard callback with the constructed token
-    client.get(f"{AUTH_BASE}/api/auth/callback/email?token={token}&email={email}&callbackUrl=...")
-    # → session cookie is now set on the client
+    await client.get(
+        f"{AUTH_BASE}/api/auth/callback/email"
+        f"?token={token}&email={email}&callbackUrl=..."
+    )
+    # → session cookie is now in the ambient Jar; at tool exit, the
+    # `__cookie_delta__` sidecar persists it to the credential store.
 ```
 
 **Fall back to Playwright** only for flows that genuinely require a browser
@@ -193,10 +211,14 @@ You want the session cookie (usually `next-auth.session-token`, `session`,
 Validate it works:
 
 ```python
-from agentos import http
+from agentos import client
 
-with http.client(cookies={"next-auth.session-token": token}) as client:
-    session = client.get("https://dashboard.example.com/api/auth/session").json()
+@connection("dashboard")
+async def check_session(**params):
+    # Ambient Jar is seeded from the credential row by the engine;
+    # skill just makes the call.
+    resp = await client.get("https://dashboard.example.com/api/auth/session")
+    session = resp["json"]
     assert session.get("user"), "Session invalid"
 ```
 
@@ -306,80 +328,93 @@ Nothing captured + URL changed? → Native form POST — inspect the <form>, the
 
 ---
 
-## Replaying with `agentos.http`
+## Replaying with `agentos.client`
 
-Once you understand what the browser does, replay it with `agentos.http`. The
-goal is to get the same cookies without a browser.
+Once you understand what the browser does, replay it with
+`agentos.client`. The goal is to get the same cookies without a
+browser.
 
-Skills use `agentos.http` for all HTTP — never raw httpx/requests/urllib.
-The `http.headers()` function builds the right header set for each request
-type, and the engine sets zero default headers — Python controls them all.
+Skills use `agentos.client` for all HTTP — never raw
+httpx/requests/urllib. Browser-grade headers (UA, `Sec-CH-UA*`,
+`Sec-Fetch-*`) come from the connection's `client=` value; the
+ambient Jar carries cookies. Python controls caller headers per
+request via `headers={...}`; the engine's TLS fingerprint (Chrome
+via wreq+BoringSSL) is a fixed match to the Python-side client hints.
 
 ### Form POSTs
 
 ```python
-from agentos import http
+from agentos import client, connection
 
-headers = http.headers(mode="navigate")  # browser-like headers for form POSTs
-with http.client(headers=headers) as client:
-    resp = client.post("https://auth.example.com/api/auth/login", data={
-        "email": email,
-        "password": password,
-        "csrfToken": csrf_token,
-    })
-    session_cookies = dict(client.cookies)
+connection("auth",
+    base_url="https://auth.example.com",
+    client="browser",              # navigate bundle = form-POST bundle
+    auth={"type": "cookies", "domain": ".example.com"})
+
+@connection("auth")
+async def login(*, email, password, csrf_token, **params):
+    # Ambient Jar captures Set-Cookie across the redirect chain
+    # automatically; the __cookie_delta__ sidecar persists at exit.
+    resp = await client.post(
+        "/api/auth/login",
+        data={"email": email, "password": password, "csrfToken": csrf_token},
+    )
+    return resp["status"]
 ```
-
-`http.client()` follows redirects by default and handles the redirect chain
-automatically — same as the browser. The cookies accumulate on the client.
 
 ### Fetch/XHR calls
 
 ```python
-from agentos import http
+from agentos import client, connection
 
-headers = http.headers(accept="json")  # API-appropriate headers
-with http.client(headers=headers) as client:
-    resp = client.post("https://api.example.com/auth/login", json={
-        "email": email, "password": password
+connection("api",
+    base_url="https://api.example.com",
+    client="fetch",                # XHR bundle: Sec-Fetch-Mode: cors
+    auth={"type": "cookies", "domain": ".example.com"})
+
+@connection("api")
+async def login(*, email, password, **params):
+    resp = await client.post("/auth/login", json={
+        "email": email, "password": password,
     })
-    token = resp.json()["token"]
+    return resp["json"]["token"]
 ```
 
-### `http.headers()` knobs
+### Picking a `client=` kind
 
-The `http.headers()` function replaces the old `profile=` parameter. It builds
-headers from explicit knobs — the engine sets nothing by default:
+| Kind | Bundle | Use for |
+|------|--------|---------|
+| `"browser"` | UA + full nav headers (`Sec-Fetch-Dest: document`, `Upgrade-Insecure-Requests`, `Accept: text/html,…`) | Form POSTs, page loads, top-level nav |
+| `"fetch"` | UA + XHR headers (`Sec-Fetch-Mode: cors`, `Accept: application/json`) | AJAX/fetch calls from within a browser page |
+| `"api"` (default) | No bundle — caller provides everything | Bare REST with key/token auth |
 
-| Knob | What it does | Example |
-|------|-------------|---------|
-| `waf=` | Anti-bot headers (User-Agent, client hints) | `http.headers(waf="cloudflare")` |
-| `accept=` | Accept header type | `http.headers(accept="json")`, `http.headers(accept="html")` |
-| `mode=` | Fetch mode / navigation headers | `http.headers(mode="navigate")` |
-| `extra=` | Additional headers to merge | `http.headers(extra={"X-Custom": "val"})` |
-
-These compose: `http.headers(waf="cloudflare", accept="json", mode="cors")`.
+Per-request tweaks (`headers={...}` merges on top; `http2=False` for
+Vercel JA4; `incognito=True` to bypass the Jar; `skip_cookies=[...]`
+to drop specific cookies from the outbound header).
 
 ### When replay doesn't work
 
-Sometimes the server does something specific to browser requests that
-`agentos.http` can't replicate (custom redirect handling, Cloudflare challenges,
-JS-dependent cookie setting). When that happens:
+Sometimes the server does something specific to browser requests
+that `agentos.client` can't replicate (custom redirect handling,
+Cloudflare challenges, JS-dependent cookie setting). When that
+happens:
 
 1. **Use Playwright for that step.** Let the browser handle it.
 2. **Extract the cookies** from Playwright after.
-3. **Use `agentos.http` for everything else** (dashboard APIs, data extraction, etc.)
+3. **Use `agentos.client` for everything else** (dashboard APIs,
+   data extraction, etc.).
 
-This isn't a workaround — it's the right architecture. Playwright handles the
-login, `agentos.http` handles the work. Each tool does what it's good at.
+This isn't a workaround — it's the right architecture. Playwright
+handles the login, `agentos.client` handles the work. Each tool
+does what it's good at.
 
 | Situation | Solution |
 |-----------|----------|
-| Standard form POST or API call | `agentos.http` replay |
-| Custom OTP/code verification | Scan JS bundles for custom endpoints → `agentos.http` replay (see [discovery](../2-discovery.md#js-bundle-scanning)) |
-| Google OAuth consent screen | Playwright first login → cookies → `agentos.http` after |
+| Standard form POST or API call | `agentos.client` replay with `client="browser"` or `"fetch"` |
+| Custom OTP/code verification | Scan JS bundles for custom endpoints → `agentos.client` replay (see [discovery](../2-discovery.md#js-bundle-scanning)) |
+| Google OAuth consent screen | Playwright first login → cookies → `agentos.client` after |
 | Cloudflare JS challenge | Playwright or `brave-browser.cookie_get` for `cf_clearance` |
-| Vercel Security Checkpoint (`429`) | `http.client(http2=False)` — purely a JA4 fingerprint issue |
+| Vercel Security Checkpoint (`429`) | `client.get(url, http2=False)` — purely a JA4 fingerprint issue |
 | CAPTCHA | Cookies from user's real browser session |
 | Unknown client-side token construction | Navigation API interceptor → read the actual URL (see [discovery](../2-discovery.md#navigation-api-interception)) |
 
@@ -411,9 +446,19 @@ playwright.capture_network({
 })
 # → page loads authenticated, you can inspect/interact
 
-# 2b. OR use http.client(cookies=...) for direct calls
-from agentos import http
-client = http.client(cookies={"_session_id2": "443a469...", "at-main": "Atza|gQCkt..."})
+# 2b. OR declare a connection with client="browser" and let the
+#     engine seed the ambient Jar from the brave-browser provider
+#     automatically — no manual cookie threading.
+from agentos import client, connection
+
+connection("web",
+    base_url="https://www.goodreads.com",
+    client="browser",
+    auth={"type": "cookies", "domain": ".goodreads.com"})
+
+@connection("web")
+async def scrape(**params):
+    return await client.get("/friend/find_friend")
 ```
 
 ### Why this matters
@@ -426,26 +471,32 @@ client = http.client(cookies={"_session_id2": "443a469...", "at-main": "Atza|gQC
   `capture_network` or `goto`, the Playwright browser session keeps them.
   Subsequent `click`, `fill`, `inspect` calls stay logged in.
 
-### Cookie jar vs raw Cookie header
+### The ambient Jar handles multi-step flows automatically
 
-When making **multi-step requests** (e.g., fetch a form page, then submit
-it), use `http.client(cookies=...)` instead of a raw `Cookie` header:
+When making **multi-step requests** (e.g., fetch a form page, then
+submit it), the connection's ambient Jar carries Set-Cookie responses
+across calls for free. No explicit jar config, no cookie header
+threading.
 
 ```python
-from agentos import http
+@connection("web")    # client="browser"
+async def resolve_email(*, email: str, **params):
+    # Step 1: CSRF token lands in the ambient Jar via Set-Cookie.
+    form = await client.get("/friend/find_friend")
+    n_token = _extract_n_from_html(form["body"])
 
-# WRONG — raw header doesn't track Set-Cookie responses
-client = http.client(headers={"Cookie": cookie_header})
-# Step 1 may set a new _session_id2, but step 2 sends the OLD one
-
-# RIGHT — cookie jar tracks Set-Cookie automatically
-client = http.client(cookies={"_session_id2": "abc123", "at-main": "Atza|..."})
-# Step 1's Set-Cookie is carried to step 2
+    # Step 2: the same Jar ships the fresh CSRF cookie from step 1.
+    # Goodreads' n= CSRF param is tied to the session cookie; if
+    # step 2 sent a stale session, the server would silently ignore
+    # the request. We don't have to think about any of that.
+    search = await client.get(f"/friend/find_friend?n={n_token}&q={email}")
+    return _parse_people(search["body"])
 ```
 
-This is critical when CSRF tokens (like Goodreads' `n=` param) are tied to
-the session cookie. If step 1 refreshes the session cookie but step 2 sends
-the stale one, the server silently ignores the request.
+Compare to the old (now-impossible) anti-pattern: threading a raw
+`Cookie:` header through every call manually, so step 1's new
+`_session_id2` never rides on step 2. The Jar makes that class of
+bug unrepresentable.
 
 ### Available cookie providers
 
@@ -539,23 +590,28 @@ Common in gym/fitness SaaS (Approach, Mindbody, etc.). Pure AWS API calls —
 no browser needed at all.
 
 ```python
-from agentos import http
+from agentos import client, connection
 
-headers = http.headers(extra={
-    "X-Amz-Target": "AWSCognitoIdentityProviderService.InitiateAuth",
-    "Content-Type": "application/x-amz-json-1.1",
-})
-with http.client(headers=headers) as client:
-    resp = client.post(
-        "https://cognito-idp.us-east-1.amazonaws.com/",
-        content=json.dumps({
+connection("cognito",
+    base_url="https://cognito-idp.us-east-1.amazonaws.com",
+    client="api")   # AWS Cognito is a plain REST API — no browser bundle
+
+@connection("cognito")
+async def login(*, email, password, client_id, **params):
+    resp = await client.post(
+        "/",
+        json={
             "AuthFlow": "USER_PASSWORD_AUTH",
             "ClientId": client_id,
             "AuthParameters": {"USERNAME": email, "PASSWORD": password},
-        }).encode(),
+        },
+        headers={
+            "X-Amz-Target": "AWSCognitoIdentityProviderService.InitiateAuth",
+            "Content-Type": "application/x-amz-json-1.1",
+        },
     )
-tokens = resp.json()["AuthenticationResult"]
-# Use tokens["AccessToken"] as Bearer token
+    tokens = resp["json"]["AuthenticationResult"]
+    # Use tokens["AccessToken"] as Bearer token.
 ```
 
 Find the `ClientId` in the app's JS bundle — search for `userPoolId` or
@@ -572,13 +628,19 @@ See [workos.md](./workos.md) for the full deep dive.
 
 For any site that uses session cookies without a framework like NextAuth:
 
-1. Walk through the login in Playwright
-2. Extract cookies: `cookies { domain: ".example.com" }`
-3. Use them with `http.client(cookies={...})`
+1. Walk through the login in Playwright.
+2. Extract cookies: `cookies { domain: ".example.com" }` — confirm
+   which cookies are session-bearing.
+3. Declare `connection(..., client="browser", auth={"type":
+   "cookies", "domain": ".example.com"})`. The engine's
+   `brave-browser` / `firefox` cookie providers seed the ambient Jar
+   from the user's real logged-in browser on the first call; the
+   Jar persists rotated session tokens back to the credential store
+   via the `__cookie_delta__` sidecar at tool exit.
 
 Reference implementations:
-- `skills/claude/claude-login.py` (Cloudflare-protected)
-- `skills/amazon/amazon.py` (tiered cookie architecture, Siege bypass)
+- `skills/ai/claude/claude_web.py` (Cloudflare-protected, `client="fetch"` + `http2=False`)
+- `skills/logistics/amazon/amazon.py` (tiered cookie architecture, Siege bypass via `skip_cookies`)
 
 ### Tiered cookie architectures
 

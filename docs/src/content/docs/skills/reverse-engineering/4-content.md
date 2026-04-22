@@ -79,68 +79,43 @@ touches browser databases or knows which browser the cookies came from.
 
 ### How it works
 
-1. Skill declares `connection: web` with `cookies.domain: ".mysite.com"`
-2. Executor finds an installed cookie provider (`brave-browser`, `firefox`, etc.)
-3. Provider extracts + decrypts cookies from the local browser database
-4. Executor injects them into params as `params.auth.cookies` (a `Cookie:` header string)
-5. Python reads them and passes to `http.client()`
+1. Skill declares `connection("web", ..., client="browser", auth={"type": "cookies", "domain": ".mysite.com"})`.
+2. Engine finds an installed cookie provider (`brave-browser`, `firefox`, etc.) for the connection's `auth.domain`.
+3. Provider extracts + decrypts cookies from the local browser database.
+4. Engine ships them on `__call__.connection.cookies` as structured `Cookie` records; the Python worker builds a `Client(jar=Jar.from_seed(...))` on `_current_client` for the tool call.
+5. `client.get/post/...` reads the ambient Jar automatically. Skills don't touch cookies.
 
-### Python side
+### When you need a single cookie by name
 
-```python
-def _cookie(ctx: dict) -> str | None:
-    """Extract cookie header from AgentOS-injected auth."""
-    c = (ctx.get("auth") or {}).get("cookies") or ""
-    return c if c else None
-
-def _require_cookies(cookie_header, params, op_name):
-    cookie_header = cookie_header or (params and _cookie(params))
-    if not cookie_header:
-        raise ValueError(f"{op_name} requires session cookies (connection: web)")
-    return cookie_header
-```
-
-### `params: true` context structure
-
-When a Python executor uses `params: true`, the function receives the full
-wrapped context as a single `params` dict:
-
-```json
-{
-  "params": { "user_id": "123", "page": 1 },
-  "auth": { "cookies": "session_id=abc; token=xyz" }
-}
-```
-
-Use a helper to read user params from either nesting level:
+Rare — for patterns like NextAuth's `lastActiveOrg` where the logic
+branches on a specific cookie value:
 
 ```python
-def _p(d: dict, key: str, default=None):
-    """Read from params sub-dict or top-level."""
-    p = (d.get("params") or d) if isinstance(d, dict) else {}
-    return p.get(key, default) if isinstance(p, dict) else default
+from agentos import client
+
+last_active = client.cookie("lastActiveOrg")   # str | None
 ```
+
+Reads the ambient Jar directly. Returns `None` on an `api`-kind
+connection or outside a tool invocation.
 
 ---
 
-## HTTP Client: Shared Across Pages
+## Multi-page scrapes: one ambient jar, many calls
 
-Create one `http.client()` per operation and reuse it across paginated requests.
-This keeps the TCP/TLS connection alive and avoids per-request overhead.
+Paginated scraping just calls `client.get` in a loop. The ambient
+Jar persists across every call in the tool, so cookies rotate
+naturally (e.g., Goodreads' CSRF token gets set on page 1 and rides
+page 2+).
 
 ```python
-from agentos import http
+from agentos import client
 
-def _client(cookie_header: str | None) -> http.Client:
-    headers = http.headers(waf="standard", accept="html")
-    if cookie_header:
-        headers["Cookie"] = cookie_header
-    return http.client(headers=headers)
-
-# Usage
-with _client(cookie_header) as client:
+@connection("web")
+async def list_books(**params):
     for page in range(1, max_pages + 1):
-        status, html = _fetch(client, url.format(page=page))
+        resp = await client.get(url_template.format(page=page))
+        status, html = resp["status"], resp["body"]
         if not _has_next(html):
             break
 ```
@@ -164,16 +139,16 @@ def list_friends(user_id, page=0, cookie_header=None, *, params=None):
     # Auto-paginate
     all_items = []
     seen = set()
-    with _client(cookie_header) as client:
-        for p in range(1, MAX_PAGES + 1):
-            status, html = _fetch(client, url.format(page=p))
-            items = _parse_page(html)
-            for item in items:
-                if item["id"] not in seen:
-                    seen.add(item["id"])
-                    all_items.append(item)
-            if not items or not _has_next(html):
-                break
+    for p in range(1, MAX_PAGES + 1):
+        resp = await client.get(url_template.format(page=p))
+        status, html = resp["status"], resp["body"]
+        items = _parse_page(html)
+        for item in items:
+            if item["id"] not in seen:
+                seen.add(item["id"])
+                all_items.append(item)
+        if not items or not _has_next(html):
+            break
     return all_items
 ```
 
