@@ -222,6 +222,70 @@ function that generates them near the axios/fetch client factory in the bundle.
 
 ---
 
+## Error-Message Probing
+
+When the bundle reveals the endpoint but not the exact request body, just
+**make a wrong request and read the error.** Server error messages often
+leak the missing field name directly — especially for Node/Express/Knex APIs,
+which pass SQL errors through mostly un-sanitized.
+
+### Technique
+
+1. Mint a valid auth token (see [3-auth](./3-auth/overview.mdx)).
+2. Call the endpoint with an obviously-incomplete body.
+3. Read the error. Iterate.
+
+### Real example: Austin Boulder Project `book_class`
+
+The Tilefive bundle showed the endpoint was `POST /bookings/{id}/customers`
+with some body `t`, but the body shape was buried in minified closures.
+First attempt:
+
+```bash
+curl -s -X POST "https://portal.api.prod.tilefive.com/bookings/837772/customers" \
+  -H "Authorization: $IDTOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"numGuests": 0}'
+```
+
+Response:
+
+```json
+{"message":"Undefined binding(s) detected when compiling SELECT. Undefined column(s): [id] query: select `Customer`.* from `Customer` where `id` = ? limit ?"}
+```
+
+The server leaked its actual SQL: it's running
+`SELECT * FROM Customer WHERE id = ?` and the `?` is undefined. So the body
+needs a customer ID. Next attempt includes `customerId`:
+
+```bash
+curl -s -X POST ... -d '{"customerId": 1128331, "numGuests": 0}'
+```
+
+Response changes to a **business-rule** error (`Pass or Membership
+required`), which means the body shape is correct — we're past data
+validation. Total: two requests to reverse the payload.
+
+### When this fails
+
+- **Sanitized APIs** (Stripe, Anthropic, most big vendors) return generic
+  `{error: "Bad Request"}` — they don't leak schema. Fall back to bundle
+  scanning for the request builder.
+- **GraphQL APIs** return schema-introspection errors that are even more
+  informative. Try introspection first: `{"query": "{__schema{types{name}}}"}`.
+- **Errors with stack traces** often expose the server file path
+  (`/var/task/api/Customer/booking.js:175992:41`) — gives you the service
+  name and sometimes hints at the data model.
+
+### Why it works on Node/Express
+
+Unhandled database errors in Express often propagate to the default error
+handler with the full Knex/Sequelize error object intact. Production code
+*should* catch and sanitize, but most don't. Tilefive, Discourse, and many
+mid-size platforms leak this way. Treat server errors as free documentation.
+
+---
+
 ## Navigation API Interception
 
 When JS bundle scanning reveals what endpoint gets called but not what happens
