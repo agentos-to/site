@@ -512,13 +512,22 @@ BANNED_IMPORTS: dict[str, str] = {
 REQUIRED_FRONTMATTER = {"id", "name"}
 KNOWN_FRONTMATTER = {
     "id", "name", "description", "color", "website",
-    "connections", "privacy_url", "terms_url", "product",
-    "test", "tools", "operations", "sources", "accounts",
+    "privacy_url", "terms_url", "product",
+    "test", "tools", "sources", "accounts",
     "capabilities",
 }
-VALID_AUTH_TYPES = {"api_key", "cookies", "oauth", "none", "desktop_app"}
-
-
+# Frontmatter keys that used to be allowed but have moved into Python:
+# - `connections` → module-level `connection("name", ...)` calls
+# - `operations` → renamed to `tools` and superseded by @returns decorators
+DEPRECATED_FRONTMATTER = {
+    "connections": (
+        "declare connections at module level in .py files via "
+        "connection(\"name\", ...) — YAML connections: is no longer read"
+    ),
+    "operations": (
+        "rename to `tools` and use @returns decorators in .py files"
+    ),
+}
 # ═══════════════════════════════════════════════════════════════════════════════
 # Shape conformance: constants
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -1118,24 +1127,15 @@ def _check_frontmatter(data: dict) -> tuple[list[str], list[str]]:
 
     # Unknown keys
     for key in data:
-        if key not in KNOWN_FRONTMATTER:
+        if key in DEPRECATED_FRONTMATTER:
+            errors.append(
+                f"frontmatter field '{key}' is no longer supported — "
+                f"{DEPRECATED_FRONTMATTER[key]}"
+            )
+        elif key not in KNOWN_FRONTMATTER:
             closest = difflib.get_close_matches(key, KNOWN_FRONTMATTER, n=1, cutoff=0.6)
             hint = f" (did you mean '{closest[0]}'?)" if closest else ""
             warnings.append(f"unknown frontmatter field: '{key}'{hint}")
-
-    # Connection auth types
-    connections = data.get("connections")
-    if isinstance(connections, dict):
-        for conn_name, conn in connections.items():
-            if isinstance(conn, dict):
-                auth = conn.get("auth")
-                if isinstance(auth, dict):
-                    auth_type = auth.get("type")
-                    if auth_type and auth_type not in VALID_AUTH_TYPES:
-                        errors.append(
-                            f"connection '{conn_name}': unknown auth type '{auth_type}' "
-                            f"(valid: {', '.join(sorted(VALID_AUTH_TYPES))})"
-                        )
 
     return errors, warnings
 
