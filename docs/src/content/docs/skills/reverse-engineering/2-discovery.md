@@ -284,6 +284,33 @@ handler with the full Knex/Sequelize error object intact. Production code
 *should* catch and sanitize, but most don't. Tilefive, Discourse, and many
 mid-size platforms leak this way. Treat server errors as free documentation.
 
+### Error messages as a state machine
+
+Distinct error messages are state transitions — treat them that way.
+Each failure mode narrows the search space:
+
+1. `"Undefined binding [id]"` — schema-level complaint → body missing a required field.
+2. `"Pass or Membership required"` — body structure valid, business rule failed → check entitlements.
+3. `"Reservation Already Made!"` — body + entitlements valid, duplicate-key failure → success on first attempt.
+
+When you see a new distinct message, ask: "what state did I just enter?"
+and "what single body change gets me to the next?" Usually two or three
+iterations reveal the full required-field set. Log each attempt's body
++ response so you can diff what changed.
+
+### When to stop reading the bundle
+
+Bundle scanning is great for **static** payload structure — API paths,
+header templates, config constants. It's bad for **runtime-dependent**
+payload shape, like "what do I send when I have membership X vs pass Y."
+That logic often lives in minified closures you can't easily call.
+
+Heuristic: if the request body depends on server state you can query
+(your memberships, your cart contents, your permissions), skip the
+bundle and **probe with error-iteration** — it's usually 1-2 requests.
+If the body depends on client-only state (form data, computed tokens,
+hashing), the bundle is where the answer lives.
+
 ---
 
 ## Navigation API Interception

@@ -34,38 +34,40 @@ skills/mysite/
   web_scraper.py     # Authenticated HTML scraping — needs cookies
 ```
 
-The readme declares separate connections for each:
+Each `.py` file declares the connection it uses at module level:
 
-```yaml
-connections:
-  graphql:
-    description: "Public API — key auto-discovered"
-  web:
-    description: "User cookies for authenticated data"
-    auth:
-      type: cookies
-      domain: ".mysite.com"
-    optional: true
-    label: MySite Session
+```python
+# public_graph.py
+from agentos import connection
+
+connection("graphql",
+    description="Public API — key auto-discovered")
+
+
+# web_scraper.py
+from agentos import connection
+
+connection("web",
+    description="User cookies for authenticated data",
+    auth={"type": "cookies", "domain": ".mysite.com"},
+    optional=True,
+    label="MySite Session")
 ```
 
-Tools reference the appropriate connection:
+Tools reference the appropriate connection with `@connection(...)`:
 
-```yaml
-tools:
-  search_books:        # public
-    connection: graphql
-    python:
-      module: ./public_graph.py
-      function: search_books
-      args: { query: .params.query }
+```python
+# public_graph.py
+@returns("book[]")
+@connection("graphql")
+async def search_books(*, query, **params):
+    ...
 
-  list_friends:        # authenticated
-    connection: web
-    python:
-      module: ./web_scraper.py
-      function: list_friends
-      params: true
+# web_scraper.py
+@returns("person[]")
+@connection("web")
+async def list_friends(**params):
+    ...
 ```
 
 ---
