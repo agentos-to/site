@@ -26,8 +26,10 @@ person:
     initialUtmSource: string    # UTM source at first touch
     lastSeenAt:       datetime  # analytics-platform last-seen timestamp
   relations:
-    accounts:          account[] # platform identities this person owns
-    roles:             role[]    # positions at organizations
+    accounts:          account[]    # platform identities this person owns
+    roles:             role[]       # positions at organizations
+    memberships:       membership[] # gym, subscription, club, citizenship
+    passes:            pass[]        # class packs, day passes, tickets
     location:          place
     website:           website
   prior_art:

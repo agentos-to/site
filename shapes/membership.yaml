@@ -1,0 +1,92 @@
+# A time-bounded right-of-belonging granted by an organization.
+# The universal "you are part of X" primitive — gym memberships,
+# streaming subscriptions, coworking plans, AAA, professional bodies,
+# citizenships, religious affiliations, credit-card rewards status,
+# club memberships, union dues, library cards.
+#
+# A membership answers three questions: who holds it (member), what
+# organization grants it (at), and what the current status is (status).
+# Plus the time window (startEffectiveDate / endEffectiveDate) and —
+# for commercial memberships — the billing cadence.
+#
+# Distinct from `pass`: a membership is open-ended (until cancelled /
+# expired / revoked). A pass is a fixed bundle (10 classes, 30 days,
+# 1 ride). A membership may *grant* passes.
+#
+# Distinct from `offer`: an offer is pre-purchase ("join our gym for
+# $95/mo"); a membership is post-purchase ("you are a gym member").
+#
+# Distinct from `role`: a role is held at an organization ("CTO at
+# Acme"). A membership is belonging ("Annual member of SF MoMA"). An
+# employee has a role; a season-ticket holder has a membership. Both
+# can coexist on the same (person, organization).
+#
+# Subscriptions fold in cleanly: Spotify/Netflix/Anthropic all fit —
+# the plan is a product, the billing is recurring, status tracks
+# active/cancelled/past_due. Same shape.
+#
+# Non-commercial memberships work too: `billingType` is null, `price`
+# is 0 or null, the lifecycle fields (startEffectiveDate etc.) and
+# status carry all the meaning.
+#
+# Identity: [at, id] — one membership per (namespace, platform id).
+# Standard fields inherited: id, name, url, image, published, content.
+# published = startEffectiveDate (when the membership began).
+# name = human-readable tier or plan ("Annual Recurring: 21+ [ATX]",
+# "Spotify Premium Family", "US Citizen", "AAA Plus").
+# content = full description from the provider (often rich markdown).
+membership:
+  plural: memberships
+  identity: [at, id]
+  subtitle: status
+  fields:
+    status:            string    # active, paused, expired, cancelled, pending, revoked
+    tier:              string    # human-readable tier/plan name (cached; also on plan relation)
+    startEffectiveDate: datetime # when it began (also `published`)
+    endEffectiveDate: datetime  # when it ends (null = open-ended)
+    nextBillDate:     datetime  # next charge (commercial recurring)
+    autoRenew:        boolean   # renews automatically
+    # Commercial-specific (null for non-commercial memberships)
+    price:             number    # per-billing-cycle price
+    currency:          string    # ISO 4217 (USD default)
+    billingType:      string    # monthly, annual, weekly, one-time, null
+    # Entitlement-tracking (gyms, clubs, etc.)
+    useCount:         integer   # total uses to date (visits, classes, rides)
+    guestPassQuantity: integer  # complimentary guest entries included
+  relations:
+    at:                actor    # the organization / platform / service granting membership
+    member:            person    # the human who holds this membership
+    plan:              product   # the specific tier/plan (linkable across people)
+    location:          place     # physical home location (gym branch, store, office)
+  prior_art:
+    - source: schema.org/ProgramMembership
+      url: https://schema.org/ProgramMembership
+      notes: >-
+        schema.org's canonical membership type. Our member = member;
+        plan ≈ programName/membershipNumber; at ≈ hostingOrganization.
+        ProgramMembership covers gym, loyalty, society memberships
+        without requiring a billing cycle — matches our non-commercial
+        framing.
+    - source: schema.org/Subscription
+      url: https://schema.org/Subscription
+      notes: >-
+        Streaming/SaaS subscriptions fit this shape — one model covers
+        gym memberships and Spotify Premium. billingType maps to
+        billingPeriod; autoRenew maps directly.
+    - source: Stripe Subscriptions API
+      url: https://docs.stripe.com/api/subscriptions
+      notes: >-
+        Practical API mirror for commercial memberships. Our status
+        values (active/paused/cancelled/past_due) mirror Stripe
+        Subscription.status. nextBillDate ≈ current_period_end.
+    - source: Mindbody Contracts/Memberships
+      url: https://developers.mindbodyonline.com/PublicDocumentation/V6
+      notes: >-
+        Gym-industry API. Our useCount, guestPassQuantity,
+        startEffectiveDate / endEffectiveDate are lifted from
+        Mindbody's Membership record shape.
+    - source: FOAF member / membershipClass
+      url: http://xmlns.com/foaf/spec/#term_member
+      notes: >-
+        Social-web vocabulary for "X is a member of Y". Our member ↔ at
+        edge mirrors foaf:member; our tier ≈ foaf:membershipClass.

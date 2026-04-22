@@ -1,0 +1,70 @@
+# A fixed-quantity right-of-access — a bundle of entries, a multi-day
+# window, a day-pass, a ride voucher, a 10-class punch card, a
+# concert ticket. Anything with a quantifiable claim count and a
+# consumption lifecycle (active → depleted / expired / cancelled).
+#
+# Distinct from `membership`: a membership is open-ended and often
+# recurring. A pass is finite — it depletes, expires, or both. A
+# membership may *grant* passes (e.g. "your annual gives you 24 guest
+# passes a year").
+#
+# Distinct from `invitation`: an invitation confers the *right to
+# join* something; a pass confers the *right to use* something that
+# may have already been granted.
+#
+# Distinct from `offer`: an offer is pre-purchase ("buy a 10-class
+# pack for $150"); a pass is post-purchase ("you have 7 classes
+# remaining on this pack").
+#
+# Covers: gym class packs, yoga punch cards, day passes, season
+# tickets (a pass bundle), concert tickets, transit passes
+# (single-ride or period), ski lift tickets, guest passes bundled
+# with a membership.
+#
+# Identity: [at, id] — one pass per (namespace, platform id).
+# Standard fields inherited: id, name, url, image, published, content.
+# published = purchasedDate.
+# name = human-readable pass type ("Fitness 10-Pack", "Day Pass",
+# "Section 109, Row 12").
+pass:
+  plural: passes
+  identity: [at, id]
+  subtitle: status
+  fields:
+    status:            string    # active, depleted, expired, cancelled, refunded
+    purchasedDate:    datetime  # when purchased (also `published`)
+    startEffectiveDate: datetime # when usable from
+    endEffectiveDate: datetime  # when it expires (null = no expiry)
+    quantity:          integer   # claims remaining (decrements on use)
+    purchasedQuantity: integer   # starting count (for depletion tracking)
+    useCount:         integer   # times consumed
+    isAllDayPass:     boolean   # any-time-during-period pass (vs. quantity-based)
+    depletedDate:     datetime  # when quantity hit zero (null if still active)
+    # Commercial fields — null for non-commercial / free passes
+    price:             number
+    currency:          string    # ISO 4217
+  relations:
+    at:                actor    # the organization granting the pass
+    holder:            person    # who holds it
+    grantedBy:        membership  # optional: pass came with a membership
+    type:              product    # the specific pass product ("Fitness 10-Pack")
+    location:          place     # where purchased / home location
+  prior_art:
+    - source: schema.org/Ticket
+      url: https://schema.org/Ticket
+      notes: >-
+        schema.org's peer for a claim-check right-of-entry. Our
+        purchasedDate = issuedAt; holder = underName; price matches
+        directly. Ticket is event-bound; we generalize to any
+        right-of-use.
+    - source: Mindbody Services (pricing options)
+      url: https://developers.mindbodyonline.com/PublicDocumentation/V6
+      notes: >-
+        Gym-industry reference. Our quantity/purchasedQuantity/
+        useCount/depletedDate are lifted from Mindbody's
+        ClientService.Remaining / Count / DateCompleted.
+    - source: GTFS fare rules / IATA fare basis
+      url: https://gtfs.org/documentation/schedule/reference/#fare_productstxt
+      notes: >-
+        Transit-pass vocabulary: single-ride, day-pass, period-pass
+        all fit `isAllDayPass` + `startEffectiveDate` + `endEffectiveDate`.
