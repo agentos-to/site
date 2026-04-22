@@ -18,15 +18,8 @@ from agentos import client
 from agentos import url
 from agentos import shapes as shape
 
-# --- Transitional: `http` module stays importable until Wave 4 deletion,
-# so unmigrated skills continue to load while the corpus sweep runs.
-from agentos import http
-
-# --- Skill helpers (still live in http.py for now; move in Wave 4) ---
-from agentos.http import (
-    get_cookies, require_cookies, parse_cookie,
-    skill_error, skill_result, skill_secret,
-)
+# --- Skill-result helpers ---
+from agentos.results import skill_error, skill_result, skill_secret
 
 # --- Engine-dispatched modules ---
 from agentos import sql
@@ -57,8 +50,6 @@ from agentos.dates import parse_date, iso_from_ms, iso_from_seconds
 __all__ = [
     # Core modules
     "client", "url", "molt", "shape",
-    # Transitional (deleted in Wave 4)
-    "http",
     # Engine-dispatched modules
     "sql", "crypto", "oauth", "shell", "llm", "progress", "checkpoint",
     # Operation decorators
@@ -67,8 +58,6 @@ __all__ = [
     "web_search", "web_read", "email_lookup", "flight_search",
     "geocoding", "map_tiles", "file_list", "file_read", "file_info",
     "cookie_auth", "oauth_auth",
-    # HTTP helpers
-    "get_cookies", "require_cookies", "parse_cookie",
     # Skill result helpers
     "skill_error", "skill_result", "skill_secret",
     # Text (fine-grained)

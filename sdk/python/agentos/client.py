@@ -187,8 +187,12 @@ async def _request(method: str, url: str, **kwargs) -> dict:
             cookie_header = "; ".join(
                 p for p in parts if p.split("=", 1)[0] not in skip_set
             )
-        if cookie_header and "cookies" not in kwargs:
-            kwargs["cookies"] = cookie_header
+        if cookie_header:
+            # Fold into the request's Cookie: header. The engine's
+            # http.request op no longer grows a separate cookies= kwarg
+            # — cookies are just a header, same as every other header
+            # after this refactor.
+            merged_headers.setdefault("Cookie", cookie_header)
 
     envelope = {"method": method, "url": url, **kwargs}
     if out_body is not None:
@@ -275,3 +279,25 @@ def current() -> _jar.Client | None:
     outside a tool invocation. Used for debug and reverse-engineering
     only — skill logic shouldn't branch on this."""
     return _jar._current_client.get()
+
+
+def cookie(name: str) -> str | None:
+    """Look up a single cookie's value in the ambient Jar by name.
+
+    Returns ``None`` if no cookie with that name is set, or if called
+    outside a tool invocation, or on an ``api``-kind connection (no
+    jar). Intended for the rare case where skill logic needs to read
+    a specific cookie (e.g. NextAuth's ``lastActiveOrg`` hint) — the
+    Cookie: header rides automatically on ``client.get/post``.
+
+    When multiple jar entries share a name (same name, different
+    domain/path), returns the value of whichever the jar yields first.
+    Most callers want a specific name scoped to their domain, which
+    this gives them."""
+    ambient = _jar._current_client.get()
+    if ambient is None or ambient.jar is None:
+        return None
+    for c in ambient.jar.cookies:
+        if c.name == name:
+            return c.value
+    return None

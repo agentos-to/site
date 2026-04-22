@@ -1,6 +1,6 @@
 """OAuth token exchange through the engine.
 
-Sugar over http.post() with standard OAuth2 form body.
+Sugar over ``client.post()`` with standard OAuth2 form body.
 
     from agentos import oauth
 
@@ -13,7 +13,7 @@ Sugar over http.post() with standard OAuth2 form body.
     # token["scope"] — space-separated granted scopes (if returned by provider)
 """
 
-from agentos import http
+from agentos import client
 
 
 async def exchange(token_url, refresh_token, client_id, client_secret=None, scope=None):
@@ -41,9 +41,9 @@ async def exchange(token_url, refresh_token, client_id, client_secret=None, scop
     if scope:
         data["scope"] = scope
 
-    # http.post serializes `data=` as application/x-www-form-urlencoded
+    # client.post serializes `data=` as application/x-www-form-urlencoded
     # and reads `.json` off the engine response for us.
-    result = await http.post(token_url, data=data)
+    result = await client.post(token_url, data=data)
 
     parsed = result.get("json") if isinstance(result, dict) else None
     if isinstance(parsed, dict):

@@ -55,7 +55,7 @@ and any setup instructions.
 
 _PY_TEMPLATE = '''"""{skill_name} — TODO: describe what this connects to."""
 
-from agentos import http, returns
+from agentos import client, returns
 
 
 @returns("{shape}[]")
