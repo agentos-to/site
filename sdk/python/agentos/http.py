@@ -23,9 +23,58 @@ Session with cookie jar:
 
 from __future__ import annotations
 
+import json as _json
 import urllib.parse as _urllib_parse
 
 from agentos._bridge import dispatch
+
+
+# ---------------------------------------------------------------------------
+# Body serialization — SDK owns this, engine is pure transport.
+#
+# Skills pass json={obj} or data={k: v}; the SDK serializes in Python
+# and calls the engine's http.request with a raw body + Content-Type
+# header. Callers can still override Content-Type by passing headers={}
+# — setdefault means caller wins, no engine magic.
+# ---------------------------------------------------------------------------
+
+
+def _prepare_body(json=None, data=None, body=None, headers=None):
+    """Turn SDK-level conveniences (json=, data=, body=) into a raw body
+    string + Content-Type header. Returns (body, headers_dict).
+
+    Priority: json > data > body. Caller's own Content-Type in
+    ``headers`` always wins — setdefault never overrides.
+    """
+    out_headers = dict(headers or {})
+    out_body = None
+    if json is not None:
+        out_body = _json.dumps(json)
+        out_headers.setdefault("Content-Type", "application/json")
+    elif data is not None:
+        if isinstance(data, dict):
+            out_body = _urllib_parse.urlencode(data, doseq=True)
+            out_headers.setdefault("Content-Type", "application/x-www-form-urlencoded")
+        else:
+            out_body = data  # raw string/bytes passthrough
+    elif body is not None:
+        out_body = body
+    return out_body, out_headers
+
+
+async def _request(method: str, url: str, **kwargs) -> dict:
+    """Serialize SDK kwargs into an engine http.request envelope."""
+    json_body = kwargs.pop("json", None)
+    data = kwargs.pop("data", None)
+    body = kwargs.pop("body", None)
+    headers = kwargs.pop("headers", None)
+    out_body, out_headers = _prepare_body(json=json_body, data=data, body=body, headers=headers)
+    envelope = {"method": method, "url": url, **kwargs}
+    if out_body is not None:
+        envelope["body"] = out_body
+    if out_headers:
+        envelope["headers"] = out_headers
+    return await dispatch("http.request", envelope)
 
 
 # ---------------------------------------------------------------------------
@@ -35,32 +84,40 @@ from agentos._bridge import dispatch
 
 async def get(url: str, **kwargs) -> dict:
     """HTTP GET request. Returns dict with status, ok, url, headers, body, json."""
-    return await dispatch("http.request", {"method": "GET", "url": url, **kwargs})
+    return await _request("GET", url, **kwargs)
 
 
 async def post(url: str, **kwargs) -> dict:
-    """HTTP POST request. Accepts json=, data=, headers=, cookies=, profile=, etc."""
-    return await dispatch("http.request", {"method": "POST", "url": url, **kwargs})
+    """HTTP POST request. Accepts json=, data=, body=, headers=, cookies=.
+
+    - ``json=obj`` — serialized as JSON, Content-Type set to application/json
+      unless headers already set it.
+    - ``data=dict`` — URL-encoded form, Content-Type set to
+      application/x-www-form-urlencoded unless headers already set it.
+    - ``data=str`` or ``body=str`` — sent as-is, no Content-Type added.
+    - ``headers={"Content-Type": "..."}`` — always wins.
+    """
+    return await _request("POST", url, **kwargs)
 
 
 async def put(url: str, **kwargs) -> dict:
-    """HTTP PUT request."""
-    return await dispatch("http.request", {"method": "PUT", "url": url, **kwargs})
+    """HTTP PUT request. Same body conventions as post()."""
+    return await _request("PUT", url, **kwargs)
 
 
 async def delete(url: str, **kwargs) -> dict:
-    """HTTP DELETE request."""
-    return await dispatch("http.request", {"method": "DELETE", "url": url, **kwargs})
+    """HTTP DELETE request. Same body conventions as post()."""
+    return await _request("DELETE", url, **kwargs)
 
 
 async def patch(url: str, **kwargs) -> dict:
-    """HTTP PATCH request."""
-    return await dispatch("http.request", {"method": "PATCH", "url": url, **kwargs})
+    """HTTP PATCH request. Same body conventions as post()."""
+    return await _request("PATCH", url, **kwargs)
 
 
 async def head(url: str, **kwargs) -> dict:
     """HTTP HEAD request."""
-    return await dispatch("http.request", {"method": "HEAD", "url": url, **kwargs})
+    return await _request("HEAD", url, **kwargs)
 
 
 # ---------------------------------------------------------------------------
@@ -138,12 +195,22 @@ class HttpSession:
         return await self._request("PATCH", url, **kwargs)
 
     async def _request(self, method: str, url: str, **kwargs) -> dict:
-        return await dispatch("http.session_request", {
+        json_body = kwargs.pop("json", None)
+        data = kwargs.pop("data", None)
+        body = kwargs.pop("body", None)
+        headers = kwargs.pop("headers", None)
+        out_body, out_headers = _prepare_body(json=json_body, data=data, body=body, headers=headers)
+        envelope = {
             "session_id": self._session_id,
             "method": method,
             "url": url,
             **kwargs,
-        })
+        }
+        if out_body is not None:
+            envelope["body"] = out_body
+        if out_headers:
+            envelope["headers"] = out_headers
+        return await dispatch("http.session_request", envelope)
 
 
 
