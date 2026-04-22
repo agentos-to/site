@@ -27,6 +27,7 @@ import json as _json
 import urllib.parse as _urllib_parse
 
 from agentos._bridge import dispatch
+from agentos import _jar
 
 
 # ---------------------------------------------------------------------------
@@ -63,18 +64,108 @@ def _prepare_body(json=None, data=None, body=None, headers=None):
 
 
 async def _request(method: str, url: str, **kwargs) -> dict:
-    """Serialize SDK kwargs into an engine http.request envelope."""
+    """Serialize SDK kwargs into an engine http.request envelope.
+
+    Jar-aware: if the enclosing tool is on a connection with
+    ``mode="browser"`` or ``mode="fetch"``, this attaches the ambient
+    cookies + browser header bundle and captures ``Set-Cookie`` into
+    ``_jar_delta`` on the way back out. For ``mode="api"`` (the default)
+    the call is stateless — no cookies, no bundle — same behavior as
+    before connections-as-browsers.
+    """
     json_body = kwargs.pop("json", None)
     data = kwargs.pop("data", None)
     body = kwargs.pop("body", None)
     headers = kwargs.pop("headers", None)
     out_body, out_headers = _prepare_body(json=json_body, data=data, body=body, headers=headers)
+
+    conn = _jar._current_connection.get()
+    mode = (conn or {}).get("mode")
+    is_jar_mode = mode in ("browser", "fetch")
+
+    if is_jar_mode:
+        # Attach ambient browser bundle first, then caller headers (caller wins).
+        bundle = _bundle_for_mode(mode)
+        merged = dict(bundle)
+        merged.update(out_headers)
+        out_headers = merged
+        # Attach the Cookie header if the engine seeded one and the caller
+        # didn't supply their own.
+        cookies_in = (conn or {}).get("cookies_in") or ""
+        if cookies_in and "cookies" not in kwargs:
+            kwargs["cookies"] = cookies_in
+
     envelope = {"method": method, "url": url, **kwargs}
     if out_body is not None:
         envelope["body"] = out_body
     if out_headers:
         envelope["headers"] = out_headers
-    return await dispatch("http.request", envelope)
+
+    resp = await dispatch("http.request", envelope)
+
+    if is_jar_mode:
+        _capture_set_cookie(resp)
+
+    return resp
+
+
+def _bundle_for_mode(mode: str) -> dict:
+    """Browser/fetch header bundle applied automatically inside a jar-mode
+    connection. `mode="browser"` = navigate headers + full Sec-CH-UA /
+    Sec-Fetch-* set; `mode="fetch"` = XHR headers (Sec-Fetch-Mode: cors, no
+    navigate bundle). Skill code never calls this — ``mode=`` on the
+    connection declaration is the knob."""
+    # UA + language/encoding apply to both.
+    bundle = {
+        "User-Agent": _UA["chrome-desktop"],
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        # Client hints that real Chrome always sends.
+        "Sec-CH-UA": f'"Chromium";v="{_CHROME_VERSION}", "Not:A-Brand";v="99"',
+        "Sec-CH-UA-Mobile": "?0",
+        "Sec-CH-UA-Platform": '"macOS"',
+    }
+    if mode == "browser":
+        bundle.update(_MODE["navigate"])
+        bundle.update(_ACCEPT["html"])
+    elif mode == "fetch":
+        bundle.update(_MODE["fetch"])
+        bundle.update(_ACCEPT["json"])
+    return bundle
+
+
+def _capture_set_cookie(resp: dict) -> None:
+    """Parse Set-Cookie header(s) from an http.request response and append
+    name→value pairs to the ambient ``_jar_delta``. The engine's current
+    header capture flattens same-name headers, so this at minimum picks up
+    the last-wins Set-Cookie; multi-cookie support rides on the engine's
+    future header-list fix and is out of scope for this layer."""
+    headers = resp.get("headers") or {}
+    if not isinstance(headers, dict):
+        return
+    # Headers come back with whatever casing wreq produced — match any case.
+    raw = None
+    for k, v in headers.items():
+        if k.lower() == "set-cookie":
+            raw = v
+            break
+    if not raw:
+        return
+    # Cookie attributes are separated by "; "; multiple cookies would be
+    # separated by ", " (which a flat-string response cannot unambiguously
+    # split — we take the first name=value up to ';' and move on).
+    name_val = raw.split(";", 1)[0].strip()
+    if "=" not in name_val:
+        return
+    name, _, value = name_val.partition("=")
+    name = name.strip()
+    value = value.strip()
+    if not name:
+        return
+    # Mutate in place — ContextVar holds the dict reference set at tool
+    # entry by python_worker.handle_call.
+    _jar._jar_delta.get()[name] = value
+
 
 
 # ---------------------------------------------------------------------------
