@@ -1,6 +1,6 @@
 ---
-title: Connections as browsers
-description: Each skill connection is a sandboxed identity profile with its own cookie jar, its own auth, and its own mode. Tools on different connections never share state; tools on the same connection always do. The credential store is the vault; the per-call jar is a briefly-opened wallet.
+title: "Each connection is a client — a browser, a fetch, or an API"
+description: Each skill connection is a sandboxed identity profile with its own cookie jar, its own auth, and its own kind of client. Tools on different connections never share state; tools on the same connection always do. The credential store is the vault; the per-call jar is a briefly-opened wallet.
 ---
 
 A **connection** is how a skill reaches a service: a REST API, a cookie-
@@ -18,19 +18,19 @@ This page is the middle layer: **what a connection *is*.**
 
 ## The mental model
 
-Each connection is a **sandboxed identity profile**. The profile
-decides three things:
+Each connection is a **sandboxed identity profile** paired with a
+kind of client. The profile decides three things:
 
-- **Mode** — browser, fetch, or api. Picks the HTTP personality
-  (header bundle, cookie behavior).
+- **Client kind** — `"browser"`, `"fetch"`, or `"api"`. Picks the
+  HTTP personality (header bundle, cookie behavior).
 - **Identity** — cookies, API key, OAuth tokens, or none. What makes
   a request "authenticated."
 - **Scope** — the `(domain, identifier)` key under which this
   connection's credentials live in the store.
 
 Tools bind to a connection with `@connection("portal")`. Inside the
-tool body, plain `http.get("/x")` does the right thing because the
-connection owns the mode and the auth. **Skill code never threads
+tool body, plain `client.get("/x")` does the right thing because the
+connection owns the kind and the auth. **Skill code never threads
 cookies, tokens, or browser headers.**
 
 Two tools on *different* connections — even in the same skill — are
@@ -118,7 +118,7 @@ holds what is the key to the whole model.
             │         │
             ↓         ↓
 ┌────────────────────────────────────────────────────────────┐
-│ http.get / http.post calls inside the tool body            │
+│ client.get / client.post calls inside the tool body            │
 └────────────────────────────────────────────────────────────┘
 ```
 
@@ -130,16 +130,19 @@ Concretely, with ABP's `book_class` on the `portal` connection:
    `(tilefive.com, joe@contini.co)` from the credential store.
    Decrypts in memory, hands to the Python worker as
    `params["auth"]["cookies"]`.
-2. **SDK seeds the per-call jar.** `_bridge.py` stashes the cookies
-   and the connection's mode on a `ContextVar` scoped to this tool
-   call.
-3. **Tool body runs.** `http.post("/bookings", json=...)`. Inside
-   `http.post`, the SDK reads the ContextVar, attaches cookies to
-   the outbound request, sends it.
-4. **Response comes back.** SDK parses `Set-Cookie` headers,
-   accumulates changes into the jar delta (another ContextVar).
-5. **Tool body returns.** SDK sees the delta, appends
-   `__cookie_delta__: {...}` to the return dict.
+2. **SDK seeds the per-call jar.** The Python worker builds a
+   ``Client(connection=…, jar=Jar.from_seed(cookies))`` and sets it
+   on ``_current_client`` — one ContextVar scoped to this tool call.
+3. **Tool body runs.** `client.post("/bookings", json=...)`. Inside
+   ``client._request``, the SDK reads ``_current_client``, pulls the
+   outbound `Cookie:` header from ``jar.cookie_header_for(url)``,
+   composes the per-kind header bundle, sends it.
+4. **Response comes back.** SDK parses `Set-Cookie` headers and calls
+   ``jar.ingest(url, set_cookie)`` — the same live jar, mutated in
+   place.
+5. **Tool body returns.** SDK snapshot-diffs ``jar._live`` vs
+   ``jar._seed`` and appends ``__cookie_delta__: {added, changed,
+   removed}`` to the return dict.
 6. **Engine receives the delta.** Upserts the new cookie values into
    the credential store row (`domain=tilefive.com`,
    `identifier=joe@contini.co`). Row is now updated.
@@ -165,20 +168,20 @@ Copying the credential row into memory for the duration of the call,
 then writing the diff back, gives us both: fast access during work,
 no plaintext on disk at rest.
 
-## Three modes
+## Three client kinds
 
-A connection picks one of three modes. The mode decides cookie
+A connection picks one of three client kinds. The kind decides cookie
 behavior and header personality.
 
-| `mode=` | Cookie jar | Headers | When to use |
+| `client=` | Cookie jar | Headers | When to use |
 |---|---|---|---|
 | `"browser"` | Yes — full per-call jar, Set-Cookie writeback | Navigate bundle (`Sec-Fetch-*`, `Upgrade-Insecure-Requests`, UA, `Sec-CH-UA`) | Cookie-authed dashboards, site scraping, login flows |
 | `"fetch"` | Yes — same as browser | XHR bundle (`Sec-Fetch-Mode: cors`, no nav headers) | AJAX-style API calls a real browser's JS would make |
 | `"api"` (default) | No jar. Stateless. | None added — caller passes any needed headers | REST APIs with key or token auth |
 
-Individual tools can override with `mode=`, `jar=`, or extra
-`headers=` on the HTTP call — rare, maybe 5% of tools. 95% inherit
-from the connection.
+Individual tools can override with `client="..."`, `incognito=True`, or
+extra `headers=` on the HTTP call — rare, maybe 5% of tools. 95%
+inherit from the connection.
 
 ## What this replaces
 
@@ -197,15 +200,15 @@ async def list_api_keys(**params):
 Now:
 
 ```python
-# AFTER — the connection owns the mode and the jar
+# AFTER — the connection owns the client kind and the jar
 connection("dashboard",
     base_url="https://dashboard.exa.ai",
-    auth={"type": "cookies", "domain": ".exa.ai"},
-    mode="browser")
+    client="browser",
+    auth={"type": "cookies", "domain": ".exa.ai"})
 
 @connection("dashboard")
 async def list_api_keys(**params):
-    resp = await http.get("/api/keys")
+    resp = await client.get("/api/keys")
     return parse(resp["json"])
 ```
 
@@ -241,4 +244,4 @@ the tool body makes.
   `(domain, identifier)`.
 - [Connections & Auth (skill author's view)](/skills/connections/) —
   the surface. What the `connection(...)` call looks like, what
-  `mode=` does, which auth types are supported.
+  `client=` does, which auth types are supported.

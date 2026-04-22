@@ -13,10 +13,10 @@ How to get a response from a server that doesn't want to talk to you.
 from agentos import http
 
 # Default — works for most JSON APIs
-resp = http.get(url, **http.headers(accept="json"))
+resp = client.get(url, **http.headers(accept="json"))
 
 # Behind CloudFront/Cloudflare — WAF headers + HTTP/2
-resp = http.get(url, **http.headers(waf="cf", accept="json"))
+resp = client.get(url, **http.headers(waf="cf", accept="json"))
 
 # Full page navigation (Amazon, Goodreads)
 with http.client(cookies=cookie_header) as c:
@@ -33,10 +33,10 @@ All HTTP goes through the Rust engine via `agentos.http`. The engine handles tra
 >
 > ```python
 > # WRONG — no browser headers, will fail on strict endpoints
-> http.post(url, cookies=cookies, headers={"x-csrf-token": "x"}, json=body)
+> client.post(url, cookies=cookies, headers={"x-csrf-token": "x"}, json=body)
 >
 > # RIGHT — browser-grade headers + service-specific extras
-> http.post(url, cookies=cookies, json=body,
+> client.post(url, cookies=cookies, json=body,
 >           **http.headers(waf="cf", accept="json", extra={"x-csrf-token": "x"}))
 > ```
 
@@ -60,10 +60,10 @@ In `http.headers()`, this is handled by the `waf=` knob:
 
 ```python
 # waf="cf" → http2=True (CloudFront/Cloudflare need HTTP/2)
-resp = http.get(url, **http.headers(waf="cf", accept="json"))
+resp = client.get(url, **http.headers(waf="cf", accept="json"))
 
 # waf="vercel" → http2=False (Vercel blocks HTTP/2)
-resp = http.get(url, **http.headers(waf="vercel", accept="json"))
+resp = client.get(url, **http.headers(waf="vercel", accept="json"))
 ```
 
 The WAF template automatically sets the right `http2` value. No need to remember which WAF needs what.
@@ -125,7 +125,7 @@ The engine's wreq client already emits Chrome's exact TLS cipher suites, GREASE 
 
 ### All I/O through SDK modules
 
-Skills must use `agentos.http` for all HTTP — never `urllib`, `requests`, `httpx`, or `subprocess` directly. All I/O goes through SDK modules (`http.get/post`, `shell.run`, `sql.query`) so the engine can log, gate, and manage requests.
+Skills must use `agentos.http` for all HTTP — never `urllib`, `requests`, `httpx`, or `subprocess` directly. All I/O goes through SDK modules (`client.get/post`, `shell.run`, `sql.query`) so the engine can log, gate, and manage requests.
 
 ---
 
@@ -145,8 +145,8 @@ conf = http.headers(
     extra={"X-Custom": "value"},  # Merge last, overrides anything
 )
 # Returns {"headers": {...}, "http2": True/False}
-# Spread into http.get/post/client with **
-resp = http.get(url, **conf)
+# Spread into client.get/post/client with **
+resp = client.get(url, **conf)
 ```
 
 ### What each knob controls
@@ -191,7 +191,7 @@ Amazon's Lightsaber bot detection checks these device hints. Without them, auth 
 from agentos import http
 
 # JSON API, no WAF (Gmail, Linear, Todoist — 15 skills)
-resp = http.get(url, **http.headers(accept="json", extra={"Authorization": f"Bearer {token}"}))
+resp = client.get(url, **http.headers(accept="json", extra={"Authorization": f"Bearer {token}"}))
 
 # HTML scraping behind CloudFront (Amazon, Goodreads)
 with http.client(cookies=cookie_header) as c:
@@ -205,10 +205,10 @@ with http.client(cookies=cookie_header, **conf) as c:
     resp = c.get(url)
 
 # Vercel checkpoint bypass (Exa)
-resp = http.get(url, **http.headers(waf="vercel", accept="json"))
+resp = client.get(url, **http.headers(waf="vercel", accept="json"))
 
 # Full control — skip helpers entirely
-resp = http.get(url, headers={"Accept": "text/csv", "X-Custom": "value"})
+resp = client.get(url, headers={"Accept": "text/csv", "X-Custom": "value"})
 
 # Debug — print what you're sending
 print(http.headers(waf="cf", mode="navigate", accept="html"))
@@ -458,7 +458,7 @@ from agentos import http
 
 # Resolve cookies — provider discovery is automatic
 cookie_header = http.cookies(domain=".uber.com")
-resp = http.post(url, cookies=cookie_header, **http.headers(accept="json"))
+resp = client.post(url, cookies=cookie_header, **http.headers(accept="json"))
 
 # Specific account (multiple people logged in on different browsers)
 cookie_header = http.cookies(domain=".uber.com", account="user@example.com")

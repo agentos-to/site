@@ -38,7 +38,7 @@ connection("api",
 @returns("post[]")
 @connection("api")
 async def list_posts(**params):
-    return (await http.get("/posts"))["json"]
+    return (await client.get("/posts"))["json"]
 ```
 
 ## Common patterns
@@ -83,7 +83,7 @@ name in `params["connection"]`.
 
 ## Rules
 
-- `base_url` resolves relative URLs in `http.get(...)` / `http.post(...)`.
+- `base_url` resolves relative URLs in `client.get(...)` / `client.post(...)`.
 - Single-connection skills auto-infer: no `@connection` decorator needed.
 - Multi-connection skills must decorate every public tool.
 - A tool that should skip auth entirely uses `@connection("none")` (or omits
@@ -203,13 +203,13 @@ a load balancer hostname.
 
 When a tool bound to a `mode="browser"` or `mode="fetch"` connection
 runs, the SDK maintains a **per-call cookie jar** automatically. You
-don't interact with it directly — plain `http.get("/x")` just works.
+don't interact with it directly — plain `client.get("/x")` just works.
 What happens under the hood:
 
 1. **On tool entry**, the engine resolves cookies for the
    connection's `(domain, identifier)` from the credential store,
    decrypts them, and injects them into your tool's params.
-2. **Inside your tool body**, every `http.get` / `http.post` call
+2. **Inside your tool body**, every `client.get` / `client.post` call
    the SDK makes automatically attaches those cookies and captures
    any `Set-Cookie` responses into the same jar.
 3. **On tool exit**, the SDK emits the jar delta as
