@@ -1,219 +1,130 @@
-"""HTTP client for skills — routes all requests through the engine.
+"""Deprecated ``http`` namespace — kept alive through Wave 3 corpus sweep.
 
-All HTTP goes through the engine via dispatch. The engine handles:
-- Cookie jar management and writeback
-- HTTP/1.1 vs HTTP/2 toggle
-- Request/response logging to engine-io.jsonl
-- Domain allowlisting (future: firewall rules)
+All network verbs route to ``agentos.client``; URL helpers route to
+``agentos.url``. Wave 3 rewrites skill callsites to call those directly;
+Wave 4 deletes this file.
 
-Headers are built in Python via http.headers() — the engine is pure transport.
+Skills should stop importing this module. The remaining public surface:
 
-Simple requests:
-    from agentos import http
-    resp = http.get("https://api.example.com/data", **http.headers(accept="json"))
-    data = resp["json"]
-
-Session with cookie jar:
-    with http.client(cookies=cookie_header) as c:
-        c.get("https://www.amazon.com/", **http.headers(waf="cf", mode="navigate", accept="html"))
-        resp = c.get("https://www.amazon.com/gp/your-account/order-history",
-                      **http.headers(waf="cf", mode="navigate", accept="html"))
-        orders = resp["body"]
+  - ``http.get/post/put/delete/patch/head`` — aliases for ``client.*``.
+  - ``http.build_url/parse_url/encode/decode`` — aliases for ``url.*``.
+  - ``http.headers(...)`` — legacy header-bundle composer. Now redundant
+    (the Client's ``client="..."`` value owns the bundle); merges
+    harmlessly on top at the callsite.
+  - ``http.client(...)`` — legacy session context manager backed by the
+    engine's ``http.session_*`` ops. Wave 4 deletes.
+  - ``http.cookies(domain=, account=)`` — cookie resolver passthrough.
+  - Skill helpers: ``skill_error / skill_result / skill_secret /
+    get_cookies / require_cookies / parse_cookie``.
 """
 
 from __future__ import annotations
 
-import json as _json
-import urllib.parse as _urllib_parse
-
 from agentos._bridge import dispatch
-from agentos import _jar
+from agentos import client as _client
+from agentos import url as _url
 
 
-# ---------------------------------------------------------------------------
-# Body serialization — SDK owns this, engine is pure transport.
-#
-# Skills pass json={obj} or data={k: v}; the SDK serializes in Python
-# and calls the engine's http.request with a raw body + Content-Type
-# header. Callers can still override Content-Type by passing headers={}
-# — setdefault means caller wins, no engine magic.
-# ---------------------------------------------------------------------------
+# ── Network verbs — direct alias to the new client surface. ───────────────
+
+get = _client.get
+post = _client.post
+put = _client.put
+delete = _client.delete
+patch = _client.patch
+head = _client.head
 
 
-def _prepare_body(json=None, data=None, body=None, headers=None):
-    """Turn SDK-level conveniences (json=, data=, body=) into a raw body
-    string + Content-Type header. Returns (body, headers_dict).
+# ── URL helpers — direct alias to the new url surface. ────────────────────
 
-    Priority: json > data > body. Caller's own Content-Type in
-    ``headers`` always wins — setdefault never overrides.
-    """
-    out_headers = dict(headers or {})
-    out_body = None
-    if json is not None:
-        out_body = _json.dumps(json)
-        out_headers.setdefault("Content-Type", "application/json")
-    elif data is not None:
-        if isinstance(data, dict):
-            out_body = _urllib_parse.urlencode(data, doseq=True)
-            out_headers.setdefault("Content-Type", "application/x-www-form-urlencoded")
-        else:
-            out_body = data  # raw string/bytes passthrough
-    elif body is not None:
-        out_body = body
-    return out_body, out_headers
+build_url = _url.build
+parse_url = _url.parse
+encode = _url.encode
+decode = _url.decode
+ParsedURL = _url.ParsedURL
 
 
-async def _request(method: str, url: str, **kwargs) -> dict:
-    """Serialize SDK kwargs into an engine http.request envelope.
+# ── Legacy header composer ────────────────────────────────────────────────
+# The new Client owns the bundle via connection ``client="..."``; calls to
+# ``http.headers(...)`` are redundant but harmless — caller-supplied
+# headers merge on top of the ambient bundle in client._request.
 
-    Jar-aware: if the enclosing tool is on a connection with
-    ``mode="browser"`` or ``mode="fetch"``, this attaches the ambient
-    cookies + browser header bundle and captures ``Set-Cookie`` into
-    ``_jar_delta`` on the way back out. For ``mode="api"`` (the default)
-    the call is stateless — no cookies, no bundle — same behavior as
-    before connections-as-browsers.
-    """
-    json_body = kwargs.pop("json", None)
-    data = kwargs.pop("data", None)
-    body = kwargs.pop("body", None)
-    headers = kwargs.pop("headers", None)
-    out_body, out_headers = _prepare_body(json=json_body, data=data, body=body, headers=headers)
+_CHROME_VERSION = "145"
+_CHROME_FULL_VERSION = "145.0.7493.92"
 
-    conn = _jar._current_connection.get()
-    mode = (conn or {}).get("mode")
-    is_jar_mode = mode in ("browser", "fetch")
+_UA = {
+    "chrome-desktop": f"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{_CHROME_VERSION}.0.0.0 Safari/537.36",
+    "chrome-mobile": f"Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/{_CHROME_VERSION}.0.0.0 Mobile/15E148 Safari/604.1",
+    "safari-desktop": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15",
+}
 
-    if is_jar_mode:
-        # Attach ambient browser bundle first, then caller headers (caller wins).
-        bundle = _bundle_for_mode(mode)
-        merged = dict(bundle)
-        merged.update(out_headers)
-        out_headers = merged
-        # Attach the Cookie header if the engine seeded one and the caller
-        # didn't supply their own.
-        cookies_in = (conn or {}).get("cookies_in") or ""
-        if cookies_in and "cookies" not in kwargs:
-            kwargs["cookies"] = cookies_in
-
-    envelope = {"method": method, "url": url, **kwargs}
-    if out_body is not None:
-        envelope["body"] = out_body
-    if out_headers:
-        envelope["headers"] = out_headers
-
-    resp = await dispatch("http.request", envelope)
-
-    if is_jar_mode:
-        _capture_set_cookie(resp)
-
-    return resp
-
-
-def _bundle_for_mode(mode: str) -> dict:
-    """Browser/fetch header bundle applied automatically inside a jar-mode
-    connection. `mode="browser"` = navigate headers + full Sec-CH-UA /
-    Sec-Fetch-* set; `mode="fetch"` = XHR headers (Sec-Fetch-Mode: cors, no
-    navigate bundle). Skill code never calls this — ``mode=`` on the
-    connection declaration is the knob."""
-    # UA + language/encoding apply to both.
-    bundle = {
-        "User-Agent": _UA["chrome-desktop"],
-        "Accept-Language": "en-US,en;q=0.9",
-        "Accept-Encoding": "gzip, deflate, br, zstd",
-        # Client hints that real Chrome always sends.
+_WAF = {
+    "cf": {"hints": {
         "Sec-CH-UA": f'"Chromium";v="{_CHROME_VERSION}", "Not:A-Brand";v="99"',
         "Sec-CH-UA-Mobile": "?0",
         "Sec-CH-UA-Platform": '"macOS"',
-    }
-    if mode == "browser":
-        bundle.update(_MODE["navigate"])
-        bundle.update(_ACCEPT["html"])
-    elif mode == "fetch":
-        bundle.update(_MODE["fetch"])
-        bundle.update(_ACCEPT["json"])
-    return bundle
+    }, "http2": True},
+    "vercel": {"hints": {}, "http2": False},
+}
+
+_MODE = {
+    "fetch": {
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+    },
+    "navigate": {
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
+        "Upgrade-Insecure-Requests": "1",
+        "Cache-Control": "max-age=0",
+        "Device-Memory": "8",
+        "Downlink": "10",
+        "DPR": "2",
+        "ECT": "4g",
+        "RTT": "50",
+        "Viewport-Width": "1512",
+        "Sec-CH-Device-Memory": "8",
+        "Sec-CH-DPR": "2",
+        "Sec-CH-UA-Full-Version-List": f'"Chromium";v="{_CHROME_FULL_VERSION}", "Not:A-Brand";v="99.0.0.0"',
+    },
+}
+
+_ACCEPT = {
+    "json": {"Accept": "application/json"},
+    "html": {"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"},
+    "any":  {"Accept": "*/*"},
+}
 
 
-def _capture_set_cookie(resp: dict) -> None:
-    """Parse Set-Cookie header(s) from an http.request response and append
-    name→value pairs to the ambient ``_jar_delta``. The engine's current
-    header capture flattens same-name headers, so this at minimum picks up
-    the last-wins Set-Cookie; multi-cookie support rides on the engine's
-    future header-list fix and is out of scope for this layer."""
-    headers = resp.get("headers") or {}
-    if not isinstance(headers, dict):
-        return
-    # Headers come back with whatever casing wreq produced — match any case.
-    raw = None
-    for k, v in headers.items():
-        if k.lower() == "set-cookie":
-            raw = v
-            break
-    if not raw:
-        return
-    # Cookie attributes are separated by "; "; multiple cookies would be
-    # separated by ", " (which a flat-string response cannot unambiguously
-    # split — we take the first name=value up to ';' and move on).
-    name_val = raw.split(";", 1)[0].strip()
-    if "=" not in name_val:
-        return
-    name, _, value = name_val.partition("=")
-    name = name.strip()
-    value = value.strip()
-    if not name:
-        return
-    # Mutate in place — ContextVar holds the dict reference set at tool
-    # entry by python_worker.handle_call.
-    _jar._jar_delta.get()[name] = value
+def headers(*, waf=None, ua="chrome-desktop", mode="fetch", accept="any", extra=None):
+    """Build request headers from independent knobs. Deprecated — the
+    new Client owns the header bundle via ``client="..."`` on the
+    connection declaration. Kept as a pass-through for unmigrated
+    callsites; Wave 3 sweep deletes these calls."""
+    h = {}
+    result = {}
+    h["User-Agent"] = _UA.get(ua, ua)
+    h["Accept-Language"] = "en-US,en;q=0.9"
+    h["Accept-Encoding"] = "gzip, deflate, br, zstd"
+    if waf:
+        cfg = _WAF[waf]
+        h.update(cfg["hints"])
+        result["http2"] = cfg["http2"]
+        h.update(_MODE[mode])
+    h.update(_ACCEPT[accept])
+    if extra:
+        h.update(extra)
+    result["headers"] = h
+    return result
 
 
-
-# ---------------------------------------------------------------------------
-# Simple requests — stateless, no cookie jar
-# ---------------------------------------------------------------------------
-
-
-async def get(url: str, **kwargs) -> dict:
-    """HTTP GET request. Returns dict with status, ok, url, headers, body, json."""
-    return await _request("GET", url, **kwargs)
-
-
-async def post(url: str, **kwargs) -> dict:
-    """HTTP POST request. Accepts json=, data=, body=, headers=, cookies=.
-
-    - ``json=obj`` — serialized as JSON, Content-Type set to application/json
-      unless headers already set it.
-    - ``data=dict`` — URL-encoded form, Content-Type set to
-      application/x-www-form-urlencoded unless headers already set it.
-    - ``data=str`` or ``body=str`` — sent as-is, no Content-Type added.
-    - ``headers={"Content-Type": "..."}`` — always wins.
-    """
-    return await _request("POST", url, **kwargs)
-
-
-async def put(url: str, **kwargs) -> dict:
-    """HTTP PUT request. Same body conventions as post()."""
-    return await _request("PUT", url, **kwargs)
-
-
-async def delete(url: str, **kwargs) -> dict:
-    """HTTP DELETE request. Same body conventions as post()."""
-    return await _request("DELETE", url, **kwargs)
-
-
-async def patch(url: str, **kwargs) -> dict:
-    """HTTP PATCH request. Same body conventions as post()."""
-    return await _request("PATCH", url, **kwargs)
-
-
-async def head(url: str, **kwargs) -> dict:
-    """HTTP HEAD request."""
-    return await _request("HEAD", url, **kwargs)
-
-
-# ---------------------------------------------------------------------------
-# Session client — cookie jar with writeback
-# ---------------------------------------------------------------------------
+# ── Legacy session client ─────────────────────────────────────────────────
+# HTTP requests routed through engine ``http.session_*`` ops with explicit
+# cookie-jar writeback. Wave 4 deletes this path — every live callsite
+# migrates to the ambient Client/Jar in Wave 3.
 
 
 def client(
@@ -225,36 +136,19 @@ def client(
     http2: bool = True,
     retry: int = 0,
     retry_delay: float = 2.0,
-) -> HttpSession:
-    """Create an HTTP session with cookie jar tracking.
-
-    Use as a context manager for multi-request flows where cookies matter:
-
-        with http.client(cookies=cookie_header) as c:
-            c.get("https://www.amazon.com/", **http.headers(waf="cf", mode="navigate", accept="html"))
-            resp = c.get("https://www.amazon.com/gp/your-account/order-history",
-                          **http.headers(waf="cf", mode="navigate", accept="html"))
-
-    The engine tracks Set-Cookie responses and diffs the jar on close
-    for automatic writeback to the credential store.
-    """
+) -> "HttpSession":
+    """Create an HTTP session with cookie-jar tracking. Deprecated —
+    the new Client/Jar handles this via the connection; Wave 3 sweeps
+    callsites, Wave 4 deletes this path."""
     return HttpSession(
-        cookies=cookies,
-        headers=headers,
-        skip_cookies=skip_cookies,
-        timeout=timeout,
-        http2=http2,
+        cookies=cookies, headers=headers, skip_cookies=skip_cookies,
+        timeout=timeout, http2=http2,
     )
 
 
 class HttpSession:
-    """HTTP session with engine-managed cookie jar.
-
-    Use as an async context manager:
-
-        async with http.client(cookies=cookie_header) as c:
-            await c.get("https://example.com/")
-    """
+    """Legacy async session context manager — routes through engine
+    ``http.session_open / session_close / session_request`` ops."""
 
     def __init__(self, **config):
         self._config = config
@@ -289,8 +183,10 @@ class HttpSession:
         json_body = kwargs.pop("json", None)
         data = kwargs.pop("data", None)
         body = kwargs.pop("body", None)
-        headers = kwargs.pop("headers", None)
-        out_body, out_headers = _prepare_body(json=json_body, data=data, body=body, headers=headers)
+        hdrs = kwargs.pop("headers", None)
+        out_body, out_headers = _client._prepare_body(
+            json=json_body, data=data, body=body, headers=hdrs
+        )
         envelope = {
             "session_id": self._session_id,
             "method": method,
@@ -304,30 +200,11 @@ class HttpSession:
         return await dispatch("http.session_request", envelope)
 
 
-
-
-# ---------------------------------------------------------------------------
-# Cookie resolution — provider-agnostic, uses engine auth resolver
-# ---------------------------------------------------------------------------
+# ── Legacy cookie resolver ────────────────────────────────────────────────
 
 
 async def cookies(domain: str, account: str | None = None) -> str:
-    """Resolve cookies for a domain via the auth system.
-
-    Uses the same provider discovery and ranking as connection-based
-    auth resolution: tries all installed cookie providers (brave-browser,
-    firefox, etc.), picks the best one, validates the session if possible.
-
-    Args:
-        domain:  Cookie domain (e.g. ".uber.com", ".amazon.com").
-        account: Optional account identifier to select a specific session.
-
-    Returns:
-        Cookie header string ("name=value; name=value; ...").
-
-    Raises:
-        ValueError: No cookie provider found or no cookies for this domain.
-    """
+    """Resolve cookies for a domain via the auth resolver."""
     params = {"domain": domain}
     if account:
         params["account"] = account
@@ -335,245 +212,7 @@ async def cookies(domain: str, account: str | None = None) -> str:
     return result.get("cookies", "")
 
 
-# ---------------------------------------------------------------------------
-# Header composition — independent knobs, no engine profiles
-# ---------------------------------------------------------------------------
-# Chrome version: MUST match the engine's wreq TLS emulation and the Rust
-# BROWSER_DEFAULT_UA/SEC_CH_UA constants in executor.rs.
-#
-# UPDATE TOGETHER when bumping Chrome version:
-#   1. _UA["chrome-desktop"] and _UA["chrome-mobile"] — version in UA string
-#   2. _WAF["cf"]["hints"]["Sec-CH-UA"] — version in client hints
-#   3. _MODE["navigate"]["Sec-CH-UA-Full-Version-List"] — full version
-#   4. Rust: executor.rs BROWSER_DEFAULT_UA, BROWSER_DEFAULT_SEC_CH_UA,
-#      and wreq_util::Emulation::ChromeNNN
-#
-# As of 2026-04-02: Brave is Chromium 146, wreq supports up to Chrome 145.
-# ---------------------------------------------------------------------------
-
-_CHROME_VERSION = "145"
-_CHROME_FULL_VERSION = "145.0.7493.92"
-
-_UA = {
-    "chrome-desktop": f"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{_CHROME_VERSION}.0.0.0 Safari/537.36",
-    "chrome-mobile": f"Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/{_CHROME_VERSION}.0.0.0 Mobile/15E148 Safari/604.1",
-    "safari-desktop": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15",
-}
-
-_WAF = {
-    "cf": {
-        # Covers CloudFront (AWS) and Cloudflare — same signals today.
-        "hints": {
-            "Sec-CH-UA": f'"Chromium";v="{_CHROME_VERSION}", "Not:A-Brand";v="99"',
-            "Sec-CH-UA-Mobile": "?0",
-            "Sec-CH-UA-Platform": '"macOS"',
-        },
-        "http2": True,
-    },
-    "vercel": {
-        # Vercel checkpoint blocks HTTP/2 with 429.
-        "hints": {},
-        "http2": False,
-    },
-}
-
-_MODE = {
-    "fetch": {
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-origin",
-    },
-    "navigate": {
-        "Sec-Fetch-Dest": "document",
-        "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-Site": "none",
-        "Sec-Fetch-User": "?1",
-        "Upgrade-Insecure-Requests": "1",
-        "Cache-Control": "max-age=0",
-        "Device-Memory": "8",
-        "Downlink": "10",
-        "DPR": "2",
-        "ECT": "4g",
-        "RTT": "50",
-        "Viewport-Width": "1512",
-        # Structured client hints — Amazon Lightsaber checks these
-        "Sec-CH-Device-Memory": "8",
-        "Sec-CH-DPR": "2",
-        "Sec-CH-UA-Full-Version-List": f'"Chromium";v="{_CHROME_FULL_VERSION}", "Not:A-Brand";v="99.0.0.0"',
-    },
-}
-
-_ACCEPT = {
-    "json": {"Accept": "application/json"},
-    "html": {"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"},
-    "any": {"Accept": "*/*"},
-}
-
-
-def headers(*, waf=None, ua="chrome-desktop", mode="fetch", accept="any", extra=None):
-    """Build request headers from independent knobs.
-
-    Returns dict with "headers" and optionally "http2". Spread into
-    http.get/post/client with **: http.get(url, **http.headers(...))
-
-    Knobs (ordered by network layer):
-        waf:    WAF vendor — "cf", "vercel", or None (default).
-        ua:     User-Agent — "chrome-desktop", "chrome-mobile",
-                "safari-desktop", or a raw UA string.
-        mode:   Request type — "fetch" (default) or "navigate".
-                Sec-Fetch-* headers added only when waf is set.
-        accept: Content — "json", "html", or "any" (default).
-        extra:  Additional headers merged last (highest priority).
-    """
-    h = {}
-    result = {}
-
-    # Standard — every request gets baseline browser headers
-    h["User-Agent"] = _UA.get(ua, ua)
-    h["Accept-Language"] = "en-US,en;q=0.9"
-    h["Accept-Encoding"] = "gzip, deflate, br, zstd"
-
-    # Transport — WAF vendor client hints + protocol
-    if waf:
-        waf_config = _WAF[waf]
-        h.update(waf_config["hints"])
-        result["http2"] = waf_config["http2"]
-
-    # Request — Sec-Fetch-* metadata (only when WAF is checking)
-    if waf:
-        h.update(_MODE[mode])
-
-    # Content — what format you want back
-    h.update(_ACCEPT[accept])
-
-    # Extra — custom headers merge last, can override anything
-    if extra:
-        h.update(extra)
-
-    result["headers"] = h
-    return result
-
-
-# ---------------------------------------------------------------------------
-# URL building / parsing — clean modern API. Skills can't import urllib.parse
-# directly (banned in the sandbox), and the 80% case is "I want a URL with
-# these query params" — which http.get/post already handle via params={...}.
-#
-# These helpers exist for the remaining cases:
-#   build_url — when you need the URL as a string (storing, logging, returning)
-#   parse_url — when you need to inspect the parts of a URL you were given
-#   encode    — single-value escape for PATH segments (not query params)
-#   decode    — single-value percent-decode
-#
-# No "quote" / "quote_plus" / "urlencode" / "parse_qs" — those are 1994 RFC
-# 1738 terminology that make no sense outside of urllib's history.
-# ---------------------------------------------------------------------------
-
-
-class ParsedURL:
-    """Parsed URL with query already decoded into a dict.
-
-    Attributes:
-        scheme:   URL scheme (e.g. "https").
-        host:     Host including port if present (e.g. "api.example.com:8080").
-        path:     URL path (e.g. "/v1/users").
-        query:    Query params as a dict. Multi-value params become lists;
-                  single-value params are plain strings.
-        fragment: URL fragment (without the "#").
-    """
-
-    __slots__ = ("scheme", "host", "path", "query", "fragment")
-
-    def __init__(self, scheme: str, host: str, path: str,
-                 query: dict[str, str | list[str]], fragment: str):
-        self.scheme = scheme
-        self.host = host
-        self.path = path
-        self.query = query
-        self.fragment = fragment
-
-    def __repr__(self) -> str:
-        return (f"ParsedURL(scheme={self.scheme!r}, host={self.host!r}, "
-                f"path={self.path!r}, query={self.query!r}, "
-                f"fragment={self.fragment!r})")
-
-
-def build_url(base: str, params: dict | None = None) -> str:
-    """Build a URL by attaching query params to a base URL.
-
-    Use this when you need the URL *string itself* — e.g. storing it,
-    returning it from a skill, or logging it. If you're just making a
-    request, pass `params=` directly to http.get/post instead — the engine
-    handles encoding automatically.
-
-        url = http.build_url("https://www.amazon.com/s", params={"k": "coffee"})
-        # → "https://www.amazon.com/s?k=coffee"
-
-    Params are URL-encoded using form rules (spaces become '+'). Values
-    that are lists produce repeated keys (?k=a&k=b). None values are skipped.
-    """
-    if not params:
-        return base
-    filtered = {k: v for k, v in params.items() if v is not None}
-    if not filtered:
-        return base
-    query = _urllib_parse.urlencode(filtered, doseq=True)
-    sep = "&" if "?" in base else "?"
-    return f"{base}{sep}{query}"
-
-
-def parse_url(url: str) -> ParsedURL:
-    """Parse a URL into a ParsedURL object with query already decoded.
-
-    Unlike urllib.parse.urlparse, the query is returned as a dict — you don't
-    need a separate parse_qs step. Single-value params are plain strings;
-    multi-value params (repeated keys) become lists.
-
-        parsed = http.parse_url("https://example.com/cb?email=a@b.com&x=1")
-        parsed.scheme     # "https"
-        parsed.host       # "example.com"
-        parsed.path       # "/cb"
-        parsed.query      # {"email": "a@b.com", "x": "1"}
-    """
-    p = _urllib_parse.urlparse(url)
-    raw_query = _urllib_parse.parse_qs(p.query, keep_blank_values=True)
-    # Collapse single-value lists to scalars for ergonomics.
-    query: dict[str, str | list[str]] = {
-        k: (v[0] if len(v) == 1 else v) for k, v in raw_query.items()
-    }
-    host = p.netloc
-    return ParsedURL(
-        scheme=p.scheme,
-        host=host,
-        path=p.path,
-        query=query,
-        fragment=p.fragment,
-    )
-
-
-def encode(value: str) -> str:
-    """Percent-encode a single value for use in a URL PATH segment.
-
-    This is the escape hatch for values that go into the URL path (not query
-    params). For query params, prefer `build_url(..., params=...)` or pass
-    `params=` directly to http.get/post.
-
-        url = f"https://img.logo.dev/name:{http.encode(name)}"
-    """
-    return _urllib_parse.quote(value, safe="")
-
-
-def decode(value: str) -> str:
-    """Percent-decode a value. The inverse of encode().
-
-        folder = http.decode(folder[7:])  # strip "file://" then decode
-    """
-    return _urllib_parse.unquote(value)
-
-
-# ---------------------------------------------------------------------------
-# Skill helpers — kept as-is, used by all skills
-# ---------------------------------------------------------------------------
+# ── Skill helpers — tiny data builders, no network. ───────────────────────
 
 
 def skill_error(message: str, **extra) -> dict:
