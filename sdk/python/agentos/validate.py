@@ -66,6 +66,9 @@ What this script checks:
 
   15. **`params.get("params")` anti-pattern** — double-nesting bug.
 
+  16. **Connection client kind** — `connection(..., client="X")` where
+      `X` isn't one of `{"browser", "fetch", "api"}` is a static error.
+
 Run:
     agent-sdk validate                   # audit every skill under cwd
     agent-sdk validate <skill-dir>       # single skill
@@ -1211,6 +1214,40 @@ def check_params_double_nesting(skill_dir: Path) -> list[str]:
     return issues
 
 
+_CLIENT_KINDS = {"browser", "fetch", "api"}
+
+
+def check_connection_client_value(skill_dir: Path) -> list[str]:
+    """Flag module-level ``connection(..., client="X")`` where X is not
+    one of the sealed values (browser / fetch / api).
+
+    The client kind selects the header bundle + jar behavior for every
+    tool bound to the connection; a typo here silently disables the
+    bundle and the jar. Static check keeps the sealed vocabulary
+    authoritative — validator blocks commits with invalid kinds."""
+    issues: list[str] = []
+    for rel, _py_file, _source, tree in _iter_skill_py_files(skill_dir):
+        for node in tree.body:
+            if not (isinstance(node, ast.Expr) and isinstance(node.value, ast.Call)):
+                continue
+            call = node.value
+            if not (isinstance(call.func, ast.Name) and call.func.id == "connection"):
+                continue
+            for kw in call.keywords:
+                if kw.arg != "client":
+                    continue
+                if not isinstance(kw.value, ast.Constant):
+                    continue  # dynamic — skip; runtime will catch
+                val = kw.value.value
+                if val in _CLIENT_KINDS:
+                    continue
+                issues.append(
+                    f"{rel}:{call.lineno}: connection(..., client={val!r}) — "
+                    f"must be one of {sorted(_CLIENT_KINDS)}"
+                )
+    return issues
+
+
 def check_tool_name_collisions(skill_dir: Path) -> list[str]:
     """Flag duplicate tool (function) names across .py files in a skill."""
     defs: dict[str, list[tuple[str, int]]] = {}
@@ -1859,6 +1896,7 @@ def audit_skill_dir(skill_dir: Path, shapes_dir: Path | None) -> tuple[int, str 
 
     # Python checks — errors
     all_issues.extend(check_params_double_nesting(skill_dir))
+    all_issues.extend(check_connection_client_value(skill_dir))
     all_issues.extend(check_tool_name_collisions(skill_dir))
     all_issues.extend(check_tool_shape(skill_dir))
     all_issues.extend(check_sdk_surface_existence(skill_dir))

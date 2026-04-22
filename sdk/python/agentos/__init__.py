@@ -1,22 +1,28 @@
 """agentOS SDK — skills import what they need.
 
-    from agentos import http, molt, shape       # HTTP, text, typed dicts
-    from agentos import sql, crypto, oauth      # engine-dispatched modules
-    from agentos import returns, provides       # operation decorators
-    from agentos import web_search, web_read    # tool constants
-    from agentos.macos import keychain, plist   # platform-specific
+    from agentos import client, url, molt, shape   # network verbs, URL math, text, shapes
+    from agentos import sql, crypto, oauth          # engine-dispatched modules
+    from agentos import returns, provides           # operation decorators
+    from agentos import web_search, web_read        # tool constants
+    from agentos.macos import keychain, plist       # platform-specific
 
-    resp = http.get("https://api.example.com/data", profile="api")
+    resp = await client.get("/api/auth/session")   # jar + bundle from the connection
+    u = url.build("https://ex.com/s", params={"k": "coffee"})
     molt(s)                        # shed the mess → clean string
     rows = sql.query("SELECT ...", db="~/data.db")
 """
 
 # --- Core modules ---
 from agentos.text import molt
-from agentos import http
+from agentos import client
+from agentos import url
 from agentos import shapes as shape
 
-# --- HTTP helpers ---
+# --- Transitional: `http` module stays importable until Wave 4 deletion,
+# so unmigrated skills continue to load while the corpus sweep runs.
+from agentos import http
+
+# --- Skill helpers (still live in http.py for now; move in Wave 4) ---
 from agentos.http import (
     get_cookies, require_cookies, parse_cookie,
     skill_error, skill_result, skill_secret,
@@ -50,7 +56,9 @@ from agentos.dates import parse_date, iso_from_ms, iso_from_seconds
 
 __all__ = [
     # Core modules
-    "http", "molt", "shape",
+    "client", "url", "molt", "shape",
+    # Transitional (deleted in Wave 4)
+    "http",
     # Engine-dispatched modules
     "sql", "crypto", "oauth", "shell", "llm", "progress", "checkpoint",
     # Operation decorators
