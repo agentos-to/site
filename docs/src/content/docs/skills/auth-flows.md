@@ -111,7 +111,7 @@ most of them) work correctly regardless of whether `names` is declared.
 ## Key rules
 
 - **Never import Playwright in skill Python code.** Playwright is a separate skill for investigation. Skill operations use `agentos.http`.
-- **All I/O through SDK modules.** `http.get/post`, `shell.run`, `sql.query`. Never `urllib`, `subprocess`, `sqlite3`, `requests`, `httpx`.
+- **All I/O through SDK modules.** `client.get/post`, `shell.run`, `sql.query`. Never `urllib`, `subprocess`, `sqlite3`, `requests`, `httpx`.
 - **Never expose secrets in `__result__`.** Secrets go in `__secrets__` only. The agent sees masked versions via `metadata.masked`.
 - **`_call` is same-skill only.** It dispatches to sibling operations within the same skill (e.g. Gmail's `list_emails` calling `get_email`). It cannot call operations in other skills.
 - **Cross-skill coordination goes through the agent.** If a login flow needs email access, the operation yields back to the agent (see below), and the agent uses whatever email capability is available.

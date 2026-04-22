@@ -101,7 +101,7 @@ async def list_items(query: str = None, limit: int = 10, **params) -> list[dict]
         query: Search query to filter items
         limit: Max results to return (default 10)
     """
-    resp = await http.get("/items",
+    resp = await client.get("/items",
                           params={"q": query, "limit": limit})
     return [{"id": str(item["id"]),
              "name": item["title"],
@@ -190,26 +190,26 @@ All I/O goes through SDK modules. **Never** import `urllib`, `requests`, `subpro
 ```python
 from agentos import http
 
-resp = http.get("https://api.example.com/data")
+resp = client.get("https://api.example.com/data")
 data = resp["json"]          # parsed JSON (dict/list)
 html = resp["body"]          # raw response body (string)
 code = resp["status"]        # HTTP status code (int)
 ok   = resp["ok"]            # True if 2xx
 
 # POST with JSON body
-resp = http.post("https://api.example.com/items",
+resp = client.post("https://api.example.com/items",
                  json={"name": "test"},
                  headers={"Authorization": "Bearer token"})
 
 # POST with form data
-resp = http.post("https://api.example.com/login",
+resp = client.post("https://api.example.com/login",
                  data={"username": "u", "password": "p"})
 
 # All methods: get, post, put, patch, delete, head
 # There is NO http.request — dispatch by verb, always.
 
 # Query string — pass dict via params= (engine URL-encodes for you)
-resp = http.get("https://api.example.com/search",
+resp = client.get("https://api.example.com/search",
                 params={"q": "hello world", "limit": 10})
 # → https://api.example.com/search?q=hello%20world&limit=10
 ```
@@ -221,29 +221,29 @@ The SDK has four URL helpers on `http`. Use them — **never hand-roll URL encod
 ```python
 from agentos import http
 
-# Build a URL with query params (same behavior as passing params= to http.get)
-url = http.build_url("https://api.example.com/search",
+# Build a URL with query params (same behavior as passing params= to client.get)
+url = url.build("https://api.example.com/search",
                      params={"q": "hello world", "limit": 10})
 # → "https://api.example.com/search?q=hello%20world&limit=10"
 
 # Parse a URL into its components
-parts = http.parse_url("https://example.com/foo?a=1&b=2#top")
+parts = url.parse("https://example.com/foo?a=1&b=2#top")
 # → {"scheme": "https", "host": "example.com", "path": "/foo",
 #    "query": {"a": "1", "b": "2"}, "fragment": "top"}
 
 # Percent-encode / decode a single path or query component
-http.encode("hello world/test")      # → "hello%20world%2Ftest"
-http.decode("hello%20world%2Ftest")  # → "hello world/test"
+url.encode("hello world/test")      # → "hello%20world%2Ftest"
+url.decode("hello%20world%2Ftest")  # → "hello world/test"
 ```
 
-When you need a dynamic path segment (e.g. `name:{company}` in a CDN URL), use `http.encode(name)`. When you need a query string, use `params=` or `build_url`. There's almost never a reason to build a URL with f-strings plus `encode` — the higher-level helpers are cleaner.
+When you need a dynamic path segment (e.g. `name:{company}` in a CDN URL), use `url.encode(name)`. When you need a query string, use `params=` or `build_url`. There's almost never a reason to build a URL with f-strings plus `encode` — the higher-level helpers are cleaner.
 
 ### Content-Type override — AWS JSON variants, etc.
 
 Per-request `headers=` always beats the Content-Type implied by the body. For AWS services that want `application/x-amz-json-1.1` (e.g. Cognito):
 
 ```python
-resp = await http.post(
+resp = await client.post(
     "https://cognito-idp.us-east-1.amazonaws.com/",
     json={"AuthFlow": "USER_PASSWORD_AUTH", ...},          # sets Content-Type: application/json
     headers={
@@ -261,7 +261,7 @@ This is the most important function for cookie-auth skills. WAFs (Cloudflare, Cl
 
 ```python
 # Spread into any request with **
-resp = http.get(url, **http.headers(waf="cf", mode="navigate", accept="html"))
+resp = client.get(url, **http.headers(waf="cf", mode="navigate", accept="html"))
 ```
 
 | Knob | Values | Default | What it does |
@@ -276,7 +276,7 @@ resp = http.get(url, **http.headers(waf="cf", mode="navigate", accept="html"))
 
 | Scenario | Headers call |
 |----------|-------------|
-| Public JSON API (no auth) | No headers needed — just `http.get(url)` |
+| Public JSON API (no auth) | No headers needed — just `client.get(url)` |
 | API with key in header | `headers={"x-api-key": key}` — no `http.headers()` needed |
 | Cookie-auth, Cloudflare/CloudFront | `http.headers(waf="cf", mode="navigate", accept="html")` |
 | Cookie-auth, Vercel | `http.headers(waf="vercel", mode="navigate", accept="html")` |
@@ -492,7 +492,7 @@ from agentos import http, provides, returns, timeout, web_read
 @timeout(35)
 def read_webpage(*, url: str, **params) -> dict:
     """Fetch a URL and return its content, title, and content type."""
-    resp = http.get(url, timeout=30.0)
+    resp = client.get(url, timeout=30.0)
     content = resp["body"]
     content_type = resp["headers"].get("content-type", "text/plain").split(";")[0].strip()
 
@@ -512,7 +512,7 @@ def read_webpage(*, url: str, **params) -> dict:
     }
 ```
 
-**Pattern:** No auth, no `http.headers()`, no `@connection`. Just `http.get()`.
+**Pattern:** No auth, no `http.headers()`, no `@connection`. Just `client.get()`.
 
 ### Cookie-auth (Goodreads)
 
@@ -558,7 +558,7 @@ from agentos import http, returns, provides, connection, timeout, web_search
 @timeout(30)
 def search(query: str, limit: int = 10, **params) -> list[dict]:
     """Search the web using Exa's neural search."""
-    resp = http.post("https://api.exa.ai/search",
+    resp = client.post("https://api.exa.ai/search",
                      json={"query": query, "numResults": limit,
                            "type": "auto", "useAutoprompt": True},
                      headers={"x-api-key": params["auth"]["key"]},
@@ -579,8 +579,8 @@ def search(query: str, limit: int = 10, **params) -> list[dict]:
 
 ```python
 # WRONG
-import urllib.request        # use http.get()
-import requests              # use http.get()
+import urllib.request        # use client.get()
+import requests              # use client.get()
 import subprocess            # use shell.run()
 import sqlite3               # use sql.query()
 import os; os.popen(...)     # use shell.run()
@@ -635,11 +635,11 @@ def list_items(**params) -> list[dict]: ...
 
 ```python
 # WRONG — naked request to a cookie-auth site
-resp = http.get("https://www.goodreads.com/user/show/123",
+resp = client.get("https://www.goodreads.com/user/show/123",
                 headers={"Cookie": cookies})
 
 # RIGHT
-resp = http.get("https://www.goodreads.com/user/show/123",
+resp = client.get("https://www.goodreads.com/user/show/123",
                 cookies=cookies,
                 **http.headers(waf="cf", mode="navigate", accept="html"))
 ```
@@ -648,11 +648,11 @@ resp = http.get("https://www.goodreads.com/user/show/123",
 
 ```python
 # WRONG — resp is a coroutine, not the response dict
-resp = http.get("https://api.example.com/data")
+resp = client.get("https://api.example.com/data")
 data = resp["json"]   # AttributeError
 
 # RIGHT
-resp = await http.get("https://api.example.com/data")
+resp = await client.get("https://api.example.com/data")
 data = resp["json"]
 ```
 
@@ -679,7 +679,7 @@ async def fetch_all():
 resp = http.request("DELETE", url)
 
 # RIGHT
-resp = await http.delete(url)
+resp = await client.delete(url)
 ```
 
 **BeautifulSoup** — use `lxml` with `cssselect`:
@@ -719,16 +719,16 @@ async def search_books(**params): ...
 
 This matters for the readme `test:` block too — the YAML key must match the Python function name exactly.
 
-**Async chain half-converted** — if a helper eventually calls `http.get/post/…`, it must be `async def` and every caller of it must `await` it. Adding `await` to a sync helper raises `SyntaxError`; forgetting `await` on an async helper silently returns a coroutine and breaks at the first `.get("ok")`. There is no middle ground.
+**Async chain half-converted** — if a helper eventually calls `client.get/post/…`, it must be `async def` and every caller of it must `await` it. Adding `await` to a sync helper raises `SyntaxError`; forgetting `await` on an async helper silently returns a coroutine and breaks at the first `.get("ok")`. There is no middle ground.
 
 ```python
 # WRONG — broken_fn will return a coroutine, caller crashes
 def _fetch_one(url):
-    return http.get(url)   # missing await, and enclosing fn isn't async
+    return client.get(url)   # missing await, and enclosing fn isn't async
 
-# RIGHT — lift everything down to http.get into async
+# RIGHT — lift everything down to client.get into async
 async def _fetch_one(url):
-    resp = await http.get(url)
+    resp = await client.get(url)
     return resp
 ```
 

@@ -7,7 +7,7 @@ This page is the algorithm behind ["freshest wins"](/architecture/security/#auth
 
 ## The problem
 
-A skill says `http.get("https://github.com/...")`. The engine needs a cookie header. There could be a credential row in the store from when you set up the [GitHub skill](/skills/reference/dev/github/) last week, a fresh cookie jar in Chrome from a tab you opened five minutes ago, and an in-memory session from another skill call earlier this hour. Three sources, three timestamps, one issuer. "Pick the one the user configured" doesn't work — there is no configuration step, by design (see [Why this shape](#why-this-shape)). Picking the *first* one to answer doesn't work either: the store always answers fastest, but its data is usually the oldest. The engine needs a deterministic rule that doesn't require the user to think about provider priority.
+A skill says `client.get("https://github.com/...")`. The engine needs a cookie header. There could be a credential row in the store from when you set up the [GitHub skill](/skills/reference/dev/github/) last week, a fresh cookie jar in Chrome from a tab you opened five minutes ago, and an in-memory session from another skill call earlier this hour. Three sources, three timestamps, one issuer. "Pick the one the user configured" doesn't work — there is no configuration step, by design (see [Why this shape](#why-this-shape)). Picking the *first* one to answer doesn't work either: the store always answers fastest, but its data is usually the oldest. The engine needs a deterministic rule that doesn't require the user to think about provider priority.
 
 ## Three sources
 

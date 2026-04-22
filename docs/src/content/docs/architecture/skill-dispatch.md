@@ -59,7 +59,7 @@ A sideband `dispatch` (`crates/kernel/src/python_worker.rs:171`):
   "__id__": "8c2f…-uuid",
   "__dispatch_id__": "d-7",
   "__caps__": ["http", "secrets"],
-  "__dispatch__": { "op": "http.get", "params": { "url": "…" } } }
+  "__dispatch__": { "op": "client.get", "params": { "url": "…" } } }
 ```
 
 The engine answers with `{"__type__": "dispatch_result", "__dispatch_id__": "d-7", "payload": …}` — or `__error__` on failure. Both arms always stamp `__type__` and `__dispatch_id__` so the worker's correlation map can resolve the future regardless (`crates/kernel/src/python_worker.rs:639`).
@@ -75,7 +75,7 @@ The worker holds two maps, both behind `tokio::sync::Mutex` (`crates/kernel/src/
 
 On the Python side, `_pending_dispatches: dict[str, asyncio.Future]` does the same job for `dispatch_id`s (`crates/kernel/src/python_worker.rs:150`). Each `_dispatch_to_engine` mints a fresh `d-N` (monotonic counter), parks an `asyncio.Future` in the dict, writes the `dispatch`, and `await`s the future under an 1800-second `wait_for`.
 
-This matters as soon as a skill makes concurrent calls. `await asyncio.gather(http.get(a), http.get(b), secrets.get("k"))` produces three `dispatch` lines on stdout in arbitrary order, three `tokio::spawn`ed handler tasks on the engine side, and three `dispatch_result` lines back in arbitrary order. Each side resolves them by `__dispatch_id__`. There is no global ordering — the protocol is fully demuxed.
+This matters as soon as a skill makes concurrent calls. `await asyncio.gather(client.get(a), client.get(b), secrets.get("k"))` produces three `dispatch` lines on stdout in arbitrary order, three `tokio::spawn`ed handler tasks on the engine side, and three `dispatch_result` lines back in arbitrary order. Each side resolves them by `__dispatch_id__`. There is no global ordering — the protocol is fully demuxed.
 
 ## Context variables
 
@@ -98,7 +98,7 @@ The dispatchable surface is one `OpRegistry` lookup away. Op metas live in `crat
 
 | Topic       | Examples                                  | Why through the engine                                         |
 |-------------|-------------------------------------------|----------------------------------------------------------------|
-| `http.*`    | `http.get`, `http.post`, `http.session_open` | Auth resolution + cookie writeback + audit log                 |
+| `http.*`    | `client.get`, `client.post`, `http.session_open` | Auth resolution + cookie writeback + audit log                 |
 | `secrets.*` | `secrets.read`, `secrets.write`           | Encryption key lives in process memory; never shipped to skill |
 | `sql.*`     | `sql.query`                               | DB path resolution, capability gate, read-only enforcement     |
 | `llm.*`     | `llm.chat`, `llm.resolve_tools`           | Capability brokering — picks an `@provides("llm")` skill       |
@@ -120,7 +120,7 @@ The whole point: every side-effect is observable, gateable, and auth-brokered at
 | Operation times out                    | `dispatch_async` removes the pending entry + origin, nulls the global worker slot to force a respawn, and returns `WorkerError::Timeout` (`crates/kernel/src/python_worker.rs:786`). The next call gets a fresh interpreter — currently the only way to clear leaked task state. |
 | Sideband dispatch never returns        | The Python side has its own ceiling: `asyncio.wait_for(future, timeout=1800)` raises `TimeoutError`, which the SDK surface translates into a Python exception inside the skill (`crates/kernel/src/python_worker.rs:180`). The worker stays up. |
 | Engine handler panics                  | Caught at the `tokio::spawn` boundary; the dispatch never gets a `dispatch_result`. The Python side hits its 1800s ceiling. Today this is the same path as a hung dispatch — distinguishing them would need a per-handler error envelope, which isn't shipped. |
-| Skill function isn't `async def`       | The worker raises before invoking it (`crates/kernel/src/python_worker.rs:240`) — sync skills would receive coroutine objects instead of awaited results from `http.get()` and friends. All skills must be `async def`. |
+| Skill function isn't `async def`       | The worker raises before invoking it (`crates/kernel/src/python_worker.rs:240`) — sync skills would receive coroutine objects instead of awaited results from `client.get()` and friends. All skills must be `async def`. |
 | Engine restart while worker is alive   | On Linux the worker is bound to the engine via `prctl(PR_SET_PDEATHSIG, SIGTERM)` and dies with it (`crates/kernel/src/python_worker.rs:373`). On macOS there's no equivalent; orphaned workers exit when their stdin closes. |
 
 ## Why this shape
