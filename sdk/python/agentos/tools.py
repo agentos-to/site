@@ -37,3 +37,20 @@ llm = "llm"
 # Auth provision (browser cookie providers, OAuth providers)
 cookie_auth = "cookie_auth"
 oauth_auth = "oauth_auth"
+
+# Credential provision (password managers, keychains, vaults).
+# Providers declaring these wire in through the engine's
+# `credentials.retrieve` matchmaking — skills' `login` tools resolve
+# their inputs without the LLM ever seeing raw secret values.
+#
+# `login_credentials` — `{email|handle, password}` tuple for a domain.
+# `password`          — a password for a caller-supplied identifier.
+# `api_key`           — an API key for a service.
+#
+# `signs_for` is reserved for passkey / hardware-key providers that sign
+# challenges rather than returning secret material. No resolver ships in
+# P1; the constant is defined so the interface shape is fixed now.
+login_credentials = "login_credentials"
+password = "password"
+api_key = "api_key"
+signs_for = "signs_for"

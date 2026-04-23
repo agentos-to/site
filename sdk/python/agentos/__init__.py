@@ -40,7 +40,11 @@ from agentos.tools import (
     web_search, web_read, email_lookup, flight_search,
     geocoding, map_tiles, file_list, file_read, file_info,
     cookie_auth, oauth_auth,
+    login_credentials, password, api_key, signs_for,
 )
+
+# --- Engine-dispatched modules (auth bridge) ---
+from agentos import credentials
 
 # --- Fine-grained (available when you need specific control) ---
 from agentos.text import clean_text, clean_html, clean_sentinel, strip_tags
@@ -51,13 +55,14 @@ __all__ = [
     # Core modules
     "client", "url", "molt", "shape",
     # Engine-dispatched modules
-    "sql", "crypto", "oauth", "shell", "llm", "progress", "checkpoint",
+    "sql", "crypto", "oauth", "shell", "llm", "progress", "checkpoint", "credentials",
     # Operation decorators
     "returns", "provides", "connection", "timeout", "claims", "test",
     # Standard tools
     "web_search", "web_read", "email_lookup", "flight_search",
     "geocoding", "map_tiles", "file_list", "file_read", "file_info",
     "cookie_auth", "oauth_auth",
+    "login_credentials", "password", "api_key", "signs_for",
     # Skill result helpers
     "skill_error", "skill_result", "skill_secret",
     # Text (fine-grained)
