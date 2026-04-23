@@ -12,26 +12,30 @@ account:
   identity: [at, identifier]
   subtitle: identifier
   fields:
-    identifier:        string    # handle within `at`'s namespace
+    identifier:        string    # canonical key within `at`'s namespace
+                                  # (e.g. an email for email-login services,
+                                  # a handle for handle-login services)
     handle:            string    # display handle if differs from identifier
     displayName:      string
     display:           string    # short display label (auth-bridge contract; alias of displayName)
-    email:             string
-    phone:             string
+    email:             string    # normalized via `agentos.identity.normalize_email`
+    phone:             string    # normalized via `agentos.identity.normalize_phone` (E.164)
     bio:               text
     accountType:      string    # user | bot | org | service_account
     color:             string
     isActive:         boolean
-    authenticated:     boolean   # cookie/API session is valid (check_session signal)
     joinedDate:       datetime
     lastActive:       datetime
-    # Provider-specific session/membership context kept on the account
-    # shape because they're per-namespace properties, not separate entities.
-    customerId:       string    # Amazon internal customer id (distinct from email)
-    marketplaceId:    string    # Amazon marketplace (US, UK, etc.)
-    isPrime:          boolean   # Amazon Prime membership
-    redirect:          url       # sign-in redirect URL when auth fails
-    statusCode:       integer   # HTTP status from the check_session probe
+    lastProfileFetch: datetime  # when `account.profile` last populated the node
+    userId:            string    # service-stable internal ID — never changes
+                                  # on rename/handle swap. Free-form string
+                                  # (Amazon's numeric customerId, GitHub's
+                                  # graphql node_id, etc.)
+    metadata:          json      # skill-namespaced freeform blob:
+                                  # { amazon: { isPrime, marketplaceId },
+                                  #   goodreads: { ... } }. The engine does
+                                  # not introspect; skills read/write their
+                                  # own namespace.
   relations:
     at:                actor     # the namespace this account exists within.
                                   # Target is the entity that "owns" the

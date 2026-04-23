@@ -12,6 +12,112 @@ When a skill needs credentials from a web dashboard (API keys, session tokens), 
 3. **Store** — return extracted credentials via `__secrets__` so the engine stores them securely. The LLM never sees raw secret values.
 4. **Test** — `test-skills.cjs` should work without a running browser. If your skill needs Playwright at runtime, rethink the approach.
 
+## The `check_session` convention
+
+Every cookie-auth skill declares an `account.check` tool (by convention
+named `check_session`). It tells the engine **who is logged in** — so
+every subsequent credential row the engine writes can be keyed by a
+human-readable identifier rather than the `"default"` sentinel. The
+return shape is fixed:
+
+```python
+from agentos import client, connection, returns
+from agentos.identity import normalize_email, normalize_handle
+
+connection("web",
+    base_url="https://example.com",
+    client="browser",
+    auth={"type": "cookies",
+          "domain": ".example.com",
+          "account": {"check": "check_session"}})
+
+
+@returns("account")
+@connection("web")
+async def check_session(**params) -> dict:
+    resp = await client.get("/me")
+    if resp["status"] != 200:
+        return {"authenticated": False}
+
+    data = resp["json"]
+    email_raw  = data["email"]
+    handle_raw = data["handle"]
+    return {
+        "authenticated": True,                    # transient signal,
+                                                    # consumed by the engine,
+                                                    # not persisted
+        "at":            {"shape": "organization",
+                          "name": "Example Inc",
+                          "url":  "https://example.com"},
+        "identifier":    normalize_email(email_raw),  # canonical key
+        "email":         normalize_email(email_raw),
+        "handle":        normalize_handle(handle_raw),
+        "displayName":   data.get("name"),
+        "userId":        str(data["id"]),             # "123456" — stable
+                                                        # internal ID
+    }
+```
+
+### The fields the engine reads
+
+| Field             | Required | Purpose |
+|-------------------|----------|---------|
+| `authenticated`   | yes      | Boolean. If `False`, the engine treats cookies as dead and doesn't persist. |
+| `identifier`      | yes on `authenticated: True` | **Canonical key.** The string the credential store and the graph's account node join on. Email for email-login services, handle for handle-login services, `userId` as a last resort. |
+| `at`              | yes on authed | The namespace that owns the identifier. Usually an inline `{shape, name, url}` dict — the engine's extraction pipeline upserts the organization/product node as a side effect of the call. |
+| `email`           | opt      | Normalized via `normalize_email`. Skills that have it should populate it even if it equals `identifier`. |
+| `handle`          | opt      | NFKC-casefold via `normalize_handle`. |
+| `phone`           | opt      | E.164 via `normalize_phone`. |
+| `displayName`     | opt      | Human-readable label. |
+| `userId`          | opt      | Service's stable internal ID — never changes across rename / email swap. Use this when URLs embed a numeric account id. Free-form string; the engine doesn't parse it. |
+| `metadata`        | opt      | Skill-namespaced freeform JSON for service-specific extras: `{"amazon": {"isPrime": true}}`. |
+
+### Normalization is the skill's job
+
+The engine stores whatever it's given. To make `Joe@Home.com` from
+1Password and `joe@home.com` from a Brave cookie export collide on the
+freshness arbiter, **skills canonicalise before returning**. Three SDK
+helpers live in `agentos.identity`:
+
+- `normalize_email(raw)` — lowercase local-part + IDN-punycode domain.
+  No Gmail dot-stripping or plus-address stripping (unsafe on
+  Workspace custom domains).
+- `normalize_phone(raw, default_region=None)` — E.164 via
+  `phonenumbers`. Raises on ambiguous input.
+- `normalize_handle(raw)` — Unicode NFKC + casefold.
+
+`agent-sdk validate` flags `check_session` returns that skip
+normalization or use a pure-integer `identifier`.
+
+### Fallback policy
+
+- `{authenticated: True, identifier: None}` — engine uses cookies for
+  the current request but **does not persist to the store.** Next
+  call re-extracts from the browser provider.
+- `{authenticated: False}` — engine treats cookies as dead.
+- `check_session` raises / times out — engine uses cookies without
+  identity and doesn't persist.
+
+### Service-specific data goes in `metadata`
+
+Amazon's `isPrime`, Chase's credit-score summary, Spotify's product
+tier — none of these land as first-class fields on `account.yaml`.
+They ride in the per-skill namespace of `metadata`:
+
+```python
+return {
+    "authenticated": True,
+    "at":          _AMAZON,
+    "identifier":  normalize_email(email),
+    "metadata":    {"amazon": {"isPrime": True,
+                               "marketplaceId": "ATVPDKIKX0DER"}},
+    "userId":      customer_id,
+}
+```
+
+Only the skill that wrote a namespace ever reads it. The engine
+stores the blob opaquely.
+
 ## Dashboard connections
 
 Skills with web dashboards declare a `dashboard` connection alongside their `api` connection. Connections are declared at **module level** in Python; see [Connections & Auth](./connections.md) for the full surface.
