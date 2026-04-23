@@ -542,7 +542,11 @@ STANDARD_FIELDS = {
 }
 
 # Internal fields the engine uses that aren't shape fields.
-SYSTEM_RETURN_FIELDS = {"content_role", "_source", "error"}
+#
+# `authenticated` is `check_session`'s runtime freshness signal — the
+# engine consumes it to decide whether to persist + trigger auto-login,
+# never lands it on the account node (per `plan.md` Decision 3).
+SYSTEM_RETURN_FIELDS = {"content_role", "_source", "error", "authenticated"}
 
 # @returns values that aren't shape names — primitives, informal hints,
 # or inline dicts (handled separately).
