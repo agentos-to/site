@@ -46,6 +46,10 @@ from agentos.tools import (
 # --- Engine-dispatched modules (auth bridge) ---
 from agentos import credentials
 
+# --- Identity normalization helpers ---
+from agentos import identity
+from agentos.identity import normalize_email, normalize_phone, normalize_handle
+
 # --- Fine-grained (available when you need specific control) ---
 from agentos.text import clean_text, clean_html, clean_sentinel, strip_tags
 from agentos.text import parse_int, parse_float
@@ -56,6 +60,8 @@ __all__ = [
     "client", "url", "molt", "shape",
     # Engine-dispatched modules
     "sql", "crypto", "oauth", "shell", "llm", "progress", "checkpoint", "credentials",
+    # Identity helpers
+    "identity", "normalize_email", "normalize_phone", "normalize_handle",
     # Operation decorators
     "returns", "provides", "connection", "timeout", "claims", "test",
     # Standard tools

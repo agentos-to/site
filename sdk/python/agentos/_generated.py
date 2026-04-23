@@ -1,6 +1,6 @@
 """Auto-generated TypedDict classes from shape YAML — do not edit.
 
-Generated from 72 shapes.
+Generated from 76 shapes.
 Regenerate with: python generate.py --lang python
 """
 
@@ -18,23 +18,20 @@ class Account(TypedDict, total=False):
     datePublished: str
     content: str
     accountType: str
-    authenticated: bool
     bio: str
     color: str
-    customerId: str
     display: str
     displayName: str
     email: str
     handle: str
     identifier: str
     isActive: bool
-    isPrime: bool
     joinedDate: str
     lastActive: str
-    marketplaceId: str
+    lastProfileFetch: str
+    metadata: Any
     phone: str
-    redirect: str
-    statusCode: int
+    userId: str
     at: Actor
     authenticatedVia: Account
     followers: list[Account]
@@ -133,6 +130,50 @@ class Aircraft(TypedDict, total=False):
     brand: Brand
     manufacturer: Organization
     tagged: list[Tag]
+
+
+class Airline(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    actorType: str
+    alliance: str
+    callsign: str
+    country: str
+    founded: str
+    iataCode: str
+    icaoCode: str
+    industry: str
+    domain: Domain
+    headquarters: Place
+    member: list[Person]
+    website: Website
+
+
+class Airport(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    city: str
+    country: str
+    countryCode: str
+    elevationFt: int
+    iataCode: str
+    icaoCode: str
+    terminalCount: int
+    timezone: str
+    location: Place
+    operator: Organization
 
 
 class Album(TypedDict, total=False):
@@ -605,6 +646,39 @@ class FinancialAccount(TypedDict, total=False):
     accessedVia: Account
     at: Actor
     owner: Person
+
+
+class Flight(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    arrivalTime: str
+    cabinClass: str
+    carbonEmissions: Any
+    departureTime: str
+    duration: str
+    durationMinutes: int
+    flightNumber: str
+    layoverMinutes: int
+    polyline: str
+    sequence: int
+    stops: int
+    trace: Any
+    tracePointCount: int
+    vehicleType: str
+    aircraft: Aircraft
+    airline: Airline
+    arrivesAt: Airport
+    carrier: Organization
+    departsFrom: Airport
+    destination: Place
+    origin: Place
+    trip: Trip
 
 
 class Folder(TypedDict, total=False):
@@ -1110,22 +1184,32 @@ class Pass(TypedDict, total=False):
     author: str
     datePublished: str
     content: str
+    boardingGroup: str
+    checkinStatus: str
     currency: str
     depletedDate: str
     endEffectiveDate: str
+    gate: str
     isAllDayPass: bool
+    nameOnTicket: str
     price: float
     purchasedDate: str
     purchasedQuantity: int
     quantity: int
+    seatAssignment: str
     startEffectiveDate: str
     status: str
+    terminal: str
+    ticketClass: str
+    ticketNumber: str
     useCount: int
     account: Account
     at: Actor
+    for_: Leg  # for
     grantedBy: Membership
     holder: Person
     location: Place
+    reservation: Reservation
     type: Product
 
 
@@ -1370,6 +1454,45 @@ class Repository(TypedDict, total=False):
     topics: list[str]
     forkedFrom: Repository
     owner: Account
+
+
+class Reservation(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    availableActions: list[str]
+    baseAmount: float
+    bookingTime: str
+    bookingType: str
+    checkinUrl: str
+    conditions: Any
+    currency: str
+    endTime: str
+    modifiedTime: str
+    partySize: int
+    reservationId: str
+    reservationType: str
+    startTime: str
+    status: str
+    taxAmount: float
+    totalAmount: float
+    voidWindowEndsAt: str
+    account: Account
+    at: Actor
+    broker: Actor
+    derivedFrom: Offer
+    order: Order
+    passengers: list[Person]
+    programMembership: Membership
+    reservationFor: Leg
+    tickets: list[Pass]
+    trips: list[Trip]
+    underName: Person
 
 
 class Result(TypedDict, total=False):
@@ -1790,11 +1913,13 @@ class Website(TypedDict, total=False):
 # Raw YAML bodies — consumed by the skill worker to attach
 # `__shape_yaml__` on every @returns(shape) response.
 SHAPE_YAMLS: dict[str, str] = {
-    'account': 'plural: accounts\nidentity:\n- at\n- identifier\nsubtitle: identifier\nfields:\n  identifier: string\n  handle: string\n  displayName: string\n  display: string\n  email: string\n  phone: string\n  bio: text\n  accountType: string\n  color: string\n  isActive: boolean\n  authenticated: boolean\n  joinedDate: datetime\n  lastActive: datetime\n  customerId: string\n  marketplaceId: string\n  isPrime: boolean\n  redirect: url\n  statusCode: integer\nrelations:\n  at: actor\n  via: product\n  operator: actor\n  protocol: protocol\n  owner: person\n  authenticatedVia: account\n  previousIdentity: account[]\n  follows: account[]\n  followers: account[]\nprior_art:\n- source: ActivityPub Actor model\n  url: https://www.w3.org/TR/activitypub/\n  notes: Account id is a URL; Server/Application/Operator are separate Actor objects.\n    We adopt the same separation but ground each in graph nodes rather than URLs,\n    so node lifecycle (rebrand, merge) propagates to all referencing accounts.\n- source: schema.org Offer.seller union\n  url: https://schema.org/Offer\n  notes: "seller: Person | Organization. The `actor` shape (which `at` and `operator`\\\n    \\ target) is our existing union of person/org/agent \\u2014 same pattern."\n- source: OpenID Connect Core 1.0 (`iss`/`sub`)\n  url: https://openid.net/specs/openid-connect-core-1_0.html\n  notes: OIDC keeps issuer as opaque URL because there\'s no shared graph across token\n    issuers. We have a graph; we replace the URL with a graph node, gaining mutability\n    and traversal at the cost of requiring a node to exist before an account can reference\n    it. Trade is worth it.\n- source: WebFinger (RFC 7033)\n  url: https://datatracker.ietf.org/doc/html/rfc7033\n  notes: \'Resolves issuer+identifier pairs to profile metadata. Our identifier aligns\n    with WebFinger\'\'s acct: URI scheme (user@host), but the `host` part becomes a\n    graph node (not a string).\'\n- source: vCard 4.0 (RFC 6350)\n  url: https://datatracker.ietf.org/doc/html/rfc6350\n  notes: Defines displayName/email/phone/org in contact cards. We adopt vCard\'s contact\n    semantics for the human-readable fields.\n',
+    'account': 'plural: accounts\nidentity:\n- at\n- identifier\nsubtitle: identifier\nfields:\n  identifier: string\n  handle: string\n  displayName: string\n  display: string\n  email: string\n  phone: string\n  bio: text\n  accountType: string\n  color: string\n  isActive: boolean\n  joinedDate: datetime\n  lastActive: datetime\n  lastProfileFetch: datetime\n  userId: string\n  metadata: json\nrelations:\n  at: actor\n  via: product\n  operator: actor\n  protocol: protocol\n  owner: person\n  authenticatedVia: account\n  previousIdentity: account[]\n  follows: account[]\n  followers: account[]\nprior_art:\n- source: ActivityPub Actor model\n  url: https://www.w3.org/TR/activitypub/\n  notes: Account id is a URL; Server/Application/Operator are separate Actor objects.\n    We adopt the same separation but ground each in graph nodes rather than URLs,\n    so node lifecycle (rebrand, merge) propagates to all referencing accounts.\n- source: schema.org Offer.seller union\n  url: https://schema.org/Offer\n  notes: "seller: Person | Organization. The `actor` shape (which `at` and `operator`\\\n    \\ target) is our existing union of person/org/agent \\u2014 same pattern."\n- source: OpenID Connect Core 1.0 (`iss`/`sub`)\n  url: https://openid.net/specs/openid-connect-core-1_0.html\n  notes: OIDC keeps issuer as opaque URL because there\'s no shared graph across token\n    issuers. We have a graph; we replace the URL with a graph node, gaining mutability\n    and traversal at the cost of requiring a node to exist before an account can reference\n    it. Trade is worth it.\n- source: WebFinger (RFC 7033)\n  url: https://datatracker.ietf.org/doc/html/rfc7033\n  notes: \'Resolves issuer+identifier pairs to profile metadata. Our identifier aligns\n    with WebFinger\'\'s acct: URI scheme (user@host), but the `host` part becomes a\n    graph node (not a string).\'\n- source: vCard 4.0 (RFC 6350)\n  url: https://datatracker.ietf.org/doc/html/rfc6350\n  notes: Defines displayName/email/phone/org in contact cards. We adopt vCard\'s contact\n    semantics for the human-readable fields.\n',
     'activity': 'plural: activities\nsubtitle: action\nicon: activity\nfields:\n  action: string\n  published: datetime\n  changedKeys: string[]\n  toolName: string\n  duration: number\n  success: boolean\nrelations:\n  session: mcp_session\n  folder: folder\nprior_art:\n- source: ActivityStreams 2.0\n  url: https://www.w3.org/TR/activitystreams-core/\n  notes: AS2\'s Create/Update/Delete activities match our action values. We diverge\n    by tracking changedKeys explicitly instead of encoding full object replacement.\n- source: OpenTelemetry Traces\n  url: https://opentelemetry.io/docs/concepts/signals/traces/\n  notes: "Closest fit for toolName/duration/success \\u2014 span-shaped. Our activity\\\n    \\ is closer to a span event than a full span."\n',
     'actor': 'plural: actors\nsubtitle: actorType\nfields:\n  actorType: string\nprior_art:\n- source: FOAF Agent\n  url: http://xmlns.com/foaf/spec/#term_Agent\n  notes: FOAF Agent is the base class for Person, Organization, and Group. Our actorType\n    mirrors FOAF\'s agent taxonomy.\n- source: ActivityStreams 2.0 Actor\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#actor-types\n  notes: "AS2 defines Actor types (Person, Organization, Group, Service, Application).\\\n    \\ Our agent \\u2248 Service/Application."\n',
     'agent': "plural: agents\nsubtitle: model\nalso:\n- actor\nfields:\n  model: string\n  provider: string\n  sessionId: string\nprior_art:\n- source: ActivityStreams 2.0 Service\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-service\n  notes: AS2's Service Actor is the closest peer for an automated agent. We add model/provider/sessionId\n    for AI-specific lineage.\n- source: Anthropic Tool Use API (Claude)\n  url: https://docs.anthropic.com/en/docs/build-with-claude/tool-use\n  notes: Mirrors our model/provider fields. sessionId groups related tool invocations\n    from a single agent run.\n",
     'aircraft': 'plural: aircraft\nidentity: icaoCode\nsubtitle: model\nalso:\n- product\nfields:\n  model: string\n  variant: string\n  seatCapacity: integer\n  rangeKm: integer\n  iataCode: string\n  icaoCode: string\nrelations:\n  manufacturer: organization\nprior_art:\n- source: ICAO Aircraft Type Designators (Doc 8643)\n  url: https://www.icao.int/publications/DOC8643/Pages/Search.aspx\n  notes: Our icaoCode is the canonical 4-char type code (B738, A320); iataCode is\n    the 3-char IATA equivalent (738, 320).\n- source: schema.org/Vehicle\n  url: https://schema.org/Vehicle\n  notes: Our model/seatCapacity map to vehicleModelDate/vehicleSeatingCapacity; manufacturer\n    matches directly.\n',
+    'airline': "plural: airlines\nidentity: iataCode\nsubtitle: iataCode\nalso:\n- organization\nfields:\n  iataCode: string\n  icaoCode: string\n  callsign: string\n  country: string\n  alliance: string\nprior_art:\n- source: IATA Airline Designators\n  url: https://www.iata.org/en/publications/directories/code-search/\n  notes: iataCode is 2-letter (UA, DL); icaoCode is 3-letter (UAL, DAL); callsign\n    is radio callsign (UNITED). Full IATA/ICAO alignment.\n- source: schema.org/Airline\n  url: https://schema.org/Airline\n  notes: schema.org's Airline is an Organization subtype. Our alliance is a free field;\n    schema.org doesn't model it.\n",
+    'airport': 'plural: airports\nidentity: iataCode\nsubtitle: iataCode\nfields:\n  iataCode: string\n  icaoCode: string\n  city: string\n  country: string\n  countryCode: string\n  timezone: string\n  elevationFt: integer\n  terminalCount: integer\nrelations:\n  location: place\n  operator: organization\nprior_art:\n- source: IATA/ICAO Airport Codes\n  url: https://www.iata.org/en/publications/directories/code-search/\n  notes: iataCode is 3-letter (LAX, JFK); icaoCode is 4-letter (KLAX, KJFK). Canonical\n    identifiers for global airport routing.\n- source: schema.org/Airport\n  url: https://schema.org/Airport\n  notes: "Our iataCode/icaoCode = iataCode/icaoCode; city/country = address fields;\\\n    \\ elevationFt \\u2248 elevation. Direct alignment."\n- source: OurAirports open dataset\n  url: https://ourairports.com/data/\n  notes: Practical open dataset covering terminalCount, elevation, and country codes\n    (ISO 3166-1) aligning with our countryCode field.\n',
     'album': 'plural: albums\nidentity:\n- id\nsubtitle: id\nicon: images\nfields:\n  id: string\nrelations:\n  contains: image[]\nprior_art:\n- source: Apple Photos Album / IPTC PhotoMetadata\n  url: https://www.iptc.org/std/photometadata/specification/IPTC-PhotoMetadata\n  notes: "Albums are the simplest photo-grouping primitive. No EXIF, no date range\\\n    \\ \\u2014 just a named bucket. IPTC\'s \\"Album\\" PMV is the de-facto interchange\\\n    \\ format for this."\n',
     'app': 'plural: apps\nidentity:\n- id\nsubtitle: description\nicon: app-window\nfields:\n  id: string\n  app_id: string\n  standalone: boolean\n  description: string\n  entity_types: json\nprior_art:\n- source: Desktop Entry Specification (freedesktop.org)\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: "Apps mirror .desktop entries \\u2014 a user-facing name, a description, and\\\n    \\ metadata about what categories/file-types the app handles. Our entity_types\\\n    \\ plays the role of MimeType."\n',
     'book': 'plural: books\nidentity_any:\n- isbn13\n- isbn\nsubtitle: author\nalso:\n- product\nfields:\n  isbn: string\n  isbn13: string\n  pages: integer\n  genres: string[]\n  series: string\n  format: string\n  language: string\n  originalTitle: string\n  places: string[]\n  characters: string[]\n  awardsWon: string[]\nrelations:\n  writtenBy: person\n  contributors: person[]\n  publisher: organization\nprior_art:\n- source: schema.org/Book\n  url: https://schema.org/Book\n  notes: "Our isbn maps to isbn; writtenBy = author; publisher matches; pages = numberOfPages;\\\n    \\ language = inLanguage; format \\u2248 bookFormat (Hardcover/Paperback/EBook)."\n- source: ONIX for Books 3.0\n  url: https://www.editeur.org/83/Overview/\n  notes: Publishing-industry canonical. Our isbn/isbn13/pages/format/language/series/originalTitle\n    align with ONIX Product Identifier, Extent, ProductForm, Language, Collection,\n    and OriginalLanguageTitle composites.\n- source: Open Library Books API\n  url: https://openlibrary.org/developers/api\n  notes: Practical lookup by ISBN. Our genres/characters/places/awardsWon map to subjects/subject_people/subject_places/subject_times\n    (awards less standardized).\n',
@@ -1813,6 +1938,7 @@ SHAPE_YAMLS: dict[str, str] = {
     'event': 'plural: events\nidentity:\n- at\n- id\nsubtitle: eventType\nfields:\n  eventType: string\n  startDate: datetime\n  endDate: datetime\n  timezone: string\n  allDay: boolean\n  recurrence: string[]\n  status: string\n  visibility: string\n  showAs: string\n  dateUpdated: datetime\n  sourceUrl: url\n  sourceTitle: string\n  icalUid: string\n  distinctId: string\n  currentUrl: string\n  properties: json\n  articleUrl: url\n  webcastUrl: url\n  wikipediaUrl: url\n  patchImage: url\n  flightNumber: integer\n  rocketId: string\n  launchpadId: string\n  crewIds: string[]\n  reusedBoosters: string[]\n  landingOutcomes: json\nrelations:\n  at: actor\n  involves: person[]\n  location: place\n  organizer: person\n  creator: person\n  person: person\n  attachments: file[]\nprior_art:\n- source: schema.org/Event\n  url: https://schema.org/Event\n  notes: Core event type. Our startDate/endDate map 1:1; eventType is free-form vs.\n    schema.org\'s subtype hierarchy (Concert, Conference, BusinessEvent). organizer/location\n    match directly.\n- source: RFC 5545 (iCalendar) VEVENT\n  url: https://datatracker.ietf.org/doc/html/rfc5545\n  notes: "Our icalUid is their UID; recurrence is their RRULE; status maps to STATUS\\\n    \\ (TENTATIVE/CONFIRMED/CANCELLED); showAs \\u2248 TRANSP; involves[] \\u2248 ATTENDEE."\n- source: ActivityStreams 2.0 Event\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-event\n  notes: "Fediverse inbox format. Thinner than iCal \\u2014 no native recurrence or\\\n    \\ showAs; our involves[] \\u2248 attendees via as:Relationship."\n',
     'file': 'plural: files\nsubtitle: path\nfields:\n  filename: string\n  mimeType: string\n  size: integer\n  path: string\n  format: string\n  encoding: string\n  lineCount: integer\n  kind: string\n  sha: string\nrelations:\n  attachedTo: message\n  repository: repository\nprior_art:\n- source: IANA Media Types (RFC 6838)\n  url: https://datatracker.ietf.org/doc/html/rfc6838\n  notes: Our mimeType follows type/subtype syntax (text/plain, application/pdf). Canonical\n    source for format identification.\n- source: schema.org/DigitalDocument\n  url: https://schema.org/DigitalDocument\n  notes: "Our filename \\u2248 name; size \\u2248 contentSize; mimeType \\u2248 encodingFormat."\n- source: Git Internals (blob objects)\n  url: https://git-scm.com/book/en/v2/Git-Internals-Git-Objects\n  notes: Our sha is a Git blob SHA-1 (40-hex). Git\'s content-addressable model underlies\n    our repo-file identity.\n',
     'financial_account': 'plural: financial_accounts\nidentity:\n- at\n- identifier\nsubtitle: last4\nfields:\n  identifier: string\n  accountId: string\n  accountNumber: string\n  routingNumber: string\n  last4: string\n  currency: string\n  accountType: string\n  balance: number\n  available: number\n  creditLimit: number\n  minimumPayment: number\n  paymentDueDate: datetime\n  cardType: string\n  expiresAt: datetime\n  interestRate: number\nrelations:\n  at: actor\n  accessedVia: account\n  owner: person\nprior_art:\n- source: OFX (Open Financial Exchange)\n  url: https://financialdataexchange.org/ofx\n  notes: Bank-feed canonical. Our accountNumber / routingNumber / balance / available\n    map to OFX BANKACCTFROM / LEDGERBAL / AVAILBAL.\n- source: ISO 20022 Financial Messaging\n  url: https://www.iso20022.org/\n  notes: Modern bank-messaging standard. Our last4 / cardType / creditLimit / interestRate\n    align with ISO 20022 Card / Account components.\n- source: schema.org/BankAccount\n  url: https://schema.org/BankAccount\n  notes: "Our accountNumber \\u2248 accountId; balance / available are accountMinimumInflow\\\n    \\ / accountOverdraftLimit loosely; cardType fits schema.org/CreditCard."\n- source: 1Password Bank Account item\n  url: https://1password.com/\n  notes: "1P\'s Bank Account category holds institution + account number + routing\\\n    \\ + type \\u2014 same shape. Their Crypto Wallet and Credit Card are separate categories;\\\n    \\ we treat them as different `accountType` values on the same shape for now, splitting\\\n    \\ only if the field diversity forces it."\n',
+    'flight': 'plural: flights\nsubtitle: airline\nalso:\n- leg\nfields:\n  flightNumber: string\n  departureTime: datetime\n  arrivalTime: datetime\n  durationMinutes: integer\n  cabinClass: string\n  stops: integer\n  carbonEmissions: json\nrelations:\n  airline: airline\n  departsFrom: airport\n  arrivesAt: airport\n  aircraft: aircraft\nprior_art:\n- source: IATA Resolution 753 / Flight Codeshare\n  url: https://www.iata.org/en/programs/ops-infra/baggage/baggage-tracking/\n  notes: Our flightNumber follows IATA carrier-code + digits format (UA 1234). Canonical\n    for cross-carrier flight identity.\n- source: Duffel / IATA NDC Slice+Segment\n  url: https://duffel.com/docs/api/v2/overview\n  notes: NDC models a trip (slice) as multiple flights (segments). Our flight shape\n    = NDC segment; our trip = NDC slice.\n- source: schema.org/Flight\n  url: https://schema.org/Flight\n  notes: "Our flightNumber = flightNumber; departsFrom/arrivesAt = departureAirport/arrivalAirport;\\\n    \\ departureTime/arrivalTime match directly; carbonEmissions \\u2248 estimatedFlightDuration\\\n    \\ + emissions extensions."\n',
     'folder': 'plural: folders\nidentity: path\nsubtitle: path\nfields:\n  path: string\n  workspaceType: string\n  hasReadme: boolean\nrelations:\n  repository: repository\n  contains: file[]\nprior_art:\n- source: POSIX / Single Unix Specification\n  url: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html\n  notes: Our path is a POSIX pathname. hasReadme is AgentOS-specific (README convention\n    from repos).\n- source: schema.org/DataCatalog\n  url: https://schema.org/DataCatalog\n  notes: "Folder-as-collection loose fit. contains(file[]) \\u2248 hasPart."\n',
     'git_commit': 'plural: git_commits\nsubtitle: author\nfields:\n  sha: string\n  shortHash: string\n  message: text\n  additions: integer\n  deletions: integer\n  filesChanged: integer\n  committedAt: datetime\nrelations:\n  author: account\n  committer: account\n  repository: repository\n  parent: git_commit\nprior_art:\n- source: "Git Internals \\u2014 commit object"\n  url: https://git-scm.com/book/en/v2/Git-Internals-Git-Objects\n  notes: Our sha/shortHash/message/parent match the commit object exactly. author/committer\n    follow Git\'s distinct author-vs-committer model.\n- source: Conventional Commits 1.0\n  url: https://www.conventionalcommits.org/en/v1.0.0/\n  notes: "Practical structure for message field (type(scope): subject). Optional \\u2014\\\n    \\ we don\'t enforce but it\'s compatible."\n',
     'group': 'plural: groups\nidentity:\n- at\n- id\nsubtitle: category\nfields:\n  memberCount: integer\n  category: string\nprior_art:\n- source: schema.org/Group (via Organization/memberOf)\n  url: https://schema.org/Organization\n  notes: "schema.org models groups as Organization. Our memberCount \\u2248 numberOfEmployees\\\n    \\ loosely; category \\u2248 naics/knowsAbout."\n- source: FOAF Group\n  url: http://xmlns.com/foaf/spec/#term_Group\n  notes: Foundational social-graph vocabulary. foaf:member populates membership; category\n    has no direct FOAF peer.\n',
@@ -1833,7 +1959,7 @@ SHAPE_YAMLS: dict[str, str] = {
     'offer': 'plural: offers\nfields:\n  price: number\n  currency: string\n  offerType: string\n  availability: string\n  validFrom: datetime\n  validUntil: datetime\n  bookingToken: string\n  departureToken: string\nrelations:\n  for: product\n  offeredBy: organization\n  trips: trip[]\nprior_art:\n- source: schema.org/Offer\n  url: https://schema.org/Offer\n  notes: Our price = price; currency = priceCurrency; availability = availability;\n    validFrom/validUntil match directly.\n- source: IATA NDC OfferItem\n  url: https://www.iata.org/en/programs/airline-distribution/retailing/ndc/\n  notes: "Our bookingToken \\u2248 OfferItemID; validUntil \\u2248 TimeLimits/ OfferExpirationDateTime;\\\n    \\ trips[] \\u2248 Itinerary."\n- source: schema.org/AggregateOffer\n  url: https://schema.org/AggregateOffer\n  notes: For price-range offers (SerpAPI flight results). offerType is AgentOS-specific.\n',
     'order': 'plural: orders\nidentity:\n- at\n- orderId\nsubtitle: total\nfields:\n  orderId: string\n  orderDate: datetime\n  total: string\n  totalAmount: number\n  originalTotal: string\n  originalTotalAmount: number\n  savings: number\n  currency: string\n  status: string\n  deliveryDate: datetime\n  eta: string\n  subtotal: number\n  tipAmount: number\n  deliveryFee: number\n  taxes: number\n  summary: string\n  fareBreakdown: json\n  deliveryInstructions: string\n  interactionType: string\n  orderUuid: string\n  body: text\n  head: text\n  messages: json\n  timeline: json\n  itemStates: json\n  latestArrival: datetime\n  progress: number\n  progressTotal: number\nrelations:\n  at: actor\n  contains: product[]\n  shippingAddress: place\n  store: place\n  delivery: trip\n  tracking: webpage\nprior_art:\n- source: schema.org/Order\n  url: https://schema.org/Order\n  notes: Our orderId = orderNumber; orderDate = orderDate; total = totalPaymentDue;\n    status = orderStatus; shippingAddress = orderDelivery.\n- source: schema.org/OrderStatus (enum)\n  url: https://schema.org/OrderStatus\n  notes: Our status values (placed, confirmed, delivering, completed, cancelled) map\n    to OrderProcessing/OrderInTransit/OrderDelivered/ OrderCancelled.\n- source: Amazon Order Reports (MWS / SP-API)\n  url: https://developer-docs.amazon.com/sp-api/docs/orders-api-v0-reference\n  notes: Practical source. Our orderId, fareBreakdown, savings, eta are lifted from\n    Amazon/Uber Eats order structures.\n',
     'organization': 'plural: organizations\nidentity: url\nsubtitle: industry\nalso:\n- actor\nfields:\n  industry: string\n  founded: datetime\nrelations:\n  member: person[]\n  domain: domain\n  website: website\n  headquarters: place\nprior_art:\n- source: schema.org/Organization\n  url: https://schema.org/Organization\n  notes: "Our industry \\u2248 naics/isicV4 (loosely); founded = foundingDate; member[]\\\n    \\ = member; headquarters = location (or subOrganization with a Place)."\n- source: vCard 4.0 KIND=org (RFC 6350)\n  url: https://datatracker.ietf.org/doc/html/rfc6350\n  notes: "Organization-as-contact. Our website/domain \\u2248 URL; headquarters \\u2248\\\n    \\ ADR. Thinner than schema.org for industry/founded."\n- source: Wikidata (Organization, Q43229)\n  url: https://www.wikidata.org/wiki/Q43229\n  notes: Cross-reference identity. Useful for deduping; no direct field alignment\n    but industry maps to P452 (industry) and founded to P571 (inception).\n',
-    'pass': "plural: passes\nidentity:\n- at\n- id\nsubtitle: status\nfields:\n  status: string\n  purchasedDate: datetime\n  startEffectiveDate: datetime\n  endEffectiveDate: datetime\n  quantity: integer\n  purchasedQuantity: integer\n  useCount: integer\n  isAllDayPass: boolean\n  depletedDate: datetime\n  price: number\n  currency: string\nrelations:\n  at: actor\n  account: account\n  holder: person\n  grantedBy: membership\n  type: product\n  location: place\nprior_art:\n- source: schema.org/Ticket\n  url: https://schema.org/Ticket\n  notes: schema.org's peer for a claim-check right-of-entry. Our purchasedDate = issuedAt;\n    holder = underName; price matches directly. Ticket is event-bound; we generalize\n    to any right-of-use.\n- source: Mindbody Services (pricing options)\n  url: https://developers.mindbodyonline.com/PublicDocumentation/V6\n  notes: Gym-industry reference. Our quantity/purchasedQuantity/ useCount/depletedDate\n    are lifted from Mindbody's ClientService.Remaining / Count / DateCompleted.\n- source: GTFS fare rules / IATA fare basis\n  url: https://gtfs.org/documentation/schedule/reference/#fare_productstxt\n  notes: 'Transit-pass vocabulary: single-ride, day-pass, period-pass all fit `isAllDayPass`\n    + `startEffectiveDate` + `endEffectiveDate`.'\n",
+    'pass': "plural: passes\nidentity:\n- at\n- id\nsubtitle: status\nfields:\n  status: string\n  purchasedDate: datetime\n  startEffectiveDate: datetime\n  endEffectiveDate: datetime\n  quantity: integer\n  purchasedQuantity: integer\n  useCount: integer\n  isAllDayPass: boolean\n  depletedDate: datetime\n  price: number\n  currency: string\n  ticketNumber: string\n  nameOnTicket: string\n  seatAssignment: string\n  boardingGroup: string\n  ticketClass: string\n  gate: string\n  terminal: string\n  checkinStatus: string\nrelations:\n  at: actor\n  account: account\n  holder: person\n  grantedBy: membership\n  type: product\n  location: place\n  for: leg\n  reservation: reservation\nprior_art:\n- source: schema.org/Ticket\n  url: https://schema.org/Ticket\n  notes: schema.org's peer for a claim-check right-of-entry. Our purchasedDate = issuedAt;\n    holder = underName; price matches directly. Ticket is event-bound; we generalize\n    to any right-of-use.\n- source: Mindbody Services (pricing options)\n  url: https://developers.mindbodyonline.com/PublicDocumentation/V6\n  notes: Gym-industry reference. Our quantity/purchasedQuantity/ useCount/depletedDate\n    are lifted from Mindbody's ClientService.Remaining / Count / DateCompleted.\n- source: GTFS fare rules / IATA fare basis\n  url: https://gtfs.org/documentation/schedule/reference/#fare_productstxt\n  notes: 'Transit-pass vocabulary: single-ride, day-pass, period-pass all fit `isAllDayPass`\n    + `startEffectiveDate` + `endEffectiveDate`.'\n",
     'person': 'plural: people\nsubtitle: about\nalso:\n- actor\nfields:\n  firstName: string\n  lastName: string\n  middleName: string\n  nickname: string\n  birthday: datetime\n  notes: text\n  gender: string\n  about: text\n  joinedDate: datetime\n  lastActive: datetime\n  email: string\n  distinctIds: string[]\n  browser: string\n  os: string\n  initialReferrer: string\n  initialUtmSource: string\n  lastSeenAt: datetime\nrelations:\n  accounts: account[]\n  roles: role[]\n  memberships: membership[]\n  passes: pass[]\n  location: place\n  website: website\nprior_art:\n- source: schema.org/Person\n  url: https://schema.org/Person\n  notes: Our firstName/lastName = givenName/familyName; nickname = additionalName/alternateName;\n    birthday = birthDate; about = description. We diverge by modeling accounts[] as\n    a first-class relation rather than sameAs URLs.\n- source: vCard 4.0 (RFC 6350)\n  url: https://datatracker.ietf.org/doc/html/rfc6350\n  notes: "Contact-card canonical. Our fields map to FN/N/NICKNAME/BDAY/NOTE; our accounts[]\\\n    \\ \\u2248 IMPP/X-SOCIALPROFILE; location \\u2248 ADR."\n- source: FOAF (Friend of a Friend)\n  url: http://xmlns.com/foaf/spec/\n  notes: "Original social-graph vocabulary. foaf:Person with givenName/familyName/nick/homepage;\\\n    \\ foaf:account \\u2248 our accounts[]. Largely superseded by schema.org but still\\\n    \\ a reference for account-centric modeling."\n',
     'place': 'plural: places\nidentity_any:\n- googlePlaceId\n- mapboxId\nsubtitle: fullAddress\nfields:\n  fullAddress: string\n  placeFormatted: string\n  streetNumber: string\n  street: string\n  neighborhood: string\n  locality: string\n  city: string\n  district: string\n  region: string\n  postalCode: string\n  country: string\n  countryCode: string\n  latitude: number\n  longitude: number\n  accuracy: string\n  featureType: string\n  categories: string[]\n  phone: string\n  website: url\n  hours: json\n  businessStatus: string\n  rating: number\n  reviewCount: integer\n  priceLevel: string\n  timezone: string\n  eta: string\n  isOrderable: boolean\n  closedMessage: string\n  productCount: integer\n  mapboxId: string\n  wikidataId: string\n  googlePlaceId: string\nrelations:\n  at: actor\n  brand: organization\n  offers: product[]\nprior_art:\n- source: schema.org/Place + PostalAddress\n  url: https://schema.org/Place\n  notes: "Our latitude/longitude = geo.latitude/longitude; street/city/region/postalCode/countryCode\\\n    \\ map to PostalAddress streetAddress/addressLocality/addressRegion/postalCode/addressCountry;\\\n    \\ hours \\u2248 openingHoursSpecification; rating/reviewCount \\u2248 aggregateRating."\n- source: Google Places API (Place resource)\n  url: https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places\n  notes: "Practical POI schema. Our googlePlaceId = id; featureType/categories \\u2248\\\n    \\ types/primaryType; businessStatus, priceLevel, rating match directly."\n- source: GeoJSON (RFC 7946) + ISO 3166-1\n  url: https://datatracker.ietf.org/doc/html/rfc7946\n  notes: Our latitude/longitude are a GeoJSON Point [lon, lat]; countryCode follows\n    ISO 3166-1 alpha-2.\n',
     'playlist': 'plural: playlists\nsubtitle: text\nalso:\n- list\nrelations:\n  contains: video[]\nprior_art:\n- source: schema.org/MusicPlaylist / ItemList\n  url: https://schema.org/MusicPlaylist\n  notes: "Our contains(video[]) \\u2248 track/itemListElement. We generalize beyond\\\n    \\ music to any ordered media list."\n- source: "YouTube Data API \\u2014 Playlist"\n  url: https://developers.google.com/youtube/v3/docs/playlists\n  notes: "Practical source. Playlist = ordered Video collection \\u2014 inherits list\\\n    \\ identity semantics."\n',
@@ -1844,6 +1970,7 @@ SHAPE_YAMLS: dict[str, str] = {
     'protocol': 'plural: protocols\nidentity:\n- name\nsubtitle: name\nfields:\n  name: string\n  homepage: url\n  rfc: string\n  wikidataId: string\nprior_art:\n- source: schema.org/CreativeWork\n  url: https://schema.org/CreativeWork\n  notes: "Closest match in schema.org \\u2014 protocols are creative works in the broadest\\\n    \\ sense. We narrow to protocols and technical specifications used as identity\\\n    \\ namespaces."\n- source: Wikidata (Communication protocol, Q15836568)\n  url: https://www.wikidata.org/wiki/Q15836568\n  notes: wikidataId enables cross-reference for dedupe across other knowledge graphs.\n    Most well-known protocols have Q-IDs.\n- source: IANA Protocol Registry\n  url: https://www.iana.org/protocols\n  notes: Authoritative registry for many protocols. Our `name` aligns with IANA protocol\n    slugs where applicable.\n',
     'quote': 'plural: quotes\nfields:\n  context: string\n  year: integer\nprior_art:\n- source: schema.org/Quotation\n  url: https://schema.org/Quotation\n  notes: "Our context \\u2248 about; year \\u2248 datePublished. schema.org models spokenByCharacter/creator\\\n    \\ \\u2014 we model attribution via graph edges instead."\n- source: Wikiquote data model\n  url: https://en.wikiquote.org/wiki/Help:Sources\n  notes: Practical canonical quote source. Our provenance-via-edges (document --contains-->\n    quote --attributedTo--> person) matches Wikiquote\'s source-citation discipline.\n',
     'repository': 'plural: repositories\nidentity_any:\n- path\n- url\nsubtitle: language\nfields:\n  stars: integer\n  forks: integer\n  language: string\n  topics: string[]\n  openIssues: integer\n  isArchived: boolean\n  isPrivate: boolean\n  defaultBranch: string\n  license: string\n  size: integer\nrelations:\n  forkedFrom: repository\n  owner: account\nprior_art:\n- source: Git internals + Git refs\n  url: https://git-scm.com/book/en/v2/Git-Internals-Git-References\n  notes: Our defaultBranch is a Git ref (refs/heads/main); forkedFrom is explicit\n    in our model vs. implicit in Git (recorded only by forges).\n- source: "GitHub REST API \\u2014 Repository"\n  url: https://docs.github.com/en/rest/repos/repos\n  notes: Direct source. Our stars/forks/openIssues/topics/defaultBranch/ license/size/isArchived/isPrivate\n    all come from the GitHub Repository resource.\n- source: SPDX License List\n  url: https://spdx.org/licenses/\n  notes: Our license values are SPDX identifiers (MIT, Apache-2.0, GPL-3.0-or-later).\n',
+    'reservation': 'plural: reservations\nidentity:\n- at\n- reservationId\nsubtitle: reservationType\nfields:\n  reservationType: string\n  reservationId: string\n  status: string\n  bookingType: string\n  bookingTime: datetime\n  modifiedTime: datetime\n  startTime: datetime\n  endTime: datetime\n  partySize: integer\n  totalAmount: number\n  baseAmount: number\n  taxAmount: number\n  currency: string\n  checkinUrl: url\n  conditions: json\n  voidWindowEndsAt: datetime\n  availableActions: string[]\nrelations:\n  at: actor\n  reservationFor: leg\n  trips: trip[]\n  passengers: person[]\n  underName: person\n  account: account\n  broker: actor\n  programMembership: membership\n  order: order\n  tickets: pass[]\n  derivedFrom: offer\nprior_art:\n- source: schema.org/Reservation\n  url: https://schema.org/Reservation\n  notes: "Base vocabulary: reservationFor, reservationId, reservationStatus, reservedTicket,\\\n    \\ underName, bookingTime, modifiedTime, totalPrice, priceCurrency. We fold FlightReservation\\\n    \\ / LodgingReservation / FoodEstablishmentReservation into a single shape with\\\n    \\ a reservationType discriminator (AgentOS convention \\u2014 see `trip.tripType`,\\\n    \\ `event.eventType`). Flight-specific fields (boardingGroup, seat) live on pass,\\\n    \\ not here."\n- source: schema.org/ReservationStatusType\n  url: https://schema.org/ReservationStatusType\n  notes: "Extended beyond schema.org\'s ConfirmedCancelledHoldPending set to add `no_show`\\\n    \\ and `completed` \\u2014 values that matter for post-hoc reasoning but schema.org\\\n    \\ lacks."\n- source: Duffel Orders API\n  url: https://duffel.com/docs/api/v2/orders\n  notes: Canonical flight-booking top-level entity. Our `reservationId` = booking_reference;\n    `availableActions` = available_actions; `voidWindowEndsAt` = void_window_ends_at;\n    `conditions` = conditions (change_before_departure, refund_before_departure).\n    Duffel names the entity `Order`; we chose `reservation` to free up `order` for\n    pure-commerce semantics.\n- source: IATA NDC OrderViewRS\n  url: https://www.iata.org/en/programs/airline-distribution/retailing/ndc/\n  notes: "NDC normalizes passengers to a top-level PaxList referenced by ID. Our graph\\\n    \\ gets the same effect with `passengers: person[]` \\u2014 people are first-class\\\n    \\ nodes and the same `person` can appear on many reservations. Services (seat,\\\n    \\ baggage, meal) live on `pass`."\n- source: ActivityStreams 2.0 (Invite / Accept / Leave / Reject)\n  url: https://www.w3.org/TR/activitystreams-vocabulary/\n  notes: "Commitment lifecycle is an append-only stream of activities (booked, held,\\\n    \\ checked_in, rebooked, cancelled) rather than a single lossy enum. We use `status`\\\n    \\ for the snapshot and rely on back-edges from `activity` nodes for the history\\\n    \\ \\u2014 the same pattern FEP-8a8e recommends for ActivityPub event-side state."\n- source: FEP-8a8e Event interop\n  url: https://w3id.org/fep/8a8e\n  notes: Splits supply-side status (on the event/flight) from demand-side status (on\n    the attendee/passenger). We mirror this by keeping `status` on reservation (passenger-side)\n    separate from any cancellation/delay state on the `flight` or `trip` itself.\n- source: "Valueflows / REA \\u2014 Commitment"\n  url: https://www.valueflo.ws/concepts/flows/\n  notes: \'REA accounting framing: a reservation IS a commitment with provider, receiver,\n    resourceConformsTo, quantity, and time window. Useful lens for future extension\n    (hotel nights, car rental days).\'\n',
     'result': 'plural: results\nsubtitle: url\nfields:\n  indexedAt: datetime\n  resultType: string\n  externalUrl: url\n  postId: string\n  score: integer\n  similarity: number\n  community: string\nprior_art:\n- source: OpenSearch Description Document\n  url: https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md\n  notes: "Result-pointer model: each hit has a URL + metadata. Our resultType \\u2248\\\n    \\ Url template\'s type attribute."\n- source: Web Search API conventions (Brave/Bing)\n  url: https://api.search.brave.com/app/documentation/web-search/get-started\n  notes: Practical source. Our indexedAt/resultType align with common fields across\n    Brave, Bing, and Exa web APIs.\n',
     'review': 'plural: reviews\nsubtitle: author\nalso:\n- post\nfields:\n  rating: number\n  ratingMax: number\n  tags: string[]\n  isVerified: boolean\nrelations:\n  reviews: product\n  postedBy: account\nprior_art:\n- source: schema.org/Review\n  url: https://schema.org/Review\n  notes: "Our rating \\u2248 reviewRating.ratingValue; ratingMax \\u2248 bestRating;\\\n    \\ reviews = itemReviewed; isVerified has no direct property (extension)."\n- source: schema.org/AggregateRating\n  url: https://schema.org/AggregateRating\n  notes: For product review aggregates. Our rating/ratingMax map to ratingValue/bestRating;\n    reviewCount is inherited when computed.\n',
     'role': 'plural: roles\nsubtitle: name\nfields:\n  title: string\n  department: string\n  roleType: string\n  startDate: datetime\n  endDate: datetime\nrelations:\n  person: person\n  organization: organization\nprior_art:\n- source: schema.org/Role + OrganizationRole\n  url: https://schema.org/OrganizationRole\n  notes: "Our title = roleName; startDate/endDate match; department \\u2248 name of\\\n    \\ a subOrganization; person/organization = Role\'s nested pattern."\n- source: FOAF + Bio vocabularies (position)\n  url: http://vocab.org/bio/0.1/.html\n  notes: "Period-of-employment modeling. Our startDate/endDate \\u2248 bio:date; roleType\\\n    \\ has no FOAF peer."\n',
@@ -1868,6 +1995,8 @@ SHAPE_YAMLS: dict[str, str] = {
 SHAPE_IDENTITIES: dict[str, list[str]] = {
     'account': ['at', 'identifier'],
     'aircraft': ['icaoCode'],
+    'airline': ['iataCode'],
+    'airport': ['iataCode'],
     'album': ['id'],
     'app': ['id'],
     'brand': ['url'],
@@ -1897,6 +2026,7 @@ SHAPE_IDENTITIES: dict[str, list[str]] = {
     'post': ['at', 'id'],
     'project': ['at', 'id'],
     'protocol': ['name'],
+    'reservation': ['at', 'reservationId'],
     'source': ['address'],
     'task': ['at', 'id'],
     'theme': ['themeId'],

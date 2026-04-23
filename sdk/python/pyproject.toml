@@ -7,7 +7,11 @@ name = "agent-sdk"
 version = "0.1.0"
 description = "agentOS Skill Development Kit"
 requires-python = ">=3.10"
-dependencies = ["pyyaml>=6.0"]
+dependencies = [
+  "pyyaml>=6.0",
+  "idna>=3",
+  "phonenumbers>=8",
+]
 
 [project.scripts]
 agent-sdk = "agentos.cli:main"

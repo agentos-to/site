@@ -1641,6 +1641,134 @@ def _load_auth_contracts() -> dict[str, dict] | None:
     return AUTH_CONTRACTS
 
 
+def check_check_session_identity(skill_dir: Path) -> tuple[list[str], list[str]]:
+    """Enforce the `check_session` identity contract at commit time.
+
+    Per `_roadmap/p1/fix-auth/credential-providers-and-identity.md` Decision 8:
+      - `authenticated: True` returns MUST include an `identifier` field.
+      - `identifier` MUST NOT be a pure-integer literal (the Goodreads
+        `"26631647"` antipattern). Use the service's email, handle, or
+        canonical userId instead.
+      - `email` / `phone` literal values SHOULD be wrapped in
+        `normalize_email(...)` / `normalize_phone(...)` before returning.
+        Best-effort — catches literal dict constructions like
+        `{"email": email_str, ...}` where `email_str` isn't a
+        normalize-call result.
+
+    Returns `(errors, warnings)`.
+    """
+    errors: list[str] = []
+    warnings: list[str] = []
+
+    for rel, _py_file, _source, tree in _iter_skill_py_files(skill_dir):
+        for node in tree.body:
+            if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            if node.name != "check_session":
+                continue
+
+            # Walk every return statement's dict literal (if any).
+            for ret in ast.walk(node):
+                if not isinstance(ret, ast.Return):
+                    continue
+                ret_dict = ret.value
+                if not isinstance(ret_dict, ast.Dict):
+                    continue
+
+                # Lift key→value pairs for the (string-keyed) entries.
+                pairs: dict[str, ast.expr] = {}
+                for k, v in zip(ret_dict.keys, ret_dict.values):
+                    if isinstance(k, ast.Constant) and isinstance(k.value, str):
+                        pairs[k.value] = v
+
+                auth_val = pairs.get("authenticated")
+                is_authed = (
+                    isinstance(auth_val, ast.Constant)
+                    and auth_val.value is True
+                )
+                identifier_val = pairs.get("identifier")
+
+                if is_authed and identifier_val is None:
+                    warnings.append(
+                        f"{rel}:{ret.lineno}: check_session returns "
+                        f"`authenticated: True` without `identifier` — "
+                        f"engine can't persist a credential row without it."
+                    )
+
+                # Integer-literal identifier — hard error.
+                if isinstance(identifier_val, ast.Constant):
+                    lit = identifier_val.value
+                    if isinstance(lit, int) or (
+                        isinstance(lit, str) and lit.isdigit()
+                    ):
+                        errors.append(
+                            f"{rel}:{ret.lineno}: check_session `identifier` "
+                            f"is a numeric literal ({lit!r}); pick the "
+                            f"service's email or handle instead and store "
+                            f"the numeric id under `userId`."
+                        )
+
+                # Email / phone should be normalized. Only warn when we
+                # can see the assignment isn't a normalize_*() call.
+                for key, normalizer in (
+                    ("email", "normalize_email"),
+                    ("phone", "normalize_phone"),
+                ):
+                    val = pairs.get(key)
+                    if val is None:
+                        continue
+                    if _is_normalize_call(val, normalizer):
+                        continue
+                    # If the value is a plain Name (e.g. `email_var`), check
+                    # whether that name was assigned from a normalize_*() call
+                    # inside this function body. Best-effort; skip if unclear.
+                    if isinstance(val, ast.Name) and _name_from_normalize(
+                        node, val.id, normalizer
+                    ):
+                        continue
+                    warnings.append(
+                        f"{rel}:{ret.lineno}: check_session `{key}` not "
+                        f"obviously produced by `agentos.identity."
+                        f"{normalizer}(...)` — canonical form is required "
+                        f"before returning."
+                    )
+
+    return errors, warnings
+
+
+def _is_normalize_call(expr: ast.expr, fn_name: str) -> bool:
+    """True when `expr` is `normalize_<x>(...)` or `identity.normalize_<x>(...)`."""
+    if not isinstance(expr, ast.Call):
+        return False
+    callee = expr.func
+    if isinstance(callee, ast.Name) and callee.id == fn_name:
+        return True
+    if (
+        isinstance(callee, ast.Attribute)
+        and callee.attr == fn_name
+    ):
+        return True
+    return False
+
+
+def _name_from_normalize(
+    func: ast.FunctionDef | ast.AsyncFunctionDef, name: str, fn_name: str
+) -> bool:
+    """True when `name` is last assigned from `normalize_<x>(...)` inside `func`."""
+    found = False
+    for stmt in ast.walk(func):
+        if isinstance(stmt, ast.Assign):
+            if _is_normalize_call(stmt.value, fn_name):
+                for target in stmt.targets:
+                    if isinstance(target, ast.Name) and target.id == name:
+                        found = True
+        elif isinstance(stmt, ast.AnnAssign):
+            if stmt.value is not None and _is_normalize_call(stmt.value, fn_name):
+                if isinstance(stmt.target, ast.Name) and stmt.target.id == name:
+                    found = True
+    return found
+
+
 def check_auth_provider_contract(skill_dir: Path) -> list[str]:
     """Enforce the OAuth / cookie provider return contract at commit time.
 
@@ -1928,6 +2056,10 @@ def audit_skill_dir(skill_dir: Path, shapes_dir: Path | None) -> tuple[int, str 
     all_issues.extend(check_camelcase_dict_keys(skill_dir, shapes_dir))
     all_issues.extend(check_auth_provider_contract(skill_dir))
     all_issues.extend(check_claims(skill_dir))
+
+    check_session_errors, check_session_warnings = check_check_session_identity(skill_dir)
+    all_issues.extend(check_session_errors)
+    all_warnings.extend(check_session_warnings)
 
     # Python checks — warnings
     all_warnings.extend(check_shape_conformance(skill_dir, shapes_dir))
