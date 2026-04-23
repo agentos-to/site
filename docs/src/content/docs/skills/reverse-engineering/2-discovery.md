@@ -644,3 +644,173 @@ HTML scraping should be the strategy of last resort, not the first attempt.
 | `skills/goodreads/` | Next.js Apollo cache + AppSync GraphQL + JS bundle scanning | `public_graph.py` |
 | `skills/austin-boulder-project/` | JS bundle config extraction (API key + namespace) | `abp.py` |
 | `skills/claude/` | Session cookie capture via Playwright | `claude-login.py` |
+| `skills/logistics/united/` | CDP Fetch interception + React fiber traversal for in-memory bundle offers | `requirements.md` |
+
+---
+
+## Capturing multi-step checkout flows (from live Brave via CDP)
+
+Reverse-engineering a **commerce checkout flow** (search → select →
+travelers → seats → payment) is different from reading a single API
+surface. You step through the frontend with stateful IDs (cart IDs,
+bearer tokens that rotate per page) while capturing every XHR that
+fires. Lessons from reverse-engineering united.com's booking flow:
+
+### Principles
+
+1. **Use a real logged-in Brave tab.** Checkout endpoints validate
+   session cookies + bearers the SPA mints from in-memory state.
+   Replaying from urllib/http.client hits Akamai soft-blocks (200 +
+   0 bytes + `Content-Type: application/x-ndjson` — the tarpit
+   signature, not a malformed body).
+2. **Checkout sessions time out fast.** United signs you out after ~5
+   min of idling on customize-travel or seatmap pages (fires
+   `/api/auth/signout`, drops `AuthCookie`/`User`/`SID`). **Run the
+   full book-to-payment drive in one burst**; do inspection before
+   the flow starts or after PNR creation.
+3. **Navigation is cheap; state is precious.** Clicking the wrong
+   button (there may be 5 "Continue" buttons on a page) can log you
+   out, trigger a stale cart, or send you to `/myunited`. Always
+   scope the DOM query to a known ancestor.
+4. **Verify login before driving.** Check `Network.getCookies` for
+   `AuthCookie`/`User`/`SID` before starting a flow. A missing
+   cookie = user needs to re-login; no amount of retries helps.
+
+### The CDP toolkit for checkout RE
+
+| Need | CDP command | Gotcha |
+|------|-------------|--------|
+| Navigate the tab | `Page.navigate { url }` | Uses the tab's existing cookies — don't cache-bust auth |
+| Click / fill fields | `Runtime.evaluate { expression, awaitPromise: true, returnByValue: true }` | Use the native setter trick (below) for React inputs |
+| List form fields | `document.querySelectorAll('input,select,textarea,button[role=combobox]')` + read `label`, `name`, `value`, `aria-*` | Labels may come from `aria-labelledby` |
+| Extract React state | Walk `__reactFiber$*` up from a DOM node until `memoizedProps` has the data | Redux store may be 30+ fiber hops from the DOM leaf |
+| Passive capture | `Network.enable` + listen for `requestWillBeSent` / `responseReceived` / `loadingFinished` → `Network.getResponseBody` | `getResponseBody` returns empty for SSE in-flight |
+| Active intercept | `Fetch.enable { patterns: [{urlPattern, requestStage: "Response"}] }` + `Fetch.takeResponseBodyAsStream` + `IO.read` + `Fetch.fulfillRequest` | **Breaks SSE streaming** — exclude SSE URLs from patterns |
+| Fresh cookies | `Network.getCookies { urls: ["https://..."] }` | Bypasses browser on-disk SQLite cache (which can lag ~5min after login) |
+
+### Passive capture is usually what you want
+
+`Network.enable` + `getResponseBody` after `loadingFinished` gets you
+request + response metadata + bodies **without altering the page's
+behavior**. Use it as the default. Reach for `Fetch.enable` only when:
+- You need to *modify* a request (rare for skills)
+- The body errors before `loadingFinished`
+- Chrome's response buffer overflows
+
+**Never** use `Fetch.enable` with `fulfillRequest` on SSE endpoints
+(`text/event-stream`, `application/x-ndjson`). Drain+fulfill with a
+single buffered body breaks the streaming the page's reader needs. If
+you see "page loaded but results never render", look for an SSE
+endpoint you accidentally intercepted.
+
+### React fiber traversal — extract in-memory component props
+
+Some data only exists in React component props, never fetched as a
+separate API call. United's three "Bundle Offer" upsell cards are
+hydrated from the existing `LoadReservationAndCart` response but
+reshaped in-component — no `/api/GetBundles` fires. Traverse the fiber
+tree to extract:
+
+```js
+(async () => {
+  // 1. Anchor to a known DOM element (e.g. the bundle heading)
+  const h = Array.from(document.querySelectorAll('h3'))
+    .find(h => /Bundle Offer 1/i.test(h.textContent || ''));
+  if (!h) return null;
+
+  // 2. Walk up to a parent with a react fiber
+  let root = h.parentElement;
+  const fk = Object.keys(root).find(k => k.startsWith('__reactFiber$'));
+  if (!fk) return null;
+
+  // 3. Walk fiber.return up, looking for the prop you want
+  let fiber = root[fk];
+  for (let i = 0; i < 40 && fiber; i++) {
+    const p = fiber.memoizedProps || {};
+    if (Array.isArray(p.bundleOffers) && p.bundleOffers.length > 0) {
+      // Sanitize: drop functions before JSON.stringify
+      return JSON.parse(JSON.stringify(p.bundleOffers,
+        (k,v) => typeof v === 'function' ? undefined : v));
+    }
+    fiber = fiber.return;
+  }
+})()
+```
+
+Common prop names to search for: `bundleOffers`, `upsellOffers`,
+`travelers`, `cart`, `pricing`, `selectedFlight`, `seatMap`.
+
+### Driving the tab — find buttons by scope, not by text
+
+Pattern for clicking: scope to the right ancestor first, then text-
+match within it. Don't `querySelectorAll('button')` page-wide.
+
+```js
+// WRONG: page has 5 Continue buttons
+Array.from(document.querySelectorAll('button'))
+  .find(b => (b.textContent||'').trim() === 'Continue')
+
+// RIGHT: scope to the target section
+const section = Array.from(document.querySelectorAll('section,form'))
+  .find(s => /Traveler Info/i.test(s.textContent||''));
+section?.querySelector('button:not([disabled])');  // or scoped text match
+```
+
+Also verify *what* you clicked by checking the URL after — if you
+expected `/traveler/` and got `/myunited`, your selector grabbed a
+navbar button. Catch it fast instead of waiting 30s for the wrong
+state.
+
+### React-controlled inputs need the native setter
+
+Direct assignment (`el.value = 'x'`) doesn't trigger React's state
+update. Use the native setter + dispatch events:
+
+```js
+const setter = Object.getOwnPropertyDescriptor(
+  HTMLInputElement.prototype, 'value').set;
+setter.call(el, 'new value');
+el.dispatchEvent(new Event('input',  {bubbles:true}));
+el.dispatchEvent(new Event('change', {bubbles:true}));
+el.dispatchEvent(new Event('blur',   {bubbles:true}));
+```
+
+### Detecting logged-out state (do this before you start)
+
+```python
+ws.send(json.dumps({"id": 1, "method": "Network.getCookies",
+    "params": {"urls": ["https://www.united.com"]}}))
+# ... wait for response ...
+cs = {c["name"]: c["value"] for c in result["cookies"]}
+critical = ["AuthCookie", "User", "SID"]
+missing = [k for k in critical if k not in cs]
+if missing:
+    raise RuntimeError(f"logged out — missing {missing}; user must re-login")
+```
+
+Missing `AuthCookie`/`User`/`SID` after a checkout navigation means
+the server fired `/api/auth/signout` on you (see United's 5-minute
+idle-timeout in checkout). No retry recovers; the user has to re-login.
+
+### Incremental capture, not post-hoc
+
+Save captures to disk on every event, not at script exit:
+
+```python
+def on_finished(rid):
+    body = fetch_body(rid)
+    captured.append({**metadata, "respBody": body})
+    with open(OUT, "w") as f:
+        json.dump(captured, f)   # rewrite every time
+```
+
+Reason: checkout drives are fragile. If the script crashes or you
+Ctrl-C, you want the XHRs captured up to that point. Don't buffer for
+a clean exit.
+
+### Short timeouts over long ones
+
+Default **30s** per-step. At most 60s. Long timeouts hide problems:
+if a click isn't working you want to see it in under a minute, not
+after 5 minutes of dead pumping. A legit slow step is itself a
+signal that the skill will need explicit wait logic.
