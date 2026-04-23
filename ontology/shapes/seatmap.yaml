@@ -1,0 +1,146 @@
+# A seat map for a specific flight + cabin, returned by an airline skill.
+#
+# A seatmap is the RENDERABLE STATE of a cabin at a moment in time:
+# which seats exist, which are available, their prices, and the
+# physical structure (aisles, exits, galleys, wings). It's bound to a
+# specific flight + fare because availability + prices depend on both.
+#
+# Distinct from `aircraft` — aircraft describes the airplane TYPE
+# (model, variant, manufacturer); seatmap describes the cabin INSTANCE
+# at booking time (with occupancy, live pricing, per-fare eligibility).
+# The same 737-800 has different seatmaps for different flights (and
+# for different fare classes on the same flight, since Basic Economy
+# typically can't pick seats at all).
+#
+# Distinct from a `pass.seatAssignment` — the assignment is the single
+# seat a passenger occupies; the seatmap is the whole cabin they
+# chose from.
+#
+# Not itself a commerce primitive — the *selection* of a seat is a
+# purchase decision that lands on a `pass`. The seatmap is the catalog
+# that decision ranges over.
+#
+# Prior art:
+#   - IATA PADIS Seat Map Response (ATAMSM). Our schema mirrors the
+#     cabin > row > seat hierarchy; flags like isExit / isBulkhead /
+#     isBlocked map to PADIS characteristic codes.
+#   - IATA AIRIMP codes for seat characteristics (e.g. "1A" = window,
+#     "8" = no recline) — captured in iataAttributes when available.
+#   - Duffel seat_maps endpoint. Their cabin > deck > rows > seats tree
+#     flattens to our cabins[] > rows[] > seats[].
+#   - schema.org has no seat-map primitive; closest is Event/Place/Ticket
+#     but none fit cabin-with-aisles. Airlines universally use the IATA
+#     shape; we follow.
+#
+# Identity: the tuple (flight, fareBasisCode) — a seatmap is scoped to
+# one flight AND one fare (different fares yield different eligibility).
+# id is a synthetic string the skill composes.
+seatmap:
+  plural: seatmaps
+  identity: [id]
+  subtitle: cabinBrand
+  fields:
+    # Flight scope (denormalized for display without join)
+    flightNumber:     string    # "UA 1336"
+    origin:            string    # IATA ("AUS")
+    destination:       string    # IATA ("SFO")
+    departureTime:    datetime
+    fareBasisCode:    string    # "LAA0AQBN" — fare the seatmap was priced for
+    classOfService:   string    # booking-class RBD ("N" for basic economy)
+    aircraftCode:     string    # from aircraftInfo.icr or iataCode
+    # Summary
+    totalSeats:       integer
+    availableSeats:   integer
+    # The cabin layout. A plane can have multiple cabins (First, Econ+, Econ).
+    # We collapse them into one seatmap per plane since the UI renders them
+    # stacked; cabinBrand on each cabin dict differentiates.
+    cabins:            json      # see shape below
+    # Pricing tiers — seats reference tier ids; tier holds price + eligibility
+    tiers:             json      # [{id: 1, price: 0, currency: "USD", eligibility: "..."}, ...]
+    # Flags surfaced across the map (useful for quick filtering without walking every seat)
+    hasExitRow:       boolean
+    hasFreeSeats:     boolean
+    hasPaidSeats:     boolean
+    basicEconomyLocked: boolean   # true when fare doesn't allow seat selection
+  relations:
+    at:                actor      # the airline (namespace)
+    flight:            flight     # the flight this seatmap is for
+    aircraft:          aircraft   # the aircraft type
+    reservation:       reservation  # the booking this seatmap is being selected for (optional — only during checkout)
+
+# ============================================================================
+# CABIN SUB-SHAPE (embedded in seatmap.cabins[])
+# ============================================================================
+# Each cabin dict:
+#   {
+#     cabinType:       "J" | "Y" | "W" | "F"      # IATA class code
+#     cabinBrand:      "United First" | "United Economy"  # airline display name
+#     layout:          "AB EF" | "ABC DEF" | ...   # letter-grouped aisle sep
+#     rowCount:        integer
+#     columnCount:     integer                    # letters + aisle columns
+#     isUpperDeck:     boolean
+#     totalSeats:      integer
+#     availableSeats:  integer
+#     rows:            row[]                      # see below
+#     monumentRows:    monumentRow[]              # galleys, lavatories, exits between rows
+#   }
+#
+# ROW SUB-SHAPE (embedded in cabin.rows[])
+# Each row dict:
+#   {
+#     number:          integer                    # "row 14"
+#     verticalGridNumber: integer                 # sort key — merge with monumentRows for render
+#     wing:            boolean                    # physically over the wing
+#     seats:           seat[]                     # see below
+#   }
+#
+# SEAT SUB-SHAPE (embedded in row.seats[])
+# Each seat dict — the atomic unit of the seatmap:
+#   {
+#     number:          "22B"
+#     letter:          "B"
+#     rowNumber:       22
+#     location:        "Window" | "Middle" | "Aisle"
+#     seatSection:     "Left" | "Right" | "Center"
+#     description:     "Preferred Zone" | "Economy Plus" | null
+#     tier:            "6"                        # lookup into seatmap.tiers[]
+#     # availability
+#     isAvailable:     boolean
+#     isBlocked:       boolean                    # airline-held (elite-only etc.)
+#     isOccupied:      boolean
+#     isHeld:          boolean                    # another user mid-checkout
+#     # physical / legal flags
+#     isExit:          boolean                    # exit-row seat (legal requirements)
+#     isOnWing:        boolean
+#     isBulkhead:      boolean                    # no seat in front
+#     isExtraPitch:    boolean
+#     isExtraSeatWidth: boolean
+#     hasInSeatPower:  boolean
+#     isWindowObstructedView: boolean
+#     hasNoUnderSeatStorage:  boolean
+#     isLimitedSeatWidth:     boolean
+#     isBassinet:      boolean
+#     # booking rules
+#     allowPet:        boolean
+#     allowLapInfant:  boolean
+#     allowUnAccompaniedMinor: boolean
+#     allowDisabledPassenger:  boolean
+#     iataAttributes:  string[]                   # IATA characteristic codes
+#     # Per-seat offer-item reference (for select / register)
+#     offerItemReferenceId: string
+#   }
+#
+# MONUMENT-ROW SUB-SHAPE (embedded in cabin.monumentRows[])
+# A row-shaped entry that holds non-seat items — galley, lavatory, exit door.
+# Render in document order by interleaving with rows[] sorted by
+# verticalGridNumber.
+#   {
+#     verticalGridNumber: integer
+#     monuments: [{
+#       itemType:        "AISLE" | "SPACER" | "GALLEY" | "LAV"
+#       isDoorExit:      boolean    # an actual door (as opposed to interior lavatory)
+#       horizontalGridNumber: integer
+#       horizontalSpan:  integer
+#       verticalSpan:    integer
+#     }]
+#   }
