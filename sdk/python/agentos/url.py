@@ -1,13 +1,15 @@
 """URL string helpers — pure string math, no network, no identity.
 
 Skills can't import ``urllib.parse`` directly (banned in the sandbox).
-These four helpers cover the cases ``client.get/post`` can't do for you
+These helpers cover the cases ``client.get/post`` can't do for you
 via ``params={...}``:
 
-    url.build   — when you need the URL *string itself* (storing, returning, logging)
-    url.parse   — when you need to inspect the parts of a URL you were given
-    url.encode  — percent-encode a single PATH segment value
-    url.decode  — percent-decode
+    url.build       — when you need the URL *string itself* (storing, returning, logging)
+    url.parse       — when you need to inspect the parts of a URL you were given
+    url.encode      — percent-encode a single PATH segment value
+    url.decode      — percent-decode
+    url.registrable — the eTLD+1 of a host (``"www.amazon.com"`` → ``"amazon.com"``)
+    url.same_site   — do two hosts share a registrable domain?
 
 Query params on an outbound request: pass ``params=`` to
 ``client.get/post`` — the engine encodes for you.
@@ -122,3 +124,64 @@ def decode(value: str) -> str:
         folder = url.decode(folder[7:])  # strip "file://" then decode
     """
     return _urllib_parse.unquote(value)
+
+
+# Multi-part public suffixes that actually come up in practice.
+# The real Public Suffix List has ~10k entries; we cover the 99% case
+# without a 200KB dependency that's a supply-chain attack surface.
+# Extend as needed when a real service hits one that isn't here.
+_MULTI_PART_SUFFIXES = frozenset({
+    # Country-code second-level domains — commerce
+    "co.uk", "co.jp", "co.kr", "co.nz", "co.za", "co.in", "co.il",
+    "com.au", "com.br", "com.mx", "com.cn", "com.tw", "com.hk",
+    "com.sg", "com.my", "com.ar", "com.tr", "com.pe", "com.ph",
+    # Country-code second-level domains — organisations
+    "org.uk", "org.au", "org.nz", "org.br", "org.za",
+    "net.au", "net.nz", "ac.uk", "ac.jp", "gov.uk", "gov.au",
+    # Google country domains — tricky because google.co.uk is one site
+    # but google.com and google.de aren't related to the user's .co.uk
+    # account; eTLD+1 handles this correctly via the co.uk suffix above.
+})
+
+
+def registrable(host: str) -> str:
+    """Return the registrable domain ("eTLD+1") of a host.
+
+    Strips subdomains and any leading dot; handles common multi-part
+    TLDs (``co.uk``, ``com.au`` — see ``_MULTI_PART_SUFFIXES``).
+
+        url.registrable("www.amazon.com")         # → "amazon.com"
+        url.registrable("portal.aws.amazon.com")  # → "amazon.com"
+        url.registrable("shop.amazon.co.uk")      # → "amazon.co.uk"
+        url.registrable(".amazon.com")            # → "amazon.com"
+        url.registrable("localhost")              # → "localhost"
+        url.registrable("amazon.com:8080")        # → "amazon.com"
+
+    Returns the input stripped to lowercase if it has fewer than
+    two labels (e.g. ``"localhost"``).
+    """
+    h = host.strip().lower().lstrip(".")
+    if ":" in h:
+        h = h.split(":", 1)[0]
+    labels = h.split(".")
+    if len(labels) < 2:
+        return h
+    # If the last two labels form a known multi-part suffix, take three.
+    tail_two = ".".join(labels[-2:])
+    if tail_two in _MULTI_PART_SUFFIXES and len(labels) >= 3:
+        return ".".join(labels[-3:])
+    return tail_two
+
+
+def same_site(a: str, b: str) -> bool:
+    """Do two hosts share a registrable domain?
+
+        url.same_site("www.amazon.com", "shop.amazon.com")  # → True
+        url.same_site("amazon.com", "amazon.sg")            # → False
+        url.same_site("aws.amazon.com", "www.amazon.com")   # → True
+
+    Useful for credential-provider matching: decide whether a stored
+    login URL belongs to the same site as the one the skill is trying
+    to authenticate against.
+    """
+    return registrable(a) == registrable(b)
