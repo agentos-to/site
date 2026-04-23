@@ -159,7 +159,8 @@ Standard tool constants (import from `agentos`):
 - `email_lookup` — people
 - `flight_search`, `geocoding`, `map_tiles` — travel
 - `file_list`, `file_read`, `file_info` — files
-- `cookie_auth`, `oauth_auth` — auth provision
+- `cookie_auth`, `oauth_auth` — auth provision (browser cookie stores, OAuth token issuers)
+- `login_credentials`, `password`, `api_key` — credential provision (password managers, keychains). See [Auth Flows § credential providers](./auth-flows#credential-providers).
 - `llm` — LLM inference (see [llm.md](llm.md))
 
 ### @connection(name) — bind to auth connection
