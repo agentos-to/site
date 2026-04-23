@@ -102,7 +102,6 @@ The dispatchable surface is one `OpRegistry` lookup away. Op metas live in `crat
 | `secrets.*` | `secrets.read`, `secrets.write`           | Encryption key lives in process memory; never shipped to skill |
 | `sql.*`     | `sql.query`                               | DB path resolution, capability gate, read-only enforcement     |
 | `llm.*`     | `llm.chat`, `llm.resolve_tools`           | Capability brokering — picks an `@provides("llm")` skill       |
-| `cookie.*`  | `cookie.resolve`                          | Reaches the auth store + browser providers                     |
 | `shell.*`   | `shell.run`                               | Capability gate (`"shell"`); audit log                         |
 | `crypto.*`  | (hash/sign helpers)                       | Stable, audited surface                                        |
 | `plist.*`   | macOS plist read                          | Same                                                           |
