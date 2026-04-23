@@ -31,6 +31,12 @@ account:
                                   # on rename/handle swap. Free-form string
                                   # (Amazon's numeric customerId, GitHub's
                                   # graphql node_id, etc.)
+    issuer:            string    # hostname of the identity issuer
+                                  # ("united.com", "accounts.google.com").
+                                  # Usually the same as `at.url`'s host for
+                                  # centralized services; diverges for OIDC /
+                                  # federated cases where the token issuer
+                                  # differs from the namespace operator.
     metadata:          json      # skill-namespaced freeform blob:
                                   # { amazon: { isPrime, marketplaceId },
                                   #   goodreads: { ... } }. The engine does
