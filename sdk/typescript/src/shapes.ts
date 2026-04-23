@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 72 shapes.
+// Generated from 76 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -12,23 +12,20 @@ export interface Account {
     datePublished?: string;
     content?: string;
     accountType?: string;
-    authenticated?: boolean;
     bio?: string;
     color?: string;
-    customerId?: string;
     display?: string;
     displayName?: string;
     email?: string;
     handle?: string;
     identifier?: string;
     isActive?: boolean;
-    isPrime?: boolean;
     joinedDate?: string;
     lastActive?: string;
-    marketplaceId?: string;
+    lastProfileFetch?: string;
+    metadata?: unknown;
     phone?: string;
-    redirect?: string;
-    statusCode?: number;
+    userId?: string;
     at?: Actor;
     authenticatedVia?: Account;
     followers?: Account[];
@@ -127,6 +124,50 @@ export interface Aircraft {
     brand?: Brand;
     manufacturer?: Organization;
     tagged?: Tag[];
+}
+
+export interface Airline {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    actorType?: string;
+    alliance?: string;
+    callsign?: string;
+    country?: string;
+    founded?: string;
+    iataCode?: string;
+    icaoCode?: string;
+    industry?: string;
+    domain?: Domain;
+    headquarters?: Place;
+    member?: Person[];
+    website?: Website;
+}
+
+export interface Airport {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    city?: string;
+    country?: string;
+    countryCode?: string;
+    elevationFt?: number;
+    iataCode?: string;
+    icaoCode?: string;
+    terminalCount?: number;
+    timezone?: string;
+    location?: Place;
+    operator?: Organization;
 }
 
 export interface Album {
@@ -599,6 +640,39 @@ export interface FinancialAccount {
     accessedVia?: Account;
     at?: Actor;
     owner?: Person;
+}
+
+export interface Flight {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    arrivalTime?: string;
+    cabinClass?: string;
+    carbonEmissions?: unknown;
+    departureTime?: string;
+    duration?: string;
+    durationMinutes?: number;
+    flightNumber?: string;
+    layoverMinutes?: number;
+    polyline?: string;
+    sequence?: number;
+    stops?: number;
+    trace?: unknown;
+    tracePointCount?: number;
+    vehicleType?: string;
+    aircraft?: Aircraft;
+    airline?: Airline;
+    arrivesAt?: Airport;
+    carrier?: Organization;
+    departsFrom?: Airport;
+    destination?: Place;
+    origin?: Place;
+    trip?: Trip;
 }
 
 export interface Folder {
@@ -1104,22 +1178,32 @@ export interface Pass {
     author?: string;
     datePublished?: string;
     content?: string;
+    boardingGroup?: string;
+    checkinStatus?: string;
     currency?: string;
     depletedDate?: string;
     endEffectiveDate?: string;
+    gate?: string;
     isAllDayPass?: boolean;
+    nameOnTicket?: string;
     price?: number;
     purchasedDate?: string;
     purchasedQuantity?: number;
     quantity?: number;
+    seatAssignment?: string;
     startEffectiveDate?: string;
     status?: string;
+    terminal?: string;
+    ticketClass?: string;
+    ticketNumber?: string;
     useCount?: number;
     account?: Account;
     at?: Actor;
+    for?: Leg;
     grantedBy?: Membership;
     holder?: Person;
     location?: Place;
+    reservation?: Reservation;
     type?: Product;
 }
 
@@ -1364,6 +1448,45 @@ export interface Repository {
     topics?: string[];
     forkedFrom?: Repository;
     owner?: Account;
+}
+
+export interface Reservation {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    availableActions?: string[];
+    baseAmount?: number;
+    bookingTime?: string;
+    bookingType?: string;
+    checkinUrl?: string;
+    conditions?: unknown;
+    currency?: string;
+    endTime?: string;
+    modifiedTime?: string;
+    partySize?: number;
+    reservationId?: string;
+    reservationType?: string;
+    startTime?: string;
+    status?: string;
+    taxAmount?: number;
+    totalAmount?: number;
+    voidWindowEndsAt?: string;
+    account?: Account;
+    at?: Actor;
+    broker?: Actor;
+    derivedFrom?: Offer;
+    order?: Order;
+    passengers?: Person[];
+    programMembership?: Membership;
+    reservationFor?: Leg;
+    tickets?: Pass[];
+    trips?: Trip[];
+    underName?: Person;
 }
 
 export interface Result {
