@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 70 shapes.
+// Generated from 72 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -900,6 +900,33 @@ export interface Meeting {
     transcribe?: Transcript;
 }
 
+export interface Membership {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    autoRenew?: boolean;
+    billingType?: string;
+    currency?: string;
+    endEffectiveDate?: string;
+    guestPassQuantity?: number;
+    nextBillDate?: string;
+    price?: number;
+    startEffectiveDate?: string;
+    status?: string;
+    tier?: string;
+    useCount?: number;
+    account?: Account;
+    at?: Actor;
+    location?: Place;
+    member?: Person;
+    plan?: Product;
+}
+
 export interface Memex {
     id?: string;
     name?: string;
@@ -1068,6 +1095,34 @@ export interface Organization {
     website?: Website;
 }
 
+export interface Pass {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    currency?: string;
+    depletedDate?: string;
+    endEffectiveDate?: string;
+    isAllDayPass?: boolean;
+    price?: number;
+    purchasedDate?: string;
+    purchasedQuantity?: number;
+    quantity?: number;
+    startEffectiveDate?: string;
+    status?: string;
+    useCount?: number;
+    account?: Account;
+    at?: Actor;
+    grantedBy?: Membership;
+    holder?: Person;
+    location?: Place;
+    type?: Product;
+}
+
 export interface Person {
     id?: string;
     name?: string;
@@ -1097,6 +1152,8 @@ export interface Person {
     os?: string;
     accounts?: Account[];
     location?: Place;
+    memberships?: Membership[];
+    passes?: Pass[];
     roles?: Role[];
     website?: Website;
 }
@@ -1142,6 +1199,7 @@ export interface Place {
     timezone?: string;
     website?: string;
     wikidataId?: string;
+    at?: Actor;
     brand?: Organization;
     offers?: Product[];
 }
