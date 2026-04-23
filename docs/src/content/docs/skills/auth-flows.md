@@ -1,16 +1,36 @@
 ---
 title: "Auth Flows"
-description: "When a skill needs credentials from a web dashboard, the flow is: discover with Playwright, implement with agentos.http."
+description: "How a skill authenticates against a service — reverse-engineered HTTP replay, credential providers, and the engine's auto-relogin path."
 ---
 
-When a skill needs credentials from a web dashboard (API keys, session tokens), the flow is: **discover with Playwright, implement with `agentos.client`**. For steps that `agentos.client` can't replay (native form POSTs, complex redirect chains), the agent uses Playwright for that step and `agentos.client` for everything after.
+Every login flow in agentOS is **reverse-engineered HTTP replayed from
+Python**. No runtime browsers; no interactive steps once the skill is
+written. When a skill needs to figure out a service's login sequence
+for the first time, the author captures it with CDP
+(`core/bin/browse-capture.py`) against a real Chrome/Brave session,
+writes the sequence as `agentos.client` calls, and deletes the capture
+artifacts once replay matches byte-for-byte.
 
 ## The pattern
 
-1. **Discover** — use the Playwright skill interactively to walk through the login/signup flow. `capture_network` reveals endpoints, `cookies` shows what session cookies get set, `inspect` shows form structure.
-2. **Implement** — write the login flow as Python + `agentos.client` in the skill's `.py` file. Declare the connection with `client="browser"` (or `"fetch"`) so UA + `Sec-CH-UA*` + `Sec-Fetch-*` headers ride automatically; the ambient Jar carries cookies. Pull secrets from other skills via `_call` (e.g. Gmail for magic links, `brave-browser` for Google session cookies).
-3. **Store** — return extracted credentials via `__secrets__` so the engine stores them securely. The LLM never sees raw secret values.
-4. **Test** — `test-skills.cjs` should work without a running browser. If your skill needs Playwright at runtime, rethink the approach.
+1. **Reverse-engineer** once, interactively, with
+   [`browse-capture.py`](../reverse-engineering/overview). Record the
+   login sequence, note which endpoints set cookies, which tokens ride
+   on `Authorization`, and which requests need specific headers.
+2. **Implement** the sequence in the skill's `.py` file with
+   `agentos.client`. Declare the connection with `client="browser"` or
+   `"fetch"` so UA + `Sec-CH-UA*` + `Sec-Fetch-*` headers ride every
+   request automatically; the ambient Jar carries cookies.
+3. **Resolve** credentials via
+   `credentials.retrieve(domain, required=[...])` — matches the first
+   installed `@provides(login_credentials)` skill (1Password, macOS
+   Keychain, …). The LLM never sees raw values.
+4. **Store** minted tokens via the `__secrets__` envelope on the
+   login tool's return. The engine upserts the row keyed on
+   `(domain, identifier)`; subsequent authed tools read it as
+   `params.auth.*`.
+5. **Delete** the capture notes once the HTTP replay works. The code
+   is the source of truth; keep CDP captures out of the repo.
 
 ## The `check_session` convention
 
@@ -89,14 +109,23 @@ helpers live in `agentos.identity`:
 `agent-sdk validate` flags `check_session` returns that skip
 normalization or use a pure-integer `identifier`.
 
-### Fallback policy
+### Return shapes the engine recognizes
 
+- `{authenticated: True, identifier: "..."}` + typed fields — the
+  canonical success case. Engine persists the credential row keyed on
+  the identifier, lands the account node on the graph.
+- `{authenticated: False}` — "this session is dead." Engine treats
+  cookies as expired; if the skill declares a `login` tool, the
+  auto-relogin intercept dispatches it.
 - `{authenticated: True, identifier: None}` — engine uses cookies for
-  the current request but **does not persist to the store.** Next
-  call re-extracts from the browser provider.
-- `{authenticated: False}` — engine treats cookies as dead.
-- `check_session` raises / times out — engine uses cookies without
-  identity and doesn't persist.
+  the current request but does not persist. Legal but not
+  recommended: if `check_session` can return authenticated, it should
+  always yield an identifier (scrape harder if needed). Skills that
+  can't reliably produce an identifier should return
+  `authenticated: False` instead so the auto-relogin path kicks in.
+- `check_session` raises — engine logs, uses cookies without identity,
+  doesn't persist. Raise only when the skill itself detects a bug
+  (markup changed, selector broke); don't raise on auth state.
 
 ### Service-specific data goes in `metadata`
 
@@ -117,6 +146,227 @@ return {
 
 Only the skill that wrote a namespace ever reads it. The engine
 stores the blob opaquely.
+
+## The `login` tool and auto-relogin
+
+When the engine's cookie or api-key resolver can't produce a credential
+for a skill call — either the store is empty (cold start) or
+re-extraction yielded the same stale cookies (`NeedsRelogin`) — the
+engine looks for a tool named `login` on the skill. If it finds one,
+it dispatches it, waits for the fresh `__secrets__` to land, and
+retries the original call once. Skills opt in by shipping a `login`
+tool; nothing else is required.
+
+### What the `login` tool looks like
+
+The canonical shape, lifted from
+[`skills/fitness/austin-boulder-project/abp.py`](https://github.com/agentos-to/skills/blob/main/fitness/austin-boulder-project/abp.py):
+
+```python
+from agentos import (
+    client, connection, credentials, normalize_email,
+    returns, skill_error, skill_secret,
+)
+
+@returns({"status": "string", "identifier": "string"})
+@connection("public")
+async def login(*, email: str = "", password: str = "", **params) -> dict:
+    """Log in to the service and persist a session for reuse.
+
+    Three resolution paths for the initial credentials:
+      1. Caller passed email+password explicitly.
+      2. credentials.retrieve(...) matchmakes an installed
+         @provides(login_credentials) skill (1Password etc.).
+      3. NeedsCredentials structured error → agent surfaces to user.
+    """
+    if not email or not password:
+        creds = await credentials.retrieve(
+            domain=".approach.app",
+            required=["email", "password"],
+        )
+        if creds and creds.get("found"):
+            val = creds.get("value") or {}
+            email = email or val.get("email") or ""
+            password = password or val.get("password") or ""
+
+    if not email or not password:
+        return skill_error(
+            "Missing credentials for .approach.app.",
+            code="NeedsCredentials",
+            domain=".approach.app",
+            required=["email", "password"],
+        )
+
+    # Service-specific handshake (Cognito here; OAuth / form-POST elsewhere).
+    result = await _run_handshake(email, password)
+
+    canonical = normalize_email(email)
+    return {
+        "__secrets__": [skill_secret(
+            domain=".approach.app",
+            identifier=canonical,
+            item_type="login_credentials",
+            value={
+                "email": canonical,
+                "password": password,
+                "idToken": result["IdToken"],
+                "refreshToken": result.get("RefreshToken"),
+            },
+            source="<skill-id>",
+            metadata={"masked": {"password": "••••••••"}},
+        )],
+        "__result__": {
+            "status": "authenticated",
+            "identifier": canonical,
+        },
+    }
+```
+
+Key points:
+
+- **`@connection("public")`** (or any connection with no auth-resolve
+  step) — login *produces* credentials, so the engine can't try to
+  resolve them before the body runs. Pin it to a public connection on
+  the same skill.
+- **`credentials.retrieve(domain, required)`** is the matchmaking
+  primitive. It checks the store first; if nothing covers
+  `required=[…]`, it dispatches every installed
+  `@provides(login_credentials)` tool, picks the freshest hit, writes
+  the row, and returns.
+- **`skill_error(code="NeedsCredentials", …)`** is how login signals
+  "no provider matched." The engine's auto-relogin intercept detects
+  this shape and stops — no infinite retries, and the original auth
+  failure surfaces to the agent with the structured `required` list
+  so it can ask the user for exactly what's missing.
+- **`__secrets__` landing** — return a list of
+  [`skill_secret(...)`](#secret-safe-credential-return) envelopes.
+  The engine's writeback path stamps `last_verified = now()` and
+  upserts on `(domain, identifier, item_type)`, so a fresh login
+  always ranks above a stale provider row on the next `get_best`.
+
+### How authed tools read the result
+
+For **`auth.type: "api_key"`** connections, the store row's `value`
+fields splat onto `params.auth` on the next dispatch. The ABP login
+writes `{email, password, idToken, refreshToken}`; authed tools read:
+
+```python
+@connection("portal")
+async def book_class(**params) -> dict:
+    token = params["auth"]["idToken"]
+    resp = await client.post(
+        f"{PORTAL_API}/bookings/...",
+        headers={"Authorization": token},
+        json={...},
+    )
+```
+
+For **`auth.type: "cookies"`**, login writes cookies into the ambient
+Jar (or returns a `__cookie_delta__`); authed tools just use
+`client.get/post`, and the engine injects cookies automatically.
+
+### Engine side — the auto-relogin intercept
+
+The engine's
+[`executor.rs::try_auto_relogin_and_retry`](https://github.com/agentos-to/core/blob/main/crates/core/src/skills/executor.rs)
+wraps every tool dispatch:
+
+1. Skill call fails with `AuthFailed` or `NeedsRelogin`.
+2. Engine looks up the skill's `login` tool. If none, bubble the
+   error.
+3. Dispatch `login` with empty params (caller's creds aren't in
+   scope; `credentials.retrieve` is expected to find them). Run the
+   result's `__secrets__` writeback so the new row lands.
+4. If `login` returned a `skill_error(...)` dict (NeedsCredentials
+   etc.), surface the original error — no retry, no loop.
+5. Otherwise retry the original tool once with `account=None` so
+   `resolve_credential` picks the freshly-written row. Return the
+   retry's result.
+
+One login, one retry, no cascades. Tools that aren't `login` never
+chase themselves.
+
+### When does it fire?
+
+- **Cold start** — store empty, first authed call triggers login.
+- **Stale cookie session** — the cookie-auth retry loop re-extracts
+  from browser providers; if the extraction returns identical-to-
+  failed cookies, `NeedsRelogin` fires and the same intercept
+  dispatches login.
+- **Token expiry** — Cognito/JWT tokens expire; next authed call
+  returns 401, falls into `AuthFailed`, and login mints a fresh one.
+
+### Credential providers
+
+A provider skill declares `@provides(login_credentials)` (or
+`@provides(password)` / `@provides(api_key)`) and accepts `domain`
+plus optional `account`:
+
+```python
+from agentos import (
+    connection, login_credentials, normalize_email,
+    provides, returns, shell, skill_secret,
+)
+
+@returns({"provided": "boolean", "identifier": "string"})
+@provides(login_credentials, description="...")
+@connection("local")
+async def get_credentials(*, domain: str, account: str | None = None, **params) -> dict:
+    match = await _find_for_domain(domain)
+    if not match:
+        return {"provided": False}
+    email, password = match
+    canonical = normalize_email(email) if "@" in email else email
+    return {
+        "__secrets__": [skill_secret(
+            domain=domain,
+            identifier=canonical,
+            item_type="login_credentials",
+            value={"email": canonical, "password": password},
+            source="<skill-id>",
+            metadata={"masked": {"password": "••••••••"}},
+        )],
+        "__result__": {"provided": True, "identifier": canonical},
+    }
+```
+
+`@provides(login_credentials)` takes no `domains=` list — password
+managers hold creds for arbitrary services. The engine calls every
+installed provider with the target domain at dispatch time, same
+pattern the cookie providers use.
+
+Reference implementations:
+
+- [`skills/secrets/onepassword/`](https://github.com/agentos-to/skills/tree/main/secrets/onepassword) — wraps the `op` CLI, returns 1Password Login items.
+- [`skills/macos/macos-keychain/`](https://github.com/agentos-to/skills/tree/main/macos/macos-keychain) — wraps `security find-internet-password`.
+
+### The end-to-end story, once
+
+Joe says *"book me a 6pm class at ABP."* Cold state — no row for
+`.approach.app` in the store, not logged into Brave.
+
+1. `abp.book_class` → engine resolves the `portal` connection's
+   api_key auth → store miss → `AuthFailed`.
+2. Engine intercept: ABP declares a `login` tool → dispatch
+   `abp.login` with empty params.
+3. ABP `login` calls
+   `credentials.retrieve(".approach.app", required=["email", "password"])`.
+4. Engine walks providers: `onepassword.get_credentials(domain=".approach.app")`
+   runs, `op item list --categories Login` finds the ABP Login item,
+   returns `{email, password}` via `__secrets__`.
+5. Engine writes the provider row, returns the resolved creds to
+   ABP's `login`.
+6. ABP `login` runs Cognito `USER_PASSWORD_AUTH` → `IdToken`.
+7. ABP `login` returns another `__secrets__` envelope with
+   `{email, password, idToken, refreshToken}`; engine writes the row
+   keyed on `(.approach.app, abp@contini.co, login_credentials)`.
+8. Engine retries `abp.book_class` with `account=None`;
+   `resolve_credential` picks the freshly-written row; `params.auth.idToken`
+   rides as `Authorization`; Tilefive 200 OK; class booked.
+
+Joe never pasted the password. The LLM never saw it. Adding
+`macos-keychain` later is orthogonal — the freshness arbiter picks
+whichever provider returned first.
 
 ## Dashboard connections
 
@@ -173,8 +423,6 @@ The engine uses **timestamp-based resolution** — all cookie sources are checke
 
 The candidate with the highest `newest_cookie_at` (latest per-cookie timestamp) wins. On ties, the cache wins (first candidate). No TTL — timestamps are the only arbiter.
 
-Playwright is always skipped unless explicitly requested via the `provider` parameter. It's used for reverse engineering and login automation, not runtime auth.
-
 ### Provider scoring (within the provider tier)
 
 When multiple browser providers return cookies for the same domain:
@@ -193,19 +441,9 @@ On `SESSION_EXPIRED:` prefix (or Python exceptions containing `401`, `403`,
 3. Re-runs provider selection — next-best provider wins
 4. Retries the operation once with the new provider's cookies
 
-This means a skill with stale Brave cookies and fresh Playwright cookies will
-automatically fall back to Playwright after Brave fails. One retry only — no
-infinite loops.
-
-### Explicit provider override
-
-For testing or when auto-selection picks wrong:
-
-```
-run({ skill: "amazon", tool: "list_orders", provider: "playwright" })
-```
-
-The `provider` argument bypasses the selection heuristic entirely.
+If that retry returns identical cookies to the ones that just failed,
+the engine raises `NeedsRelogin` and falls into the auto-relogin
+intercept above. One retry per layer — no infinite loops.
 
 ### Providers always return the full cookie jar
 
@@ -216,65 +454,63 @@ most of them) work correctly regardless of whether `names` is declared.
 
 ## Key rules
 
-- **Never import Playwright in skill Python code.** Playwright is a separate skill for investigation. Skill operations use `agentos.http`.
-- **All I/O through SDK modules.** `client.get/post`, `shell.run`, `sql.query`. Never `urllib`, `subprocess`, `sqlite3`, `requests`, `httpx`.
-- **Never expose secrets in `__result__`.** Secrets go in `__secrets__` only. The agent sees masked versions via `metadata.masked`.
-- **`_call` is same-skill only.** It dispatches to sibling operations within the same skill (e.g. Gmail's `list_emails` calling `get_email`). It cannot call operations in other skills.
-- **Cross-skill coordination goes through the agent.** If a login flow needs email access, the operation yields back to the agent (see below), and the agent uses whatever email capability is available.
+- **Reverse-engineer with CDP, replay with HTTP.** Interactive capture
+  is one-time, during skill authoring; the shipped skill must replay
+  the sequence byte-for-byte in pure Python with `agentos.client`.
+  Delete the capture notes once the replay works — the code is the
+  source of truth.
+- **Never drive a browser at runtime.** No Playwright, no CDP, no
+  headless Chrome. If a step can't be replayed from Python, the
+  answer is to keep reverse-engineering until it can.
+- **All I/O through SDK modules.** `client.get/post`, `shell.run`,
+  `sql.query`. Never `urllib`, `subprocess`, `sqlite3`, `requests`,
+  `httpx`.
+- **Never expose secrets in `__result__`.** Secrets go in
+  `__secrets__` only. The agent sees masked versions via
+  `metadata.masked`.
+- **Cross-skill auth goes through the engine, not the agent.** When
+  a login tool needs credentials, it calls
+  `credentials.retrieve(domain, required=[...])` — the engine
+  matchmakes installed `@provides(login_credentials)` skills. The
+  agent isn't in the loop.
 
-## Agent-in-the-loop auth flows
+## Multi-step flows (email codes, SMS, OAuth consent)
 
-Some login flows require input the skill can't obtain on its own — a verification code from email, an SMS code, or user approval. These flows must **yield back to the agent** rather than trying to handle the dependency internally.
-
-### Why not handle it in Python?
-
-- `_call` is same-skill only — Python can't call `gmail.search_emails` from inside `exa.py`
-- Hardcoding a specific email skill (Gmail) couples the skill to that provider — what if the user uses Mimestream?
-- Blocking in Python for 60 seconds while polling gives the agent no visibility or control
-
-### The multi-step pattern
-
-Split the flow so the agent orchestrates between `agentos.http` operations and Playwright when needed:
+Some logins need an input the skill can't obtain from its own
+credential row — a verification code from email, an SMS code, an
+OAuth consent redirect. The skill exposes the flow as separate tools
+and lets the agent orchestrate:
 
 ```
 Agent calls skill.send_login_code({ email })
-  → Python/agentos.http: CSRF + trigger verification email
-  → Returns: { status: "code_sent", hint: "..." }
+  → agentos.client: CSRF + trigger verification email
+  → Returns: { status: "code_sent", hint: "subject 'Sign in to …'" }
 
-Agent checks email (any provider) and extracts the code
+Agent reads email via any @provides(email_lookup) skill, extracts code.
 
-Agent uses Playwright to complete login (if `agentos.http` can't replay the code submission)
-  → Navigate to login page, type email, submit, type code, submit
-  → Extract cookies from browser
-
-Agent calls skill.store_session_cookies({ email, session_token, ... })
-  → Python/agentos.http: validates session, stores via __secrets__
+Agent calls skill.verify_login_code({ email, code })
+  → agentos.client: submit code, capture Set-Cookie / token
+  → Returns { status: "authenticated", identifier }
+  → __secrets__ lands the session row via the usual writeback path.
 ```
 
-The `hint` field tells the agent what to search for (e.g. "subject 'Sign in to Exa Dashboard' from exa.ai"). The agent knows how to search email — it picks the right provider and extracts the code.
-
-**Why Playwright for the code submission?** Some auth implementations (e.g. Exa's NextAuth) submit verification codes via a native HTML form POST that HTTPX cannot replay — the server-side handling differs from a programmatic POST. The fetch interceptor captures nothing, but the browser navigates successfully. When this happens, use Playwright for the form submission step and `agentos.http` for everything else.
+The `hint` field tells the agent what to search for. It never
+hard-codes "use Gmail" — any email skill works because they all
+`@provides(email_lookup)`.
 
 ### When to use this pattern
 
-- Email verification codes (Exa, any NextAuth email provider)
-- SMS/TOTP verification
-- OAuth consent that requires user approval
-- Any flow where the skill needs external input it can't obtain via `_call`
-- Any step where `agentos.http` replay fails but the browser works (native form POSTs, complex redirect chains)
+- Email verification codes (NextAuth, WorkOS, etc.).
+- SMS / TOTP verification.
+- OAuth consent that requires user approval.
 
-### Example: Exa
+### Reference implementations
 
-See `skills/exa/exa.py`:
-- `send_login_code` — triggers the verification email (HTTPX)
-- `store_session_cookies` — validates and stores browser-extracted session cookies (HTTPX)
-- The agent uses Playwright between these two operations to enter the code and complete login
+- [`skills/web/exa/exa.py`](https://github.com/agentos-to/skills/blob/main/web/exa/exa.py) — NextAuth email-code flow.
+- [`skills/fitness/austin-boulder-project/abp.py`](https://github.com/agentos-to/skills/blob/main/fitness/austin-boulder-project/abp.py) — Cognito password login, single tool.
 
-### Future: session-scoped state
+## See also
 
-Passing CSRF tokens through params works but is noisy. The target is session-scoped temporary storage (tied to the MCP/agent session) so Python can write state in step 1 and read it in step 2 without the agent seeing the plumbing. See the engine roadmap for "Session-scoped state for auth flows."
-
-For the full reverse engineering methodology, see:
-- [Auth & Runtime](./reverse-engineering/3-auth/overview.mdx) — credential bootstrap lifecycle, network interception, cookie mechanics, CSRF patterns, web navigation
-- [NextAuth.js guide](./reverse-engineering/3-auth/nextauth.md) — vendor-specific patterns for NextAuth/Auth.js sites
-- [WorkOS guide](./reverse-engineering/3-auth/workos.md) — vendor-specific patterns for WorkOS-based auth
+- [Reverse engineering overview](../reverse-engineering/overview) — CDP capture methodology (one-time, during skill authoring).
+- [Connections](./connections.md) — auth types (`cookies`, `api_key`, `oauth`), connection-level `domain:` override, per-connection `client=` bundles.
+- [`_roadmap/p1/fix-auth/`](https://github.com/agentos-to/roadmap/tree/main/p1/fix-auth) — the six-project design of the credential-provider + login-tool + auto-relogin system documented above.
