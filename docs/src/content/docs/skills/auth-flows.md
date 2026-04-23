@@ -3,6 +3,11 @@ title: "Auth Flows"
 description: "How a skill authenticates against a service — reverse-engineered HTTP replay, credential providers, and the engine's auto-relogin path."
 ---
 
+> **Building a login tool for a new skill?** Start with
+> [How to add login to a skill](./adding-login.md) — the
+> step-by-step how-to. This page is the reference; that one is
+> the recipe.
+
 Every login flow in agentOS is **reverse-engineered HTTP replayed from
 Python**. No runtime browsers; no interactive steps once the skill is
 written. When a skill needs to figure out a service's login sequence
@@ -511,6 +516,6 @@ hard-codes "use Gmail" — any email skill works because they all
 
 ## See also
 
+- [How to add login to a skill](./adding-login.md) — step-by-step recipe for wiring a new service's login flow.
 - [Reverse engineering overview](../reverse-engineering/overview) — CDP capture methodology (one-time, during skill authoring).
 - [Connections](./connections.md) — auth types (`cookies`, `api_key`, `oauth`), connection-level `domain:` override, per-connection `client=` bundles.
-- [`_roadmap/p1/fix-auth/`](https://github.com/agentos-to/roadmap/tree/main/p1/fix-auth) — the six-project design of the credential-provider + login-tool + auto-relogin system documented above.

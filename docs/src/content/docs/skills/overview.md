@@ -160,7 +160,7 @@ Standard tool constants (import from `agentos`):
 - `flight_search`, `geocoding`, `map_tiles` — travel
 - `file_list`, `file_read`, `file_info` — files
 - `cookie_auth`, `oauth_auth` — auth provision (browser cookie stores, OAuth token issuers)
-- `login_credentials`, `password`, `api_key` — credential provision (password managers, keychains). See [Auth Flows § credential providers](./auth-flows#credential-providers).
+- `login_credentials`, `password`, `api_key` — credential provision (password managers, keychains). Building a login flow? See [How to add login to a skill](./adding-login.md). For reference on credential providers, see [Auth Flows § credential providers](./auth-flows#credential-providers).
 - `llm` — LLM inference (see [llm.md](llm.md))
 
 ### @connection(name) — bind to auth connection
