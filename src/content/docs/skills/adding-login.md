@@ -60,6 +60,15 @@ summary:
 4. Delete the capture artifacts when you're done — the Python
    code is the source of truth.
 
+**Be a user.** Start at `https://www.example.com` — the canonical
+homepage — and follow the prompts to the login page the way any
+visitor would. Don't try to guess the "internal" signin URL;
+services like Amazon return anti-bot error pages when you hit
+`/ap/signin` directly without the `openid.return_to=...` params a
+real browser would build. Clicking the homepage's "Sign In" link
+lets the site construct the correct URL itself, and you get a
+realistic request chain to replay.
+
 Most logins are one of three shapes:
 
 - **Form POST.** `POST /login` with username+password form data;
