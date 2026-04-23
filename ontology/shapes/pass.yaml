@@ -43,6 +43,18 @@ pass:
     # Commercial fields — null for non-commercial / free passes
     price:             number
     currency:          string    # ISO 4217
+    # Admission-credential fields (filled when the pass IS a ticket —
+    # boarding pass, concert ticket, train ticket). Distinct from the
+    # holder's legal name; the printed name can differ (nicknames, typos,
+    # transliteration of non-Latin names onto Latin-alphabet tickets).
+    ticketNumber:     string    # 13-char e-ticket (air), barcode ID (concert)
+    nameOnTicket:    string    # name as printed/encoded on the ticket
+    seatAssignment:   string    # "14A", "Row 12 Sec 109" — transient per flight/event
+    boardingGroup:    string    # air: "1"-"5", "Pre-Boarding", etc.
+    ticketClass:     string    # fare class ("K", "Economy", "GA", "VIP")
+    gate:              string    # boarding gate (air) / entry (venue); may be null early
+    terminal:          string    # terminal (air) / section (venue)
+    checkinStatus:    string    # open, checked_in, boarded, departed, no_show
   relations:
     at:                actor       # the organization granting the pass
     account:           account     # the account (login) this pass is tied to
@@ -50,6 +62,8 @@ pass:
     grantedBy:        membership  # OPTIONAL: pass came with a membership
     type:              product     # OPTIONAL: the specific pass product ("Fitness 10-Pack")
     location:          place       # OPTIONAL: where purchased / home location
+    for:               leg        # OPTIONAL: the specific flight/segment/event this ticket admits to
+    reservation:       reservation # OPTIONAL: the booking this ticket belongs to
   prior_art:
     - source: schema.org/Ticket
       url: https://schema.org/Ticket

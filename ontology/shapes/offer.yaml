@@ -2,6 +2,8 @@
 # An offer wraps one or more flights into a bookable unit.
 offer:
   plural: offers
+  identity: [id]
+  subtitle: price
   fields:
     price:             number
     currency:          string    # ISO 4217 (e.g. USD, EUR)
