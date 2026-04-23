@@ -1,0 +1,136 @@
+# A forward commitment to a future thing — a flight booking, a hotel
+# stay, a dinner reservation, a rental car hold. Distinct from `order`
+# (commerce of goods) and `event` (a thing that happens).
+#
+# A reservation has three defining properties:
+#   1. A future start (and usually end) — you commit NOW to be THERE.
+#   2. Consequences for not showing up — fees, forfeited fare, status
+#      penalties. This is what separates a reservation from a casual plan.
+#   3. An identity independent of payment — the PNR exists before the
+#      ticket is issued and can survive ticket voiding / refund.
+#
+# Design drawn from:
+#   - Duffel / IATA NDC — the canonical top-level `Order` for flight
+#     bookings. We name it `reservation` because Duffel's `Order`
+#     conflates too much with our existing `order` shape (goods).
+#   - schema.org/Reservation — vocabulary (reservationType, status,
+#     reservedTicket, reservationFor) and the per-type specializations
+#     (FlightReservation, LodgingReservation, FoodEstablishmentReservation).
+#   - ActivityStreams — the principle that commitment lifecycle is best
+#     captured as a stream of activities (booked, held, checked_in,
+#     rebooked, cancelled) with timestamps and actors, rather than as a
+#     single lossy enum. `status` gives the current state; the `activity`
+#     back-edges give the history.
+#
+# Multi-passenger semantics:
+#   One PNR, N passengers, shared across flights/stays. `passengers` is
+#   a simple `person[]` relation — no `traveler` join shape. Per-ticket
+#   data (name-on-ticket, seat, ticket number) lives on `pass` (one per
+#   passenger per flight/segment).
+#
+# Payment:
+#   `totalAmount`/`currency` capture the top-level price the reservation
+#   is committed to. For commerce detail (fare breakdown, transactions,
+#   payment method), point `order` at a separate `order` record. A
+#   restaurant reservation has no `order`. A flight reservation has both
+#   `reservation` (the PNR) and `order` (the itemized fare + transaction).
+#
+# Consequences (refund/change policy):
+#   `conditions` is a JSON blob for now — fare rules are a bottomless
+#   pit and every carrier encodes them differently. Flatten to structured
+#   fields (cancelFee, changeFee, voidWindow...) only once we're reasoning
+#   over them in the UI.
+reservation:
+  plural: reservations
+  identity: [at, reservationId]
+  subtitle: reservationType
+  fields:
+    reservationType:     string    # flight, lodging, dining, rental_car, rail, event
+    reservationId:       string    # PNR / record locator / confirmation number ("ABC123")
+    status:              string    # pending, hold, confirmed, cancelled, no_show, completed, changed
+    bookingType:         string    # instant, hold, award (miles), corporate, companion
+    bookingTime:         datetime  # when the booking was made (also `published`)
+    modifiedTime:        datetime
+    startTime:           datetime  # dining window / hotel check-in / first-flight departure
+    endTime:             datetime  # dining end / hotel check-out / last-flight arrival
+    partySize:           integer   # total travelers (dining/lodging); for air = len(passengers)
+    totalAmount:         number
+    baseAmount:          number
+    taxAmount:           number
+    currency:            string    # ISO 4217
+    checkinUrl:          url      # online check-in link (air/hotel)
+    conditions:          json      # fare rules, change/refund/cancel policy (raw blob)
+    voidWindowEndsAt:    datetime # refund-without-penalty deadline (US 24hr rule etc.)
+    availableActions:    string[] # ["cancel", "change", "check_in", "upgrade"] — agent-actionable
+  # Relation design note: schema.org/Reservation has a single polymorphic
+  # `reservationFor: Thing` pointing to Flight | LodgingBusiness | Event | etc.
+  # Our graph prefers concrete relations per reservationType — `trips` for
+  # flights, `location` for hotels/restaurants, `event` for event tickets.
+  # The reservationType discriminator picks which one is populated.
+  relations:
+    at:                  actor       # airline / hotel chain / restaurant / rental co (namespace)
+    trips:               trip[]      # flights: outbound + return. Hotels/dining: empty.
+    location:            place       # hotels / restaurants / rental locations
+    event:               event       # event tickets (concert, game)
+    passengers:          person[]    # travelers (KTN/FF# live on their membership[] relations)
+    underName:           person      # primary holder (schema.org alignment)
+    account:             account     # booking login (united.com, etc.) if applicable
+    broker:              actor       # OTA / travel agent (Expedia, TripActions) if != `at`
+    programMembership:   membership  # FF / hotel loyalty applied to this booking
+    order:               order       # optional: payment record with itemized fare
+    tickets:             pass[]      # per-passenger admission credentials
+    derivedFrom:         offer       # the offer we booked from, if captured
+  prior_art:
+    - source: schema.org/Reservation
+      url: https://schema.org/Reservation
+      notes: >-
+        Base vocabulary: reservationFor, reservationId, reservationStatus,
+        reservedTicket, underName, bookingTime, modifiedTime, totalPrice,
+        priceCurrency. We fold FlightReservation / LodgingReservation /
+        FoodEstablishmentReservation into a single shape with a
+        reservationType discriminator (AgentOS convention — see `trip.tripType`,
+        `event.eventType`). Flight-specific fields (boardingGroup, seat)
+        live on pass, not here.
+    - source: schema.org/ReservationStatusType
+      url: https://schema.org/ReservationStatusType
+      notes: >-
+        Extended beyond schema.org's ConfirmedCancelledHoldPending set to
+        add `no_show` and `completed` — values that matter for post-hoc
+        reasoning but schema.org lacks.
+    - source: Duffel Orders API
+      url: https://duffel.com/docs/api/v2/orders
+      notes: >-
+        Canonical flight-booking top-level entity. Our `reservationId` =
+        booking_reference; `availableActions` = available_actions;
+        `voidWindowEndsAt` = void_window_ends_at; `conditions` = conditions
+        (change_before_departure, refund_before_departure). Duffel names
+        the entity `Order`; we chose `reservation` to free up `order` for
+        pure-commerce semantics.
+    - source: IATA NDC OrderViewRS
+      url: https://www.iata.org/en/programs/airline-distribution/retailing/ndc/
+      notes: >-
+        NDC normalizes passengers to a top-level PaxList referenced by
+        ID. Our graph gets the same effect with `passengers: person[]` —
+        people are first-class nodes and the same `person` can appear on
+        many reservations. Services (seat, baggage, meal) live on `pass`.
+    - source: ActivityStreams 2.0 (Invite / Accept / Leave / Reject)
+      url: https://www.w3.org/TR/activitystreams-vocabulary/
+      notes: >-
+        Commitment lifecycle is an append-only stream of activities
+        (booked, held, checked_in, rebooked, cancelled) rather than a
+        single lossy enum. We use `status` for the snapshot and rely on
+        back-edges from `activity` nodes for the history — the same
+        pattern FEP-8a8e recommends for ActivityPub event-side state.
+    - source: FEP-8a8e Event interop
+      url: https://w3id.org/fep/8a8e
+      notes: >-
+        Splits supply-side status (on the event/flight) from demand-side
+        status (on the attendee/passenger). We mirror this by keeping
+        `status` on reservation (passenger-side) separate from any
+        cancellation/delay state on the `flight` or `trip` itself.
+    - source: Valueflows / REA — Commitment
+      url: https://www.valueflo.ws/concepts/flows/
+      notes: >-
+        REA accounting framing: a reservation IS a commitment with
+        provider, receiver, resourceConformsTo, quantity, and time window.
+        Useful lens for future extension (hotel nights, car rental days).
