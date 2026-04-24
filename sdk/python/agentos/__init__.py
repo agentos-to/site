@@ -41,10 +41,14 @@ from agentos.tools import (
     geocoding, map_tiles, file_list, file_read, file_info,
     cookie_auth, oauth_auth,
     login_credentials, password, api_key, signs_for,
+    cdp_access, browser_session,
 )
 
 # --- Engine-dispatched modules (auth bridge) ---
 from agentos import credentials
+
+# --- Generic capability dispatch — the primitive under every @provides(X) ---
+from agentos import capability
 
 # --- Identity normalization helpers ---
 from agentos import identity
@@ -60,6 +64,7 @@ __all__ = [
     "client", "url", "molt", "shape",
     # Engine-dispatched modules
     "sql", "crypto", "oauth", "shell", "llm", "progress", "checkpoint", "credentials",
+    "capability",
     # Identity helpers
     "identity", "normalize_email", "normalize_phone", "normalize_handle",
     # Operation decorators
