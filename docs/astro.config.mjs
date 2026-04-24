@@ -107,6 +107,7 @@ export default defineConfig({
 									{ label: 'Auth resolution', slug: 'architecture/auth-resolution' },
 									{ label: 'Observer bus', slug: 'architecture/observer-bus' },
 									{ label: 'Shape extraction', slug: 'architecture/shape-extraction' },
+									{ label: 'Response shaping', slug: 'architecture/response-shaping' },
 								],
 							},
 							{
