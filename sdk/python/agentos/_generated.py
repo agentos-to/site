@@ -1,6 +1,6 @@
 """Auto-generated TypedDict classes from shape YAML — do not edit.
 
-Generated from 81 shapes.
+Generated from 82 shapes.
 Regenerate with: python generate.py --lang python
 """
 
@@ -468,6 +468,29 @@ class Conversation(TypedDict, total=False):
     in_: Folder  # in
     message: list[Message]
     participant: list[Actor]
+
+
+class Credential(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    domain: str
+    expiresAt: str
+    identifier: str
+    itemType: str
+    lastVerified: str
+    obtainedAt: str
+    refreshable: bool
+    source: str
+    storeRowId: int
+    account: Account
+    at: Organization
+    writtenBy: Skill
 
 
 class DnsRecord(TypedDict, total=False):
@@ -2121,6 +2144,7 @@ SHAPE_YAMLS: dict[str, str] = {
     'class': 'plural: classes\nsubtitle: activityType\nalso:\n- event\nfields:\n  activityType: string\n  capacity: integer\n  spotsRemaining: integer\n  isFull: boolean\nrelations:\n  instructor: person\n  venue: place\nprior_art:\n- source: schema.org/EducationEvent\n  url: https://schema.org/EducationEvent\n  notes: "schema.org\'s closest peer for a bookable class. Our instructor = performer;\\\n    \\ capacity = maximumAttendeeCapacity; spotsRemaining \\u2248 remainingAttendeeCapacity."\n- source: schema.org/ExerciseAction\n  url: https://schema.org/ExerciseAction\n  notes: "Fitness-specific vocabulary: activityType \\u2248 exerciseType; venue matches\\\n    \\ directly as location."\n- source: Mindbody Public API (class schedules)\n  url: https://developers.mindbodyonline.com/PublicDocumentation/V6\n  notes: Practical API mirror. Our capacity/spotsRemaining/isFull come from Mindbody\'s\n    MaxCapacity/TotalBooked/IsWaitlistAvailable.\n',
     'community': 'plural: communities\nidentity:\n- at\n- id\nsubtitle: text\nfields:\n  privacy: string\n  memberCount: integer\n  subscriberCount: integer\n  allowCrypto: boolean\nrelations:\n  at: actor\nprior_art:\n- source: ActivityPub Group Actor\n  url: https://www.w3.org/TR/activitypub/\n  notes: "AP Group Actor models shared-inbox communities (Lemmy, Kbin, Mbin). Our\\\n    \\ privacy \\u2248 audience/to visibility."\n- source: schema.org/Organization\n  url: https://schema.org/Organization\n  notes: A community-as-organization is a loose fit; privacy has no direct schema.org\n    property.\n- source: "Reddit API \\u2014 Subreddit"\n  url: https://www.reddit.com/dev/api/#GET_subreddits_where\n  notes: "Practical source. Our privacy \\u2248 subreddit_type (public/private/ restricted);\\\n    \\ text \\u2248 public_description."\n',
     'conversation': 'plural: conversations\nidentity:\n- at\n- id\nsubtitle: text\nfields:\n  isGroup: boolean\n  isArchived: boolean\n  unreadCount: integer\n  messageCount: integer\n  accountEmail: string\n  historyId: string\n  source: string\n  cwd: string\n  gitBranch: string\nrelations:\n  at: actor\n  participant: actor[]\n  message: message[]\n  in: folder\nprior_art:\n- source: ActivityStreams 2.0 context/inReplyTo\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-context\n  notes: "Conversations are AS2 contexts \\u2014 the thread that groups replies. Our\\\n    \\ participant[] \\u2248 to/cc/audience."\n- source: Matrix Room (m.room)\n  url: https://spec.matrix.org/latest/client-server-api/#room-events\n  notes: "Practical thread model. Our isGroup \\u2248 room.join_rules; unreadCount\\\n    \\ \\u2248 unread_notifications.highlight_count."\n- source: "Gmail API \\u2014 Thread resource"\n  url: https://developers.google.com/gmail/api/reference/rest/v1/users.threads\n  notes: "Our messageCount \\u2248 messages.length; unreadCount derived from UNREAD\\\n    \\ labels on Thread messages."\n',
+    'credential': 'plural: credentials\nidentity:\n- domain\n- identifier\n- itemType\nsubtitle: source\nfields:\n  domain: string\n  identifier: string\n  itemType: string\n  source: string\n  obtainedAt: datetime\n  lastVerified: datetime\n  expiresAt: datetime\n  refreshable: boolean\n  storeRowId: integer\nrelations:\n  at: organization\n  account: account\n  writtenBy: skill\nprior_art:\n- source: OAuth 2.0 Token Introspection (RFC 7662)\n  url: https://datatracker.ietf.org/doc/html/rfc7662\n  notes: \'RFC 7662 describes token metadata as a separate addressable resource from\n    the token itself (active, exp, iss, sub, scope). Same split here: descriptor is\n    queryable graph metadata, encrypted value is retrieved by a separate call (`auth_store.read`\n    by identifier). Our obtainedAt/expiresAt/lastVerified mirror iat/exp/auth_time.\'\n- source: FIDO Metadata Service (MDS3)\n  url: https://fidoalliance.org/metadata/\n  notes: "FIDO separates authenticator metadata from the authenticator itself \\u2014\\\n    \\ metadata is queryable, the cryptographic material is not. Mirrors our descriptor/vault\\\n    \\ split."\n- source: macOS Keychain SecItem attributes\n  url: https://developer.apple.com/documentation/security/keychain_services/keychain_items/item_attribute_keys_and_values\n  notes: "Keychain separates `kSecAttr*` (metadata \\u2014 server, account, creation/modification\\\n    \\ dates) from `kSecValueData` (the secret). Attributes are queryable without decrypting\\\n    \\ the value. Our fields map: kSecAttrServer \\u2192 domain, kSecAttrAccount \\u2192\\\n    \\ identifier, kSecAttrCreationDate \\u2192 obtainedAt, kSecAttrModificationDate\\\n    \\ \\u2192 lastVerified."\n- source: schema.org/DigitalDocument (WebAuthn credentials stored as)\n  url: https://schema.org/DigitalDocument\n  notes: "Weak alignment \\u2014 schema.org has no native credential type. Cited only\\\n    \\ to note that existing web ontologies deliberately stop short of secret material;\\\n    \\ descriptor-only is the established pattern."\n',
     'dns_record': 'plural: dns_records\nidentity:\n- domain\n- recordType\n- recordName\nsubtitle: recordType\nfields:\n  domain: string\n  recordName: string\n  recordType: string\n  type: string\n  ttl: integer\n  priority: integer\n  recordId: string\n  values: string[]\nprior_art:\n- source: RFC 1035 (DNS)\n  url: https://datatracker.ietf.org/doc/html/rfc1035\n  notes: Foundational spec. Our domain/recordName/recordType/ttl/values map directly\n    to NAME/TYPE/CLASS/TTL/RDATA.\n- source: RFC 7208 (SPF), RFC 6376 (DKIM), RFC 7489 (DMARC)\n  url: https://datatracker.ietf.org/doc/html/rfc7208\n  notes: TXT-record vocabularies that frequently populate our values[] for SPF, DKIM,\n    and DMARC policy records.\n',
     'document': 'plural: documents\nsubtitle: author\nalso:\n- file\nfields:\n  contentType: string\n  language: string\n  wordCount: integer\n  abstract: text\n  tableOfContents: text\nrelations:\n  author: actor\n  references: document[]\n  citedBy: document[]\nprior_art:\n- source: Dublin Core Metadata Initiative\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: "Our contentType \\u2248 dc:format; language = dc:language; author = dc:creator;\\\n    \\ references/citedBy \\u2248 dc:relation."\n- source: schema.org/DigitalDocument\n  url: https://schema.org/DigitalDocument\n  notes: "Our abstract \\u2248 abstract; tableOfContents = hasPart or accessModeSufficient;\\\n    \\ wordCount = wordCount."\n- source: W3C Web Annotation Data Model\n  url: https://www.w3.org/TR/annotation-model/\n  notes: Our references[]/citedBy[] are annotation target/body relationships between\n    documents.\n',
     'domain': 'plural: domains\nidentity: name\nfields:\n  status: string\n  registrar: string\n  expiresAt: datetime\n  autoRenew: boolean\n  createdAt: datetime\n  nameservers: string[]\nprior_art:\n- source: RFC 1035 (Domain Names)\n  url: https://datatracker.ietf.org/doc/html/rfc1035\n  notes: Canonical domain-name syntax + nameservers + TTL. Our nameservers are NS\n    records for the apex.\n- source: RFC 3912 (WHOIS)\n  url: https://datatracker.ietf.org/doc/html/rfc3912\n  notes: Our registrar/status/expiresAt/autoRenew come from WHOIS response fields.\n',
@@ -2200,6 +2224,7 @@ SHAPE_IDENTITIES: dict[str, list[str]] = {
     'channel': ['at', 'id'],
     'community': ['at', 'id'],
     'conversation': ['at', 'id'],
+    'credential': ['domain', 'identifier', 'itemType'],
     'dns_record': ['domain', 'recordType', 'recordName'],
     'domain': ['name'],
     'email': ['at', 'id'],
