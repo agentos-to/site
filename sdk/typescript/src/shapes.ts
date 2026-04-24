@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 76 shapes.
+// Generated from 82 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -20,6 +20,7 @@ export interface Account {
     handle?: string;
     identifier?: string;
     isActive?: boolean;
+    issuer?: string;
     joinedDate?: string;
     lastActive?: string;
     lastProfileFetch?: string;
@@ -248,6 +249,60 @@ export interface Book {
     writtenBy?: Person;
 }
 
+export interface BookingOffer {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    approvedAt?: string;
+    baseAmount?: number;
+    blob?: string;
+    cartId?: string;
+    checkoutUrl?: string;
+    conditions?: unknown;
+    confirmEndpoint?: string;
+    contactEmail?: string;
+    contactPhone?: string;
+    currency?: string;
+    expiresAt?: string;
+    feesAmount?: number;
+    hasVoidWindow?: boolean;
+    isChangeable?: boolean;
+    isRefundable?: boolean;
+    itineraryHash?: string;
+    preparedAt?: string;
+    presentedAt?: string;
+    referenceNumber?: string;
+    review?: string;
+    signature?: string;
+    signatureAlg?: string;
+    signedBy?: string;
+    status?: string;
+    taxAmount?: number;
+    totalAmount?: number;
+    voidWindowEndsAt?: string;
+    account?: Account;
+    at?: Actor;
+    becameReservation?: Reservation;
+    becameTransaction?: Transaction;
+    billingAddress?: Place;
+    broker?: Actor;
+    buyers?: Person[];
+    derivedFrom?: Offer;
+    fares?: Fare[];
+    guests?: Person[];
+    membership?: Membership;
+    paymentMethod?: PaymentMethod;
+    reservedItems?: Pass[];
+    taxLines?: TaxLine[];
+    trips?: Trip[];
+    underName?: Person;
+}
+
 export interface Branch {
     id?: string;
     name?: string;
@@ -407,6 +462,29 @@ export interface Conversation {
     in?: Folder;
     message?: Message[];
     participant?: Actor[];
+}
+
+export interface Credential {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    domain?: string;
+    expiresAt?: string;
+    identifier?: string;
+    itemType?: string;
+    lastVerified?: string;
+    obtainedAt?: string;
+    refreshable?: boolean;
+    source?: string;
+    storeRowId?: number;
+    account?: Account;
+    at?: Organization;
+    writtenBy?: Skill;
 }
 
 export interface DnsRecord {
@@ -589,6 +667,39 @@ export interface Event {
     location?: Place;
     organizer?: Person;
     person?: Person;
+}
+
+export interface Fare {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    basePrice?: number;
+    bookingCode?: string;
+    changeable?: boolean;
+    class?: string;
+    components?: number;
+    conditions?: unknown;
+    currency?: string;
+    fareFamily?: string;
+    identifier?: string;
+    milesEarned?: number;
+    passengerType?: string;
+    pointsEarned?: number;
+    productType?: string;
+    refundable?: boolean;
+    restrictions?: string[];
+    at?: Actor;
+    earnsInto?: Membership;
+    for?: Trip;
+    legs?: Leg[];
+    offer?: Offer;
+    reservation?: Reservation;
+    taxLines?: TaxLine[];
 }
 
 export interface File {
@@ -1207,6 +1318,46 @@ export interface Pass {
     type?: Product;
 }
 
+export interface PaymentMethod {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    balance?: number;
+    binRange?: string;
+    brand?: string;
+    currency?: string;
+    customDescription?: string;
+    displayName?: string;
+    expMonth?: number;
+    expYear?: number;
+    expirationDate?: string;
+    fingerprint?: string;
+    holderName?: string;
+    identifier?: string;
+    isDefault?: boolean;
+    isExpired?: boolean;
+    isPrimary?: boolean;
+    isSelected?: boolean;
+    last4?: string;
+    metadata?: unknown;
+    providerTokens?: unknown;
+    status?: string;
+    subtype?: string;
+    type?: string;
+    account?: Account;
+    at?: Actor;
+    billingAddress?: Place;
+    fundingAccount?: FinancialAccount;
+    holder?: Person;
+    issuer?: Actor;
+    membership?: Membership;
+}
+
 export interface Person {
     id?: string;
     name?: string;
@@ -1555,6 +1706,36 @@ export interface Role {
     person?: Person;
 }
 
+export interface Seatmap {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    aircraftCode?: string;
+    availableSeats?: number;
+    basicEconomyLocked?: boolean;
+    cabins?: unknown;
+    classOfService?: string;
+    departureTime?: string;
+    destination?: string;
+    fareBasisCode?: string;
+    flightNumber?: string;
+    hasExitRow?: boolean;
+    hasFreeSeats?: boolean;
+    hasPaidSeats?: boolean;
+    origin?: string;
+    tiers?: unknown;
+    totalSeats?: number;
+    aircraft?: Aircraft;
+    at?: Actor;
+    flight?: Flight;
+    reservation?: Reservation;
+}
+
 export interface Shelf {
     id?: string;
     name?: string;
@@ -1722,6 +1903,37 @@ export interface Task {
     parent?: Task;
     project?: Project;
     repository?: Repository;
+}
+
+export interface TaxLine {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    amount?: number;
+    appliesToIndex?: number;
+    code?: string;
+    country?: string;
+    currency?: string;
+    description?: string;
+    inclusive?: boolean;
+    kind?: string;
+    merchantImposed?: boolean;
+    nature?: string;
+    rate?: number;
+    refundable?: boolean;
+    taxableAmount?: number;
+    appliesTo?: Fare;
+    at?: Actor;
+    imposedBy?: Actor;
+    location?: Place;
+    offer?: Offer;
+    reservation?: Reservation;
+    segment?: Leg;
 }
 
 export interface Theme {
