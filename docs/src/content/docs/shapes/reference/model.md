@@ -7,17 +7,21 @@ sidebar:
 
 An AI model — LLM, embedding model, or other ML model.
 
+Identity: (at, name) — graph-native. `at` is a relation to the entity
+providing the model (an organization like Anthropic/OpenAI, or a product
+like ollama for self-hosted). The model node persists across provider
+rebrands or reorganizations.
+
 | Metadata | Value |
 |---|---|
 | **Plural** | `models` |
-| **Subtitle field** | `provider` |
-| **Identity** | `provider`, `name` |
+| **Subtitle field** | `name` |
+| **Identity** | `at`, `name` |
 
 ## Fields
 
 | Field | Type |
 |---|---|
-| `provider` | `string` |
 | `contextLength` | `integer` |
 | `contextWindow` | `integer` |
 | `maxOutput` | `integer` |
@@ -32,6 +36,12 @@ An AI model — LLM, embedding model, or other ML model.
 | `format` | `string` |
 | `family` | `string` |
 | `digest` | `string` |
+
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at` | [`actor`](/shapes/reference/actor/) |
 
 ## Prior art
 

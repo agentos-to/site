@@ -16,10 +16,6 @@ sidebar:
 - [`website`](/shapes/reference/website/) — from `op_create_website`, `op_update_website`
 - [`website[]`](/shapes/reference/website/) — from `list_websites`
 
-## Connections
-
-- **`api`**
-
 ## Readme
 
 Publish static files to the Cloudflare edge instantly — no build step, no deploy config, no account required.

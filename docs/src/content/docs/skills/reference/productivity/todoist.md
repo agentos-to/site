@@ -18,10 +18,6 @@ sidebar:
 - [`task`](/shapes/reference/task/) — from `get_task`, `create_task`, `update_task`, `move_task`
 - [`task[]`](/shapes/reference/task/) — from `list_tasks`, `list_all_tasks`, `filter_task`
 
-## Connections
-
-- **`api`**
-
 ## Readme
 
 Personal task management integration using [Todoist API v1](https://developer.todoist.com/api/v1/).

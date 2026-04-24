@@ -13,16 +13,11 @@ sidebar:
 
 ## Returns shapes
 
+- [`account`](/shapes/reference/account/) — from `check_session`
 - [`conversation`](/shapes/reference/conversation/) — from `get_conversation`, `read_conversation_cli`
 - [`conversation[]`](/shapes/reference/conversation/) — from `list_conversations`, `search_conversations`, `list_conversations_cli`
 - [`message[]`](/shapes/reference/message/) — from `import_conversation`
 - [`model[]`](/shapes/reference/model/) — from `list_models`, `list_models_cli`
-
-## Connections
-
-- **`api`** — Claude API — inference via the Messages API
-- **`code`** — Claude Code — local CLI, uses the user's existing auth (no API key)
-- **`web`** — claude.ai — web chat history via session cookies
 
 ## Readme
 

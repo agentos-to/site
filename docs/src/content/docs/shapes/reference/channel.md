@@ -10,19 +10,20 @@ A content channel — typically a YouTube channel. Videos are uploaded to channe
 | Metadata | Value |
 |---|---|
 | **Plural** | `channels` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 
 | Field | Type |
 |---|---|
 | `banner` | `url` |
+| `subscriberCount` | `integer` |
 
 ## Relations
 
 | Relation | Target |
 |---|---|
-| `platform` | [`product`](/shapes/reference/product/) |
+| `at` | [`actor`](/shapes/reference/actor/) |
 
 ## Prior art
 

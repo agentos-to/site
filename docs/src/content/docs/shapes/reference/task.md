@@ -12,7 +12,7 @@ and dependency tracking (blocked_by/blocks).
 |---|---|
 | **Plural** | `tasks` |
 | **Subtitle field** | `state` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 
@@ -24,11 +24,15 @@ and dependency tracking (blocked_by/blocks).
 | `labels` | `string[]` |
 | `startedAt` | `datetime` |
 | `targetDate` | `datetime` |
+| `target` | `json` |
+| `parentId` | `string` |
+| `projectId` | `string` |
 
 ## Relations
 
 | Relation | Target |
 |---|---|
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `assignedTo` | [`person`](/shapes/reference/person/) |
 | `project` | [`project`](/shapes/reference/project/) |
 | `repository` | [`repository`](/shapes/reference/repository/) |

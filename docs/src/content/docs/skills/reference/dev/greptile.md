@@ -13,13 +13,10 @@ sidebar:
 
 ## Returns shapes
 
+- [`account`](/shapes/reference/account/) — from `check_session`
 - [`account[]`](/shapes/reference/account/) — from `list_members`
 - [`invitation`](/shapes/reference/invitation/) — from `send_invite`
 - [`invitation[]`](/shapes/reference/invitation/) — from `list_invites`
-
-## Connections
-
-- **`dashboard`**
 
 ## Readme
 

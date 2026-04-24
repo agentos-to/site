@@ -35,11 +35,15 @@ From [`post`](/shapes/reference/post/):
 
 | Field | Type |
 |---|---|
+| `commentCount` | `integer` |
+| `community` | `string` |
 | `externalUrl` | `url` |
 | `postType` | `string` |
+| `score` | `integer` |
 
 | Relation | Target |
 |---|---|
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `attachment` | [`file[]`](/shapes/reference/file/) |
 | `contains` | [`video[]`](/shapes/reference/video/) |
 | `media` | [`image[]`](/shapes/reference/image/) |

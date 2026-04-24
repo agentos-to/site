@@ -13,7 +13,7 @@ Claude transcripts, etc.
 |---|---|
 | **Plural** | `messages` |
 | **Subtitle field** | `from` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 
@@ -21,12 +21,13 @@ Claude transcripts, etc.
 |---|---|
 | `isOutgoing` | `boolean` |
 | `isStarred` | `boolean` |
+| `conversationId` | `string` |
 
 ## Relations
 
 | Relation | Target |
 |---|---|
-| `platform` | [`product`](/shapes/reference/product/) |
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `from` | [`actor`](/shapes/reference/actor/) |
 | `inConversation` | [`conversation`](/shapes/reference/conversation/) |
 | `repliesTo` | [`message`](/shapes/reference/message/) |

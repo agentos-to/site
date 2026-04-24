@@ -20,6 +20,7 @@ A registered domain name. Also auto-created from email sender/recipient addresse
 | `registrar` | `string` |
 | `expiresAt` | `datetime` |
 | `autoRenew` | `boolean` |
+| `createdAt` | `datetime` |
 | `nameservers` | `string[]` |
 
 ## Prior art

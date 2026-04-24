@@ -3,14 +3,16 @@ title: Skills index
 description: "Every skill in the AgentOS catalog. Browse all or filter by category."
 ---
 
-The AgentOS skill catalog — **43** skills across **13** categories. Each skill is a Python adapter that connects to a service or provides a pure agent capability.
+The AgentOS skill catalog — **47** skills across **14** categories. Each skill is a Python adapter that connects to a service or provides a pure agent capability.
 
 See [Skills → Overview](/skills/overview/) for how to build one.
 
 ## [agents](/skills/reference/agents/)
 
 - [**Code Review**](/skills/reference/agents/code-review/) — Evaluate code changes against project principles, refactoring specs, and architectural direction
+- [**Itineraries**](/skills/reference/agents/itineraries/) — Render travel itineraries (flights, lodging, rentals, dining) from graph `reservation` nodes — PDF, markdown, text
 - [**Problem Solving**](/skills/reference/agents/problem-solving/) — Interview the user to a clear problem definition, then run adversarial solutioning
+- [**reverse-engineering**](/skills/reference/agents/reverse-engineering/) — Systematically analyze and document how software systems work internally. Use when you need to understand closed-source systems, third-party integrations, or undocumented APIs
 
 ## [ai](/skills/reference/ai/)
 
@@ -40,13 +42,11 @@ See [Skills → Overview](/skills/overview/) for how to build one.
 
 ## [finance](/skills/reference/finance/)
 
-- [**Chase Bank**](/skills/reference/finance/chase/) — Chase Bank accounts, balances, and transactions — checking, savings, and credit cards
 - [**Copilot Money**](/skills/reference/finance/copilot-money/) — Read accounts, transactions, and balance history from Copilot Money, a personal finance app for macOS/iOS
 
-## [fun](/skills/reference/fun/)
+## [fitness](/skills/reference/fitness/)
 
-- [**Austin Boulder Project**](/skills/reference/fun/austin-boulder-project/) — Class schedules and bookings for the Austin Bouldering Project gym
-- [**SpaceX**](/skills/reference/fun/spacex/) — SpaceX launch data — upcoming, past, and individual launch details
+- [**Austin Boulder Project**](/skills/reference/fitness/austin-boulder-project/) — Class schedules and bookings for the Austin Bouldering Project gym
 
 ## [hosting](/skills/reference/hosting/)
 
@@ -57,11 +57,14 @@ See [Skills → Overview](/skills/overview/) for how to build one.
 ## [logistics](/skills/reference/logistics/)
 
 - [**Amazon**](/skills/reference/logistics/amazon/) — Search products, get details, and access your Amazon account
+- [**SpaceX**](/skills/reference/logistics/spacex/) — SpaceX launch data — upcoming, past, and individual launch details
 - [**Uber**](/skills/reference/logistics/uber/) — Ride history, trip details, Eats order history, and account info from Uber
+- [**United Airlines**](/skills/reference/logistics/united/) — Flight search, reservations, boarding passes, travel history, and MileagePlus account access
 
 ## [macos](/skills/reference/macos/)
 
 - [**macOS Control**](/skills/reference/macos/macos-control/) — Inspect macOS apps, processes, displays, windows, screenshots, and filesystem with built-in system tools
+- [**macOS Keychain**](/skills/reference/macos/macos-keychain/) — Credential provider backed by the macOS login Keychain. Exposes internet-password entries matching a domain via `@provides(login_credentials)` so skills' `login` tools can pull `{email, password}` without pasting anything
 - [**macOS Security**](/skills/reference/macos/macos-security/) — Audit macOS credentials, Keychain entries, and app tokens. Lists what OAuth tokens, API keys, and session credentials are stored on this machine, extracts specific tokens, identifies which apps have Google OAuth access, and scans macOS Internet Accounts
 
 ## [media](/skills/reference/media/)
@@ -79,6 +82,10 @@ See [Skills → Overview](/skills/overview/) for how to build one.
 - [**Google Contacts**](/skills/reference/productivity/google-contacts/) — Read, search, create, and update Google Contacts via the People API
 - [**Granola**](/skills/reference/productivity/granola/) — Meeting transcripts, AI summaries, and Q&A conversations from Granola
 - [**Todoist**](/skills/reference/productivity/todoist/) — Personal task management
+
+## [secrets](/skills/reference/secrets/)
+
+- [**1Password**](/skills/reference/secrets/onepassword/) — Credential provider backed by the 1Password CLI (`op`). Exposes Login and API-Credential vault items via `@provides(login_credentials)` and `@provides(api_key)` so skills' `login` tools can pull `{email, password}` or API keys without the user pasting anything
 
 ## [web](/skills/reference/web/)
 

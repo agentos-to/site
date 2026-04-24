@@ -13,12 +13,8 @@ sidebar:
 
 ## Returns shapes
 
-- [`account[]`](/shapes/reference/account/) — from `load_accounts`
+- [`financial_account[]`](/shapes/reference/financial_account/) — from `load_accounts`
 - [`transaction[]`](/shapes/reference/transaction/) — from `fetch_transactions`
-
-## Connections
-
-- **`db`**
 
 ## Readme
 

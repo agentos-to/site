@@ -15,10 +15,6 @@ sidebar:
 
 - [`offer[]`](/shapes/reference/offer/) — from `search_offers`, `list_offers`, `get_offer`
 
-## Connections
-
-- **`api`**
-
 ## Readme
 
 Structured Google search results — starting with Google Flights.

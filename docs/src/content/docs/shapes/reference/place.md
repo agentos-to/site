@@ -17,7 +17,7 @@ The company (Costco Inc.) is an organization. The location is a place.
 |---|---|
 | **Plural** | `places` |
 | **Subtitle field** | `fullAddress` |
-| **Identity** | `googlePlaceId`, `mapboxId` |
+| **Identity (any)** | `googlePlaceId`, `mapboxId` |
 
 ## Fields
 
@@ -48,6 +48,10 @@ The company (Costco Inc.) is an organization. The location is a place.
 | `reviewCount` | `integer` |
 | `priceLevel` | `string` |
 | `timezone` | `string` |
+| `eta` | `string` |
+| `isOrderable` | `boolean` |
+| `closedMessage` | `string` |
+| `productCount` | `integer` |
 | `mapboxId` | `string` |
 | `wikidataId` | `string` |
 | `googlePlaceId` | `string` |
@@ -56,6 +60,7 @@ The company (Costco Inc.) is an organization. The location is a place.
 
 | Relation | Target |
 |---|---|
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `brand` | [`organization`](/shapes/reference/organization/) |
 | `offers` | [`product[]`](/shapes/reference/product/) |
 
@@ -70,3 +75,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 ## Skills that produce this shape
 
 - [uber](/skills/reference/logistics/uber/) — `get_store`, `search_address`, `list_addresses`, `search_stores`, `list_nearby_stores`
+- [austin-boulder-project](/skills/reference/fitness/austin-boulder-project/) — `get_locations`

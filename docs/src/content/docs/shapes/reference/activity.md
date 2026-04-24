@@ -28,7 +28,7 @@ Fields for what happened, relations for who/what/where.
 
 | Relation | Target |
 |---|---|
-| `session` | [`session`](/shapes/reference/session/) |
+| `session` | [`mcp_session`](/shapes/reference/mcp_session/) |
 | `folder` | [`folder`](/shapes/reference/folder/) |
 
 ## Prior art

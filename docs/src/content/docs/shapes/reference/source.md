@@ -11,9 +11,12 @@ Sources are like Cydia repos, Homebrew taps, or APT sources.
 Identity: address — the canonical location (filesystem path, git URL, or HTTP URL).
 Two entries pointing to the same address are the same source.
 
-Platform tells the engine which scanner to use:
+Scanner tells the engine how to scan this source:
 - "agentos" scans for skills/, themes/, apps/, shapes/, wallpapers/ subdirs
 - Future: homebrew, apt, synology, etc.
+
+Renamed from `platform` to `scanner` to free `platform` from this overload —
+`platform` now means "the namespace an account exists within" (see account.at).
 
 | Metadata | Value |
 |---|---|
@@ -27,7 +30,7 @@ Platform tells the engine which scanner to use:
 |---|---|
 | `sourceId` | `string` |
 | `address` | `string` |
-| `platform` | `string` |
+| `scanner` | `string` |
 | `enabled` | `boolean` |
 | `description` | `text` |
 | `lastSynced` | `datetime` |

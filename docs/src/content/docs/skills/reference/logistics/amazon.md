@@ -13,7 +13,7 @@ sidebar:
 
 ## Returns shapes
 
-- [`account`](/shapes/reference/account/) — from `whoami`
+- [`account`](/shapes/reference/account/) — from `check_session`
 - [`list`](/shapes/reference/list/) — from `get_list`
 - [`list[]`](/shapes/reference/list/) — from `list_lists`
 - [`order`](/shapes/reference/order/) — from `get_order`
@@ -21,14 +21,21 @@ sidebar:
 - [`product`](/shapes/reference/product/) — from `get_product`
 - [`product[]`](/shapes/reference/product/) — from `search_products`, `buy_again`
 
-## Connections
-
-- **`public`** — Public Amazon pages and autocomplete API — no auth needed
-- **`web`** — Amazon account — orders, recommendations, account details
-
 ## Readme
 
 Search products, get details, and access your Amazon account. No API keys — uses Amazon's public autocomplete API and browser session cookies.
+
+> **TODO — agent-driven login.** Today cold-start requires the user to
+> log into amazon.com in Brave manually so the cookie provider picks up
+> fresh cookies. A `login` tool mirroring ABP's pattern (1Password →
+> email+password → handshake → `__secrets__`) would close the cold-start
+> gap. Amazon's sign-in is a multi-step form POST with CSRF tokens
+> embedded in HTML between steps, plus TOTP on this account, so the
+> RE is more involved than ABP's Cognito single-handshake. Use
+> `agentos.browse.Session` (authoring-time CDP driver) + the
+> reverse-engineering skill at `skills/agents/reverse-engineering/`
+> when picking this up. See `docs/skills/adding-login.md` for the
+> recipe and `_roadmap/p1/plan.md § What's left` for the status.
 
 ## Features
 
@@ -176,7 +183,7 @@ No JSON-LD or GraphQL endpoints are exposed publicly.
 - [x] `search_products` — HTML search result parsing
 - [x] `get_product` — product detail page parsing
 - [x] `list_orders` — order history with BeautifulSoup + anti-bot headers
-- [x] `check_session` / `whoami` — account identity extraction
+- [x] `check_session` — account identity extraction
 - [x] Siege bypass — strip `csd-key` cookie to force plain HTML
 - [x] `get_order` — full detail parsing with per-item prices, quantities, summary, tracking
 - [x] Pagination — `page` parameter, 10 per page, next-page detection

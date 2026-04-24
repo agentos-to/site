@@ -18,10 +18,6 @@ sidebar:
 - [`message`](/shapes/reference/message/) — from `op_get_message`
 - [`message[]`](/shapes/reference/message/) — from `op_list_messages`, `op_search_messages`
 
-## Connections
-
-- **`db`**
-
 ## Readme
 
 Send and read iMessages and SMS from the macOS Messages app.

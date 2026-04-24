@@ -15,10 +15,6 @@ sidebar:
 
 - [`result[]`](/shapes/reference/result/) — from `search`
 
-## Connections
-
-- **`api`**
-
 ## Readme
 
 Privacy-focused web search powered by Brave's independent index.

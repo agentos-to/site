@@ -11,7 +11,7 @@ A podcast series. Contains episodes. Not the audio itself — that's on the epis
 |---|---|
 | **Plural** | `podcasts` |
 | **Subtitle field** | `author` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 
@@ -24,7 +24,7 @@ A podcast series. Contains episodes. Not the audio itself — that's on the epis
 | Relation | Target |
 |---|---|
 | `host` | [`person[]`](/shapes/reference/person/) |
-| `platform` | [`product`](/shapes/reference/product/) |
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `episode` | [`episode[]`](/shapes/reference/episode/) |
 
 ## Prior art

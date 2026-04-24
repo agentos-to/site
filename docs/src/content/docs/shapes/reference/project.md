@@ -11,7 +11,7 @@ A project that groups tasks. Tasks belong to projects.
 |---|---|
 | **Plural** | `projects` |
 | **Subtitle field** | `state` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 
@@ -19,6 +19,13 @@ A project that groups tasks. Tasks belong to projects.
 |---|---|
 | `state` | `string` |
 | `color` | `string` |
+| `parentId` | `string` |
+
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at` | [`actor`](/shapes/reference/actor/) |
 
 ## Prior art
 
