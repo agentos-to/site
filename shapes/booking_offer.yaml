@@ -82,6 +82,15 @@ booking_offer:
     hasVoidWindow:        boolean   # US 24hr rule, EU free-cancel, etc.
     voidWindowEndsAt:     datetime
     conditions:           json      # raw policy blob — same shape as reservation.conditions
+    # --- presentation output (skill-emitted, not provider-sourced) ---
+    blob:                 string    # base64-encoded signed payload — what the caller passes to confirm_booking
+    review:               string    # human-readable multiline summary of what's about to be committed (prints the itinerary, tax breakdown, card-to-charge, TTL, and confirm command)
+    # Contact info — denormalized scalars (not relations) because providers
+    # often require a contact email/phone distinct from the guest list
+    # (travel agent booking for a client, corporate desk, etc.), and
+    # inventing a fake `person` node just to hold them adds noise.
+    contactEmail:         string
+    contactPhone:         string
   # booking_offer is the JOIN between everything that commits at once.
   # Domain-specific details live on the relations, not here.
   relations:
@@ -94,8 +103,6 @@ booking_offer:
     underName:            person             # primary holder / cardholder
     paymentMethod:        payment_method     # chosen instrument
     billingAddress:       place              # bill-to address. Reuses place — a billing address IS just an address.
-    contactEmail:         string             # denormalized: providers often require a contact distinct from guests
-    contactPhone:         string
     fares:                fare[]             # base-price line items (one per passenger / per fare component)
     taxLines:             tax_line[]         # itemized taxes / fees / surcharges
     account:              account            # logged-in account this cart lives under

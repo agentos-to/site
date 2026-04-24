@@ -81,7 +81,7 @@ payment_method:
     at:                  actor              # namespace that holds the saved reference. Required for identity.
     account:             account            # login this instrument is saved under
     holder:              person             # human the instrument belongs to
-    billingAddress:      billing_address    # address bound to this instrument (AVS / 3DS)
+    billingAddress:      place              # address bound to this instrument (AVS / 3DS). Reuses `place` — a billing address is just an address with an opaque provider key (threaded via providerTokens).
     fundingAccount:      financial_account  # OPTIONAL: source-of-funds account
     issuer:              actor              # OPTIONAL: issuing bank / network (Chase, Amex, Visa, PayPal Inc.)
     membership:          membership         # OPTIONAL: co-brand / loyalty link (MileagePlus Visa → MileagePlus membership)
