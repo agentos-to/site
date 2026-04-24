@@ -59,9 +59,18 @@ from agentos.text import clean_text, clean_html, clean_sentinel, strip_tags
 from agentos.text import parse_int, parse_float
 from agentos.dates import parse_date, iso_from_ms, iso_from_seconds
 
+# Engine dispatch Client — talks to a running engine over its MCP socket.
+# Auto-generated from the registry in crates/core/src/tools.rs (see D11
+# in _roadmap/p1/unified-surface/unified-surface.md). External Python
+# scripts use `from agentos import Client, AsyncClient`; skills use
+# their in-process SDK modules above.
+from agentos._engine_client import Client, AsyncClient, EngineError
+
 __all__ = [
     # Core modules
     "client", "url", "molt", "shape",
+    # Engine dispatch (external Python scripts)
+    "Client", "AsyncClient", "EngineError",
     # Engine-dispatched modules
     "sql", "crypto", "oauth", "shell", "llm", "progress", "checkpoint", "credentials",
     "capability",
