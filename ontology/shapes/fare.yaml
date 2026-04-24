@@ -1,0 +1,106 @@
+# The priced class-of-service unit for a transport journey — the BASE
+# PRICE per passenger before taxes and fees. Works for any mode that
+# has a notion of "fare class":
+#   - airline: Basic Economy / Economy / Business / First (with IATA
+#     fareBasisCode identifying the exact rule)
+#   - rail: Coach / Business / First / Sleeper / Rail Pass
+#   - bus: Standard / Premium / Rapid
+#   - transit: zone 1 / zone 2 / off-peak / peak
+#   - taxi/rideshare: UberX / Uber Black / Share (fareAmount lives on
+#     `trip` instead — one-off, not a class)
+#   - ferry: Walk-on / Vehicle / Cabin
+#
+# Why this is its own shape:
+#   A booking price is not atomic — it decomposes into (base fare) +
+#   (N tax/fee lines). The base fare itself has structure: a provider
+#   rule identifier, a branded product name, a class of service, and
+#   policy flags (refundable, changeable). Modeling fare as its own
+#   node lets booking_offer / reservation all reference the same fare
+#   identity, and lets N `tax_line` nodes hang off it via back-edges.
+#
+# Relationship to adjacent shapes:
+#   - `offer` / `booking_offer` — purchasable bundle; carries 1+ fare
+#   - `reservation` — post-booking; same fare persists as priced ticket
+#   - `pass` — per-passenger-per-leg boarding credential; its
+#     `ticketClass` is the single-letter projection of `bookingCode`
+#     (airline), or just the class name (rail/bus)
+#   - `tax_line` — N tax/fee items that price alongside this fare
+#
+# Identifier (provider-opaque rule code):
+#   Airlines use IATA fare basis codes (LAA0AQBN, etc.) — first char is
+#   the RBD/booking class; remainder is the airline's ATPCO pointer.
+#   Rail uses operator-specific tier codes. Transit uses zone labels.
+#   We store whatever the provider gave us in `identifier`; `bookingCode`
+#   is the single-letter form airlines + some rail systems use.
+fare:
+  plural: fares
+  identity: [at, identifier]
+  subtitle: fareFamily
+  fields:
+    identifier:        string    # provider's fare code. Airline: IATA fareBasisCode ("LAA0AQBN"). Rail/bus: operator tier id.
+    bookingCode:       string    # single-letter RBD/class ("L", "N", "Y", "J") — airlines + some rail. Null elsewhere.
+    productType:       string    # short machine key: "ECO-BASIC", "COACH", "SLEEPER", "ZONE-1", "BUSINESS"
+    fareFamily:        string    # provider's branded name: "Basic Economy", "Acela First", "Standard Plus"
+    class:             string    # normalized class: economy | premium_economy | business | first | coach | sleeper | standard | premium
+    basePrice:         number    # per-passenger base price BEFORE taxes/fees
+    currency:          string    # ISO 4217
+    passengerType:     string    # IATA PTC if applicable: ADT, CHD, INF, SRC, YTH, MIL. Or domain-specific: "adult", "student", "senior".
+    milesEarned:       integer   # redeemable loyalty currency earned (airlines miles, rail points). Null if N/A.
+    pointsEarned:      integer   # status-qualifying points (UA PQP, AA Loyalty, etc.). Null if N/A.
+    components:        integer   # count of priced components (1 = simple; >1 = mixed-class / multi-segment different fares)
+    refundable:        boolean
+    changeable:        boolean
+    restrictions:      string[]  # human-readable summaries: ["non-refundable", "no changes", "no seat selection", "weekend only"]
+    conditions:        json      # raw rules blob (ATPCO categories / carrier JSON / rail conditions)
+  relations:
+    at:                actor         # filing carrier / operator namespace
+    for:               trip          # the trip this fare prices
+    legs:              leg[]         # specific segments (for mixed-class itineraries)
+    offer:             offer         # parent offer / booking_offer
+    reservation:       reservation   # post-booking parent
+    taxLines:          tax_line[]    # back-edges: every tax_line.appliesTo this fare
+    earnsInto:         membership    # loyalty program the miles/points post to
+  prior_art:
+    - source: IATA Fare Basis Code / ATPCO filings
+      url: https://en.wikipedia.org/wiki/Fare_basis_code
+      notes: >-
+        Airline canonical. First char = RBD/booking class (our
+        `bookingCode`); remainder = airline-proprietary pointer into
+        ATPCO-filed fare rules (our `identifier` as opaque string,
+        `conditions` for the rule blob). Codes are 3-8 chars; we don't
+        parse beyond the first char.
+    - source: IATA NDC FareDetail / FareComponent
+      url: https://developer.iata.org/en/ndc/
+      notes: >-
+        NDC's FareDetail.FareComponent carries FareBasis.FareBasisCode,
+        FareBasis.RBD, Price.BaseAmount, FareRules.Penalty, and
+        CabinType.CabinTypeCode. Our identifier/bookingCode/basePrice/
+        class/refundable map directly.
+    - source: Duffel Offer Slice / fare_basis_code
+      url: https://duffel.com/docs/api/v2/offers
+      notes: >-
+        Duffel surfaces fare_basis_code on each slice's segments along
+        with cabin_class, cabin_class_marketing_name (our fareFamily),
+        and passenger-level base_amount. Our basePrice = base_amount;
+        class = cabin_class; fareFamily = cabin_class_marketing_name.
+    - source: Amtrak / Rail Europe fare types
+      url: https://www.amtrak.com/routes/fares
+      notes: >-
+        Non-airline generalization. Amtrak fares are Saver / Value /
+        Flexible / Premium / Business / First / Acela First / Acela
+        First Refundable — their tier codes fit `identifier`; their
+        names fit `fareFamily`; their rules fit `refundable`/
+        `changeable`/`restrictions`.
+    - source: GTFS fare_products.txt (transit)
+      url: https://gtfs.org/documentation/schedule/reference/#fare_productstxt
+      notes: >-
+        Open transit standard for fare products. Their fare_product_id
+        = our identifier; fare_product_name = fareFamily; amount =
+        basePrice; currency_code = currency. rider_category matches
+        passengerType (adult/child/senior/student).
+    - source: schema.org/Offer price + FlightReservation
+      url: https://schema.org/FlightReservation
+      notes: >-
+        schema.org's Offer.price + Offer.priceCurrency align with our
+        basePrice + currency. schema.org has no fare-basis concept;
+        NDC and GTFS fill that gap.

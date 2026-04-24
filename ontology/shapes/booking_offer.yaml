@@ -1,0 +1,160 @@
+# A signed, itemized, fully-priced commitment presented to a human for
+# final approval before it becomes irreversible. The last artifact shown
+# to the user: "here is the exact thing, the exact price, the exact
+# card — do you approve? You have 5 minutes."
+#
+# The pre-commit review object. Generic across domains:
+#   - flight round-trip (this session's driving example)
+#   - hotel stay checkout
+#   - concert / event ticket purchase
+#   - restaurant reservation with prepay
+#   - rental car hold with deposit
+#   - meal delivery order just before placing
+#   - crypto invoice (CoinGate-style)
+# All share the same pre-commit moment: priced, itemized, assigned to a
+# buyer, pending explicit human approval, with a short TTL.
+#
+# Lifecycle:
+#   offer          -> "flights $412, valid 15 min"        (search result)
+#   booking_offer  -> "flights $412 + $78 tax, Joe,       (review page)
+#                      Visa ****4242, expires 5 min"
+#   reservation    -> "PNR ABC123, confirmed"             (post-commit)
+#   transaction    -> "$490 charged to ****4242"          (post-charge)
+#
+# Distinct from `offer`:
+#   offer is anonymous pricing (pre-purchase price advertisement); a
+#   booking_offer has chosen passengers, chosen payment, itemized
+#   taxes, and a signature the provider can verify on commit.
+#
+# Distinct from `reservation`:
+#   no PNR / confirmation number exists yet, no charge has happened,
+#   can simply expire with no consequences (reservations can't).
+#
+# Why sign it:
+#   An agent orchestrating a browser session can lie ("user confirmed")
+#   to the provider. A signed booking_offer lets us verify on submit
+#   that the exact shape the user approved matches what we're about to
+#   commit. Tampering breaks the signature. Inspired by WebAuthn's
+#   clientDataJSON: the RP signs (challenge, origin, type); we sign
+#   (cartId, itineraryHash, total, expiresAt).
+#
+# Why expire:
+#   Prices drift, inventory churns, cards get blocked. Providers give
+#   the agent a short window (typically 5-20 min) in which the quoted
+#   price is guaranteed. After expiresAt, re-prepare.
+#
+# Domain-specific data lives on the relations, not on this shape:
+#   - seat assignments, aircraft, fare basis → flight / trip / pass
+#   - hotel room type, bed config → reservation / pass
+#   - event seat section → pass
+# booking_offer itself stays domain-neutral: it's a priced commitment.
+booking_offer:
+  plural: booking_offers
+  identity: [at, cartId]
+  subtitle: totalAmount
+  fields:
+    # --- identity / reference ---
+    cartId:               string    # provider's opaque cart/session handle
+    referenceNumber:      string    # human-readable short ref ("A9F3C2") — quotable on phone
+    status:               string    # draft, ready, presented, approved, rejected, expired, consumed
+    # --- timing ---
+    preparedAt:           datetime  # when the provider produced this priced shape
+    presentedAt:          datetime  # when we showed it to the user
+    approvedAt:           datetime  # when the user said yes (null until then)
+    expiresAt:            datetime  # hard TTL
+    # --- money ---
+    currency:             string    # ISO 4217
+    baseAmount:           number    # sum of line items before tax/fees
+    taxAmount:            number    # total of all tax_line[] — denormalized for speed
+    feesAmount:           number    # provider fees distinct from taxes
+    totalAmount:          number    # what the card will be charged
+    # --- snapshot ---
+    itineraryHash:        string    # sha256 of canonical serialization — tamper-detect
+    signature:            string    # hex/base64 signed blob over (cartId, itineraryHash, total, expiresAt)
+    signatureAlg:         string    # "HS256", "ES256", "provider-opaque"
+    signedBy:             string    # "united.com", "duffel", "self"
+    # --- presentation surface ---
+    checkoutUrl:          url       # URL the user was looking at (provenance)
+    confirmEndpoint:      url       # URL we POST on approval (agent-driven)
+    # --- policy flags ---
+    isRefundable:         boolean   # any portion refundable before start
+    isChangeable:         boolean   # any portion changeable before start
+    hasVoidWindow:        boolean   # US 24hr rule, EU free-cancel, etc.
+    voidWindowEndsAt:     datetime
+    conditions:           json      # raw policy blob — same shape as reservation.conditions
+  # booking_offer is the JOIN between everything that commits at once.
+  # Domain-specific details live on the relations, not here.
+  relations:
+    at:                   actor              # provider namespace (united.com, duffel, opentable). Required for identity.
+    derivedFrom:          offer              # the lean offer we priced up from (if captured)
+    trips:                trip[]             # flights, rides, train journeys. Empty for non-transport.
+    reservedItems:        pass[]             # per-passenger-per-thing credentials — seats, tickets, room assignments
+    buyers:               person[]           # who's paying (usually 1); guests/passengers may overlap with this
+    guests:               person[]           # travelers / attendees / diners
+    underName:            person             # primary holder / cardholder
+    paymentMethod:        payment_method     # chosen instrument
+    billingAddress:       place              # bill-to address. Reuses place — a billing address IS just an address.
+    contactEmail:         string             # denormalized: providers often require a contact distinct from guests
+    contactPhone:         string
+    fares:                fare[]             # base-price line items (one per passenger / per fare component)
+    taxLines:             tax_line[]         # itemized taxes / fees / surcharges
+    account:              account            # logged-in account this cart lives under
+    membership:           membership         # loyalty program applied
+    broker:               actor              # OTA / 3rd-party booker if != `at`
+    # Forward lineage: booking_offer -> reservation -> transaction
+    becameReservation:    reservation        # set on commit success
+    becameTransaction:    transaction        # set when charge posts
+  prior_art:
+    - source: Duffel Offers API (pre-Order priced shape)
+      url: https://duffel.com/docs/api/offers/schema
+      notes: >-
+        Duffel's Offer is the "priced, held, about-to-become-an-order"
+        state. Our baseAmount/taxAmount/totalAmount/currency map to
+        Duffel's base_amount/tax_amount/total_amount/total_currency;
+        expiresAt = offer.expires_at. Duffel rolls taxes into a single
+        aggregate — we split them into tax_line[] nodes.
+    - source: IATA NDC OfferPriceRQ / OfferPriceRS
+      url: https://developer.iata.org/en/ndc/
+      notes: >-
+        NDC's OfferPrice is the mandatory "price this exact shape with
+        these exact passengers" step between Shop and OrderCreate. Our
+        guests[] mirror NDC's PaxList; taxLines[] mirror Taxes/
+        TaxSummary; signature mirrors OfferPriceRS's ShoppingResponseID
+        that the airline expects back on OrderCreateRQ.
+    - source: Stripe Checkout Session
+      url: https://docs.stripe.com/api/checkout/sessions/object
+      notes: >-
+        Canonical "about-to-charge" object. Our cartId ≈ session.id;
+        expiresAt ≈ session.expires_at; totalAmount ≈ session.amount_total;
+        paymentMethod relation mirrors session.payment_method. Stripe
+        assumes line_item shape; we use domain-specific relations
+        (trips/reservedItems) instead.
+    - source: Shopify Draft Order
+      url: https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrder
+      notes: >-
+        Shopify's non-binding pre-order — validates the "cart with a
+        reference number that can be invoiced and converted" pattern.
+        Our referenceNumber ≈ DraftOrder.name; becameReservation /
+        becameTransaction mirror DraftOrder -> Order conversion.
+    - source: WebAuthn clientDataJSON + signed assertion
+      url: https://www.w3.org/TR/webauthn-3/
+      notes: >-
+        Precedent for "the thing the user saw is what got signed."
+        WebAuthn signs (challenge, origin, type); we sign (cartId,
+        itineraryHash, total, expiresAt). Our itineraryHash plays
+        the role of WebAuthn's challenge — a commitment the verifier
+        can match against the submitted shape.
+    - source: CoinGate Invoice (short-TTL priced blob)
+      url: https://developer.coingate.com/reference/order-statuses
+      notes: >-
+        Validates the short-TTL pattern outside airlines. CoinGate
+        invoices carry id, price locked ~20 min, and status (new,
+        pending, paid, expired, canceled). Our status enum matches —
+        pre-commit objects need expiry as a first-class terminal.
+    - source: schema.org/Order + schema.org/Invoice
+      url: https://schema.org/Order
+      notes: >-
+        schema.org models Offer -> Order -> Invoice. booking_offer
+        sits between Offer and Order — a priced, itemized, signed
+        proposal awaiting explicit human commit. Our baseAmount +
+        taxAmount + totalAmount align with UBL 2.1 LegalMonetaryTotal.
