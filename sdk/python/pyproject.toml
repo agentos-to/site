@@ -12,6 +12,7 @@ dependencies = [
   "idna>=3",
   "phonenumbers>=8",
   "fpdf2>=2.8",
+  "qrcode[pil]>=7",
 ]
 
 [project.scripts]
