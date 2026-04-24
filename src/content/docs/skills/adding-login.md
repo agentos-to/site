@@ -275,9 +275,13 @@ in this order:
    First-time paste by the user, or an agent forwarding a
    one-shot prompt.
 2. **`credentials.retrieve(domain, required)`.** Matchmakes every
-   installed `@provides(login_credentials)` skill — 1Password,
-   Keychain, any future browser saved-password skill. Joe pastes
-   his password into 1Password once; every skill finds it.
+   `@provides(login_credentials)` provider. The `vault` system
+   skill always tries first — it reads the local vault in ~ms and
+   never prompts. On a vault miss, the SDK falls through to
+   1Password, macOS Keychain, or any other installed
+   `@provides(login_credentials)` provider. External providers
+   write their match into the vault on success, so the next call
+   bypasses them entirely.
 3. **`NeedsCredentials` error.** Nothing matched → structured
    error with the `required` list. The agent surfaces the ask
    ("I need `email` and `password` for `.example.com`").
@@ -289,10 +293,10 @@ step 3 above. It doesn't care where the creds came from.
 
 Two cases, both handled by the engine's auto-relogin intercept:
 
-- **Cold start.** An authed tool runs, the credential store has
-  no row for the domain, engine can't resolve → `AuthFailed` →
-  engine looks for a `login` tool → dispatches it → retries the
-  original call once.
+- **Cold start.** An authed tool runs, the vault has no row for
+  the domain, engine can't resolve → `AuthFailed` → engine looks
+  for a `login` tool → dispatches it → retries the original call
+  once.
 - **Stale session.** Cookies fail with 401/403; cookie providers
   re-extract; if fresh extraction returns the same stale
   cookies, `NeedsRelogin` fires → engine dispatches `login` →

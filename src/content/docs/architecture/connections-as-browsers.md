@@ -1,6 +1,6 @@
 ---
 title: "Each connection is a client — a browser, a fetch, or an API"
-description: Each skill connection is a sandboxed identity profile with its own cookie jar, its own auth, and its own kind of client. Tools on different connections never share state; tools on the same connection always do. The credential store is the vault; the per-call jar is a briefly-opened wallet.
+description: Each skill connection is a sandboxed identity profile with its own cookie jar, its own auth, and its own kind of client. Tools on different connections never share state; tools on the same connection always do. The vault is the safe; the per-call jar is a briefly-opened wallet.
 ---
 
 A **connection** is how a skill reaches a service: a REST API, a cookie-
@@ -39,7 +39,7 @@ state. Simple rule, enforced structurally.
 
 ## Credentials key on `(domain, identifier)`, not `(skill, connection_name)`
 
-The credential store is keyed on who the identity *is*, not which
+The vault is keyed on who the identity *is*, not which
 skill is asking for it.
 
 ```
@@ -127,7 +127,7 @@ holds what is the key to the whole model.
 Concretely, with ABP's `book_class` on the `portal` connection:
 
 1. **Tool entry.** Engine resolves cookies for
-   `(tilefive.com, joe@contini.co)` from the credential store.
+   `(tilefive.com, joe@contini.co)` from the vault.
    Decrypts in memory, hands to the Python worker as
    `params["auth"]["cookies"]`.
 2. **SDK seeds the per-call jar.** The Python worker builds a
@@ -144,7 +144,7 @@ Concretely, with ABP's `book_class` on the `portal` connection:
    ``jar._seed`` and appends ``__cookie_delta__: {added, changed,
    removed}`` to the return dict.
 6. **Engine receives the delta.** Upserts the new cookie values into
-   the credential store row (`domain=tilefive.com`,
+   the vault row (`domain=tilefive.com`,
    `identifier=joe@contini.co`). Row is now updated.
 7. **Per-call jar dies.** ContextVar goes out of scope. Plaintext
    cookies no longer exist anywhere in memory.
@@ -159,12 +159,12 @@ automatically, across processes and engine restarts.
 Because they have different lifetimes and different security
 requirements:
 
-- The credential store must persist across restarts → must be on
+- The vault must persist across restarts → must be on
   disk → must be encrypted.
 - The per-call jar must be fast to read/write during a tool body
   → must be in-process → lives in memory only.
 
-Copying the credential row into memory for the duration of the call,
+Copying the vault row into memory for the duration of the call,
 then writing the diff back, gives us both: fast access during work,
 no plaintext on disk at rest.
 

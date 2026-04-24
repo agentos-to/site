@@ -114,7 +114,7 @@ connection("api",
     label="API Key")
 ```
 
-**`cookies`** — session cookies resolved from the credential store (for
+**`cookies`** — session cookies resolved from the vault (for
 stored sessions) or provider skills (Brave, Firefox):
 
 ```python
@@ -168,7 +168,7 @@ connection the same way — just omit `base_url` and `auth`.
 
 ## How credentials are keyed
 
-The credential store keys rows on `(domain, identifier, item_type)` —
+The vault keys rows on `(domain, identifier, item_type)` —
 **not** on `(skill, connection_name)`. The domain comes from the
 connection's `base_url` (or an explicit `domain=` override):
 
@@ -186,8 +186,8 @@ Two consequences worth understanding as a skill author:
   their `base_url`s derive different domains. Pick readable names
   without worrying about global uniqueness.
 - **Reorganizing your skill never loses cookies.** Move the skill
-  to a new directory, rename the connection — the credential row
-  is keyed on the domain, not your file path.
+  to a new directory, rename the connection — the vault row is
+  keyed on the domain, not your file path.
 
 Within a domain, multiple accounts stay separate. `joe@contini.co`
 and `jane@example.com` both signed into `goodreads.com` live as two
@@ -207,14 +207,14 @@ don't interact with it directly — plain `client.get("/x")` just works.
 What happens under the hood:
 
 1. **On tool entry**, the engine resolves cookies for the
-   connection's `(domain, identifier)` from the credential store,
-   decrypts them, and injects them into your tool's params.
+   connection's `(domain, identifier)` from the vault, decrypts
+   them, and injects them into your tool's params.
 2. **Inside your tool body**, every `client.get` / `client.post` call
    the SDK makes automatically attaches those cookies and captures
    any `Set-Cookie` responses into the same jar.
 3. **On tool exit**, the SDK emits the jar delta as
    `__cookie_delta__` on your return value. The engine merges the
-   new cookies into the credential store row.
+   new cookies into the vault row.
 
 Next time any tool on the same connection runs, it sees the
 *updated* cookies — session tokens that rotate on every request stay
@@ -248,6 +248,6 @@ Python to populate connections; it reads the AST.
 This means connection declarations **must use literals** for auth
 dicts, URLs, and labels. You can't write `base_url=os.environ["X"]`
 at module top — the AST walker doesn't evaluate Python expressions.
-Secrets belong in the credential store, not in source; skills
+Secrets belong in the vault, not in source; skills
 reference them via the jaq expressions in `auth.header` /
 `auth.query` / `auth.body`.

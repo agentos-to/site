@@ -189,7 +189,7 @@ async def verify_login_code(*, email: str, code: str, **params):
         f"?token={token}&email={email}&callbackUrl=..."
     )
     # → session cookie is now in the ambient Jar; at tool exit, the
-    # `__cookie_delta__` sidecar persists it to the credential store.
+    # `__cookie_delta__` sidecar persists it to the vault.
 ```
 
 **Fall back to Playwright** only for flows that genuinely require a browser
@@ -262,7 +262,7 @@ return {
 }
 ```
 
-The engine writes to the credential store, creates an account entity on the
+The engine writes to the vault, creates an account entity on the
 graph, and strips `__secrets__` before the response reaches the agent.
 
 ---
@@ -635,8 +635,8 @@ For any site that uses session cookies without a framework like NextAuth:
    "cookies", "domain": ".example.com"})`. The engine's
    `brave-browser` / `firefox` cookie providers seed the ambient Jar
    from the user's real logged-in browser on the first call; the
-   Jar persists rotated session tokens back to the credential store
-   via the `__cookie_delta__` sidecar at tool exit.
+   Jar persists rotated session tokens back to the vault via the
+   `__cookie_delta__` sidecar at tool exit.
 
 Reference implementations:
 - `skills/ai/claude/claude_web.py` (Cloudflare-protected, `client="fetch"` + `http2=False`)
