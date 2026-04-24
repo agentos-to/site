@@ -775,6 +775,158 @@ el.dispatchEvent(new Event('change', {bubbles:true}));
 el.dispatchEvent(new Event('blur',   {bubbles:true}));
 ```
 
+### Segmented OTP inputs need real keyboard events, not the setter
+
+The native-setter trick works for single React-controlled inputs
+(email, password) but **fails on 6-box OTP widgets** (United, many
+others). These widgets listen for `beforeinput` / `keydown` events
+to orchestrate focus-hopping and backspace-across-boxes. Synthetic
+`input`/`change` events set the DOM `value` but leave the widget's
+internal React state un-synced — on submit the widget re-reads its
+own state and sends the old digits. Observed failure: wrong code
+stays "stuck" across retries; the red "Wrong code" banner keeps
+firing with the stale code even after you've re-set each box.
+
+**Fix:** drive via real keyboard events through CDP's `Input`
+domain. They arrive at the widget the same way a user's keystrokes
+do, so the widget's state machine stays coherent.
+
+Clearing a 6-box OTP widget (United pattern):
+
+```python
+# Focus the LAST box, then backspace repeatedly. The widget
+# handles backspace by deleting the current digit and moving
+# focus left. 8 backspaces clears any state no matter where
+# focus started.
+await evaljs("""
+  const ins = document.querySelectorAll('[role=dialog] input.atm-c-otp-input');
+  if (ins[5]) ins[5].focus();
+""")
+for _ in range(8):
+    await cdp("Input.dispatchKeyEvent", {
+        "type": "keyDown", "key": "Backspace",
+        "code": "Backspace", "windowsVirtualKeyCode": 8})
+    await cdp("Input.dispatchKeyEvent", {
+        "type": "keyUp", "key": "Backspace",
+        "code": "Backspace", "windowsVirtualKeyCode": 8})
+    await asyncio.sleep(0.05)
+```
+
+Typing a new code into the cleared widget:
+
+```python
+# Focus the first box, then use Input.insertText — one digit
+# at a time with a small delay. insertText emits the same
+# beforeinput/input sequence a physical keystroke does, so the
+# widget advances focus box-by-box like a real user.
+await evaljs("""
+  const ins = document.querySelectorAll('[role=dialog] input.atm-c-otp-input');
+  if (ins[0]) ins[0].focus();
+""")
+for ch in code:
+    await cdp("Input.insertText", {"text": ch})
+    await asyncio.sleep(0.08)
+```
+
+**Always read back before submitting**:
+
+```python
+values = await evaljs("""
+  Array.from(document.querySelectorAll(
+    '[role=dialog] input.atm-c-otp-input'
+  )).map(i => i.value)
+""")
+assert ''.join(values) == code, f"mismatch: got {values!r}"
+```
+
+Do not press the Continue button until the readback matches. A
+stale digit + a single wrong submission is enough for the server
+to invalidate the token and force a whole fresh sign-in round.
+
+**What doesn't work (observed on United):**
+
+- `el.value = ''` + `dispatchEvent('input')` across all 6 boxes —
+  DOM values clear but React's widget state keeps the old digits.
+- Select-all (Cmd+A) + Backspace per box — leaves a partial state
+  like `['9','2','4','','','']` because the widget's multi-box
+  backspace handler interferes with per-box selection.
+- Setting digits via the native setter while the old ones are
+  still in state — React diffs and may reject or merge.
+
+**Detection hint:** if a form with segmented inputs keeps rejecting
+a code that you *know* is correct (verified from email or SMS),
+read the box values via DOM. If they don't match what you intended
+to type, you're looking at this bug.
+
+### Validate-before-submit for rate-limited or recorded actions
+
+Auth, payment, and booking flows are **rate-limited and server-side
+recorded** — a bad submission is not free. A wrong OTP invalidates
+the session token; a bad password attempt counts against a lockout
+threshold; a duplicated card submission can flag fraud. Treat each
+submit click as expensive.
+
+The driver should **refuse to submit** until all invariants hold:
+
+```python
+async def safe_submit_otp(code: str) -> None:
+    # 1. Read current state. If anything is in the boxes, abort.
+    values = await read_otp_boxes()
+    if any(v for v in values):
+        raise RuntimeError(f"boxes not empty before type: {values!r}")
+
+    # 2. Type. Then read back. If readback != intended, abort.
+    await type_otp(code)
+    values = await read_otp_boxes()
+    if ''.join(values) != code:
+        raise RuntimeError(f"readback mismatch: {values!r} != {code!r}")
+
+    # 3. Check for stale error banners that indicate a dead session.
+    banner = await read_error_banner()
+    if banner and 'not sent' in banner.lower():
+        raise RuntimeError(f"session is dead — reopen sign-in: {banner!r}")
+
+    # 4. Only now submit.
+    await click_continue()
+```
+
+Do the same for any flow where a mistaken click is expensive:
+
+- **OTP**: readback boxes; assert joined == code; no stale error banner.
+- **Login**: readback email + password field; assert stored hash ==
+  expected (or just length).
+- **Payment**: readback card last-4 + amount from the review
+  pane; compare to the offer you're confirming.
+- **Booking / purchase**: read the total from the DOM and compare
+  to the offer. Reject if the displayed total changed between
+  the offer and the confirm page (airline will honor the
+  displayed total, not the one you captured earlier).
+
+Error banners are the server's own signal that something went
+wrong — **read them before submitting again**. On United, the
+`[role=alert]` or `.atm-c-message-banner` nodes carry "Wrong code
+entered" and "Verification code not sent. Try again." If those are
+visible and you submit anyway, you're burning another attempt
+against a dead session.
+
+Build these invariants into the skill so a buggy caller can't
+accidentally hammer the endpoint:
+
+```python
+@timeout(20)
+async def verify_login_code(*, code: str) -> dict:
+    if not re.fullmatch(r'\d{6}', code):
+        return skill_error("InvalidCode", "must be 6 digits")
+    banner = await read_error_banner()
+    if banner and 'not sent' in banner.lower():
+        return skill_error("SessionDead",
+            "re-run send_login_code — the previous token is gone")
+    # ... clear, type, readback, submit
+```
+
+The fail-closed posture costs a few DOM reads per submit. Cheap
+insurance against a lockout.
+
 ### Detecting logged-out state (do this before you start)
 
 ```python
