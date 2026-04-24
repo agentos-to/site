@@ -332,7 +332,10 @@ export interface Brand {
     content?: string;
     country?: string;
     founded?: string;
+    primaryColor?: string;
     tagline?: string;
+    textColor?: string;
+    logo?: Image;
     ownedBy?: Organization;
     website?: Website;
 }
