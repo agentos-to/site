@@ -1,0 +1,110 @@
+# A single tax, fee, or surcharge line item on a priced commerce
+# transaction — one row of the itemized tax/fee breakdown. Any booking
+# / order / invoice with N taxes has N tax_line nodes.
+#
+# Applies broadly: airline ticket taxes, hotel occupancy taxes, rental
+# car airport fees, restaurant service charges, sales tax, VAT/GST, any
+# line item that the merchant itemizes separately from the base price.
+#
+# Why one-node-per-line (rather than `taxes: json[]` on the parent):
+#   1. A single tax can recur per segment / per night / per item. Each
+#      occurrence has its own amount and binding — they're not
+#      aggregable without losing information. (Airline: US
+#      Transportation Tax fires once per leg. Hotel: occupancy tax
+#      fires once per night.)
+#   2. Agent UIs want to show the full breakdown, not a lump-sum
+#      "taxes and fees: $61". Nodes give display, query, and
+#      provenance.
+#   3. Taxes are imposed by third parties (governments, facilities),
+#      not the selling merchant. `imposedBy` makes the authority chain
+#      first-class.
+#
+# Common tax/fee codes by domain:
+#   airline: US, ZP, XF, AY, YQ, YR (IATA ILTATF list)
+#   hotel: occupancy tax, tourism levy, resort fee
+#   rental car: concession recovery fee, airport access fee
+#   rideshare: booking fee, airport surcharge
+#   commerce: sales tax (state), VAT, GST
+#
+# Kind (tax | fee | surcharge):
+#   - tax       — government-imposed (US, ZP, AY, VAT, GST, sales tax)
+#   - fee       — facility / service charge (XF, resort fee, concession)
+#   - surcharge — merchant-imposed (YQ fuel surcharge, resort fee)
+# Matters for refundability: taxes on unflown tickets are often
+# refundable by law; merchant surcharges often are not.
+tax_line:
+  plural: tax_lines
+  identity: [at, id]
+  subtitle: description
+  fields:
+    code:              string    # provider code ("US", "XF", "AY", "VAT", "GST", or free-text)
+    description:       string    # human: "U.S. Transportation Tax", "Occupancy Tax", "Sales Tax"
+    amount:            number    # line-item amount in currency units
+    currency:          string    # ISO 4217
+    kind:              string    # tax | fee | surcharge
+    nature:            string    # ticket | segment | passenger | facility | security | fuel | vat | gst | occupancy | service
+    country:           string    # ISO 3166-1 alpha-2 of the imposing jurisdiction
+    appliesToIndex:    integer   # 0-based index into parent's line items (leg / night / item); null = whole-trip
+    refundable:        boolean   # does this refund on unused/returned?
+    merchantImposed:   boolean   # true for merchant surcharges (YQ fuel, resort fee), false for govt/facility
+    rate:              number    # ad-valorem rate (0.075 for 7.5%); null for flat
+    taxableAmount:     number    # base the rate was applied to; null for flat fees
+    inclusive:         boolean   # true = already included in displayed base price (VAT markets); false = added on top
+  relations:
+    at:                actor         # selling merchant's namespace
+    appliesTo:         fare          # OPTIONAL: the fare this prices alongside (back-edge from fare.taxLines)
+    offer:             offer         # OPTIONAL: parent offer / booking_offer
+    reservation:       reservation   # OPTIONAL: post-booking parent
+    segment:           leg           # OPTIONAL: specific segment (richer than appliesToIndex when graph-resolved)
+    imposedBy:         actor         # tax authority: country (IRS/TSA/FAA), state, airport authority, merchant
+    location:          place         # OPTIONAL: geographic scope of the tax (airport, jurisdiction)
+  prior_art:
+    - source: IATA List of Ticket and Airport Taxes and Fees (ILTATF)
+      url: https://www.iata.org/en/publications/store/list-of-ticket-and-airport-taxes-and-fees/
+      notes: >-
+        Canonical 1500+ entry registry of 2-char airline tax codes,
+        grouped AT (airport), PC (passenger charge), ST (stamp), TT
+        (ticket), MT (misc). Our `code` = ILTATF code when applicable;
+        `nature` corresponds to ILTATF's grouping.
+    - source: IATA NDC Tax / TaxBreakdown element
+      url: https://developer.iata.org/en/ndc/
+      notes: >-
+        NDC's Price structure carries Taxes/Tax with TaxCode,
+        CollectionPoint, CountryCode, Nature, Amount, Description.
+        Our code/country/nature/amount/description map 1:1. NDC's
+        Nature enum (security, fuel, facility, tax) informs our values.
+    - source: schema.org/UnitPriceSpecification + PriceComponentTypeEnumeration
+      url: https://schema.org/UnitPriceSpecification
+      notes: >-
+        Generic commerce. priceComponentType ("Tax"),
+        valueAddedTaxIncluded (our `inclusive`), priceCurrency.
+        Lightweight; we add code, country, `imposedBy` to cover the
+        authority-chain gap.
+    - source: UBL 2.1 / Peppol BIS Billing 3.0 — TaxSubtotal / TaxCategory
+      url: https://docs.peppol.eu/poacc/billing/3.0/
+      notes: >-
+        European eInvoicing. TaxSubtotal carries TaxableAmount,
+        TaxAmount, Percent, TaxCategory/TaxScheme (VAT/GST). Our
+        taxableAmount/amount/rate/nature align directly.
+    - source: Stripe Invoice tax_amounts[]
+      url: https://docs.stripe.com/api/invoices/object
+      notes: >-
+        Stripe's line-item tax_amounts[] carries amount, inclusive,
+        tax_rate, taxability_reason, taxable_amount. Our inclusive/
+        rate/taxableAmount match; jurisdiction/jurisdiction_level
+        inspired the country + `imposedBy` split.
+    - source: Shopify Order tax_lines[]
+      url: https://shopify.dev/docs/api/admin-rest/latest/resources/order
+      notes: >-
+        Minimal commerce model: price, rate, title, channel_liable.
+        Our amount/rate/description map 1:1. Shopify allows multiple
+        tax_lines per line item with same title + different rates —
+        same pattern we need (US Transportation Tax recurring per
+        segment). We disambiguate via appliesToIndex.
+    - source: Avalara / TaxJar tax breakdown
+      url: https://developer.avalara.com/
+      notes: >-
+        Commerce tax engines. Jurisdiction hierarchy (country / state /
+        county / city / special) and combined tax rate. Informs the
+        `imposedBy: actor` relation for layered jurisdictions (hotel
+        occupancy + tourism + state sales tax, each their own line).
