@@ -12,11 +12,19 @@ For parallel agents, use `asyncio.gather()`:
         llm.agent(prompt="Research A", tools=["exa.search"]),
         llm.agent(prompt="Research B", tools=["exa.search"]),
     )
+
+Provider selection and fallback happen here, not in Rust. The engine
+only ships the generic `capability.call` + `capability.list_providers`
+primitives; this module stacks ranking + retry on top. Adding a new
+`@provides(llm)` skill needs zero Rust — list_providers picks it up
+from the ontology and oneshot/agent route to it like any other
+provider.
 """
 
 import asyncio
 import json
 
+from agentos import capability
 from agentos._bridge import dispatch
 
 
@@ -36,15 +44,105 @@ class AgentError(Exception):
         self.cause = cause
 
 
+# ---------------------------------------------------------------------------
+# Provider selection — the matchmaking loop that used to live in
+# `ops-llm-router/` (Rust). Moved to Python for the same reason every
+# other bespoke matchmaker went: the engine doesn't need to know about
+# "LLM" as a category. It's just another @provides(X).
+# ---------------------------------------------------------------------------
+
+
+_CRED_PRIORITY = {"not_required": 0, "present": 1, "missing": 2}
+
+
+def _is_auth_error(err: str) -> bool:
+    low = (err or "").lower()
+    return any(
+        k in low
+        for k in (
+            "401",
+            "403",
+            "unauthorized",
+            "forbidden",
+            "invalid api key",
+            "invalid_api_key",
+            "authentication failed",
+        )
+    )
+
+
+async def _call_llm(params: dict) -> dict:
+    """Run one chat completion via matchmaking + fallback.
+
+    Replaces the old `dispatch("llm.chat", ...)` sideband — the Rust
+    router is gone. Ranks every `@provides(llm)` provider by
+    cred_state, calls the best one, and falls back on auth errors to
+    the next credentialed provider.
+    """
+    model = params.get("model") or "sonnet"
+    listing = await capability.list_providers("llm", model=model)
+    providers = sorted(
+        listing.get("providers") or [],
+        key=lambda p: _CRED_PRIORITY.get(p.get("cred_state", "missing"), 2),
+    )
+
+    if not providers:
+        raise RuntimeError(f"No LLM provider found for model: {model}")
+
+    last_error: str | None = None
+    tried: list[str] = []
+
+    for provider in providers:
+        skill_id = provider["skill_id"]
+        verb = provider.get("via") or "chat"
+        try:
+            result = await capability.call(
+                "llm", verb=verb, skill=skill_id, params=params,
+            )
+        except Exception as e:
+            err = str(e)
+            tried.append(f"{skill_id}:{verb} (invoke: {err})")
+            last_error = err
+            if _is_auth_error(err):
+                continue
+            # Non-auth failure — don't keep trying providers. Surface
+            # the error to the caller with enough context to diagnose.
+            raise RuntimeError(
+                f"LLM provider {skill_id}.{verb} failed: {err} "
+                f"(tried: {', '.join(tried)})"
+            ) from e
+
+        # Some providers return a skill_error envelope instead of
+        # raising. Treat a `_error` field as a retry signal.
+        err_msg = None
+        if isinstance(result, dict):
+            err_msg = result.get("_error") or result.get("__error__")
+        if err_msg:
+            tried.append(f"{skill_id}:{verb} ({err_msg})")
+            last_error = err_msg
+            if _is_auth_error(err_msg):
+                continue
+            raise RuntimeError(
+                f"LLM provider {skill_id}.{verb} returned error: {err_msg} "
+                f"(tried: {', '.join(tried)})"
+            )
+
+        return result
+
+    raise RuntimeError(
+        f"All LLM providers failed: {last_error} (tried: {', '.join(tried)})"
+    )
+
+
 async def oneshot(*, prompt, model="sonnet", system=None,
                   temperature=0) -> dict:
     """Single LLM call. No tools, no agent loop.
 
-    The engine resolves the best provider for the requested model,
-    calls its chat() operation, and returns the response.
+    The SDK picks the best `@provides(llm)` provider for the model,
+    calls its chat operation, and returns the response.
     """
     messages = [{"role": "user", "content": prompt}]
-    return await dispatch("llm.chat", {
+    return await _call_llm({
         "model": model,
         "messages": messages,
         "system": system or "",
@@ -191,7 +289,7 @@ async def _agent_loop(*, model, system, messages, tool_defs, tool_refs,
             chat_params["tools"] = tool_defs
 
         try:
-            response = await dispatch("llm.chat", chat_params)
+            response = await _call_llm(chat_params)
         except Exception as e:
             raise AgentError(
                 f"LLM call failed on iteration {iterations}: {e}",
