@@ -36,18 +36,19 @@ on different connections never share state.
 
 Isolation is by construction, not by policy check:
 
-- **Connections key into the credential store on `(domain,
+- **Connections key into the vault on `(domain,
   identifier)`, not `(skill, connection_name)`.** The connection's
   `base_url` derives the domain (`api.exa.ai` →  `exa.ai`). Two
   skills that both declare a connection named `portal` don't
   collide — they resolve to different domains because their
   `base_url`s point at different services.
-- **Cookies live in two jars.** The **credential store** is the
-  persistent vault — encrypted at rest, keyed on `(domain,
-  identifier)`. The **per-call jar** is ambient inside the SDK for
-  the duration of one tool call — seeded from the store on entry,
-  diffed back on exit. Plaintext cookies exist only in the Python
-  worker's memory, only while the tool body runs.
+- **Cookies live in two jars.** The **vault** is the persistent
+  safe — encrypted at rest, keyed on `(domain, identifier)`, in
+  the `credentials` table of `~/.agentos/data/agentos.db`. The
+  **per-call jar** is ambient inside the SDK for the duration of
+  one tool call — seeded from the vault on entry, diffed back on
+  exit. Plaintext cookies exist only in the Python worker's
+  memory, only while the tool body runs.
 - **A compromised skill cannot reach across identities.** Its
   resolved connection maps to exactly one credential row. It has
   no way to enumerate rows, open a jar for a different domain, or
@@ -66,22 +67,22 @@ keeps rotating session tokens current across engine restarts.
 When a skill needs a session (cookie, bearer token, OAuth pair), it asks the engine via the SDK. The engine looks in three places:
 
 1. **In-memory cache** — resolved sessions from the current engine lifetime.
-2. **Credential store** — encrypted entries in `~/.agentos/data/agentos.db`.
+2. **Vault** — encrypted entries in `~/.agentos/data/agentos.db` (`credentials` table).
 3. **Browser providers** — live extractions from Brave / Firefox / Chrome via CDP.
 
-Each candidate carries a per-cookie timestamp. **The freshest candidate wins.** There is no fixed priority, no provider ranking. A recently-extracted browser session beats an older stored credential, even if the store entry was "configured" first.
+Each candidate carries a per-cookie timestamp. **The freshest candidate wins.** There is no fixed priority, no provider ranking. A recently-extracted browser session beats an older vault entry, even if the vault row was "configured" first.
 
-The engine then runs the skill's own `account.check` on the resolved session to validate identity. If check fails, the engine falls through to the next candidate. Skills see only the resolved session — never the raw credential store, never another source's entry.
+The engine then runs the skill's own `account.check` on the resolved session to validate identity. If check fails, the engine falls through to the next candidate. Skills see only the resolved session — never the raw vault, never another source's entry.
 
-## Encryption at rest
+## Vault encryption at rest
 
-Credential values in the database are encrypted with **AES-256-GCM**. The 32-byte key lives in the **macOS Keychain** under service `"AgentOS Credential Store"`, account `"encryption-key"`, and is read once per engine lifetime into a `OnceLock`.
+Credential values in the vault are encrypted with **AES-256-GCM**. The 32-byte key lives in the **macOS Keychain** under service `"AgentOS Credential Store"`, account `"encryption-key"`, and is read once per engine lifetime into a `OnceLock`.
 
 - **Key generation** — first run generates 32 random bytes via `getrandom` and writes to Keychain through the `security` CLI.
 - **Nonce** — 12-byte random nonce per encryption, standard for GCM.
-- **Key never on disk** — the database contains ciphertext + nonce + auth tag; the key only ever lives in the Keychain and process memory.
+- **Key never on disk** — the vault contains ciphertext + nonce + auth tag; the key only ever lives in the Keychain and process memory.
 
-If Keychain is unreachable (non-macOS, locked), the credential store currently falls back to unencrypted with a warning. That fallback is a known rough edge, not a design goal.
+If Keychain is unreachable (non-macOS, locked), the vault currently falls back to unencrypted with a warning. That fallback is a known rough edge, not a design goal.
 
 ## What the engine refuses to do
 
@@ -107,7 +108,7 @@ Each of the [four boundaries](/architecture/overview/#the-four-boundaries) is a 
 | Engine → Python subprocess | Skill runs user-space; SDK dispatches back for any side-effect. |
 | Engine → web bridge (HTTP) | Localhost only (`127.0.0.1:3456`). Read-only DB handle; writes go through the engine socket. |
 
-A compromised skill can't touch the credential store directly — it has to dispatch a `secrets.get(...)` back to the engine, which applies the auth-resolution policy above. A compromised app can't write to the graph directly — its HTTP reads are served from a read-only connection; writes require a capability call.
+A compromised skill can't touch the vault directly — it has to dispatch a `secrets.get(...)` back to the engine, which applies the auth-resolution policy above. A compromised app can't write to the graph directly — its HTTP reads are served from a read-only connection; writes require a capability call.
 
 ## Honest caveats
 
@@ -115,6 +116,6 @@ A few things that CLAUDE.md and the principles assert but the code does not full
 
 - **Decoupling is SDK-layer, not engine-layer.** Nothing in the engine binary stops a rogue skill from hardcoding an app name in a dispatch. The isolation is convention + decorator patterns, enforced at skill validation and code review.
 - **Multi-device is not implemented.** The graph is portable (one file, copy it), but there is no sync daemon, conflict resolution, or merge layer. If two machines edit the same graph file, last-writer-wins via filesystem timestamps.
-- **Keychain fallback is unencrypted.** On systems without Keychain, the credential store currently emits a warning and stores values in plaintext.
+- **Keychain fallback is unencrypted.** On systems without Keychain, the vault currently emits a warning and stores values in plaintext.
 
 See [Architectural laws](/architecture/architectural-laws/) for the full structural constraints.

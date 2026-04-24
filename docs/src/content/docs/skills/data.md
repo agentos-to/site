@@ -60,7 +60,7 @@ If neither `__cache__` nor `__data__` is present, the result passes through unch
 
 ### `__secrets__` — secret store writes
 
-A third reserved key, `__secrets__`, handles importing secrets from external sources (password managers, payment info, identity documents, etc.) into the credential store. The `__secrets__` handler is pure credential store CRUD — it writes credential rows and strips the key. It does **not** create graph entities or edges; entity creation happens through the normal adapter pipeline processing `__result__`. The two systems are joined by `(issuer, identifier)`.
+A third reserved key, `__secrets__`, handles importing secrets from external sources (password managers, payment info, identity documents, etc.) into the vault. The `__secrets__` handler is pure vault CRUD — it writes credential rows and strips the key. It does **not** create graph entities or edges; entity creation happens through the normal adapter pipeline processing `__result__`. The two systems are joined by `(issuer, identifier)`.
 
 ```python
 def import_items(vault, dry_run=False):
@@ -69,7 +69,7 @@ def import_items(vault, dry_run=False):
         return [{"issuer": i["issuer"], "label": i["label"]} for i in items]
 
     return {
-        # Secrets → credential store (engine writes rows, strips key)
+        # Secrets → vault (engine writes rows, strips key)
         "__secrets__": [
             {
                 "item_type": "password",

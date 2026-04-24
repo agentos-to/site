@@ -809,7 +809,7 @@ agentos call run '{"skill":"goodreads","tool":"get_book","params":{"book_id":"49
 Tools can return special keys alongside or instead of shape data:
 
 ```python
-# Store credentials (cookies, API keys) in the credential store
+# Store credentials (cookies, API keys) in the vault
 return {"__secrets__": [http.skill_secret(
     domain=".exa.ai",
     identifier=email,

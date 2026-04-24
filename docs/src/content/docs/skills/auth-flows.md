@@ -27,9 +27,10 @@ artifacts once replay matches byte-for-byte.
    `"fetch"` so UA + `Sec-CH-UA*` + `Sec-Fetch-*` headers ride every
    request automatically; the ambient Jar carries cookies.
 3. **Resolve** credentials via
-   `credentials.retrieve(domain, required=[...])` — matches the first
-   installed `@provides(login_credentials)` skill (1Password, macOS
-   Keychain, …). The LLM never sees raw values.
+   `credentials.retrieve(domain, required=[...])` — walks every
+   `@provides(login_credentials)` provider, vault first (local,
+   ~ms, no prompt), then 1Password, macOS Keychain, and any other
+   provider. The LLM never sees raw values.
 4. **Store** minted tokens via the `__secrets__` envelope on the
    login tool's return. The engine upserts the row keyed on
    `(domain, identifier)`; subsequent authed tools read it as
@@ -88,7 +89,7 @@ async def check_session(**params) -> dict:
 | Field             | Required | Purpose |
 |-------------------|----------|---------|
 | `authenticated`   | yes      | Boolean. If `False`, the engine treats cookies as dead and doesn't persist. |
-| `identifier`      | yes on `authenticated: True` | **Canonical key.** The string the credential store and the graph's account node join on. Email for email-login services, handle for handle-login services, `userId` as a last resort. |
+| `identifier`      | yes on `authenticated: True` | **Canonical key.** The string the vault and the graph's account node join on. Email for email-login services, handle for handle-login services, `userId` as a last resort. |
 | `at`              | yes on authed | The namespace that owns the identifier. Usually an inline `{shape, name, url}` dict — the engine's extraction pipeline upserts the organization/product node as a side effect of the call. |
 | `email`           | opt      | Normalized via `normalize_email`. Skills that have it should populate it even if it equals `identifier`. |
 | `handle`          | opt      | NFKC-casefold via `normalize_handle`. |
@@ -342,13 +343,14 @@ pattern the cookie providers use.
 
 Reference implementations:
 
-- [`skills/secrets/onepassword/`](https://github.com/agentos-to/skills/tree/main/secrets/onepassword) — wraps the `op` CLI, returns 1Password Login items.
+- **`vault`** — a system skill (Rust, `crates/capabilities/src/vault.rs`), not an installable skill. Exposes the local vault (`agentos.db` `credentials` table, AES-256-GCM at rest, key in macOS Keychain) as a `@provides(login_credentials)` provider. Always tried first: ~ms, no prompts. Read-only; only returns what other providers have persisted.
+- [`skills/secrets/onepassword/`](https://github.com/agentos-to/skills/tree/main/secrets/onepassword) — wraps the `op` CLI, returns 1Password Login items. Consulted on a vault miss; its `__secrets__` writeback populates the vault, so subsequent calls bypass it.
 - [`skills/macos/macos-keychain/`](https://github.com/agentos-to/skills/tree/main/macos/macos-keychain) — wraps `security find-internet-password`.
 
 ### The end-to-end story, once
 
 Joe says *"book me a 6pm class at ABP."* Cold state — no row for
-`.approach.app` in the store, not logged into Brave.
+`.approach.app` in the vault, not logged into Brave.
 
 1. `abp.book_class` → engine resolves the `portal` connection's
    api_key auth → store miss → `AuthFailed`.
@@ -356,11 +358,16 @@ Joe says *"book me a 6pm class at ABP."* Cold state — no row for
    `abp.login` with empty params.
 3. ABP `login` calls
    `credentials.retrieve(".approach.app", required=["email", "password"])`.
-4. Engine walks providers: `onepassword.get_credentials(domain=".approach.app")`
+4. SDK walks providers, vault first: `vault.get_credentials(domain=".approach.app")`
+   → `auth_store.read` → store miss (cold state). Vault returns
+   `{provided: false}`, SDK falls through.
+5. Next provider: `onepassword.get_credentials(domain=".approach.app")`
    runs, `op item list --categories Login` finds the ABP Login item,
-   returns `{email, password}` via `__secrets__`.
-5. Engine writes the provider row, returns the resolved creds to
-   ABP's `login`.
+   returns `{email, password}` via `__secrets__`. The engine persists
+   the row; future calls go through the vault directly.
+6. The SDK reads the freshly-written row by identifier, returns
+   `{found, value, identifier, source: "onepassword"}` to ABP's
+   `login`.
 6. ABP `login` runs Cognito `USER_PASSWORD_AUTH` → `IdToken`.
 7. ABP `login` returns another `__secrets__` envelope with
    `{email, password, idToken, refreshToken}`; engine writes the row
@@ -572,7 +579,7 @@ def get_api_key(*, _call=None, **params):
     }
 ```
 
-The engine writes `__secrets__` to the credential store, creates an account entity on the graph, and strips the secrets before the MCP response reaches the agent.
+The engine writes `__secrets__` to the vault, creates an account entity on the graph, and strips the secrets before the MCP response reaches the agent.
 
 ## Cookie resolution chain
 
