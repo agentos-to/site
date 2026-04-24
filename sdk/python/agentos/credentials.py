@@ -34,6 +34,12 @@ from agentos._bridge import dispatch
 
 _CRED_PRIORITY = {"not_required": 0, "present": 1, "missing": 2}
 
+# Vault wins ties. The local encrypted store is ~ms and never prompts —
+# asking any other provider first when the answer is sitting in the vault
+# is architecturally backwards (vault is the user's durable state, not
+# a cache). Everything else sorts by cred_state + insertion order.
+_VAULT_SKILL_ID = "vault"
+
 
 async def retrieve(
     domain: str,
@@ -57,7 +63,10 @@ async def retrieve(
     listing = await capability.list_providers("login_credentials")
     providers = sorted(
         listing.get("providers") or [],
-        key=lambda p: _CRED_PRIORITY.get(p.get("cred_state", "missing"), 2),
+        key=lambda p: (
+            _CRED_PRIORITY.get(p.get("cred_state", "missing"), 2),
+            0 if p.get("skill_id") == _VAULT_SKILL_ID else 1,
+        ),
     )
 
     for provider in providers:
