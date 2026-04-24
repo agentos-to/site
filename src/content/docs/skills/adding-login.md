@@ -15,7 +15,7 @@ For the *why* behind every step, see
 [Auth flows](./auth-flows.md) — this page is the how-to; that
 page is the reference.
 
-## The 6-step recipe
+## The 7-step recipe
 
 ### 1. Split the connection into `public` and authed
 
@@ -215,11 +215,33 @@ resp = await client.get("/orders", headers={"Authorization": token})
 resp = await client.get("/orders")   # cookies ride automatically
 ```
 
-### 6. Ship it
+### 6. Write the `logout` tool
+
+Symmetric with `login`. The service-side revoke is the part the
+engine can't do for you; the engine handles everything else
+(delete skill-written rows, invalidate cache) after your tool
+returns. See [Do I need a `logout` tool?](#do-i-need-a-logout-tool)
+for the full template and the three-verb model
+(`logout` / `clear_session` / `remove`). One new tool in your
+skill, one new line in the connection's `AccountBlock`:
+
+```python
+auth={"type": "api_key",
+      "account": {"check":  "check_session",
+                  "login":  "login",
+                  "logout": "logout"}}   # ← add this
+```
+
+Skipping this step leaves the validator warning live and reduces
+logout to a local-cache delete. Ship it.
+
+### 7. Ship it
 
 ```bash
 ./dev.sh restart                # Python changes don't need a rebuild
 agentos call run '{"skill":"example","tool":"login"}'
+# ... test a few authed tools ...
+agentos call accounts '{"action":"logout","skill":"example"}'
 ```
 
 Expected path end-to-end:
@@ -234,8 +256,15 @@ Expected path end-to-end:
    writeback stamps the row.
 6. The next call to `example.book_thing()` picks up the cookies
    via domain lookup — `account=None` works.
+7. When the user's done, `accounts({action:"logout", skill})`
+   dispatches your `logout` op (service-side revoke), then the
+   engine deletes the skill-written row and invalidates cache.
+   Provider rows (1Password) stay — the password is safe, only
+   the session is gone.
 
 Cold-start, **one call, no passwords typed, no LLM sees a secret.**
+Clean shutdown, **one call, tokens dead at the service, local
+cache clear.**
 
 ## The three credential resolution paths
 
@@ -354,10 +383,61 @@ Three common causes:
 
 ### Do I need a `logout` tool?
 
-Not required. `AccountBlock` has a `logout` slot for services
-where an explicit logout call matters (e.g. server-side session
-revocation). Most skills skip it — closing the portal tab in a
-real browser is handled user-side.
+**Yes — every cookie / api_key / oauth skill should ship one.**
+`check_session`, `login`, and `logout` are the three legs of the
+account protocol; they belong together. The validator
+(`check_logout_presence` in `agent-sdk validate`) warns when a
+skill declares `account.login` without `account.logout`.
+
+The engine dispatches your `logout` op on
+`accounts({action:"logout", skill})`, passes the live session in
+as `params.auth.*`, and runs the cleanup tail (delete skill rows,
+invalidate cache) after you return. Your tool's job is the one
+piece the engine can't do: the service-side revoke call.
+
+Shape:
+
+```python
+@returns({"ok": "boolean", "message": "string"})
+@connection("portal")           # authed connection — we still have the session
+async def logout(**params) -> dict:
+    """Tell the service this session is over."""
+    auth = params.get("auth") or {}
+    token = auth.get("accessToken") or auth.get("idToken") or auth.get("key")
+    if not token:
+        return {"ok": False, "message": "No live token; skipped revoke."}
+
+    resp = await client.post(SERVICE_REVOKE_URL, json={"token": token},
+                              headers={"Authorization": token})
+
+    # Already-revoked tokens often return 400/401 — that's "done," not "failed."
+    if resp["status"] in (200, 204) or _is_already_revoked(resp):
+        return {"ok": True, "message": "Session revoked."}
+    return {"ok": False, "message": f"Revoke failed: HTTP {resp['status']}"}
+```
+
+Wire it into the connection:
+
+```python
+auth={"type": "api_key",           # or "cookies", or "oauth"
+      "account": {"check":  "check_session",
+                  "login":  "login",
+                  "logout": "logout"}}
+```
+
+Full walkthrough (why server-side revoke matters, how the engine
+runs cleanup, the three-verb table — `logout` vs `clear_session`
+vs `remove`) lives in
+[Auth flows § The `logout` tool and server-side revoke](./auth-flows.md#the-logout-tool-and-server-side-revoke).
+
+**Reference:** ABP's Cognito `GlobalSignOut` implementation at
+[`skills/fitness/austin-boulder-project/abp.py`](https://github.com/agentos-to/skills/blob/main/fitness/austin-boulder-project/abp.py).
+
+**Skills without a `logout`** can still be logged out via
+`accounts({action:"clear_session", skill})` — engine-side cleanup
+only, no server call. Good for "I just want to forget the
+session locally," but not for "kill this session everywhere."
+Ship a `logout` tool so your users get the stronger guarantee.
 
 ## See also
 
