@@ -38,6 +38,23 @@ llm = "llm"
 cookie_auth = "cookie_auth"
 oauth_auth = "oauth_auth"
 
+# Browser control — the capability stack for driving a live browser.
+#
+# `cdp_access`       — raw, protocol-level access. A provider returns a CDP
+#                      WebSocket URL + target descriptor for a debug-attachable
+#                      Chromium browser. Tiny surface: one `cdp_connect` tool.
+#                      Brave is today's provider; Chrome/Edge/Arc could join.
+# `browser_session`  — high-level, typed session API on top of `cdp_access`.
+#                      A provider exposes `session_open / navigate / evaluate /
+#                      on_event / get_cookies / get_storage / close`, hides the
+#                      protocol. This is what reverse-engineering, scraping,
+#                      and interaction-driving skills should consume — never
+#                      `cdp_access` directly.
+#
+# See `_roadmap/p2/browser-control-skill.md` for the architecture.
+cdp_access = "cdp_access"
+browser_session = "browser_session"
+
 # Credential provision (password managers, keychains, vaults).
 # Providers declaring these wire in through the engine's
 # `credentials.retrieve` matchmaking — skills' `login` tools resolve

@@ -1773,6 +1773,72 @@ def _name_from_normalize(
     return found
 
 
+def check_logout_presence(skill_dir: Path) -> list[str]:
+    """Warn when a connection declares `account.login` without `account.logout`.
+
+    Per `_roadmap/p1/fix-auth/logout-protocol.md`: every skill that can
+    log in should be able to log out. Server-side revocation (Cognito
+    `GlobalSignOut`, `/session DELETE`, OAuth token revoke) is what makes
+    "log out" more than a cosmetic local-cache delete — without it, tokens
+    stay live at the service after the user thinks they've logged out.
+
+    Walks every `connection(..., auth={... "account": {...}, ...})` call.
+    If the account block names a `login` op, it must also name a `logout`
+    op. Returns warnings (not errors) during the migration window; flip
+    to errors once the bulk-migration project ships.
+    """
+    issues: list[str] = []
+    for rel, _py_file, _source, tree in _iter_skill_py_files(skill_dir):
+        for node in tree.body:
+            if not (isinstance(node, ast.Expr) and isinstance(node.value, ast.Call)):
+                continue
+            call = node.value
+            if not (isinstance(call.func, ast.Name) and call.func.id == "connection"):
+                continue
+
+            # Find auth={...}
+            auth_kwarg = next((kw for kw in call.keywords if kw.arg == "auth"), None)
+            if auth_kwarg is None or not isinstance(auth_kwarg.value, ast.Dict):
+                continue
+
+            # Find "account": {...} inside auth
+            account_val: ast.Dict | None = None
+            for k, v in zip(auth_kwarg.value.keys, auth_kwarg.value.values):
+                if (
+                    isinstance(k, ast.Constant)
+                    and k.value == "account"
+                    and isinstance(v, ast.Dict)
+                ):
+                    account_val = v
+                    break
+            if account_val is None:
+                continue
+
+            # Extract the keys present in the account block
+            account_keys: set[str] = set()
+            for k in account_val.keys:
+                if isinstance(k, ast.Constant) and isinstance(k.value, str):
+                    account_keys.add(k.value)
+
+            if "login" in account_keys and "logout" not in account_keys:
+                # Best-effort: pull the connection name from the first
+                # positional arg so the warning is specific.
+                conn_name = "<unknown>"
+                if call.args and isinstance(call.args[0], ast.Constant):
+                    if isinstance(call.args[0].value, str):
+                        conn_name = call.args[0].value
+                issues.append(
+                    f"{rel}:{call.lineno}: connection({conn_name!r}) declares "
+                    f"`account.login` but no `account.logout`. Every skill that "
+                    f"can log in should be able to log out — the protocol is "
+                    f"symmetric, and server-side revoke is what makes \"logout\" "
+                    f"more than a local-cache delete. See "
+                    f"_roadmap/p1/fix-auth/logout-protocol.md and the `logout` "
+                    f"section of docs/.../skills/adding-login.md."
+                )
+    return issues
+
+
 def check_auth_provider_contract(skill_dir: Path) -> list[str]:
     """Enforce the OAuth / cookie provider return contract at commit time.
 
@@ -2069,6 +2135,7 @@ def audit_skill_dir(skill_dir: Path, shapes_dir: Path | None) -> tuple[int, str 
     all_warnings.extend(check_shape_conformance(skill_dir, shapes_dir))
     all_warnings.extend(check_docstrings(skill_dir))
     all_warnings.extend(check_test_block_refs(skill_dir, fm_data))
+    all_warnings.extend(check_logout_presence(skill_dir))
 
     # Sandbox
     for rel, lineno, module, suggestion in scan_python_sandbox(skill_dir):
