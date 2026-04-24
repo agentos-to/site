@@ -373,6 +373,164 @@ Joe never pasted the password. The LLM never saw it. Adding
 `macos-keychain` later is orthogonal — the freshness arbiter picks
 whichever provider returned first.
 
+## The `logout` tool and server-side revoke
+
+`check_session`, `login`, and `logout` are the three legs of the
+account protocol — they belong in every cookie/api_key/oauth skill,
+together. `check_session` asks "who is this session?"; `login`
+establishes a new session; `logout` ends one.
+
+Agents trigger logout through the engine:
+
+```bash
+agentos call accounts '{"action":"logout","skill":"austin-boulder-project"}'
+# → {
+#     "revoked_server_side": true,
+#     "revoke_result": {"ok": true, "message": "Cognito session revoked."},
+#     "rows_removed": 1
+#   }
+```
+
+The engine walks the declared `account.logout` op, dispatches it with
+the live session injected as `params.auth.*` (so the skill can hit
+the revoke endpoint with the tokens it needs to kill), then runs
+the cleanup tail: delete credential rows where `source == skill_id`,
+invalidate the session cache. Provider rows — the 1Password /
+Keychain rows that hold the password — are deliberately untouched.
+Logout forgets the session, not the password.
+
+### Declaring `logout` on the connection
+
+Extend the connection's `auth.account` block with a `logout` slot:
+
+```python
+connection("portal",
+    base_url="https://portal.api.prod.tilefive.com",
+    domain=".approach.app",
+    client="api",
+    auth={"type": "api_key",
+          "account": {"check":  "check_session",
+                      "login":  "login",
+                      "logout": "logout"}},
+    label="ABP Portal Session")
+```
+
+Same pattern for `cookies` and `oauth` auth types. All three
+slots are just operation names on the same skill — the engine
+finds the op by name and runs it.
+
+### What the `logout` tool looks like
+
+Canonical shape, lifted from ABP's Cognito implementation:
+
+```python
+@test.skip(reason="destructive — revokes the live session")
+@returns({"ok": "boolean", "message": "string"})
+@connection("portal")
+async def logout(**params) -> dict:
+    """Revoke the current Cognito session via GlobalSignOut.
+
+    GlobalSignOut invalidates every IdToken / AccessToken for this
+    user across all devices — the correct "log out" semantic. After
+    it returns, every access token dies within its natural TTL
+    (~1h for Cognito); every refresh token is dead immediately.
+
+    Engine runs the cleanup tail (delete skill rows, invalidate
+    cache) after this returns, so no `__secrets__` here.
+    """
+    auth = params.get("auth") or {}
+    access_token = auth.get("accessToken")
+    if not access_token:
+        # No live session to revoke — engine's cleanup still runs.
+        return {"ok": False, "message": "No live token; skipped revoke."}
+
+    resp = await client.post(
+        COGNITO_ENDPOINT,
+        json={"AccessToken": access_token},
+        headers={
+            "Content-Type": "application/x-amz-json-1.1",
+            "X-Amz-Target": "AWSCognitoIdentityProviderService.GlobalSignOut",
+        },
+    )
+
+    # Already-revoked tokens return NotAuthorizedException —
+    # that's "done," not "failed."
+    if resp["status"] == 200:
+        return {"ok": True, "message": "Cognito session revoked."}
+    j = resp.get("json") or {}
+    if (j.get("__type") if isinstance(j, dict) else None) == "NotAuthorizedException":
+        return {"ok": True, "message": "Session already expired."}
+    return {"ok": False,
+            "message": f"Revoke failed: HTTP {resp['status']}"}
+```
+
+Key points:
+
+- **Runs on the authed connection**, not `public`. The revoke
+  endpoint needs the live session to prove who's logging out.
+- **Engine owns the cleanup tail.** The skill doesn't delete rows
+  or clear cache — it does the service call and returns
+  `{ok, message}`. Keeps skills focused; keeps cleanup uniform.
+- **No `__secrets__` return.** Returning one is a no-op; the
+  engine treats logout as a "forget," not a "store" flow.
+- **Idempotent.** A second logout call finds no access token and
+  returns `ok: false` honestly — the engine reports
+  `revoked_server_side: false`, no lie about the service call.
+- **Failing revoke doesn't block cleanup.** If the revoke call
+  errors out (network, expired token, service down), the engine
+  *still* deletes the local rows. Rationale: the user asked to
+  log out; tokens need to be gone locally regardless of whether
+  the server got the message. The failure surfaces in the
+  response.
+
+### Why server-side revoke matters
+
+Two places "logout" can happen:
+
+- **Client-side only.** Delete our copy of the cookie/token. Fast,
+  offline, obvious — *but the token is still valid at the service*.
+  Anyone with a copy (leaked DB backup, stolen laptop, malware)
+  can keep using it until natural expiry: 30+ days for Cognito,
+  indefinite for OAuth refresh tokens, whatever the service set
+  for cookies.
+- **Server-side revoke.** Tell the service "end this session." For
+  cookies this usually hits `/logout`; for JWT/OAuth it's the
+  revoke endpoint; for Cognito it's `GlobalSignOut`. Now the
+  token is dead wherever it was copied to.
+
+AgentOS's threat model makes this load-bearing.
+`~/.agentos/data/agentos.db` holds every session the engine has
+collected. If that file walks out the door, every session in it is
+live until natural expiry — unless the service was told to revoke.
+Without a `logout` tool, your logout is cosmetic: good for
+"switching accounts," inadequate for "my laptop was stolen and I
+want to kill everything."
+
+That's why every cookie/api_key/oauth skill should ship a `logout`
+tool. The validator warns when a connection declares
+`account.login` without `account.logout` — a warning, not an
+error, during the migration window while existing skills catch up.
+
+### `logout` vs `clear_session` vs `remove`
+
+Three engine verbs, ordered by scope of destruction:
+
+| Verb | Engine action | Server called? |
+|---|---|---|
+| `accounts({action:"logout",        skill})` | Calls the skill's `logout` op, **then** deletes rows where `source == skill_id` + invalidates cache. | Yes (when the skill declares a `logout` op) |
+| `accounts({action:"clear_session", skill})` | Deletes rows where `source == skill_id` + invalidates cache. No skill dispatch. | No |
+| `accounts({action:"remove",        skill})` | Deletes **every** credential row for the domain, including provider rows (1Password, Keychain). | No |
+
+`clear_session` is the honest "I just want to forget the session
+locally" — debugging, rotating, clearing a bad cache. `logout` is
+the same plus the service call. `remove` is the nuclear option
+for "I'm done with this account entirely."
+
+Skills without a `logout` op can still be logged out via
+`clear_session`: the cleanup tail is the same; only the server-side
+call is missing. So adding `logout` is always an upgrade over the
+baseline — never a regression.
+
 ## Dashboard connections
 
 Skills with web dashboards declare a `dashboard` connection alongside their `api` connection. Connections are declared at **module level** in Python; see [Connections & Auth](./connections.md) for the full surface.

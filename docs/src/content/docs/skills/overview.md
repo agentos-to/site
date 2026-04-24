@@ -162,6 +162,42 @@ Standard tool constants (import from `agentos`):
 - `cookie_auth`, `oauth_auth` — auth provision (browser cookie stores, OAuth token issuers)
 - `login_credentials`, `password`, `api_key` — credential provision (password managers, keychains). Building a login flow? See [How to add login to a skill](./adding-login.md). For reference on credential providers, see [Auth Flows § credential providers](./auth-flows#credential-providers).
 - `llm` — LLM inference (see [llm.md](llm.md))
+- `cdp_access` — access to a live browser via Chrome DevTools Protocol (navigate, evaluate JS, hook fetch, read storage). Provided by Chromium-family browser skills; consumed by RE / scraping / any skill that needs in-page work. Name follows the `*_auth` / `*_access` convention — the capability is "access to a browser"; CDP is the protocol. Contract in [the reverse-engineering skill roadmap](../../../../_roadmap/p2/reverse-engineering-skill.md) until it lands on this page.
+
+### The capability pattern, in one paragraph
+
+**Skills never name each other.** A consumer declares what it needs
+(`capabilities: [llm, cdp_access]` in its readme frontmatter, or
+via an SDK call like `await cdp.connect(...)`); the engine walks
+every
+installed `@provides(<name>)` skill, scores the matches, dispatches
+to the winner. The consumer doesn't import the provider; the
+provider doesn't know who's calling. This is how
+`login_credentials` matchmaking works for password managers, how
+`llm` matchmaking works for inference — and it's the same
+mechanism for every new capability you introduce. If you find
+yourself writing `from skills.other_skill import foo`, stop: the
+capability pattern is almost always what you want instead.
+
+### Consuming a capability
+
+```python
+# In any skill — no import of the provider skill:
+from agentos import llm, cdp
+
+result = await llm.chat(messages=[...])
+# → engine matchmakes @provides(llm), picks one, dispatches
+
+session = await cdp.connect(mode="attach")
+# → engine matchmakes @provides(cdp_access), returns a browser session
+await session.navigate("https://example.com")
+```
+
+The SDK module (`agentos.llm`, `agentos.cdp`, etc.) is a thin
+dispatch helper — it asks the engine "give me a provider for X"
+and returns whatever that provider hands back. Each capability
+gets its own module with a typed surface so consumers get
+LSP-hover docs without knowing which provider answered.
 
 ### @connection(name) — bind to auth connection
 
