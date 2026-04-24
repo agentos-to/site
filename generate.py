@@ -1151,14 +1151,14 @@ def build_skills_index(skills: list[dict], known_shapes: set[str]) -> dict[str, 
 
 
 # =============================================================================
-# Tool surface codegen — lives in docs/codegen/tool_surface.py (D11)
+# Registry-driven codegen — lives in docs/codegen/ (D11)
 # =============================================================================
 #
-# Kept modular: the registry is big enough to deserve its own module, and
-# future SDK codegen (sdk-skills Client class) will sit next to it under
-# docs/codegen/. generate.py stays the orchestrator.
+# Each submodule consumes the registry (emitted by `system.schema`) and
+# produces one output. generate.py stays the orchestrator.
 
 from codegen.tool_surface import load_tool_surface, emit_tool_surface_docs  # noqa: E402
+from codegen.sdk_client import emit_sdk_client  # noqa: E402
 
 
 # =============================================================================
@@ -1453,17 +1453,24 @@ def main():
         emit_skill_docs(skills, docs_out / "skills" / "reference", known_shapes)
         print(f"  skills: {docs_out / 'skills' / 'reference'} ({len(skills)} pages + index)")
 
-        # Tool surface — registry is single source of truth per D11. Opt
-        # out cleanly if the engine isn't running; drift will surface next
-        # time someone runs generate with the engine up.
+        # Registry-driven codegen — both outputs read the same `system.schema`
+        # dump. Opt out cleanly if the engine isn't running.
         agentos_bin = args.agentos_bin or "agentos"
         try:
             namespaces = load_tool_surface(agentos_bin)
-            emit_tool_surface_docs(namespaces, docs_out / "tool-surface")
-            ops_total = sum(len(ns.get("ops", [])) for ns in namespaces)
-            print(f"  tool-surface: {docs_out / 'tool-surface'} ({len(namespaces)} namespaces, {ops_total} ops)")
         except SystemExit:
-            print(f"  tool-surface: skipped (engine unreachable) — run `./dev.sh restart` and retry", file=sys.stderr)
+            print(f"  tool-surface + sdk-client: skipped (engine unreachable) — run `./dev.sh restart` and retry", file=sys.stderr)
+            return
+
+        # Tool-surface MDX pages.
+        emit_tool_surface_docs(namespaces, docs_out / "tool-surface")
+        ops_total = sum(len(ns.get("ops", [])) for ns in namespaces)
+        print(f"  tool-surface: {docs_out / 'tool-surface'} ({len(namespaces)} namespaces, {ops_total} ops)")
+
+        # SDK Client — emits sdk-skills/agentos/_engine_client.py.
+        sdk_out = workspace / "sdk-skills" / "agentos" / "_engine_client.py"
+        sdk_out.write_text(emit_sdk_client(namespaces))
+        print(f"  sdk-client: {sdk_out}")
         return
 
     langs = [args.lang] if args.lang else list(EMITTERS.keys())
