@@ -74,6 +74,14 @@ The engine picks the skill. If you install five LLM skills, the engine resolves 
 
 This is the decoupling law. Installing or uninstalling an app has zero impact on skills, and vice versa. The engine is the sole broker.
 
+### Two kinds of skills: installed and system
+
+Most skills are **installed** — Python modules under `skills/<category>/<name>/`, sandboxed, user-space, installable and removable. They're how AgentOS integrates with services (Gmail, 1Password, Linear, ABP).
+
+A smaller set are **system skills** — engine-native `@provides(X)` implementations compiled into the Rust binary under `crates/capabilities/`. They participate in matchmaking identically to installed skills (same `capability.list_providers` / `capability.call` path, same `@provides` walk) but the tool body runs in Rust and the code can't be forked or modified by skill authors. System skills exist for **system-level primitives**: vault access, URL parsing, hashing, DNS, things that should be present on any engine and that benefit from being co-located with the key material or syscalls they touch.
+
+The first system skill is `vault` — `@provides(login_credentials)` over the local encrypted credential vault. When a skill calls `credentials.retrieve(domain, required=[...])`, the matchmaker tries vault first (local, ~ms, no prompt), then falls through to installed providers (1Password, macOS Keychain) on a miss. External providers' successful matches write back to the vault, so the next call is served locally.
+
 [Security](/architecture/security/) explains why this matters for trust and auth.
 
 ## Where state lives

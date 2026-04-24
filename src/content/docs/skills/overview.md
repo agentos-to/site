@@ -179,6 +179,24 @@ mechanism for every new capability you introduce. If you find
 yourself writing `from skills.other_skill import foo`, stop: the
 capability pattern is almost always what you want instead.
 
+### System skills — engine-native providers
+
+A smaller set of `@provides(X)` implementations live in the engine
+itself, under `crates/capabilities/`, as Rust closures. These are
+**system skills**: compiled in, universally available, not
+installable / uninstallable / forkable by skill authors. They
+participate in matchmaking exactly like the Python skills you
+write — `capability.list_providers` sees them, `capability.call`
+dispatches to them, the same `@provides(X)` walk finds them. The
+difference is in-process: the tool body runs in Rust, not Python.
+
+You don't build system skills the way you build installed skills;
+they're implemented in the engine repo. As a skill author, you
+just see them as providers. The first one is `vault`
+(`@provides(login_credentials)` over the local encrypted
+credential store). See [`_roadmap/p2/system-capes/`](https://github.com/agentos-to/core/tree/main/_roadmap/p2/system-capes)
+in the engine repo for the candidate roadmap (url, hash, time).
+
 ### Consuming a capability
 
 ```python
