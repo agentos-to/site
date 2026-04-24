@@ -15,10 +15,6 @@ sidebar:
 
 - [`model[]`](/shapes/reference/model/) — from `list_models`
 
-## Connections
-
-- **`api`**
-
 ## Readme
 
 OpenRouter lets AgentOS access models from multiple providers using one API key and one `chat` interface.

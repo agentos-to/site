@@ -10,7 +10,7 @@ A generic collection of items. Base type for shelf (books) and playlist (videos)
 | Metadata | Value |
 |---|---|
 | **Plural** | `lists` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 
@@ -21,12 +21,14 @@ A generic collection of items. Base type for shelf (books) and playlist (videos)
 | `listType` | `string` |
 | `isDefault` | `boolean` |
 | `isPublic` | `boolean` |
+| `itemCount` | `integer` |
+| `items` | `json` |
 
 ## Relations
 
 | Relation | Target |
 |---|---|
-| `platform` | [`product`](/shapes/reference/product/) |
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `belongsTo` | [`account`](/shapes/reference/account/) |
 | `contains` | [`product[]`](/shapes/reference/product/) |
 

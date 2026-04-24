@@ -18,10 +18,6 @@ sidebar:
 - [`domain`](/shapes/reference/domain/) — from `get_domain`
 - [`domain[]`](/shapes/reference/domain/) — from `list_domains`
 
-## Connections
-
-- **`api`**
-
 ## Readme
 
 Manage domains and DNS records in a Gandi account.

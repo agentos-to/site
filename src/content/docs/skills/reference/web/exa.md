@@ -13,13 +13,9 @@ sidebar:
 
 ## Returns shapes
 
+- [`account`](/shapes/reference/account/) — from `check_session`
 - [`result[]`](/shapes/reference/result/) — from `search`
 - [`webpage`](/shapes/reference/webpage/) — from `read_webpage`
-
-## Connections
-
-- **`api`**
-- **`dashboard`**
 
 ## Readme
 

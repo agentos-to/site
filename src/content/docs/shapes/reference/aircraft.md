@@ -42,7 +42,9 @@ From [`product`](/shapes/reference/product/):
 | `barcode` | `string` |
 | `calories` | `number` |
 | `categories` | `string[]` |
+| `category` | `string` |
 | `currency` | `string` |
+| `customizationGroups` | `json` |
 | `department` | `string` |
 | `images` | `json` |
 | `novaGroup` | `integer` |

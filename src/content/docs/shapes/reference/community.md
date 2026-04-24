@@ -11,19 +11,22 @@ An online community — a subreddit, Facebook group, or similar.
 |---|---|
 | **Plural** | `communities` |
 | **Subtitle field** | `text` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 
 | Field | Type |
 |---|---|
 | `privacy` | `string` |
+| `memberCount` | `integer` |
+| `subscriberCount` | `integer` |
+| `allowCrypto` | `boolean` |
 
 ## Relations
 
 | Relation | Target |
 |---|---|
-| `platform` | [`product`](/shapes/reference/product/) |
+| `at` | [`actor`](/shapes/reference/actor/) |
 
 ## Prior art
 

@@ -13,14 +13,10 @@ sidebar:
 
 ## Returns shapes
 
+- [`account`](/shapes/reference/account/) — from `get_person`
+- [`account[]`](/shapes/reference/account/) — from `list_persons`, `search_persons`
 - [`event`](/shapes/reference/event/) — from `get_event`
 - [`event[]`](/shapes/reference/event/) — from `list_events`
-- [`person`](/shapes/reference/person/) — from `get_person`
-- [`person[]`](/shapes/reference/person/) — from `list_persons`, `search_persons`
-
-## Connections
-
-- **`api`**
 
 ## Readme
 

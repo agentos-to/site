@@ -20,6 +20,11 @@ The result just carries search-specific metadata (when indexed, what type).
 |---|---|
 | `indexedAt` | `datetime` |
 | `resultType` | `string` |
+| `externalUrl` | `url` |
+| `postId` | `string` |
+| `score` | `integer` |
+| `similarity` | `number` |
+| `community` | `string` |
 
 ## Prior art
 

@@ -20,7 +20,10 @@ A DNS record for a domain. One domain has many records (A, CNAME, MX, TXT, etc.)
 | `domain` | `string` |
 | `recordName` | `string` |
 | `recordType` | `string` |
+| `type` | `string` |
 | `ttl` | `integer` |
+| `priority` | `integer` |
+| `recordId` | `string` |
 | `values` | `string[]` |
 
 ## Prior art

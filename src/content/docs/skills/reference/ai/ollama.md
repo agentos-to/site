@@ -16,11 +16,6 @@ sidebar:
 - [`loaded_model[]`](/shapes/reference/loaded_model/) — from `ps`
 - [`model[]`](/shapes/reference/model/) — from `list_models`, `list_models_cli`
 
-## Connections
-
-- **`api`** — Ollama REST API — fast inference path, requires server to be running
-- **`cli`** — Ollama CLI — can start the server, pull/delete models, management ops
-
 ## Readme
 
 Run local AI models — inference, tool calling, and model management — entirely on your machine. No API keys, no cloud, no cost per token.

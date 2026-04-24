@@ -11,10 +11,6 @@ sidebar:
 | **Capabilities** | `http` |
 | **Website** | <https://www.logo.dev> |
 
-## Connections
-
-- **`api`**
-
 ## Readme
 
 Company logo API - get logos for any brand by domain, stock ticker, or company name.

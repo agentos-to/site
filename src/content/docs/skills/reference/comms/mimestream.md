@@ -18,10 +18,6 @@ sidebar:
 - [`email`](/shapes/reference/email/) — from `get_email`
 - [`email[]`](/shapes/reference/email/) — from `list_emails`, `search_emails`
 
-## Connections
-
-- **`db`**
-
 ## Readme
 
 Read and search email from [Mimestream](https://mimestream.com/), a native macOS email client for Gmail.

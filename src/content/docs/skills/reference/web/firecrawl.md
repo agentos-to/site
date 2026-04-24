@@ -15,10 +15,6 @@ sidebar:
 
 - [`webpage`](/shapes/reference/webpage/) — from `read_webpage`
 
-## Connections
-
-- **`api`**
-
 ## Readme
 
 Read webpages with full browser rendering. Handles JS-heavy sites that other tools struggle with.

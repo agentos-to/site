@@ -13,7 +13,7 @@ just a post that replies_to another post. Reviews extend post via `also`.
 |---|---|
 | **Plural** | `posts` |
 | **Subtitle field** | `author` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 
@@ -21,11 +21,15 @@ just a post that replies_to another post. Reviews extend post via `also`.
 |---|---|
 | `externalUrl` | `url` |
 | `postType` | `string` |
+| `score` | `integer` |
+| `commentCount` | `integer` |
+| `community` | `string` |
 
 ## Relations
 
 | Relation | Target |
 |---|---|
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `postedBy` | [`account`](/shapes/reference/account/) |
 | `publish` | [`community`](/shapes/reference/community/) |
 | `repliesTo` | [`post`](/shapes/reference/post/) |

@@ -15,11 +15,6 @@ sidebar:
 
 - [`webpage[]`](/shapes/reference/webpage/) — from `list_webpages`, `search_webpages`
 
-## Connections
-
-- **`history`**
-- **`cookies_db`**
-
 ## Readme
 
 Access browsing history, bookmarks, cookies, and session credentials from Brave Browser's local databases.

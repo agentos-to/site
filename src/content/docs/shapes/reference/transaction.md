@@ -11,7 +11,7 @@ A financial transaction — credit card charge, bank transfer, etc.
 |---|---|
 | **Plural** | `transactions` |
 | **Subtitle field** | `category` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 
@@ -32,7 +32,8 @@ A financial transaction — credit card charge, bank transfer, etc.
 
 | Relation | Target |
 |---|---|
-| `account` | [`account`](/shapes/reference/account/) |
+| `at` | [`actor`](/shapes/reference/actor/) |
+| `account` | [`financial_account`](/shapes/reference/financial_account/) |
 
 ## Prior art
 
@@ -44,5 +45,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [chase](/skills/reference/finance/chase/) — `get_transactions`
 - [copilot-money](/skills/reference/finance/copilot-money/) — `fetch_transactions`

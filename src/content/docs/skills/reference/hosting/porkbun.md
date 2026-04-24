@@ -16,10 +16,6 @@ sidebar:
 - [`dns_record[]`](/shapes/reference/dns_record/) — from `list_dns_records`
 - [`domain[]`](/shapes/reference/domain/) — from `list_domains`
 
-## Connections
-
-- **`api`**
-
 ## Readme
 
 Manage domains and DNS records in a Porkbun account.

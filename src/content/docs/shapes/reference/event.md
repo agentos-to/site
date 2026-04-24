@@ -18,7 +18,7 @@ Use startDate / endDate for the actual event timing.
 |---|---|
 | **Plural** | `events` |
 | **Subtitle field** | `eventType` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 
@@ -37,16 +37,30 @@ Use startDate / endDate for the actual event timing.
 | `sourceUrl` | `url` |
 | `sourceTitle` | `string` |
 | `icalUid` | `string` |
+| `distinctId` | `string` |
+| `currentUrl` | `string` |
+| `properties` | `json` |
+| `articleUrl` | `url` |
+| `webcastUrl` | `url` |
+| `wikipediaUrl` | `url` |
+| `patchImage` | `url` |
+| `flightNumber` | `integer` |
+| `rocketId` | `string` |
+| `launchpadId` | `string` |
+| `crewIds` | `string[]` |
+| `reusedBoosters` | `string[]` |
+| `landingOutcomes` | `json` |
 
 ## Relations
 
 | Relation | Target |
 |---|---|
-| `platform` | [`product`](/shapes/reference/product/) |
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `involves` | [`person[]`](/shapes/reference/person/) |
 | `location` | [`place`](/shapes/reference/place/) |
 | `organizer` | [`person`](/shapes/reference/person/) |
 | `creator` | [`person`](/shapes/reference/person/) |
+| `person` | [`person`](/shapes/reference/person/) |
 | `attachments` | [`file[]`](/shapes/reference/file/) |
 
 ## Used as a base by
@@ -65,5 +79,5 @@ External standards this shape draws from or aligns with. See [Shape design princ
 ## Skills that produce this shape
 
 - [google-calendar](/skills/reference/productivity/google-calendar/) — `list_events`, `search_events`, `get_event`, `create_event`, `update_event`
-- [spacex](/skills/reference/fun/spacex/) — `list_upcoming`, `list_past`, `get_launch`
+- [spacex](/skills/reference/logistics/spacex/) — `list_upcoming`, `list_past`, `get_launch`
 - [posthog](/skills/reference/web/posthog/) — `list_events`, `get_event`

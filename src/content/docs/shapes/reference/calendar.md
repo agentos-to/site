@@ -11,7 +11,7 @@ A calendar — container for events.
 |---|---|
 | **Plural** | `calendars` |
 | **Subtitle field** | `source` |
-| **Identity** | `platform`, `calendarId` |
+| **Identity** | `at`, `calendarId` |
 
 ## Fields
 
@@ -31,6 +31,7 @@ A calendar — container for events.
 
 | Relation | Target |
 |---|---|
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `owner` | [`person`](/shapes/reference/person/) |
 | `events` | [`event[]`](/shapes/reference/event/) |
 

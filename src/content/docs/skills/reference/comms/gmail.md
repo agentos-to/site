@@ -21,11 +21,6 @@ sidebar:
 - [`tag`](/shapes/reference/tag/) — from `create_label`, `update_label`
 - [`tag[]`](/shapes/reference/tag/) — from `list_labels`
 
-## Connections
-
-- **`gmail`**
-- **`sync`**
-
 ## Readme
 
 Full-featured email via the [Gmail REST API](https://developers.google.com/gmail/api) — read, search, send, reply, forward, label, archive, draft, attachments, filters, and batch operations.

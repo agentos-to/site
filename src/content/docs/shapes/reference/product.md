@@ -12,11 +12,13 @@ Cross-skill: Amazon products, Uber Eats grocery items, any retail catalog.
 |---|---|
 | **Plural** | `products` |
 | **Subtitle field** | `brand` |
+| **Identity (any)** | `url` |
 
 ## Fields
 
 | Field | Type |
 |---|---|
+| `category` | `string` |
 | `price` | `string` |
 | `priceAmount` | `number` |
 | `originalPrice` | `string` |
@@ -38,6 +40,7 @@ Cross-skill: Amazon products, Uber Eats grocery items, any retail catalog.
 | `novaGroup` | `integer` |
 | `calories` | `number` |
 | `servingSize` | `string` |
+| `customizationGroups` | `json` |
 
 ## Relations
 
@@ -52,7 +55,6 @@ Cross-skill: Amazon products, Uber Eats grocery items, any retail catalog.
 - [`aircraft`](/shapes/reference/aircraft/)
 - [`book`](/shapes/reference/book/)
 - [`hardware`](/shapes/reference/hardware/)
-- [`software`](/shapes/reference/software/)
 
 ## Prior art
 

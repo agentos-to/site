@@ -19,10 +19,6 @@ sidebar:
 - [`message[]`](/shapes/reference/message/) — from `op_list_messages`, `op_search_messages`
 - [`person[]`](/shapes/reference/person/) — from `op_list_persons`
 
-## Connections
-
-- **`db`**
-
 ## Readme
 
 Read WhatsApp messages from the local macOS database. Read-only access to message history.

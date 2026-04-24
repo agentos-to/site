@@ -11,6 +11,8 @@ An offer wraps one or more flights into a bookable unit.
 | Metadata | Value |
 |---|---|
 | **Plural** | `offers` |
+| **Subtitle field** | `price` |
+| **Identity** | `id` |
 
 ## Fields
 
@@ -23,6 +25,7 @@ An offer wraps one or more flights into a bookable unit.
 | `validFrom` | `datetime` |
 | `validUntil` | `datetime` |
 | `bookingToken` | `string` |
+| `departureToken` | `string` |
 
 ## Relations
 
@@ -42,4 +45,5 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
+- [united](/skills/reference/logistics/united/) — `search_flights`
 - [serpapi](/skills/reference/web/serpapi/) — `search_offers`, `list_offers`, `get_offer`

@@ -11,7 +11,7 @@ A source code repository.
 |---|---|
 | **Plural** | `repositories` |
 | **Subtitle field** | `language` |
-| **Identity** | `path`, `url` |
+| **Identity (any)** | `path`, `url` |
 
 ## Fields
 

@@ -24,6 +24,7 @@ drive has no likes.
 | `resolution` | `string` |
 | `frameRate` | `number` |
 | `codec` | `string` |
+| `viewCount` | `integer` |
 
 ## Relations
 

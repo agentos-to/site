@@ -20,7 +20,7 @@ Train journey = trip         |  each train boarded = leg
 |---|---|
 | **Plural** | `trips` |
 | **Subtitle field** | `tripType` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 
@@ -45,11 +45,17 @@ Train journey = trip         |  each train boarded = leg
 | `stops` | `integer` |
 | `bookingToken` | `string` |
 | `carbonEmissions` | `json` |
+| `isPool` | `boolean` |
+| `isReserve` | `boolean` |
+| `guest` | `json` |
+| `marketplace` | `string` |
+| `vehicle` | `json` |
 
 ## Relations
 
 | Relation | Target |
 |---|---|
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `origin` | [`place`](/shapes/reference/place/) |
 | `destination` | [`place`](/shapes/reference/place/) |
 | `legs` | [`leg[]`](/shapes/reference/leg/) |

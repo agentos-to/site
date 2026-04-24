@@ -11,7 +11,7 @@ A group or community — online group, reading group, etc.
 |---|---|
 | **Plural** | `groups` |
 | **Subtitle field** | `category` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 

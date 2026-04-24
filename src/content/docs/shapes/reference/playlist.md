@@ -27,14 +27,16 @@ From [`list`](/shapes/reference/list/):
 |---|---|
 | `isDefault` | `boolean` |
 | `isPublic` | `boolean` |
+| `itemCount` | `integer` |
+| `items` | `json` |
 | `listId` | `string` |
 | `listType` | `string` |
 | `privacy` | `string` |
 
 | Relation | Target |
 |---|---|
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `belongsTo` | [`account`](/shapes/reference/account/) |
-| `platform` | [`product`](/shapes/reference/product/) |
 
 ## Prior art
 

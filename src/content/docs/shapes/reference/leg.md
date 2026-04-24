@@ -44,6 +44,10 @@ A direct Uber ride is one leg. A multi-stop Uber ride has one leg per stop pair.
 | `aircraft` | [`aircraft`](/shapes/reference/aircraft/) |
 | `trip` | [`trip`](/shapes/reference/trip/) |
 
+## Used as a base by
+
+- [`flight`](/shapes/reference/flight/)
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

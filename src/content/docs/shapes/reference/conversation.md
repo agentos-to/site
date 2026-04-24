@@ -12,7 +12,7 @@ transcript, etc. Contains messages and links to participants.
 |---|---|
 | **Plural** | `conversations` |
 | **Subtitle field** | `text` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 
@@ -23,6 +23,8 @@ transcript, etc. Contains messages and links to participants.
 | `unreadCount` | `integer` |
 | `messageCount` | `integer` |
 | `accountEmail` | `string` |
+| `historyId` | `string` |
+| `source` | `string` |
 | `cwd` | `string` |
 | `gitBranch` | `string` |
 
@@ -30,7 +32,7 @@ transcript, etc. Contains messages and links to participants.
 
 | Relation | Target |
 |---|---|
-| `platform` | [`product`](/shapes/reference/product/) |
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `participant` | [`actor[]`](/shapes/reference/actor/) |
 | `message` | [`message[]`](/shapes/reference/message/) |
 | `in` | [`folder`](/shapes/reference/folder/) |
@@ -46,6 +48,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 ## Skills that produce this shape
 
 - [granola](/skills/reference/productivity/granola/) — `op_list_conversations`, `op_get_conversation`
+- [cursor](/skills/reference/dev/cursor/) — `op_list_sessions`, `op_backfill_session`, `op_get_session`
 - [claude](/skills/reference/ai/claude/) — `list_conversations`, `search_conversations`, `list_conversations_cli`, `get_conversation`, `read_conversation_cli`
 - [mimestream](/skills/reference/comms/mimestream/) — `list_conversations`, `get_conversation`
 - [imessage](/skills/reference/comms/imessage/) — `op_list_conversations`, `op_get_conversation`

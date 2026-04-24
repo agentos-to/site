@@ -13,13 +13,10 @@ sidebar:
 
 ## Returns shapes
 
+- [`account`](/shapes/reference/account/) — from `whoami`
 - [`project[]`](/shapes/reference/project/) — from `list_projects`
 - [`task`](/shapes/reference/task/) — from `get_task`, `create_task`, `update_task`
 - [`task[]`](/shapes/reference/task/) — from `list_tasks`
-
-## Connections
-
-- **`api`**
 
 ## Readme
 

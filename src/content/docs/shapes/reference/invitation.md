@@ -25,7 +25,7 @@ published = when the invitation was created/sent.
 |---|---|
 | **Plural** | `invitations` |
 | **Subtitle field** | `invitationType` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 
 ## Fields
 
@@ -48,7 +48,7 @@ published = when the invitation was created/sent.
 | `inviter` | [`account`](/shapes/reference/account/) |
 | `invitee` | [`account`](/shapes/reference/account/) |
 | `organization` | [`organization`](/shapes/reference/organization/) |
-| `platform` | [`product`](/shapes/reference/product/) |
+| `at` | [`actor`](/shapes/reference/actor/) |
 
 ## Prior art
 

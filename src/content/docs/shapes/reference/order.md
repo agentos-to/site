@@ -12,7 +12,7 @@ Used for both e-commerce (Amazon) and delivery (Uber Eats) orders.
 |---|---|
 | **Plural** | `orders` |
 | **Subtitle field** | `total` |
-| **Identity** | `platform`, `orderId` |
+| **Identity** | `at`, `orderId` |
 
 ## Fields
 
@@ -35,12 +35,23 @@ Used for both e-commerce (Amazon) and delivery (Uber Eats) orders.
 | `taxes` | `number` |
 | `summary` | `string` |
 | `fareBreakdown` | `json` |
+| `deliveryInstructions` | `string` |
+| `interactionType` | `string` |
+| `orderUuid` | `string` |
+| `body` | `text` |
+| `head` | `text` |
+| `messages` | `json` |
+| `timeline` | `json` |
+| `itemStates` | `json` |
+| `latestArrival` | `datetime` |
+| `progress` | `number` |
+| `progressTotal` | `number` |
 
 ## Relations
 
 | Relation | Target |
 |---|---|
-| `platform` | [`platform`](/shapes/reference/platform/) |
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `contains` | [`product[]`](/shapes/reference/product/) |
 | `shippingAddress` | [`place`](/shapes/reference/place/) |
 | `store` | [`place`](/shapes/reference/place/) |

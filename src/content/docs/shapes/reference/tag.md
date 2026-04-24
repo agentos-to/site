@@ -20,6 +20,8 @@ a PR has labels, a git commit has tags.
 |---|---|
 | `color` | `string` |
 | `tagType` | `string` |
+| `annotated` | `boolean` |
+| `hash` | `string` |
 
 ## Prior art
 

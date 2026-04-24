@@ -42,18 +42,22 @@ From [`task`](/shapes/reference/task/) · [`file`](/shapes/reference/file/):
 | `labels` | `string[]` |
 | `lineCount` | `integer` |
 | `mimeType` | `string` |
+| `parentId` | `string` |
 | `path` | `string` |
 | `priority` | `integer` |
+| `projectId` | `string` |
 | `remoteId` | `string` |
 | `sha` | `string` |
 | `size` | `integer` |
 | `startedAt` | `datetime` |
 | `state` | `string` |
+| `target` | `json` |
 | `targetDate` | `datetime` |
 
 | Relation | Target |
 |---|---|
 | `assignedTo` | [`person`](/shapes/reference/person/) |
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `attachedTo` | [`message`](/shapes/reference/message/) |
 | `blockedBy` | [`task[]`](/shapes/reference/task/) |
 | `blocks` | [`task[]`](/shapes/reference/task/) |

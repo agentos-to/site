@@ -18,11 +18,6 @@ sidebar:
 - [`meeting`](/shapes/reference/meeting/) — from `op_get_meeting`
 - [`meeting[]`](/shapes/reference/meeting/) — from `op_list_meetings`
 
-## Connections
-
-- **`api`** — Granola REST API — live data, requires network
-- **`cache`** — Local app cache — instant, offline, read-only
-
 ## Readme
 
 Meeting transcripts and AI summaries from [Granola](https://granola.ai) — automatically captured as you meet.

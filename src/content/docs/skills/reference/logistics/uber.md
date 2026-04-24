@@ -13,6 +13,7 @@ sidebar:
 
 ## Returns shapes
 
+- [`account`](/shapes/reference/account/) — from `check_session`, `check_eats_session`
 - [`order`](/shapes/reference/order/) — from `get_delivery`, `get_messages`, `add_to_cart`, `checkout`, `track_delivery`
 - [`order[]`](/shapes/reference/order/) — from `list_deliveries`, `get_cart`
 - [`place`](/shapes/reference/place/) — from `get_store`
@@ -21,11 +22,6 @@ sidebar:
 - [`product[]`](/shapes/reference/product/) — from `search_products`
 - [`trip`](/shapes/reference/trip/) — from `get_trip`
 - [`trip[]`](/shapes/reference/trip/) — from `list_trips`
-
-## Connections
-
-- **`web`** — Uber rider account — requires cookies from a logged-in browser session
-- **`eats`** — Uber Eats — requires cookies from a logged-in ubereats.com browser session
 
 ## Readme
 
@@ -62,15 +58,12 @@ Cookie auth against `.uber.com`. The rides API uses a single GraphQL endpoint:
 POST https://riders.uber.com/graphql
 ```
 
-**IMPORTANT:** Both `web` and `eats` connections declare
-`client="fetch"`. That supplies the XHR-style browser bundle
-(User-Agent, `Sec-CH-UA*`, `Sec-Fetch-*`) on every `client.get/post`
-call — some Uber endpoints reject requests without browser identity.
-We're acting as Brave, so the TLS fingerprint + client hints match
-what Brave sends. Service-specific headers ride via `headers={...}`
-on the individual call.
+**IMPORTANT:** Always use `http.headers(waf="cf", accept="json", extra={...})` for all HTTP
+requests in this skill. The engine sets zero default headers — without `http.headers()`, you
+get no User-Agent, no sec-ch-*, no Sec-Fetch-* — and some Uber endpoints reject the request.
+We are acting as Brave, so always send what Brave sends. See `docs/skills/sdk.md`.
 
-Rides-specific headers (per-call `headers=`):
+Rides-specific headers (pass via `extra=`):
 - `x-csrf-token: x` (literal string, not a real CSRF token)
 - `x-uber-rv-session-type: desktop_session`
 
@@ -127,22 +120,80 @@ Content-Type: application/json
 
 **Key difference from rides:** The `order_types: "EATS"` parameter on the rides GraphQL `Activities` query does NOT work — `EATS` is not a valid enum value in `RVWebCommonActivityOrderType`. Uber Eats order history must be fetched from the Eats-specific `getPastOrdersV1` endpoint.
 
-### Planned Eats operations
+### Eats operations (shipped)
 
-See [Uber Eats E2E spec](../../../docs/specs/uber-eats-e2e.md) for the full plan.
+Read: `check_eats_session`, `get_eats_profile`, `list_deliveries`, `get_delivery`, `get_messages`, `list_nearby_stores`, `search_stores`, `search_products`, `get_store`, `get_item_customizations`, `search_address`, `list_addresses`.
 
-Phase 1 (read):
-- `list_deliveries` — Eats order history via `getPastOrdersV1`
-- `get_delivery` — Full delivery details: `getReceiptByWorkflowUuidV1` for items (HTML parse with lxml), `getPastOrdersV1` for metadata. Note: `getOrderEntityByUuidV1` only works for active orders (404 for completed).
-- `list_stores` — Browse stores via `getSearchHomeV2` or `getFeedV1`
-- `get_menu` — Store menu/items via `getStoreV1` (not yet captured)
+Write: `add_to_cart`, `get_cart`, `clear_cart`, `checkout`, `track_delivery`.
 
-Phase 2 (tracking):
-- `track_delivery` — Live driver location via real-time events
-- `list_messages` — Driver communication
+Use `agentos call read '{"skill":"uber"}'` or `load({skill:"uber"})` for the live tool manifest with full param schemas — it's generated from the `@returns` decorators, so it's always in sync with the code.
 
-Phase 3 (write — requires [firewall](../../../docs/specs/firewall.md)):
-- `add_to_cart`, `checkout`, `approve_substitution`, `rate_delivery`
+### Ordering flow (MANDATORY for any agent placing a real order)
+
+Placing a pizza-to-the-pizza-place order once was hilarious. Twice would be
+embarrassing. Follow this sequence every time, in this order:
+
+1. **Find the store.** `search_stores({query})` or use a past order's
+   `store.id` from `list_deliveries` / `get_delivery`.
+2. **Get the menu.** `get_store({store_uuid})`. The returned `offers[]` items
+   carry a hidden `_raw` field with the full catalog payload — `add_to_cart`
+   requires it, so pass `offers` items through directly; don't reconstruct.
+3. **Customizations (if any).** `get_item_customizations({store_uuid, item_uuid})`.
+   The skill now auto-resolves section/subsection UUIDs when omitted.
+4. **Pick an explicit delivery address.** `list_addresses()` → choose by
+   **`source == "SAVED"` + `label == "HOME"`** first. If `SAVED` is empty
+   (common — Uber treats pasted/searched addresses as SUGGESTED until the user
+   explicitly saves them), prompt the user to pick from the SUGGESTED list.
+   **Never auto-pick a SUGGESTED entry.** Uber mixes real addresses and POIs
+   (restaurants, shops) into SUGGESTED; auto-picking got a pizza delivered to
+   the pizza restaurant on 2026-04-20.
+5. **Build the cart.** `add_to_cart({store_uuid, items, delivery_address_uuid})`.
+   The skill creates a draft via `createDraftOrderV2` and then **pins the
+   address via `updateDraftOrderV2`** — `createDraftOrderV2` silently ignores
+   `deliveryAddress` in its own body and inherits whatever the account's
+   "active target" is (the thing that bit us).
+6. **Pre-checkout checklist — SHOW THE USER, then wait for explicit go.**
+   Surface all of:
+   - **Store**: name + address
+   - **Items**: name, customizations, quantity, price each
+   - **Delivery address**: full address **and deliveryNotes** (gate codes,
+     apartment numbers — critical for actual delivery)
+   - **Total** (from the checkout presentation) + fare breakdown
+   - **ETA**
+
+   Do not call `checkout()` without an explicit "place it" from the user.
+7. **Place the order.** `checkout({draft_order_uuid})`. This actually spends
+   money; it's irreversible within seconds.
+8. **Track.** `track_delivery()` polls `getActiveOrdersV1`. Returns driver,
+   eta, and polyline traces — but **only while the order is active**. Once
+   delivered/closed, driver + vehicle info are gone from Uber's API (privacy).
+   `get_delivery` on a completed order returns store + items + fare but no
+   driver.
+
+### `get_messages` is ephemeral
+
+Driver chat via `getEaterMessagingContentV1` only returns content while the
+order is active or very recently delivered. Once the delivery completes and
+Uber closes the chat, **the server returns empty body/head** — no message
+history is persisted to the eater side. If you need a durable record, capture
+messages during `track_delivery` polling, not after.
+
+Also: the skill currently returns `{body, head, messages[]}` on the order
+shape rather than proper `conversation` + `message[]` entities. Known kludge.
+Fix when a future order actually produces a non-empty chat we can shape against.
+
+### Troubleshooting
+
+**`rtapi.forbidden` on `getUserV1` / `code=3` on `getPastOrdersV1` / `401` on `getDraftOrdersByEaterUuidV1`** — session cookies are visitor-level, not user-level. `search_stores` / anonymous endpoints still work because they don't need a logged-in identity, which masks the failure. The auth-resolver reports `ok` either way because the transport auth works; only the per-endpoint logic rejects.
+
+Two common causes:
+
+1. **Brave cookie staleness.** Brave (and all Chromium browsers) buffer cookie writes and only flush to the on-disk SQLite DB periodically. `get-cookie.py` reads from disk, so after a fresh login the skill sees the *pre-login* cookie set — `uev2.id.session` / `uev2.ts.session` / `jwt-session` are stale, and Uber downgrades the session to visitor. **Fix:** trigger Brave to flush. Easiest: open any ubereats.com page in Brave and let it make at least one authenticated XHR (the `/ramen*/events/recv` or `getUserV1` round-trip will do it). CDP-based `browse-capture.py /orders` also works and is scriptable. Repeat the skill call and it will see the fresh cookies.
+2. **You're actually logged out.** Check that `uev2.id.session_v2` and `sid` are in the extracted cookie set. If not, log in to [ubereats.com](https://www.ubereats.com) in Brave.
+
+**`Multiple accounts. Specify account: Joe, default`** — the skill has two `account` entries in credentials (a legacy one and the current session). Pass `account: "default"` to `run()` to disambiguate. We should collapse these — tracked but not yet done.
+
+**`invalid_uuid` / 404 on `getMenuItemV1`** — `get_item_customizations` needs both `section_uuid` and `subsection_uuid`. The skill now auto-fetches them from `getStoreV1` when omitted; if you see this error again, the item UUID itself is stale or wrong.
 
 ## Reverse Engineering Notes
 

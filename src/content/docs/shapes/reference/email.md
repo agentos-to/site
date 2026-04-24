@@ -14,7 +14,7 @@ Domain relations auto-extracted from sender/recipient addresses.
 |---|---|
 | **Plural** | `emails` |
 | **Subtitle field** | `author` |
-| **Identity** | `platform`, `id` |
+| **Identity** | `at`, `id` |
 | **Also** | [`message`](/shapes/reference/message/) |
 
 ## Fields
@@ -31,6 +31,8 @@ Domain relations auto-extracted from sender/recipient addresses.
 | `isTrash` | `boolean` |
 | `isSpam` | `boolean` |
 | `hasAttachments` | `boolean` |
+| `draftId` | `string` |
+| `conversationId` | `string` |
 | `accountEmail` | `string` |
 | `sizeEstimate` | `integer` |
 | `references` | `string` |
@@ -74,8 +76,8 @@ From [`message`](/shapes/reference/message/):
 
 | Relation | Target |
 |---|---|
+| `at` | [`actor`](/shapes/reference/actor/) |
 | `inConversation` | [`conversation`](/shapes/reference/conversation/) |
-| `platform` | [`product`](/shapes/reference/product/) |
 | `repliesTo` | [`message`](/shapes/reference/message/) |
 | `toolCalls` | [`tool_call[]`](/shapes/reference/tool_call/) |
 
