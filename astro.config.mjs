@@ -40,6 +40,7 @@ function flatReference(relRoot) {
 }
 const flatSkillsReference = () => flatReference('skills/reference');
 const flatShapesReference = () => flatReference('shapes/reference');
+const flatToolSurface = () => flatReference('tool-surface');
 
 // https://astro.build/config
 export default defineConfig({
@@ -159,6 +160,16 @@ export default defineConfig({
 						],
 					},
 					{
+						id: 'tool-surface',
+						label: 'Tool surface',
+						link: '/tool-surface/',
+						icon: 'seti:config',
+						items: [
+							{ label: 'Overview', slug: 'tool-surface' },
+							...flatToolSurface(),
+						],
+					},
+					{
 						id: 'shapes',
 						label: 'Shapes',
 						link: '/shapes/overview/',
@@ -199,6 +210,7 @@ export default defineConfig({
 					topics: {
 						skills: ['/skills/reference/*'],
 						shapes: ['/shapes/reference', '/shapes/reference/'],
+						'tool-surface': ['/tool-surface/*'],
 						build: [
 							'/skills/reverse-engineering/3-auth/*',
 							'/skills/reverse-engineering/6-desktop-apps/*',
