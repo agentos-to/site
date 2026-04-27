@@ -1,8 +1,8 @@
 """Tool-surface codegen — registry → Astro MDX pages.
 
-Reads the registry from a running engine via `agentos call --json schema`
-and emits one MDX page per namespace to
-`docs/src/content/docs/tool-surface/<name>.mdx`. Per D11
+Reads the registry from a running engine via
+`agentos call --json system.schema` and emits one MDX page per
+namespace to `docs/src/content/docs/tool-surface/<name>.mdx`. Per D11
 (`_roadmap/p1/unified-surface/unified-surface.md`) the registry in
 `crates/core/src/tools.rs` is the single source of truth; this module
 is one consumer of that source.
@@ -34,13 +34,13 @@ def _strip_code_fences(text: str) -> str:
 def load_tool_surface(agentos_bin: str) -> list[dict]:
     """Fetch the tool surface registry from a running engine.
 
-    Calls `agentos call --json schema`, which dispatches `system.schema`
-    and emits the registry tree. Returns the list of namespace dicts.
-    Exits with code 1 if the engine is unreachable — caller catches
-    `SystemExit` to treat this as a soft skip.
+    Calls `agentos call --json system.schema` and parses the registry
+    tree. Returns the list of namespace dicts. Exits with code 1 if the
+    engine is unreachable — caller catches `SystemExit` to treat this
+    as a soft skip.
     """
     result = subprocess.run(
-        [agentos_bin, "call", "--json", "schema"],
+        [agentos_bin, "call", "--json", "system.schema"],
         capture_output=True, text=True,
     )
     if result.returncode != 0:

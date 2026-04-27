@@ -15,5 +15,4 @@ See [`_roadmap/p1/unified-surface/unified-surface.md`](https://github.com/agento
 - [`skills`](/tool-surface/skills/) (2 ops) — Skill introspection and direct dispatch
 - [`accounts`](/tool-surface/accounts/) (1 op) — Stored credentials, auth health, and providers
 - [`system`](/tool-surface/system/) (3 ops) — Engine lifecycle
-- [`jobs`](/tool-surface/jobs/) (3 ops) — Async processes — one-shot jobs AND long-running watchers
 - [`tools`](/tool-surface/tools/) *(empty)* — Dynamic capability providers contributed by installed skills
