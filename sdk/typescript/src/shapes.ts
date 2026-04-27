@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 82 shapes.
+// Generated from 81 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -931,23 +931,6 @@ export interface Invitation {
     invitee?: Account;
     inviter?: Account;
     organization?: Organization;
-}
-
-export interface Job {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    bootEpoch?: number;
-    config?: unknown;
-    kind?: string;
-    status?: string;
-    produced?: Conversation;
-    requestedBy?: Account;
 }
 
 export interface Leg {
