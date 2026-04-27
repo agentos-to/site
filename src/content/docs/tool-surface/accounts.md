@@ -11,15 +11,15 @@ Stored credentials, auth health, and providers.
 
 ## Ops
 
-- [`list`](#list) — List accounts, auth health, and providers
+- [`list`](#list) — List accounts, auth health, and providers (forwards `action` for login/logout/add/remove)
 
 ## `list`
 
-List accounts, auth health, and providers.
+List accounts, auth health, and providers (forwards `action` for login/logout/add/remove).
 
 ### Examples
 
 ```js
-accounts()
-accounts({ skill: "exa" })
+accounts.list()
+accounts.list({ skill: "exa" })
 ```
