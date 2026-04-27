@@ -1,6 +1,6 @@
 """Auto-generated engine dispatch client — do not edit.
 
-Generated from 5 namespaces, 12 ops.
+Generated from 4 namespaces, 9 ops.
 Regenerate with: python3 docs/generate.py --docs
 
 Source of truth: crates/core/src/tools.rs REGISTRY (D11).
@@ -222,11 +222,11 @@ class _AccountsNamespace:
         self._call = call
 
     def list(self, **params: Any) -> Any:
-        """List accounts, auth health, and providers.
+        """List accounts, auth health, and providers (forwards `action` for login/logout/add/remove).
 
         Examples:
-            accounts()
-            accounts({ skill: "exa" })
+            accounts.list()
+            accounts.list({ skill: "exa" })
         """
         return self._call("accounts.list", params)
 
@@ -263,37 +263,6 @@ class _SystemNamespace:
         return self._call("system.schema", params)
 
 
-class _JobsNamespace:
-    """Proxy for the `jobs` namespace."""
-
-    def __init__(self, call):
-        self._call = call
-
-    def watch(self, **params: Any) -> Any:
-        """Start a live skill event stream. The watcher runs indefinitely.
-
-        Examples:
-            jobs.watch({ skill: "whatsapp", stream: "messages" })
-        """
-        return self._call("jobs.watch", params)
-
-    def cancel(self, **params: Any) -> Any:
-        """Stop a running watcher or cancel an async job.
-
-        Examples:
-            jobs.cancel({ id: "whatsapp:messages" })
-        """
-        return self._call("jobs.cancel", params)
-
-    def list(self, **params: Any) -> Any:
-        """List running watchers and their status.
-
-        Examples:
-            jobs.list()
-        """
-        return self._call("jobs.list", params)
-
-
 class Client:
     """Engine dispatch client.
 
@@ -314,7 +283,6 @@ class Client:
         self.skills = _SkillsNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.accounts = _AccountsNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.system = _SystemNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
-        self.jobs = _JobsNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
 
 
 class AsyncClient:
@@ -337,7 +305,6 @@ class AsyncClient:
         self.skills = _SkillsNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.accounts = _AccountsNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.system = _SystemNamespace(lambda op, params: _async_call(self._socket_path, op, params))
-        self.jobs = _JobsNamespace(lambda op, params: _async_call(self._socket_path, op, params))
 
     async def __aenter__(self):
         return self

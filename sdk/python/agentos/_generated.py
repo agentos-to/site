@@ -1,6 +1,6 @@
 """Auto-generated TypedDict classes from shape YAML — do not edit.
 
-Generated from 82 shapes.
+Generated from 81 shapes.
 Regenerate with: python generate.py --lang python
 """
 
@@ -937,23 +937,6 @@ class Invitation(TypedDict, total=False):
     invitee: Account
     inviter: Account
     organization: Organization
-
-
-class Job(TypedDict, total=False):
-    id: str
-    name: str
-    text: str
-    url: str
-    image: str
-    author: str
-    datePublished: str
-    content: str
-    boot_epoch: int
-    config: Any
-    kind: str
-    status: str
-    produced: Conversation
-    requested_by: Account
 
 
 class Leg(TypedDict, total=False):
@@ -2164,7 +2147,6 @@ SHAPE_YAMLS: dict[str, str] = {
     'hardware': 'plural: hardware\nidentity: serialNumber\nsubtitle: author\nalso:\n- product\nfields:\n  modelNumber: string\n  serialNumber: string\n  specs: json\nrelations:\n  manufacturer: organization\nprior_art:\n- source: schema.org/Product (IndividualProduct subtype)\n  url: https://schema.org/IndividualProduct\n  notes: "Our serialNumber = serialNumber; modelNumber \\u2248 model; specs \\u2248\\\n    \\ additionalProperty (PropertyValue list)."\n- source: GS1 Global Trade Item Number (GTIN)\n  url: https://www.gs1.org/standards/id-keys/gtin\n  notes: "Hardware bar-codes are GTIN-12/13/14 \\u2014 we reuse the product shape\'s\\\n    \\ barcode alignment."\n',
     'image': 'plural: images\nalso:\n- file\nfields:\n  width: integer\n  height: integer\n  format: string\n  altText: string\n  appName: string\n  windowId: integer\n  displayId: integer\n  displayIndex: integer\nprior_art:\n- source: schema.org/ImageObject\n  url: https://schema.org/ImageObject\n  notes: "Our width/height = width/height; format \\u2248 encodingFormat; altText =\\\n    \\ caption/accessibilityCaption."\n- source: IANA Media Types (image/*)\n  url: https://www.iana.org/assignments/media-types/media-types.xhtml#image\n  notes: Our format values (PNG, JPEG, WebP, SVG) align with registered image/* media\n    types.\n- source: Exif 2.3 (JEITA CP-3451)\n  url: https://www.cipa.jp/std/documents/e/DC-008-Translation-2019-E.pdf\n  notes: Source of most image metadata fields. width/height come from Exif PixelXDimension/PixelYDimension.\n',
     'invitation': 'plural: invitations\nidentity:\n- at\n- id\nsubtitle: invitationType\nfields:\n  invitationType: string\n  email: string\n  role: string\n  status: string\n  token: string\n  expiresAt: datetime\n  acceptedAt: datetime\n  revokedAt: datetime\n  message: text\nrelations:\n  inviter: account\n  invitee: account\n  organization: organization\n  at: actor\nprior_art:\n- source: ActivityStreams 2.0 Invite activity\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-invite\n  notes: AS2 Invite is the canonical fediverse verb. Our inviter = actor; invitee\n    = target; status tracks Accept/Reject/TentativeAccept responses.\n- source: iCalendar ATTENDEE + PARTSTAT (RFC 5545)\n  url: https://datatracker.ietf.org/doc/html/rfc5545\n  notes: Calendar-style invitations. Our status maps to PARTSTAT (NEEDS-ACTION/ACCEPTED/DECLINED/DELEGATED).\n- source: "SCIM 2.0 (RFC 7644) \\u2014 user provisioning"\n  url: https://datatracker.ietf.org/doc/html/rfc7644\n  notes: Enterprise invitation/provisioning. Our email/role/organization align with\n    SCIM User resource\'s email + entitlements + group membership.\n',
-    'job': 'plural: jobs\nidentity:\n- name\n- boot_epoch\nsubtitle: name\nicon: play-circle\nfields:\n  name: string\n  status: string\n  kind: string\n  config: json\n  boot_epoch: integer\nrelations:\n  produced: conversation\n  requested_by: account\nprior_art:\n- source: "systemd unit \\u2014 Active/Sub state machine"\n  url: https://www.freedesktop.org/software/systemd/man/systemd.html#Concepts\n  notes: "Status mirrors systemd\'s active/sub state pairing \\u2014 our \\"running\\"\\\n    \\ \\u2248 active+running, \\"completed\\" \\u2248 inactive+dead, \\"failed\\" \\u2248\\\n    \\ failed+failed. boot_epoch plays the role of systemd\'s boot_id."\n- source: Kubernetes Job (batch/v1)\n  url: https://kubernetes.io/docs/concepts/workloads/controllers/job/\n  notes: "Kubernetes Jobs model the same \\"run-once, report status, possibly resume\\"\\\n    \\ lifecycle. Our kind \\u2248 spec.template.spec.containers[].image; config \\u2248\\\n    \\ spec.template.spec."\n',
     'leg': 'plural: legs\nsubtitle: flightNumber\nfields:\n  sequence: integer\n  departureTime: datetime\n  arrivalTime: datetime\n  duration: string\n  durationMinutes: integer\n  flightNumber: string\n  cabinClass: string\n  vehicleType: string\n  layoverMinutes: integer\n  carbonEmissions: json\n  trace: json\n  tracePointCount: integer\n  polyline: string\nrelations:\n  origin: place\n  destination: place\n  carrier: organization\n  aircraft: aircraft\n  trip: trip\nprior_art:\n- source: IATA NDC "segment"\n  url: https://www.iata.org/en/programs/airline-distribution/retailing/ndc/\n  notes: NDC segment = our leg. flightNumber, departureTime, arrivalTime, cabinClass\n    come straight from NDC OfferItem Segment.\n- source: GTFS stop_times.txt\n  url: https://gtfs.org/documentation/schedule/reference/#stop_timestxt\n  notes: Transit leg model. Our sequence = stop_sequence; departureTime/ arrivalTime\n    = arrival_time/departure_time.\n- source: Google Encoded Polyline Algorithm\n  url: https://developers.google.com/maps/documentation/utilities/polylinealgorithmformat\n  notes: Our polyline field is the standard Google encoded polyline. trace is a denser\n    GPS breadcrumb alternative (GeoJSON-adjacent).\n',
     'list': 'plural: lists\nidentity:\n- at\n- id\nfields:\n  listId: string\n  privacy: string\n  listType: string\n  isDefault: boolean\n  isPublic: boolean\n  itemCount: integer\n  items: json\nrelations:\n  at: actor\n  belongsTo: account\n  contains: product[]\nprior_art:\n- source: schema.org/ItemList\n  url: https://schema.org/ItemList\n  notes: "Our listType \\u2248 itemListOrder; contains \\u2248 itemListElement; isPublic\\\n    \\ \\u2248 publicAccess."\n- source: ActivityStreams 2.0 Collection / OrderedCollection\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection\n  notes: "Our contains[] \\u2248 items; isDefault has no AS2 peer (platform-level concept)."\n',
     'loaded_model': 'plural: loaded_models\nsubtitle: size\nfields:\n  size: string\n  quantization: string\n  expiresAt: datetime\n  vramUsage: string\n  sizeVram: integer\n  digest: string\nprior_art:\n- source: "Ollama API \\u2014 /api/ps"\n  url: https://github.com/ollama/ollama/blob/main/docs/api.md#list-running-models\n  notes: Direct source. Our size/vramUsage/sizeVram/quantization/digest/ expiresAt\n    map to Ollama\'s ListRunningModelsResponse fields.\n- source: OpenTelemetry Resource semconv (ML/AI)\n  url: https://opentelemetry.io/docs/specs/semconv/gen-ai/\n  notes: Emerging conventions for GenAI observability. Our size/digest align with\n    gen_ai.model.* resource attributes.\n',
@@ -2238,7 +2220,6 @@ SHAPE_IDENTITIES: dict[str, list[str]] = {
     'group': ['at', 'id'],
     'hardware': ['serialNumber'],
     'invitation': ['at', 'id'],
-    'job': ['name', 'boot_epoch'],
     'list': ['at', 'id'],
     'mcp_session': ['client', 'projectId', 'gitBranch'],
     'membership': ['at', 'id'],

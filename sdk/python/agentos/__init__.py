@@ -27,7 +27,6 @@ from agentos import crypto
 from agentos import oauth
 from agentos import shell
 from agentos import llm
-from agentos import progress
 from agentos import checkpoint
 
 # --- Operation decorators (read by engine via AST, no-ops at runtime) ---
@@ -72,7 +71,7 @@ __all__ = [
     # Engine dispatch (external Python scripts)
     "Client", "AsyncClient", "EngineError",
     # Engine-dispatched modules
-    "sql", "crypto", "oauth", "shell", "llm", "progress", "checkpoint", "credentials",
+    "sql", "crypto", "oauth", "shell", "llm", "checkpoint", "credentials",
     "capability",
     # Identity helpers
     "identity", "normalize_email", "normalize_phone", "normalize_handle",
