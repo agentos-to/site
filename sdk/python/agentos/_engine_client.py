@@ -1,6 +1,6 @@
 """Auto-generated engine dispatch client — do not edit.
 
-Generated from 4 namespaces, 11 ops.
+Generated from 3 namespaces, 10 ops.
 Regenerate with: python3 docs/generate.py --docs
 
 Source of truth: crates/core/src/tools.rs REGISTRY (D11).
@@ -165,26 +165,47 @@ class _DataNamespace:
         self._call = call
 
     def read(self, **params: Any) -> Any:
-        """Read graph data by id, name, tags, shape, or system metadata.
+        """Read one node (or edge) by id.
+
+        Args:
+            id (string, required): Node or edge id.
+            view (dict, optional)
 
         Examples:
             read({ id: "abc123" })
-            read({ shape: "task", priority: 1 })
-            read({ about: "shapes" })
         """
         return self._call("data.read", params)
 
-    def search(self, **params: Any) -> Any:
-        """Full-text search over local graph entities.
+    def list(self, **params: Any) -> Any:
+        """List nodes by shape, user_tag, name match, FTS via `q`, system metadata, or skill membership.
+
+        Args:
+            about (string, optional): Engine introspection (e.g. "shapes").
+            limit (int, optional): Max rows. Defaults vary per filter.
+            name (string, optional): Substring match against node names.
+            q (string, optional): FTS query — folds the previous `data.search` op.
+            query (string, optional): Legacy alias for q. Prefer q.
+            shape (string | list[string], optional): Shape name (e.g. "task") or array of shape names (union).
+            skill (string, optional): List entities (or skill manifest with type="entity") for this skill.
+            type (string, optional): Modifier for `skill`: list entities (vs. the skill manifest).
+            user_tag (string | list[string], optional): User-tag name (or array — intersection).
+            view (dict, optional)
 
         Examples:
-            search({ query: "project status" })
-            search({ query: "pending tasks", shape: "task" })
+            list({ shape: "task", priority: 1 })
+            list({ user_tag: "follow-up" })
+            list({ q: "memex", limit: 10 })
+            list({ about: "shapes" })
         """
-        return self._call("data.search", params)
+        return self._call("data.list", params)
 
     def update(self, **params: Any) -> Any:
         """Set or delete vals on an existing node. `null` value deletes a val; non-null sets it. Unit auto-inferred from JSON type when not given.
+
+        Args:
+            vals (dict, required): Map of val key → value. `null` deletes (nodes only). Non-null sets. Object form `{value, unit}` overrides the inferred unit.
+            edge (string, optional): Edge id to update (writes edge_vals — icon position, fares, etc.).
+            id (string, optional): Node id to update.
 
         Examples:
             update({ id: "abc123", vals: { "pref:theme": "xp" } })
@@ -196,6 +217,12 @@ class _DataNamespace:
     def create(self, **params: Any) -> Any:
         """Create a new node of the given shape. With `identity`, looks up an existing node first and updates it instead of creating a duplicate (upsert semantics).
 
+        Args:
+            shape (string, required): Shape name. Lazily registered on first use.
+            identity (dict, optional): Scalar (key, value) pairs. With `identity`, an existing match is updated instead of duplicated (upsert semantics).
+            name (string, optional): Display name for the node.
+            vals (dict, optional): Initial vals. Same shape as data.update vals.
+
         Examples:
             create({ shape: "bookmark", name: "Aircraft", vals: { address: "?shape=aircraft" } })
             create({ shape: "person", name: "Joe", identity: { email: "joe@example.com" } })
@@ -204,6 +231,9 @@ class _DataNamespace:
 
     def delete(self, **params: Any) -> Any:
         """Soft-delete a node or relationship.
+
+        Args:
+            id (string, required): Node or edge id. Soft-delete.
 
         Examples:
             delete({ id: "abc123" })
@@ -220,6 +250,16 @@ class _SkillsNamespace:
     def run(self, **params: Any) -> Any:
         """Execute a skill tool directly.
 
+        Args:
+            skill (string, required): Skill id (e.g. "exa").
+            tool (string, required): Tool name within the skill (e.g. "search").
+            account (string, optional): Force a specific credential/account when the skill has multiple.
+            execute (Any, optional): Live-execution override; consult the skill manifest for accepted shapes.
+            params (dict, optional): Op-level params forwarded to the skill.
+            provider (string, optional): Force a cookie provider (e.g. "brave-browser").
+            remember (bool, optional): Persist the live result to the graph. Default true.
+            view (dict, optional)
+
         Examples:
             run({ skill: "exa", tool: "search", params: { query: "..." } })
         """
@@ -228,26 +268,13 @@ class _SkillsNamespace:
     def load(self, **params: Any) -> Any:
         """Load a skill manual (readme + tool list) before calling run.
 
+        Args:
+            skill (string, required): Skill id to load (readme + tool list).
+
         Examples:
             load({ skill: "exa" })
         """
         return self._call("skills.load", params)
-
-
-class _AccountsNamespace:
-    """Proxy for the `accounts` namespace."""
-
-    def __init__(self, call):
-        self._call = call
-
-    def list(self, **params: Any) -> Any:
-        """List accounts, auth health, and providers (forwards `action` for login/logout/add/remove).
-
-        Examples:
-            accounts.list()
-            accounts.list({ skill: "exa" })
-        """
-        return self._call("accounts.list", params)
 
 
 class _SystemNamespace:
@@ -266,6 +293,9 @@ class _SystemNamespace:
 
     def status(self, **params: Any) -> Any:
         """Engine snapshot: version, uptime, PID, DB path, recent op stats.
+
+        Args:
+            recent (int, optional): Number of recent op events to include. Default 20, capped at the ring capacity.
 
         Examples:
             status()
@@ -300,7 +330,6 @@ class Client:
         )
         self.data = _DataNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.skills = _SkillsNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
-        self.accounts = _AccountsNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.system = _SystemNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
 
 
@@ -322,7 +351,6 @@ class AsyncClient:
         )
         self.data = _DataNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.skills = _SkillsNamespace(lambda op, params: _async_call(self._socket_path, op, params))
-        self.accounts = _AccountsNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.system = _SystemNamespace(lambda op, params: _async_call(self._socket_path, op, params))
 
     async def __aenter__(self):
