@@ -6,7 +6,7 @@ activity:
   icon: activity
   fields:
     action:           string      # create, update, delete, run, read, search, load
-    published:        datetime    # when this happened (immutable)
+    at:               datetime    # when this happened (immutable)
     changedKeys:      string[]    # which fields changed (for updates)
     toolName:         string      # for skill runs: which operation
     duration:         number      # for skill runs: execution time in ms

@@ -20,13 +20,12 @@ Run it with `agentos bridge`. It auto-starts the engine if needed (via `ensure_e
 | Method | Path | Purpose |
 |---|---|---|
 | POST | `/call` | **The single front door** for every namespace in the unified tool surface. Body: `{"op": "<namespace>.<op>", "params": {...}}`. |
-| POST | `/graph` | Legacy — kept until the last `apiPost('/graph', ...)` caller in the frontend migrates to `/call`. New code must not call this. |
 
 `/call` mirrors MCP's `tools/call` wire format: dotted op identity in, handler result out, dispatched through the same `tools::registry::dispatch` path that MCP, CLI, and the Python SDK use. One registry, four interfaces, identical behaviour:
 
 - `data.read` — fetch one node by id (with relationships + content).
-- `data.search` — full-text across content (FTS5 + BM25).
-- `data.update` — set or delete vals on an existing node.
+- `data.list` — list nodes by shape, user_tag, name, FTS via `q`, system metadata, or skill membership.
+- `data.update` — set or delete vals on an existing node, or set vals on an edge (`{edge: id, vals}`).
 - `data.create` — create a node, or upsert if `identity` is provided.
 - `data.delete` — soft-delete a node or edge.
 - `skills.run` — invoke a skill tool.

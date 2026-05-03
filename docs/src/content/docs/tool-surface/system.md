@@ -25,6 +25,16 @@ Session bootstrap: identity, project, recent activity, tools.
 boot()
 ```
 
+### Input schema
+
+```json
+{
+  "additionalProperties": false,
+  "properties": {},
+  "type": "object"
+}
+```
+
 ## `status`
 
 Engine snapshot: version, uptime, PID, DB path, recent op stats.
@@ -36,6 +46,22 @@ status()
 status({ recent: 50 })
 ```
 
+### Input schema
+
+```json
+{
+  "additionalProperties": false,
+  "properties": {
+    "recent": {
+      "description": "Number of recent op events to include. Default 20, capped at the ring capacity.",
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "type": "object"
+}
+```
+
 ## `schema`
 
 Emit the full tool surface registry as JSON — single source of truth for SDK codegen and docs generation (see D11).
@@ -44,4 +70,14 @@ Emit the full tool surface registry as JSON — single source of truth for SDK c
 
 ```js
 system.schema()
+```
+
+### Input schema
+
+```json
+{
+  "additionalProperties": false,
+  "properties": {},
+  "type": "object"
+}
 ```

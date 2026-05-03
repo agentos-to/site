@@ -18,7 +18,7 @@ Fields for what happened, relations for who/what/where.
 | Field | Type |
 |---|---|
 | `action` | `string` |
-| `published` | `datetime` |
+| `at` | `datetime` |
 | `changedKeys` | `string[]` |
 | `toolName` | `string` |
 | `duration` | `number` |

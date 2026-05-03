@@ -8,6 +8,18 @@ description: "How a skill authenticates against a service — reverse-engineered
 > step-by-step how-to. This page is the reference; that one is
 > the recipe.
 
+> **Note (2026-05-03):** The `accounts.*` namespace was retired with
+> the unified-surface refactor. The replacements:
+>
+> - `accounts({action:"login", skill})` → `skills.run({skill, tool:"login"})`
+> - `accounts({action:"logout", skill})` → `skills.run({skill, tool:"logout"})`
+> - `accounts({action:"clear_session"|"remove", skill})` → reach into the
+>   `vault` system skill (`skills.run({skill:"vault", tool:"..."})`) — this is
+>   the same path the engine itself uses now.
+>
+> Some examples below still use the old shape; the underlying flow is
+> unchanged.
+
 Every login flow in agentOS is **reverse-engineered HTTP replayed from
 Python**. No runtime browsers; no interactive steps once the skill is
 written. When a skill needs to figure out a service's login sequence

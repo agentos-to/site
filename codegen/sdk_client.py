@@ -247,11 +247,20 @@ def _emit_namespace_classes(namespaces: list[dict]) -> list[str]:
             op_name = op["name"]
             op_desc = op.get("description", "").strip()
             examples = op.get("examples") or []
+            schema = op.get("input_schema") or {}
             dotted = f"{ns_name}.{op_name}"
             # Method body: forward **kwargs as params dict through transport.
             lines.append(f"    def {_py_method_name(op_name)}(self, **params: Any) -> Any:")
             if op_desc:
                 lines.append(f'        """{op_desc}')
+                # Param table from input_schema.properties — typed hints for
+                # IDE hover / inline help. Required first, then optional.
+                param_lines = _format_schema_params(schema)
+                if param_lines:
+                    lines.append("")
+                    lines.append("        Args:")
+                    for pl in param_lines:
+                        lines.append(f"            {pl}")
                 if examples:
                     lines.append("")
                     lines.append("        Examples:")
@@ -324,6 +333,54 @@ def _bound_call(call_fn: str, async_: bool) -> str:
     if async_:
         return f"{call_fn}(self._socket_path, op, params)"
     return f"{call_fn}(self._socket_path, op, params)"
+
+
+def _format_schema_params(schema: dict) -> list[str]:
+    """Render `input_schema.properties` as docstring lines.
+
+    Each line: `<name> (<type>[, required]): <description>`. Required
+    params come first to mirror Python keyword-arg conventions. Returns
+    an empty list when the schema has no properties — caller suppresses
+    the whole "Args:" block in that case.
+    """
+    props = schema.get("properties") or {}
+    if not props:
+        return []
+    required = set(schema.get("required") or [])
+    out: list[str] = []
+    # Required first (alpha within each group), then optional.
+    for name in sorted(props.keys(), key=lambda k: (k not in required, k)):
+        spec = props[name] or {}
+        type_str = _schema_type_str(spec)
+        desc = (spec.get("description") or "").strip()
+        suffix = "required" if name in required else "optional"
+        head = f"{name} ({type_str}, {suffix})"
+        out.append(f"{head}: {desc}" if desc else head)
+    return out
+
+
+def _schema_type_str(spec: dict) -> str:
+    """Compact Python-ish type label for a schema property."""
+    if "type" in spec and isinstance(spec["type"], str):
+        t = spec["type"]
+        if t == "integer":
+            return "int"
+        if t == "number":
+            return "float"
+        if t == "boolean":
+            return "bool"
+        if t == "array":
+            inner = spec.get("items", {}).get("type", "Any")
+            return f"list[{inner}]"
+        if t == "object":
+            return "dict"
+        return t
+    if "oneOf" in spec or "anyOf" in spec:
+        variants = spec.get("oneOf") or spec.get("anyOf") or []
+        return " | ".join(_schema_type_str(v) for v in variants) or "Any"
+    if "enum" in spec:
+        return "str"
+    return "Any"
 
 
 def _pascal(name: str) -> str:

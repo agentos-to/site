@@ -15,8 +15,8 @@ One-shot tool invocation. Connects directly to the engine socket, sends one JSON
 # Read a node by id
 agentos call data.read --params '{"id": "abc123"}'
 
-# Search the full-text index
-agentos call data.search --params '{"query": "memex", "limit": 10}'
+# Search the full-text index (`q` folds the previous `data.search`)
+agentos call data.list --params '{"q": "memex", "limit": 10}'
 
 # Set a val on a node
 agentos call data.update --params '{"id": "abc123", "vals": {"pref:theme": "xp"}}'

@@ -8,6 +8,12 @@ walks through adding a `login` tool to that skill so the engine
 can auto-authenticate on cold start and auto-re-login on session
 expiry — without the user pasting a password into settings.
 
+> **Note (2026-05-03):** The `accounts.*` namespace was retired with
+> the unified-surface refactor. Login is now `skills.run({skill,
+> tool:"login"})`, logout is `skills.run({skill, tool:"logout"})`.
+> Some snippets below still show the old `accounts({action:...})`
+> form; the underlying flow is the same — only the wrapper changed.
+
 Skip to [Reference implementations](#reference-implementations) if
 you just want to copy an existing skill and adapt it.
 
