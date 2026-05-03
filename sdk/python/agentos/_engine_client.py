@@ -1,6 +1,6 @@
 """Auto-generated engine dispatch client — do not edit.
 
-Generated from 4 namespaces, 9 ops.
+Generated from 4 namespaces, 11 ops.
 Regenerate with: python3 docs/generate.py --docs
 
 Source of truth: crates/core/src/tools.rs REGISTRY (D11).
@@ -182,6 +182,25 @@ class _DataNamespace:
             search({ query: "pending tasks", shape: "task" })
         """
         return self._call("data.search", params)
+
+    def update(self, **params: Any) -> Any:
+        """Set or delete vals on an existing node. `null` value deletes a val; non-null sets it. Unit auto-inferred from JSON type when not given.
+
+        Examples:
+            update({ id: "abc123", vals: { "pref:theme": "xp" } })
+            update({ id: "abc123", vals: { "pref:fontSize": 14 } })
+            update({ id: "abc123", vals: { "pref:legacy": null } })
+        """
+        return self._call("data.update", params)
+
+    def create(self, **params: Any) -> Any:
+        """Create a new node of the given shape. With `identity`, looks up an existing node first and updates it instead of creating a duplicate (upsert semantics).
+
+        Examples:
+            create({ shape: "bookmark", name: "Aircraft", vals: { address: "?shape=aircraft" } })
+            create({ shape: "person", name: "Joe", identity: { email: "joe@example.com" } })
+        """
+        return self._call("data.create", params)
 
     def delete(self, **params: Any) -> Any:
         """Soft-delete a node or relationship.
