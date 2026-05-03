@@ -8,14 +8,14 @@ walks through adding a `login` tool to that skill so the engine
 can auto-authenticate on cold start and auto-re-login on session
 expiry — without the user pasting a password into settings.
 
-> **Note (2026-05-03):** The `accounts.*` namespace was retired with
-> the unified-surface refactor. Login is now `skills.run({skill,
-> tool:"login"})`, logout is `skills.run({skill, tool:"logout"})`.
-> Some snippets below still show the old `accounts({action:...})`
-> form; the underlying flow is the same — only the wrapper changed.
-
 Skip to [Reference implementations](#reference-implementations) if
 you just want to copy an existing skill and adapt it.
+
+> **Surface note.** Login / logout are dispatched as ordinary skill
+> tool calls — `skills.run({skill, tool: "login"})` and
+> `skills.run({skill, tool: "logout"})`. There's no special accounts
+> wrapper; the engine recognises `login` / `logout` only because they
+> appear in the connection's `auth.account` block (see step 6).
 
 For the *why* behind every step, see
 [Auth flows](./auth-flows.md) — this page is the how-to; that
@@ -245,9 +245,9 @@ logout to a local-cache delete. Ship it.
 
 ```bash
 ./dev.sh restart                # Python changes don't need a rebuild
-agentos call run '{"skill":"example","tool":"login"}'
+agentos call skills.run '{"skill":"example","tool":"login"}'
 # ... test a few authed tools ...
-agentos call accounts '{"action":"logout","skill":"example"}'
+agentos call skills.run '{"skill":"example","tool":"logout"}'
 ```
 
 Expected path end-to-end:
@@ -262,11 +262,10 @@ Expected path end-to-end:
    writeback stamps the row.
 6. The next call to `example.book_thing()` picks up the cookies
    via domain lookup — `account=None` works.
-7. When the user's done, `accounts({action:"logout", skill})`
+7. When the user's done, `skills.run({skill:"example",tool:"logout"})`
    dispatches your `logout` op (service-side revoke), then the
-   engine deletes the skill-written row and invalidates cache.
-   Provider rows (1Password) stay — the password is safe, only
-   the session is gone.
+   engine invalidates the session cache. Provider rows (1Password)
+   stay — the password is safe, only the session is gone.
 
 Cold-start, **one call, no passwords typed, no LLM sees a secret.**
 Clean shutdown, **one call, tokens dead at the service, local
@@ -400,10 +399,10 @@ account protocol; they belong together. The validator
 skill declares `account.login` without `account.logout`.
 
 The engine dispatches your `logout` op on
-`accounts({action:"logout", skill})`, passes the live session in
-as `params.auth.*`, and runs the cleanup tail (delete skill rows,
-invalidate cache) after you return. Your tool's job is the one
-piece the engine can't do: the service-side revoke call.
+`skills.run({skill, tool:"logout"})`, passes the live session in
+as `params.auth.*`, and invalidates the session cache around the
+call. Your tool's job is the one piece the engine can't do: the
+service-side revoke call.
 
 Shape:
 
@@ -443,11 +442,14 @@ vs `remove`) lives in
 **Reference:** ABP's Cognito `GlobalSignOut` implementation at
 [`skills/fitness/austin-boulder-project/abp.py`](https://github.com/agentos-to/skills/blob/main/fitness/austin-boulder-project/abp.py).
 
-**Skills without a `logout`** can still be logged out via
-`accounts({action:"clear_session", skill})` — engine-side cleanup
-only, no server call. Good for "I just want to forget the
-session locally," but not for "kill this session everywhere."
-Ship a `logout` tool so your users get the stronger guarantee.
+**Skills without a `logout` have no engine-side teardown path.**
+The `accounts({action:"clear_session", skill})` cache-only variant
+went away with the unified-surface refactor; the only way to expose
+"end this session" is to ship a `logout` op. Local-only
+session clearing comes back when vault state moves into the graph
+(see [`p1/fix-auth/credential-shape-and-vault.md`](../../../_roadmap/p1/fix-auth/credential-shape-and-vault.md)),
+at which point deleting the credential node via `data.delete` will
+be the obvious replacement.
 
 ## See also
 

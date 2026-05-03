@@ -52,7 +52,11 @@ This is the primitive behind any "live activity feed" UI — you can see skills 
 |---|---|---|
 | GET | `/apps` | List installed + bundled app definitions (title, icon path, manifest). |
 | GET | `/user` | Unified user profile: person record + desktop prefs + theme. |
-| PUT | `/user/pref` | Set a person-level preference value. |
+
+User preferences are written through `POST /call` with `data.update` —
+there's no separate `PUT /user/pref` shim. Settings.tsx writes
+`pref:*` vals on the person node; the desktop folder writes positions
+through `data.update {edge: <id>, vals: {...}}` (the edge branch).
 
 ### Static assets
 

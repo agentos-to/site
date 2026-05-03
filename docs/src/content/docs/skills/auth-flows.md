@@ -8,17 +8,14 @@ description: "How a skill authenticates against a service — reverse-engineered
 > step-by-step how-to. This page is the reference; that one is
 > the recipe.
 
-> **Note (2026-05-03):** The `accounts.*` namespace was retired with
-> the unified-surface refactor. The replacements:
->
-> - `accounts({action:"login", skill})` → `skills.run({skill, tool:"login"})`
-> - `accounts({action:"logout", skill})` → `skills.run({skill, tool:"logout"})`
-> - `accounts({action:"clear_session"|"remove", skill})` → reach into the
->   `vault` system skill (`skills.run({skill:"vault", tool:"..."})`) — this is
->   the same path the engine itself uses now.
->
-> Some examples below still use the old shape; the underlying flow is
-> unchanged.
+> **Surface note.** Login / logout dispatch goes through
+> `skills.run({skill, tool:"login"})` and
+> `skills.run({skill, tool:"logout"})`. The `accounts.*` namespace was
+> retired during the unified-surface refactor (2026-05-02) — there's no
+> dedicated account-action wrapper anymore; logging in is just running
+> the skill's `login` tool, same as any other skill call. Local-only
+> session clearing reaches into the `vault` system skill via
+> `skills.run({skill:"vault", ...})`.
 
 Every login flow in agentOS is **reverse-engineered HTTP replayed from
 Python**. No runtime browsers; no interactive steps once the skill is
@@ -402,21 +399,20 @@ establishes a new session; `logout` ends one.
 Agents trigger logout through the engine:
 
 ```bash
-agentos call accounts '{"action":"logout","skill":"austin-boulder-project"}'
+agentos call skills.run '{"skill":"austin-boulder-project","tool":"logout"}'
 # → {
-#     "revoked_server_side": true,
-#     "revoke_result": {"ok": true, "message": "Cognito session revoked."},
-#     "rows_removed": 1
+#     "ok": true,
+#     "message": "Cognito session revoked."
 #   }
 ```
 
-The engine walks the declared `account.logout` op, dispatches it with
-the live session injected as `params.auth.*` (so the skill can hit
-the revoke endpoint with the tokens it needs to kill), then runs
-the cleanup tail: delete credential rows where `source == skill_id`,
-invalidate the session cache. Provider rows — the 1Password /
-Keychain rows that hold the password — are deliberately untouched.
-Logout forgets the session, not the password.
+The skill's `logout` op runs against the authed connection, with the
+live session injected as `params.auth.*` (so the skill can hit the
+revoke endpoint with the tokens it needs to kill). Engine cleanup —
+delete credential rows where `source == skill_id`, invalidate the
+session cache — runs around skill dispatch as a side effect. Provider
+rows (1Password / Keychain rows that hold the password) are
+deliberately untouched. Logout forgets the session, not the password.
 
 ### Declaring `logout` on the connection
 
@@ -530,25 +526,23 @@ tool. The validator warns when a connection declares
 `account.login` without `account.logout` — a warning, not an
 error, during the migration window while existing skills catch up.
 
-### `logout` vs `clear_session` vs `remove`
+### Logout is the single teardown verb
 
-Three engine verbs, ordered by scope of destruction:
+The `accounts.*` namespace previously offered three verbs (`logout`,
+`clear_session`, `remove`) for different scopes of destruction. With
+the unified-surface refactor the namespace went away, and so did the
+two cache-only variants. Today there's exactly one entry point:
 
-| Verb | Engine action | Server called? |
-|---|---|---|
-| `accounts({action:"logout",        skill})` | Calls the skill's `logout` op, **then** deletes rows where `source == skill_id` + invalidates cache. | Yes (when the skill declares a `logout` op) |
-| `accounts({action:"clear_session", skill})` | Deletes rows where `source == skill_id` + invalidates cache. No skill dispatch. | No |
-| `accounts({action:"remove",        skill})` | Deletes **every** credential row for the domain, including provider rows (1Password, Keychain). | No |
+- `skills.run({skill, tool:"logout"})` — calls the skill's `logout`
+  op (server-side revoke), engine cleanup invalidates the session
+  cache around it.
 
-`clear_session` is the honest "I just want to forget the session
-locally" — debugging, rotating, clearing a bad cache. `logout` is
-the same plus the service call. `remove` is the nuclear option
-for "I'm done with this account entirely."
-
-Skills without a `logout` op can still be logged out via
-`clear_session`: the cleanup tail is the same; only the server-side
-call is missing. So adding `logout` is always an upgrade over the
-baseline — never a regression.
+Skills without a `logout` op have no engine-side teardown path at all
+— shipping a `logout` is the only way to expose "end this session"
+to agents. The local-clear and full-domain-remove variants live on
+the [view-prefs / vault-as-graph](../../../_roadmap/p1/fix-auth/credential-shape-and-vault.md)
+roadmap; once vault state is graph-resident, deleting credential
+nodes through `data.delete` will be the obvious replacement.
 
 ## Dashboard connections
 
