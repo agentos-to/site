@@ -48,9 +48,9 @@ export interface Activity {
     datePublished?: string;
     content?: string;
     action?: string;
+    at?: string;
     changedKeys?: string[];
     duration?: number;
-    published?: string;
     success?: boolean;
     toolName?: string;
     folder?: Folder;
