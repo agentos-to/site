@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 81 shapes.
+// Generated from 82 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -301,6 +301,20 @@ export interface BookingOffer {
     taxLines?: TaxLine[];
     trips?: Trip[];
     underName?: Person;
+}
+
+export interface Bookmark {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    address?: string;
+    icon?: string;
+    position?: number;
 }
 
 export interface Branch {
