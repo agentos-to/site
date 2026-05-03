@@ -15,20 +15,26 @@ Run it with `agentos bridge`. It auto-starts the engine if needed (via `ensure_e
 |---|---|---|
 | GET | `/healthz` | Returns 200 OK if the bridge can reach the observer socket. |
 
-### Graph
+### Tool surface
 
 | Method | Path | Purpose |
 |---|---|---|
-| POST | `/graph` | The main read surface. Body: `{"tool": "read"\|"tags"\|"search"\|"delete"\|"run", "params": {...}}`. |
-| GET | `/graph/shapes` | All shape definitions — fields, relations, display metadata. Used by apps to render generic views over any shape. |
+| POST | `/call` | **The single front door** for every namespace in the unified tool surface. Body: `{"op": "<namespace>.<op>", "params": {...}}`. |
+| POST | `/graph` | Legacy — kept until the last `apiPost('/graph', ...)` caller in the frontend migrates to `/call`. New code must not call this. |
 
-The `/graph` endpoint is a small JSON-RPC-like dispatcher. The five tools map to the main graph operations:
+`/call` mirrors MCP's `tools/call` wire format: dotted op identity in, handler result out, dispatched through the same `tools::registry::dispatch` path that MCP, CLI, and the Python SDK use. One registry, four interfaces, identical behaviour:
 
-- `read` — fetch a record or list by identity / filter.
-- `tags` — list records carrying a given shape-as-tag.
-- `search` — full-text across content.
-- `delete` — soft-delete a node or edge. (Writes go through the engine socket, not this endpoint — the bridge's DB connection is read-only. `delete` is the exception and is proxied through the engine.)
-- `run` — invoke a skill operation (again, proxied to the engine).
+- `data.read` — fetch one node by id (with relationships + content).
+- `data.search` — full-text across content (FTS5 + BM25).
+- `data.update` — set or delete vals on an existing node.
+- `data.create` — create a node, or upsert if `identity` is provided.
+- `data.delete` — soft-delete a node or edge.
+- `skills.run` — invoke a skill tool.
+- `skills.load` — fetch a skill manual before calling `run`.
+- `system.{boot, status, schema}` — engine lifecycle + introspection.
+- `tools.<capability>` — dynamic capability tools contributed by installed skills' `@provides` (e.g. `tools.web_search`).
+
+See [`tool-surface/`](/tool-surface/) for the full op catalog (one page per namespace, generated from the registry). All ops accept `view: { format: "json" | "markdown" }` to override the per-interface default — HTTP defaults to JSON.
 
 ### Observer (live activity)
 
@@ -62,7 +68,7 @@ The bridge is **localhost only**. It binds to `127.0.0.1`, not `0.0.0.0`. Nothin
 
 Within localhost, there is no additional auth. Any process on the machine that can open a TCP connection to `:3456` can read the graph. This is the same trust model as the [CLI](/interfaces/cli/): if you're on the machine, you have access.
 
-**Writes go through the engine, not the bridge.** The bridge's SQLite connection is opened read-only; the only mutating endpoints (`PUT /user/pref`, `POST /graph` with `tool: delete`, `tool: run`) proxy to the engine socket, which enforces the usual dispatch and auth flow.
+**Writes go through the engine, not the bridge.** The bridge's SQLite connection is opened read-only; mutating ops (`POST /call` with `data.update` / `data.create` / `data.delete` / `skills.run`) proxy to the engine socket, which enforces the usual dispatch and auth flow.
 
 ## SSE contract
 
@@ -80,13 +86,13 @@ Clients should use the browser `EventSource` API, not raw fetch. Reconnect is au
 
 ## Building an app against the bridge
 
-Apps are regular web pages that fetch from `http://127.0.0.1:3456/graph` (and friends). The `sdk-apps/` sibling repo ships `@agentos/sdk`, a TypeScript wrapper around these endpoints — most apps use it rather than calling fetch directly.
+Apps are regular web pages that fetch from `http://127.0.0.1:3456/call` (and friends). The `sdk-apps/` sibling repo ships `@agentos/sdk`, a TypeScript wrapper around these endpoints — most apps use it rather than calling fetch directly.
 
 A minimal app is:
 
 1. An HTML entrypoint + bundle served from `/ui/your-app-id/`.
 2. A manifest at `app.json` the bridge picks up via `/apps`.
-3. JavaScript that calls `fetch('/graph', { method: 'POST', body: JSON.stringify({tool: 'read', params: {...}}) })`.
+3. JavaScript that calls `fetch('/call', { method: 'POST', body: JSON.stringify({op: 'data.read', params: {id: '...'}}) })`.
 
 See [Apps overview](/apps/overview/) for the full shape.
 
@@ -105,5 +111,5 @@ If you change the port, apps that hardcode `3456` will break. The SDK reads the 
 ## Failure modes
 
 - **Bridge won't start** — usually a port conflict. `lsof -i :3456` shows the culprit.
-- **`/graph` returns 500** — check `~/.agentos/logs/engine.log`. The bridge forwards mutating ops to the engine; engine errors surface as 500s.
+- **`/call` returns 500** — check `~/.agentos/logs/engine.log`. The bridge forwards mutating ops to the engine; engine errors surface as 500s.
 - **SSE disconnects mid-session** — the observer socket was closed (engine restart). The browser `EventSource` will reconnect automatically.

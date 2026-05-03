@@ -12,14 +12,20 @@ The `agentos` binary is the Swiss Army knife of AgentOS. It's **the same fat bin
 One-shot tool invocation. Connects directly to the engine socket, sends one JSON-RPC call, prints the response.
 
 ```bash
-# Read a node by identity
-agentos call graph.read --params '{"shape": "person", "name": "Joe"}'
+# Read a node by id
+agentos call data.read --params '{"id": "abc123"}'
 
 # Search the full-text index
-agentos call graph.search --params '{"q": "memex", "limit": 10}'
+agentos call data.search --params '{"query": "memex", "limit": 10}'
+
+# Set a val on a node
+agentos call data.update --params '{"id": "abc123", "vals": {"pref:theme": "xp"}}'
+
+# Create or upsert a node
+agentos call data.create --params '{"shape": "bookmark", "name": "Aircraft", "vals": {"address": "?shape=aircraft"}}'
 
 # Invoke a skill operation
-agentos call skills.run --params '{"skill": "goodreads", "op": "search_books", "args": {"q": "licklider"}}'
+agentos call skills.run --params '{"skill": "goodreads", "tool": "search_books", "params": {"query": "licklider"}}'
 ```
 
 By default the output is pretty-printed markdown if the engine returns a structured response. Pass `--json` to get raw JSON — useful for piping into `jq` or another tool.

@@ -20,6 +20,7 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`app`](/shapes/reference/app/) — A graphical app (TS/React) that runs on top of the engine — browser,
 - [`book`](/shapes/reference/book/) — also `product` — A book. Books are also products, so they inherit price/brand fields
 - [`booking_offer`](/shapes/reference/booking_offer/) — A signed, itemized, fully-priced commitment presented to a human for
+- [`bookmark`](/shapes/reference/bookmark/) — A pointer into the graph. Bookmarks are the universal sidebar primitive
 - [`branch`](/shapes/reference/branch/) — A git branch
 - [`brand`](/shapes/reference/brand/) — A consumer brand — a named, visual, commercial identity. Often (but not
 - [`calendar`](/shapes/reference/calendar/) — A calendar — container for events
@@ -44,7 +45,6 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`hardware`](/shapes/reference/hardware/) — also `product` — A physical hardware product — computer, phone, appliance, component
 - [`image`](/shapes/reference/image/) — also `file` — An image file. Photos, screenshots, diagrams, artwork
 - [`invitation`](/shapes/reference/invitation/) — An invitation to join something — an organization, a workspace, a team, a
-- [`job`](/shapes/reference/job/) — A running or completed unit of work the engine is responsible for —
 - [`leg`](/shapes/reference/leg/) — One continuous movement on a single vehicle — takeoff to landing,
 - [`list`](/shapes/reference/list/) — A generic collection of items. Base type for shelf (books) and playlist (videos)
 - [`loaded_model`](/shapes/reference/loaded_model/) — A currently loaded/running AI model instance
