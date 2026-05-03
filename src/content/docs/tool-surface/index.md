@@ -9,7 +9,7 @@ See [`_roadmap/p1/unified-surface/unified-surface.md`](https://github.com/agento
 
 ## Namespaces
 
-- [`data`](/tool-surface/data/) (3 ops) — Query and mutate graph entities
+- [`data`](/tool-surface/data/) (5 ops) — Query and mutate graph entities
 - [`shapes`](/tool-surface/shapes/) *(empty)* — Shape definitions and typed upserts
 - [`credentials`](/tool-surface/credentials/) *(empty)* — Encrypted credential vault
 - [`skills`](/tool-surface/skills/) (2 ops) — Skill introspection and direct dispatch
