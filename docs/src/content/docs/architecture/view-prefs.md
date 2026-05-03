@@ -1,6 +1,6 @@
 ---
 title: View preferences
-description: How AgentOS persists UI presentation state — view mode, column widths, sort order, theme knobs — as a single opaque `pref:ui` JSON val on the carrier node, with frontend-side resolution from instance → bookmark → shape → global.
+description: How AgentOS persists UI presentation state — view mode, column widths, sort order, theme knobs — as a single opaque `pref:ui` JSON val on the carrier node, with both frontend and engine resolving the same code → user → shape → instance cascade.
 ---
 
 UI presentation state — *what view mode is this folder in, how wide is the
@@ -38,23 +38,31 @@ This means:
 
 ## Resolution chain
 
-The frontend resolves prefs per render, deep-merging from least to most
-specific:
+Both the frontend AND the engine resolve prefs per request, deep-merging
+from least to most specific:
 
 ```
-1. GLOBAL_UI_DEFAULTS          (web/src/lib/ui-defaults.ts)
-2. SHAPE_UI_DEFAULTS[shape]    (web/src/lib/ui-defaults.ts)
-3. <shape def>.pref:ui         (graph-resident, when set)
-4. <bookmark>.pref:ui          (when viewing through a bookmark)
+1. GLOBAL_UI_DEFAULTS          (web/src/lib/ui-defaults.ts) — code floor
+2. SHAPE_UI_DEFAULTS[shape]    (web/src/lib/ui-defaults.ts) — code overlay
+3. <user person>.pref:ui       (graph-resident; seeded from GLOBAL_UI_DEFAULTS at boot)
+4. <shape def>.pref:ui         (graph-resident, when set)
 5. <instance>.pref:ui          (when viewing one specific node)
 ```
 
-`deepMerge(global, shapeDefault, shape, bookmark, instance)`. Last writer
+`deepMerge(global, shapeDefault, user, shape, instance)`. Last writer
 wins per key path. Arrays replace wholesale (column orders are
 sequences, not sets).
 
-The merge happens entirely in the frontend (`web/src/hooks/useViewPrefs.ts`).
-The engine returns whatever val each carrier carries; it does not pre-resolve.
+The merge runs in two places: the frontend
+(`web/src/hooks/useViewPrefs.ts`) and the engine
+(`crates/core/src/view_prefs.rs`). Both produce the same blob from the
+same carriers, so agent-facing markdown footers and `view: { resolved,
+carriers }` JSON describe exactly what the user sees in the Browser.
+
+**Bookmarks are not in the cascade by design.** A bookmark is a
+shortcut to a place, not a place itself; view prefs live on the
+destination (shape, folder, entity). Navigating *through* a bookmark
+just resolves prefs for whatever the bookmark points at.
 
 This is the same mechanic as CSS: cascade by specificity. The graph
 already says "shapes are nodes," so attaching prefs to a shape and
@@ -67,21 +75,19 @@ The View menu writes to the *most-specific writable carrier*:
 
 | Viewing | Edits target |
 |---|---|
-| A single named entity | That instance's `pref:ui` |
-| A bookmark | The bookmark's `pref:ui` |
-| All entities of a shape (no bookmark) | The shape def's `pref:ui` |
-| FTS results, ad-hoc tag query | Disabled — no carrier |
+| A single named entity (instance carrier set) | That instance's `pref:ui` |
+| All entities of a shape (the common case) | The shape def's `pref:ui` |
+| FTS results, ad-hoc tag query, virtual collection | The user `person` node's `pref:ui` |
 
-Two explicit promote/reset actions are surfaced:
+The user node always exists post-boot
+(`crates/core/src/sources/identity.rs::ensure_user_defaults` seeds it
+from `GLOBAL_UI_DEFAULTS`), so writes never have nowhere to land — even
+on virtual collections that don't have a shape def.
 
-- **"Save as default for this shape"** — copies the resolved blob
-  (everything more specific than the shape) onto the shape def.
-- **"Reset to shape default"** — deletes `pref:ui` on the
-  instance/bookmark carrier; the chain falls back to shape → global.
+One explicit reset action is surfaced today:
 
-Promote and reset are the *only* shape-def writes a user makes
-implicitly. Every other change targets the current carrier. This avoids
-the "I customised one folder and it changed every folder" surprise.
+- **"Reset to defaults"** — deletes `pref:ui` on the most-specific
+  writable carrier; the chain falls back through user → code defaults.
 
 ## Reserved blob convention
 

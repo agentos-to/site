@@ -93,6 +93,8 @@ Relations declare connections to other records. Keys are edge labels, values are
 
 When a skill returns a nested dict under a relation key, the engine extracts it as a child node and creates an edge from parent to child. See [Typed references](#typed-references-entity-relationships) below.
 
+**The relation label is the edge label, not the child's shape.** A `flight` shape declaring `departsFrom: airport` produces a `--departsFrom-->` edge to a node tagged with shape `airport` — never with shape `departsFrom`. Sub-extracted children always take the *target type* declared in the parent's YAML; if you want a polymorphic relation (e.g. an `actor` slot pointing at a `person` vs an `organization`), the child object can override with `shape:` or `_tag:`.
+
 ### Identity
 
 `identity` declares the keys used to dedupe records. When two different skill calls return the same identity tuple, the engine upserts instead of creating duplicates.
