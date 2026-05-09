@@ -13,6 +13,11 @@ theme:
     family:            string    # OS family: "windows", "macos", "unix"
     colorScheme:      string    # "light", "dark", or "both"
     description:       text
+    prefsSchema:       json      # advisory schema for pref:ui.theme.<themeId>.* knobs
+                                 # — list of {key,type,default,label,group?} entries
+                                 # parsed from the theme's `prefs:` YAML block.
+                                 # Engine round-trips it; the View menu auto-renders
+                                 # controls from it. See view-prefs spec V8.
   relations:
     wallpaper:         image     # theme's default wallpaper image
   prior_art:
