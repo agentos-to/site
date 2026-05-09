@@ -1945,12 +1945,16 @@ export interface Theme {
     author?: string;
     datePublished?: string;
     content?: string;
+    chrome?: unknown;
     colorScheme?: string;
+    defaultWallpaper?: string;
     description?: string;
     family?: string;
+    fonts?: unknown;
     prefsSchema?: unknown;
+    sounds?: unknown;
     themeId?: string;
-    wallpaper?: Image;
+    themeType?: string;
 }
 
 export interface ToolCall {
