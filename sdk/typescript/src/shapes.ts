@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 82 shapes.
+// Generated from 83 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -2062,6 +2062,21 @@ export interface Trip {
     legs?: Leg[];
     order?: Order;
     origin?: Place;
+}
+
+export interface User {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    actorType?: string;
+    osUsername?: string;
+    primaryUser?: boolean;
+    identifiedAs?: Person;
 }
 
 export interface Video {
