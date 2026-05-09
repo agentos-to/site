@@ -4,22 +4,33 @@
 #
 # Identity: themeId — unique per source namespace (e.g., "xp", "macos9").
 # Qualified references use sourceId.themeId (e.g., "community.xp").
+#
+# Every val below is what `seed_theme_entities` writes to the graph node.
+# The disk-side theme.yaml uses these same camelCase keys (post-2026-05-09
+# alignment); shape is the single contract — no translation layer.
 theme:
   plural: themes
   identity: themeId
   subtitle: family
   fields:
     themeId:           string    # unique ID within its source: "xp", "macos9", "cde"
+    themeType:         string    # bucket name — "desktop", "mobile", "experimental"
     family:            string    # OS family: "windows", "macos", "unix"
-    colorScheme:      string    # "light", "dark", or "both"
+    colorScheme:       string    # "light", "dark", or "both"
     description:       text
+    chrome:            json      # window-decoration config — titlebar buttons/height,
+                                 # window border, corner radius, has_taskbar/menubar.
+    fonts:             json      # font stack overrides — system, mono.
+    defaultWallpaper:  string    # path under wallpapers root, e.g. "windows/bliss.jpg"
     prefsSchema:       json      # advisory schema for pref:ui.theme.<themeId>.* knobs
-                                 # — list of {key,type,default,label,group?} entries
-                                 # parsed from the theme's `prefs:` YAML block.
+                                 # — list of {key,kind,default,label,group?} entries
+                                 # parsed from the theme's `prefsSchema:` YAML block.
                                  # Engine round-trips it; the View menu auto-renders
                                  # controls from it. See view-prefs spec V8.
-  relations:
-    wallpaper:         image     # theme's default wallpaper image
+    sounds:            json      # event-name → filename map for theme audio,
+                                 # served via /ui/themes/<id>/<path>. Used by
+                                 # useThemeSounds; gated by the `sounds_enabled`
+                                 # entry in prefsSchema.
   prior_art:
     - source: CSS color-scheme (W3C CSS Color Adjustment)
       url: https://www.w3.org/TR/css-color-adjust-1/#color-scheme-prop
