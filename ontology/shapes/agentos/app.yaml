@@ -3,24 +3,31 @@
 # with no UI) and `software` (third-party apps we connect to).
 #
 # The engine reads app manifests from configured sources at boot and
-# upserts an `app` node for each. Apps declare the shapes they render
-# via `entity_types` and either take over the shell (`standalone`) or
-# nest inside another app (`standalone: false`).
+# upserts an `app` node for each via `APP.upsert_struct(&app)`. Field
+# names below match the disk-side `app.yaml` and the Rust `App` struct
+# 1:1 — shape is the single contract, no translation layer.
 app:
   plural: apps
   identity: [id]
   subtitle: description
   icon: app-window
   fields:
-    id:                string    # slug — e.g. "browser", "mail", "agent-inbox"
-    app_id:            string    # duplicate of id for graph-query ergonomics
-    standalone:        boolean   # true when the app controls the shell
-    description:       string
-    entity_types:      json      # shape names this app renders, as JSON array
+    id:               string    # slug — e.g. "browser", "mail", "agent-inbox"
+    standalone:       boolean   # true when the app controls the shell;
+                                # computed at load time from routes/entities.
+    description:      string
+    icon:             string    # icon filename relative to the app's directory
+    entities:         json      # shape names this app renders, as JSON array
+    routes:           json      # tool-activity types this app handles
+    handles:          json      # capabilities this app handles for routing
+    views:            json      # view definitions keyed by name
+    defaultView:      string    # view to open when the app launches
+    defaultToolbar:   json      # fallback toolbar config (url + search)
+    menus:            json      # menu-bar definitions per app
   prior_art:
     - source: Desktop Entry Specification (freedesktop.org)
       url: https://specifications.freedesktop.org/desktop-entry-spec/latest/
       notes: >-
         Apps mirror .desktop entries — a user-facing name, a description,
         and metadata about what categories/file-types the app handles.
-        Our entity_types plays the role of MimeType.
+        Our `entities` plays the role of MimeType.
