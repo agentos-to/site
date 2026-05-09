@@ -192,10 +192,16 @@ export interface App {
     author?: string;
     datePublished?: string;
     content?: string;
-    appId?: string;
+    defaultToolbar?: unknown;
+    defaultView?: string;
     description?: string;
-    entityTypes?: unknown;
+    entities?: unknown;
+    handles?: unknown;
+    icon?: string;
+    menus?: unknown;
+    routes?: unknown;
     standalone?: boolean;
+    views?: unknown;
 }
 
 export interface Book {
