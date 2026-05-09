@@ -1948,6 +1948,7 @@ export interface Theme {
     colorScheme?: string;
     description?: string;
     family?: string;
+    prefsSchema?: unknown;
     themeId?: string;
     wallpaper?: Image;
 }
