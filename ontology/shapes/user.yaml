@@ -44,8 +44,12 @@ user:
         max: 20
         step: 1
         default: 12
-      # View vocabulary — set as user defaults here; any view-instance
-      # (a folder, a shape def, an album) overrides via the cascade.
+      # Icon vocabulary — user-wide defaults, written to user.pref:ui.
+      # Per-folder overrides happen through that folder's own View menu
+      # (the cascade reads them at the instance layer); Settings shows
+      # the user-default level only. XP put icon-on-desktop tweaks
+      # behind a separate "Customize Desktop…" sub-dialog rather than
+      # on the Desktop tab — same idea here, just deferred.
       - key: icons.iconSize
         kind: number
         label: Icon Size
@@ -90,12 +94,37 @@ user:
         options:
           - { value: vertical-first, label: Vertical First }
           - { value: horizontal-first, label: Horizontal First }
+      # Background — Desktop tab. Just the CRT picker (XP override).
       - key: background.color
         kind: color
         label: Background Color
         description: Solid background tone for this view.
         group: Background
+        tab: Desktop
         default: '#3A6EA5'
+      - key: background.wallpaper
+        kind: select
+        label: Wallpaper
+        description: Background image — pick from images tagged `wallpaper`.
+        group: Background
+        tab: Desktop
+        optionsShape: image
+        optionsTag: wallpaper
+        optionsValue: path
+        optionsLabel: name
+      - key: background.position
+        kind: select
+        label: Position
+        description: How the wallpaper fills the surface.
+        group: Background
+        tab: Desktop
+        default: fill
+        options:
+          - { value: fill, label: Fill }
+          - { value: fit, label: Fit }
+          - { value: stretch, label: Stretch }
+          - { value: center, label: Center }
+          - { value: tile, label: Tile }
     system:
       - key: loggingEnabled
         kind: boolean
