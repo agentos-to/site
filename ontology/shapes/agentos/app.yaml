@@ -16,7 +16,13 @@ app:
     standalone:       boolean   # true when the app controls the shell;
                                 # computed at load time from routes/entities.
     description:      string
-    icon:             string    # icon filename relative to the app's directory
+    icon:             string    # per-app icon filename (relative to the app's
+                                # directory). Use when the app ships its own art.
+    themeIcon:        string    # semantic theme-icon name — the active theme's
+                                # bundle resolves it via <ThemedIcon name=…>.
+                                # Preferred over `icon` when both are set, so
+                                # built-in apps stay consistent across themes.
+                                # e.g. "control-panel", "user-accounts".
     entities:         json      # shape names this app renders, as JSON array
     routes:           json      # tool-activity types this app handles
     handles:          json      # capabilities this app handles for routing
