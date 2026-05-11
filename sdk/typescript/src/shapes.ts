@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 83 shapes.
+// Generated from 88 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -102,6 +102,7 @@ export interface Aircraft {
     currency?: string;
     customizationGroups?: unknown;
     department?: string;
+    discontinued?: string;
     iataCode?: string;
     icaoCode?: string;
     images?: unknown;
@@ -114,6 +115,7 @@ export interface Aircraft {
     priceAmount?: number;
     quantity?: number;
     rangeKm?: number;
+    released?: string;
     seatCapacity?: number;
     servingSize?: string;
     sku?: string;
@@ -123,6 +125,8 @@ export interface Aircraft {
     weightUnit?: string;
     weightValue?: number;
     brand?: Brand;
+    creator?: Actor[];
+    inspiredBy?: Product[];
     manufacturer?: Organization;
     tagged?: Tag[];
 }
@@ -201,6 +205,7 @@ export interface App {
     menus?: unknown;
     routes?: unknown;
     standalone?: boolean;
+    themeIcon?: string;
     views?: unknown;
 }
 
@@ -221,15 +226,21 @@ export interface Book {
     categories?: string[];
     category?: string;
     characters?: string[];
+    copyrightYear?: number;
+    coverage?: string;
     currency?: string;
     customizationGroups?: unknown;
+    dateCreated?: unknown;
     department?: string;
+    description?: string;
+    discontinued?: string;
     format?: string;
     genres?: string[];
     images?: unknown;
     isbn?: string;
     isbn13?: string;
     language?: string;
+    license?: string;
     novaGroup?: number;
     nutritionScore?: string;
     originalPrice?: string;
@@ -240,15 +251,21 @@ export interface Book {
     price?: string;
     priceAmount?: number;
     quantity?: number;
+    released?: string;
     series?: string;
     servingSize?: string;
     sku?: string;
     soldByWeight?: boolean;
+    tags?: string[];
     weight?: string;
     weightUnit?: string;
     weightValue?: number;
+    author?: Person;
     brand?: Brand;
     contributors?: Person[];
+    copyrightHolder?: Person;
+    creator?: Actor[];
+    inspiredBy?: Product[];
     manufacturer?: Organization;
     publisher?: Organization;
     tagged?: Tag[];
@@ -485,6 +502,28 @@ export interface Conversation {
     in?: Folder;
     message?: Message[];
     participant?: Actor[];
+}
+
+export interface CreativeWork {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    copyrightYear?: number;
+    coverage?: string;
+    dateCreated?: unknown;
+    description?: string;
+    language?: string;
+    license?: string;
+    tags?: string[];
+    author?: Person;
+    contributors?: Person[];
+    copyrightHolder?: Person;
+    publisher?: Organization;
 }
 
 export interface Credential {
@@ -825,6 +864,38 @@ export interface Folder {
     repository?: Repository;
 }
 
+export interface Font {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    copyrightYear?: number;
+    coverage?: string;
+    dateCreated?: unknown;
+    description?: string;
+    designerUrl?: string;
+    family?: string;
+    formats?: string[];
+    glyphCount?: number;
+    language?: string;
+    license?: string;
+    licenseInfoUrl?: string;
+    postscriptName?: string;
+    scripts?: string[];
+    styles?: string[];
+    tags?: string[];
+    vendorUrl?: string;
+    weights?: number[];
+    author?: Person;
+    contributors?: Person[];
+    copyrightHolder?: Person;
+    publisher?: Organization;
+}
+
 export interface GitCommit {
     id?: string;
     name?: string;
@@ -878,6 +949,7 @@ export interface Hardware {
     currency?: string;
     customizationGroups?: unknown;
     department?: string;
+    discontinued?: string;
     images?: unknown;
     modelNumber?: string;
     novaGroup?: number;
@@ -887,6 +959,7 @@ export interface Hardware {
     price?: string;
     priceAmount?: number;
     quantity?: number;
+    released?: string;
     serialNumber?: string;
     servingSize?: string;
     sku?: string;
@@ -896,8 +969,37 @@ export interface Hardware {
     weightUnit?: string;
     weightValue?: number;
     brand?: Brand;
+    creator?: Actor[];
+    inspiredBy?: Product[];
     manufacturer?: Organization;
     tagged?: Tag[];
+}
+
+export interface Icon {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    component?: string;
+    copyrightYear?: number;
+    coverage?: string;
+    dateCreated?: unknown;
+    description?: string;
+    dimension?: number;
+    format?: string;
+    language?: string;
+    license?: string;
+    purpose?: string;
+    style?: string;
+    tags?: string[];
+    author?: Person;
+    contributors?: Person[];
+    copyrightHolder?: Person;
+    publisher?: Organization;
 }
 
 export interface Image {
@@ -911,6 +1013,10 @@ export interface Image {
     content?: string;
     altText?: string;
     appName?: string;
+    copyrightYear?: number;
+    coverage?: string;
+    dateCreated?: unknown;
+    description?: string;
     displayId?: number;
     displayIndex?: number;
     encoding?: string;
@@ -918,14 +1024,21 @@ export interface Image {
     format?: string;
     height?: number;
     kind?: string;
+    language?: string;
+    license?: string;
     lineCount?: number;
     mimeType?: string;
     path?: string;
     sha?: string;
     size?: number;
+    tags?: string[];
     width?: number;
     windowId?: number;
     attachedTo?: Message;
+    author?: Person;
+    contributors?: Person[];
+    copyrightHolder?: Person;
+    publisher?: Organization;
     repository?: Repository;
 }
 
@@ -1523,6 +1636,7 @@ export interface Product {
     currency?: string;
     customizationGroups?: unknown;
     department?: string;
+    discontinued?: string;
     images?: unknown;
     novaGroup?: number;
     nutritionScore?: string;
@@ -1531,6 +1645,7 @@ export interface Product {
     price?: string;
     priceAmount?: number;
     quantity?: number;
+    released?: string;
     servingSize?: string;
     sku?: string;
     soldByWeight?: boolean;
@@ -1538,6 +1653,8 @@ export interface Product {
     weightUnit?: string;
     weightValue?: number;
     brand?: Brand;
+    creator?: Actor[];
+    inspiredBy?: Product[];
     manufacturer?: Organization;
     tagged?: Tag[];
 }
@@ -1808,6 +1925,89 @@ export interface Skill {
     website?: Website;
 }
 
+export interface Software {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    aisle?: string;
+    applicationCategory?: string;
+    availability?: string;
+    barcode?: string;
+    calories?: number;
+    categories?: string[];
+    category?: string;
+    codename?: string;
+    currency?: string;
+    customizationGroups?: unknown;
+    department?: string;
+    discontinued?: string;
+    images?: unknown;
+    novaGroup?: number;
+    nutritionScore?: string;
+    originalPrice?: string;
+    originalPriceAmount?: number;
+    price?: string;
+    priceAmount?: number;
+    quantity?: number;
+    released?: string;
+    runtimePlatform?: string;
+    servingSize?: string;
+    sku?: string;
+    soldByWeight?: boolean;
+    version?: string;
+    weight?: string;
+    weightUnit?: string;
+    weightValue?: number;
+    brand?: Brand;
+    creator?: Actor[];
+    inspiredBy?: Product[];
+    manufacturer?: Organization;
+    tagged?: Tag[];
+}
+
+export interface Sound {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    bitDepth?: number;
+    channels?: number;
+    copyrightYear?: number;
+    coverage?: string;
+    dateCreated?: unknown;
+    description?: string;
+    durationMs?: number;
+    encoding?: string;
+    filename?: string;
+    format?: string;
+    kind?: string;
+    language?: string;
+    license?: string;
+    lineCount?: number;
+    mimeType?: string;
+    path?: string;
+    purpose?: string;
+    sampleRate?: number;
+    sha?: string;
+    size?: number;
+    tags?: string[];
+    attachedTo?: Message;
+    author?: Person;
+    contributors?: Person[];
+    copyrightHolder?: Person;
+    publisher?: Organization;
+    repository?: Repository;
+}
+
 export interface Source {
     id?: string;
     name?: string;
@@ -1953,6 +2153,7 @@ export interface Theme {
     content?: string;
     chrome?: unknown;
     colorScheme?: string;
+    defaultBackgroundColor?: string;
     defaultWallpaper?: string;
     description?: string;
     family?: string;
@@ -2089,22 +2290,33 @@ export interface Video {
     datePublished?: string;
     content?: string;
     codec?: string;
+    copyrightYear?: number;
+    coverage?: string;
+    dateCreated?: unknown;
+    description?: string;
     durationMs?: number;
     encoding?: string;
     filename?: string;
     format?: string;
     frameRate?: number;
     kind?: string;
+    language?: string;
+    license?: string;
     lineCount?: number;
     mimeType?: string;
     path?: string;
     resolution?: string;
     sha?: string;
     size?: number;
+    tags?: string[];
     viewCount?: number;
     addTo?: Playlist;
     attachedTo?: Message;
+    author?: Person;
     channel?: Channel;
+    contributors?: Person[];
+    copyrightHolder?: Person;
+    publisher?: Organization;
     repository?: Repository;
     transcribe?: Transcript;
 }
