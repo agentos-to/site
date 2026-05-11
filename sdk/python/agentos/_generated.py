@@ -1,6 +1,6 @@
 """Auto-generated TypedDict classes from shape YAML — do not edit.
 
-Generated from 83 shapes.
+Generated from 88 shapes.
 Regenerate with: python generate.py --lang python
 """
 
@@ -108,6 +108,7 @@ class Aircraft(TypedDict, total=False):
     currency: str
     customizationGroups: Any
     department: str
+    discontinued: str
     iataCode: str
     icaoCode: str
     images: Any
@@ -120,6 +121,7 @@ class Aircraft(TypedDict, total=False):
     priceAmount: float
     quantity: int
     rangeKm: int
+    released: str
     seatCapacity: int
     servingSize: str
     sku: str
@@ -129,6 +131,8 @@ class Aircraft(TypedDict, total=False):
     weightUnit: str
     weightValue: float
     brand: Brand
+    creator: list[Actor]
+    inspiredBy: list[Product]
     manufacturer: Organization
     tagged: list[Tag]
 
@@ -207,6 +211,7 @@ class App(TypedDict, total=False):
     menus: Any
     routes: Any
     standalone: bool
+    themeIcon: str
     views: Any
 
 
@@ -227,15 +232,21 @@ class Book(TypedDict, total=False):
     categories: list[str]
     category: str
     characters: list[str]
+    copyrightYear: int
+    coverage: str
     currency: str
     customizationGroups: Any
+    dateCreated: Any
     department: str
+    description: str
+    discontinued: str
     format: str
     genres: list[str]
     images: Any
     isbn: str
     isbn13: str
     language: str
+    license: str
     novaGroup: int
     nutritionScore: str
     originalPrice: str
@@ -246,15 +257,21 @@ class Book(TypedDict, total=False):
     price: str
     priceAmount: float
     quantity: int
+    released: str
     series: str
     servingSize: str
     sku: str
     soldByWeight: bool
+    tags: list[str]
     weight: str
     weightUnit: str
     weightValue: float
+    author: Person
     brand: Brand
     contributors: list[Person]
+    copyrightHolder: Person
+    creator: list[Actor]
+    inspiredBy: list[Product]
     manufacturer: Organization
     publisher: Organization
     tagged: list[Tag]
@@ -491,6 +508,28 @@ class Conversation(TypedDict, total=False):
     in_: Folder  # in
     message: list[Message]
     participant: list[Actor]
+
+
+class CreativeWork(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    copyrightYear: int
+    coverage: str
+    dateCreated: Any
+    description: str
+    language: str
+    license: str
+    tags: list[str]
+    author: Person
+    contributors: list[Person]
+    copyrightHolder: Person
+    publisher: Organization
 
 
 class Credential(TypedDict, total=False):
@@ -831,6 +870,38 @@ class Folder(TypedDict, total=False):
     repository: Repository
 
 
+class Font(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    copyrightYear: int
+    coverage: str
+    dateCreated: Any
+    description: str
+    designerUrl: str
+    family: str
+    formats: list[str]
+    glyphCount: int
+    language: str
+    license: str
+    licenseInfoUrl: str
+    postscriptName: str
+    scripts: list[str]
+    styles: list[str]
+    tags: list[str]
+    vendorUrl: str
+    weights: list[int]
+    author: Person
+    contributors: list[Person]
+    copyrightHolder: Person
+    publisher: Organization
+
+
 class GitCommit(TypedDict, total=False):
     id: str
     name: str
@@ -884,6 +955,7 @@ class Hardware(TypedDict, total=False):
     currency: str
     customizationGroups: Any
     department: str
+    discontinued: str
     images: Any
     modelNumber: str
     novaGroup: int
@@ -893,6 +965,7 @@ class Hardware(TypedDict, total=False):
     price: str
     priceAmount: float
     quantity: int
+    released: str
     serialNumber: str
     servingSize: str
     sku: str
@@ -902,8 +975,37 @@ class Hardware(TypedDict, total=False):
     weightUnit: str
     weightValue: float
     brand: Brand
+    creator: list[Actor]
+    inspiredBy: list[Product]
     manufacturer: Organization
     tagged: list[Tag]
+
+
+class Icon(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    component: str
+    copyrightYear: int
+    coverage: str
+    dateCreated: Any
+    description: str
+    dimension: int
+    format: str
+    language: str
+    license: str
+    purpose: str
+    style: str
+    tags: list[str]
+    author: Person
+    contributors: list[Person]
+    copyrightHolder: Person
+    publisher: Organization
 
 
 class Image(TypedDict, total=False):
@@ -917,6 +1019,10 @@ class Image(TypedDict, total=False):
     content: str
     altText: str
     appName: str
+    copyrightYear: int
+    coverage: str
+    dateCreated: Any
+    description: str
     displayId: int
     displayIndex: int
     encoding: str
@@ -924,14 +1030,21 @@ class Image(TypedDict, total=False):
     format: str
     height: int
     kind: str
+    language: str
+    license: str
     lineCount: int
     mimeType: str
     path: str
     sha: str
     size: int
+    tags: list[str]
     width: int
     windowId: int
     attachedTo: Message
+    author: Person
+    contributors: list[Person]
+    copyrightHolder: Person
+    publisher: Organization
     repository: Repository
 
 
@@ -1529,6 +1642,7 @@ class Product(TypedDict, total=False):
     currency: str
     customizationGroups: Any
     department: str
+    discontinued: str
     images: Any
     novaGroup: int
     nutritionScore: str
@@ -1537,6 +1651,7 @@ class Product(TypedDict, total=False):
     price: str
     priceAmount: float
     quantity: int
+    released: str
     servingSize: str
     sku: str
     soldByWeight: bool
@@ -1544,6 +1659,8 @@ class Product(TypedDict, total=False):
     weightUnit: str
     weightValue: float
     brand: Brand
+    creator: list[Actor]
+    inspiredBy: list[Product]
     manufacturer: Organization
     tagged: list[Tag]
 
@@ -1814,6 +1931,89 @@ class Skill(TypedDict, total=False):
     website: Website
 
 
+class Software(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    aisle: str
+    applicationCategory: str
+    availability: str
+    barcode: str
+    calories: float
+    categories: list[str]
+    category: str
+    codename: str
+    currency: str
+    customizationGroups: Any
+    department: str
+    discontinued: str
+    images: Any
+    novaGroup: int
+    nutritionScore: str
+    originalPrice: str
+    originalPriceAmount: float
+    price: str
+    priceAmount: float
+    quantity: int
+    released: str
+    runtimePlatform: str
+    servingSize: str
+    sku: str
+    soldByWeight: bool
+    version: str
+    weight: str
+    weightUnit: str
+    weightValue: float
+    brand: Brand
+    creator: list[Actor]
+    inspiredBy: list[Product]
+    manufacturer: Organization
+    tagged: list[Tag]
+
+
+class Sound(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    bitDepth: int
+    channels: int
+    copyrightYear: int
+    coverage: str
+    dateCreated: Any
+    description: str
+    durationMs: int
+    encoding: str
+    filename: str
+    format: str
+    kind: str
+    language: str
+    license: str
+    lineCount: int
+    mimeType: str
+    path: str
+    purpose: str
+    sampleRate: int
+    sha: str
+    size: int
+    tags: list[str]
+    attachedTo: Message
+    author: Person
+    contributors: list[Person]
+    copyrightHolder: Person
+    publisher: Organization
+    repository: Repository
+
+
 class Source(TypedDict, total=False):
     id: str
     name: str
@@ -1959,6 +2159,7 @@ class Theme(TypedDict, total=False):
     content: str
     chrome: Any
     colorScheme: str
+    defaultBackgroundColor: str
     defaultWallpaper: str
     description: str
     family: str
@@ -2095,22 +2296,33 @@ class Video(TypedDict, total=False):
     datePublished: str
     content: str
     codec: str
+    copyrightYear: int
+    coverage: str
+    dateCreated: Any
+    description: str
     durationMs: int
     encoding: str
     filename: str
     format: str
     frameRate: float
     kind: str
+    language: str
+    license: str
     lineCount: int
     mimeType: str
     path: str
     resolution: str
     sha: str
     size: int
+    tags: list[str]
     viewCount: int
     addTo: Playlist
     attachedTo: Message
+    author: Person
     channel: Channel
+    contributors: list[Person]
+    copyrightHolder: Person
+    publisher: Organization
     repository: Repository
     transcribe: Transcript
 
@@ -2160,8 +2372,8 @@ SHAPE_YAMLS: dict[str, str] = {
     'airline': "plural: airlines\nidentity: iataCode\nsubtitle: iataCode\nalso:\n- organization\nfields:\n  iataCode: string\n  icaoCode: string\n  callsign: string\n  country: string\n  alliance: string\nprior_art:\n- source: IATA Airline Designators\n  url: https://www.iata.org/en/publications/directories/code-search/\n  notes: iataCode is 2-letter (UA, DL); icaoCode is 3-letter (UAL, DAL); callsign\n    is radio callsign (UNITED). Full IATA/ICAO alignment.\n- source: schema.org/Airline\n  url: https://schema.org/Airline\n  notes: schema.org's Airline is an Organization subtype. Our alliance is a free field;\n    schema.org doesn't model it.\n",
     'airport': 'plural: airports\nidentity: iataCode\nsubtitle: iataCode\nfields:\n  iataCode: string\n  icaoCode: string\n  city: string\n  country: string\n  countryCode: string\n  timezone: string\n  elevationFt: integer\n  terminalCount: integer\nrelations:\n  location: place\n  operator: organization\nprior_art:\n- source: IATA/ICAO Airport Codes\n  url: https://www.iata.org/en/publications/directories/code-search/\n  notes: iataCode is 3-letter (LAX, JFK); icaoCode is 4-letter (KLAX, KJFK). Canonical\n    identifiers for global airport routing.\n- source: schema.org/Airport\n  url: https://schema.org/Airport\n  notes: "Our iataCode/icaoCode = iataCode/icaoCode; city/country = address fields;\\\n    \\ elevationFt \\u2248 elevation. Direct alignment."\n- source: OurAirports open dataset\n  url: https://ourairports.com/data/\n  notes: Practical open dataset covering terminalCount, elevation, and country codes\n    (ISO 3166-1) aligning with our countryCode field.\n',
     'album': 'plural: albums\nidentity:\n- id\nsubtitle: id\nicon: images\nfields:\n  id: string\nrelations:\n  contains: image[]\nprior_art:\n- source: Apple Photos Album / IPTC PhotoMetadata\n  url: https://www.iptc.org/std/photometadata/specification/IPTC-PhotoMetadata\n  notes: "Albums are the simplest photo-grouping primitive. No EXIF, no date range\\\n    \\ \\u2014 just a named bucket. IPTC\'s \\"Album\\" PMV is the de-facto interchange\\\n    \\ format for this."\n',
-    'app': 'plural: apps\nidentity:\n- id\nsubtitle: description\nicon: app-window\nfields:\n  id: string\n  standalone: boolean\n  description: string\n  icon: string\n  entities: json\n  routes: json\n  handles: json\n  views: json\n  defaultView: string\n  defaultToolbar: json\n  menus: json\nprior_art:\n- source: Desktop Entry Specification (freedesktop.org)\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: "Apps mirror .desktop entries \\u2014 a user-facing name, a description, and\\\n    \\ metadata about what categories/file-types the app handles. Our `entities` plays\\\n    \\ the role of MimeType."\n',
-    'book': 'plural: books\nidentity_any:\n- isbn13\n- isbn\nsubtitle: author\nalso:\n- product\nfields:\n  isbn: string\n  isbn13: string\n  pages: integer\n  genres: string[]\n  series: string\n  format: string\n  language: string\n  originalTitle: string\n  places: string[]\n  characters: string[]\n  awardsWon: string[]\nrelations:\n  writtenBy: person\n  contributors: person[]\n  publisher: organization\nprior_art:\n- source: schema.org/Book\n  url: https://schema.org/Book\n  notes: "Our isbn maps to isbn; writtenBy = author; publisher matches; pages = numberOfPages;\\\n    \\ language = inLanguage; format \\u2248 bookFormat (Hardcover/Paperback/EBook)."\n- source: ONIX for Books 3.0\n  url: https://www.editeur.org/83/Overview/\n  notes: Publishing-industry canonical. Our isbn/isbn13/pages/format/language/series/originalTitle\n    align with ONIX Product Identifier, Extent, ProductForm, Language, Collection,\n    and OriginalLanguageTitle composites.\n- source: Open Library Books API\n  url: https://openlibrary.org/developers/api\n  notes: Practical lookup by ISBN. Our genres/characters/places/awardsWon map to subjects/subject_people/subject_places/subject_times\n    (awards less standardized).\n',
+    'app': 'plural: apps\nidentity:\n- id\nsubtitle: description\nicon: app-window\nfields:\n  id: string\n  standalone: boolean\n  description: string\n  icon: string\n  themeIcon: string\n  entities: json\n  routes: json\n  handles: json\n  views: json\n  defaultView: string\n  defaultToolbar: json\n  menus: json\nprior_art:\n- source: Desktop Entry Specification (freedesktop.org)\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: "Apps mirror .desktop entries \\u2014 a user-facing name, a description, and\\\n    \\ metadata about what categories/file-types the app handles. Our `entities` plays\\\n    \\ the role of MimeType."\n',
+    'book': 'plural: books\nidentity_any:\n- isbn13\n- isbn\nsubtitle: author\nalso:\n- creative_work\n- product\nfields:\n  isbn: string\n  isbn13: string\n  pages: integer\n  genres: string[]\n  series: string\n  format: string\n  language: string\n  originalTitle: string\n  places: string[]\n  characters: string[]\n  awardsWon: string[]\nrelations:\n  writtenBy: person\n  contributors: person[]\n  publisher: organization\nprior_art:\n- source: schema.org/Book\n  url: https://schema.org/Book\n  notes: "Our isbn maps to isbn; writtenBy = author; publisher matches; pages = numberOfPages;\\\n    \\ language = inLanguage; format \\u2248 bookFormat (Hardcover/Paperback/EBook)."\n- source: ONIX for Books 3.0\n  url: https://www.editeur.org/83/Overview/\n  notes: Publishing-industry canonical. Our isbn/isbn13/pages/format/language/series/originalTitle\n    align with ONIX Product Identifier, Extent, ProductForm, Language, Collection,\n    and OriginalLanguageTitle composites.\n- source: Open Library Books API\n  url: https://openlibrary.org/developers/api\n  notes: Practical lookup by ISBN. Our genres/characters/places/awardsWon map to subjects/subject_people/subject_places/subject_times\n    (awards less standardized).\n',
     'booking_offer': 'plural: booking_offers\nidentity:\n- at\n- cartId\nsubtitle: totalAmount\nfields:\n  cartId: string\n  referenceNumber: string\n  status: string\n  preparedAt: datetime\n  presentedAt: datetime\n  approvedAt: datetime\n  expiresAt: datetime\n  currency: string\n  baseAmount: number\n  taxAmount: number\n  feesAmount: number\n  totalAmount: number\n  itineraryHash: string\n  signature: string\n  signatureAlg: string\n  signedBy: string\n  checkoutUrl: url\n  confirmEndpoint: url\n  isRefundable: boolean\n  isChangeable: boolean\n  hasVoidWindow: boolean\n  voidWindowEndsAt: datetime\n  conditions: json\n  blob: string\n  review: string\n  contactEmail: string\n  contactPhone: string\nrelations:\n  at: actor\n  derivedFrom: offer\n  trips: trip[]\n  reservedItems: pass[]\n  buyers: person[]\n  guests: person[]\n  underName: person\n  paymentMethod: payment_method\n  billingAddress: place\n  fares: fare[]\n  taxLines: tax_line[]\n  account: account\n  membership: membership\n  broker: actor\n  becameReservation: reservation\n  becameTransaction: transaction\nprior_art:\n- source: Duffel Offers API (pre-Order priced shape)\n  url: https://duffel.com/docs/api/offers/schema\n  notes: "Duffel\'s Offer is the \\"priced, held, about-to-become-an-order\\" state.\\\n    \\ Our baseAmount/taxAmount/totalAmount/currency map to Duffel\'s base_amount/tax_amount/total_amount/total_currency;\\\n    \\ expiresAt = offer.expires_at. Duffel rolls taxes into a single aggregate \\u2014\\\n    \\ we split them into tax_line[] nodes."\n- source: IATA NDC OfferPriceRQ / OfferPriceRS\n  url: https://developer.iata.org/en/ndc/\n  notes: NDC\'s OfferPrice is the mandatory "price this exact shape with these exact\n    passengers" step between Shop and OrderCreate. Our guests[] mirror NDC\'s PaxList;\n    taxLines[] mirror Taxes/ TaxSummary; signature mirrors OfferPriceRS\'s ShoppingResponseID\n    that the airline expects back on OrderCreateRQ.\n- source: Stripe Checkout Session\n  url: https://docs.stripe.com/api/checkout/sessions/object\n  notes: "Canonical \\"about-to-charge\\" object. Our cartId \\u2248 session.id; expiresAt\\\n    \\ \\u2248 session.expires_at; totalAmount \\u2248 session.amount_total; paymentMethod\\\n    \\ relation mirrors session.payment_method. Stripe assumes line_item shape; we\\\n    \\ use domain-specific relations (trips/reservedItems) instead."\n- source: Shopify Draft Order\n  url: https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrder\n  notes: "Shopify\'s non-binding pre-order \\u2014 validates the \\"cart with a reference\\\n    \\ number that can be invoiced and converted\\" pattern. Our referenceNumber \\u2248\\\n    \\ DraftOrder.name; becameReservation / becameTransaction mirror DraftOrder ->\\\n    \\ Order conversion."\n- source: WebAuthn clientDataJSON + signed assertion\n  url: https://www.w3.org/TR/webauthn-3/\n  notes: "Precedent for \\"the thing the user saw is what got signed.\\" WebAuthn signs\\\n    \\ (challenge, origin, type); we sign (cartId, itineraryHash, total, expiresAt).\\\n    \\ Our itineraryHash plays the role of WebAuthn\'s challenge \\u2014 a commitment\\\n    \\ the verifier can match against the submitted shape."\n- source: CoinGate Invoice (short-TTL priced blob)\n  url: https://developer.coingate.com/reference/order-statuses\n  notes: "Validates the short-TTL pattern outside airlines. CoinGate invoices carry\\\n    \\ id, price locked ~20 min, and status (new, pending, paid, expired, canceled).\\\n    \\ Our status enum matches \\u2014 pre-commit objects need expiry as a first-class\\\n    \\ terminal."\n- source: schema.org/Order + schema.org/Invoice\n  url: https://schema.org/Order\n  notes: "schema.org models Offer -> Order -> Invoice. booking_offer sits between\\\n    \\ Offer and Order \\u2014 a priced, itemized, signed proposal awaiting explicit\\\n    \\ human commit. Our baseAmount + taxAmount + totalAmount align with UBL 2.1 LegalMonetaryTotal."\n',
     'bookmark': 'plural: bookmarks\nidentity:\n- address\nsubtitle: address\nicon: "\\U0001F516"\nfields:\n  address: string\n  position: integer\n  icon: string\nprior_art:\n- source: Browser bookmarks (Mosaic / Netscape Navigator hotlist)\n  url: https://en.wikipedia.org/wiki/Bookmark_(digital)\n  notes: Direct precedent. A bookmark is a name + a URL; the URL is the contract;\n    the browser doesn\'t care what\'s behind it. We replace HTTP URLs with graph URIs;\n    everything else maps 1:1.\n- source: Finder sidebar / Windows Explorer Quick Access\n  url: https://support.apple.com/guide/mac-help/customize-the-finder-sidebar-mchlp3014/mac\n  notes: "OS file managers use a bookmark sidebar as their universal navigation primitive\\\n    \\ (My Computer, Documents, Network). We treat every shape the same way \\u2014\\\n    \\ bookmark to a graph URI, no FS bias."\n',
     'branch': 'plural: branches\nsubtitle: commit\nfields:\n  commit: string\n  upstream: string\n  ahead: integer\n  behind: integer\n  isCurrent: boolean\n  isRemote: boolean\nrelations:\n  repository: repository\nprior_art:\n- source: "Git Internals \\u2014 Branches"\n  url: https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell\n  notes: A branch is a movable pointer to a commit. Our commit field is the HEAD sha;\n    ahead/behind mirror `git rev-list --count`.\n- source: "GitHub REST \\u2014 branches"\n  url: https://docs.github.com/en/rest/branches/branches\n  notes: "Practical API surface. Our upstream \\u2248 the remote tracking ref; we flatten\\\n    \\ protection/commit metadata that GitHub nests."\n',
@@ -2171,6 +2383,7 @@ SHAPE_YAMLS: dict[str, str] = {
     'class': 'plural: classes\nsubtitle: activityType\nalso:\n- event\nfields:\n  activityType: string\n  capacity: integer\n  spotsRemaining: integer\n  isFull: boolean\nrelations:\n  instructor: person\n  venue: place\nprior_art:\n- source: schema.org/EducationEvent\n  url: https://schema.org/EducationEvent\n  notes: "schema.org\'s closest peer for a bookable class. Our instructor = performer;\\\n    \\ capacity = maximumAttendeeCapacity; spotsRemaining \\u2248 remainingAttendeeCapacity."\n- source: schema.org/ExerciseAction\n  url: https://schema.org/ExerciseAction\n  notes: "Fitness-specific vocabulary: activityType \\u2248 exerciseType; venue matches\\\n    \\ directly as location."\n- source: Mindbody Public API (class schedules)\n  url: https://developers.mindbodyonline.com/PublicDocumentation/V6\n  notes: Practical API mirror. Our capacity/spotsRemaining/isFull come from Mindbody\'s\n    MaxCapacity/TotalBooked/IsWaitlistAvailable.\n',
     'community': 'plural: communities\nidentity:\n- at\n- id\nsubtitle: text\nfields:\n  privacy: string\n  memberCount: integer\n  subscriberCount: integer\n  allowCrypto: boolean\nrelations:\n  at: actor\nprior_art:\n- source: ActivityPub Group Actor\n  url: https://www.w3.org/TR/activitypub/\n  notes: "AP Group Actor models shared-inbox communities (Lemmy, Kbin, Mbin). Our\\\n    \\ privacy \\u2248 audience/to visibility."\n- source: schema.org/Organization\n  url: https://schema.org/Organization\n  notes: A community-as-organization is a loose fit; privacy has no direct schema.org\n    property.\n- source: "Reddit API \\u2014 Subreddit"\n  url: https://www.reddit.com/dev/api/#GET_subreddits_where\n  notes: "Practical source. Our privacy \\u2248 subreddit_type (public/private/ restricted);\\\n    \\ text \\u2248 public_description."\n',
     'conversation': 'plural: conversations\nidentity:\n- at\n- id\nsubtitle: text\nfields:\n  isGroup: boolean\n  isArchived: boolean\n  unreadCount: integer\n  messageCount: integer\n  accountEmail: string\n  historyId: string\n  source: string\n  cwd: string\n  gitBranch: string\nrelations:\n  at: actor\n  participant: actor[]\n  message: message[]\n  in: folder\nprior_art:\n- source: ActivityStreams 2.0 context/inReplyTo\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-context\n  notes: "Conversations are AS2 contexts \\u2014 the thread that groups replies. Our\\\n    \\ participant[] \\u2248 to/cc/audience."\n- source: Matrix Room (m.room)\n  url: https://spec.matrix.org/latest/client-server-api/#room-events\n  notes: "Practical thread model. Our isGroup \\u2248 room.join_rules; unreadCount\\\n    \\ \\u2248 unread_notifications.highlight_count."\n- source: "Gmail API \\u2014 Thread resource"\n  url: https://developers.google.com/gmail/api/reference/rest/v1/users.threads\n  notes: "Our messageCount \\u2248 messages.length; unreadCount derived from UNREAD\\\n    \\ labels on Thread messages."\n',
+    'creative_work': "plural: creative_works\nsubtitle: author\nfields:\n  name: string\n  description: string\n  license: string\n  copyrightYear: integer\n  datePublished: date\n  dateCreated: date\n  url: string\n  language: string\n  coverage: string\n  tags: string[]\nrelations:\n  author: person\n  publisher: organization\n  contributors: person[]\n  copyrightHolder: person\nprior_art:\n- source: schema.org/CreativeWork\n  url: https://schema.org/CreativeWork\n  notes: Our name=name; author=author; publisher=publisher; datePublished=datePublished;\n    license=license; copyrightHolder= copyrightHolder; copyrightYear=copyrightYear;\n    description= description; url=url; language=inLanguage; tags=keywords.\n- source: Dublin Core Metadata Element Set (ISO 15836)\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: Maps cleanly to all 15 DC elements except `type` (carried by the shape discriminator),\n    `format` (subtype-specific), `identifier` (universal node id), `relation` (graph\n    edges), `subject` (tags).\n- source: FRBR (IFLA, 1998)\n  url: https://www.ifla.org/files/assets/cataloguing/frbr/frbr.pdf\n  notes: creative_work corresponds to FRBR's Work tier (the abstract intellectual\n    creation). Expression / Manifestation / Item not modeled in v1; subtype shapes\n    carry equivalents as array fields (font.weights, font.formats).\n",
     'credential': 'plural: credentials\nidentity:\n- domain\n- identifier\n- itemType\nsubtitle: source\nfields:\n  domain: string\n  identifier: string\n  itemType: string\n  source: string\n  obtainedAt: datetime\n  lastVerified: datetime\n  expiresAt: datetime\n  refreshable: boolean\n  storeRowId: integer\nrelations:\n  at: organization\n  account: account\n  writtenBy: skill\nprior_art:\n- source: OAuth 2.0 Token Introspection (RFC 7662)\n  url: https://datatracker.ietf.org/doc/html/rfc7662\n  notes: \'RFC 7662 describes token metadata as a separate addressable resource from\n    the token itself (active, exp, iss, sub, scope). Same split here: descriptor is\n    queryable graph metadata, encrypted value is retrieved by a separate call (`auth_store.read`\n    by identifier). Our obtainedAt/expiresAt/lastVerified mirror iat/exp/auth_time.\'\n- source: FIDO Metadata Service (MDS3)\n  url: https://fidoalliance.org/metadata/\n  notes: "FIDO separates authenticator metadata from the authenticator itself \\u2014\\\n    \\ metadata is queryable, the cryptographic material is not. Mirrors our descriptor/vault\\\n    \\ split."\n- source: macOS Keychain SecItem attributes\n  url: https://developer.apple.com/documentation/security/keychain_services/keychain_items/item_attribute_keys_and_values\n  notes: "Keychain separates `kSecAttr*` (metadata \\u2014 server, account, creation/modification\\\n    \\ dates) from `kSecValueData` (the secret). Attributes are queryable without decrypting\\\n    \\ the value. Our fields map: kSecAttrServer \\u2192 domain, kSecAttrAccount \\u2192\\\n    \\ identifier, kSecAttrCreationDate \\u2192 obtainedAt, kSecAttrModificationDate\\\n    \\ \\u2192 lastVerified."\n- source: schema.org/DigitalDocument (WebAuthn credentials stored as)\n  url: https://schema.org/DigitalDocument\n  notes: "Weak alignment \\u2014 schema.org has no native credential type. Cited only\\\n    \\ to note that existing web ontologies deliberately stop short of secret material;\\\n    \\ descriptor-only is the established pattern."\n',
     'dns_record': 'plural: dns_records\nidentity:\n- domain\n- recordType\n- recordName\nsubtitle: recordType\nfields:\n  domain: string\n  recordName: string\n  recordType: string\n  type: string\n  ttl: integer\n  priority: integer\n  recordId: string\n  values: string[]\nprior_art:\n- source: RFC 1035 (DNS)\n  url: https://datatracker.ietf.org/doc/html/rfc1035\n  notes: Foundational spec. Our domain/recordName/recordType/ttl/values map directly\n    to NAME/TYPE/CLASS/TTL/RDATA.\n- source: RFC 7208 (SPF), RFC 6376 (DKIM), RFC 7489 (DMARC)\n  url: https://datatracker.ietf.org/doc/html/rfc7208\n  notes: TXT-record vocabularies that frequently populate our values[] for SPF, DKIM,\n    and DMARC policy records.\n',
     'document': 'plural: documents\nsubtitle: author\nalso:\n- file\nfields:\n  contentType: string\n  language: string\n  wordCount: integer\n  abstract: text\n  tableOfContents: text\nrelations:\n  author: actor\n  references: document[]\n  citedBy: document[]\nprior_art:\n- source: Dublin Core Metadata Initiative\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: "Our contentType \\u2248 dc:format; language = dc:language; author = dc:creator;\\\n    \\ references/citedBy \\u2248 dc:relation."\n- source: schema.org/DigitalDocument\n  url: https://schema.org/DigitalDocument\n  notes: "Our abstract \\u2248 abstract; tableOfContents = hasPart or accessModeSufficient;\\\n    \\ wordCount = wordCount."\n- source: W3C Web Annotation Data Model\n  url: https://www.w3.org/TR/annotation-model/\n  notes: Our references[]/citedBy[] are annotation target/body relationships between\n    documents.\n',
@@ -2183,10 +2396,12 @@ SHAPE_YAMLS: dict[str, str] = {
     'financial_account': 'plural: financial_accounts\nidentity:\n- at\n- identifier\nsubtitle: last4\nfields:\n  identifier: string\n  accountId: string\n  accountNumber: string\n  routingNumber: string\n  last4: string\n  currency: string\n  accountType: string\n  balance: number\n  available: number\n  creditLimit: number\n  minimumPayment: number\n  paymentDueDate: datetime\n  cardType: string\n  expiresAt: datetime\n  interestRate: number\nrelations:\n  at: actor\n  accessedVia: account\n  owner: person\nprior_art:\n- source: OFX (Open Financial Exchange)\n  url: https://financialdataexchange.org/ofx\n  notes: Bank-feed canonical. Our accountNumber / routingNumber / balance / available\n    map to OFX BANKACCTFROM / LEDGERBAL / AVAILBAL.\n- source: ISO 20022 Financial Messaging\n  url: https://www.iso20022.org/\n  notes: Modern bank-messaging standard. Our last4 / cardType / creditLimit / interestRate\n    align with ISO 20022 Card / Account components.\n- source: schema.org/BankAccount\n  url: https://schema.org/BankAccount\n  notes: "Our accountNumber \\u2248 accountId; balance / available are accountMinimumInflow\\\n    \\ / accountOverdraftLimit loosely; cardType fits schema.org/CreditCard."\n- source: 1Password Bank Account item\n  url: https://1password.com/\n  notes: "1P\'s Bank Account category holds institution + account number + routing\\\n    \\ + type \\u2014 same shape. Their Crypto Wallet and Credit Card are separate categories;\\\n    \\ we treat them as different `accountType` values on the same shape for now, splitting\\\n    \\ only if the field diversity forces it."\n',
     'flight': 'plural: flights\nsubtitle: airline\nalso:\n- leg\nfields:\n  flightNumber: string\n  departureTime: datetime\n  arrivalTime: datetime\n  durationMinutes: integer\n  cabinClass: string\n  stops: integer\n  carbonEmissions: json\nrelations:\n  airline: airline\n  departsFrom: airport\n  arrivesAt: airport\n  aircraft: aircraft\nprior_art:\n- source: IATA Resolution 753 / Flight Codeshare\n  url: https://www.iata.org/en/programs/ops-infra/baggage/baggage-tracking/\n  notes: Our flightNumber follows IATA carrier-code + digits format (UA 1234). Canonical\n    for cross-carrier flight identity.\n- source: Duffel / IATA NDC Slice+Segment\n  url: https://duffel.com/docs/api/v2/overview\n  notes: NDC models a trip (slice) as multiple flights (segments). Our flight shape\n    = NDC segment; our trip = NDC slice.\n- source: schema.org/Flight\n  url: https://schema.org/Flight\n  notes: "Our flightNumber = flightNumber; departsFrom/arrivesAt = departureAirport/arrivalAirport;\\\n    \\ departureTime/arrivalTime match directly; carbonEmissions \\u2248 estimatedFlightDuration\\\n    \\ + emissions extensions."\n',
     'folder': 'plural: folders\nidentity: path\nsubtitle: path\nfields:\n  path: string\n  workspaceType: string\n  hasReadme: boolean\nrelations:\n  repository: repository\n  contains: file[]\nprior_art:\n- source: POSIX / Single Unix Specification\n  url: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html\n  notes: Our path is a POSIX pathname. hasReadme is AgentOS-specific (README convention\n    from repos).\n- source: schema.org/DataCatalog\n  url: https://schema.org/DataCatalog\n  notes: "Folder-as-collection loose fit. contains(file[]) \\u2248 hasPart."\n',
+    'font': 'plural: fonts\nidentity_any:\n- family\n- postscriptName\nsubtitle: author\nalso:\n- creative_work\nfields:\n  family: string\n  postscriptName: string\n  weights: integer[]\n  styles: string[]\n  formats: string[]\n  scripts: string[]\n  glyphCount: integer\n  designerUrl: string\n  vendorUrl: string\n  licenseInfoUrl: string\nprior_art:\n- source: schema.org/Typeface\n  url: https://schema.org/Typeface\n  notes: "Schema.org added Typeface in 2024. Sparse compared to OpenType (fontFamily,\\\n    \\ format only) \\u2014 we lean on the OpenType `name` table for most fields."\n- source: OpenType `name` table (ISO/IEC 14496-22)\n  url: https://learn.microsoft.com/en-us/typography/opentype/spec/name\n  notes: nameID 1=family; 6=postscriptName; 8=manufacturer (publisher in our model,\n    via creative_work); 9=designer (author via creative_work); 13=licenseDescription\n    (license via creative_work); 14=licenseInfoUrl; 11=vendorUrl; 12=designerUrl.\n    Our font shape is a graph-native projection of this table; .woff2 metadata can\n    round-trip losslessly.\n- source: Google Fonts metadata\n  url: https://fonts.google.com/specimen/Roboto\n  notes: "Treats fonts as \\"families\\" with weights / styles arrays. Same model we\\\n    \\ adopt. Google Fonts also tracks subsets (Latin / Cyrillic / Greek) \\u2014 equivalent\\\n    \\ to our scripts field."\n- source: ISO 15924 (script codes)\n  url: https://www.unicode.org/iso15924/iso15924-codes.html\n  notes: Our scripts field uses ISO 15924 four-letter codes (Latn / Cyrl / Grek /\n    Arab / Hans / Hant / Jpan / Kore / etc.). Canonical identification of writing\n    systems.\n',
     'git_commit': 'plural: git_commits\nsubtitle: author\nfields:\n  sha: string\n  shortHash: string\n  message: text\n  additions: integer\n  deletions: integer\n  filesChanged: integer\n  committedAt: datetime\nrelations:\n  author: account\n  committer: account\n  repository: repository\n  parent: git_commit\nprior_art:\n- source: "Git Internals \\u2014 commit object"\n  url: https://git-scm.com/book/en/v2/Git-Internals-Git-Objects\n  notes: Our sha/shortHash/message/parent match the commit object exactly. author/committer\n    follow Git\'s distinct author-vs-committer model.\n- source: Conventional Commits 1.0\n  url: https://www.conventionalcommits.org/en/v1.0.0/\n  notes: "Practical structure for message field (type(scope): subject). Optional \\u2014\\\n    \\ we don\'t enforce but it\'s compatible."\n',
     'group': 'plural: groups\nidentity:\n- at\n- id\nsubtitle: category\nfields:\n  memberCount: integer\n  category: string\nprior_art:\n- source: schema.org/Group (via Organization/memberOf)\n  url: https://schema.org/Organization\n  notes: "schema.org models groups as Organization. Our memberCount \\u2248 numberOfEmployees\\\n    \\ loosely; category \\u2248 naics/knowsAbout."\n- source: FOAF Group\n  url: http://xmlns.com/foaf/spec/#term_Group\n  notes: Foundational social-graph vocabulary. foaf:member populates membership; category\n    has no direct FOAF peer.\n',
     'hardware': 'plural: hardware\nidentity: serialNumber\nsubtitle: author\nalso:\n- product\nfields:\n  modelNumber: string\n  serialNumber: string\n  specs: json\nrelations:\n  manufacturer: organization\nprior_art:\n- source: schema.org/Product (IndividualProduct subtype)\n  url: https://schema.org/IndividualProduct\n  notes: "Our serialNumber = serialNumber; modelNumber \\u2248 model; specs \\u2248\\\n    \\ additionalProperty (PropertyValue list)."\n- source: GS1 Global Trade Item Number (GTIN)\n  url: https://www.gs1.org/standards/id-keys/gtin\n  notes: "Hardware bar-codes are GTIN-12/13/14 \\u2014 we reuse the product shape\'s\\\n    \\ barcode alignment."\n',
-    'image': 'plural: images\nalso:\n- file\nfields:\n  width: integer\n  height: integer\n  format: string\n  altText: string\n  appName: string\n  windowId: integer\n  displayId: integer\n  displayIndex: integer\nprior_art:\n- source: schema.org/ImageObject\n  url: https://schema.org/ImageObject\n  notes: "Our width/height = width/height; format \\u2248 encodingFormat; altText =\\\n    \\ caption/accessibilityCaption."\n- source: IANA Media Types (image/*)\n  url: https://www.iana.org/assignments/media-types/media-types.xhtml#image\n  notes: Our format values (PNG, JPEG, WebP, SVG) align with registered image/* media\n    types.\n- source: Exif 2.3 (JEITA CP-3451)\n  url: https://www.cipa.jp/std/documents/e/DC-008-Translation-2019-E.pdf\n  notes: Source of most image metadata fields. width/height come from Exif PixelXDimension/PixelYDimension.\n',
+    'icon': 'plural: icons\nidentity_any:\n- id\nsubtitle: purpose\nalso:\n- creative_work\nfields:\n  dimension: integer\n  format: string\n  url: string\n  component: string\n  purpose: string\n  style: string\nprior_art:\n- source: schema.org/ImageObject\n  url: https://schema.org/ImageObject\n  notes: "Icons could be modeled as ImageObject \\u2014 we chose a distinct shape because\\\n    \\ the role-specific `purpose` field has no counterpart on ImageObject (which is\\\n    \\ purpose-agnostic by design) and because component-backed icons aren\'t fetchable\\\n    \\ as image URLs."\n- source: Iconify metadata\n  url: https://iconify.design/\n  notes: Iconify treats icons as named entries within an icon set, each with a category\n    and tags. Our `purpose` field plays the same role as Iconify\'s category; our `style`\n    plays the same role as Iconify\'s iconset style attribute (filled / outline / pixel).\n- source: Material Symbols metadata\n  url: https://fonts.google.com/icons\n  notes: "Material Symbols ship as a variable icon font with `fill`, `weight`, `grade`,\\\n    \\ and `optical-size` axes. Our shape doesn\'t model variable axes (Material Symbols\\\n    \\ would be one font, not one icon-per-glyph) \\u2014 we model icons that live OUTSIDE\\\n    \\ icon fonts."\n- source: macOS / Windows system icon naming\n  url: https://learn.microsoft.com/en-us/windows/win32/uxguide/vis-icons\n  notes: Both platforms standardize on role-named icons (e.g. "back", "forward", "close")\n    rather than file-named icons. Our `purpose` field follows the same convention;\n    theme authors register icons by their semantic role, not by a filename slug.\n',
+    'image': 'plural: images\nalso:\n- creative_work\n- file\nfields:\n  width: integer\n  height: integer\n  format: string\n  altText: string\n  appName: string\n  windowId: integer\n  displayId: integer\n  displayIndex: integer\nprior_art:\n- source: schema.org/ImageObject\n  url: https://schema.org/ImageObject\n  notes: "Our width/height = width/height; format \\u2248 encodingFormat; altText =\\\n    \\ caption/accessibilityCaption."\n- source: IANA Media Types (image/*)\n  url: https://www.iana.org/assignments/media-types/media-types.xhtml#image\n  notes: Our format values (PNG, JPEG, WebP, SVG) align with registered image/* media\n    types.\n- source: Exif 2.3 (JEITA CP-3451)\n  url: https://www.cipa.jp/std/documents/e/DC-008-Translation-2019-E.pdf\n  notes: Source of most image metadata fields. width/height come from Exif PixelXDimension/PixelYDimension.\n',
     'invitation': 'plural: invitations\nidentity:\n- at\n- id\nsubtitle: invitationType\nfields:\n  invitationType: string\n  email: string\n  role: string\n  status: string\n  token: string\n  expiresAt: datetime\n  acceptedAt: datetime\n  revokedAt: datetime\n  message: text\nrelations:\n  inviter: account\n  invitee: account\n  organization: organization\n  at: actor\nprior_art:\n- source: ActivityStreams 2.0 Invite activity\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-invite\n  notes: AS2 Invite is the canonical fediverse verb. Our inviter = actor; invitee\n    = target; status tracks Accept/Reject/TentativeAccept responses.\n- source: iCalendar ATTENDEE + PARTSTAT (RFC 5545)\n  url: https://datatracker.ietf.org/doc/html/rfc5545\n  notes: Calendar-style invitations. Our status maps to PARTSTAT (NEEDS-ACTION/ACCEPTED/DECLINED/DELEGATED).\n- source: "SCIM 2.0 (RFC 7644) \\u2014 user provisioning"\n  url: https://datatracker.ietf.org/doc/html/rfc7644\n  notes: Enterprise invitation/provisioning. Our email/role/organization align with\n    SCIM User resource\'s email + entitlements + group membership.\n',
     'leg': 'plural: legs\nsubtitle: flightNumber\nfields:\n  sequence: integer\n  departureTime: datetime\n  arrivalTime: datetime\n  duration: string\n  durationMinutes: integer\n  flightNumber: string\n  cabinClass: string\n  vehicleType: string\n  layoverMinutes: integer\n  carbonEmissions: json\n  trace: json\n  tracePointCount: integer\n  polyline: string\nrelations:\n  origin: place\n  destination: place\n  carrier: organization\n  aircraft: aircraft\n  trip: trip\nprior_art:\n- source: IATA NDC "segment"\n  url: https://www.iata.org/en/programs/airline-distribution/retailing/ndc/\n  notes: NDC segment = our leg. flightNumber, departureTime, arrivalTime, cabinClass\n    come straight from NDC OfferItem Segment.\n- source: GTFS stop_times.txt\n  url: https://gtfs.org/documentation/schedule/reference/#stop_timestxt\n  notes: Transit leg model. Our sequence = stop_sequence; departureTime/ arrivalTime\n    = arrival_time/departure_time.\n- source: Google Encoded Polyline Algorithm\n  url: https://developers.google.com/maps/documentation/utilities/polylinealgorithmformat\n  notes: Our polyline field is the standard Google encoded polyline. trace is a denser\n    GPS breadcrumb alternative (GeoJSON-adjacent).\n',
     'list': 'plural: lists\nidentity:\n- at\n- id\nfields:\n  listId: string\n  privacy: string\n  listType: string\n  isDefault: boolean\n  isPublic: boolean\n  itemCount: integer\n  items: json\nrelations:\n  at: actor\n  belongsTo: account\n  contains: product[]\nprior_art:\n- source: schema.org/ItemList\n  url: https://schema.org/ItemList\n  notes: "Our listType \\u2248 itemListOrder; contains \\u2248 itemListElement; isPublic\\\n    \\ \\u2248 publicAccess."\n- source: ActivityStreams 2.0 Collection / OrderedCollection\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection\n  notes: "Our contains[] \\u2248 items; isDefault has no AS2 peer (platform-level concept)."\n',
@@ -2203,12 +2418,12 @@ SHAPE_YAMLS: dict[str, str] = {
     'organization': 'plural: organizations\nidentity: url\nsubtitle: industry\nalso:\n- actor\nfields:\n  industry: string\n  founded: datetime\nrelations:\n  member: person[]\n  domain: domain\n  website: website\n  headquarters: place\nprior_art:\n- source: schema.org/Organization\n  url: https://schema.org/Organization\n  notes: "Our industry \\u2248 naics/isicV4 (loosely); founded = foundingDate; member[]\\\n    \\ = member; headquarters = location (or subOrganization with a Place)."\n- source: vCard 4.0 KIND=org (RFC 6350)\n  url: https://datatracker.ietf.org/doc/html/rfc6350\n  notes: "Organization-as-contact. Our website/domain \\u2248 URL; headquarters \\u2248\\\n    \\ ADR. Thinner than schema.org for industry/founded."\n- source: Wikidata (Organization, Q43229)\n  url: https://www.wikidata.org/wiki/Q43229\n  notes: Cross-reference identity. Useful for deduping; no direct field alignment\n    but industry maps to P452 (industry) and founded to P571 (inception).\n',
     'pass': "plural: passes\nidentity:\n- at\n- id\nsubtitle: status\nfields:\n  status: string\n  purchasedDate: datetime\n  startEffectiveDate: datetime\n  endEffectiveDate: datetime\n  quantity: integer\n  purchasedQuantity: integer\n  useCount: integer\n  isAllDayPass: boolean\n  depletedDate: datetime\n  price: number\n  currency: string\n  ticketNumber: string\n  nameOnTicket: string\n  seatAssignment: string\n  boardingGroup: string\n  ticketClass: string\n  gate: string\n  terminal: string\n  checkinStatus: string\nrelations:\n  at: actor\n  account: account\n  holder: person\n  grantedBy: membership\n  type: product\n  location: place\n  for: leg\n  reservation: reservation\nprior_art:\n- source: schema.org/Ticket\n  url: https://schema.org/Ticket\n  notes: schema.org's peer for a claim-check right-of-entry. Our purchasedDate = issuedAt;\n    holder = underName; price matches directly. Ticket is event-bound; we generalize\n    to any right-of-use.\n- source: Mindbody Services (pricing options)\n  url: https://developers.mindbodyonline.com/PublicDocumentation/V6\n  notes: Gym-industry reference. Our quantity/purchasedQuantity/ useCount/depletedDate\n    are lifted from Mindbody's ClientService.Remaining / Count / DateCompleted.\n- source: GTFS fare rules / IATA fare basis\n  url: https://gtfs.org/documentation/schedule/reference/#fare_productstxt\n  notes: 'Transit-pass vocabulary: single-ride, day-pass, period-pass all fit `isAllDayPass`\n    + `startEffectiveDate` + `endEffectiveDate`.'\n",
     'payment_method': 'plural: payment_methods\nidentity:\n- at\n- identifier\nsubtitle: displayName\nfields:\n  identifier: string\n  type: string\n  subtype: string\n  brand: string\n  displayName: string\n  customDescription: string\n  holderName: string\n  last4: string\n  binRange: string\n  expMonth: integer\n  expYear: integer\n  expirationDate: string\n  currency: string\n  balance: number\n  fingerprint: string\n  isDefault: boolean\n  isPrimary: boolean\n  isExpired: boolean\n  isSelected: boolean\n  status: string\n  providerTokens: json\n  metadata: json\nrelations:\n  at: actor\n  account: account\n  holder: person\n  billingAddress: place\n  fundingAccount: financial_account\n  issuer: actor\n  membership: membership\nprior_art:\n- source: Stripe PaymentMethod API\n  url: https://docs.stripe.com/api/payment_methods/object\n  notes: "The gold standard. Our type/subtype \\u2248 Stripe\'s `type` + `card.brand`;\\\n    \\ last4/expMonth/expYear/fingerprint map 1:1 to `card.last4/exp_month/exp_year/fingerprint`.\\\n    \\ Stripe\'s billing_details is our `billingAddress` relation. Stripe\'s `pm_xxx`\\\n    \\ id is the canonical opaque handle."\n- source: PCI DSS v4.0 Requirement 3 (Protect Stored Account Data)\n  url: https://www.pcisecuritystandards.org/document_library/\n  notes: "Defines what\'s storable: PAN truncated, expiry, cardholder name, service\\\n    \\ code. FORBIDS full PAN (unencrypted), CVV/CVC2/CID, PIN/PIN block, track data.\\\n    \\ This shape carries only the permitted subset. Opaque tokens are NOT card data\\\n    \\ under PCI \\u2014 they\'re the merchant/provider\'s detokenization references;\\\n    \\ storing them is the recommended mitigation (Req. 3.5 tokenization)."\n- source: IATA Resolution 890 / PADIS Form-of-Payment codes\n  url: https://www.iata.org/en/publications/store/passenger-and-baggage-tariffs/\n  notes: \'Source for the airline 2-char `subtype` codes: AX (Amex), VI (Visa), MC\n    (MasterCard), DS (Discover), DC (Diners), TP (UATP), JC (JCB), UP (UnionPay).\n    These are the codes embedded in PNR FOP fields and EMD records. We keep them verbatim\n    so airline checkout round-trips work without translation.\'\n- source: W3C Payment Request API / Payment Method Identifiers\n  url: https://www.w3.org/TR/payment-method-id/\n  notes: "Browser-standard payment abstraction. `basic-card`, `https://apple.com/apple-pay`,\\\n    \\ `https://google.com/pay`, `https://paypal.com` are the method identifiers \\u2014\\\n    \\ our type/subtype combo is a normalized form."\n- source: Apple Pay Payment Token / Google Pay Network Token\n  url: https://developer.apple.com/documentation/passkit/apple_pay/payment_token_format_reference\n  notes: Device-bound token replaces the PAN on-chain. The DPAN and cryptogram live\n    in `providerTokens`; `last4` on the wallet surfaces the DEVICE last-4, not the\n    funding card\'s last-4.\n- source: schema.org/PaymentMethod + LoyaltyProgram\n  url: https://schema.org/PaymentMethod\n  notes: schema.org\'s PaymentMethod is a thin enum (CreditCard, Cash, PaymentCard,\n    ByInvoice). We extend it into a real shape with tokens and holder. Our `type`\n    overlaps its enumeration values.\n- source: PayPal Billing Agreements / Vault\n  url: https://developer.paypal.com/docs/multiparty/vault/\n  notes: "PayPal\'s saved-method pattern \\u2014 billingAgreementId is the opaque handle,\\\n    \\ used like our `providerTokens`. Payer given_name \\u2192 `holderName`. No last4\\\n    \\ (PayPal-as-wallet has no card number surface); our shape accommodates via nullable\\\n    \\ last4."\n- source: EMVCo Tokenisation Framework v2.0\n  url: https://www.emvco.com/specifications/payment-tokenisation/\n  notes: "Industry spec for network tokens (Visa Token Service, Mastercard MDES).\\\n    \\ Defines token requestor, token reference id, PAR (Payment Account Reference)\\\n    \\ \\u2014 PAR is the cross-token dedupe primitive our `fingerprint` field aligns\\\n    \\ with when the provider surfaces it."\n',
-    'person': 'plural: people\nsubtitle: about\nalso:\n- actor\nfields:\n  givenName: string\n  familyName: string\n  additionalName: string\n  honorificPrefix: string\n  honorificSuffix: string\n  legalName: string\n  preferredName: string\n  maidenName: string\n  nickname: string\n  sortAs: string\n  nameOrder: string\n  phoneticGivenName: string\n  phoneticFamilyName: string\n  birthday: datetime\n  notes: text\n  gender: string\n  about: text\nrelations:\n  accounts: account[]\n  roles: role[]\n  memberships: membership[]\n  passes: pass[]\n  location: place\n  website: website\nprior_art:\n- source: schema.org/Person\n  url: https://schema.org/Person\n  notes: "Our givenName / familyName / additionalName / honorificPrefix / honorificSuffix\\\n    \\ map directly. schema.org has no `middleName` (additionalName is the slot); no\\\n    \\ `firstName`/`lastName` either \\u2014 those are informal Wikipedia-style labels,\\\n    \\ not spec. birthday \\u2248 birthDate; about \\u2248 description. We diverge by\\\n    \\ modeling accounts[] as a first-class relation rather than sameAs URLs."\n- source: "vCard 4.0 (RFC 6350) \\xA76.2.2 N property + \\xA75.9 SORT-AS"\n  url: https://datatracker.ietf.org/doc/html/rfc6350#section-6.2.2\n  notes: The N property is `family;given;additional;prefixes;suffixes`, each comma-multi-valued.\n    Our five structured fields round-trip exactly. sortAs mirrors RFC 6350\'s SORT-AS\n    parameter for particled surnames ("van der Harten" sorts under H).\n- source: Google People API Name resource\n  url: https://developers.google.com/people/api/rest/v1/people#Name\n  notes: Google uses givenName / familyName / middleName / honorificPrefix / honorificSuffix\n    + phoneticGivenName / phoneticFamilyName + displayName + unstructuredName. We\n    follow the same naming, using schema.org\'s `additionalName` where Google says\n    `middleName` (schema.org wins for multi-value support).\n- source: Apple CNContact\n  url: https://developer.apple.com/documentation/contacts/cncontact\n  notes: "Apple exposes givenName / middleName / familyName + phonetic* variants +\\\n    \\ nameSuffix / namePrefix + previousFamilyName (\\u2248 maidenName). Same shape\\\n    \\ as Google; reinforces the field set."\n- source: IATA PNR NM field + ICAO Doc 9303 (MRZ)\n  url: https://en.wikipedia.org/wiki/Machine-readable_passport\n  notes: Airline ticketing and passport MRZ require a specific string form (SURNAME/GIVENNAME\n    TITLE, all caps, Latin-only, diacritics stripped, 30-char limits). Structured\n    parts can\'t losslessly reconstruct this; we store it verbatim in `legalName`.\n- source: "W3C i18n \\u2014 Personal names around the world"\n  url: https://www.w3.org/International/questions/qa-personal-names\n  notes: Canonical reference for why "first/last" is a Western bias. CJK names put\n    family first. Spanish uses two surnames. Icelandic uses patronymics without family\n    names. The `nameOrder` field captures the rendering rule; structured fields stay\n    neutral.\n- source: FOAF (Friend of a Friend)\n  url: http://xmlns.com/foaf/spec/\n  notes: "Original social-graph vocabulary. foaf:Person with givenName/familyName/nick/homepage;\\\n    \\ foaf:account \\u2248 our accounts[]. Largely superseded by schema.org but still\\\n    \\ a reference for account-centric modeling."\n',
+    'person': 'plural: people\nidentity_any:\n- url\nsubtitle: about\nalso:\n- actor\nfields:\n  url: string\n  givenName: string\n  familyName: string\n  additionalName: string\n  honorificPrefix: string\n  honorificSuffix: string\n  legalName: string\n  preferredName: string\n  maidenName: string\n  nickname: string\n  sortAs: string\n  nameOrder: string\n  phoneticGivenName: string\n  phoneticFamilyName: string\n  birthday: datetime\n  notes: text\n  gender: string\n  about: text\nrelations:\n  accounts: account[]\n  roles: role[]\n  memberships: membership[]\n  passes: pass[]\n  location: place\n  website: website\nprior_art:\n- source: schema.org/Person\n  url: https://schema.org/Person\n  notes: "Our givenName / familyName / additionalName / honorificPrefix / honorificSuffix\\\n    \\ map directly. schema.org has no `middleName` (additionalName is the slot); no\\\n    \\ `firstName`/`lastName` either \\u2014 those are informal Wikipedia-style labels,\\\n    \\ not spec. birthday \\u2248 birthDate; about \\u2248 description. We diverge by\\\n    \\ modeling accounts[] as a first-class relation rather than sameAs URLs."\n- source: "vCard 4.0 (RFC 6350) \\xA76.2.2 N property + \\xA75.9 SORT-AS"\n  url: https://datatracker.ietf.org/doc/html/rfc6350#section-6.2.2\n  notes: The N property is `family;given;additional;prefixes;suffixes`, each comma-multi-valued.\n    Our five structured fields round-trip exactly. sortAs mirrors RFC 6350\'s SORT-AS\n    parameter for particled surnames ("van der Harten" sorts under H).\n- source: Google People API Name resource\n  url: https://developers.google.com/people/api/rest/v1/people#Name\n  notes: Google uses givenName / familyName / middleName / honorificPrefix / honorificSuffix\n    + phoneticGivenName / phoneticFamilyName + displayName + unstructuredName. We\n    follow the same naming, using schema.org\'s `additionalName` where Google says\n    `middleName` (schema.org wins for multi-value support).\n- source: Apple CNContact\n  url: https://developer.apple.com/documentation/contacts/cncontact\n  notes: "Apple exposes givenName / middleName / familyName + phonetic* variants +\\\n    \\ nameSuffix / namePrefix + previousFamilyName (\\u2248 maidenName). Same shape\\\n    \\ as Google; reinforces the field set."\n- source: IATA PNR NM field + ICAO Doc 9303 (MRZ)\n  url: https://en.wikipedia.org/wiki/Machine-readable_passport\n  notes: Airline ticketing and passport MRZ require a specific string form (SURNAME/GIVENNAME\n    TITLE, all caps, Latin-only, diacritics stripped, 30-char limits). Structured\n    parts can\'t losslessly reconstruct this; we store it verbatim in `legalName`.\n- source: "W3C i18n \\u2014 Personal names around the world"\n  url: https://www.w3.org/International/questions/qa-personal-names\n  notes: Canonical reference for why "first/last" is a Western bias. CJK names put\n    family first. Spanish uses two surnames. Icelandic uses patronymics without family\n    names. The `nameOrder` field captures the rendering rule; structured fields stay\n    neutral.\n- source: FOAF (Friend of a Friend)\n  url: http://xmlns.com/foaf/spec/\n  notes: "Original social-graph vocabulary. foaf:Person with givenName/familyName/nick/homepage;\\\n    \\ foaf:account \\u2248 our accounts[]. Largely superseded by schema.org but still\\\n    \\ a reference for account-centric modeling."\n',
     'place': 'plural: places\nidentity_any:\n- googlePlaceId\n- mapboxId\nsubtitle: fullAddress\nfields:\n  fullAddress: string\n  placeFormatted: string\n  streetNumber: string\n  street: string\n  neighborhood: string\n  locality: string\n  city: string\n  district: string\n  region: string\n  postalCode: string\n  country: string\n  countryCode: string\n  latitude: number\n  longitude: number\n  accuracy: string\n  featureType: string\n  categories: string[]\n  phone: string\n  website: url\n  hours: json\n  businessStatus: string\n  rating: number\n  reviewCount: integer\n  priceLevel: string\n  timezone: string\n  eta: string\n  isOrderable: boolean\n  closedMessage: string\n  productCount: integer\n  mapboxId: string\n  wikidataId: string\n  googlePlaceId: string\nrelations:\n  at: actor\n  brand: organization\n  offers: product[]\nprior_art:\n- source: schema.org/Place + PostalAddress\n  url: https://schema.org/Place\n  notes: "Our latitude/longitude = geo.latitude/longitude; street/city/region/postalCode/countryCode\\\n    \\ map to PostalAddress streetAddress/addressLocality/addressRegion/postalCode/addressCountry;\\\n    \\ hours \\u2248 openingHoursSpecification; rating/reviewCount \\u2248 aggregateRating."\n- source: Google Places API (Place resource)\n  url: https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places\n  notes: "Practical POI schema. Our googlePlaceId = id; featureType/categories \\u2248\\\n    \\ types/primaryType; businessStatus, priceLevel, rating match directly."\n- source: GeoJSON (RFC 7946) + ISO 3166-1\n  url: https://datatracker.ietf.org/doc/html/rfc7946\n  notes: Our latitude/longitude are a GeoJSON Point [lon, lat]; countryCode follows\n    ISO 3166-1 alpha-2.\n',
     'playlist': 'plural: playlists\nsubtitle: text\nalso:\n- list\nrelations:\n  contains: video[]\nprior_art:\n- source: schema.org/MusicPlaylist / ItemList\n  url: https://schema.org/MusicPlaylist\n  notes: "Our contains(video[]) \\u2248 track/itemListElement. We generalize beyond\\\n    \\ music to any ordered media list."\n- source: "YouTube Data API \\u2014 Playlist"\n  url: https://developers.google.com/youtube/v3/docs/playlists\n  notes: "Practical source. Playlist = ordered Video collection \\u2014 inherits list\\\n    \\ identity semantics."\n',
     'podcast': 'plural: podcasts\nidentity:\n- at\n- id\nsubtitle: author\nfields:\n  feedUrl: url\nrelations:\n  host: person[]\n  at: actor\n  episode: episode[]\nprior_art:\n- source: RSS 2.0 (feed + channel)\n  url: https://www.rssboard.org/rss-specification\n  notes: "Our feedUrl is a canonical RSS feed URL; episodes relation \\u2248 channel\'s\\\n    \\ item elements."\n- source: Apple Podcasts RSS extensions (itunes:*)\n  url: https://help.apple.com/itc/podcasts_connect/#/itcb54353390\n  notes: "De-facto standard. Our host[] \\u2248 itunes:author; our series-episode hierarchy\\\n    \\ aligns with itunes:episode/itunes:season."\n- source: Podcast Namespace (podcast:*)\n  url: https://podcastindex.org/namespace/1.0\n  notes: Modern open extension. podcast:person covers guests/hosts; podcast:transcript\n    covers our transcribe relation.\n',
     'post': 'plural: posts\nidentity:\n- at\n- id\nsubtitle: author\nfields:\n  externalUrl: url\n  postType: string\n  score: integer\n  commentCount: integer\n  community: string\nrelations:\n  at: actor\n  postedBy: account\n  publish: community\n  repliesTo: post\n  replies: post[]\n  contains: video[]\n  media: image[]\n  attachment: file[]\nprior_art:\n- source: ActivityStreams 2.0 (Note/Article + Create)\n  url: https://www.w3.org/TR/activitystreams-vocabulary/\n  notes: "Fediverse post model. Our postedBy \\u2248 actor/attributedTo; publish(community)\\\n    \\ \\u2248 audience/to; repliesTo/replies \\u2248 inReplyTo/replies; media/attachment\\\n    \\ \\u2248 attachment."\n- source: OpenGraph protocol\n  url: https://ogp.me/\n  notes: How posts surface when linked. Our externalUrl + media[] correspond to og:url\n    and og:image/og:video; postType loosely parallels og:type (article, video).\n- source: ATProto app.bsky.feed.post\n  url: https://atproto.com/lexicons/app-bsky-feed\n  notes: "Modern practical lexicon. Our repliesTo \\u2248 reply.parent; media \\u2248\\\n    \\ embed.images; externalUrl \\u2248 embed.external."\n',
-    'product': "plural: products\nidentity_any:\n- url\nsubtitle: brand\nfields:\n  category: string\n  price: string\n  priceAmount: number\n  originalPrice: string\n  originalPriceAmount: number\n  currency: string\n  categories: string[]\n  availability: string\n  images: json\n  quantity: integer\n  weight: string\n  weightValue: number\n  weightUnit: string\n  soldByWeight: boolean\n  department: string\n  aisle: string\n  sku: string\n  barcode: string\n  nutritionScore: string\n  novaGroup: integer\n  calories: number\n  servingSize: string\n  customizationGroups: json\nrelations:\n  brand: brand\n  manufacturer: organization\n  tagged: tag[]\nprior_art:\n- source: schema.org/Product + Offer\n  url: https://schema.org/Product\n  notes: Product on schema.org, price/priceAmount/currency/availability on nested\n    Offer. Our sku/barcode map to sku/gtin13/gtin12; brand/manufacturer match directly.\n- source: GS1 GTIN (UPC/EAN)\n  url: https://www.gs1.org/standards/id-keys/gtin\n  notes: Canonical barcode standard. Our barcode field is a GTIN-8/12/13/14; GS1 also\n    underlies schema.org's gtin* properties.\n- source: Open Food Facts API\n  url: https://openfoodfacts.github.io/openfoodfacts-server/api/\n  notes: Best practical source for food attributes. Our nutritionScore/novaGroup/calories/servingSize\n    mirror nutriscore_grade/nova_group/nutriments.energy-kcal/serving_size.\n",
+    'product': 'plural: products\nidentity_any:\n- url\nsubtitle: brand\nfields:\n  category: string\n  price: string\n  priceAmount: number\n  originalPrice: string\n  originalPriceAmount: number\n  currency: string\n  categories: string[]\n  availability: string\n  images: json\n  quantity: integer\n  released: datetime\n  discontinued: datetime\n  weight: string\n  weightValue: number\n  weightUnit: string\n  soldByWeight: boolean\n  department: string\n  aisle: string\n  sku: string\n  barcode: string\n  nutritionScore: string\n  novaGroup: integer\n  calories: number\n  servingSize: string\n  customizationGroups: json\nrelations:\n  brand: brand\n  manufacturer: organization\n  creator: actor[]\n  inspiredBy: product[]\n  tagged: tag[]\nprior_art:\n- source: schema.org/Product + Offer\n  url: https://schema.org/Product\n  notes: Product on schema.org, price/priceAmount/currency/availability on nested\n    Offer. Our sku/barcode map to sku/gtin13/gtin12; brand/manufacturer match directly.\n    schema.org has `releaseDate` on Product (mirrors our `released`) but no formalized\n    end-of-life property.\n- source: Wikidata P2669 (discontinued date)\n  url: https://www.wikidata.org/wiki/Property:P2669\n  notes: "Wikidata\'s canonical \\"discontinued date\\" property \\u2014 broadly used\\\n    \\ across Wikidata\'s product entities (software, hardware, vehicles, consumer goods)\\\n    \\ with consistent semantics (\\"date when a product ceased to be manufactured,\\\n    \\ supported, or available\\"). Our `discontinued` field aligns directly. Wikidata\\\n    \\ P577 (publication date) similarly aligns with our `released`."\n- source: schema.org/CreativeWork (creator, isBasedOn)\n  url: https://schema.org/CreativeWork\n  notes: \'Our `creator: actor[]` mirrors schema.org/creator (Person|Organization).\n    Our `inspiredBy: product[]` maps to schema.org/isBasedOn (CreativeWork derivation/credit\n    edge); we keep the more readable name and broaden the target to any product so\n    non-CreativeWork lineages (one aircraft type inspired by another, one OS inspired\n    by another) work the same way.\'\n- source: GS1 GTIN (UPC/EAN)\n  url: https://www.gs1.org/standards/id-keys/gtin\n  notes: Canonical barcode standard. Our barcode field is a GTIN-8/12/13/14; GS1 also\n    underlies schema.org\'s gtin* properties.\n- source: Open Food Facts API\n  url: https://openfoodfacts.github.io/openfoodfacts-server/api/\n  notes: Best practical source for food attributes. Our nutritionScore/novaGroup/calories/servingSize\n    mirror nutriscore_grade/nova_group/nutriments.energy-kcal/serving_size.\n',
     'project': 'plural: projects\nidentity:\n- at\n- id\nsubtitle: state\nfields:\n  state: string\n  color: string\n  parentId: string\nrelations:\n  at: actor\nprior_art:\n- source: "Linear API \\u2014 Project"\n  url: https://developers.linear.app/docs/graphql/working-with-the-graphql-api\n  notes: Our state/color come directly from Linear\'s Project model.\n- source: GitHub Projects (v2)\n  url: https://docs.github.com/en/graphql/reference/objects#projectv2\n  notes: "Canonical open-source project-board model. state \\u2248 ProjectV2SingleSelectFieldOption;\\\n    \\ color is per-field metadata."\n- source: schema.org/Project\n  url: https://schema.org/Project\n  notes: Generic project-as-effort type. Thinner than the practical APIs; mainly useful\n    for outbound JSON-LD.\n',
     'protocol': 'plural: protocols\nidentity:\n- name\nsubtitle: name\nfields:\n  name: string\n  homepage: url\n  rfc: string\n  wikidataId: string\nprior_art:\n- source: schema.org/CreativeWork\n  url: https://schema.org/CreativeWork\n  notes: "Closest match in schema.org \\u2014 protocols are creative works in the broadest\\\n    \\ sense. We narrow to protocols and technical specifications used as identity\\\n    \\ namespaces."\n- source: Wikidata (Communication protocol, Q15836568)\n  url: https://www.wikidata.org/wiki/Q15836568\n  notes: wikidataId enables cross-reference for dedupe across other knowledge graphs.\n    Most well-known protocols have Q-IDs.\n- source: IANA Protocol Registry\n  url: https://www.iana.org/protocols\n  notes: Authoritative registry for many protocols. Our `name` aligns with IANA protocol\n    slugs where applicable.\n',
     'quote': 'plural: quotes\nfields:\n  context: string\n  year: integer\nprior_art:\n- source: schema.org/Quotation\n  url: https://schema.org/Quotation\n  notes: "Our context \\u2248 about; year \\u2248 datePublished. schema.org models spokenByCharacter/creator\\\n    \\ \\u2014 we model attribution via graph edges instead."\n- source: Wikiquote data model\n  url: https://en.wikiquote.org/wiki/Help:Sources\n  notes: Practical canonical quote source. Our provenance-via-edges (document --contains-->\n    quote --attributedTo--> person) matches Wikiquote\'s source-citation discipline.\n',
@@ -2221,18 +2436,20 @@ SHAPE_YAMLS: dict[str, str] = {
     'shelf': 'plural: shelves\nalso:\n- list\nfields:\n  isExclusive: boolean\nrelations:\n  contains: book[]\nprior_art:\n- source: "Goodreads API \\u2014 Shelves"\n  url: https://www.goodreads.com/api\n  notes: Direct source. Our isExclusive maps to Goodreads\' "exclusive shelves" (read,\n    to-read, currently-reading).\n- source: schema.org/ItemList (bookshelf)\n  url: https://schema.org/ItemList\n  notes: "Generic collection peer. contains(book[]) \\u2248 itemListElement."\n',
     'simulation': 'plural: simulations\nsubtitle: status\nicon: shield\nfields:\n  status: string\n  profile: string\n  task: text\n  graphMode: string\n  startedAt: datetime\n  endedAt: datetime\n  actionCount: integer\n  writeCount: integer\nrelations:\n  primaryMemex: memex\n  mountedMemex: memex[]\n  agent: agent\n  tether: hardware\n  forkedFrom: simulation\n  startedBy: person\nprior_art:\n- source: OpenTelemetry Traces (root span + attributes)\n  url: https://opentelemetry.io/docs/concepts/signals/traces/\n  notes: "Span-shaped observation of an agent run. Our startedAt/endedAt/ actionCount/writeCount\\\n    \\ \\u2248 span attributes; status \\u2248 span status."\n- source: QEMU / VM snapshots\n  url: https://qemu-project.gitlab.io/qemu/system/images.html\n  notes: "\\"Disk image vs. VM\\" metaphor is direct. Our primaryMemex \\u2248 writable\\\n    \\ disk; mountedMemex[] \\u2248 read-only overlays; forkedFrom \\u2248 snapshot-based\\\n    \\ fork."\n- source: Kubernetes Pod + Volume mounts\n  url: https://kubernetes.io/docs/concepts/workloads/pods/\n  notes: "Our tether (hardware kill-switch) \\u2248 Pod security context; mountedMemex[]\\\n    \\ \\u2248 ConfigMap/PVC read-only mounts."\n',
     'skill': 'plural: skills\nsubtitle: description\nfields:\n  skillId: string\n  description: text\n  color: string\n  status: string\n  error: text\nrelations:\n  website: website\n  privacyPolicy: webpage\n  termsOfService: webpage\nprior_art:\n- source: "Model Context Protocol (MCP) \\u2014 Server"\n  url: https://modelcontextprotocol.io/specification\n  notes: "Our skill = an MCP-registerable capability provider. skillId \\u2248 MCP\\\n    \\ server name; status tracks connection lifecycle."\n- source: OpenAPI 3.1 (Info + Servers)\n  url: https://spec.openapis.org/oas/v3.1.0\n  notes: "Our description/website/privacyPolicy/termsOfService \\u2248 OpenAPI info.description/info.termsOfService/info.license/contact."\n- source: Anthropic Tool Use (skills-as-tools)\n  url: https://docs.anthropic.com/en/docs/build-with-claude/tool-use\n  notes: Each AgentOS skill publishes tools consumed via MCP/Tool-Use. status/error\n    surface tool-call health back to the agent.\n',
+    'software': 'plural: software\nidentity_any:\n- url\nsubtitle: applicationCategory\nalso:\n- product\nfields:\n  version: string\n  applicationCategory: string\n  runtimePlatform: string\n  codename: string\nrelations:\n  manufacturer: organization\nprior_art:\n- source: schema.org/SoftwareApplication\n  url: https://schema.org/SoftwareApplication\n  notes: "Our applicationCategory mirrors schema.org applicationCategory (free-form\\\n    \\ string, common values include \\"GameApplication\\", \\"BusinessApplication\\",\\\n    \\ \\"BrowserApplication\\"). Our version maps to softwareVersion; runtimePlatform\\\n    \\ maps to operatingSystem (the closest analog \\u2014 schema.org uses `operatingSystem`\\\n    \\ to mean \\"which platform the software runs on\\", which matches our intent).\\\n    \\ Codename has no schema.org equivalent."\n- source: schema.org/SoftwareSourceCode\n  url: https://schema.org/SoftwareSourceCode\n  notes: For libraries / open-source code (XP.css, 98.css), schema.org has a separate\n    SoftwareSourceCode type with codeRepository / programmingLanguage fields. We keep\n    one `software` shape and let the product\'s url field carry the repo URL when applicable.\n- source: Wikidata Q7397 (software)\n  url: https://www.wikidata.org/wiki/Q7397\n  notes: "Wikidata software entities use P348 (software version identifier), P178\\\n    \\ (developer) \\u2248 our manufacturer/creator, P306 (operating system) \\u2248\\\n    \\ our runtimePlatform, and P2669 (discontinued date) \\u2014 inherited from product.\\\n    \\ Cross-reference identity rather than direct field alignment."\n',
+    'sound': 'plural: sounds\nsubtitle: purpose\nalso:\n- creative_work\n- file\nfields:\n  durationMs: integer\n  channels: integer\n  sampleRate: integer\n  bitDepth: integer\n  purpose: string\nprior_art:\n- source: schema.org/AudioObject\n  url: https://schema.org/AudioObject\n  notes: "Our durationMs \\u2248 duration (ISO 8601 period). Most metadata comes from\\\n    \\ creative_work via `also`; AudioObject\'s surface is sparse (contentUrl, encodingFormat,\\\n    \\ transcript)."\n- source: ID3v2 (audio metadata in MP3)\n  url: https://id3.org/id3v2.4.0-structure\n  notes: TPE1=artist (author via creative_work); TALB=album; TIT2=title (name via\n    creative_work); TYER=year (copyrightYear via creative_work); TCOP=copyright; TCOM=composer.\n- source: WAV LIST INFO chunks\n  url: https://www.recordingblogs.com/wiki/list-chunk-of-a-wave-file\n  notes: IART=artist; ICOP=copyright; ICRD=creation date; INAM=name; IGNR=genre. Inherited\n    from creative_work where they apply.\n- source: Broadcast Wave Format (BWF) bext chunk\n  url: https://tech.ebu.ch/docs/tech/tech3285.pdf\n  notes: "BWF carries Originator (creator), OriginationDate, OriginatorReference \\u2014\\\n    \\ production-pipeline provenance for broadcast audio. Inherited via creative_work;\\\n    \\ AgentOS doesn\'t currently parse bext chunks."\n',
     'source': 'plural: sources\nidentity: address\nsubtitle: sourceId\nicon: "\\U0001F4E6"\nfields:\n  sourceId: string\n  address: string\n  scanner: string\n  enabled: boolean\n  description: text\n  lastSynced: datetime\nrelations:\n  folder: folder\nprior_art:\n- source: Homebrew Taps\n  url: https://docs.brew.sh/Taps\n  notes: Direct precedent. Our sourceId/address match tap name/URL; our platform=agentos\n    parallels tap formulae discovery.\n- source: Cydia / Sileo (APT repos for iOS)\n  url: https://wiki.theapebox.com/index.php/Package_Management\n  notes: Namespaced third-party source model. Our sourceId prefix is the Cydia repo-namespace\n    pattern.\n- source: Debian APT sources.list\n  url: https://wiki.debian.org/SourcesList\n  notes: "Canonical third-party source mechanism. Our enabled flag parallels APT source\\\n    \\ enable/disable; lastSynced \\u2248 apt-get update timestamp."\n',
     'spec': 'plural: specs\nsubtitle: state\nalso:\n- task\n- file\nfields:\n  problem: text\n  successCriteria: text\nrelations:\n  dependsOn: spec[]\n  supersedes: spec[]\nprior_art:\n- source: IETF RFC process\n  url: https://www.ietf.org/standards/rfcs/\n  notes: Canonical "design doc with problem statement and success criteria" lineage.\n    Our problem/successCriteria mirror the RFC structure.\n- source: Architectural Decision Records (ADR / MADR)\n  url: https://adr.github.io/\n  notes: Modern in-repo equivalent. supersedes[] matches ADR\'s "Supersedes" link;\n    dependsOn[] has no direct ADR peer.\n- source: Python PEP (spec-as-markdown)\n  url: https://peps.python.org/pep-0001/\n  notes: PEP states problem, rationale, spec, rejected alternatives. Our fields are\n    a slim version of the PEP template.\n',
     'tag': 'plural: tags\nsubtitle: tagType\nfields:\n  color: string\n  tagType: string\n  annotated: boolean\n  hash: string\nprior_art:\n- source: "GitHub REST API \\u2014 Labels"\n  url: https://docs.github.com/en/rest/issues/labels\n  notes: "Our color/name/tagType \\u2248 GitHub Label\'s color/name/default."\n- source: "Gmail API \\u2014 Labels"\n  url: https://developers.google.com/gmail/api/reference/rest/v1/users.labels\n  notes: Practical source. Our tagType distinguishes Gmail\'s SYSTEM vs USER label\n    types.\n- source: Dublin Core dc:subject\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: "Generic classification vocabulary \\u2014 tags on any resource."\n',
     'task': 'plural: tasks\nidentity:\n- at\n- id\nsubtitle: state\nfields:\n  remoteId: string\n  priority: integer\n  state: string\n  labels: string[]\n  startedAt: datetime\n  targetDate: datetime\n  target: json\n  parentId: string\n  projectId: string\nrelations:\n  at: actor\n  assignedTo: person\n  project: project\n  repository: repository\n  parent: task\n  children: task[]\n  blockedBy: task[]\n  blocks: task[]\nprior_art:\n- source: "GitHub REST API \\u2014 Issues"\n  url: https://docs.github.com/en/rest/issues/issues\n  notes: Direct source. Our remoteId/state/labels/assignedTo/parent/ children/blockedBy/blocks\n    map to GitHub Issue + sub-issues + task-list tracking.\n- source: "Linear GraphQL API \\u2014 Issue"\n  url: https://developers.linear.app/docs/graphql/working-with-the-graphql-api\n  notes: Practical canonical. Our priority/state/project/targetDate align with Linear\'s\n    Issue model exactly.\n- source: "Todoist REST API v2 \\u2014 Tasks"\n  url: https://developer.todoist.com/rest/v2/\n  notes: "Consumer-grade task model. Our startedAt/targetDate \\u2248 created_at/due;\\\n    \\ labels match directly."\n',
     'tax_line': 'plural: tax_lines\nidentity:\n- at\n- id\nsubtitle: description\nfields:\n  code: string\n  description: string\n  amount: number\n  currency: string\n  kind: string\n  nature: string\n  country: string\n  appliesToIndex: integer\n  refundable: boolean\n  merchantImposed: boolean\n  rate: number\n  taxableAmount: number\n  inclusive: boolean\nrelations:\n  at: actor\n  appliesTo: fare\n  offer: offer\n  reservation: reservation\n  segment: leg\n  imposedBy: actor\n  location: place\nprior_art:\n- source: IATA List of Ticket and Airport Taxes and Fees (ILTATF)\n  url: https://www.iata.org/en/publications/store/list-of-ticket-and-airport-taxes-and-fees/\n  notes: Canonical 1500+ entry registry of 2-char airline tax codes, grouped AT (airport),\n    PC (passenger charge), ST (stamp), TT (ticket), MT (misc). Our `code` = ILTATF\n    code when applicable; `nature` corresponds to ILTATF\'s grouping.\n- source: IATA NDC Tax / TaxBreakdown element\n  url: https://developer.iata.org/en/ndc/\n  notes: NDC\'s Price structure carries Taxes/Tax with TaxCode, CollectionPoint, CountryCode,\n    Nature, Amount, Description. Our code/country/nature/amount/description map 1:1.\n    NDC\'s Nature enum (security, fuel, facility, tax) informs our values.\n- source: schema.org/UnitPriceSpecification + PriceComponentTypeEnumeration\n  url: https://schema.org/UnitPriceSpecification\n  notes: Generic commerce. priceComponentType ("Tax"), valueAddedTaxIncluded (our\n    `inclusive`), priceCurrency. Lightweight; we add code, country, `imposedBy` to\n    cover the authority-chain gap.\n- source: "UBL 2.1 / Peppol BIS Billing 3.0 \\u2014 TaxSubtotal / TaxCategory"\n  url: https://docs.peppol.eu/poacc/billing/3.0/\n  notes: European eInvoicing. TaxSubtotal carries TaxableAmount, TaxAmount, Percent,\n    TaxCategory/TaxScheme (VAT/GST). Our taxableAmount/amount/rate/nature align directly.\n- source: Stripe Invoice tax_amounts[]\n  url: https://docs.stripe.com/api/invoices/object\n  notes: Stripe\'s line-item tax_amounts[] carries amount, inclusive, tax_rate, taxability_reason,\n    taxable_amount. Our inclusive/ rate/taxableAmount match; jurisdiction/jurisdiction_level\n    inspired the country + `imposedBy` split.\n- source: Shopify Order tax_lines[]\n  url: https://shopify.dev/docs/api/admin-rest/latest/resources/order\n  notes: "Minimal commerce model: price, rate, title, channel_liable. Our amount/rate/description\\\n    \\ map 1:1. Shopify allows multiple tax_lines per line item with same title + different\\\n    \\ rates \\u2014 same pattern we need (US Transportation Tax recurring per segment).\\\n    \\ We disambiguate via appliesToIndex."\n- source: Avalara / TaxJar tax breakdown\n  url: https://developer.avalara.com/\n  notes: \'Commerce tax engines. Jurisdiction hierarchy (country / state / county /\n    city / special) and combined tax rate. Informs the `imposedBy: actor` relation\n    for layered jurisdictions (hotel occupancy + tourism + state sales tax, each their\n    own line).\'\n',
-    'theme': 'plural: themes\nidentity: themeId\nsubtitle: family\nfields:\n  themeId: string\n  themeType: string\n  family: string\n  colorScheme: string\n  description: text\n  chrome: json\n  fonts: json\n  defaultWallpaper: string\n  prefsSchema: json\n  sounds: json\nprior_art:\n- source: CSS color-scheme (W3C CSS Color Adjustment)\n  url: https://www.w3.org/TR/css-color-adjust-1/#color-scheme-prop\n  notes: Our colorScheme = CSS color-scheme values (light/dark/both).\n- source: System theme APIs (macOS NSAppearance, Windows WinUI)\n  url: https://developer.apple.com/documentation/appkit/nsappearance\n  notes: OS-level theme abstraction. Our family parallels NSAppearance.Name (aqua,\n    darkAqua) and Windows theme families.\n',
+    'theme': 'plural: themes\nidentity: themeId\nsubtitle: family\nfields:\n  themeId: string\n  themeType: string\n  family: string\n  colorScheme: string\n  description: text\n  chrome: json\n  fonts: json\n  defaultWallpaper: string\n  defaultBackgroundColor: string\n  prefsSchema: json\n  sounds: json\nprior_art:\n- source: CSS color-scheme (W3C CSS Color Adjustment)\n  url: https://www.w3.org/TR/css-color-adjust-1/#color-scheme-prop\n  notes: Our colorScheme = CSS color-scheme values (light/dark/both).\n- source: System theme APIs (macOS NSAppearance, Windows WinUI)\n  url: https://developer.apple.com/documentation/appkit/nsappearance\n  notes: OS-level theme abstraction. Our family parallels NSAppearance.Name (aqua,\n    darkAqua) and Windows theme families.\n',
     'tool_call': "plural: tool_calls\nidentity:\n- platform\n- id\nsubtitle: name\nfields:\n  name: string\n  input: text\n  output: text\n  isError: boolean\n  durationMs: integer\nrelations:\n  platform: product\n  from: actor\n  inMessage: message\n  repliesTo: tool_call\nprior_art:\n- source: Anthropic Tool Use API\n  url: https://docs.anthropic.com/en/docs/build-with-claude/tool-use\n  notes: Our name/input/output/isError map to tool_use/tool_result blocks in Claude's\n    message API.\n- source: OpenAI Function Calling / tool_calls\n  url: https://platform.openai.com/docs/guides/function-calling\n  notes: Our name/input = function.name/function.arguments; output is the tool-result\n    message content.\n- source: OpenTelemetry GenAI semconv\n  url: https://opentelemetry.io/docs/specs/semconv/gen-ai/\n  notes: Emerging observability standard. Our durationMs/isError align with gen_ai.tool.*\n    span attributes.\n",
     'transaction': 'plural: transactions\nidentity:\n- at\n- id\nsubtitle: category\nfields:\n  amount: number\n  currency: string\n  balance: number\n  category: string\n  postingDate: datetime\n  pending: boolean\n  recurring: boolean\n  notes: string\n  type: string\n  details: json\nrelations:\n  at: actor\n  account: financial_account\nprior_art:\n- source: OFX (Open Financial Exchange) STMTTRN\n  url: https://financialdataexchange.org/ofx\n  notes: Direct source. Our amount/type/postingDate/balance map to STMTTRN TRNAMT/TRNTYPE/DTPOSTED/BALAMT.\n- source: ISO 20022 payments messaging\n  url: https://www.iso20022.org/\n  notes: "Modern bank-messaging. Our currency = Ccy; category \\u2248 purpose code;\\\n    \\ details \\u2248 RemittanceInformation."\n- source: Plaid Transactions API\n  url: https://plaid.com/docs/api/products/transactions/\n  notes: Practical mirror. Our category/pending/recurring/notes match Plaid\'s category/pending/personal_finance_category/name\n    fields.\n',
     'transcript': 'plural: transcripts\nfields:\n  language: string\n  sourceType: string\n  contentRole: string\n  durationMs: integer\n  segmentCount: integer\n  segments: json\nprior_art:\n- source: WebVTT (W3C)\n  url: https://www.w3.org/TR/webvtt1/\n  notes: Our segments are WebVTT cues (start/end/text). language follows WebVTT\'s\n    LANGUAGE header.\n- source: SRT SubRip Subtitles\n  url: https://matroska.org/technical/subtitles.html#srt-subtitles\n  notes: Practical alternative cue format. Same segment shape.\n- source: Whisper JSON output\n  url: https://github.com/openai/whisper\n  notes: "Practical source \\u2014 many transcript skills return Whisper-shaped JSON\\\n    \\ (segments with start/end/text). Direct match."\n',
     'trip': 'plural: trips\nidentity:\n- at\n- id\nsubtitle: tripType\nfields:\n  tripType: string\n  status: string\n  departureTime: datetime\n  arrivalTime: datetime\n  duration: string\n  durationMinutes: integer\n  distance: string\n  vehicleType: string\n  cabinClass: string\n  fare: string\n  fareAmount: number\n  currency: string\n  rating: string\n  trackingUrl: url\n  isSurge: boolean\n  isScheduled: boolean\n  stops: integer\n  bookingToken: string\n  carbonEmissions: json\n  isPool: boolean\n  isReserve: boolean\n  guest: json\n  marketplace: string\n  vehicle: json\nrelations:\n  at: actor\n  origin: place\n  destination: place\n  legs: leg[]\n  carrier: organization\n  driver: person\n  order: order\nprior_art:\n- source: schema.org/Trip + subTrip\n  url: https://schema.org/Trip\n  notes: "Our origin/destination/departureTime/arrivalTime map exactly; legs[] \\u2248\\\n    \\ subTrip or itinerary."\n- source: IATA NDC Slice (airline itineraries)\n  url: https://www.iata.org/en/programs/airline-distribution/retailing/ndc/\n  notes: NDC slice = our trip; NDC segment = our leg. cabinClass, bookingToken come\n    from NDC offer items.\n- source: "Uber API \\u2014 Trip resource"\n  url: https://developer.uber.com/docs/riders/references/api\n  notes: Practical source for ride trips. Our fare/fareAmount/ trackingUrl/isSurge/isScheduled\n    lifted from Uber\'s Trip model.\n',
     'user': 'plural: users\nalso:\n- actor\nidentity_any:\n- osUsername\nfields:\n  osUsername: string\n  primaryUser: boolean\nrelations:\n  identified_as: person\nprefsSchemas:\n  ui:\n  - key: themeId\n    kind: select\n    label: Theme\n    description: "Desktop theme \\u2014 window chrome, fonts, sounds."\n    group: Theme\n    optionsShape: theme\n    optionsValue: themeId\n    optionsLabel: name\n  - key: fontSize\n    kind: number\n    label: Font Size\n    description: Base UI font size in pixels.\n    group: Theme\n    min: 8\n    max: 20\n    step: 1\n    default: 12\n  - key: icons.iconSize\n    kind: number\n    label: Icon Size\n    description: Icon side length in pixels.\n    group: Icons\n    min: 24\n    max: 96\n    step: 4\n    default: 32\n  - key: icons.iconSpacing\n    kind: number\n    label: Icon Spacing\n    description: Pixels between icon cells.\n    group: Icons\n    min: 4\n    max: 48\n    step: 2\n    default: 8\n  - key: icons.showIcons\n    kind: boolean\n    label: Show Icons\n    description: Render icons on this view.\n    group: Icons\n    default: true\n  - key: icons.startingCorner\n    kind: select\n    label: Starting Corner\n    description: Where the first icon lands.\n    group: Icons\n    default: top-left\n    options:\n    - value: top-left\n      label: Top Left\n    - value: top-right\n      label: Top Right\n    - value: bottom-left\n      label: Bottom Left\n    - value: bottom-right\n      label: Bottom Right\n  - key: icons.flowDirection\n    kind: select\n    label: Flow Direction\n    description: Whether icons fill columns or rows first.\n    group: Icons\n    default: vertical-first\n    options:\n    - value: vertical-first\n      label: Vertical First\n    - value: horizontal-first\n      label: Horizontal First\n  - key: background.color\n    kind: color\n    label: Background Color\n    description: Solid background tone for this view.\n    group: Background\n    tab: Desktop\n    default: \'#3A6EA5\'\n  - key: background.wallpaper\n    kind: select\n    label: Wallpaper\n    description: "Background image \\u2014 pick from images tagged `wallpaper`."\n    group: Background\n    tab: Desktop\n    optionsShape: image\n    optionsTag: wallpaper\n    optionsValue: path\n    optionsLabel: name\n  - key: background.position\n    kind: select\n    label: Position\n    description: How the wallpaper fills the surface.\n    group: Background\n    tab: Desktop\n    default: fill\n    options:\n    - value: fill\n      label: Fill\n    - value: fit\n      label: Fit\n    - value: stretch\n      label: Stretch\n    - value: center\n      label: Center\n    - value: tile\n      label: Tile\n  system:\n  - key: loggingEnabled\n    kind: boolean\n    label: Logging\n    description: Write engine logs to ~/.agentos/logs.\n    default: true\n  - key: terminalEnabled\n    kind: boolean\n    label: Terminal Access\n    description: Allow shell skill calls from agents.\n    default: true\n  - key: showAppOnStart\n    kind: boolean\n    label: Auto-launch Apps\n    description: Open last-session apps when the engine boots.\n    default: true\nprior_art:\n- source: POSIX getpwuid (passwd database)\n  url: https://pubs.opengroup.org/onlinepubs/9699919799/functions/getpwuid.html\n  notes: "The OS-level \\"user\\" \\u2014 uid + login name + home dir. Our `osUsername`\\\n    \\ mirrors `pw_name`; identity-by-OS-account follows the same pattern. We diverge\\\n    \\ by separating the OS seat (`user`) from the human (`person`); POSIX conflates\\\n    \\ them."\n- source: schema.org/Audience\n  url: https://schema.org/Audience\n  notes: "Loose fit. schema.org has no \\"OS user\\" concept \\u2014 user accounts are\\\n    \\ product-specific. We model it explicitly because AgentOS is the product, and\\\n    \\ the user-as-pref-carrier is load-bearing."\n- source: macOS NSUserDefaults\n  url: https://developer.apple.com/documentation/foundation/nsuserdefaults\n  notes: \'The Apple model: per-user preference store, keyed by the OS account. Our\n    `pref:ui` / `pref:system` blobs play the same role, but live in the graph (queryable,\n    multi-process safe) rather than a plist file.\'\n',
-    'video': 'plural: videos\nsubtitle: author\nalso:\n- file\nfields:\n  durationMs: integer\n  resolution: string\n  frameRate: number\n  codec: string\n  viewCount: integer\nrelations:\n  channel: channel\n  transcribe: transcript\n  addTo: playlist\nprior_art:\n- source: schema.org/VideoObject\n  url: https://schema.org/VideoObject\n  notes: "Our durationMs \\u2248 duration (ISO 8601 period); resolution \\u2248 videoFrameSize;\\\n    \\ frameRate has no direct property; codec \\u2248 encodingFormat."\n- source: IANA Media Types (video/*)\n  url: https://www.iana.org/assignments/media-types/media-types.xhtml#video\n  notes: Our codec values map to registered video/* media types (mp4, webm, ogg).\n- source: MPEG / ITU video codec specs\n  url: https://www.itu.int/rec/T-REC-H.264\n  notes: Canonical codec definitions. Our codec values are MPEG/ITU codec short names\n    (h264, vp9, av1).\n',
+    'video': 'plural: videos\nsubtitle: author\nalso:\n- creative_work\n- file\nfields:\n  durationMs: integer\n  resolution: string\n  frameRate: number\n  codec: string\n  viewCount: integer\nrelations:\n  channel: channel\n  transcribe: transcript\n  addTo: playlist\nprior_art:\n- source: schema.org/VideoObject\n  url: https://schema.org/VideoObject\n  notes: "Our durationMs \\u2248 duration (ISO 8601 period); resolution \\u2248 videoFrameSize;\\\n    \\ frameRate has no direct property; codec \\u2248 encodingFormat."\n- source: IANA Media Types (video/*)\n  url: https://www.iana.org/assignments/media-types/media-types.xhtml#video\n  notes: Our codec values map to registered video/* media types (mp4, webm, ogg).\n- source: MPEG / ITU video codec specs\n  url: https://www.itu.int/rec/T-REC-H.264\n  notes: Canonical codec definitions. Our codec values are MPEG/ITU codec short names\n    (h264, vp9, av1).\n',
     'webpage': 'plural: webpages\nidentity: url\nsubtitle: url\nfields:\n  visitCount: integer\n  lastVisitUnix: integer\n  contentType: string\n  error: string\nprior_art:\n- source: schema.org/WebPage\n  url: https://schema.org/WebPage\n  notes: "Our URL-as-identity matches schema.org\'s @id/url convention; contentType\\\n    \\ \\u2248 encodingFormat."\n- source: HTTP semantics (RFC 9110)\n  url: https://datatracker.ietf.org/doc/html/rfc9110\n  notes: "Our contentType is the Content-Type response header; error \\u2248 non-2xx\\\n    \\ status text."\n- source: Chrome history / WebExtensions History API\n  url: https://developer.chrome.com/docs/extensions/reference/api/history\n  notes: Practical source. Our visitCount/lastVisitUnix lift from the history API\'s\n    VisitItem structure.\n',
     'website': 'plural: websites\nidentity: url\nsubtitle: url\nfields:\n  status: string\n  versionId: string\n  expiresAt: datetime\n  anonymous: boolean\n  claimToken: string\n  claimUrl: url\nrelations:\n  domain: domain\n  ownedBy: organization\nprior_art:\n- source: schema.org/WebSite\n  url: https://schema.org/WebSite\n  notes: "Our url-as-identity matches; ownedBy \\u2248 publisher; domain relation \\u2248\\\n    \\ url host."\n- source: WHOIS (RFC 3912)\n  url: https://datatracker.ietf.org/doc/html/rfc3912\n  notes: Our expiresAt/domain source from WHOIS records; claimToken has no direct\n    WHOIS peer (HERE.NOW-specific).\n- source: RFC 7033 WebFinger (host-meta)\n  url: https://datatracker.ietf.org/doc/html/rfc7033\n  notes: Website metadata discovery. Our claimUrl parallels /.well-known/host-meta\n    patterns.\n',
 }
@@ -2292,8 +2509,12 @@ SHAPE_IDENTITIES: dict[str, list[str]] = {
 
 SHAPE_IDENTITIES_ANY: dict[str, list[str]] = {
     'book': ['isbn13', 'isbn'],
+    'font': ['family', 'postscriptName'],
+    'icon': ['id'],
+    'person': ['url'],
     'place': ['googlePlaceId', 'mapboxId'],
     'product': ['url'],
     'repository': ['path', 'url'],
+    'software': ['url'],
     'user': ['osUsername'],
 }
