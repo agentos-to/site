@@ -1,7 +1,11 @@
 # An image file. Photos, screenshots, diagrams, artwork.
+#
+# An image is BOTH a creative_work (the photograph / illustration is the
+# work — its author, publisher, license, datePublished come from there)
+# AND a file (the bytes on disk, with a specific format and dimensions).
 image:
   plural: images
-  also: [file]        # an image is also a file
+  also: [creative_work, file]   # an image is a creative work AND a file
   fields:
     width:             integer   # pixels
     height:            integer   # pixels

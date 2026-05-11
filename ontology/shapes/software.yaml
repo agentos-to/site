@@ -1,0 +1,53 @@
+# A software product — operating system, application, library, icon pack,
+# stylesheet kit, anything that's "code (or bundled assets) released into
+# the world."
+#
+# Examples: Windows XP, Mac OS 9, XP.css (CSS library), marchmountain
+# icon pack, Photoshop, VS Code, Slack desktop app.
+#
+# Software is a product (`also: [product]`), so it inherits lifecycle dates
+# (released, discontinued), brand, manufacturer, creator, inspiredBy, and the
+# rest of product's surface. Software-specific fields below.
+software:
+  plural: software
+  identity_any: [url]   # url is the web-canonical identifier (Wikipedia page, GitHub repo, vendor URL)
+  subtitle: applicationCategory
+  also: [product]       # software is also a product
+  fields:
+    version:           string    # canonical version string ("11.0", "2023.4.1", "sp3")
+    applicationCategory: string  # operating-system | ui-library | icon-pack |
+                                  # editor | browser | productivity | game |
+                                  # database | language-runtime | etc.
+                                  # Free-form; schema.org/SoftwareApplication
+                                  # uses a similar enum.
+    runtimePlatform:   string    # desktop | mobile | web | server | embedded
+    codename:          string    # internal/development name ("Whistler" for XP,
+                                  # "Cheetah" for Mac OS X 10.0, "Sonoma" for macOS 14)
+  relations:
+    manufacturer:      organization   # commercial producer (Microsoft for Windows)
+                                       # — distinct from creator (which may be a person
+                                       # for personal projects like XP.css).
+  prior_art:
+    - source: schema.org/SoftwareApplication
+      url: https://schema.org/SoftwareApplication
+      notes: >-
+        Our applicationCategory mirrors schema.org applicationCategory (free-form
+        string, common values include "GameApplication", "BusinessApplication",
+        "BrowserApplication"). Our version maps to softwareVersion;
+        runtimePlatform maps to operatingSystem (the closest analog — schema.org
+        uses `operatingSystem` to mean "which platform the software runs on",
+        which matches our intent). Codename has no schema.org equivalent.
+    - source: schema.org/SoftwareSourceCode
+      url: https://schema.org/SoftwareSourceCode
+      notes: >-
+        For libraries / open-source code (XP.css, 98.css), schema.org has a
+        separate SoftwareSourceCode type with codeRepository / programmingLanguage
+        fields. We keep one `software` shape and let the product's url field carry
+        the repo URL when applicable.
+    - source: Wikidata Q7397 (software)
+      url: https://www.wikidata.org/wiki/Q7397
+      notes: >-
+        Wikidata software entities use P348 (software version identifier),
+        P178 (developer) ≈ our manufacturer/creator, P306 (operating system) ≈
+        our runtimePlatform, and P2669 (discontinued date) — inherited from
+        product. Cross-reference identity rather than direct field alignment.

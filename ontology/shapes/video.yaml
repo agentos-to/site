@@ -2,10 +2,14 @@
 # Engagement metrics (views, likes, comments) belong on the post that
 # contains this video, not on the video itself. A video on your hard
 # drive has no likes.
+#
+# A video is BOTH a creative_work (the film / clip is the work — its
+# director, producer, license, datePublished come from there) AND a
+# file (the bytes on disk, with a specific codec / resolution).
 video:
   plural: videos
   subtitle: author
-  also: [file]        # a video is also a file
+  also: [creative_work, file]   # a video is a creative work AND a file
   fields:
     durationMs:       integer
     resolution:        string    # e.g. "1080p", "4K"

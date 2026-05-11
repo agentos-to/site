@@ -1,0 +1,53 @@
+# An audio clip — startup chimes, error beeps, notification dings,
+# UI feedback sounds. Short, role-specific audio a theme (or app)
+# bundles for system events.
+#
+# Distinct from longer-form audio: a recorded song belongs in `album`
+# / `track` (when those exist); a podcast segment belongs in `episode`;
+# a meeting recording belongs in `transcript`. Sound is for the
+# system-event slice of audio.
+#
+# A sound IS one file (one startup.wav, one error.mp3) so it
+# `also: [creative_work, file]` — both the abstract work (composer,
+# license) and the file artifact (size, mimeType).
+sound:
+  plural: sounds
+  subtitle: purpose
+  also: [creative_work, file]
+  fields:
+    durationMs:        integer    # length in milliseconds
+    channels:          integer    # 1 (mono), 2 (stereo)
+    sampleRate:        integer    # Hz — 44100 / 48000 / 22050 / etc.
+    bitDepth:          integer    # 8 / 16 / 24 / 32
+    purpose:           string     # 'startup' | 'shutdown' | 'minimize' |
+                                  # 'maximize' | 'restore' | 'error' |
+                                  # 'notify' | 'navigation' | 'ding' |
+                                  # 'click' | 'select' | 'window-open' |
+                                  # 'window-close'  — the slot/role the
+                                  # sound is intended for. Free-text;
+                                  # themes pick what makes sense for their
+                                  # event model.
+  prior_art:
+    - source: schema.org/AudioObject
+      url: https://schema.org/AudioObject
+      notes: >-
+        Our durationMs ≈ duration (ISO 8601 period). Most metadata
+        comes from creative_work via `also`; AudioObject's surface is
+        sparse (contentUrl, encodingFormat, transcript).
+    - source: ID3v2 (audio metadata in MP3)
+      url: https://id3.org/id3v2.4.0-structure
+      notes: >-
+        TPE1=artist (author via creative_work); TALB=album; TIT2=title
+        (name via creative_work); TYER=year (copyrightYear via
+        creative_work); TCOP=copyright; TCOM=composer.
+    - source: WAV LIST INFO chunks
+      url: https://www.recordingblogs.com/wiki/list-chunk-of-a-wave-file
+      notes: >-
+        IART=artist; ICOP=copyright; ICRD=creation date; INAM=name;
+        IGNR=genre. Inherited from creative_work where they apply.
+    - source: Broadcast Wave Format (BWF) bext chunk
+      url: https://tech.ebu.ch/docs/tech/tech3285.pdf
+      notes: >-
+        BWF carries Originator (creator), OriginationDate, OriginatorReference
+        — production-pipeline provenance for broadcast audio. Inherited via
+        creative_work; AgentOS doesn't currently parse bext chunks.

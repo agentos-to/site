@@ -1,0 +1,56 @@
+# A typeface — the family-level work. One node per font family
+# ("Trebuchet MS", "Inter", "MS Sans Serif"); weights, styles, and file
+# formats are array fields on this node, not separate nodes (FRBR Work
+# level only for v1).
+#
+# A font is a creative_work (its designer, publisher, license, dates
+# come from there) but NOT a file — the family is an abstract typeface
+# design; individual files (Trebuchet-Bold.woff2) are FRBR
+# Manifestations that we don't model as separate nodes.
+font:
+  plural: fonts
+  identity_any: [family, postscriptName]
+  subtitle: author
+  also: [creative_work]
+  fields:
+    family:            string     # "Trebuchet MS" — the canonical family name
+    postscriptName:    string     # "Trebuchet-MS" — PostScript-safe id
+                                  # (no spaces, ASCII; used in @font-face)
+    weights:           integer[]  # [400, 700] — the cuts that ship
+    styles:            string[]   # ['normal', 'italic']
+    formats:           string[]   # ['woff2', 'woff', 'ttf', 'otf']
+    scripts:           string[]   # ['Latn', 'Cyrl', 'Greek'] — ISO 15924 codes
+                                  # (Latn = Latin, Cyrl = Cyrillic, Hans = Han
+                                  # Simplified, etc.)
+    glyphCount:        integer    # total glyph count across all cuts (rough)
+    designerUrl:       string     # OpenType nameID 12 — designer's home
+    vendorUrl:         string     # OpenType nameID 11 — vendor's home
+    licenseInfoUrl:    string     # OpenType nameID 14 — license URL
+  prior_art:
+    - source: schema.org/Typeface
+      url: https://schema.org/Typeface
+      notes: >-
+        Schema.org added Typeface in 2024. Sparse compared to OpenType
+        (fontFamily, format only) — we lean on the OpenType `name` table
+        for most fields.
+    - source: OpenType `name` table (ISO/IEC 14496-22)
+      url: https://learn.microsoft.com/en-us/typography/opentype/spec/name
+      notes: >-
+        nameID 1=family; 6=postscriptName; 8=manufacturer (publisher in
+        our model, via creative_work); 9=designer (author via
+        creative_work); 13=licenseDescription (license via
+        creative_work); 14=licenseInfoUrl; 11=vendorUrl; 12=designerUrl.
+        Our font shape is a graph-native projection of this table; .woff2
+        metadata can round-trip losslessly.
+    - source: Google Fonts metadata
+      url: https://fonts.google.com/specimen/Roboto
+      notes: >-
+        Treats fonts as "families" with weights / styles arrays. Same
+        model we adopt. Google Fonts also tracks subsets (Latin / Cyrillic
+        / Greek) — equivalent to our scripts field.
+    - source: ISO 15924 (script codes)
+      url: https://www.unicode.org/iso15924/iso15924-codes.html
+      notes: >-
+        Our scripts field uses ISO 15924 four-letter codes (Latn / Cyrl /
+        Grek / Arab / Hans / Hant / Jpan / Kore / etc.). Canonical
+        identification of writing systems.

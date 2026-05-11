@@ -28,9 +28,14 @@
 # a single rendered string like "Dr. Giuseppe Efisio Contini, PhD".
 person:
   plural: people
+  identity_any: [url]  # canonical web identity — GitHub profile, personal site,
+                        # vendor bio page. Lets multi-source seeders dedupe
+                        # without guessing on name collisions.
   subtitle: about
   also: [actor]       # a person is also an actor
   fields:
+    url:              string    # canonical web identifier (GitHub profile,
+                                  # personal site, vendor bio). schema.org/Person/url.
     # Structured name (schema.org aligned)
     givenName:        string    # "Giuseppe" — given/first in Western order
     familyName:       string    # "Contini" — family/surname (spoken first in CJK)

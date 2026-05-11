@@ -1,0 +1,74 @@
+# A small graphic intended for UI use — toolbar buttons, file-type
+# stamps, taskbar entries, status indicators.
+#
+# Distinguished from `image` (general-purpose photographs / screenshots
+# / artwork) by:
+#   - small, fixed size (typically 16 / 24 / 32 / 48 px square)
+#   - role-specific `purpose` field (back / forward / my-computer / ...)
+#   - can be a React component (Vite-resolvable module path), not just
+#     a file on disk
+#
+# One shape for both file-backed icons (SVG / PNG) and component-backed
+# icons (React). The `format` field discriminates; consumers branch on
+# `format == 'react-component'` to load the component, otherwise treat
+# `url` as a fetchable asset URL.
+#
+# An icon is a creative_work (its designer matters, its license matters)
+# but NOT generally a file — component-backed icons live inside a JS
+# bundle and have no standalone file artifact. File-backed icons can be
+# joined to their file entry via a separate edge if/when needed.
+icon:
+  plural: icons
+  identity_any: [id]
+  subtitle: purpose
+  also: [creative_work]
+  fields:
+    dimension:         integer    # canonical pixel dimension (16, 24, 32, 48)
+                                  # — assumes square; non-square icons
+                                  # (e.g. 16×14 title-bar glyphs) use the
+                                  # longer side and the consumer reads the
+                                  # actual file aspect ratio.
+    format:            string     # 'svg' | 'png' | 'webp' | 'react-component'
+    url:               string     # asset URL when format != 'react-component'
+    component:         string     # Vite import path when format == 'react-component'
+                                  # e.g. '../_base/icons.tsx#Back'
+    purpose:           string     # 'back' | 'forward' | 'up' | 'search' |
+                                  # 'folders' | 'my-computer' | 'control-panel' |
+                                  # 'folder-closed' | 'folder-opened' |
+                                  # 'recycle-bin-empty' | 'recycle-bin-full' |
+                                  # 'logout' | 'power' | ... — the slot/role
+                                  # the icon is intended for. Free-text; themes
+                                  # pick what makes sense for their UI surface.
+    style:             string     # 'filled' | 'outline' | 'pixel' | 'flat' |
+                                  # 'isometric' — visual treatment family
+  prior_art:
+    - source: schema.org/ImageObject
+      url: https://schema.org/ImageObject
+      notes: >-
+        Icons could be modeled as ImageObject — we chose a distinct
+        shape because the role-specific `purpose` field has no
+        counterpart on ImageObject (which is purpose-agnostic by design)
+        and because component-backed icons aren't fetchable as image
+        URLs.
+    - source: Iconify metadata
+      url: https://iconify.design/
+      notes: >-
+        Iconify treats icons as named entries within an icon set, each
+        with a category and tags. Our `purpose` field plays the same
+        role as Iconify's category; our `style` plays the same role as
+        Iconify's iconset style attribute (filled / outline / pixel).
+    - source: Material Symbols metadata
+      url: https://fonts.google.com/icons
+      notes: >-
+        Material Symbols ship as a variable icon font with `fill`,
+        `weight`, `grade`, and `optical-size` axes. Our shape doesn't
+        model variable axes (Material Symbols would be one font, not
+        one icon-per-glyph) — we model icons that live OUTSIDE icon
+        fonts.
+    - source: macOS / Windows system icon naming
+      url: https://learn.microsoft.com/en-us/windows/win32/uxguide/vis-icons
+      notes: >-
+        Both platforms standardize on role-named icons (e.g. "back",
+        "forward", "close") rather than file-named icons. Our `purpose`
+        field follows the same convention; theme authors register icons
+        by their semantic role, not by a filename slug.

@@ -1,5 +1,20 @@
-# A purchasable item. Base type for book and aircraft.
-# Cross-skill: Amazon products, Uber Eats grocery items, any retail catalog.
+# A purchasable item OR an identifiable product released into the world.
+# Base type for book, aircraft, hardware, software.
+# Cross-skill: Amazon products, Uber Eats grocery items, any retail catalog,
+# operating systems (Windows XP, Mac OS 9), aircraft types (Boeing 737),
+# books (any ISBN), cited code libraries (XP.css, 98.css).
+#
+# Lifecycle fields (released, discontinued) are context-dependent:
+#   - software:        released = first public release; discontinued = end of support
+#                      (Windows XP: released 2001-10-25, discontinued 2014-04-08)
+#   - hardware:        released = launch date; discontinued = retirement / EOL
+#                      (iPhone 4: released 2010-06-24, discontinued 2013-09-10)
+#   - aircraft:        released = type certification; discontinued = production end
+#                      (Boeing 707: released 1958-10-26, discontinued 1979-01-01)
+#   - book:            released = publication date; discontinued = "out of print"
+#   - retail product:  released = first sold; discontinued = stopped selling
+# A single field family captures all of these. Skills/apps can interpret
+# discontinued meaning per product-type via the product's `also:` shape membership.
 product:
   plural: products
   identity_any: [url]    # url is the web-canonical identifier (https://github.com, https://greptile.com)
@@ -18,6 +33,9 @@ product:
     availability:      string
     images:            json
     quantity:          integer
+    # Lifecycle dates (broadly applicable across product types — see header notes)
+    released:          datetime  # first appearance in the world (publication, launch, certification, …)
+    discontinued:      datetime  # end of availability (EOL, out-of-print, production-end, stopped-selling, …)
     # Physical / grocery
     weight:            string    # formatted weight/size ("12 oz", "3 lbs", "500ml")
     weightValue:      number    # numeric weight for math
@@ -36,6 +54,14 @@ product:
   relations:
     brand:             brand
     manufacturer:      organization
+    creator:           actor[]   # authors / makers of the product. actor[] covers both
+                                  # persons (Adam Hammad → XP.css) and orgs (Microsoft → Office).
+                                  # Distinct from manufacturer (which is org-only and implies
+                                  # commercial production); creator is broader attribution.
+    inspiredBy:        product[] # explicit influence/lineage edges. Dual-use: cross-vendor
+                                  # historical influence (Windows 95 inspiredBy Mac System 7)
+                                  # AND credit attribution (Windows XP inspiredBy XP.css).
+                                  # Both are forms of influence — context disambiguates.
     tagged:            tag[]     # dietary (VEGAN), allergens, certifications (Organic), departments
   prior_art:
     - source: schema.org/Product + Offer
@@ -43,7 +69,25 @@ product:
       notes: >-
         Product on schema.org, price/priceAmount/currency/availability on
         nested Offer. Our sku/barcode map to sku/gtin13/gtin12;
-        brand/manufacturer match directly.
+        brand/manufacturer match directly. schema.org has `releaseDate` on
+        Product (mirrors our `released`) but no formalized end-of-life property.
+    - source: Wikidata P2669 (discontinued date)
+      url: https://www.wikidata.org/wiki/Property:P2669
+      notes: >-
+        Wikidata's canonical "discontinued date" property — broadly used across
+        Wikidata's product entities (software, hardware, vehicles, consumer
+        goods) with consistent semantics ("date when a product ceased to be
+        manufactured, supported, or available"). Our `discontinued` field
+        aligns directly. Wikidata P577 (publication date) similarly aligns
+        with our `released`.
+    - source: schema.org/CreativeWork (creator, isBasedOn)
+      url: https://schema.org/CreativeWork
+      notes: >-
+        Our `creator: actor[]` mirrors schema.org/creator (Person|Organization).
+        Our `inspiredBy: product[]` maps to schema.org/isBasedOn (CreativeWork
+        derivation/credit edge); we keep the more readable name and broaden the
+        target to any product so non-CreativeWork lineages (one aircraft type
+        inspired by another, one OS inspired by another) work the same way.
     - source: GS1 GTIN (UPC/EAN)
       url: https://www.gs1.org/standards/id-keys/gtin
       notes: >-

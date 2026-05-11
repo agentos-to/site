@@ -1,0 +1,59 @@
+# A creative work — the abstract level of FRBR's Work tier. Anything
+# with an author and a license belongs here (or extends here via `also`).
+# Books, photographs, fonts, music compositions, sculptures — all
+# creative works.
+#
+# AgentOS uses this shape to attribute every asset a theme bundles, so
+# contributors (designers, photographers, composers) survive the asset's
+# journey into the graph. A theme bundles fonts; the fonts are
+# creative_works; their designers are persons; the chain of attribution
+# is queryable.
+#
+# Work-level only for v1 — FRBR's Expression / Manifestation / Item tiers
+# (the "Bold Italic" cut, the .woff2 file, the specific copy on disk) are
+# represented today as array fields on subtype shapes (font.weights,
+# font.formats) rather than separate nodes. Re-evaluate when font family
+# pickers or per-file provenance ship.
+creative_work:
+  plural: creative_works
+  subtitle: author
+  fields:
+    name:              string
+    description:       string
+    license:           string    # "MIT" | "OFL-1.1" | "CC-BY-4.0" |
+                                 # "Microsoft proprietary" | "all rights reserved"
+    copyrightYear:     integer
+    datePublished:     date      # when it entered the world
+    dateCreated:       date      # when it was made (may precede publication)
+    url:               string    # canonical homepage or source page
+    language:          string    # for works where it applies (script / locale)
+    coverage:          string    # Dublin Core "Coverage" — era / region / period
+                                 # ("xp-era", "win9x", "2000s-web")
+    tags:              string[]
+  relations:
+    author:            person      # the creator (designer / photographer / composer)
+    publisher:         organization # who put it into the world
+    contributors:      person[]    # editors / illustrators / co-designers
+    copyrightHolder:   person      # may differ from author (e.g. work-for-hire)
+  prior_art:
+    - source: schema.org/CreativeWork
+      url: https://schema.org/CreativeWork
+      notes: >-
+        Our name=name; author=author; publisher=publisher;
+        datePublished=datePublished; license=license; copyrightHolder=
+        copyrightHolder; copyrightYear=copyrightYear; description=
+        description; url=url; language=inLanguage; tags=keywords.
+    - source: Dublin Core Metadata Element Set (ISO 15836)
+      url: https://www.dublincore.org/specifications/dublin-core/dces/
+      notes: >-
+        Maps cleanly to all 15 DC elements except `type` (carried by
+        the shape discriminator), `format` (subtype-specific),
+        `identifier` (universal node id), `relation` (graph edges),
+        `subject` (tags).
+    - source: FRBR (IFLA, 1998)
+      url: https://www.ifla.org/files/assets/cataloguing/frbr/frbr.pdf
+      notes: >-
+        creative_work corresponds to FRBR's Work tier (the abstract
+        intellectual creation). Expression / Manifestation / Item not
+        modeled in v1; subtype shapes carry equivalents as array fields
+        (font.weights, font.formats).
