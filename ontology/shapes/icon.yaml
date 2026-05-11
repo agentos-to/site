@@ -19,7 +19,12 @@
 # joined to their file entry via a separate edge if/when needed.
 icon:
   plural: icons
-  identity_any: [id]
+  # Either `component` (Vite import path for React-component icons) or
+  # `url` (file URL for SVG/PNG icons) is unique per icon — both make
+  # acceptable dedup keys. Multi-theme bundling of the same icon (e.g.
+  # the marchmountain XP icon pack used by every Windows theme) shares
+  # one node across themes.
+  identity_any: [component, url]
   subtitle: purpose
   also: [creative_work]
   fields:

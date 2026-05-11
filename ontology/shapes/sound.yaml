@@ -12,6 +12,10 @@
 # license) and the file artifact (size, mimeType).
 sound:
   plural: sounds
+  # `url` is the canonical sound-file location (Vite-hashed asset path
+  # or external URL). Each sound file should have one entry; multiple
+  # themes bundling the same .wav share one node via this dedup key.
+  identity_any: [url]
   subtitle: purpose
   also: [creative_work, file]
   fields:
