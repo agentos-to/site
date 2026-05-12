@@ -75,15 +75,14 @@ Within localhost, there is no additional auth. Any process on the machine that c
 
 ## SSE contract
 
-The `/observer/stream` endpoint emits newline-delimited events in SSE format:
+The `/observer/stream` endpoint emits newline-delimited events in SSE format. Each event is one tool dispatch (started → completed/failed), shape documented in full at [`tool-surface/wire-shape`](/tool-surface/wire-shape/#observer-event-shape).
 
 ```
 event: activity
-data: {"kind":"skill_run","skill":"goodreads","op":"get_book","duration_ms":412,"ok":true}
-
-event: activity
-data: {"kind":"graph_write","shape":"book","count":1}
+data: {"phase":"completed","tool":"data.create","entities":{"nodes":["hpefiq"],"edges":[],"shapes":["task"]},"mutation_id":null,…}
 ```
+
+The `entities` field is what the frontend's reactive cache binds against — write `entities.nodes` invalidate queries bound to those ids, `entities.shapes` invalidate open list queries for those shapes. See the wire-shape page for the full field table and the `mutation_id` round-trip used for optimistic-UX dedupe.
 
 Clients should use the browser `EventSource` API, not raw fetch. Reconnect is automatic; the server accepts `Last-Event-ID` for resumption (current implementation: the server keeps a small ring buffer of recent events for reconnect replay).
 
