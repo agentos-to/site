@@ -39,7 +39,7 @@ user:
         kind: number
         label: Font Size
         description: Base UI font size in pixels.
-        group: Theme
+        group: Fonts
         min: 8
         max: 20
         step: 1
@@ -94,7 +94,11 @@ user:
         options:
           - { value: vertical-first, label: Vertical First }
           - { value: horizontal-first, label: Horizontal First }
-      # Background — Desktop tab. Just the CRT picker (XP override).
+      # Background — Desktop tab. The wallpaper IMAGE flows through
+      # the slot system (`pref:ui.slot.image.wallpaper` → asset id);
+      # the Background group renderer (XP's CRT mock-up) wires the
+      # picker via the slot helpers on GroupRenderProps. Only the
+      # surrounding color + position knobs live in the schema here.
       - key: background.color
         kind: color
         label: Background Color
@@ -102,16 +106,6 @@ user:
         group: Background
         tab: Desktop
         default: '#3A6EA5'
-      - key: background.wallpaper
-        kind: select
-        label: Wallpaper
-        description: Background image — pick from images tagged `wallpaper`.
-        group: Background
-        tab: Desktop
-        optionsShape: image
-        optionsTag: wallpaper
-        optionsValue: path
-        optionsLabel: name
       - key: background.position
         kind: select
         label: Position
