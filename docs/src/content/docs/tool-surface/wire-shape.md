@@ -94,7 +94,7 @@ The `useGraphMutation` hook + `graphCall` helper in the host app SDK handle all 
 The reactive substrate is opt-in. Two paths bypass it cleanly:
 
 - **Raw `apiPost('/call', {op, params})` without `mutation_id`.** The write goes through, the observer event fires, every other reader's cache invalidates. The local caller just doesn't get the optimistic-UX path — its own cache waits for the SSE echo + invalidation roundtrip.
-- **`window.__AGENTOS_SDK__.useQuery` (community-app back-compat).** Same — works, no auto-invalidation on the calling component. The cache itself still reacts to writes the host app makes via `useGraphQuery`; only the raw-`useQuery` component misses out on shape-tag and id-tag binding. New community apps should prefer `useGraphQuery` + `useGraphMutation` + `graphCall` (also on the SDK global).
+- **`window.__AGENTOS_SDK__.useQuery` (community-app back-compat).** Same — works, no auto-invalidation on the calling component. The cache itself still reacts to writes the host app makes through the canonical read hooks; only the raw-`useQuery` component misses out on shape-tag and id-tag binding. New community apps should prefer the canonical read hooks (`useNode`, `useShapesIndex`, `useEntities` on `window.__AGENTOS_SDK__`) + `useGraphMutation` + `graphCall`. There is no general-purpose `useGraphQuery` — adding a new read kind means adding a hook under `hooks/data/`, deliberately, so the "two queryFns under one cache key" bug class is structurally impossible.
 
 ## What does *not* go over this wire
 
