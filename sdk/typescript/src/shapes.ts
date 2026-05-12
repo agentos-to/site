@@ -2154,12 +2154,9 @@ export interface Theme {
     chrome?: unknown;
     colorScheme?: string;
     defaultBackgroundColor?: string;
-    defaultWallpaper?: string;
     description?: string;
     family?: string;
-    fonts?: unknown;
     prefsSchema?: unknown;
-    sounds?: unknown;
     themeId?: string;
     themeType?: string;
 }
