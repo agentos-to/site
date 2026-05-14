@@ -44,17 +44,46 @@ user:
         max: 20
         step: 1
         default: 12
-      # Icon vocabulary — user-wide defaults, written to user.pref:ui.
-      # Per-folder overrides happen through that folder's own View menu
-      # (the cascade reads them at the instance layer); Settings shows
-      # the user-default level only. XP put icon-on-desktop tweaks
-      # behind a separate "Customize Desktop…" sub-dialog rather than
-      # on the Desktop tab — same idea here, just deferred.
+      # Background tab — owns the desktop background composition for
+      # the active view (per-desktop overrides via the V6 cascade). The
+      # wallpaper IMAGE flows through the slot system
+      # (`pref:ui.slot.image.wallpaper` → asset id); the `Background`
+      # group renderer (BackgroundPanel — universal, theme-paintable)
+      # wires the picker via the slot helpers on GroupRenderProps. Only
+      # the surrounding color + position knobs live in the schema here.
+      - key: background.color
+        kind: color
+        label: Background Color
+        description: Solid background tone for this view.
+        group: Background
+        tab: Background
+        default: '#3A6EA5'
+      - key: background.position
+        kind: select
+        label: Position
+        description: How the wallpaper fills the surface.
+        group: Background
+        tab: Background
+        default: fill
+        options:
+          - { value: fill, label: Fill }
+          - { value: fit, label: Fit }
+          - { value: stretch, label: Stretch }
+          - { value: center, label: Center }
+          - { value: tile, label: Tile }
+      # Icons tab — desktop icon layout knobs. User-wide defaults,
+      # written to user.pref:ui. Per-folder overrides happen through
+      # that folder's own View menu (the cascade reads them at the
+      # instance layer); Settings shows the user-default level only.
+      # The Icons group on this tab also picks up the IconSlotPickers
+      # suffix (back / forward / my-computer / control-panel /
+      # folder-closed) wired via groupSuffixes in Settings.tsx.
       - key: icons.iconSize
         kind: number
         label: Icon Size
         description: Icon side length in pixels.
         group: Icons
+        tab: Icons
         min: 24
         max: 96
         step: 4
@@ -64,6 +93,7 @@ user:
         label: Icon Spacing
         description: Pixels between icon cells.
         group: Icons
+        tab: Icons
         min: 4
         max: 48
         step: 2
@@ -73,12 +103,14 @@ user:
         label: Show Icons
         description: Render icons on this view.
         group: Icons
+        tab: Icons
         default: true
       - key: icons.startingCorner
         kind: select
         label: Starting Corner
         description: Where the first icon lands.
         group: Icons
+        tab: Icons
         default: top-left
         options:
           - { value: top-left, label: Top Left }
@@ -90,35 +122,11 @@ user:
         label: Flow Direction
         description: Whether icons fill columns or rows first.
         group: Icons
+        tab: Icons
         default: vertical-first
         options:
           - { value: vertical-first, label: Vertical First }
           - { value: horizontal-first, label: Horizontal First }
-      # Background — Desktop tab. The wallpaper IMAGE flows through
-      # the slot system (`pref:ui.slot.image.wallpaper` → asset id);
-      # the Background group renderer (XP's CRT mock-up) wires the
-      # picker via the slot helpers on GroupRenderProps. Only the
-      # surrounding color + position knobs live in the schema here.
-      - key: background.color
-        kind: color
-        label: Background Color
-        description: Solid background tone for this view.
-        group: Background
-        tab: Desktop
-        default: '#3A6EA5'
-      - key: background.position
-        kind: select
-        label: Position
-        description: How the wallpaper fills the surface.
-        group: Background
-        tab: Desktop
-        default: fill
-        options:
-          - { value: fill, label: Fill }
-          - { value: fit, label: Fit }
-          - { value: stretch, label: Stretch }
-          - { value: center, label: Center }
-          - { value: tile, label: Tile }
     system:
       - key: loggingEnabled
         kind: boolean
