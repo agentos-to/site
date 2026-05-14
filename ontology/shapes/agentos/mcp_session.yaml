@@ -16,7 +16,7 @@ mcp_session:
     tokenCount:       integer
   relations:
     participant:       actor
-    folder:            folder
+    folder:            list      # working directory — a list node with listType: 'folder'
   prior_art:
     - source: Model Context Protocol (MCP) session
       url: https://modelcontextprotocol.io/specification

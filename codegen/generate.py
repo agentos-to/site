@@ -433,6 +433,10 @@ def _py_field_name(name: str) -> str:
 
 def _py_type(f: Field, s: Shape) -> str:
     if f.is_relation:
+        # `node` is the universal relation target — any addressable graph node.
+        # Used by list.contains (anything addressable) and bookmark.target.
+        if f.target == "node":
+            return "list[Any]" if f.is_array else "Any"
         cls = to_class_name(f.target)
         return f"list[{cls}]" if f.is_array else cls
     return _PY_TYPES.get(f.type, "Any")
@@ -483,6 +487,8 @@ def _to_camel(name: str) -> str:
 
 def _ts_type(f: Field) -> str:
     if f.is_relation:
+        if f.target == "node":
+            return "unknown[]" if f.is_array else "unknown"
         cls = to_class_name(f.target)
         return f"{cls}[]" if f.is_array else cls
     return _TS_TYPES.get(f.type, "unknown")
@@ -567,6 +573,8 @@ def _swift_field_name(name: str) -> str:
 
 def _swift_type(f: Field) -> str:
     if f.is_relation:
+        if f.target == "node":
+            return "[AnyCodable]" if f.is_array else "AnyCodable"
         cls = to_class_name(f.target)
         return f"[{cls}]" if f.is_array else cls
     return _SWIFT_TYPES.get(f.type, "AnyCodable")
@@ -631,6 +639,8 @@ def _go_field_name(name: str) -> str:
 
 def _go_type(f: Field) -> str:
     if f.is_relation:
+        if f.target == "node":
+            return "[]any" if f.is_array else "any"
         cls = to_class_name(f.target)
         return f"[]{cls}" if f.is_array else f"*{cls}"
     base = _GO_TYPES.get(f.type, "any")
@@ -730,8 +740,14 @@ def emit_rust(shapes: list[Shape]) -> str:
 # =============================================================================
 
 def _shape_link(target: str) -> str:
-    """Produce a markdown link to another shape's reference page."""
+    """Produce a markdown link to another shape's reference page.
+
+    `node` is the universal relation target (any addressable graph node) and
+    has no reference page — render it as inline code without a link.
+    """
     base = target.rstrip("[]")
+    if base == "node":
+        return f"`{target}`"
     return f"[`{target}`](/shapes/reference/{base}/)"
 
 

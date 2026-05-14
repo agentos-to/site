@@ -1,0 +1,46 @@
+# An application — something the shell can spawn as a window. Includes
+# system apps (Finder, Settings, eventually Recycle Bin — engine-resident,
+# code-only, seeded by `seed_system_apps()` in identity.rs) and
+# user-installed apps (any skill returning an app-shape dict). The shape
+# is identical either way; only the seeding path differs.
+#
+# Themes never reference app ids by string literal. They reference
+# role-based list ids ('primary-launcher', 'tray', 'desktop') and render
+# whatever bookmarks those lists contain. Per-theme renames happen via
+# the theme bundle's `appOverrides[appId] = { name?, icon? }` map — the
+# theme owns presentation, not identity.
+app:
+  plural: apps
+  identity: [id]
+  subtitle: name
+  fields:
+    id:                string    # 'finder' / 'settings' / 'graph' / ...
+    name:              string    # display name (theme may override via appOverrides)
+    iconRole:          string    # 'my-computer' / 'control-panel' / 'graph' / ...
+                                  # resolves through the theme's icon registry
+    route:             string    # for route-based apps (e.g. 'settings')
+    defaultView:      string    # which view to spawn — usually 'main'
+    isSystem:         boolean   # true → engine-resident, never uninstallable
+    handles:          string[]  # shape names this app can render (e.g. Finder
+                                  # declares ['*']); shells use this for the
+                                  # "open this entity in…" picker. Stored as a
+                                  # field, not a relation — entries are shape
+                                  # names (strings), not graph references.
+  prior_art:
+    - source: macOS .app bundle (Info.plist)
+      url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html
+      notes: >-
+        CFBundleIdentifier ≈ id; CFBundleName ≈ name; CFBundleIconFile ≈
+        iconRole (we use a role rather than a file path so themes can
+        override).
+    - source: freedesktop .desktop entry
+      url: https://specifications.freedesktop.org/desktop-entry-spec/latest/
+      notes: >-
+        Name, Icon, Exec — the Linux/XDG peer. We model the launchable
+        surface, not the executable (the engine knows how to spawn).
+    - source: Windows AppUserModelID
+      url: https://learn.microsoft.com/en-us/windows/win32/shell/appids
+      notes: >-
+        Stable per-app identity decoupled from the executable on disk.
+        Our `id` plays the same role — themes and bookmarks reference it,
+        the binary is an implementation detail of seed_system_apps().

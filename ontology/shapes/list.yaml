@@ -1,27 +1,77 @@
-# A generic collection of items. Base type for shelf (books) and playlist (videos).
+# A list — the universal ordered (or not) collection. Folders, menus,
+# playlists, albums, the desktop, the tray, the primary launcher, the
+# wallpapers album, agent task queues, search-result snapshots,
+# Memex trails — all are `list` nodes with different listType +
+# ordering_mode. One shape, one renderer dispatch, one context-menu
+# router, one CLI vocabulary.
+#
+# `ordering_mode` is a CLOSED ENUM — the renderer branches on it:
+#   linear     → vertical list (top-to-bottom) or horizontal strip;
+#                 edge.position = { linear: integer }
+#   spatial    → icon grid (col,row → x,y in CSS px);
+#                 edge.position = { spatial: { col: int, row: int } }
+#   unordered  → icon wrap, view-time sort via sort_by;
+#                 edge.position absent
+#   temporal   → timeline / reverse-chrono feed;
+#                 edge.position = { temporal: { datetime: string } }
+#
+# `listType` is an OPEN STRING — semantic intent only. Skills and apps
+# may set any value ('folder' | 'album' | 'playlist' | 'launcher' |
+# 'tray' | 'desktop' | 'wallpapers' | 'shelf' | 'task-queue' |
+# 'search-snapshot' | ...). Nothing in the engine branches on it.
 list:
   plural: lists
   identity: [at, id]
+  subtitle: name
   fields:
-    listId:           string    # platform list ID (may differ from graph id)
+    id:                string    # 'primary-launcher' / 'wallpapers' / 'desktop' / platform list id / ...
+    listId:            string    # platform list id (when imported from a third party)
+    listType:          string    # OPEN STRING — semantic intent only.
+    ordering_mode:    string    # CLOSED ENUM — 'linear' | 'spatial' | 'unordered' | 'temporal'.
     privacy:           string
-    listType:         string
     isDefault:        boolean   # platform-created list (e.g. "Watch Later")
     isPublic:         boolean
-    itemCount:        integer   # cached count of items in the list
-    items:             json      # inline items (when the API embeds them rather than requiring a separate fetch)
+    itemCount:        integer   # cached count of items — derived, optional
+    # view-time prefs (per-list, optional — most lists ignore)
+    default_view:     string    # 'icon' | 'list' | 'detail' | 'gallery'
+    icon_size:        integer   # per-list view-time scale (CSS px)
+    sort_by:          string    # view-time sort field (unordered lists)
+    # filesystem-mirrored lists (listType: 'folder') only
+    path:              string    # POSIX path when this list mirrors a real directory
   relations:
-    at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
-    belongsTo:        account   # who owns this list
-    contains:          product[]
+    at:                actor     # namespace owner — null for system lists
+    belongsTo:        account   # who owns this list — null for system lists
+    contains:          node[]    # ANY addressable shape. Edge vals carry per-entry
+                                  # metadata: position (typed by ordering_mode),
+                                  # sort_order, name_override, icon_override.
+    background_image: image     # optional — desktop wallpaper / folder backdrop
   prior_art:
     - source: schema.org/ItemList
       url: https://schema.org/ItemList
       notes: >-
-        Our listType ≈ itemListOrder; contains ≈ itemListElement; isPublic ≈
+        listType ≈ itemListOrder; contains ≈ itemListElement; isPublic ≈
         publicAccess.
     - source: ActivityStreams 2.0 Collection / OrderedCollection
       url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection
       notes: >-
-        Our contains[] ≈ items; isDefault has no AS2 peer (platform-level
-        concept).
+        contains[] ≈ items; ordering_mode='linear' ≈ OrderedCollection,
+        ordering_mode='unordered' ≈ Collection.
+    - source: WinFS Item / FolderMember
+      url: https://learn.microsoft.com/en-us/archive/msdn-magazine/2004/january/winfs-lets-users-search-and-manage-files-based-on-content
+      notes: >-
+        WinFS unified Folder + Contact + Photo under a single Item base,
+        with FolderMember as a holding edge. Our list-with-contains is the
+        same pattern: one shape, one edge mechanism, view-time projections
+        handle the "I want it to look like an album" case.
+    - source: Vannevar Bush — As We May Think (Memex trails)
+      url: https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/
+      notes: >-
+        A Memex trail is a named, ordered list of associative jumps. A
+        `list` with ordering_mode='linear' and contains-bookmarks IS Bush's
+        trail. Foundational precedent for the everything-is-a-list thesis.
+    - source: POSIX / Single Unix Specification (directories)
+      url: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html
+      notes: >-
+        listType='folder' with optional `path` field mirrors a POSIX
+        directory. The engine treats it as a list; the filesystem mirror
+        is a projection, not a separate primitive.

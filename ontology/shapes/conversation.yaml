@@ -18,7 +18,7 @@ conversation:
     at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
     participant:       actor[]   # participants — people, agents, or organizations
     message:           message[]
-    in:                folder    # directory this conversation happened in
+    in:                list      # directory this conversation happened in — a list with listType: 'folder'
   prior_art:
     - source: ActivityStreams 2.0 context/inReplyTo
       url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-context
