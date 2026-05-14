@@ -758,6 +758,10 @@ def validate_shape_file(shape_name: str, yaml_obj: dict, known_shapes: set[str])
         if not isinstance(type_val, str):
             continue
         target = type_val.strip().split()[0].rstrip("[]").rstrip()
+        # `node` is the universal relation target — any addressable graph node.
+        # No corresponding YAML; codegen emits Any/unknown/AnyCodable in SDKs.
+        if target == "node":
+            continue
         if target and target not in known_shapes:
             issues.append(
                 f"  relations.{field}: target shape '{target}' does not exist "
