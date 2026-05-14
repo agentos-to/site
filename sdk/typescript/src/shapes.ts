@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 88 shapes.
+// Generated from 86 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -53,7 +53,7 @@ export interface Activity {
     duration?: number;
     success?: boolean;
     toolName?: string;
-    folder?: Folder;
+    folder?: List;
     session?: McpSession;
 }
 
@@ -175,18 +175,6 @@ export interface Airport {
     operator?: Organization;
 }
 
-export interface Album {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    contains?: Image[];
-}
-
 export interface App {
     id?: string;
     name?: string;
@@ -196,17 +184,11 @@ export interface App {
     author?: string;
     datePublished?: string;
     content?: string;
-    defaultToolbar?: unknown;
     defaultView?: string;
-    description?: string;
-    entities?: unknown;
-    handles?: unknown;
-    icon?: string;
-    menus?: unknown;
-    routes?: unknown;
-    standalone?: boolean;
-    themeIcon?: string;
-    views?: unknown;
+    handles?: string[];
+    iconRole?: string;
+    isSystem?: boolean;
+    route?: string;
 }
 
 export interface Book {
@@ -335,9 +317,7 @@ export interface Bookmark {
     author?: string;
     datePublished?: string;
     content?: string;
-    address?: string;
-    icon?: string;
-    position?: number;
+    target?: unknown;
 }
 
 export interface Branch {
@@ -499,7 +479,7 @@ export interface Conversation {
     source?: string;
     unreadCount?: number;
     at?: Actor;
-    in?: Folder;
+    in?: List;
     message?: Message[];
     participant?: Actor[];
 }
@@ -848,22 +828,6 @@ export interface Flight {
     trip?: Trip;
 }
 
-export interface Folder {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    hasReadme?: boolean;
-    path?: string;
-    workspaceType?: string;
-    contains?: File[];
-    repository?: Repository;
-}
-
 export interface Font {
     id?: string;
     name?: string;
@@ -1104,16 +1068,21 @@ export interface List {
     author?: string;
     datePublished?: string;
     content?: string;
+    defaultView?: string;
+    iconSize?: number;
     isDefault?: boolean;
     isPublic?: boolean;
     itemCount?: number;
-    items?: unknown;
     listId?: string;
     listType?: string;
+    orderingMode?: string;
+    path?: string;
     privacy?: string;
+    sortBy?: string;
     at?: Actor;
+    backgroundImage?: Image;
     belongsTo?: Account;
-    contains?: Product[];
+    contains?: unknown[];
 }
 
 export interface LoadedModel {
@@ -1150,7 +1119,7 @@ export interface McpSession {
     sessionType?: string;
     startedAt?: string;
     tokenCount?: number;
-    folder?: Folder;
+    folder?: List;
     participant?: Actor;
 }
 
@@ -1567,14 +1536,19 @@ export interface Playlist {
     author?: string;
     datePublished?: string;
     content?: string;
+    defaultView?: string;
+    iconSize?: number;
     isDefault?: boolean;
     isPublic?: boolean;
     itemCount?: number;
-    items?: unknown;
     listId?: string;
     listType?: string;
+    orderingMode?: string;
+    path?: string;
     privacy?: string;
+    sortBy?: string;
     at?: Actor;
+    backgroundImage?: Image;
     belongsTo?: Account;
     contains?: Video[];
 }
@@ -1868,15 +1842,20 @@ export interface Shelf {
     author?: string;
     datePublished?: string;
     content?: string;
+    defaultView?: string;
+    iconSize?: number;
     isDefault?: boolean;
     isExclusive?: boolean;
     isPublic?: boolean;
     itemCount?: number;
-    items?: unknown;
     listId?: string;
     listType?: string;
+    orderingMode?: string;
+    path?: string;
     privacy?: string;
+    sortBy?: string;
     at?: Actor;
+    backgroundImage?: Image;
     belongsTo?: Account;
     contains?: Book[];
 }
@@ -2023,7 +2002,7 @@ export interface Source {
     lastSynced?: string;
     scanner?: string;
     sourceId?: string;
-    folder?: Folder;
+    folder?: List;
 }
 
 export interface Spec {
