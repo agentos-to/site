@@ -2131,14 +2131,19 @@ export interface Theme {
     author?: string;
     datePublished?: string;
     content?: string;
-    chrome?: unknown;
+    background?: string;
     colorScheme?: string;
+    cursors?: unknown;
     defaultBackgroundColor?: string;
     description?: string;
     family?: string;
+    ontology?: unknown;
+    params?: unknown;
     prefsSchema?: unknown;
     themeId?: string;
     themeType?: string;
+    vars?: unknown;
+    represents?: Product;
 }
 
 export interface ToolCall {
