@@ -844,6 +844,7 @@ export interface Font {
     designerUrl?: string;
     family?: string;
     formats?: string[];
+    genericFamily?: string;
     glyphCount?: number;
     language?: string;
     license?: string;
