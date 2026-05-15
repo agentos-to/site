@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 86 shapes.
+// Generated from 94 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -197,7 +197,6 @@ export interface Book {
     text?: string;
     url?: string;
     image?: string;
-    author?: string;
     datePublished?: string;
     content?: string;
     aisle?: string;
@@ -490,7 +489,6 @@ export interface CreativeWork {
     text?: string;
     url?: string;
     image?: string;
-    author?: string;
     datePublished?: string;
     content?: string;
     copyrightYear?: number;
@@ -554,7 +552,6 @@ export interface Document {
     text?: string;
     url?: string;
     image?: string;
-    author?: string;
     datePublished?: string;
     content?: string;
     abstract?: string;
@@ -834,7 +831,6 @@ export interface Font {
     text?: string;
     url?: string;
     image?: string;
-    author?: string;
     datePublished?: string;
     content?: string;
     copyrightYear?: number;
@@ -867,7 +863,6 @@ export interface GitCommit {
     text?: string;
     url?: string;
     image?: string;
-    author?: string;
     datePublished?: string;
     content?: string;
     additions?: number;
@@ -940,13 +935,285 @@ export interface Hardware {
     tagged?: Tag[];
 }
 
-export interface Icon {
+export interface HealthBiomarker {
     id?: string;
     name?: string;
     text?: string;
     url?: string;
     image?: string;
     author?: string;
+    datePublished?: string;
+    content?: string;
+    analyteType?: string;
+    category?: string;
+    description?: string;
+    loincCode?: string;
+    measure?: string;
+    unit?: string;
+    panels?: HealthPanel[];
+}
+
+export interface HealthCondition {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    abatementDate?: string;
+    bodySite?: string;
+    clinicalArea?: string;
+    clinicalStatus?: string;
+    icd10Code?: string;
+    mitigation?: string;
+    onsetDate?: string;
+    proximity?: string;
+    severity?: string;
+    snomedCode?: string;
+    verificationStatus?: string;
+    evidence?: File[];
+    subject?: Person;
+}
+
+export interface HealthImmunization {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    allDay?: boolean;
+    articleUrl?: string;
+    crewIds?: string[];
+    currentUrl?: string;
+    cvxCode?: string;
+    dateAdministered?: string;
+    dateUpdated?: string;
+    diseaseTarget?: string;
+    distinctId?: string;
+    doseNumber?: number;
+    endDate?: string;
+    eventType?: string;
+    flightNumber?: number;
+    icalUid?: string;
+    landingOutcomes?: unknown;
+    launchpadId?: string;
+    lotNumber?: string;
+    manufacturer?: string;
+    notes?: string;
+    patchImage?: string;
+    properties?: unknown;
+    recurrence?: string[];
+    reusedBoosters?: string[];
+    rocketId?: string;
+    route?: string;
+    seriesDoses?: number;
+    showAs?: string;
+    site?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
+    visibility?: string;
+    webcastUrl?: string;
+    wikipediaUrl?: string;
+    administeredAt?: HealthLab;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
+    evidence?: File[];
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
+    person?: Person;
+    subject?: Person;
+}
+
+export interface HealthLab {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    accreditation?: string;
+    actorType?: string;
+    cliaNumber?: string;
+    founded?: string;
+    industry?: string;
+    labType?: string;
+    networkName?: string;
+    domain?: Domain;
+    headquarters?: Place;
+    member?: Person[];
+    website?: Website;
+}
+
+export interface HealthObservation {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    community?: string;
+    effectiveDate?: string;
+    externalUrl?: string;
+    flag?: string;
+    indexedAt?: string;
+    notes?: string;
+    postId?: string;
+    refHigh?: number;
+    refLow?: number;
+    refText?: string;
+    resultType?: string;
+    score?: number;
+    similarity?: number;
+    status?: string;
+    unit?: string;
+    value?: number;
+    valueText?: string;
+    document?: File;
+    fromPanel?: HealthPanel;
+    measures?: HealthBiomarker;
+    reportedRange?: HealthReferenceRange;
+    subject?: Person;
+}
+
+export interface HealthPanel {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    defaultView?: string;
+    description?: string;
+    effectiveDate?: string;
+    fasting?: boolean;
+    iconSize?: number;
+    isDefault?: boolean;
+    isPublic?: boolean;
+    itemCount?: number;
+    listId?: string;
+    listType?: string;
+    orderingMode?: string;
+    panelCode?: string;
+    path?: string;
+    privacy?: string;
+    sortBy?: string;
+    at?: Actor;
+    backgroundImage?: Image;
+    belongsTo?: Account;
+    contains?: unknown[];
+    document?: File;
+    performedAt?: HealthLab;
+    subject?: Person;
+}
+
+export interface HealthProcedure {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    allDay?: boolean;
+    articleUrl?: string;
+    bodySite?: string;
+    cptCode?: string;
+    crewIds?: string[];
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
+    eventType?: string;
+    findings?: string;
+    flightNumber?: number;
+    followUp?: string;
+    icalUid?: string;
+    landingOutcomes?: unknown;
+    launchpadId?: string;
+    outcome?: string;
+    patchImage?: string;
+    performedDate?: string;
+    procedureType?: string;
+    properties?: unknown;
+    recurrence?: string[];
+    reusedBoosters?: string[];
+    rocketId?: string;
+    showAs?: string;
+    snomedCode?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
+    visibility?: string;
+    webcastUrl?: string;
+    wikipediaUrl?: string;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
+    evidence?: File[];
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
+    performedAt?: HealthLab;
+    performer?: Person;
+    person?: Person;
+    subject?: Person;
+    treats?: HealthCondition;
+}
+
+export interface HealthReferenceRange {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    ageHigh?: number;
+    ageLow?: number;
+    category?: string;
+    fasting?: boolean;
+    gestationalAge?: string;
+    high?: number;
+    low?: number;
+    method?: string;
+    pregnancy?: string;
+    provenance?: string;
+    refText?: string;
+    sex?: string;
+    timeOfDay?: string;
+    unit?: string;
+    validFrom?: string;
+    validTo?: string;
+    analyte?: HealthBiomarker;
+    issuingLab?: HealthLab;
+}
+
+export interface Icon {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
     datePublished?: string;
     content?: string;
     component?: string;
@@ -973,7 +1240,6 @@ export interface Image {
     text?: string;
     url?: string;
     image?: string;
-    author?: string;
     datePublished?: string;
     content?: string;
     altText?: string;
@@ -1956,7 +2222,6 @@ export interface Sound {
     text?: string;
     url?: string;
     image?: string;
-    author?: string;
     datePublished?: string;
     content?: string;
     bitDepth?: number;
@@ -2131,18 +2396,12 @@ export interface Theme {
     author?: string;
     datePublished?: string;
     content?: string;
-    background?: string;
-    colorScheme?: string;
-    cursors?: unknown;
     defaultBackgroundColor?: string;
     description?: string;
     family?: string;
-    ontology?: unknown;
-    params?: unknown;
-    prefsSchema?: unknown;
+    startMenu?: string;
+    style?: string;
     themeId?: string;
-    themeType?: string;
-    vars?: unknown;
     represents?: Product;
 }
 
@@ -2268,7 +2527,6 @@ export interface Video {
     text?: string;
     url?: string;
     image?: string;
-    author?: string;
     datePublished?: string;
     content?: string;
     codec?: string;
