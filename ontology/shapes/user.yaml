@@ -127,25 +127,6 @@ user:
         options:
           - { value: vertical-first, label: Vertical First }
           - { value: horizontal-first, label: Horizontal First }
-    system:
-      - key: loggingEnabled
-        kind: boolean
-        label: Logging
-        description: Write engine logs to ~/.agentos/logs.
-        group: System
-        default: true
-      - key: terminalEnabled
-        kind: boolean
-        label: Terminal Access
-        description: Allow shell skill calls from agents.
-        group: System
-        default: true
-      - key: showAppOnStart
-        kind: boolean
-        label: Auto-launch Apps
-        description: Open last-session apps when the engine boots.
-        group: System
-        default: true
   prior_art:
     - source: POSIX getpwuid (passwd database)
       url: https://pubs.opengroup.org/onlinepubs/9699919799/functions/getpwuid.html
