@@ -1,40 +1,39 @@
 # An OS theme — window chrome, taskbar, scrollbars, desktop styling.
-# Themes are reference data seeded from theme.yaml files in source directories.
-# The user's pref:theme on their person entity points to a theme by themeId.
+# Themes are reference data: each `<family>/<theme>/theme.ts` on disk is
+# extracted into `commons/themes/themes.manifest.json`, and the theme
+# seeder (`seed_theme_entities`, core/crates/core/src/sources/themes.rs)
+# upserts one graph node per theme. The user's `pref:ui.themeId` selects
+# the active theme.
 #
-# Identity: themeId — unique per source namespace (e.g., "xp", "macos9").
-# Qualified references use sourceId.themeId (e.g., "community.xp").
+# Identity: themeId — unique per source namespace ("windows-xp",
+# "windows-98"). Qualified references use sourceId.themeId.
 #
-# Every val below is what `seed_theme_entities` writes to the graph node.
-# The disk-side theme.yaml uses these same camelCase keys (post-2026-05-09
-# alignment); shape is the single contract — no translation layer.
+# Every field below is exactly what the seeder writes to the node. The
+# Rust `Theme` struct is GENERATED from this field list (docs/generate.py
+# → agentos-shapes-generated), so the seeder structurally cannot write a
+# val this shape does not declare. `slots` (font/sound/icon/wallpaper
+# ids) is frontend-only — it lives in the theme bundle, never seeded.
 theme:
   plural: themes
   identity: themeId
   subtitle: family
   fields:
-    themeId:           string    # unique ID within its source: "xp", "macos9", "cde"
-    themeType:         string    # bucket name — "desktop", "mobile", "experimental"
-    family:            string    # OS family: "windows", "macos", "unix"
-    colorScheme:       string    # "light", "dark", or "both"
-    description:       text
-    chrome:            json      # window-decoration config — titlebar buttons/height,
-                                 # window border, corner radius, has_taskbar/menubar.
-    # Wallpaper, fonts, and sounds flow through the slot system —
-    # see `theme.ts :: slots` and `theme.ts :: ontology.assets[]`.
-    # Slot resolution: `image.wallpaper`, `font.system`, `sound.*`,
-    # `icon.*` → asset id → frontend `assetUrls` / `assetComponents`.
-    defaultBackgroundColor: string  # CSS color the desktop renders behind the
-                                    # wallpaper (or alone, when no wallpaper slot
-                                    # resolves). Seeded into
-                                    # theme.pref:ui.background.color so the cascade
-                                    # carries it; no theme-side CSS default. e.g.
-                                    # "#3a6ea5" (XP Luna).
-    prefsSchema:       json      # advisory schema for pref:ui.theme.<themeId>.* knobs
-                                 # — list of {key,kind,default,label,group?} entries
-                                 # parsed from the theme's `prefsSchema:` YAML block.
-                                 # Engine round-trips it; the View menu auto-renders
-                                 # controls from it. See view-prefs spec V8.
+    themeId:                string  # unique within its source: "windows-xp", "windows-98"
+    themeType:              string  # bucket — "desktop" today; "mobile"/"experimental" later
+    family:                 string  # OS family: "windows", "macos", "unix"
+    colorScheme:            string  # "light", "dark", or "both"
+    description:            text
+    defaultBackgroundColor: string  # CSS color behind the wallpaper; seeded into
+                                    # theme.pref:ui.background.color so the cascade carries it
+    background:             string  # optional Background renderer the bundle ships ("crt")
+    vars:                   json    # contract-var overrides — CSS var name → value
+    params:                 json    # parameter blobs for configurable bar items
+    cursors:                json    # cursor manifest — semantic name → file path
+    ontology:               json    # the theme's product + bundled assets; the seeder
+                                    # turns it into nodes + represents/bundles edges
+    prefsSchema:            json    # advisory schema for pref:ui.theme.<themeId>.* knobs
+  relations:
+    represents:             product # the OS this theme recreates — "Windows XP theme ⟶ Windows XP"
   prior_art:
     - source: CSS color-scheme (W3C CSS Color Adjustment)
       url: https://www.w3.org/TR/css-color-adjust-1/#color-scheme-prop
