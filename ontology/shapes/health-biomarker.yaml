@@ -1,0 +1,56 @@
+# The *definition* of a measurable health quantity — TSH, LDL cholesterol,
+# hemoglobin A1c. NOT a measurement (that's health-observation), and NOT a
+# reference range (that's health-reference-range).
+#
+# A biomarker is the reusable, lab-neutral template: what is measured,
+# what unit it is reported in, what clinical category it belongs to, what
+# it means. One biomarker, many observations, many reference ranges.
+#
+# Deliberately, a biomarker carries NO reference range. A range is not a
+# property of the analyte — it depends on the lab, method, and population
+# (see health-reference-range). "LDL cholesterol" is defined once here;
+# Quest's LDL range and a Singapore lab's LDL range are two separate
+# health-reference-range nodes, both pointing back to this biomarker.
+#
+# LOINC is the universal code system for lab observables — `loincCode` is
+# the join key to the rest of the medical world. Two labs reporting "TSH"
+# under different local names both map to LOINC 3016-3. LOINC identifies
+# the observable ONLY; it never carries a range.
+#
+# `name` (inherited) is the display label, e.g. "LDL Cholesterol".
+health-biomarker:
+  plural: health-biomarkers
+  identity_any: [loincCode, measure]  # LOINC code is globally unique; `measure`
+                                       # name dedupes when no code is known.
+  subtitle: category
+  fields:
+    measure:          string    # the observable's name — "Hemoglobin A1c", "TSH, FT4 Reflex"
+    unit:             string    # UCUM unit values are conventionally reported in — "mg/dL", "mmol/L"
+    category:         string    # clinical grouping — "Lipid", "Hormones", "Liver", "Blood Sugar"
+    loincCode:        string    # LOINC code for this observable (e.g. "2089-1" for LDL)
+    analyteType:      string    # quantitative | qualitative | ordinal — shape of the result
+    description:      text      # what this biomarker measures and what abnormal values mean
+  relations:
+    panels:           health-panel[]   # panels that include this biomarker (CBC, CMP, …)
+  prior_art:
+    - source: HL7 FHIR R5 — ObservationDefinition
+      url: https://www.hl7.org/fhir/observationdefinition.html
+      notes: >-
+        FHIR's ObservationDefinition is the reusable definition of an
+        observable, separate from the Observation that records a value.
+        Our measure/unit/category map to its code + quantitativeDetails.
+        We deliberately do NOT include its qualifiedInterval — reference
+        ranges are their own shape (health-reference-range).
+    - source: LOINC — Logical Observation Identifiers Names and Codes
+      url: https://loinc.org/
+      notes: >-
+        The universal code system for lab and clinical observations.
+        loincCode is the join key — every lab observable has a LOINC code
+        (TSH 3016-3, LDL 2089-1, HbA1c 4548-4). LOINC identifies the
+        observable only; it carries no reference range.
+    - source: UCUM — Unified Code for Units of Measure
+      url: https://ucum.org/
+      notes: >-
+        `unit` follows UCUM (mg/dL, mmol/L, 10*3/uL). UCUM is the unit
+        system FHIR mandates for Observation.valueQuantity, so biomarker
+        units round-trip into FHIR cleanly.

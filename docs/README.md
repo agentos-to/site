@@ -30,7 +30,7 @@ consumer SDK and into the Rust engine:
 
 - `../sdk-skills/agentos/_generated.py` (Python TypedDicts)
 - `../sdk-apps/src/shapes.ts` (TypeScript interfaces)
-- `../core/crates/shapes/src/generated.rs` (Rust `pub const` names)
+- `../core/crates/shapes-generated/src/lib.rs` (Rust generated crate)
 
 Run `python3 generate.py --check` to confirm every downstream artifact
 is in sync with the current YAML.

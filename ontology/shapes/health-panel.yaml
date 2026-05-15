@@ -1,0 +1,53 @@
+# A panel — a named grouping of biomarkers ordered and reported together.
+# CBC (complete blood count), CMP (comprehensive metabolic panel), Lipid
+# panel, Thyroid panel.
+#
+# A panel is both a *catalog* concept (the standard set of biomarkers a
+# "CBC" includes) and, when dated, a *report* concept (the CBC drawn on
+# 2024-03-20). When a panel node represents a specific dated draw,
+# `effectiveDate` is set, its `contains` edges point to observations, and
+# `document` points to the report file. When it represents the abstract
+# catalog panel, `effectiveDate` is null and `contains` points to
+# biomarkers.
+#
+# `also: [list]` — a panel IS a list: an ordered collection of biomarker
+# (definition) or observation (result) nodes, listType 'health-panel'.
+# This reuses the universal list machinery rather than inventing grouping.
+#
+# FHIR models the dated form as a DiagnosticReport; the catalog form has
+# no single FHIR resource (closest is a definitional ServiceRequest).
+#
+# `name` (inherited) is the panel name — "CBC", "Comprehensive Metabolic Panel".
+health-panel:
+  plural: health-panels
+  also: [list]
+  subtitle: effectiveDate
+  fields:
+    panelCode:        string    # LOINC panel code when known (CBC w/ diff = 58410-2)
+    effectiveDate:    datetime  # date of draw — set for a dated report, null for a catalog panel
+    fasting:          boolean    # whether the draw was taken fasting
+    description:      text      # what this panel evaluates
+  relations:
+    performedAt:      health-lab    # the lab that processed this draw
+    document:         file          # the source report file on disk for this draw
+    subject:          person        # whose draw this is (dated panels)
+  prior_art:
+    - source: HL7 FHIR R5 — DiagnosticReport
+      url: https://www.hl7.org/fhir/diagnosticreport.html
+      notes: >-
+        A dated panel is a DiagnosticReport: a set of observations grouped
+        under one report with an effective date and a performer. Our
+        `contains` edges (from `list`) ≈ DiagnosticReport.result;
+        effectiveDate ≈ effectiveDateTime; performedAt ≈ performer.
+    - source: LOINC — Panels and Forms
+      url: https://loinc.org/panels/
+      notes: >-
+        LOINC defines panel codes and their member observables (CBC panel
+        58410-2 enumerates hemoglobin, hematocrit, WBC, …). panelCode plus
+        the contains→biomarker edges mirror a LOINC panel definition.
+    - source: schema.org/MedicalTest
+      url: https://schema.org/MedicalTest
+      notes: >-
+        Lighter-weight precedent — a diagnostic test with usedToDiagnose /
+        normalRange. Our panel is the grouping; biomarkers and
+        health-reference-range carry the observable detail and the ranges.

@@ -1,0 +1,53 @@
+# An immunization — a single vaccine administration at a point in time.
+# "DTP on 1987-03-06", "Covid-19 (Pfizer) on 2021-09-12". One node per
+# dose: a 3-dose Hep B series is three health-immunization nodes.
+#
+# `also: [event]` — an immunization IS an event: something that happened
+# at a time (eventType 'immunization'). Vaccines are instantaneous, so we
+# add `dateAdministered` as the precise field rather than overloading the
+# event's startDate/endDate (which suit spanning procedures).
+#
+# CVX is the CDC's vaccine code system — `cvxCode` is the join key
+# (DTaP = 20, COVID-19 mRNA Pfizer = 208). `doseNumber` + `seriesDoses`
+# capture position in a series ("dose 2 of 3").
+#
+# `name` (inherited via event) is the vaccine name — "DTP", "Yellow Fever".
+health-immunization:
+  plural: health-immunizations
+  also: [event]
+  subtitle: dateAdministered
+  fields:
+    dateAdministered: datetime  # when the dose was given
+    cvxCode:          string    # CDC CVX vaccine code
+    manufacturer:     string    # vaccine maker — "Pfizer-BioNTech", "Sanofi"
+    lotNumber:        string    # manufacturing lot, when recorded on the card
+    doseNumber:       integer   # which dose in the series this is (1, 2, 3, …)
+    seriesDoses:      integer   # total doses in the recommended series
+    site:             string    # injection site — "left deltoid"
+    route:            string    # administration route — "intramuscular", "oral"
+    diseaseTarget:    string    # disease(s) protected against — "tetanus, diphtheria, pertussis"
+    notes:            text      # annotations from the vaccination record
+  relations:
+    administeredAt:   health-lab    # clinic / pharmacy / travel-health center that gave the dose
+    subject:          person        # who received the vaccine
+    evidence:         file[]        # the vaccination-card / record file documenting this dose
+  prior_art:
+    - source: HL7 FHIR R5 — Immunization
+      url: https://www.hl7.org/fhir/immunization.html
+      notes: >-
+        The resource for an administered vaccine. dateAdministered ≈
+        occurrenceDateTime; manufacturer ≈ manufacturer; lotNumber ≈
+        lotNumber; site/route ≈ site/route; doseNumber ≈
+        protocolApplied.doseNumber; seriesDoses ≈ protocolApplied.seriesDoses.
+    - source: CDC CVX — Vaccine Administered code set
+      url: https://www2a.cdc.gov/vaccines/iis/iisstandards/vaccines.asp?rpt=cvx
+      notes: >-
+        The US standard vaccine code system. cvxCode is the canonical
+        vaccine identity (CVX 208 = COVID-19 Pfizer, CVX 20 = DTaP).
+        FHIR Immunization.vaccineCode is CVX-coded.
+    - source: HL7 v2.x — VXU (Unsolicited Vaccination Update)
+      url: https://www.cdc.gov/vaccines/programs/iis/technical-guidance/hl7.html
+      notes: >-
+        The message format Immunization Information Systems exchange. The
+        RXA segment carries date, CVX, lot, manufacturer, site, route —
+        confirms the field set.

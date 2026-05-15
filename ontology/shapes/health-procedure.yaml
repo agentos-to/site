@@ -1,0 +1,64 @@
+# A procedure — a clinical action performed on the body. Surgeries
+# ("septoplasty"), diagnostic scans ("ankle MRI", "colonoscopy"),
+# therapies ("physiotherapy course"). The thing that was *done*, as
+# opposed to a health-condition (what you have) or a health-observation
+# (a value measured).
+#
+# `also: [event]` — a procedure IS an event: it happened at a time, at a
+# place, involving people (surgeon, radiologist). Unlike an immunization,
+# a procedure can span time, so it uses the event's startDate/endDate for
+# multi-session courses (a physiotherapy course) and `performedDate` for
+# point procedures.
+#
+# A procedure usually addresses a health-condition (the septoplasty
+# treats the deviated septum). That `treats` edge lets you ask "what was
+# done about the 2016 stomach problem".
+#
+# `bodySite` is a plain string — anatomy is not modeled as its own shape
+# (see health-condition for the rationale).
+#
+# CPT (billing) and SNOMED CT (clinical) both code procedures —
+# `cptCode` / `snomedCode` are the join keys.
+#
+# `name` (inherited via event) is the procedure name — "Septoplasty".
+health-procedure:
+  plural: health-procedures
+  also: [event]
+  identity_any: [cptCode, snomedCode, id]
+  subtitle: performedDate
+  fields:
+    performedDate:    datetime  # when a point procedure occurred (start for spanning courses)
+    procedureType:    string    # surgery | diagnostic-imaging | endoscopy | therapy | screening
+    bodySite:         string    # anatomical target, plain text — "nasal septum", "left ankle"
+    outcome:          string    # successful | partial | unsuccessful — clinician-assessed result
+    status:           string    # FHIR status — completed, in-progress, not-done, stopped
+    cptCode:          string    # CPT procedure code (billing)
+    snomedCode:       string    # SNOMED CT procedure concept id
+    findings:         text      # what the procedure found / the report summary
+    followUp:         text      # recommended follow-up actions
+  relations:
+    treats:           health-condition   # the condition this procedure addresses or investigates
+    performer:        person             # surgeon / radiologist / clinician who performed it
+    performedAt:      health-lab         # hospital / clinic / imaging center
+    subject:          person             # whose body the procedure was performed on
+    evidence:         file[]             # operative notes, scan reports, histology files
+  prior_art:
+    - source: HL7 FHIR R5 — Procedure
+      url: https://www.hl7.org/fhir/procedure.html
+      notes: >-
+        The resource for an action performed on a patient. performedDate ≈
+        occurrenceDateTime/occurrencePeriod; status ≈ status; bodySite ≈
+        bodySite; outcome ≈ outcome; findings ≈ report + note; `treats`
+        edge ≈ reason; performer ≈ performer.actor.
+    - source: CPT — Current Procedural Terminology (AMA)
+      url: https://www.ama-assn.org/practice-management/cpt
+      notes: >-
+        The US procedure code system used for billing. cptCode is the
+        identity on insurance claims and operative records (septoplasty
+        30520, colonoscopy 45378).
+    - source: SNOMED CT — Procedure axis
+      url: https://www.snomed.org/
+      notes: >-
+        SNOMED's procedure hierarchy provides the clinical (non-billing)
+        code. FHIR Procedure.code is SNOMED-coded; snomedCode is the join
+        key to the clinical ontology.
