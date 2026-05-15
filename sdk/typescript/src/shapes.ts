@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 94 shapes.
+// Generated from 98 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -483,6 +483,24 @@ export interface Conversation {
     participant?: Actor[];
 }
 
+export interface Conversion {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    asOf?: string;
+    factor?: number;
+    kind?: string;
+    rate?: number;
+    from?: Unit;
+    parameter?: unknown;
+    to?: Unit;
+}
+
 export interface CreativeWork {
     id?: string;
     name?: string;
@@ -525,6 +543,28 @@ export interface Credential {
     account?: Account;
     at?: Organization;
     writtenBy?: Skill;
+}
+
+export interface Dimension {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    amount?: number;
+    current?: number;
+    dimensionless?: boolean;
+    key?: string;
+    label?: string;
+    length?: number;
+    luminous?: number;
+    mass?: number;
+    temperature?: number;
+    time?: number;
+    baseUnit?: Unit;
 }
 
 export interface DnsRecord {
@@ -1929,6 +1969,21 @@ export interface Protocol {
     wikidataId?: string;
 }
 
+export interface QuantityKind {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    key?: string;
+    label?: string;
+    dimension?: Dimension;
+    parent?: QuantityKind;
+}
+
 export interface Quote {
     id?: string;
     name?: string;
@@ -2504,6 +2559,33 @@ export interface Trip {
     legs?: Leg[];
     order?: Order;
     origin?: Place;
+}
+
+export interface Unit {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    iso4217?: string;
+    iso4217Numeric?: string;
+    kind?: string;
+    label?: string;
+    logBase?: number;
+    minorExponent?: number;
+    qudtUnitIri?: string;
+    siDigitalFrameworkUri?: string;
+    symbol?: string;
+    toBaseFactor?: number;
+    toBaseOffset?: number;
+    ucumCode?: string;
+    unCefactCommonCode?: string;
+    wikidataId?: string;
+    dimension?: Dimension;
+    quantityKinds?: QuantityKind[];
 }
 
 export interface User {
