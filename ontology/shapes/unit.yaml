@@ -1,0 +1,128 @@
+# A unit of measure — a concrete scale for a quantity. mg/dL, USD, pascal,
+# day. Identified primarily by its UCUM code.
+#
+# A unit carries the data for INTRINSIC conversion: a constant factor and
+# an affine offset to the coherent base unit of its dimension
+# (value_in_base = value * toBaseFactor + toBaseOffset). Conversions that
+# need EXTERNAL context — a currency FX rate, a substance's molar mass —
+# are NOT here; they are `conversion` nodes. The dividing line: if the
+# number depends on anything other than the two units, it is not a unit
+# property.
+#
+# There is no single authoritative unit-code registry — no "ISO 4217 for
+# units". Units predate computing by centuries and the space is
+# fragmented: ISO 80000 defines units in prose and assigns no codes; NIST
+# publishes guidance only. So the unit node carries SEVERAL cross-
+# reference identifiers, the way an airline carries both an IATA and an
+# ICAO code:
+#   ucumCode              — the universal working identity (UCUM)
+#   siDigitalFrameworkUri — the authoritative SI reference (BIPM), when
+#                           the unit is part of the SI; NULL otherwise,
+#                           and that null is itself a machine-checkable
+#                           assertion "this unit is not SI"
+#   unCefactCommonCode    — the trade/interop code (== schema.org unitCode)
+#   qudtUnitIri           — the semantic-web cross-reference hub
+#   wikidataId            — the universal glue identifier
+#
+# `kind` distinguishes unit families that behave differently under
+# conversion — the engine must branch on it:
+#   physical    — real SI dimension, intrinsic linear/affine conversion
+#   currency    — ISO 4217, no real dimension; conversion is contextual (FX)
+#   logarithmic — pH, dB, Richter — conversion is exponential, not linear
+#   arbitrary   — UCUM arbitrary units ([IU], [CFU]) — no conversion at all
+#   count       — dimensionless tallies
+#
+# `name` (inherited) is the human label, e.g. "milligram per deciliter".
+unit:
+  plural: units
+  # ucumCode is the universal working identity; siDigitalFrameworkUri is
+  # the authoritative SI id (present only for SI units); iso4217 is the
+  # authoritative id for currency units. Any one resolves a unit node.
+  identity_any: [ucumCode, siDigitalFrameworkUri, iso4217]
+  subtitle: symbol
+  fields:
+    ucumCode:     string   # UCUM code, case-sensitive — "mg/dL", "kg.m/s2", "Cel". PRIMARY identity.
+    symbol:       string   # display symbol — "mg/dL", "°C", "$"
+    label:        string   # human name — "milligram per deciliter"
+    kind:         string   # physical | currency | logarithmic | arbitrary | count
+    # --- cross-reference identifiers (the airline IATA/ICAO pattern) ---
+    siDigitalFrameworkUri: string  # BIPM SI Digital Framework URI. NULL for
+                                    # non-SI units — a non-null value asserts
+                                    # the unit IS part of the SI.
+    unCefactCommonCode:    string  # UN/CEFACT Rec 20 code — "KGM". == schema.org unitCode.
+    qudtUnitIri:           string  # QUDT unit IRI — semantic-web cross-reference.
+    wikidataId:            string  # Wikidata Q-number — "Q11570".
+    # --- intrinsic conversion — physical units only ---
+    # value_in_base = value * toBaseFactor + toBaseOffset.
+    # The base unit is this unit's dimension.baseUnit.
+    toBaseFactor: number   # multiplier to the dimension's coherent base unit
+    toBaseOffset: number   # affine offset — nonzero only for °C/°F-style scales
+    # --- currency-only ---
+    iso4217:      string   # ISO 4217 alpha code — "USD", "EUR"
+    iso4217Numeric: string # ISO 4217 numeric code — "840" for USD
+    minorExponent: integer # minor-unit digits — 2 for USD cents, 0 for JPY
+    # --- logarithmic-only ---
+    logBase:      number   # 10 or e — the base of the log scale
+  relations:
+    dimension:    dimension       # the dimension this unit measures
+    quantityKinds: quantity-kind[] # quantity kinds conventionally expressed in this unit
+  prior_art:
+    - source: "UCUM — Unified Code for Units of Measure"
+      url: https://ucum.org/ucum
+      notes: >-
+        ucumCode is the primary working identity — case-sensitive variant
+        (mg is not MG; h hour is not H henry). Compositional, and the
+        de-facto healthcare standard (FHIR Quantity mandates it, LOINC and
+        HL7 use it). Machine-readable database: ucum-essence.xml.
+    - source: "BIPM — SI Digital Framework / SI Reference Point"
+      url: https://www.si-digital-framework.org/
+      notes: >-
+        Launched March 2024 by the BIPM CIPM Task Group on the Digital SI.
+        Publishes resolvable persistent URIs for SI units, prefixes, and
+        defining constants (base namespace si-digital-framework.org/SI/
+        units/), served as TTL plus a JSON/XML API. The most authoritative
+        source for SI units — treaty-level. siDigitalFrameworkUri carries
+        it; null for non-SI units, and that null is meaningful.
+    - source: "UN/CEFACT Recommendation 20 — Codes for Units of Measure Used in International Trade"
+      url: https://unece.org/trade/uncefact/cl-recommendations
+      notes: >-
+        Around 700 short codes (KGM kilogram, MTR metre, LTR litre, CEL
+        degree Celsius). Rev 17 (2021), freely downloadable as XLSX or
+        genericode XML. schema.org's unitCode property uses exactly these
+        codes — unCefactCommonCode is the interop join key.
+    - source: "QUDT — Quantities, Units, Dimensions and Types"
+      url: https://www.qudt.org/doc/DOC_VOCAB-UNITS.html
+      notes: >-
+        qudtUnitIri cross-references QUDT, itself a cross-reference hub
+        (QUDT units carry qudt:ucumCode, qudt:uneceCommonCode,
+        qudt:wikidataMatch). toBaseFactor/toBaseOffset correspond to
+        qudt:conversionMultiplier / conversionOffset; kind=currency
+        corresponds to qudt:CurrencyUnit, which also carries NO conversion
+        multiplier — FX is external.
+    - source: "Wikidata"
+      url: https://www.wikidata.org/wiki/Q11570
+      notes: >-
+        wikidataId (kilogram = Q11570) is a universal glue identifier —
+        links to every Wikipedia language edition and many external
+        databases. Free SPARQL endpoint plus dumps.
+    - source: "ISO 4217 — Currency codes"
+      url: https://www.iso.org/iso-4217-currency-codes.html
+      notes: >-
+        iso4217 (alpha) plus iso4217Numeric and minorExponent for currency
+        units. ISO 4217 IS the authoritative currency-code registry —
+        notably, currency is the ONE unit family with a single
+        authoritative code system; physical units have none.
+    - source: "schema.org — unitCode"
+      url: https://schema.org/unitCode
+      notes: >-
+        Precedent that the minimum unit model is (value, unitCode), and
+        that unitCode in practice means a UN/CEFACT Rec 20 code.
+    - source: "NIST SP 811 / SP 330 — and why NIST is NOT a field"
+      url: https://www.nist.gov/pml/special-publication-811
+      notes: >-
+        Recorded deliberately. NIST publishes SI usage guidance (SP 811)
+        and the US edition of the SI Brochure (SP 330) — prose only. NIST
+        assigns no unit codes and maintains no unit registry; there is
+        nothing to cross-reference, so no NIST field exists on this shape.
+        Same for ISO 80000 — it defines units in prose and assigns no
+        codes.
