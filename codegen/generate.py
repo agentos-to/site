@@ -318,20 +318,32 @@ def _build_shapes(
             is_array = tgt_s.endswith("[]")
             s.own_relations.append(Field(label, tgt_s, True, is_array, tgt_s.rstrip("[]")))
 
-        # Standard fields first
+        # Relations resolved up front so they can SHADOW a same-named
+        # field: when a shape models a concept as an edge (`book
+        # --author--> person`), the edge is the source of truth — the
+        # generated type carries `author: Person`, never both a string
+        # field and a relation. Without this, a standard field like
+        # `author` and an `author` relation emit a duplicate identifier.
+        relations = sorted(resolve_relations(shape_name).items())
+        relation_labels = {label for label, _ in relations}
+
+        # Standard fields — skipped when a relation shadows them.
         for wk_name, wk_type in STANDARD_FIELDS:
+            if wk_name in relation_labels:
+                continue
             s.fields.append(Field(wk_name, wk_type, False, False, None))
 
-        # Shape-declared fields
+        # Shape-declared fields — skipped when a relation shadows them.
         for fname, ftype in sorted(resolve_fields(shape_name).items()):
             if any(sf[0] == fname for sf in STANDARD_FIELDS):
                 continue
+            if fname in relation_labels:
+                continue
             is_array = ftype.endswith("[]")
-            base = ftype.rstrip("[]") if is_array else ftype
             s.fields.append(Field(fname, ftype, False, is_array, None))
 
         # Relations
-        for label, target in sorted(resolve_relations(shape_name).items()):
+        for label, target in relations:
             is_array = target.endswith("[]")
             target_name = target.rstrip("[]")
             s.fields.append(Field(label, target, True, is_array, target_name))

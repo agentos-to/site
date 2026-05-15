@@ -1,46 +1,39 @@
-# An OS theme — window chrome, taskbar, scrollbars, desktop styling.
+# An OS theme — a named knob-vector over its family's structure.
+# A theme is data, not code: it picks a value for each of its family's
+# knobs (`style`, `startMenu`) and bundles a set of assets (fonts,
+# sounds, wallpaper, icons). It ships NO css and NO structure — the
+# family (commons/themes/<family>/family.ts) owns those.
+#
 # Themes are reference data: each `<family>/<theme>/theme.ts` on disk is
 # extracted into `commons/themes/themes.manifest.json`, and the theme
-# seeder (`seed_theme_entities`, core/crates/core/src/sources/themes.rs)
-# upserts one graph node per theme. The user's `pref:ui.themeId` selects
-# the active theme.
+# seeder (core/crates/core/src/sources/themes.rs) upserts one graph node
+# per theme. The user's `pref:ui.themeId` selects the active theme; the
+# theme's `style` / `startMenu` are the default knob values, overridable
+# per-knob via `pref:ui.style` / `pref:ui.startMenu`.
 #
 # Identity: themeId — unique per source namespace ("windows-xp",
-# "windows-98"). Qualified references use sourceId.themeId.
-#
-# Every field below is exactly what the seeder writes to the node. The
-# Rust `Theme` struct is GENERATED from this field list (docs/generate.py
-# → agentos-shapes-generated), so the seeder structurally cannot write a
-# val this shape does not declare. `slots` (font/sound/icon/wallpaper
-# ids) is frontend-only — it lives in the theme bundle, never seeded.
+# "windows-98"). Every field below is what the seeder writes to the
+# node; the Rust `Theme` struct is GENERATED from this list
+# (docs/generate.py), so the seeder cannot write an undeclared val. The
+# theme's `ontology` block (its product + bundled assets) and its knob
+# var-groups are NOT node fields — the seeder turns `ontology` into
+# separate nodes + edges, and knob var-groups are frontend-only code.
 theme:
   plural: themes
   identity: themeId
   subtitle: family
   fields:
     themeId:                string  # unique within its source: "windows-xp", "windows-98"
-    themeType:              string  # bucket — "desktop" today; "mobile"/"experimental" later
-    family:                 string  # OS family: "windows", "macos", "unix"
-    colorScheme:            string  # "light", "dark", or "both"
+    family:                 string  # OS family ("windows") — groups themes; the family is code, not a node
     description:            text
-    defaultBackgroundColor: string  # CSS color behind the wallpaper; seeded into
-                                    # theme.pref:ui.background.color so the cascade carries it
-    background:             string  # optional Background renderer the bundle ships ("crt")
-    vars:                   json    # contract-var overrides — CSS var name → value
-    params:                 json    # parameter blobs for configurable bar items
-    cursors:                json    # cursor manifest — semantic name → file path
-    ontology:               json    # the theme's product + bundled assets; the seeder
-                                    # turns it into nodes + represents/bundles edges
-    prefsSchema:            json    # advisory schema for pref:ui.theme.<themeId>.* knobs
+    style:                  string  # default value of the family's `style` knob ("luna", "classic")
+    startMenu:              string  # default value of the family's `startMenu` knob ("modern", "classic")
+    defaultBackgroundColor: string  # CSS color behind the wallpaper; seeded into theme.pref:ui.background.color
   relations:
     represents:             product # the OS this theme recreates — "Windows XP theme ⟶ Windows XP"
   prior_art:
-    - source: CSS color-scheme (W3C CSS Color Adjustment)
-      url: https://www.w3.org/TR/css-color-adjust-1/#color-scheme-prop
-      notes: >-
-        Our colorScheme = CSS color-scheme values (light/dark/both).
     - source: System theme APIs (macOS NSAppearance, Windows WinUI)
       url: https://developer.apple.com/documentation/appkit/nsappearance
       notes: >-
-        OS-level theme abstraction. Our family parallels NSAppearance.Name
-        (aqua, darkAqua) and Windows theme families.
+        OS-level theme abstraction. Our `family` parallels
+        NSAppearance.Name (aqua, darkAqua) and Windows theme families.
