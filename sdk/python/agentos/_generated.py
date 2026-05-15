@@ -1,6 +1,6 @@
 """Auto-generated TypedDict classes from shape YAML — do not edit.
 
-Generated from 86 shapes.
+Generated from 94 shapes.
 Regenerate with: python generate.py --lang python
 """
 
@@ -203,7 +203,6 @@ class Book(TypedDict, total=False):
     text: str
     url: str
     image: str
-    author: str
     datePublished: str
     content: str
     aisle: str
@@ -496,7 +495,6 @@ class CreativeWork(TypedDict, total=False):
     text: str
     url: str
     image: str
-    author: str
     datePublished: str
     content: str
     copyrightYear: int
@@ -560,7 +558,6 @@ class Document(TypedDict, total=False):
     text: str
     url: str
     image: str
-    author: str
     datePublished: str
     content: str
     abstract: str
@@ -840,7 +837,6 @@ class Font(TypedDict, total=False):
     text: str
     url: str
     image: str
-    author: str
     datePublished: str
     content: str
     copyrightYear: int
@@ -873,7 +869,6 @@ class GitCommit(TypedDict, total=False):
     text: str
     url: str
     image: str
-    author: str
     datePublished: str
     content: str
     additions: int
@@ -946,13 +941,285 @@ class Hardware(TypedDict, total=False):
     tagged: list[Tag]
 
 
-class Icon(TypedDict, total=False):
+class HealthBiomarker(TypedDict, total=False):
     id: str
     name: str
     text: str
     url: str
     image: str
     author: str
+    datePublished: str
+    content: str
+    analyteType: str
+    category: str
+    description: str
+    loincCode: str
+    measure: str
+    unit: str
+    panels: list[HealthPanel]
+
+
+class HealthCondition(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    abatementDate: str
+    bodySite: str
+    clinicalArea: str
+    clinicalStatus: str
+    icd10Code: str
+    mitigation: str
+    onsetDate: str
+    proximity: str
+    severity: str
+    snomedCode: str
+    verificationStatus: str
+    evidence: list[File]
+    subject: Person
+
+
+class HealthImmunization(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    allDay: bool
+    articleUrl: str
+    crewIds: list[str]
+    currentUrl: str
+    cvxCode: str
+    dateAdministered: str
+    dateUpdated: str
+    diseaseTarget: str
+    distinctId: str
+    doseNumber: int
+    endDate: str
+    eventType: str
+    flightNumber: int
+    icalUid: str
+    landingOutcomes: Any
+    launchpadId: str
+    lotNumber: str
+    manufacturer: str
+    notes: str
+    patchImage: str
+    properties: Any
+    recurrence: list[str]
+    reusedBoosters: list[str]
+    rocketId: str
+    route: str
+    seriesDoses: int
+    showAs: str
+    site: str
+    sourceTitle: str
+    sourceUrl: str
+    startDate: str
+    status: str
+    timezone: str
+    visibility: str
+    webcastUrl: str
+    wikipediaUrl: str
+    administeredAt: HealthLab
+    at: Actor
+    attachments: list[File]
+    creator: Person
+    evidence: list[File]
+    involves: list[Person]
+    location: Place
+    organizer: Person
+    person: Person
+    subject: Person
+
+
+class HealthLab(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    accreditation: str
+    actorType: str
+    cliaNumber: str
+    founded: str
+    industry: str
+    labType: str
+    networkName: str
+    domain: Domain
+    headquarters: Place
+    member: list[Person]
+    website: Website
+
+
+class HealthObservation(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    community: str
+    effectiveDate: str
+    externalUrl: str
+    flag: str
+    indexedAt: str
+    notes: str
+    postId: str
+    refHigh: float
+    refLow: float
+    refText: str
+    resultType: str
+    score: int
+    similarity: float
+    status: str
+    unit: str
+    value: float
+    valueText: str
+    document: File
+    fromPanel: HealthPanel
+    measures: HealthBiomarker
+    reportedRange: HealthReferenceRange
+    subject: Person
+
+
+class HealthPanel(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    default_view: str
+    description: str
+    effectiveDate: str
+    fasting: bool
+    icon_size: int
+    isDefault: bool
+    isPublic: bool
+    itemCount: int
+    listId: str
+    listType: str
+    ordering_mode: str
+    panelCode: str
+    path: str
+    privacy: str
+    sort_by: str
+    at: Actor
+    background_image: Image
+    belongsTo: Account
+    contains: list[Any]
+    document: File
+    performedAt: HealthLab
+    subject: Person
+
+
+class HealthProcedure(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    allDay: bool
+    articleUrl: str
+    bodySite: str
+    cptCode: str
+    crewIds: list[str]
+    currentUrl: str
+    dateUpdated: str
+    distinctId: str
+    endDate: str
+    eventType: str
+    findings: str
+    flightNumber: int
+    followUp: str
+    icalUid: str
+    landingOutcomes: Any
+    launchpadId: str
+    outcome: str
+    patchImage: str
+    performedDate: str
+    procedureType: str
+    properties: Any
+    recurrence: list[str]
+    reusedBoosters: list[str]
+    rocketId: str
+    showAs: str
+    snomedCode: str
+    sourceTitle: str
+    sourceUrl: str
+    startDate: str
+    status: str
+    timezone: str
+    visibility: str
+    webcastUrl: str
+    wikipediaUrl: str
+    at: Actor
+    attachments: list[File]
+    creator: Person
+    evidence: list[File]
+    involves: list[Person]
+    location: Place
+    organizer: Person
+    performedAt: HealthLab
+    performer: Person
+    person: Person
+    subject: Person
+    treats: HealthCondition
+
+
+class HealthReferenceRange(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    ageHigh: float
+    ageLow: float
+    category: str
+    fasting: bool
+    gestationalAge: str
+    high: float
+    low: float
+    method: str
+    pregnancy: str
+    provenance: str
+    refText: str
+    sex: str
+    timeOfDay: str
+    unit: str
+    validFrom: str
+    validTo: str
+    analyte: HealthBiomarker
+    issuingLab: HealthLab
+
+
+class Icon(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
     datePublished: str
     content: str
     component: str
@@ -979,7 +1246,6 @@ class Image(TypedDict, total=False):
     text: str
     url: str
     image: str
-    author: str
     datePublished: str
     content: str
     altText: str
@@ -1962,7 +2228,6 @@ class Sound(TypedDict, total=False):
     text: str
     url: str
     image: str
-    author: str
     datePublished: str
     content: str
     bitDepth: int
@@ -2137,18 +2402,12 @@ class Theme(TypedDict, total=False):
     author: str
     datePublished: str
     content: str
-    background: str
-    colorScheme: str
-    cursors: Any
     defaultBackgroundColor: str
     description: str
     family: str
-    ontology: Any
-    params: Any
-    prefsSchema: Any
+    startMenu: str
+    style: str
     themeId: str
-    themeType: str
-    vars: Any
     represents: Product
 
 
@@ -2274,7 +2533,6 @@ class Video(TypedDict, total=False):
     text: str
     url: str
     image: str
-    author: str
     datePublished: str
     content: str
     codec: str
@@ -2380,6 +2638,14 @@ SHAPE_YAMLS: dict[str, str] = {
     'git_commit': 'plural: git_commits\nsubtitle: author\nfields:\n  sha: string\n  shortHash: string\n  message: text\n  additions: integer\n  deletions: integer\n  filesChanged: integer\n  committedAt: datetime\nrelations:\n  author: account\n  committer: account\n  repository: repository\n  parent: git_commit\nprior_art:\n- source: "Git Internals \\u2014 commit object"\n  url: https://git-scm.com/book/en/v2/Git-Internals-Git-Objects\n  notes: Our sha/shortHash/message/parent match the commit object exactly. author/committer\n    follow Git\'s distinct author-vs-committer model.\n- source: Conventional Commits 1.0\n  url: https://www.conventionalcommits.org/en/v1.0.0/\n  notes: "Practical structure for message field (type(scope): subject). Optional \\u2014\\\n    \\ we don\'t enforce but it\'s compatible."\n',
     'group': 'plural: groups\nidentity:\n- at\n- id\nsubtitle: category\nfields:\n  memberCount: integer\n  category: string\nprior_art:\n- source: schema.org/Group (via Organization/memberOf)\n  url: https://schema.org/Organization\n  notes: "schema.org models groups as Organization. Our memberCount \\u2248 numberOfEmployees\\\n    \\ loosely; category \\u2248 naics/knowsAbout."\n- source: FOAF Group\n  url: http://xmlns.com/foaf/spec/#term_Group\n  notes: Foundational social-graph vocabulary. foaf:member populates membership; category\n    has no direct FOAF peer.\n',
     'hardware': 'plural: hardware\nidentity: serialNumber\nsubtitle: author\nalso:\n- product\nfields:\n  modelNumber: string\n  serialNumber: string\n  specs: json\nrelations:\n  manufacturer: organization\nprior_art:\n- source: schema.org/Product (IndividualProduct subtype)\n  url: https://schema.org/IndividualProduct\n  notes: "Our serialNumber = serialNumber; modelNumber \\u2248 model; specs \\u2248\\\n    \\ additionalProperty (PropertyValue list)."\n- source: GS1 Global Trade Item Number (GTIN)\n  url: https://www.gs1.org/standards/id-keys/gtin\n  notes: "Hardware bar-codes are GTIN-12/13/14 \\u2014 we reuse the product shape\'s\\\n    \\ barcode alignment."\n',
+    'health-biomarker': 'plural: health-biomarkers\nidentity_any:\n- loincCode\n- measure\nsubtitle: category\nfields:\n  measure: string\n  unit: string\n  category: string\n  loincCode: string\n  analyteType: string\n  description: text\nrelations:\n  panels: health-panel[]\nprior_art:\n- source: "HL7 FHIR R5 \\u2014 ObservationDefinition"\n  url: https://www.hl7.org/fhir/observationdefinition.html\n  notes: "FHIR\'s ObservationDefinition is the reusable definition of an observable,\\\n    \\ separate from the Observation that records a value. Our measure/unit/category\\\n    \\ map to its code + quantitativeDetails. We deliberately do NOT include its qualifiedInterval\\\n    \\ \\u2014 reference ranges are their own shape (health-reference-range)."\n- source: "LOINC \\u2014 Logical Observation Identifiers Names and Codes"\n  url: https://loinc.org/\n  notes: "The universal code system for lab and clinical observations. loincCode is\\\n    \\ the join key \\u2014 every lab observable has a LOINC code (TSH 3016-3, LDL 2089-1,\\\n    \\ HbA1c 4548-4). LOINC identifies the observable only; it carries no reference\\\n    \\ range."\n- source: "UCUM \\u2014 Unified Code for Units of Measure"\n  url: https://ucum.org/\n  notes: \'`unit` follows UCUM (mg/dL, mmol/L, 10*3/uL). UCUM is the unit system FHIR\n    mandates for Observation.valueQuantity, so biomarker units round-trip into FHIR\n    cleanly.\'\n',
+    'health-condition': 'plural: health-conditions\nidentity_any:\n- snomedCode\n- name\nsubtitle: clinicalStatus\nfields:\n  clinicalStatus: string\n  verificationStatus: string\n  proximity: string\n  bodySite: string\n  severity: string\n  onsetDate: datetime\n  abatementDate: datetime\n  snomedCode: string\n  icd10Code: string\n  clinicalArea: string\n  mitigation: text\nrelations:\n  subject: person\n  evidence: file[]\nprior_art:\n- source: "HL7 FHIR R5 \\u2014 Condition"\n  url: https://www.hl7.org/fhir/condition.html\n  notes: The resource for a problem/diagnosis. Our clinicalStatus, verificationStatus,\n    severity, bodySite, onsetDate, abatementDate map directly. proximity=\'self\' is\n    a plain FHIR Condition.\n- source: "HL7 FHIR R5 \\u2014 FamilyMemberHistory"\n  url: https://www.hl7.org/fhir/familymemberhistory.html\n  notes: "FHIR\'s separate resource for hereditary risk. We fold it in via proximity\\\n    \\ \\u2014 proximity=\'father\'|\'extended-family\' makes a condition node a family-history\\\n    \\ entry. FamilyMemberHistory.condition \\u2248 this node; FamilyMemberHistory.relationship\\\n    \\ \\u2248 our proximity. Deliberate divergence from FHIR\'s two-resource split."\n- source: SNOMED CT\n  url: https://www.snomed.org/\n  notes: The universal clinical terminology. snomedCode is the canonical identity\n    (asthma 195967001, eczema 43116000). FHIR Condition.code is SNOMED-coded; this\n    is the join key to the wider clinical world.\n- source: ICD-10-CM\n  url: https://www.cdc.gov/nchs/icd/icd-10-cm.htm\n  notes: "The diagnosis/billing code system. icd10Code captures the code when it appears\\\n    \\ on an insurance claim or discharge summary \\u2014 complements (does not replace)\\\n    \\ SNOMED."\n',
+    'health-immunization': 'plural: health-immunizations\nalso:\n- event\nsubtitle: dateAdministered\nfields:\n  dateAdministered: datetime\n  cvxCode: string\n  manufacturer: string\n  lotNumber: string\n  doseNumber: integer\n  seriesDoses: integer\n  site: string\n  route: string\n  diseaseTarget: string\n  notes: text\nrelations:\n  administeredAt: health-lab\n  subject: person\n  evidence: file[]\nprior_art:\n- source: "HL7 FHIR R5 \\u2014 Immunization"\n  url: https://www.hl7.org/fhir/immunization.html\n  notes: "The resource for an administered vaccine. dateAdministered \\u2248 occurrenceDateTime;\\\n    \\ manufacturer \\u2248 manufacturer; lotNumber \\u2248 lotNumber; site/route \\u2248\\\n    \\ site/route; doseNumber \\u2248 protocolApplied.doseNumber; seriesDoses \\u2248\\\n    \\ protocolApplied.seriesDoses."\n- source: "CDC CVX \\u2014 Vaccine Administered code set"\n  url: https://www2a.cdc.gov/vaccines/iis/iisstandards/vaccines.asp?rpt=cvx\n  notes: The US standard vaccine code system. cvxCode is the canonical vaccine identity\n    (CVX 208 = COVID-19 Pfizer, CVX 20 = DTaP). FHIR Immunization.vaccineCode is CVX-coded.\n- source: "HL7 v2.x \\u2014 VXU (Unsolicited Vaccination Update)"\n  url: https://www.cdc.gov/vaccines/programs/iis/technical-guidance/hl7.html\n  notes: "The message format Immunization Information Systems exchange. The RXA segment\\\n    \\ carries date, CVX, lot, manufacturer, site, route \\u2014 confirms the field\\\n    \\ set."\n',
+    'health-lab': 'plural: health-labs\nalso:\n- organization\nidentity_any:\n- cliaNumber\n- url\nsubtitle: labType\nfields:\n  cliaNumber: string\n  labType: string\n  accreditation: string\n  networkName: string\nprior_art:\n- source: schema.org/MedicalOrganization / DiagnosticLab\n  url: https://schema.org/DiagnosticLab\n  notes: "schema.org\'s DiagnosticLab is a MedicalOrganization subtype, which is an\\\n    \\ Organization subtype \\u2014 exactly our also:[organization] chain. Our labType\\\n    \\ refines what schema.org leaves implicit."\n- source: "CLIA \\u2014 Clinical Laboratory Improvement Amendments"\n  url: https://www.cms.gov/medicare/quality/clinical-laboratory-improvement-amendments\n  notes: cliaNumber is the CMS-issued identifier every US clinical lab must carry.\n    It is the canonical identity for a US testing facility.\n- source: "HL7 FHIR R5 \\u2014 Organization (role: laboratory)"\n  url: https://www.hl7.org/fhir/organization.html\n  notes: "FHIR models a lab as an Organization with a laboratory role code, not a\\\n    \\ distinct resource \\u2014 consistent with our also:[organization]. FHIR Observation.performer\\\n    \\ / DiagnosticReport.performer reference it; our health-panel.performedAt and\\\n    \\ health-reference-range. issuingLab edges are the same linkage."\n',
+    'health-observation': 'plural: health-observations\nalso:\n- result\nsubtitle: effectiveDate\nfields:\n  value: number\n  valueText: string\n  unit: string\n  effectiveDate: datetime\n  refLow: number\n  refHigh: number\n  refText: string\n  flag: string\n  status: string\n  notes: text\nrelations:\n  measures: health-biomarker\n  fromPanel: health-panel\n  reportedRange: health-reference-range\n  document: file\n  subject: person\nprior_art:\n- source: "HL7 FHIR R5 \\u2014 Observation"\n  url: https://www.hl7.org/fhir/observation.html\n  notes: "The canonical resource for a measured value. value+unit \\u2248 valueQuantity;\\\n    \\ effectiveDate \\u2248 effectiveDateTime; refLow/refHigh/ refText \\u2248 the referenceRange\\\n    \\ backbone (the inline snapshot); flag \\u2248 interpretation; status \\u2248 status.\\\n    \\ `measures` \\u2248 code resolved to a biomarker. FHIR has no normalized-range\\\n    \\ link \\u2014 our `reportedRange` edge adds that."\n- source: "HL7 v2.x \\u2014 OBX segment"\n  url: https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX\n  notes: The legacy lab-result segment most labs still emit. OBX-5 (value), OBX-6\n    (units), OBX-7 (reference range), OBX-8 (abnormal flag), OBX-14 (datetime) map\n    1:1 to value/unit/refText/flag/effectiveDate. Confirms the snapshot field set\n    against real lab feeds.\n- source: LOINC\n  url: https://loinc.org/\n  notes: "The observation itself is not LOINC-coded \\u2014 its `biomarker` is. The\\\n    \\ `measures` edge carries the LOINC identity."\n',
+    'health-panel': 'plural: health-panels\nalso:\n- list\nsubtitle: effectiveDate\nfields:\n  panelCode: string\n  effectiveDate: datetime\n  fasting: boolean\n  description: text\nrelations:\n  performedAt: health-lab\n  document: file\n  subject: person\nprior_art:\n- source: "HL7 FHIR R5 \\u2014 DiagnosticReport"\n  url: https://www.hl7.org/fhir/diagnosticreport.html\n  notes: "A dated panel is a DiagnosticReport: a set of observations grouped under\\\n    \\ one report with an effective date and a performer. Our `contains` edges (from\\\n    \\ `list`) \\u2248 DiagnosticReport.result; effectiveDate \\u2248 effectiveDateTime;\\\n    \\ performedAt \\u2248 performer."\n- source: "LOINC \\u2014 Panels and Forms"\n  url: https://loinc.org/panels/\n  notes: "LOINC defines panel codes and their member observables (CBC panel 58410-2\\\n    \\ enumerates hemoglobin, hematocrit, WBC, \\u2026). panelCode plus the contains\\u2192\\\n    biomarker edges mirror a LOINC panel definition."\n- source: schema.org/MedicalTest\n  url: https://schema.org/MedicalTest\n  notes: "Lighter-weight precedent \\u2014 a diagnostic test with usedToDiagnose /\\\n    \\ normalRange. Our panel is the grouping; biomarkers and health-reference-range\\\n    \\ carry the observable detail and the ranges."\n',
+    'health-procedure': 'plural: health-procedures\nalso:\n- event\nidentity_any:\n- cptCode\n- snomedCode\n- id\nsubtitle: performedDate\nfields:\n  performedDate: datetime\n  procedureType: string\n  bodySite: string\n  outcome: string\n  status: string\n  cptCode: string\n  snomedCode: string\n  findings: text\n  followUp: text\nrelations:\n  treats: health-condition\n  performer: person\n  performedAt: health-lab\n  subject: person\n  evidence: file[]\nprior_art:\n- source: "HL7 FHIR R5 \\u2014 Procedure"\n  url: https://www.hl7.org/fhir/procedure.html\n  notes: "The resource for an action performed on a patient. performedDate \\u2248\\\n    \\ occurrenceDateTime/occurrencePeriod; status \\u2248 status; bodySite \\u2248 bodySite;\\\n    \\ outcome \\u2248 outcome; findings \\u2248 report + note; `treats` edge \\u2248\\\n    \\ reason; performer \\u2248 performer.actor."\n- source: "CPT \\u2014 Current Procedural Terminology (AMA)"\n  url: https://www.ama-assn.org/practice-management/cpt\n  notes: The US procedure code system used for billing. cptCode is the identity on\n    insurance claims and operative records (septoplasty 30520, colonoscopy 45378).\n- source: "SNOMED CT \\u2014 Procedure axis"\n  url: https://www.snomed.org/\n  notes: SNOMED\'s procedure hierarchy provides the clinical (non-billing) code. FHIR\n    Procedure.code is SNOMED-coded; snomedCode is the join key to the clinical ontology.\n',
+    'health-reference-range': 'plural: health-reference-ranges\nidentity:\n- analyte\n- issuingLab\n- method\n- validFrom\nsubtitle: refText\nfields:\n  low: number\n  high: number\n  unit: string\n  refText: string\n  category: string\n  provenance: string\n  method: string\n  validFrom: datetime\n  validTo: datetime\n  ageLow: number\n  ageHigh: number\n  sex: string\n  pregnancy: string\n  gestationalAge: string\n  fasting: boolean\n  timeOfDay: string\nrelations:\n  analyte: health-biomarker\n  issuingLab: health-lab\nprior_art:\n- source: "CLSI EP28-A3c \\u2014 Defining, Establishing, and Verifying Reference Intervals"\n  url: https://clsi.org/shop/standards/ep28/\n  notes: The authoritative protocol. Each lab must establish (de novo, min n=120 per\n    partition) or verify (min n=20) its own intervals. `provenance` (established/verified/manufacturer-claimed)\n    comes directly from this guideline; it is why two same-instrument labs legitimately\n    diverge.\n- source: "HL7 FHIR R5 \\u2014 ObservationDefinition.qualifiedInterval"\n  url: https://www.hl7.org/fhir/observationdefinition.html\n  notes: "The closest standard precedent \\u2014 a reusable, multi-context interval.\\\n    \\ Our category maps to its rangeCategory; range to range; age/gestationalAge/sex\\\n    \\ to the same; condition \\u2248 our population fields. But qualifiedInterval has\\\n    \\ NO issuingLab and NO validity window \\u2014 this shape adds both. qualifiedInterval\\\n    \\ is the lossy EXPORT projection of this shape, not its equal."\n- source: "HL7 FHIR R5 \\u2014 Observation.referenceRange"\n  url: https://www.hl7.org/fhir/observation.html\n  notes: "FHIR\'s other reference-range model \\u2014 inlined on the result as a denormalized\\\n    \\ snapshot (low/high/normalValue/type/appliesTo/age/ text). health-observation\\\n    \\ keeps that snapshot too (its refLow/ refHigh fields); this shape is the normalized,\\\n    \\ reusable form the snapshot can point back to."\n- source: "OMOP CDM v5.4 \\u2014 MEASUREMENT.range_low / range_high"\n  url: https://ohdsi.github.io/CommonDataModel/cdm54.html\n  notes: "OMOP inlines range_low/range_high as columns on the measurement row \\u2014\\\n    \\ \\"no separate standalone table for reference ranges.\\" Confirms the gap: no\\\n    \\ major model makes the range first-class."\n',
     'icon': 'plural: icons\nidentity_any:\n- component\n- url\nsubtitle: purpose\nalso:\n- creative_work\nfields:\n  dimension: integer\n  format: string\n  url: string\n  component: string\n  purpose: string\n  style: string\nprior_art:\n- source: schema.org/ImageObject\n  url: https://schema.org/ImageObject\n  notes: "Icons could be modeled as ImageObject \\u2014 we chose a distinct shape because\\\n    \\ the role-specific `purpose` field has no counterpart on ImageObject (which is\\\n    \\ purpose-agnostic by design) and because component-backed icons aren\'t fetchable\\\n    \\ as image URLs."\n- source: Iconify metadata\n  url: https://iconify.design/\n  notes: Iconify treats icons as named entries within an icon set, each with a category\n    and tags. Our `purpose` field plays the same role as Iconify\'s category; our `style`\n    plays the same role as Iconify\'s iconset style attribute (filled / outline / pixel).\n- source: Material Symbols metadata\n  url: https://fonts.google.com/icons\n  notes: "Material Symbols ship as a variable icon font with `fill`, `weight`, `grade`,\\\n    \\ and `optical-size` axes. Our shape doesn\'t model variable axes (Material Symbols\\\n    \\ would be one font, not one icon-per-glyph) \\u2014 we model icons that live OUTSIDE\\\n    \\ icon fonts."\n- source: macOS / Windows system icon naming\n  url: https://learn.microsoft.com/en-us/windows/win32/uxguide/vis-icons\n  notes: Both platforms standardize on role-named icons (e.g. "back", "forward", "close")\n    rather than file-named icons. Our `purpose` field follows the same convention;\n    theme authors register icons by their semantic role, not by a filename slug.\n',
     'image': 'plural: images\nidentity_any:\n- url\nalso:\n- creative_work\n- file\nfields:\n  width: integer\n  height: integer\n  format: string\n  altText: string\n  appName: string\n  windowId: integer\n  displayId: integer\n  displayIndex: integer\nprior_art:\n- source: schema.org/ImageObject\n  url: https://schema.org/ImageObject\n  notes: "Our width/height = width/height; format \\u2248 encodingFormat; altText =\\\n    \\ caption/accessibilityCaption."\n- source: IANA Media Types (image/*)\n  url: https://www.iana.org/assignments/media-types/media-types.xhtml#image\n  notes: Our format values (PNG, JPEG, WebP, SVG) align with registered image/* media\n    types.\n- source: Exif 2.3 (JEITA CP-3451)\n  url: https://www.cipa.jp/std/documents/e/DC-008-Translation-2019-E.pdf\n  notes: Source of most image metadata fields. width/height come from Exif PixelXDimension/PixelYDimension.\n',
     'invitation': 'plural: invitations\nidentity:\n- at\n- id\nsubtitle: invitationType\nfields:\n  invitationType: string\n  email: string\n  role: string\n  status: string\n  token: string\n  expiresAt: datetime\n  acceptedAt: datetime\n  revokedAt: datetime\n  message: text\nrelations:\n  inviter: account\n  invitee: account\n  organization: organization\n  at: actor\nprior_art:\n- source: ActivityStreams 2.0 Invite activity\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-invite\n  notes: AS2 Invite is the canonical fediverse verb. Our inviter = actor; invitee\n    = target; status tracks Accept/Reject/TentativeAccept responses.\n- source: iCalendar ATTENDEE + PARTSTAT (RFC 5545)\n  url: https://datatracker.ietf.org/doc/html/rfc5545\n  notes: Calendar-style invitations. Our status maps to PARTSTAT (NEEDS-ACTION/ACCEPTED/DECLINED/DELEGATED).\n- source: "SCIM 2.0 (RFC 7644) \\u2014 user provisioning"\n  url: https://datatracker.ietf.org/doc/html/rfc7644\n  notes: Enterprise invitation/provisioning. Our email/role/organization align with\n    SCIM User resource\'s email + entitlements + group membership.\n',
@@ -2423,7 +2689,7 @@ SHAPE_YAMLS: dict[str, str] = {
     'tag': 'plural: tags\nsubtitle: tagType\nfields:\n  color: string\n  tagType: string\n  annotated: boolean\n  hash: string\nprior_art:\n- source: "GitHub REST API \\u2014 Labels"\n  url: https://docs.github.com/en/rest/issues/labels\n  notes: "Our color/name/tagType \\u2248 GitHub Label\'s color/name/default."\n- source: "Gmail API \\u2014 Labels"\n  url: https://developers.google.com/gmail/api/reference/rest/v1/users.labels\n  notes: Practical source. Our tagType distinguishes Gmail\'s SYSTEM vs USER label\n    types.\n- source: Dublin Core dc:subject\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: "Generic classification vocabulary \\u2014 tags on any resource."\n',
     'task': 'plural: tasks\nidentity:\n- at\n- id\nsubtitle: state\nfields:\n  remoteId: string\n  priority: integer\n  state: string\n  labels: string[]\n  startedAt: datetime\n  targetDate: datetime\n  target: json\n  parentId: string\n  projectId: string\nrelations:\n  at: actor\n  assignedTo: person\n  project: project\n  repository: repository\n  parent: task\n  children: task[]\n  blockedBy: task[]\n  blocks: task[]\nprior_art:\n- source: "GitHub REST API \\u2014 Issues"\n  url: https://docs.github.com/en/rest/issues/issues\n  notes: Direct source. Our remoteId/state/labels/assignedTo/parent/ children/blockedBy/blocks\n    map to GitHub Issue + sub-issues + task-list tracking.\n- source: "Linear GraphQL API \\u2014 Issue"\n  url: https://developers.linear.app/docs/graphql/working-with-the-graphql-api\n  notes: Practical canonical. Our priority/state/project/targetDate align with Linear\'s\n    Issue model exactly.\n- source: "Todoist REST API v2 \\u2014 Tasks"\n  url: https://developer.todoist.com/rest/v2/\n  notes: "Consumer-grade task model. Our startedAt/targetDate \\u2248 created_at/due;\\\n    \\ labels match directly."\n',
     'tax_line': 'plural: tax_lines\nidentity:\n- at\n- id\nsubtitle: description\nfields:\n  code: string\n  description: string\n  amount: number\n  currency: string\n  kind: string\n  nature: string\n  country: string\n  appliesToIndex: integer\n  refundable: boolean\n  merchantImposed: boolean\n  rate: number\n  taxableAmount: number\n  inclusive: boolean\nrelations:\n  at: actor\n  appliesTo: fare\n  offer: offer\n  reservation: reservation\n  segment: leg\n  imposedBy: actor\n  location: place\nprior_art:\n- source: IATA List of Ticket and Airport Taxes and Fees (ILTATF)\n  url: https://www.iata.org/en/publications/store/list-of-ticket-and-airport-taxes-and-fees/\n  notes: Canonical 1500+ entry registry of 2-char airline tax codes, grouped AT (airport),\n    PC (passenger charge), ST (stamp), TT (ticket), MT (misc). Our `code` = ILTATF\n    code when applicable; `nature` corresponds to ILTATF\'s grouping.\n- source: IATA NDC Tax / TaxBreakdown element\n  url: https://developer.iata.org/en/ndc/\n  notes: NDC\'s Price structure carries Taxes/Tax with TaxCode, CollectionPoint, CountryCode,\n    Nature, Amount, Description. Our code/country/nature/amount/description map 1:1.\n    NDC\'s Nature enum (security, fuel, facility, tax) informs our values.\n- source: schema.org/UnitPriceSpecification + PriceComponentTypeEnumeration\n  url: https://schema.org/UnitPriceSpecification\n  notes: Generic commerce. priceComponentType ("Tax"), valueAddedTaxIncluded (our\n    `inclusive`), priceCurrency. Lightweight; we add code, country, `imposedBy` to\n    cover the authority-chain gap.\n- source: "UBL 2.1 / Peppol BIS Billing 3.0 \\u2014 TaxSubtotal / TaxCategory"\n  url: https://docs.peppol.eu/poacc/billing/3.0/\n  notes: European eInvoicing. TaxSubtotal carries TaxableAmount, TaxAmount, Percent,\n    TaxCategory/TaxScheme (VAT/GST). Our taxableAmount/amount/rate/nature align directly.\n- source: Stripe Invoice tax_amounts[]\n  url: https://docs.stripe.com/api/invoices/object\n  notes: Stripe\'s line-item tax_amounts[] carries amount, inclusive, tax_rate, taxability_reason,\n    taxable_amount. Our inclusive/ rate/taxableAmount match; jurisdiction/jurisdiction_level\n    inspired the country + `imposedBy` split.\n- source: Shopify Order tax_lines[]\n  url: https://shopify.dev/docs/api/admin-rest/latest/resources/order\n  notes: "Minimal commerce model: price, rate, title, channel_liable. Our amount/rate/description\\\n    \\ map 1:1. Shopify allows multiple tax_lines per line item with same title + different\\\n    \\ rates \\u2014 same pattern we need (US Transportation Tax recurring per segment).\\\n    \\ We disambiguate via appliesToIndex."\n- source: Avalara / TaxJar tax breakdown\n  url: https://developer.avalara.com/\n  notes: \'Commerce tax engines. Jurisdiction hierarchy (country / state / county /\n    city / special) and combined tax rate. Informs the `imposedBy: actor` relation\n    for layered jurisdictions (hotel occupancy + tourism + state sales tax, each their\n    own line).\'\n',
-    'theme': 'plural: themes\nidentity: themeId\nsubtitle: family\nfields:\n  themeId: string\n  themeType: string\n  family: string\n  colorScheme: string\n  description: text\n  defaultBackgroundColor: string\n  background: string\n  vars: json\n  params: json\n  cursors: json\n  ontology: json\n  prefsSchema: json\nrelations:\n  represents: product\nprior_art:\n- source: CSS color-scheme (W3C CSS Color Adjustment)\n  url: https://www.w3.org/TR/css-color-adjust-1/#color-scheme-prop\n  notes: Our colorScheme = CSS color-scheme values (light/dark/both).\n- source: System theme APIs (macOS NSAppearance, Windows WinUI)\n  url: https://developer.apple.com/documentation/appkit/nsappearance\n  notes: OS-level theme abstraction. Our family parallels NSAppearance.Name (aqua,\n    darkAqua) and Windows theme families.\n',
+    'theme': 'plural: themes\nidentity: themeId\nsubtitle: family\nfields:\n  themeId: string\n  family: string\n  description: text\n  style: string\n  startMenu: string\n  defaultBackgroundColor: string\nrelations:\n  represents: product\nprior_art:\n- source: System theme APIs (macOS NSAppearance, Windows WinUI)\n  url: https://developer.apple.com/documentation/appkit/nsappearance\n  notes: OS-level theme abstraction. Our `family` parallels NSAppearance.Name (aqua,\n    darkAqua) and Windows theme families.\n',
     'tool_call': "plural: tool_calls\nidentity:\n- platform\n- id\nsubtitle: name\nfields:\n  name: string\n  input: text\n  output: text\n  isError: boolean\n  durationMs: integer\nrelations:\n  platform: product\n  from: actor\n  inMessage: message\n  repliesTo: tool_call\nprior_art:\n- source: Anthropic Tool Use API\n  url: https://docs.anthropic.com/en/docs/build-with-claude/tool-use\n  notes: Our name/input/output/isError map to tool_use/tool_result blocks in Claude's\n    message API.\n- source: OpenAI Function Calling / tool_calls\n  url: https://platform.openai.com/docs/guides/function-calling\n  notes: Our name/input = function.name/function.arguments; output is the tool-result\n    message content.\n- source: OpenTelemetry GenAI semconv\n  url: https://opentelemetry.io/docs/specs/semconv/gen-ai/\n  notes: Emerging observability standard. Our durationMs/isError align with gen_ai.tool.*\n    span attributes.\n",
     'transaction': 'plural: transactions\nidentity:\n- at\n- id\nsubtitle: category\nfields:\n  amount: number\n  currency: string\n  balance: number\n  category: string\n  postingDate: datetime\n  pending: boolean\n  recurring: boolean\n  notes: string\n  type: string\n  details: json\nrelations:\n  at: actor\n  account: financial_account\nprior_art:\n- source: OFX (Open Financial Exchange) STMTTRN\n  url: https://financialdataexchange.org/ofx\n  notes: Direct source. Our amount/type/postingDate/balance map to STMTTRN TRNAMT/TRNTYPE/DTPOSTED/BALAMT.\n- source: ISO 20022 payments messaging\n  url: https://www.iso20022.org/\n  notes: "Modern bank-messaging. Our currency = Ccy; category \\u2248 purpose code;\\\n    \\ details \\u2248 RemittanceInformation."\n- source: Plaid Transactions API\n  url: https://plaid.com/docs/api/products/transactions/\n  notes: Practical mirror. Our category/pending/recurring/notes match Plaid\'s category/pending/personal_finance_category/name\n    fields.\n',
     'transcript': 'plural: transcripts\nfields:\n  language: string\n  sourceType: string\n  contentRole: string\n  durationMs: integer\n  segmentCount: integer\n  segments: json\nprior_art:\n- source: WebVTT (W3C)\n  url: https://www.w3.org/TR/webvtt1/\n  notes: Our segments are WebVTT cues (start/end/text). language follows WebVTT\'s\n    LANGUAGE header.\n- source: SRT SubRip Subtitles\n  url: https://matroska.org/technical/subtitles.html#srt-subtitles\n  notes: Practical alternative cue format. Same segment shape.\n- source: Whisper JSON output\n  url: https://github.com/openai/whisper\n  notes: "Practical source \\u2014 many transcript skills return Whisper-shaped JSON\\\n    \\ (segments with start/end/text). Direct match."\n',
@@ -2457,6 +2723,7 @@ SHAPE_IDENTITIES: dict[str, list[str]] = {
     'financial_account': ['at', 'identifier'],
     'group': ['at', 'id'],
     'hardware': ['serialNumber'],
+    'health-reference-range': ['analyte', 'issuingLab', 'method', 'validFrom'],
     'invitation': ['at', 'id'],
     'list': ['at', 'id'],
     'mcp_session': ['client', 'projectId', 'gitBranch'],
@@ -2488,6 +2755,10 @@ SHAPE_IDENTITIES: dict[str, list[str]] = {
 SHAPE_IDENTITIES_ANY: dict[str, list[str]] = {
     'book': ['isbn13', 'isbn'],
     'font': ['family', 'postscriptName'],
+    'health-biomarker': ['loincCode', 'measure'],
+    'health-condition': ['snomedCode', 'name'],
+    'health-lab': ['cliaNumber', 'url'],
+    'health-procedure': ['cptCode', 'snomedCode', 'id'],
     'icon': ['component', 'url'],
     'image': ['url'],
     'person': ['url'],
