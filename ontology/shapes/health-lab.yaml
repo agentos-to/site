@@ -25,9 +25,12 @@ health-lab:
   subtitle: labType
   fields:
     cliaNumber:       string    # CLIA certification number — unique US clinical-lab id
+    npi:              string    # NPI — CMS National Provider Identifier (organizational, type-2)
+    ccn:              string    # CCN — CMS Certification Number (Medicare-enrolled facility id)
     labType:          string    # reference-lab | hospital-lab | clinic | point-of-care | screening-center
     accreditation:    string    # accrediting body — "CAP", "ISO 15189", "JCI"
-    networkName:      string    # parent network if part of one ("Quest", "LabCorp")
+    # The parent network (Quest, LabCorp, a hospital group) is the
+    # `parentOrganization` edge inherited from organization — not a field.
   prior_art:
     - source: schema.org/MedicalOrganization / DiagnosticLab
       url: https://schema.org/DiagnosticLab
@@ -38,8 +41,10 @@ health-lab:
     - source: CLIA — Clinical Laboratory Improvement Amendments
       url: https://www.cms.gov/medicare/quality/clinical-laboratory-improvement-amendments
       notes: >-
-        cliaNumber is the CMS-issued identifier every US clinical lab must
-        carry. It is the canonical identity for a US testing facility.
+        cliaNumber, npi (the organizational/type-2 National Provider
+        Identifier), and ccn (the Medicare CMS Certification Number) are all
+        CMS-issued identifiers a US testing facility carries. cliaNumber is
+        the canonical identity for a US clinical lab.
     - source: "HL7 FHIR R5 — Organization (role: laboratory)"
       url: https://www.hl7.org/fhir/organization.html
       notes: >-

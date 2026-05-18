@@ -13,12 +13,17 @@ organization:
     domain:            domain
     website:           website
     headquarters:      place
+    parentOrganization: organization  # the org this one is a part of /
+                                       # subsidiary of (a hospital network, a
+                                       # parent company). subOrganization is
+                                       # the reverse — reach it by traversal.
   prior_art:
     - source: schema.org/Organization
       url: https://schema.org/Organization
       notes: >-
         Our industry ≈ naics/isicV4 (loosely); founded = foundingDate; member[]
-        = member; headquarters = location (or subOrganization with a Place).
+        = member; headquarters = location; parentOrganization maps directly
+        (schema.org's subOrganization is its declared inverse).
     - source: vCard 4.0 KIND=org (RFC 6350)
       url: https://datatracker.ietf.org/doc/html/rfc6350
       notes: >-
