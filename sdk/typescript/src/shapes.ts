@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 98 shapes.
+// Generated from 99 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -1783,6 +1783,7 @@ export interface Person {
     location?: Place;
     memberships?: Membership[];
     passes?: Pass[];
+    qualifications?: Qualification[];
     roles?: Role[];
     website?: Website;
 }
@@ -1966,6 +1967,30 @@ export interface Protocol {
     homepage?: string;
     rfc?: string;
     wikidataId?: string;
+}
+
+export interface Qualification {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    category?: string;
+    expiresOn?: string;
+    field?: string;
+    identifier?: string;
+    issuedOn?: string;
+    level?: string;
+    renewalPeriod?: string;
+    status?: string;
+    validIn?: string;
+    verificationUrl?: string;
+    governedBy?: Organization;
+    grantedBy?: Organization;
+    heldBy?: Person;
 }
 
 export interface QuantityKind {
