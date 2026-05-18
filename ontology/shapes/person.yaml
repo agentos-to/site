@@ -59,10 +59,11 @@ person:
     gender:           string
     about:            text
   relations:
-    accounts:         account[]    # platform identities this person owns
-    roles:            role[]       # positions at organizations
-    memberships:      membership[] # gym, subscription, club, citizenship
-    passes:           pass[]       # class packs, day passes, tickets
+    accounts:         account[]      # platform identities this person owns
+    roles:            role[]         # positions at organizations
+    memberships:      membership[]   # gym, subscription, club, citizenship
+    passes:           pass[]         # class packs, day passes, tickets
+    qualifications:   qualification[] # degrees, licenses, certifications held
     location:         place
     website:          website
   prior_art:

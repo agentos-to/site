@@ -1,0 +1,85 @@
+# An earned qualification — a degree, professional license, board
+# certification, fellowship, trade license, or certificate. The unifying
+# primitive for "something a person acquired that attests to a
+# competency": an MBBS, an FRCS fellowship, a US medical license, a bar
+# admission, a PE license, a barber's license.
+#
+# One shape, not many — `category` discriminates. Every credential
+# ontology that spans the full breadth (schema.org
+# EducationalOccupationalCredential, CTDL, Open Badges) uses a single
+# type with a category field; LinkedIn's Education-vs-Licenses split is
+# a UI artifact, not an ontology.
+#
+# Two organizations, deliberately distinct (CTDL proves the split):
+#   - grantedBy — the body that ISSUED this instance: the university
+#     that conferred the degree, the state board that issued the license.
+#   - governedBy — the body that ACCREDITS / LICENSES / REGULATES the
+#     credential type. Often the same org as grantedBy; often not — a US
+#     medical license is granted by a state board but governed by
+#     statute / the FSMB.
+#
+# Renewal is not a new node: a renewed license is the same qualification
+# with `status` flipped and `expiresOn` advanced.
+#
+# Not the auth `credential` shape — that is an encrypted vault secret.
+# A qualification carries nothing secret; it is a public attestation.
+#
+# `name` (inherited) is the display label — "Bachelor of Medicine,
+# Bachelor of Surgery", "FRCS (Edinburgh)", "California Medical License".
+qualification:
+  plural: qualifications
+  identity_any: [identifier]  # license / registration numbers are globally
+                               # unique; absent for most degrees — with no
+                               # identifier, dedup falls back to provenance.
+  subtitle: category
+  fields:
+    category:         string    # degree | license | certification |
+                                 #   board-certification | fellowship |
+                                 #   diploma | apprenticeship | certificate | badge
+    identifier:       string    # license / registration number, credential ID
+    status:           string    # active | expired | revoked | suspended | inactive
+    issuedOn:         datetime   # when granted (schema.org datePublished)
+    expiresOn:        datetime   # when it lapses — null = never (a degree)
+    renewalPeriod:    string     # renewal cadence — ISO-8601 duration or "2 years"
+    level:            string     # educational / qualification level — "doctoral", "L7"
+    validIn:          string     # jurisdiction where valid — "US-CA", "SG"
+    field:            string     # discipline / occupation — "Orthopaedic Surgery"
+    verificationUrl:  url        # public verification / registry link
+  relations:
+    heldBy:           person        # who holds it (schema.org Person.hasCredential)
+    grantedBy:        organization  # the body that issued this instance
+    governedBy:       organization  # the body that accredits / licenses / regulates
+  prior_art:
+    - source: schema.org EducationalOccupationalCredential
+      url: https://schema.org/EducationalOccupationalCredential
+      notes: >-
+        Single credential class with a credentialCategory discriminator;
+        recognizedBy, validFor, validIn, educationalLevel. Person.hasCredential
+        links the holder — our `heldBy` edge.
+    - source: CTDL — Credential Transparency Description Language (Credential Engine)
+      url: https://credreg.net/ctdl/terms/CredentialType
+      notes: >-
+        The most thorough credential ontology — a Credential superclass
+        with ~40 subtypes and four distinct org roles (ownedBy / offeredBy
+        vs accreditedBy / regulatedBy / recognizedBy). The source for
+        splitting `grantedBy` from `governedBy`; we collapse the regulator
+        family into one edge — four roles is over-modeled for a personal graph.
+    - source: W3C Verifiable Credentials Data Model 2.0
+      url: https://www.w3.org/TR/vc-data-model-2.0/
+      notes: >-
+        Separates the issuer + validFrom / validUntil (the issuing act)
+        from credentialSubject (the claim); credentialStatus models
+        revocation — our `status` covers revoked / suspended, which
+        schema.org omits.
+    - source: Open Badges 3.0 (1EdTech)
+      url: https://www.imsglobal.org/spec/ob/v3p0/impl
+      notes: >-
+        Achievement.achievementType enum (Certificate, Certification,
+        Degree, License, Badge, MicroCredential) — confirms one shape plus
+        a category enum across every credential kind.
+    - source: LinkedIn Licenses & Certifications
+      url: https://www.linkedin.com/help/linkedin/answer/a567169
+      notes: >-
+        Real-world minimal field set — name, issuing organization, issue
+        date, expiration date, credential ID, credential URL. Its
+        Education / Licenses UI split is the seam this shape unifies.
