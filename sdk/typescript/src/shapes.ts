@@ -989,7 +989,6 @@ export interface HealthBiomarker {
     description?: string;
     loincCode?: string;
     measure?: string;
-    unit?: string;
     panels?: HealthPanel[];
 }
 
@@ -1119,7 +1118,6 @@ export interface HealthObservation {
     score?: number;
     similarity?: number;
     status?: string;
-    unit?: string;
     value?: number;
     valueText?: string;
     document?: File;
