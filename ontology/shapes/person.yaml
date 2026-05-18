@@ -64,6 +64,7 @@ person:
     memberships:      membership[]   # gym, subscription, club, citizenship
     passes:           pass[]         # class packs, day passes, tickets
     qualifications:   qualification[] # degrees, licenses, certifications held
+    practices:        practice[]     # disciplines / fields this person practices
     location:         place
     website:          website
   prior_art:

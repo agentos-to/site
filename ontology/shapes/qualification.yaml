@@ -43,12 +43,12 @@ qualification:
     renewalPeriod:    string     # renewal cadence — ISO-8601 duration or "2 years"
     level:            string     # educational / qualification level — "doctoral", "L7"
     validIn:          string     # jurisdiction where valid — "US-CA", "SG"
-    field:            string     # discipline / occupation — "Orthopaedic Surgery"
     verificationUrl:  url        # public verification / registry link
   relations:
     heldBy:           person        # who holds it (schema.org Person.hasCredential)
     grantedBy:        organization  # the body that issued this instance
     governedBy:       organization  # the body that accredits / licenses / regulates
+    field:            practice      # the discipline / field this qualification is in
   prior_art:
     - source: schema.org EducationalOccupationalCredential
       url: https://schema.org/EducationalOccupationalCredential
