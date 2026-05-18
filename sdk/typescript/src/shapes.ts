@@ -151,6 +151,7 @@ export interface Airline {
     domain?: Domain;
     headquarters?: Place;
     member?: Person[];
+    parentOrganization?: Organization;
     website?: Website;
 }
 
@@ -1084,14 +1085,16 @@ export interface HealthLab {
     content?: string;
     accreditation?: string;
     actorType?: string;
+    ccn?: string;
     cliaNumber?: string;
     founded?: string;
     industry?: string;
     labType?: string;
-    networkName?: string;
+    npi?: string;
     domain?: Domain;
     headquarters?: Place;
     member?: Person[];
+    parentOrganization?: Organization;
     website?: Website;
 }
 
@@ -1671,6 +1674,7 @@ export interface Organization {
     domain?: Domain;
     headquarters?: Place;
     member?: Person[];
+    parentOrganization?: Organization;
     website?: Website;
 }
 
