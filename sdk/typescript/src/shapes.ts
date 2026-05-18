@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 99 shapes.
+// Generated from 100 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -1783,6 +1783,7 @@ export interface Person {
     location?: Place;
     memberships?: Membership[];
     passes?: Pass[];
+    practices?: Practice[];
     qualifications?: Qualification[];
     roles?: Role[];
     website?: Website;
@@ -1899,6 +1900,22 @@ export interface Post {
     repliesTo?: Post;
 }
 
+export interface Practice {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    aliases?: string[];
+    code?: string;
+    codeSystem?: string;
+    description?: string;
+    parent?: Practice;
+}
+
 export interface Product {
     id?: string;
     name?: string;
@@ -1980,7 +1997,6 @@ export interface Qualification {
     content?: string;
     category?: string;
     expiresOn?: string;
-    field?: string;
     identifier?: string;
     issuedOn?: string;
     level?: string;
@@ -1988,6 +2004,7 @@ export interface Qualification {
     status?: string;
     validIn?: string;
     verificationUrl?: string;
+    field?: Practice;
     governedBy?: Organization;
     grantedBy?: Organization;
     heldBy?: Person;
