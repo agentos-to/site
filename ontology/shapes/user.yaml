@@ -35,11 +35,17 @@ user:
         optionsShape: theme
         optionsValue: themeId
         optionsLabel: name
+      # Fonts tab — typography. Its own tab (sibling to Icons / Sounds /
+      # Background) so the Appearance tab stays a clean theme + look-knob
+      # + preview surface. The `Fonts` group also picks up the
+      # FontSlotPickers suffix (font.system / font.mono) wired via
+      # groupSuffixes in Settings.tsx.
       - key: fontSize
         kind: number
         label: Font Size
         description: Base UI font size in pixels.
         group: Fonts
+        tab: Fonts
         min: 8
         max: 20
         step: 1
