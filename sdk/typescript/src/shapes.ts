@@ -1211,6 +1211,7 @@ export interface HealthProcedure {
     evidence?: File[];
     involves?: Person[];
     location?: Place;
+    orderedBy?: Person;
     organizer?: Person;
     performedAt?: HealthLab;
     performer?: Person;
