@@ -39,6 +39,8 @@ health-procedure:
   relations:
     treats:           health-condition   # the condition this procedure addresses or investigates
     performer:        person             # surgeon / radiologist / clinician who performed it
+    orderedBy:        person             # referring / ordering clinician — distinct from the
+                                         # performer on imaging & scopes (the "Referring Dr" line)
     performedAt:      health-lab         # hospital / clinic / imaging center
     subject:          person             # whose body the procedure was performed on
     evidence:         file[]             # operative notes, scan reports, histology files
@@ -49,7 +51,9 @@ health-procedure:
         The resource for an action performed on a patient. performedDate ≈
         occurrenceDateTime/occurrencePeriod; status ≈ status; bodySite ≈
         bodySite; outcome ≈ outcome; findings ≈ report + note; `treats`
-        edge ≈ reason; performer ≈ performer.actor.
+        edge ≈ reason; performer ≈ performer.actor. `orderedBy` ≈
+        basedOn → ServiceRequest.requester — the clinician who ordered the
+        study, which on imaging/scopes is rarely the one who performs it.
     - source: CPT — Current Procedural Terminology (AMA)
       url: https://www.ama-assn.org/practice-management/cpt
       notes: >-
