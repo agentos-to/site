@@ -13,12 +13,14 @@ alongside `core/`, `skills/`, `apps/`.
 platform/
 ├── ontology/              the contract — authored as YAML
 │   ├── shapes/*.yaml          entity schemas
+│   ├── ops/*.yaml             engine primitives (shell.run, http.request, …)
 │   └── auth-contracts/*.yaml  OAuth + cookie provider return shapes
-├── codegen/               one generator: YAML → typed code
-│   ├── generate.py            orchestrator (shapes, auth, docs)
+├── codegen/               one generator: YAML → IR → typed code
+│   ├── generate.py            orchestrator
+│   ├── ir.py                  YAML → one normalized Ontology tree
+│   ├── emit/                  one dumb projection per target
 │   ├── sdk_client.py          engine-client emitter
-│   ├── tool_surface.py        tool-surface docs emitter
-│   └── gen_sdk_stubs.py       op-stub emitter (reads core's ops-manifest.json)
+│   └── tool_surface.py        tool-surface docs emitter
 ├── sdk/
 │   ├── python/            the `agentos` package — Python Skills SDK
 │   └── typescript/        `@agentos/sdk` — TypeScript Apps SDK
@@ -27,30 +29,29 @@ platform/
 
 ## Codegen flow
 
-`codegen/generate.py` is the single generator. It reads
-`ontology/shapes/*.yaml` and emits typed code into every consumer:
+`codegen/generate.py` is the single generator. `ir.py` parses
+`ontology/{shapes,ops,auth-contracts}/*.yaml` into one normalized
+`Ontology` tree; the emitters under `emit/` are dumb projections off it.
 
 | Target | Path |
 |---|---|
-| Python SDK | `sdk/python/agentos/_generated.py` |
-| TypeScript SDK | `sdk/typescript/src/shapes.ts` |
-| Rust (cross-repo) | `core/crates/shapes-generated/src/lib.rs` |
+| Python SDK — shapes | `sdk/python/agentos/_generated.py` |
+| Python SDK — op stubs | `sdk/python/agentos/{capability,crypto,plist,secrets,shell,sql}.py` |
+| TypeScript SDK — shapes | `sdk/typescript/src/shapes.ts` |
+| TypeScript SDK — ops | `sdk/typescript/src/ops.ts` |
+| Rust — shapes (cross-repo) | `core/crates/shapes-generated/src/lib.rs` |
+| Rust — op contract (cross-repo) | `core/crates/contract-generated/src/lib.rs` |
 | Reference docs | `docs/src/content/docs/` |
 
 ```bash
-cd codegen && python3 generate.py            # shapes + auth → all SDKs
+cd codegen && python3 generate.py            # all SDKs + the op contract
 cd codegen && python3 generate.py --docs     # MDX reference pages
 cd codegen && python3 generate.py --check    # drift check, exits 1 on stale
 ```
 
 Drift is caught by `core/dev.sh` on every engine build — it runs
-`gen_sdk_stubs.py` and `generate.py --check` and fails on any
-mismatch. Generated files are checked in; never hand-edit them.
-
-> The op contract is still hand-written Rust in `core/crates/ops/`
-> with a second codegen path. Folding ops into `ontology/ops/*.yaml`
-> under this same generator is the rest of the Platform project —
-> see `core/_roadmap/p1/platform/plan.md`.
+`generate.py --check` and fails on any mismatch. Generated files are
+checked in; never hand-edit them.
 
 ## The docs site
 

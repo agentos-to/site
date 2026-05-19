@@ -2,12 +2,8 @@
 
 Projects the `Op` IR into one `agentos/<group>.py` per pure-generated op
 group. A stub is a thin typed `async def` that builds the request dict and
-`await dispatch(...)`s it — the same shape `gen_sdk_stubs.py` emits from
-`ops-manifest.json`, but driven by the ontology instead of the manifest.
-
-Phase 2 does not overwrite the committed stubs — `verify_ops.py` diffs this
-output against them to prove behaviour-equivalence. Phase 3 makes this the
-only Python-stub generator and deletes `gen_sdk_stubs.py`.
+`await dispatch(...)`s it. `generate.py` writes these straight into
+`sdk/python/agentos/` — they are the SDK's op surface.
 """
 
 from __future__ import annotations
@@ -16,8 +12,7 @@ from ir import Op, Ontology, TypeRef, parse_type
 
 # Op groups whose entire SDK surface is generated stubs. `auth_store`, `http`,
 # and `llm` are excluded — their SDK modules are hand-written (the HTTP
-# client, the matchmaking loop), with ops called internally. Mirrors
-# `gen_sdk_stubs.PURE_GENERATED` intersected with the op groups.
+# client, the matchmaking loop), with ops called internally.
 _PURE_OP_GROUPS = {"capability", "crypto", "plist", "secrets", "shell", "sql"}
 
 FILE_HEADER = (
@@ -75,7 +70,7 @@ def _optional_annot(t: str) -> str:
 
 
 def _emit_op(op: Op) -> str:
-    """One `async def` stub. Byte-compatible with `gen_sdk_stubs.emit_op`."""
+    """One `async def` stub."""
     # Required fields (no `?`, no `default:`) keep YAML order; optional fields
     # follow alphabetically, so keyword-arg order is stable.
     required = [f for f in op.request if not f.optional and not f.has_default]
@@ -134,8 +129,7 @@ def _emit_op(op: Op) -> str:
 def _emit_module(group: str, ops: list[Op]) -> str:
     """One `agentos/<group>.py` file body."""
     # The module docstring is the op file's leading comment — the ontology's
-    # per-group prose. (`gen_sdk_stubs.py` carried a hand-maintained dict;
-    # the leading comment is the same prose, now sourced from one place.)
+    # per-group prose, sourced from one place.
     module_doc = ops[0].leading_comment or f"Generated stubs for `{group}` ops."
     body = [
         FILE_HEADER,

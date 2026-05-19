@@ -1,9 +1,10 @@
 # This file is AUTO-GENERATED. Do not edit.
-# Regenerate with `./dev.sh build` or `python3 codegen/gen_sdk_stubs.py`.
+# Regenerate with `python3 platform/codegen/generate.py`.
 
-"""Generic capability dispatch — one primitive over every `@provides(X)` skill.
+"""capability.* ops — generic capability dispatch.
 
-`capability.call(name, verb, params)` matchmakes a provider for the named capability and dispatches `verb` on it. `capability.list_providers(name)` enumerates candidates without dispatching. Replaces per-capability bespoke SDK wrappers — skills that need cross-skill access to a capability reach through this module, and the engine never needs bespoke Rust per new capability."""
+Apps and skills never name each other. Consumers ask for a capability;
+the engine walks @provides(X) skills, picks one, dispatches."""
 
 from __future__ import annotations
 

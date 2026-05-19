@@ -1,9 +1,10 @@
 # This file is AUTO-GENERATED. Do not edit.
-# Regenerate with `./dev.sh build` or `python3 codegen/gen_sdk_stubs.py`.
+# Regenerate with `python3 platform/codegen/generate.py`.
 
-"""OS-level secret store access through the engine.
+"""secrets.* ops — OS-level secret store reads.
 
-Reads entries from the platform's secret store — macOS login keychain via the `security` CLI, Windows Credential Manager, or Linux Secret Service. The underlying platform is chosen by the Rust crate `agentos-secrets` at compile time via `#[cfg(target_os)]`. All calls are async and routed through the engine so every read is logged and auditable."""
+Platform secret store (macOS keychain / Windows Credential Manager /
+Linux Secret Service), chosen at compile time in agentos-secrets."""
 
 from __future__ import annotations
 

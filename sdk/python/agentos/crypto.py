@@ -1,9 +1,10 @@
 # This file is AUTO-GENERATED. Do not edit.
-# Regenerate with `./dev.sh build` or `python3 codegen/gen_sdk_stubs.py`.
+# Regenerate with `python3 platform/codegen/generate.py`.
 
-"""Cryptographic primitives — key derivation and symmetric decrypt.
+"""crypto.* ops — key derivation and symmetric decryption.
 
-Used almost exclusively by browser cookie decryption (Brave/Chrome/Edge all share the PBKDF2 + AES-128-CBC recipe)."""
+Used almost exclusively by browser skills decrypting stored cookies.
+Handlers live in agentos-exec-executors."""
 
 from __future__ import annotations
 

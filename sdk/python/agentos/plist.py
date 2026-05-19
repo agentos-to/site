@@ -1,9 +1,10 @@
 # This file is AUTO-GENERATED. Do not edit.
-# Regenerate with `./dev.sh build` or `python3 codegen/gen_sdk_stubs.py`.
+# Regenerate with `python3 platform/codegen/generate.py`.
 
-"""NSKeyedArchiver binary plist parsing.
+"""plist.* ops — NSKeyedArchiver binary plist parsing.
 
-Used by browser skills to extract structured fields from keychain-stored NSKeyedArchiver blobs (Chrome Safe Storage, Mimestream OAuth entries, etc.)."""
+Used by browser skills to parse keychain-stored NSKeyedArchiver blobs.
+Handlers live in agentos-exec-executors."""
 
 from __future__ import annotations
 

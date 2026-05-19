@@ -28,6 +28,7 @@ from emit import (
     build_skills_index,
     discover_skills,
     emit_op_docs,
+    emit_ops_python,
     emit_ops_rust,
     emit_ops_ts,
     emit_python,
@@ -189,11 +190,9 @@ def main():
         ir_path = codegen_dir / "ir.json"
         drift |= _check_or_write(ir_path, ir.serialize(ontology), "ir", check=args.check)
 
-        # Op contract (Phase 2) — projected beside the shape targets. The Rust
-        # crate compiles next to the hand-written op modules; ops.ts is new.
-        # The Python op stubs are *not* written here: that would be a cutover
-        # of the committed stubs (still owned by gen_sdk_stubs.py until Phase
-        # 3). `verify_ops.py` emits + diffs them to prove equivalence.
+        # Op contract — projected beside the shape targets: one Rust crate
+        # (contract-generated), one TS module (ops.ts), and the per-group
+        # Python op stubs into the SDK package.
         if ontology.ops:
             op_targets = {
                 "ops-rust": (
@@ -207,6 +206,13 @@ def main():
             }
             for label, (output, out_path) in op_targets.items():
                 drift |= _check_or_write(out_path, output, label, check=args.check)
+
+            # Python op stubs — one agentos/<group>.py per pure-generated group.
+            py_pkg = platform_root / "sdk" / "python" / "agentos"
+            for group, body in sorted(emit_ops_python(ontology).items()):
+                drift |= _check_or_write(
+                    py_pkg / f"{group}.py", body, f"ops-python:{group}", check=args.check
+                )
 
         if ontology.auth_contracts:
             ac_targets = {

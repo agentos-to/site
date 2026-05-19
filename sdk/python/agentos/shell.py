@@ -1,9 +1,10 @@
 # This file is AUTO-GENERATED. Do not edit.
-# Regenerate with `./dev.sh build` or `python3 codegen/gen_sdk_stubs.py`.
+# Regenerate with `python3 platform/codegen/generate.py`.
 
-"""Controlled binary execution through the engine.
+"""shell.* ops — controlled binary execution.
 
-Shell interpreters (sh, bash, zsh, fish, etc.) are blocked at the handler. Every invocation is audited."""
+Shell interpreters (sh, bash, zsh, fish, …) are blocked at the handler;
+only direct binaries run. Handlers live in agentos-exec-executors."""
 
 from __future__ import annotations
 

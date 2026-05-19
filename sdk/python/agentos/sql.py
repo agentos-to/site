@@ -1,9 +1,9 @@
 # This file is AUTO-GENERATED. Do not edit.
-# Regenerate with `./dev.sh build` or `python3 codegen/gen_sdk_stubs.py`.
+# Regenerate with `python3 platform/codegen/generate.py`.
 
-"""SQLite query/execute through the engine.
+"""sql.* ops — SQLite query/execute against a named database file.
 
-Replaces direct sqlite3 usage. All queries are routed for logging, path validation, and future permission controls."""
+Handlers live in agentos-graph-executors."""
 
 from __future__ import annotations
 
