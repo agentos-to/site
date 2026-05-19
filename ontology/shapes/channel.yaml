@@ -1,6 +1,8 @@
 # A content channel — typically a YouTube channel. Videos are uploaded to channels.
 channel:
   plural: channels
+  display:
+    subtitle: subscriberCount
   identity: [at, id]
   fields:
     banner:            url       # channel banner/header image

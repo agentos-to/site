@@ -2,7 +2,8 @@
 community:
   plural: communities
   identity: [at, id]
-  subtitle: text
+  display:
+    subtitle: text
   fields:
     privacy:           string    # public, private, closed
     memberCount:      integer   # Facebook Group members (roughly accurate)

@@ -6,7 +6,8 @@
 tool_call:
   plural: tool_calls
   identity: [platform, id]
-  subtitle: name
+  display:
+    subtitle: name
   fields:
     name:              string    # tool name (e.g. "Read", "Grep", "Bash")
     input:             text      # JSON-serialized input arguments

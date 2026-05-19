@@ -25,7 +25,8 @@ icon:
   # the marchmountain XP icon pack used by every Windows theme) shares
   # one node across themes.
   identity_any: [component, url]
-  subtitle: purpose
+  display:
+    subtitle: purpose
   also: [creative_work]
   fields:
     dimension:         integer    # canonical pixel dimension (16, 24, 32, 48)

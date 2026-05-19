@@ -26,7 +26,8 @@
 health-condition:
   plural: health-conditions
   identity_any: [snomedCode, name]
-  subtitle: clinicalStatus
+  display:
+    subtitle: clinicalStatus
   fields:
     clinicalStatus:   string    # active | recurrence | relapse | inactive | remission | resolved
     verificationStatus: string  # confirmed | provisional | differential | refuted | unconfirmed

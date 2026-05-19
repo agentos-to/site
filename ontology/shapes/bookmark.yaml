@@ -13,7 +13,8 @@
 bookmark:
   plural: bookmarks
   identity: [target]
-  subtitle: name
+  display:
+    subtitle: name
   icon: "\U0001F516"
   fields:
     name:              string    # display name — may differ from target.name

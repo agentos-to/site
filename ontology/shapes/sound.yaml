@@ -16,7 +16,8 @@ sound:
   # or external URL). Each sound file should have one entry; multiple
   # themes bundling the same .wav share one node via this dedup key.
   identity_any: [url]
-  subtitle: purpose
+  display:
+    subtitle: purpose
   also: [creative_work, file]
   fields:
     durationMs:        integer    # length in milliseconds

@@ -2,7 +2,8 @@
 # and adapts external data into graph entities.
 skill:
   plural: skills
-  subtitle: description
+  display:
+    subtitle: description
   fields:
     skillId:          string    # unique identifier (e.g. "gmail", "github")
     description:       text

@@ -51,7 +51,8 @@
 booking_offer:
   plural: booking_offers
   identity: [at, cartId]
-  subtitle: totalAmount
+  display:
+    subtitle: totalAmount
   fields:
     # --- identity / reference ---
     cartId:               string    # provider's opaque cart/session handle

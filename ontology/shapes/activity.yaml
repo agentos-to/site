@@ -2,7 +2,8 @@
 # Fields for what happened, relations for who/what/where.
 activity:
   plural: activities
-  subtitle: action
+  display:
+    subtitle: action
   icon: activity
   fields:
     action:           string      # create, update, delete, run, read, search, load

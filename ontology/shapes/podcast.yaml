@@ -2,7 +2,8 @@
 podcast:
   plural: podcasts
   identity: [at, id]
-  subtitle: author
+  display:
+    subtitle: host
   fields:
     feedUrl:          url       # RSS feed URL
   relations:

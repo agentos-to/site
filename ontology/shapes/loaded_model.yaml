@@ -1,7 +1,8 @@
 # A currently loaded/running AI model instance.
 loaded_model:
   plural: loaded_models
-  subtitle: size
+  display:
+    subtitle: size
   fields:
     size:              string    # memory footprint
     quantization:      string

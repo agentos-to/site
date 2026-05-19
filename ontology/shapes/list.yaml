@@ -22,7 +22,8 @@
 list:
   plural: lists
   identity: [at, id]
-  subtitle: name
+  display:
+    subtitle: name
   fields:
     id:                string    # 'primary-launcher' / 'wallpapers' / 'desktop' / platform list id / ...
     listId:            string    # platform list id (when imported from a third party)

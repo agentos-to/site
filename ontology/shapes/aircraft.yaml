@@ -2,7 +2,8 @@
 aircraft:
   plural: aircraft
   identity: icaoCode
-  subtitle: model
+  display:
+    subtitle: model
   also: [product]     # an aircraft is also a product
   fields:
     model:             string

@@ -38,7 +38,8 @@
 membership:
   plural: memberships
   identity: [at, id]
-  subtitle: status
+  display:
+    subtitle: status
   fields:
     status:            string    # active, paused, expired, cancelled, pending, revoked
     tier:              string    # human-readable tier/plan name (cached; also on plan relation)

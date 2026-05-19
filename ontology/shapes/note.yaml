@@ -6,6 +6,8 @@
 # extracted from sources (literature notes from books, articles, videos).
 note:
   plural: notes
+  display:
+    subtitle: noteType
   fields:
     noteType:         string    # fleeting, literature, permanent, journal, draft
     isPinned:         boolean

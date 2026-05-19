@@ -22,7 +22,8 @@
 # `name` (inherited) is a human label, e.g. "USD→EUR 2026-05-15".
 conversion:
   plural: conversions
-  subtitle: kind
+  display:
+    subtitle: kind
   fields:
     kind:     string    # molar-mass | fx
     factor:   number    # the multiplier — molar-mass case (derived from the molar mass)

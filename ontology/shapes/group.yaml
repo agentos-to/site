@@ -2,7 +2,8 @@
 group:
   plural: groups
   identity: [at, id]
-  subtitle: category
+  display:
+    subtitle: category
   fields:
     memberCount:      integer
     category:          string

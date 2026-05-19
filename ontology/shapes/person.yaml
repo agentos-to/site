@@ -31,7 +31,8 @@ person:
   identity_any: [url]  # canonical web identity — GitHub profile, personal site,
                         # vendor bio page. Lets multi-source seeders dedupe
                         # without guessing on name collisions.
-  subtitle: about
+  display:
+    subtitle: about
   also: [actor]       # a person is also an actor
   fields:
     url:              string    # canonical web identifier (GitHub profile,

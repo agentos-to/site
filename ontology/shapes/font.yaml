@@ -10,7 +10,8 @@
 font:
   plural: fonts
   identity_any: [family, postscriptName]
-  subtitle: author
+  display:
+    subtitle: author
   also: [creative_work]
   fields:
     family:            string     # "MS Sans Serif" — the canonical family name

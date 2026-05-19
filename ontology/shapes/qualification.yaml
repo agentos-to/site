@@ -11,10 +11,10 @@
 # a UI artifact, not an ontology.
 #
 # Two organizations, deliberately distinct (CTDL proves the split):
-#   - grantedBy — the body that ISSUED this instance: the university
+#   - granted_by — the body that ISSUED this instance: the university
 #     that conferred the degree, the state board that issued the license.
-#   - governedBy — the body that ACCREDITS / LICENSES / REGULATES the
-#     credential type. Often the same org as grantedBy; often not — a US
+#   - governed_by — the body that ACCREDITS / LICENSES / REGULATES the
+#     credential type. Often the same org as granted_by; often not — a US
 #     medical license is granted by a state board but governed by
 #     statute / the FSMB.
 #
@@ -31,7 +31,8 @@ qualification:
   identity_any: [identifier]  # license / registration numbers are globally
                                # unique; absent for most degrees — with no
                                # identifier, dedup falls back to provenance.
-  subtitle: category
+  display:
+    subtitle: category
   fields:
     category:         string    # degree | license | certification |
                                  #   board-certification | fellowship |
@@ -45,9 +46,9 @@ qualification:
     validIn:          string     # jurisdiction where valid — "US-CA", "SG"
     verificationUrl:  url        # public verification / registry link
   relations:
-    heldBy:           person        # who holds it (schema.org Person.hasCredential)
-    grantedBy:        organization  # the body that issued this instance
-    governedBy:       organization  # the body that accredits / licenses / regulates
+    held_by:           person        # who holds it (schema.org Person.hasCredential)
+    granted_by:        organization  # the body that issued this instance
+    governed_by:       organization  # the body that accredits / licenses / regulates
     field:            practice      # the discipline / field this qualification is in
   prior_art:
     - source: schema.org EducationalOccupationalCredential
@@ -55,14 +56,14 @@ qualification:
       notes: >-
         Single credential class with a credentialCategory discriminator;
         recognizedBy, validFor, validIn, educationalLevel. Person.hasCredential
-        links the holder — our `heldBy` edge.
+        links the holder — our `held_by` edge.
     - source: CTDL — Credential Transparency Description Language (Credential Engine)
       url: https://credreg.net/ctdl/terms/CredentialType
       notes: >-
         The most thorough credential ontology — a Credential superclass
         with ~40 subtypes and four distinct org roles (ownedBy / offeredBy
         vs accreditedBy / regulatedBy / recognizedBy). The source for
-        splitting `grantedBy` from `governedBy`; we collapse the regulator
+        splitting `granted_by` from `governed_by`; we collapse the regulator
         family into one edge — four roles is over-modeled for a personal graph.
     - source: W3C Verifiable Credentials Data Model 2.0
       url: https://www.w3.org/TR/vc-data-model-2.0/

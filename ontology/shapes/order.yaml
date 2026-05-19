@@ -3,7 +3,8 @@
 order:
   plural: orders
   identity: [at, orderId]
-  subtitle: total
+  display:
+    subtitle: total
   fields:
     orderId:           string    # platform order ID (e.g. "112-0527810-3136239")
     orderDate:        datetime  # when the order was placed

@@ -2,7 +2,8 @@
 # Not used directly — person, organization, and agent extend it via `also`.
 actor:
   plural: actors
-  subtitle: actorType
+  display:
+    subtitle: actorType
   fields:
     actorType:        string    # person, organization, or agent
   prior_art:

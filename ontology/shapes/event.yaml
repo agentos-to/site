@@ -9,7 +9,8 @@
 event:
   plural: events
   identity: [at, id]
-  subtitle: eventType
+  display:
+    subtitle: eventType
   fields:
     eventType:        string    # open vocabulary — subtypes define their own values
     startDate:        datetime  # when the event starts (UTC preferred)

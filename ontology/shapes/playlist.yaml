@@ -1,7 +1,8 @@
 # A video playlist. Playlists are lists that contain videos instead of products.
 playlist:
   plural: playlists
-  subtitle: text
+  display:
+    subtitle: text
   also: [list]        # a playlist is also a list
   relations:
     contains:          video[]

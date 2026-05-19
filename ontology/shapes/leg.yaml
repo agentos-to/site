@@ -5,7 +5,8 @@
 # A direct Uber ride is one leg. A multi-stop Uber ride has one leg per stop pair.
 leg:
   plural: legs
-  subtitle: flightNumber
+  display:
+    subtitle: flightNumber
   fields:
     sequence:          integer   # 1-based order within the trip
     departureTime:    datetime

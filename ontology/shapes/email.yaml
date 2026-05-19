@@ -5,7 +5,8 @@
 email:
   plural: emails
   identity: [at, id]
-  subtitle: author
+  display:
+    subtitle: author
   also: [message]     # an email is also a message
   fields:
     subject:           string    # email subject line

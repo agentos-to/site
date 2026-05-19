@@ -39,7 +39,8 @@ unit:
   # the authoritative SI id (present only for SI units); iso4217 is the
   # authoritative id for currency units. Any one resolves a unit node.
   identity_any: [ucumCode, siDigitalFrameworkUri, iso4217]
-  subtitle: symbol
+  display:
+    subtitle: symbol
   fields:
     ucumCode:     string   # UCUM code, case-sensitive — "mg/dL", "kg.m/s2", "Cel". PRIMARY identity.
     symbol:       string   # display symbol — "mg/dL", "°C", "$"

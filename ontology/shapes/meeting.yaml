@@ -2,7 +2,8 @@
 # Querying by "event" returns meetings too.
 meeting:
   plural: meetings
-  subtitle: location
+  display:
+    subtitle: location
   also: [event]
   fields:
     calendarLink:       url

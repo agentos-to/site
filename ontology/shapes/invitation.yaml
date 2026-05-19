@@ -16,7 +16,8 @@
 invitation:
   plural: invitations
   identity: [at, id]
-  subtitle: invitationType
+  display:
+    subtitle: invitationType
   fields:
     invitationType:   string    # organization, workspace, team, event, channel, etc.
     email:             string    # target email address (if email-based invite)

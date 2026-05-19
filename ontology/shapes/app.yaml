@@ -12,7 +12,8 @@
 app:
   plural: apps
   identity: [id]
-  subtitle: name
+  display:
+    subtitle: name
   fields:
     id:                string    # 'finder' / 'settings' / 'graph' / ...
     name:              string    # display name (theme may override via appOverrides)

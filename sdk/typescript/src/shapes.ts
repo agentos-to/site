@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 100 shapes.
+// Generated from 101 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -198,6 +198,7 @@ export interface Book {
     text?: string;
     url?: string;
     image?: string;
+    author?: string;
     datePublished?: string;
     content?: string;
     aisle?: string;
@@ -242,15 +243,16 @@ export interface Book {
     weight?: string;
     weightUnit?: string;
     weightValue?: number;
-    author?: Person;
     brand?: Brand;
     contributors?: Person[];
     copyrightHolder?: Person;
     creator?: Actor[];
     inspiredBy?: Product[];
     manufacturer?: Organization;
+    publishedBy?: Actor;
     publisher?: Organization;
     tagged?: Tag[];
+    writtenBy?: Person;
     writtenBy?: Person;
 }
 
@@ -508,6 +510,7 @@ export interface CreativeWork {
     text?: string;
     url?: string;
     image?: string;
+    author?: string;
     datePublished?: string;
     content?: string;
     copyrightYear?: number;
@@ -517,10 +520,10 @@ export interface CreativeWork {
     language?: string;
     license?: string;
     tags?: string[];
-    author?: Person;
     contributors?: Person[];
     copyrightHolder?: Person;
-    publisher?: Organization;
+    publishedBy?: Actor;
+    writtenBy?: Person;
 }
 
 export interface Credential {
@@ -872,6 +875,7 @@ export interface Font {
     text?: string;
     url?: string;
     image?: string;
+    author?: string;
     datePublished?: string;
     content?: string;
     copyrightYear?: number;
@@ -892,10 +896,10 @@ export interface Font {
     tags?: string[];
     vendorUrl?: string;
     weights?: number[];
-    author?: Person;
     contributors?: Person[];
     copyrightHolder?: Person;
-    publisher?: Organization;
+    publishedBy?: Actor;
+    writtenBy?: Person;
 }
 
 export interface GitCommit {
@@ -1256,6 +1260,7 @@ export interface Icon {
     text?: string;
     url?: string;
     image?: string;
+    author?: string;
     datePublished?: string;
     content?: string;
     component?: string;
@@ -1270,10 +1275,10 @@ export interface Icon {
     purpose?: string;
     style?: string;
     tags?: string[];
-    author?: Person;
     contributors?: Person[];
     copyrightHolder?: Person;
-    publisher?: Organization;
+    publishedBy?: Actor;
+    writtenBy?: Person;
 }
 
 export interface Image {
@@ -1282,6 +1287,7 @@ export interface Image {
     text?: string;
     url?: string;
     image?: string;
+    author?: string;
     datePublished?: string;
     content?: string;
     altText?: string;
@@ -1308,11 +1314,38 @@ export interface Image {
     width?: number;
     windowId?: number;
     attachedTo?: Message;
-    author?: Person;
     contributors?: Person[];
     copyrightHolder?: Person;
-    publisher?: Organization;
+    publishedBy?: Actor;
     repository?: Repository;
+    writtenBy?: Person;
+}
+
+export interface IntellectualProperty {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    category?: string;
+    expiresOn?: string;
+    filedOn?: string;
+    filingBasis?: string;
+    identifier?: string;
+    mark?: string;
+    niceClass?: number[];
+    register?: string;
+    registeredOn?: string;
+    renewalPeriod?: string;
+    status?: string;
+    validIn?: string;
+    verificationUrl?: string;
+    covers?: CreativeWork;
+    grantedBy?: Organization;
+    heldBy?: Actor;
 }
 
 export interface Invitation {
@@ -2322,6 +2355,7 @@ export interface Sound {
     text?: string;
     url?: string;
     image?: string;
+    author?: string;
     datePublished?: string;
     content?: string;
     bitDepth?: number;
@@ -2346,11 +2380,11 @@ export interface Sound {
     size?: number;
     tags?: string[];
     attachedTo?: Message;
-    author?: Person;
     contributors?: Person[];
     copyrightHolder?: Person;
-    publisher?: Organization;
+    publishedBy?: Actor;
     repository?: Repository;
+    writtenBy?: Person;
 }
 
 export interface Source {
@@ -2654,6 +2688,7 @@ export interface Video {
     text?: string;
     url?: string;
     image?: string;
+    author?: string;
     datePublished?: string;
     content?: string;
     codec?: string;
@@ -2679,13 +2714,13 @@ export interface Video {
     viewCount?: number;
     addTo?: Playlist;
     attachedTo?: Message;
-    author?: Person;
     channel?: Channel;
     contributors?: Person[];
     copyrightHolder?: Person;
-    publisher?: Organization;
+    publishedBy?: Actor;
     repository?: Repository;
     transcribe?: Transcript;
+    writtenBy?: Person;
 }
 
 export interface Webpage {

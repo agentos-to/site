@@ -3,7 +3,8 @@
 webpage:
   plural: webpages
   identity: url
-  subtitle: url
+  display:
+    subtitle: url
   fields:
     visitCount:       integer   # browser history visit count
     lastVisitUnix:   integer   # browser history last visit timestamp

@@ -63,6 +63,24 @@ class Field:
     target: str | None  # for relations: target shape name (e.g. "author", "account")
 
 
+# `display:` block — the per-shape spec the Finder card / EntityDetail /
+# table / markdown preview all project. Five roles (`ROLE_REGISTRY`), each
+# optional. `title` defaults to the standard `name` field when absent;
+# everything not bound is *unpromoted* and renders at detail density in
+# YAML declaration order. See `core/_roadmap/p1/shape-display/plan.md`.
+DISPLAY_ROLES = {"title", "subtitle", "image", "highlights", "body"}
+
+
+@dataclass
+class Display:
+    title: str | None = None         # → a field (default: `name`)
+    subtitle: str | None = None      # → a field or relation
+    image: str | None = None         # → a field (url) or a relation → node.image
+    highlights: list[str] = field(default_factory=list)  # 0..4 fields/relations
+    body: str | None = None          # detail-only: one long text field
+    preview: dict[str, object] = field(default_factory=dict)  # per-field content policy at preview density
+
+
 @dataclass
 class Shape:
     name: str           # YAML name (snake_case)
@@ -71,7 +89,8 @@ class Shape:
     # Below fields are ignored by language emitters; used by the MDX doc emitter.
     also: list[str] = field(default_factory=list)           # raw `also:` list (tag chain)
     plural: str | None = None
-    subtitle: str | None = None
+    subtitle: str | None = None      # back-compat shortcut for display.subtitle
+    display: Display | None = None   # per-shape display spec (shape-display plan)
     identity: list[str] = field(default_factory=list)        # `identity:` field names (compound — all must match)
     identity_any: list[str] = field(default_factory=list)    # `identity_any:` field names (any one match suffices)
     leading_comment: str = ""                                # top-of-file `# ...` lines, stripped
@@ -435,7 +454,23 @@ def _build_shapes(
         # Metadata used by the doc emitter
         s.also = list(defn.get("also") or [])
         s.plural = defn.get("plural")
-        s.subtitle = defn.get("subtitle")
+        # `display:` block — new home for `subtitle:` and the other roles.
+        # Legacy top-level `subtitle: X` is still accepted (back-compat); the
+        # parser hoists it into `Display(subtitle=X)` so emit/docs.py keeps
+        # reading `s.subtitle` while consumers move to `s.display`.
+        disp_raw = defn.get("display") or {}
+        if disp_raw:
+            s.display = Display(
+                title=disp_raw.get("title"),
+                subtitle=disp_raw.get("subtitle"),
+                image=disp_raw.get("image"),
+                highlights=list(disp_raw.get("highlights") or []),
+                body=disp_raw.get("body"),
+                preview=dict(disp_raw.get("preview") or {}),
+            )
+        elif "subtitle" in defn:
+            s.display = Display(subtitle=defn.get("subtitle"))
+        s.subtitle = s.display.subtitle if s.display else None
         if "identity" in defn:
             ident = defn["identity"]
             s.identity = ident if isinstance(ident, list) else [ident]
@@ -844,6 +879,28 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
             base = f.type.rstrip("[]")
             if base not in _SHAPE_TYPES:
                 warn(f"shape {s.name!r}: field {f.name!r} has unknown type {f.type!r}")
+        # `display:` block — role bindings must reference a field or relation
+        # this shape carries (resolved fields, includes inherited + standard +
+        # relations). Unknown bindings are advisory warnings, not errors —
+        # consistent with the rest of shape lint.
+        if s.display:
+            known = {f.name for f in s.fields}
+            for role in ("title", "subtitle", "image", "body"):
+                binding = getattr(s.display, role)
+                if binding and binding not in known:
+                    warn(f"shape {s.name!r}: display.{role} binds to "
+                         f"unknown field/relation {binding!r}")
+            for hi in s.display.highlights:
+                if hi not in known:
+                    warn(f"shape {s.name!r}: display.highlights includes "
+                         f"unknown {hi!r}")
+            if len(s.display.highlights) > 4:
+                warn(f"shape {s.name!r}: display.highlights has "
+                     f"{len(s.display.highlights)} entries; max is 4")
+            for pk in s.display.preview:
+                if pk not in known:
+                    warn(f"shape {s.name!r}: display.preview key {pk!r} "
+                         f"is not a declared field")
 
     for c in onto.auth_contracts:
         for g in c.groups:

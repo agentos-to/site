@@ -29,7 +29,8 @@
 pass:
   plural: passes
   identity: [at, id]
-  subtitle: status
+  display:
+    subtitle: status
   fields:
     status:            string    # active, depleted, expired, cancelled, refunded
     purchasedDate:    datetime  # when purchased (also `published`)

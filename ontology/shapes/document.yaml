@@ -4,7 +4,8 @@
 # gain also: [document] in a future migration once the shape stabilizes.
 document:
   plural: documents
-  subtitle: author
+  display:
+    subtitle: author
   also: [file]
   fields:
     contentType:      string    # markdown, html, pdf, plaintext, rst

@@ -2,7 +2,8 @@
 airport:
   plural: airports
   identity: iataCode
-  subtitle: iataCode
+  display:
+    subtitle: iataCode
   fields:
     iataCode:         string    # 3-letter code (e.g. LAX, JFK, SFO)
     icaoCode:         string    # 4-letter code (e.g. KLAX, KJFK, KSFO)

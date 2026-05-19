@@ -3,7 +3,8 @@
 task:
   plural: tasks
   identity: [at, id]
-  subtitle: state
+  display:
+    subtitle: state
   fields:
     remoteId:         string    # source-specific ID (e.g. PROJ-123, #456)
     priority:          integer   # 1 = highest (normalized across sources)

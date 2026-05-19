@@ -1,7 +1,8 @@
 # A git branch.
 branch:
   plural: branches
-  subtitle: commit
+  display:
+    subtitle: commit
   fields:
     commit:            string    # HEAD commit hash
     upstream:          string    # remote tracking branch

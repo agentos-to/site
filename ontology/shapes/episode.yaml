@@ -1,7 +1,8 @@
 # A single episode of a podcast or show. Transcribable.
 episode:
   plural: episodes
-  subtitle: author
+  display:
+    subtitle: author
   fields:
     durationMs:       integer
     episodeNumber:    integer

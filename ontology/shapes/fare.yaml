@@ -35,7 +35,8 @@
 fare:
   plural: fares
   identity: [at, identifier]
-  subtitle: fareFamily
+  display:
+    subtitle: fareFamily
   fields:
     identifier:        string    # provider's fare code. Airline: IATA fareBasisCode ("LAA0AQBN"). Rail/bus: operator tier id.
     bookingCode:       string    # single-letter RBD/class ("L", "N", "Y", "J") — airlines + some rail. Null elsewhere.

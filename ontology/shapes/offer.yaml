@@ -3,7 +3,8 @@
 offer:
   plural: offers
   identity: [id]
-  subtitle: price
+  display:
+    subtitle: price
   fields:
     price:             number
     currency:          string    # ISO 4217 (e.g. USD, EUR)

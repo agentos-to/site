@@ -53,7 +53,8 @@
 payment_method:
   plural: payment_methods
   identity: [at, identifier]
-  subtitle: displayName
+  display:
+    subtitle: displayName
   fields:
     identifier:          string    # opaque provider-side stable id. NEVER the PAN.
     type:                string    # card | wallet | paypal | bank | travel_credit | gift_card | corp_account | bnpl | crypto

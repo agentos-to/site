@@ -2,7 +2,8 @@
 airline:
   plural: airlines
   identity: iataCode
-  subtitle: iataCode
+  display:
+    subtitle: iataCode
   also: [organization]  # an airline is also an organization
   fields:
     iataCode:         string    # 2-letter code (e.g. UA, DL, AA)

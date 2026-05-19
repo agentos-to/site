@@ -3,7 +3,8 @@
 conversation:
   plural: conversations
   identity: [at, id]
-  subtitle: text
+  display:
+    subtitle: text
   fields:
     isGroup:          boolean
     isArchived:       boolean

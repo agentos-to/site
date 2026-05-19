@@ -8,7 +8,8 @@
 # file (the bytes on disk, with a specific codec / resolution).
 video:
   plural: videos
-  subtitle: author
+  display:
+    subtitle: author
   also: [creative_work, file]   # a video is a creative work AND a file
   fields:
     durationMs:       integer

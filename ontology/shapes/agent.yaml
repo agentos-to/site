@@ -5,7 +5,8 @@
 # Examples: Claude in Cursor, a background job agent, a scheduled task runner.
 agent:
   plural: agents
-  subtitle: model
+  display:
+    subtitle: model
   also: [actor]       # an agent is also an actor (like person, organization)
   fields:
     model:             string    # model identifier (e.g. "claude-sonnet-4-5", "gpt-4o")

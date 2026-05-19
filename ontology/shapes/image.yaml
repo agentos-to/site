@@ -5,6 +5,8 @@
 # AND a file (the bytes on disk, with a specific format and dimensions).
 image:
   plural: images
+  display:
+    subtitle: format
   # `url` is the canonical image-file location (Vite-hashed asset path
   # or external URL). Each image file should have one entry; multiple
   # themes bundling the same wallpaper share one node via this dedup key.

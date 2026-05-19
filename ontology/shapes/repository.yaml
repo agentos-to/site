@@ -2,7 +2,8 @@
 repository:
   plural: repositories
   identity_any: [path, url]
-  subtitle: language
+  display:
+    subtitle: language
   fields:
     stars:             integer
     forks:             integer

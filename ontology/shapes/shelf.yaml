@@ -1,6 +1,8 @@
 # A bookshelf. Shelves are lists that contain books instead of generic products.
 shelf:
   plural: shelves
+  display:
+    subtitle: isExclusive
   also: [list]        # a shelf is also a list
   fields:
     isExclusive:      boolean   # true = a book can only be on one exclusive shelf (read, to-read, currently-reading)

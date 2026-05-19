@@ -7,7 +7,8 @@
 model:
   plural: models
   identity: [at, name]
-  subtitle: name
+  display:
+    subtitle: name
   fields:
     contextLength:    integer
     contextWindow:    integer   # alias for context_length (OpenRouter uses this name)

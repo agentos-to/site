@@ -3,7 +3,8 @@
 organization:
   plural: organizations
   identity: url
-  subtitle: industry
+  display:
+    subtitle: industry
   also: [actor]       # an organization is also an actor
   fields:
     industry:          string

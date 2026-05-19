@@ -10,7 +10,8 @@
 account:
   plural: accounts
   identity: [at, identifier]
-  subtitle: identifier
+  display:
+    subtitle: identifier
   fields:
     identifier:        string    # canonical key within `at`'s namespace
                                   # (e.g. an email for email-login services,

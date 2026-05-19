@@ -3,7 +3,8 @@
 # a PR has labels, a git commit has tags.
 tag:
   plural: tags
-  subtitle: tagType
+  display:
+    subtitle: tagType
   fields:
     color:             string    # hex color (#EA4335) or named color
     tagType:          string    # system, user — distinguishes built-in vs custom

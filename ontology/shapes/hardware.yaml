@@ -4,7 +4,8 @@
 hardware:
   plural: hardware
   identity: serialNumber
-  subtitle: author
+  display:
+    subtitle: author
   also: [product]     # hardware is also a product
   fields:
     modelNumber:      string

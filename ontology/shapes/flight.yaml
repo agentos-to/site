@@ -2,7 +2,8 @@
 # A nonstop itinerary has one flight. A connection has multiple flights.
 flight:
   plural: flights
-  subtitle: airline
+  display:
+    subtitle: airline
   also: [leg]           # a flight is also a leg
   fields:
     flightNumber:     string    # e.g. UA 1234

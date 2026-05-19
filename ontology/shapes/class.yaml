@@ -6,7 +6,8 @@
 # capacity, and is typically part of a recurring schedule.
 class:
   plural: classes
-  subtitle: activityType
+  display:
+    subtitle: activityType
   also: [event]
   fields:
     activityType:     string    # yoga, climbing, fitness, barre, etc.

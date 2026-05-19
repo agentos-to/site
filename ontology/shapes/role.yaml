@@ -2,7 +2,8 @@
 # Links a person to an organization with a time range.
 role:
   plural: roles
-  subtitle: name
+  display:
+    subtitle: name
   fields:
     title:             string
     department:        string

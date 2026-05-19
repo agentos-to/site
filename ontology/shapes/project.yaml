@@ -2,7 +2,8 @@
 project:
   plural: projects
   identity: [at, id]
-  subtitle: state
+  display:
+    subtitle: state
   fields:
     state:             string
     color:             string

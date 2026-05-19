@@ -19,6 +19,8 @@
 # `name` (inherited) is the display label — "Orthopaedic Surgery".
 practice:
   plural: practices
+  display:
+    subtitle: parent
   fields:
     description:      text      # what the practice covers
     code:             string    # taxonomy code, when one classifies it — "207X00000X"

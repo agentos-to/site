@@ -22,7 +22,8 @@ health-lab:
   also: [organization]
   identity_any: [cliaNumber, url]   # CLIA number is a unique US lab identifier;
                                      # url (inherited from organization) for non-US labs.
-  subtitle: labType
+  display:
+    subtitle: labType
   fields:
     cliaNumber:       string    # CLIA certification number — unique US clinical-lab id
     npi:              string    # NPI — CMS National Provider Identifier (organizational, type-2)

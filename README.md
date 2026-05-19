@@ -44,6 +44,12 @@ place, or detail for something that happened *to it via another party* —
 that is the denormalization bug. Edges carry typed vals (`edge_vals`);
 that is what they are for.
 
+Vals on an edge are not only *when* and *where*. Any **quantity that is a
+property of the relationship** rides there too — `joe —owns→ adavia
+{share: 1.0, units: 10000000}`. The `edge_vals` table types a number or
+integer exactly as `node_vals` would; an ownership percentage belongs to
+the owning, not to either party.
+
 ### 2. Edges are verb phrases — one naming axis, no exceptions
 
 Every edge label is a **lowercase snake_case verb phrase**, read
@@ -67,6 +73,15 @@ English: `_at` / `_in` → a place · `_by` → the agent of the action ·
 direction, the reverse reading is derived (`inverse_name`), never a
 second edge.
 
+The suffix follows English **idiom**, not the object's type: you
+`worked_at` an *organization*, `born_at` a *place*, `lived_at` an
+*address* — `_at` tracks how the verb is spoken, not what it points to.
+And a **stative** relation English has no verb for — citizenship,
+holding a credential — takes a role-noun phrase: `citizen_of`,
+`held_by`. That is *not* the banned bare noun: it keeps a preposition,
+reads as English, carries direction. The ban is on a noun standing
+*alone* as the whole label (`member`, `author`).
+
 ### 3. Node vs edge — a three-trigger test
 
 A relationship is an **edge** by default. Promote it to a **node** at
@@ -84,6 +99,18 @@ concert (attendee + venue + performer + promoter) trips all three → an
 **on that node**; the participation edges into it stay clean verb
 phrases (`performed_at`, `attended`).
 
+**Recurrence forces a node.** The graph stores at most one edge per
+`(from, label, to)` — `create_edge` is `ON CONFLICT … DO UPDATE`, so a
+second `create` of the same triple overwrites the first's vals. When the
+*same* verb recurs between the *same* two parties — two filings with one
+office, two investments in one company — it cannot be N edges. Promote
+each occurrence to a node. This is trigger 3 made physical: a recurrence
+is almost always itself referenceable — a `document`, a `transaction` —
+and the storage layer makes the under-modeled version impossible to
+write. (A *thin* recurrence with no referenceable occurrence — living at
+one address across two stints — has no natural node; that case is a
+known limit, not yet resolved.)
+
 ### 4. Edge types are not owned by node shapes
 
 `lived_at` is one edge type, defined once, reused by many shapes. A
@@ -92,6 +119,12 @@ documentation and a validation hint — it does **not** own them, and an
 edge to an unexpected node stays possible. A shape gains no relation for
 every edge that can touch it: `person` declares no `lived_at` /
 `born_at` / `born_to` — those are generic life-edges, not person-fields.
+
+Type a relation hint at the **widest actor it can take**. If an
+organization can fill the slot as readily as a person, type it `actor`,
+not `person` — a trademark is `held_by` an org, a concert is `organized`
+by an org, an act `performed_at` an event may be a band. A hint typed
+narrower than reality is a hint that lies.
 
 ### 5. Shapes are nouns; a shape earns its existence by unique fields
 

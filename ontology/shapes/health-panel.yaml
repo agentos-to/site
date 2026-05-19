@@ -21,7 +21,8 @@
 health-panel:
   plural: health-panels
   also: [list]
-  subtitle: effectiveDate
+  display:
+    subtitle: effectiveDate
   fields:
     panelCode:        string    # LOINC panel code when known (CBC w/ diff = 58410-2)
     effectiveDate:    datetime  # date of draw — set for a dated report, null for a catalog panel

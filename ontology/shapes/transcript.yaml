@@ -1,6 +1,8 @@
 # A text transcript of audio/video content. Linked from meetings and videos.
 transcript:
   plural: transcripts
+  display:
+    subtitle: language
   fields:
     language:          string    # ISO 639-1 (e.g. "en", "es")
     sourceType:       string    # meeting, video, podcast, etc.

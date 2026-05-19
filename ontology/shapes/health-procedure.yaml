@@ -25,7 +25,8 @@ health-procedure:
   plural: health-procedures
   also: [event]
   identity_any: [cptCode, snomedCode, id]
-  subtitle: performedDate
+  display:
+    subtitle: performedDate
   fields:
     performedDate:    datetime  # when a point procedure occurred (start for spanning courses)
     procedureType:    string    # surgery | diagnostic-imaging | endoscopy | therapy | screening

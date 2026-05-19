@@ -21,7 +21,8 @@
 dimension:
   plural: dimensions
   identity: [key]            # canonical exponent-vector string — "L-3M1", "" for dimensionless
-  subtitle: label
+  display:
+    subtitle: label
   fields:
     key:          string   # canonical exponent-vector — "L-3M1", "L1T-2", "" for dimensionless
     label:        string   # human name — "mass per volume", "acceleration", "dimensionless"

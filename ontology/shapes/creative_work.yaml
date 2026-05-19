@@ -16,7 +16,8 @@
 # pickers or per-file provenance ship.
 creative_work:
   plural: creative_works
-  subtitle: author
+  display:
+    subtitle: written_by
   fields:
     name:              string
     description:       string
@@ -31,15 +32,17 @@ creative_work:
                                  # ("xp-era", "win9x", "2000s-web")
     tags:              string[]
   relations:
-    author:            person      # the creator (designer / photographer / composer)
-    publisher:         organization # who put it into the world
+    written_by:        person      # the creator (designer / photographer / composer)
+    published_by:      actor       # who put it into the world — an org, a person
+                                   # (self-published), or a periodical (itself a
+                                   # creative_work; rule 4 — the hint does not constrain)
     contributors:      person[]    # editors / illustrators / co-designers
-    copyrightHolder:   person      # may differ from author (e.g. work-for-hire)
+    copyrightHolder:   person      # may differ from the author (e.g. work-for-hire)
   prior_art:
     - source: schema.org/CreativeWork
       url: https://schema.org/CreativeWork
       notes: >-
-        Our name=name; author=author; publisher=publisher;
+        Our name=name; written_by≈author; published_by≈publisher;
         datePublished=datePublished; license=license; copyrightHolder=
         copyrightHolder; copyrightYear=copyrightYear; description=
         description; url=url; language=inLanguage; tags=keywords.

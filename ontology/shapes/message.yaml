@@ -4,7 +4,8 @@
 message:
   plural: messages
   identity: [at, id]
-  subtitle: from
+  display:
+    subtitle: from
   fields:
     isOutgoing:       boolean   # true if sent by the user
     isStarred:        boolean   # user-flagged as important

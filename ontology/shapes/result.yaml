@@ -3,7 +3,8 @@
 # The result just carries search-specific metadata (when indexed, what type).
 result:
   plural: results
-  subtitle: url
+  display:
+    subtitle: url
   fields:
     indexedAt:        datetime  # when the search engine last crawled this
     resultType:       string    # web, image, video, news, etc.

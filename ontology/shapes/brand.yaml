@@ -17,7 +17,8 @@
 brand:
   plural: brands
   identity: url
-  subtitle: tagline
+  display:
+    subtitle: tagline
   fields:
     tagline:           string
     founded:           datetime

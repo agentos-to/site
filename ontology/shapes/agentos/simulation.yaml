@@ -10,7 +10,8 @@
 # legal-review (forked joe.db + law.db read-only)
 simulation:
   plural: simulations
-  subtitle: status
+  display:
+    subtitle: status
   icon: shield
   fields:
     status:           string     # running, frozen, killed, completed

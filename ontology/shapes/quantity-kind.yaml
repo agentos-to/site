@@ -18,7 +18,8 @@
 quantity-kind:
   plural: quantity-kinds
   identity: [key]            # machine key — "mass-concentration", "torque"
-  subtitle: label
+  display:
+    subtitle: label
   fields:
     key:    string   # machine key — "mass-concentration", "torque", "blood-glucose-concentration"
     label:  string   # human name — "mass concentration", "torque"

@@ -3,7 +3,8 @@
 # (Mimestream), filesystem entries, and downloads.
 file:
   plural: files
-  subtitle: path
+  display:
+    subtitle: path
   fields:
     filename:          string    # original filename with extension
     mimeType:         string    # IANA MIME type (e.g. application/pdf, text/plain)

@@ -11,7 +11,8 @@
 trip:
   plural: trips
   identity: [at, id]
-  subtitle: tripType
+  display:
+    subtitle: tripType
   fields:
     tripType:         string    # ride, flight, delivery, train, bus
     status:            string    # requested, accepted, in_progress, completed, cancelled

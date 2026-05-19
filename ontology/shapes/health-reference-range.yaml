@@ -31,7 +31,8 @@ health-reference-range:
   identity: [analyte, issuingLab, method, validFrom]  # compound — the natural key.
                                                        # population fields disambiguate
                                                        # further within a lab+method.
-  subtitle: refText
+  display:
+    subtitle: refText
   fields:
     low:              number    # low bound of the interval
     high:             number    # high bound of the interval

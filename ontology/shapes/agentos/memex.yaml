@@ -13,7 +13,8 @@
 # Examples: joe.db (personal), astronomy.db (domain), spacex-history.db (community)
 memex:
   plural: memex
-  subtitle: description
+  display:
+    subtitle: description
   icon: brain
   fields:
     description:      text       # what this memex contains / knows about

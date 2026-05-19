@@ -1,6 +1,8 @@
 # A registered domain name. Also auto-created from email sender/recipient addresses.
 domain:
   plural: domains
+  display:
+    subtitle: registrar
   identity: name
   fields:
     status:            string

@@ -1,7 +1,8 @@
 # A user review of a product. Reviews are also posts, so they carry engagement metrics.
 review:
   plural: reviews
-  subtitle: author
+  display:
+    subtitle: author
   also: [post]        # a review is also a post
   fields:
     rating:            number

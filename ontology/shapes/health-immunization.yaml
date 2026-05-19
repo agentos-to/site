@@ -15,7 +15,8 @@
 health-immunization:
   plural: health-immunizations
   also: [event]
-  subtitle: dateAdministered
+  display:
+    subtitle: dateAdministered
   fields:
     dateAdministered: datetime  # when the dose was given
     cvxCode:          string    # CDC CVX vaccine code

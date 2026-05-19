@@ -38,7 +38,10 @@
 seatmap:
   plural: seatmaps
   identity: [id]
-  subtitle: cabinBrand
+  display:
+    title: flightNumber          # `cabinBrand` was a nested key under `cabins`,
+                                 # not a top-level field — see shape-display plan
+                                 # for the intended editorial.
   fields:
     # Flight scope (denormalized for display without join)
     flightNumber:     string    # "UA 1336"

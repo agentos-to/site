@@ -8,6 +8,8 @@
 #   quote --inspired--> anything
 quote:
   plural: quotes
+  display:
+    subtitle: year
   fields:
     context:           string    # when/where it was said, any extra notes
     year:              integer   # year of first known appearance

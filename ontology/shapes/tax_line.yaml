@@ -35,7 +35,8 @@
 tax_line:
   plural: tax_lines
   identity: [at, id]
-  subtitle: description
+  display:
+    subtitle: description
   fields:
     code:              string    # provider code ("US", "XF", "AY", "VAT", "GST", or free-text)
     description:       string    # human: "U.S. Transportation Tax", "Occupancy Tax", "Sales Tax"

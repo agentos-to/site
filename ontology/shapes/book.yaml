@@ -6,7 +6,8 @@
 book:
   plural: books
   identity_any: [isbn13, isbn]
-  subtitle: author
+  display:
+    subtitle: author
   also: [creative_work, product]   # a book is a creative work AND a product
   fields:
     isbn:              string    # 10-digit ISBN

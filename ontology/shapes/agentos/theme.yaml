@@ -21,7 +21,8 @@
 theme:
   plural: themes
   identity: themeId
-  subtitle: family
+  display:
+    subtitle: family
   fields:
     themeId:                string  # unique within its source: "windows-xp", "windows-98"
     family:                 string  # OS family ("windows") — groups themes; the family is code, not a node

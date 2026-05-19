@@ -43,7 +43,8 @@
 reservation:
   plural: reservations
   identity: [at, reservationId]
-  subtitle: reservationType
+  display:
+    subtitle: reservationType
   fields:
     reservationType:     string    # flight, lodging, dining, rental_car, rail, event
     reservationId:       string    # PNR / record locator / confirmation number ("ABC123")

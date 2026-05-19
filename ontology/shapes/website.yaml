@@ -3,7 +3,8 @@
 website:
   plural: websites
   identity: url
-  subtitle: url
+  display:
+    subtitle: url
   fields:
     status:            string    # active, pending
     versionId:        string    # current deployment version

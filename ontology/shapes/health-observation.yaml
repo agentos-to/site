@@ -30,7 +30,8 @@
 health-observation:
   plural: health-observations
   also: [result]
-  subtitle: effectiveDate
+  display:
+    subtitle: effectiveDate
   fields:
     value:            number    # the measured quantity — 95, 1.24, 310; its UCUM unit rides on the val
     valueText:        string    # for non-numeric results — "Negative", "Reactive", "Trace"

@@ -3,7 +3,8 @@
 # State is derived from location: docs/specs/ = active, docs/specs/done/ = done.
 spec:
   plural: specs
-  subtitle: state
+  display:
+    subtitle: state
   also: [task, file]
   fields:
     problem:           text

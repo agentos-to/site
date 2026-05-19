@@ -8,7 +8,8 @@
 place:
   plural: places
   identity_any: [googlePlaceId, mapboxId]
-  subtitle: fullAddress
+  display:
+    subtitle: fullAddress
   fields:
     # Formatted strings (pre-computed, avoid client-side formatting)
     fullAddress:      string

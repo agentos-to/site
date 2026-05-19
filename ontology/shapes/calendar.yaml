@@ -2,7 +2,8 @@
 calendar:
   plural: calendars
   identity: [at, calendarId]
-  subtitle: source
+  display:
+    subtitle: source
   fields:
     calendarId:       string    # provider's calendar ID (Google: email-like string)
     color:             string    # display color (hex)
