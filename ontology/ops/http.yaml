@@ -31,7 +31,7 @@ http.request:
     status:           { type: "u16",     doc: "HTTP status code." }
     body:             { type: "string?", doc: "Response body decoded as UTF-8." }
     body_bytes:       { type: "string?", doc: "Hex-encoded response body when non-UTF-8." }
-    headers:          { type: "map<string,string>", doc: "Response headers (lowercased keys)." }
+    headers:          { type: "map<string,string>", default: {}, doc: "Response headers (lowercased keys)." }
     url:              { type: "string?", doc: "Final URL after the redirect chain." }
     body_length:      { type: "u64?",    doc: "Decoded body length in bytes." }
     content_encoding: { type: "string?", doc: "Content encoding (gzip, br, zstd, or none)." }

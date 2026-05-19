@@ -29458,8 +29458,8 @@
             "name": "headers",
             "type": "map<string,string>",
             "optional": false,
-            "has_default": false,
-            "default": null,
+            "has_default": true,
+            "default": {},
             "doc": "Response headers (lowercased keys)."
           },
           {

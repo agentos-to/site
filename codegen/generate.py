@@ -27,6 +27,9 @@ import ir
 from emit import (
     build_skills_index,
     discover_skills,
+    emit_op_docs,
+    emit_ops_rust,
+    emit_ops_ts,
     emit_python,
     emit_python_auth_contracts,
     emit_rust,
@@ -141,6 +144,9 @@ def main():
         emit_skill_docs(skills, docs_out / "skills" / "reference", known_shapes)
         print(f"  skills: {docs_out / 'skills' / 'reference'} ({len(skills)} pages + index)")
 
+        emit_op_docs(ontology.ops, ontology.op_types, docs_out / "ops" / "reference")
+        print(f"  ops: {docs_out / 'ops' / 'reference'} ({len(ontology.ops)} ops)")
+
         # Registry-driven codegen — both outputs read the same `system.schema`
         # dump. Opt out cleanly if the engine isn't running.
         agentos_bin = args.agentos_bin or "agentos"
@@ -182,6 +188,25 @@ def main():
     if not args.lang and not args.from_api:
         ir_path = codegen_dir / "ir.json"
         drift |= _check_or_write(ir_path, ir.serialize(ontology), "ir", check=args.check)
+
+        # Op contract (Phase 2) — projected beside the shape targets. The Rust
+        # crate compiles next to the hand-written op modules; ops.ts is new.
+        # The Python op stubs are *not* written here: that would be a cutover
+        # of the committed stubs (still owned by gen_sdk_stubs.py until Phase
+        # 3). `verify_ops.py` emits + diffs them to prove equivalence.
+        if ontology.ops:
+            op_targets = {
+                "ops-rust": (
+                    emit_ops_rust(ontology),
+                    workspace / "core" / "crates" / "contract-generated" / "src" / "lib.rs",
+                ),
+                "ops-ts": (
+                    emit_ops_ts(ontology),
+                    platform_root / "sdk" / "typescript" / "src" / "ops.ts",
+                ),
+            }
+            for label, (output, out_path) in op_targets.items():
+                drift |= _check_or_write(out_path, output, label, check=args.check)
 
         if ontology.auth_contracts:
             ac_targets = {
