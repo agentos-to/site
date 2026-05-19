@@ -29050,5 +29050,871 @@
         "clientSecret": "client_secret"
       }
     }
-  ]
+  ],
+  "ops": [
+    {
+      "name": "auth_store.read",
+      "group": "auth_store",
+      "action": "read",
+      "doc": "Read the best-scored decrypted credential row for a (domain, item_type, account?) tuple.",
+      "doc_full": "Read one row from the encrypted credentials store. Returns the\ndecrypted JSON `value` plus identifier / source / last_verified.\nDomain-normalization happens on the caller side — pass the\ncanonical credential-store form (e.g. `\".approach.app\"`).\n\nArgs:\n    domain: Canonical credential-store domain.\n    item_type: Credential kind (`\"login_credentials\"`, `\"cookie\"`, ...).\n    account: Optional identifier disambiguator.\n\nReturns:\n    `{found, identifier?, value?, source?, last_verified?}`. On\n    no-match, `found` is `false` and every other field is absent.\n",
+      "capability": [],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "domain",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Canonical credential-store domain."
+        },
+        {
+          "name": "item_type",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Credential kind (login_credentials, cookie, oauth, api_key, …)."
+        },
+        {
+          "name": "account",
+          "type": "string",
+          "optional": true,
+          "has_default": false,
+          "default": null,
+          "doc": "Optional identifier disambiguator."
+        }
+      ],
+      "response": {
+        "scalar": false,
+        "type": "",
+        "type_optional": false,
+        "doc": "",
+        "fields": [
+          {
+            "name": "found",
+            "type": "boolean",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "Whether a matching row exists."
+          },
+          {
+            "name": "identifier",
+            "type": "string",
+            "optional": true,
+            "has_default": false,
+            "default": null,
+            "doc": "Canonical identifier of the row."
+          },
+          {
+            "name": "value",
+            "type": "json",
+            "optional": true,
+            "has_default": false,
+            "default": null,
+            "doc": "Decrypted JSON payload; shape depends on item_type."
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "optional": true,
+            "has_default": false,
+            "default": null,
+            "doc": "Where the row came from (onepassword, brave-browser, …)."
+          },
+          {
+            "name": "last_verified",
+            "type": "i64",
+            "optional": true,
+            "has_default": false,
+            "default": null,
+            "doc": "Unix timestamp of the most recent successful verification."
+          }
+        ]
+      },
+      "log_fields": [
+        {
+          "source": "request",
+          "path": "/item_type",
+          "key": "item_type"
+        },
+        {
+          "source": "request",
+          "path": "/domain",
+          "key": "domain"
+        }
+      ],
+      "effects": [],
+      "leading_comment": "auth_store.* ops — encrypted credential store reads.\n\nThe only SDK surface onto the encrypted credentials table. The\nencryption key lives in the macOS Keychain; Python never holds it."
+    },
+    {
+      "name": "capability.call",
+      "group": "capability",
+      "action": "call",
+      "doc": "Match a @provides(X) skill and dispatch its tool, returning the tool's result unchanged.",
+      "doc_full": "Matchmake a provider for capability `name` and dispatch `verb` on it.\nThe tool's return value is passed through unchanged — no envelope.\n\nUsed by SDK wrappers (`credentials.retrieve`, `llm.oneshot`, etc.)\nand by skills that consume a capability across skill boundaries\nwithout naming the provider.\n\nArgs:\n    name: capability name (e.g. `\"login_credentials\"`, `\"llm\"`).\n    verb: tool to invoke on the picked provider. Defaults to the\n          provider's declared `via`.\n    params: parameters forwarded to the picked tool, unchanged.\n    skill: optional skill-id override; forces a specific provider.\n\nReturns:\n    The picked tool's return value, unchanged.\n",
+      "capability": [],
+      "trace_span": true,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Capability name to match."
+        },
+        {
+          "name": "verb",
+          "type": "string",
+          "optional": true,
+          "has_default": false,
+          "default": null,
+          "doc": "Tool-name override; defaults to the provider's declared via."
+        },
+        {
+          "name": "params",
+          "type": "json",
+          "optional": false,
+          "has_default": true,
+          "default": null,
+          "doc": "Parameters for the picked tool. Passed through unchanged."
+        },
+        {
+          "name": "skill",
+          "type": "string",
+          "optional": true,
+          "has_default": false,
+          "default": null,
+          "doc": "Skill-id override; forces a specific provider."
+        }
+      ],
+      "response": {
+        "scalar": true,
+        "type": "json",
+        "type_optional": false,
+        "doc": "The picked tool's return value, unchanged — no envelope.",
+        "fields": []
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "capability.* ops — generic capability dispatch.\n\nApps and skills never name each other. Consumers ask for a capability;\nthe engine walks @provides(X) skills, picks one, dispatches."
+    },
+    {
+      "name": "capability.list_providers",
+      "group": "capability",
+      "action": "list_providers",
+      "doc": "List every @provides(name) provider with its ranking and credential state.",
+      "doc_full": "Enumerate skills that declared `@provides(name, ...)`. Returns the\nranked candidate list without dispatching any tool — useful for\nintrospection, provider selection, or iterating providers with\nper-provider fallback logic in skill code.\n\nArgs:\n    name: capability name.\n    model: optional model filter for `llm` capability matches.\n\nReturns:\n    `{providers: [{skill_id, via, cred_state, urls?}, ...]}`.\n",
+      "capability": [],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Capability name to enumerate providers for."
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "optional": true,
+          "has_default": false,
+          "default": null,
+          "doc": "Optional model filter for llm capability matches."
+        }
+      ],
+      "response": {
+        "scalar": false,
+        "type": "",
+        "type_optional": false,
+        "doc": "",
+        "fields": [
+          {
+            "name": "providers",
+            "type": "provider[]",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "All @provides(name) providers, ranked."
+          }
+        ]
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "capability.* ops — generic capability dispatch.\n\nApps and skills never name each other. Consumers ask for a capability;\nthe engine walks @provides(X) skills, picks one, dispatches."
+    },
+    {
+      "name": "crypto.pbkdf2",
+      "group": "crypto",
+      "action": "pbkdf2",
+      "doc": "PBKDF2-HMAC-SHA1 key derivation. Returns hex-encoded bytes.",
+      "doc_full": "PBKDF2-HMAC-SHA1 key derivation. Used by browser skills to reproduce\nChrome's Safe Storage key stretch.\n\nArgs:\n    password, salt: opaque strings.\n    iterations: default 1.\n    length: output byte length (default 16).\n\nReturns:\n    Derived key as bytes (hex-decoded by the SDK stub).\n",
+      "capability": [
+        "crypto"
+      ],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "password",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Password to stretch."
+        },
+        {
+          "name": "salt",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Salt (opaque bytes as a string)."
+        },
+        {
+          "name": "iterations",
+          "type": "u32",
+          "optional": false,
+          "has_default": true,
+          "default": 1,
+          "doc": "Iteration count."
+        },
+        {
+          "name": "length",
+          "type": "u32",
+          "optional": false,
+          "has_default": true,
+          "default": 16,
+          "doc": "Desired output length in bytes."
+        }
+      ],
+      "response": {
+        "scalar": true,
+        "type": "bytes",
+        "type_optional": false,
+        "doc": "Derived key.",
+        "fields": []
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "crypto.* ops — key derivation and symmetric decryption.\n\nUsed almost exclusively by browser skills decrypting stored cookies.\nHandlers live in agentos-exec-executors."
+    },
+    {
+      "name": "crypto.aes",
+      "group": "crypto",
+      "action": "aes",
+      "doc": "AES-128-CBC decrypt. Key/data/iv are hex. Returns hex plaintext.",
+      "doc_full": "AES-128-CBC decrypt. Key, ciphertext, and IV are all hex-encoded.\nThe returned plaintext is hex-encoded on the wire and decoded to\nbytes by the SDK stub.\n\nArgs:\n    key: hex (16 bytes = 32 hex chars for AES-128).\n    data: ciphertext, hex.\n    iv: hex. Default: 32 zero chars (Chrome convention).\n\nReturns:\n    Plaintext bytes.\n",
+      "capability": [
+        "crypto"
+      ],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "key",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Key as hex (16 bytes / 32 hex chars for AES-128)."
+        },
+        {
+          "name": "data",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Ciphertext as hex."
+        },
+        {
+          "name": "iv",
+          "type": "string",
+          "optional": false,
+          "has_default": true,
+          "default": "00000000000000000000000000000000",
+          "doc": "Initialization vector as hex. Defaults to 32 zero hex chars."
+        }
+      ],
+      "response": {
+        "scalar": true,
+        "type": "bytes",
+        "type_optional": false,
+        "doc": "Decrypted plaintext.",
+        "fields": []
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "crypto.* ops — key derivation and symmetric decryption.\n\nUsed almost exclusively by browser skills decrypting stored cookies.\nHandlers live in agentos-exec-executors."
+    },
+    {
+      "name": "http.request",
+      "group": "http",
+      "action": "request",
+      "doc": "Stateless HTTP op. SDK callers use client.get/post/… — this op is their shared backend.",
+      "doc_full": "Stateless HTTP op. Every verb-dispatched SDK method (`client.get`,\n`client.post`, …) routes through this; skill code does not call\n`http.request` directly. No cookie-jar state survives between calls —\nthe SDK's ambient Jar serializes cookies into the request's Cookie:\nheader and feeds Set-Cookie responses back into itself.\n\nArgs:\n    url, method, headers, params, body, http2, timeout.\n\nReturns:\n    HttpResponse {status, body?, body_bytes?, headers, url, body_length, content_encoding}.\n",
+      "capability": [
+        "http"
+      ],
+      "trace_span": true,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "url",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Absolute URL."
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "optional": false,
+          "has_default": true,
+          "default": "GET",
+          "doc": "HTTP method: GET, POST, PUT, DELETE, PATCH, HEAD."
+        },
+        {
+          "name": "headers",
+          "type": "map<string,string>",
+          "optional": false,
+          "has_default": true,
+          "default": {},
+          "doc": "Request headers. Cookies ride here under \"Cookie\"."
+        },
+        {
+          "name": "params",
+          "type": "map<string,json>",
+          "optional": false,
+          "has_default": true,
+          "default": {},
+          "doc": "Query string parameters; appended to the URL."
+        },
+        {
+          "name": "body",
+          "type": "json",
+          "optional": true,
+          "has_default": false,
+          "default": null,
+          "doc": "Raw request body — bytes or string, sent verbatim."
+        },
+        {
+          "name": "http2",
+          "type": "boolean",
+          "optional": false,
+          "has_default": true,
+          "default": true,
+          "doc": "Whether to enable HTTP/2. Set false for JA4-fingerprint hosts."
+        },
+        {
+          "name": "timeout",
+          "type": "number",
+          "optional": false,
+          "has_default": true,
+          "default": 30,
+          "doc": "Request timeout in seconds."
+        }
+      ],
+      "response": {
+        "scalar": false,
+        "type": "",
+        "type_optional": false,
+        "doc": "",
+        "fields": [
+          {
+            "name": "status",
+            "type": "u16",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "HTTP status code."
+          },
+          {
+            "name": "body",
+            "type": "string",
+            "optional": true,
+            "has_default": false,
+            "default": null,
+            "doc": "Response body decoded as UTF-8."
+          },
+          {
+            "name": "body_bytes",
+            "type": "string",
+            "optional": true,
+            "has_default": false,
+            "default": null,
+            "doc": "Hex-encoded response body when non-UTF-8."
+          },
+          {
+            "name": "headers",
+            "type": "map<string,string>",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "Response headers (lowercased keys)."
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "optional": true,
+            "has_default": false,
+            "default": null,
+            "doc": "Final URL after the redirect chain."
+          },
+          {
+            "name": "body_length",
+            "type": "u64",
+            "optional": true,
+            "has_default": false,
+            "default": null,
+            "doc": "Decoded body length in bytes."
+          },
+          {
+            "name": "content_encoding",
+            "type": "string",
+            "optional": true,
+            "has_default": false,
+            "default": null,
+            "doc": "Content encoding (gzip, br, zstd, or none)."
+          }
+        ]
+      },
+      "log_fields": [
+        {
+          "source": "response",
+          "path": "/status",
+          "key": "status"
+        },
+        {
+          "source": "response",
+          "path": "/body_length",
+          "key": "body_length"
+        },
+        {
+          "source": "response",
+          "path": "/content_encoding",
+          "key": "enc"
+        }
+      ],
+      "effects": [],
+      "leading_comment": "http.request — the one stateless HTTP op.\n\nThe SDK's client module composes cookies/headers and calls this op;\nthe engine is pure transport. Handlers live in agentos-exec-executors."
+    },
+    {
+      "name": "llm.resolve_tools",
+      "group": "llm",
+      "action": "resolve_tools",
+      "doc": "Resolve skill-scoped tool refs (\"skill.operation\") to provider-native tool defs.",
+      "doc_full": "Resolve a list of skill-scoped tool refs (`\"skill.operation\"`) into\nprovider-native tool definitions. Used by llm.agent loops that need\nto pass the router's tool list into a chat call.\n\nArgs:\n    tools: list of `\"skill.operation\"` strings.\n\nReturns:\n    {tools: [tool_def, …]}.\n",
+      "capability": [
+        "llm"
+      ],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "tools",
+          "type": "string[]",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Tool references (skill.operation)."
+        }
+      ],
+      "response": {
+        "scalar": false,
+        "type": "",
+        "type_optional": false,
+        "doc": "",
+        "fields": [
+          {
+            "name": "tools",
+            "type": "json[]",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "Resolved tool definitions, one per input ref (in order)."
+          }
+        ]
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "llm.* ops — schema resolution.\n\nllm.resolve_tools walks skills' `provides` entries to build provider-format\ntool definitions. Handler lives in agentos-core."
+    },
+    {
+      "name": "plist.parse",
+      "group": "plist",
+      "action": "parse",
+      "doc": "Parse a hex-encoded NSKeyedArchiver binary plist.",
+      "doc_full": "Parse a hex-encoded NSKeyedArchiver binary plist and extract specific\nobject indices.\n\nArgs:\n    hex_data: The plist as hex.\n    extract: Mapping of {field_name: object_index} in the archived graph.\n\nReturns:\n    Dict of {field_name: value}.\n",
+      "capability": [
+        "plist"
+      ],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "hex_data",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Hex-encoded plist bytes."
+        },
+        {
+          "name": "extract",
+          "type": "map<string,u64>",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Extraction map: field_name → object_index in the archived graph."
+        }
+      ],
+      "response": {
+        "scalar": true,
+        "type": "map<string,json>",
+        "type_optional": false,
+        "doc": "Extracted fields as field_name → value.",
+        "fields": []
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "plist.* ops — NSKeyedArchiver binary plist parsing.\n\nUsed by browser skills to parse keychain-stored NSKeyedArchiver blobs.\nHandlers live in agentos-exec-executors."
+    },
+    {
+      "name": "secrets.read",
+      "group": "secrets",
+      "action": "read",
+      "doc": "Read a UTF-8 secret from the OS-level secret store.",
+      "doc_full": "Read a UTF-8 secret from the platform secret store.\n\nArgs:\n    service: Keychain service name (e.g. \"Chrome Safe Storage\").\n    account: Account name. Defaults to the current $USER.\n\nReturns:\n    The secret as a UTF-8 string.\n",
+      "capability": [
+        "secrets"
+      ],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "service",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Keychain service name."
+        },
+        {
+          "name": "account",
+          "type": "string",
+          "optional": true,
+          "has_default": false,
+          "default": null,
+          "doc": "Keychain account name; defaults to the current $USER."
+        }
+      ],
+      "response": {
+        "scalar": true,
+        "type": "string",
+        "type_optional": false,
+        "doc": "Secret value as a UTF-8 string.",
+        "fields": []
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "secrets.* ops — OS-level secret store reads.\n\nPlatform secret store (macOS keychain / Windows Credential Manager /\nLinux Secret Service), chosen at compile time in agentos-secrets."
+    },
+    {
+      "name": "secrets.read_binary",
+      "group": "secrets",
+      "action": "read_binary",
+      "doc": "Read a binary secret. Bytes are hex-encoded on the wire.",
+      "doc_full": "Read a binary secret from the platform secret store. Used for\nNSKeyedArchiver blobs (Chrome Safe Storage binary entries, etc.).\n\nBytes travel hex-encoded; the generated SDK stub decodes to bytes.\n\nArgs:\n    service: Keychain service name.\n    account: Account name. Defaults to the current $USER.\n\nReturns:\n    The secret value as bytes (decoded from hex by the SDK stub).\n",
+      "capability": [
+        "secrets"
+      ],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "service",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Keychain service name."
+        },
+        {
+          "name": "account",
+          "type": "string",
+          "optional": true,
+          "has_default": false,
+          "default": null,
+          "doc": "Keychain account name; defaults to the current $USER."
+        }
+      ],
+      "response": {
+        "scalar": true,
+        "type": "bytes",
+        "type_optional": false,
+        "doc": "Binary secret value.",
+        "fields": []
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "secrets.* ops — OS-level secret store reads.\n\nPlatform secret store (macOS keychain / Windows Credential Manager /\nLinux Secret Service), chosen at compile time in agentos-secrets."
+    },
+    {
+      "name": "shell.run",
+      "group": "shell",
+      "action": "run",
+      "doc": "Run a binary with controlled arguments. Shell interpreters are blocked.",
+      "doc_full": "Execute a binary with controlled argv. The invocation is NOT shell-parsed,\nand shell interpreters (sh, bash, zsh, fish, etc.) are rejected to prevent\ncommand-injection shortcuts.\n\nArgs:\n    binary, args, timeout, cwd, input.\n\nReturns:\n    {exit_code, stdout, stderr}.\n",
+      "capability": [
+        "shell"
+      ],
+      "trace_span": true,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "binary",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Binary to execute (absolute path or $PATH name)."
+        },
+        {
+          "name": "args",
+          "type": "string[]",
+          "optional": false,
+          "has_default": true,
+          "default": [],
+          "doc": "Argv tail — not shell-parsed."
+        },
+        {
+          "name": "timeout",
+          "type": "number",
+          "optional": false,
+          "has_default": true,
+          "default": 30,
+          "doc": "Timeout in seconds."
+        },
+        {
+          "name": "cwd",
+          "type": "string",
+          "optional": true,
+          "has_default": false,
+          "default": null,
+          "doc": "Working directory. Defaults to the process CWD."
+        },
+        {
+          "name": "input",
+          "type": "string",
+          "optional": true,
+          "has_default": false,
+          "default": null,
+          "doc": "Optional stdin bytes written to the child as UTF-8."
+        }
+      ],
+      "response": {
+        "scalar": false,
+        "type": "",
+        "type_optional": false,
+        "doc": "",
+        "fields": [
+          {
+            "name": "exit_code",
+            "type": "i32",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "Exit code; -1 if the child was signalled."
+          },
+          {
+            "name": "stdout",
+            "type": "string",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "Captured stdout (UTF-8 lossy)."
+          },
+          {
+            "name": "stderr",
+            "type": "string",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "Captured stderr (UTF-8 lossy)."
+          }
+        ]
+      },
+      "log_fields": [
+        {
+          "source": "request",
+          "path": "/binary",
+          "key": "binary"
+        }
+      ],
+      "effects": [],
+      "leading_comment": "shell.* ops — controlled binary execution.\n\nShell interpreters (sh, bash, zsh, fish, …) are blocked at the handler;\nonly direct binaries run. Handlers live in agentos-exec-executors."
+    },
+    {
+      "name": "sql.query",
+      "group": "sql",
+      "action": "query",
+      "doc": "Run a read-only SQL query against a named SQLite file.",
+      "doc_full": "Run a read-only SQL query against a named SQLite file.\n\nArgs:\n    sql: Parameterized SQL text. Use `:name` placeholders.\n    db: Path to the SQLite file (`~` expands to $HOME).\n    params: Named bind parameters (optional).\n    attach: Alias → path map for ATTACH DATABASE (optional).\n\nReturns:\n    List of row dicts keyed by column name.\n",
+      "capability": [
+        "sql"
+      ],
+      "trace_span": true,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "sql",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Parameterized SQL text. Use :name placeholders bound via params."
+        },
+        {
+          "name": "db",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Path to the SQLite file. ~ is expanded to $HOME."
+        },
+        {
+          "name": "params",
+          "type": "map<string,json>",
+          "optional": false,
+          "has_default": true,
+          "default": {},
+          "doc": "Named bind parameters — mapped onto :name placeholders."
+        },
+        {
+          "name": "attach",
+          "type": "map<string,string>",
+          "optional": false,
+          "has_default": true,
+          "default": {},
+          "doc": "Alias → path map for ATTACH DATABASE — joins across files."
+        }
+      ],
+      "response": {
+        "scalar": true,
+        "type": "list<map<string,json>>",
+        "type_optional": false,
+        "doc": "Rows — each a JSON object keyed by column name.",
+        "fields": []
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "sql.* ops — SQLite query/execute against a named database file.\n\nHandlers live in agentos-graph-executors."
+    },
+    {
+      "name": "sql.execute",
+      "group": "sql",
+      "action": "execute",
+      "doc": "Run a writing SQL statement against a named SQLite file.",
+      "doc_full": "Run a writing SQL statement (INSERT/UPDATE/DELETE/DDL).\n\nArgs:\n    sql: SQL text to execute.\n    db: Path to the SQLite file.\n\nReturns:\n    {rows_affected, last_insert_rowid?}.\n",
+      "capability": [
+        "sql"
+      ],
+      "trace_span": true,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "sql",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "SQL text to execute."
+        },
+        {
+          "name": "db",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Path to the SQLite file. ~ is expanded to $HOME."
+        }
+      ],
+      "response": {
+        "scalar": false,
+        "type": "",
+        "type_optional": false,
+        "doc": "",
+        "fields": [
+          {
+            "name": "rows_affected",
+            "type": "u64",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "Rows affected by the statement."
+          },
+          {
+            "name": "last_insert_rowid",
+            "type": "i64",
+            "optional": true,
+            "has_default": false,
+            "default": null,
+            "doc": "Rowid of the last INSERT, if applicable."
+          }
+        ]
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "sql.* ops — SQLite query/execute against a named database file.\n\nHandlers live in agentos-graph-executors."
+    }
+  ],
+  "op_types": {
+    "provider": {
+      "name": "provider",
+      "fields": [
+        {
+          "name": "skill_id",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Skill id that declared @provides(name, ...)."
+        },
+        {
+          "name": "via",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Operation name (via) on the skill that would be invoked."
+        },
+        {
+          "name": "cred_state",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Credential state: not_required, present, or missing."
+        },
+        {
+          "name": "urls",
+          "type": "string[]",
+          "optional": true,
+          "has_default": false,
+          "default": null,
+          "doc": "Optional URL patterns declared on the @provides entry."
+        }
+      ]
+    }
+  }
 }

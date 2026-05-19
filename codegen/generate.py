@@ -115,7 +115,10 @@ def main():
     contracts_dir = platform_root / "ontology" / "auth-contracts"
     auth_contracts = ir.load_auth_contracts(contracts_dir) if contracts_dir.is_dir() else []
 
-    ontology = ir.build(shapes, auth_contracts)
+    ops_dir = platform_root / "ontology" / "ops"
+    ops, op_types = ir.load_ops(ops_dir) if ops_dir.is_dir() else ([], {})
+
+    ontology = ir.build(shapes, auth_contracts, ops, op_types)
 
     # Validation runs on every invocation. Advisory in Phase 1 — it
     # reports, never transforms, so it cannot change emitter output.

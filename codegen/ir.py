@@ -126,6 +126,71 @@ class AuthContract:
 
 
 # =============================================================================
+# IR — ops
+# =============================================================================
+#
+# `ontology/ops/*.yaml` declares the engine's op contract — the primitives
+# skills call (`shell.run`, `http.request`, …). Each op has a typed request
+# and a response that is either a field-map or a bare scalar. Op field types
+# draw from a wider vocabulary than shapes (width-precise ints, `bytes`,
+# `map<K,V>`, named record types) — see `parse_type`.
+
+
+@dataclass
+class OpField:
+    name: str                       # field name (snake_case)
+    type: str                       # type string, trailing `?` stripped
+    optional: bool                  # was the type written with a `?` suffix
+    has_default: bool               # was a `default:` key present in the YAML
+    default: object = None          # the default value (None also = `default: null`)
+    doc: str = ""
+
+
+@dataclass
+class OpType:
+    """A named record type referenced by op req/resp — the `types:` block.
+    The "every type named" rule: op payloads carry no anonymous structs."""
+    name: str
+    fields: list[OpField] = field(default_factory=list)
+
+
+@dataclass
+class OpResponse:
+    """An op's response — exactly one of the two forms is populated.
+    `scalar` → `response: { type, doc }` (a bare value, maybe a transparent
+    newtype); otherwise → a field-map like `request:`."""
+    scalar: bool
+    type: str = ""                          # set when scalar
+    type_optional: bool = False             # scalar optionality
+    doc: str = ""                           # scalar doc
+    fields: list[OpField] = field(default_factory=list)  # set when field-map
+
+
+@dataclass
+class OpLogField:
+    source: str                     # "request" | "response"
+    path: str                       # JSON pointer (RFC 6901)
+    key: str                        # audit-log key
+
+
+@dataclass
+class Op:
+    name: str                       # wire name, e.g. "shell.run"
+    group: str                      # "shell"
+    action: str                     # "run"
+    doc: str
+    doc_full: str
+    capability: list[str] = field(default_factory=list)   # required caps; [] = none
+    trace_span: bool = False
+    fire_and_forget: bool = False
+    request: list[OpField] = field(default_factory=list)
+    response: OpResponse | None = None
+    log_fields: list[OpLogField] = field(default_factory=list)
+    effects: list = field(default_factory=list)            # shapes/edges touched; [] = pure
+    leading_comment: str = ""
+
+
+# =============================================================================
 # IR — the root
 # =============================================================================
 
@@ -135,11 +200,19 @@ class Ontology:
     """The whole normalized contract — one tree, every emitter's input."""
     shapes: list[Shape] = field(default_factory=list)
     auth_contracts: list[AuthContract] = field(default_factory=list)
+    ops: list[Op] = field(default_factory=list)
+    op_types: dict[str, OpType] = field(default_factory=dict)
 
     def auth(self, kind: str) -> AuthContract | None:
         for c in self.auth_contracts:
             if c.kind == kind:
                 return c
+        return None
+
+    def op(self, name: str) -> Op | None:
+        for o in self.ops:
+            if o.name == name:
+                return o
         return None
 
 
@@ -488,6 +561,185 @@ def load_auth_contracts(contracts_dir: Path) -> list[AuthContract]:
 
 
 # =============================================================================
+# Op-field type grammar
+# =============================================================================
+#
+# Op field types are richer than shape types: width-precise ints, `bytes`,
+# `map<K,V>`, `list<T>`, `T[]`, and references to named record types. The
+# grammar is parsed into a `TypeRef` tree so emitters project it without
+# re-parsing the string.
+
+# Op primitives. `number` / `boolean` / `string` / `json` are shared with
+# shapes; the width-precise ints + `bytes` are the minimal op-only extension.
+_OP_PRIMITIVES = {
+    "string", "boolean", "number", "bytes", "json",
+    "i32", "i64", "u16", "u32", "u64",
+}
+
+
+@dataclass
+class TypeRef:
+    """A parsed op-field type."""
+    kind: str                       # "primitive" | "named" | "array" | "map" | "list"
+    name: str = ""                  # primitive or named-type name
+    elem: "TypeRef | None" = None   # array/list element type
+    key: "TypeRef | None" = None    # map key type
+    val: "TypeRef | None" = None    # map value type
+
+
+def _split_generic_args(s: str) -> list[str]:
+    """Split `K,V` (or `T`) at top-level commas, respecting `<>` nesting."""
+    args, depth, cur = [], 0, ""
+    for ch in s:
+        if ch == "<":
+            depth += 1
+            cur += ch
+        elif ch == ">":
+            depth -= 1
+            cur += ch
+        elif ch == "," and depth == 0:
+            args.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    if cur:
+        args.append(cur)
+    return [a.strip() for a in args]
+
+
+def parse_type(s: str) -> TypeRef:
+    """Parse an op-field type string (trailing `?` already stripped) into a
+    `TypeRef`. An unknown bare word is treated as a named-type reference;
+    `validate()` is what flags it if no such type is declared."""
+    s = s.strip()
+    if s.endswith("[]"):
+        return TypeRef("array", elem=parse_type(s[:-2]))
+    if s.startswith("map<") and s.endswith(">"):
+        parts = _split_generic_args(s[4:-1])
+        if len(parts) == 2:
+            return TypeRef("map", key=parse_type(parts[0]), val=parse_type(parts[1]))
+    if s.startswith("list<") and s.endswith(">"):
+        return TypeRef("list", elem=parse_type(s[5:-1]))
+    if s in _OP_PRIMITIVES:
+        return TypeRef("primitive", name=s)
+    return TypeRef("named", name=s)
+
+
+# =============================================================================
+# Op loader — YAML → Op
+# =============================================================================
+
+def _op_field(name: str, spec: dict | None) -> OpField:
+    spec = spec or {}
+    t = str(spec.get("type", "json")).strip()
+    optional = t.endswith("?")
+    if optional:
+        t = t[:-1].strip()
+    return OpField(
+        name=name,
+        type=t,
+        optional=optional,
+        has_default="default" in spec,
+        default=spec.get("default"),
+        doc=str(spec.get("doc", "")).strip(),
+    )
+
+
+def _op_field_map(spec: dict | None) -> list[OpField]:
+    return [_op_field(n, fd) for n, fd in (spec or {}).items()]
+
+
+def load_ops(ops_dir: Path) -> tuple[list[Op], dict[str, OpType]]:
+    """Load every `ops/*.yaml` into typed Op IR + the named-type table.
+
+    Files are read in sorted-name order; ops within a file keep YAML
+    declaration order. Top-level keys: a dotted key is an op wire name;
+    the `types:` key is the file's named-record-type block.
+    """
+    try:
+        import yaml
+    except ImportError:
+        print("pyyaml required: pip install pyyaml", file=sys.stderr)
+        sys.exit(1)
+
+    ops: list[Op] = []
+    op_types: dict[str, OpType] = {}
+    for f in sorted(ops_dir.glob("*.yaml")):
+        text = f.read_text()
+        data = yaml.safe_load(text)
+        if not isinstance(data, dict):
+            continue
+        lead_lines = []
+        for line in text.splitlines():
+            stripped = line.strip()
+            if stripped.startswith("#"):
+                lead_lines.append(stripped.lstrip("#").strip())
+            elif stripped == "":
+                continue
+            else:
+                break
+        lead = "\n".join(lead_lines).strip()
+
+        for key, body in data.items():
+            body = body or {}
+            if key == "types":
+                for tname, tfields in body.items():
+                    op_types[tname] = OpType(name=tname, fields=_op_field_map(tfields))
+                continue
+            if "." not in key:
+                continue
+            group, action = key.split(".", 1)
+
+            resp_spec = body.get("response") or {}
+            if "type" in resp_spec:
+                rt = str(resp_spec["type"]).strip()
+                ropt = rt.endswith("?")
+                if ropt:
+                    rt = rt[:-1].strip()
+                response = OpResponse(
+                    scalar=True, type=rt, type_optional=ropt,
+                    doc=str(resp_spec.get("doc", "")).strip(),
+                )
+            else:
+                response = OpResponse(scalar=False, fields=_op_field_map(resp_spec))
+
+            cap = body.get("capability")
+            if cap is None:
+                cap = []
+            elif isinstance(cap, str):
+                cap = [cap]
+            else:
+                cap = list(cap)
+
+            log_fields = [
+                OpLogField(
+                    source=str(lf.get("from", "")),
+                    path=str(lf.get("path", "")),
+                    key=str(lf.get("as", "")),
+                )
+                for lf in (body.get("log_fields") or [])
+            ]
+
+            ops.append(Op(
+                name=key,
+                group=group,
+                action=action,
+                doc=str(body.get("doc", "")).strip(),
+                doc_full=body.get("doc_full") or body.get("doc", ""),
+                capability=cap,
+                trace_span=bool(body.get("trace_span", False)),
+                fire_and_forget=bool(body.get("fire_and_forget", False)),
+                request=_op_field_map(body.get("request")),
+                response=response,
+                log_fields=log_fields,
+                effects=list(body.get("effects") or []),
+                leading_comment=lead,
+            ))
+
+    return ops, op_types
+
+
+# =============================================================================
 # Build + validate + serialize
 # =============================================================================
 
@@ -500,17 +752,43 @@ _SHAPE_TYPES = {
 _AUTH_TYPES = {"string", "integer", "number", "boolean", "array", "json"}
 
 
-def build(shapes: list[Shape], auth_contracts: list[AuthContract]) -> Ontology:
+def build(
+    shapes: list[Shape],
+    auth_contracts: list[AuthContract],
+    ops: list[Op] | None = None,
+    op_types: dict[str, OpType] | None = None,
+) -> Ontology:
     """Assemble the normalized tree from already-loaded parts."""
-    return Ontology(shapes=shapes, auth_contracts=auth_contracts)
+    return Ontology(
+        shapes=shapes,
+        auth_contracts=auth_contracts,
+        ops=ops or [],
+        op_types=op_types or {},
+    )
+
+
+def _check_op_type(tref: TypeRef, known_types: set[str]) -> str | None:
+    """Walk a parsed type; return the first unknown leaf name, or None."""
+    if tref.kind == "primitive":
+        return None
+    if tref.kind == "named":
+        return None if tref.name in known_types else tref.name
+    if tref.kind in ("array", "list"):
+        return _check_op_type(tref.elem, known_types) if tref.elem else None
+    if tref.kind == "map":
+        return (
+            (_check_op_type(tref.key, known_types) if tref.key else None)
+            or (_check_op_type(tref.val, known_types) if tref.val else None)
+        )
+    return None
 
 
 def validate(onto: Ontology) -> list[str]:
     """Lint the normalized tree. Returns human-readable warnings.
 
-    Phase 1 keeps this advisory — it reports, it does not transform, so
-    it cannot change emitter output. The CI drift + breaking-change
-    gates (Phases 3–4) build on top of it.
+    Advisory — it reports, it does not transform, so it cannot change
+    emitter output. The CI drift + breaking-change gates (Phases 3–4)
+    build on top of it.
     """
     warnings: list[str] = []
     shape_names = {s.name for s in onto.shapes}
@@ -533,6 +811,35 @@ def validate(onto: Ontology) -> list[str]:
             for f in g.required + g.recommended:
                 if f.type not in _AUTH_TYPES:
                     warnings.append(f"auth {c.kind!r}: field {f.name!r} has unknown type {f.type!r}")
+
+    known_types = set(onto.op_types)
+
+    def _check_op_field(where: str, f: OpField) -> None:
+        unknown = _check_op_type(parse_type(f.type), known_types)
+        if unknown:
+            warnings.append(f"{where}: field {f.name!r} references unknown type {unknown!r}")
+
+    for t in onto.op_types.values():
+        for f in t.fields:
+            _check_op_field(f"op-type {t.name!r}", f)
+
+    op_names: set[str] = set()
+    for o in onto.ops:
+        if o.name in op_names:
+            warnings.append(f"op {o.name!r}: duplicate op name")
+        op_names.add(o.name)
+        for f in o.request:
+            _check_op_field(f"op {o.name!r} request", f)
+        if o.response and o.response.scalar:
+            unknown = _check_op_type(parse_type(o.response.type), known_types)
+            if unknown:
+                warnings.append(f"op {o.name!r} response: unknown type {unknown!r}")
+        elif o.response:
+            for f in o.response.fields:
+                _check_op_field(f"op {o.name!r} response", f)
+        for lf in o.log_fields:
+            if lf.source not in ("request", "response"):
+                warnings.append(f"op {o.name!r}: log_field source {lf.source!r} not request/response")
 
     return warnings
 
