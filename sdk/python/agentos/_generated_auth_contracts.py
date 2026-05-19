@@ -1,7 +1,6 @@
-"""Auto-generated auth provider contracts — do not edit.
+"""DO NOT EDIT — generated from platform/ontology/auth-contracts/{oauth,cookie}.yaml.
 
-Single source of truth: docs/auth-contracts/{oauth,cookie}.yaml.
-Regenerate with: python docs/generate.py
+Regen: python3 platform/codegen/generate.py
 
 Skills decorated `@provides(oauth_auth, ...)` should return a dict
 matching `OAuthCredential`. Skills decorated `@provides(cookie_auth, ...)`
