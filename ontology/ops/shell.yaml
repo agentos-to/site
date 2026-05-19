@@ -1,0 +1,32 @@
+# shell.* ops — controlled binary execution.
+#
+# Shell interpreters (sh, bash, zsh, fish, …) are blocked at the handler;
+# only direct binaries run. Handlers live in agentos-exec-executors.
+
+shell.run:
+  doc: "Run a binary with controlled arguments. Shell interpreters are blocked."
+  doc_full: |
+    Execute a binary with controlled argv. The invocation is NOT shell-parsed,
+    and shell interpreters (sh, bash, zsh, fish, etc.) are rejected to prevent
+    command-injection shortcuts.
+
+    Args:
+        binary, args, timeout, cwd, input.
+
+    Returns:
+        {exit_code, stdout, stderr}.
+  capability: shell
+  trace_span: true
+  request:
+    binary:  { type: "string",   doc: "Binary to execute (absolute path or $PATH name)." }
+    args:    { type: "string[]", default: [], doc: "Argv tail — not shell-parsed." }
+    timeout: { type: "number",   default: 30, doc: "Timeout in seconds." }
+    cwd:     { type: "string?",  doc: "Working directory. Defaults to the process CWD." }
+    input:   { type: "string?",  doc: "Optional stdin bytes written to the child as UTF-8." }
+  response:
+    exit_code: { type: "i32",    doc: "Exit code; -1 if the child was signalled." }
+    stdout:    { type: "string", doc: "Captured stdout (UTF-8 lossy)." }
+    stderr:    { type: "string", doc: "Captured stderr (UTF-8 lossy)." }
+  log_fields:
+    - { from: request, path: /binary, as: binary }
+  effects: []

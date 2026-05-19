@@ -1,0 +1,47 @@
+# sql.* ops — SQLite query/execute against a named database file.
+#
+# Handlers live in agentos-graph-executors.
+
+sql.query:
+  doc: "Run a read-only SQL query against a named SQLite file."
+  doc_full: |
+    Run a read-only SQL query against a named SQLite file.
+
+    Args:
+        sql: Parameterized SQL text. Use `:name` placeholders.
+        db: Path to the SQLite file (`~` expands to $HOME).
+        params: Named bind parameters (optional).
+        attach: Alias → path map for ATTACH DATABASE (optional).
+
+    Returns:
+        List of row dicts keyed by column name.
+  capability: sql
+  trace_span: true
+  request:
+    sql:    { type: "string", doc: "Parameterized SQL text. Use :name placeholders bound via params." }
+    db:     { type: "string", doc: "Path to the SQLite file. ~ is expanded to $HOME." }
+    params: { type: "map<string,json>", default: {}, doc: "Named bind parameters — mapped onto :name placeholders." }
+    attach: { type: "map<string,string>", default: {}, doc: "Alias → path map for ATTACH DATABASE — joins across files." }
+  response: { type: "list<map<string,json>>", doc: "Rows — each a JSON object keyed by column name." }
+  effects: []
+
+sql.execute:
+  doc: "Run a writing SQL statement against a named SQLite file."
+  doc_full: |
+    Run a writing SQL statement (INSERT/UPDATE/DELETE/DDL).
+
+    Args:
+        sql: SQL text to execute.
+        db: Path to the SQLite file.
+
+    Returns:
+        {rows_affected, last_insert_rowid?}.
+  capability: sql
+  trace_span: true
+  request:
+    sql: { type: "string", doc: "SQL text to execute." }
+    db:  { type: "string", doc: "Path to the SQLite file. ~ is expanded to $HOME." }
+  response:
+    rows_affected:     { type: "u64",  doc: "Rows affected by the statement." }
+    last_insert_rowid: { type: "i64?", doc: "Rowid of the last INSERT, if applicable." }
+  effects: []

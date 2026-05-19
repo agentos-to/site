@@ -1,0 +1,23 @@
+# plist.* ops — NSKeyedArchiver binary plist parsing.
+#
+# Used by browser skills to parse keychain-stored NSKeyedArchiver blobs.
+# Handlers live in agentos-exec-executors.
+
+plist.parse:
+  doc: "Parse a hex-encoded NSKeyedArchiver binary plist."
+  doc_full: |
+    Parse a hex-encoded NSKeyedArchiver binary plist and extract specific
+    object indices.
+
+    Args:
+        hex_data: The plist as hex.
+        extract: Mapping of {field_name: object_index} in the archived graph.
+
+    Returns:
+        Dict of {field_name: value}.
+  capability: plist
+  request:
+    hex_data: { type: "string", doc: "Hex-encoded plist bytes." }
+    extract:  { type: "map<string,u64>", doc: "Extraction map: field_name → object_index in the archived graph." }
+  response: { type: "map<string,json>", doc: "Extracted fields as field_name → value." }
+  effects: []

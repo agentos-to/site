@@ -1,0 +1,35 @@
+# auth_store.* ops — encrypted credential store reads.
+#
+# The only SDK surface onto the encrypted credentials table. The
+# encryption key lives in the macOS Keychain; Python never holds it.
+
+auth_store.read:
+  doc: "Read the best-scored decrypted credential row for a (domain, item_type, account?) tuple."
+  doc_full: |
+    Read one row from the encrypted credentials store. Returns the
+    decrypted JSON `value` plus identifier / source / last_verified.
+    Domain-normalization happens on the caller side — pass the
+    canonical credential-store form (e.g. `".approach.app"`).
+
+    Args:
+        domain: Canonical credential-store domain.
+        item_type: Credential kind (`"login_credentials"`, `"cookie"`, ...).
+        account: Optional identifier disambiguator.
+
+    Returns:
+        `{found, identifier?, value?, source?, last_verified?}`. On
+        no-match, `found` is `false` and every other field is absent.
+  request:
+    domain:    { type: "string",  doc: "Canonical credential-store domain." }
+    item_type: { type: "string",  doc: "Credential kind (login_credentials, cookie, oauth, api_key, …)." }
+    account:   { type: "string?", doc: "Optional identifier disambiguator." }
+  response:
+    found:         { type: "boolean", doc: "Whether a matching row exists." }
+    identifier:    { type: "string?", doc: "Canonical identifier of the row." }
+    value:         { type: "json?",   doc: "Decrypted JSON payload; shape depends on item_type." }
+    source:        { type: "string?", doc: "Where the row came from (onepassword, brave-browser, …)." }
+    last_verified: { type: "i64?",    doc: "Unix timestamp of the most recent successful verification." }
+  log_fields:
+    - { from: request, path: /item_type, as: item_type }
+    - { from: request, path: /domain, as: domain }
+  effects: []

@@ -1,0 +1,48 @@
+# crypto.* ops — key derivation and symmetric decryption.
+#
+# Used almost exclusively by browser skills decrypting stored cookies.
+# Handlers live in agentos-exec-executors.
+
+crypto.pbkdf2:
+  doc: "PBKDF2-HMAC-SHA1 key derivation. Returns hex-encoded bytes."
+  doc_full: |
+    PBKDF2-HMAC-SHA1 key derivation. Used by browser skills to reproduce
+    Chrome's Safe Storage key stretch.
+
+    Args:
+        password, salt: opaque strings.
+        iterations: default 1.
+        length: output byte length (default 16).
+
+    Returns:
+        Derived key as bytes (hex-decoded by the SDK stub).
+  capability: crypto
+  request:
+    password:   { type: "string", doc: "Password to stretch." }
+    salt:       { type: "string", doc: "Salt (opaque bytes as a string)." }
+    iterations: { type: "u32", default: 1, doc: "Iteration count." }
+    length:     { type: "u32", default: 16, doc: "Desired output length in bytes." }
+  response: { type: "bytes", doc: "Derived key." }
+  effects: []
+
+crypto.aes:
+  doc: "AES-128-CBC decrypt. Key/data/iv are hex. Returns hex plaintext."
+  doc_full: |
+    AES-128-CBC decrypt. Key, ciphertext, and IV are all hex-encoded.
+    The returned plaintext is hex-encoded on the wire and decoded to
+    bytes by the SDK stub.
+
+    Args:
+        key: hex (16 bytes = 32 hex chars for AES-128).
+        data: ciphertext, hex.
+        iv: hex. Default: 32 zero chars (Chrome convention).
+
+    Returns:
+        Plaintext bytes.
+  capability: crypto
+  request:
+    key:  { type: "string", doc: "Key as hex (16 bytes / 32 hex chars for AES-128)." }
+    data: { type: "string", doc: "Ciphertext as hex." }
+    iv:   { type: "string", default: "00000000000000000000000000000000", doc: "Initialization vector as hex. Defaults to 32 zero hex chars." }
+  response: { type: "bytes", doc: "Decrypted plaintext." }
+  effects: []

@@ -1,0 +1,42 @@
+# http.request — the one stateless HTTP op.
+#
+# The SDK's client module composes cookies/headers and calls this op;
+# the engine is pure transport. Handlers live in agentos-exec-executors.
+
+http.request:
+  doc: "Stateless HTTP op. SDK callers use client.get/post/… — this op is their shared backend."
+  doc_full: |
+    Stateless HTTP op. Every verb-dispatched SDK method (`client.get`,
+    `client.post`, …) routes through this; skill code does not call
+    `http.request` directly. No cookie-jar state survives between calls —
+    the SDK's ambient Jar serializes cookies into the request's Cookie:
+    header and feeds Set-Cookie responses back into itself.
+
+    Args:
+        url, method, headers, params, body, http2, timeout.
+
+    Returns:
+        HttpResponse {status, body?, body_bytes?, headers, url, body_length, content_encoding}.
+  capability: http
+  trace_span: true
+  request:
+    url:     { type: "string", doc: "Absolute URL." }
+    method:  { type: "string", default: GET, doc: "HTTP method: GET, POST, PUT, DELETE, PATCH, HEAD." }
+    headers: { type: "map<string,string>", default: {}, doc: "Request headers. Cookies ride here under \"Cookie\"." }
+    params:  { type: "map<string,json>", default: {}, doc: "Query string parameters; appended to the URL." }
+    body:    { type: "json?", doc: "Raw request body — bytes or string, sent verbatim." }
+    http2:   { type: "boolean", default: true, doc: "Whether to enable HTTP/2. Set false for JA4-fingerprint hosts." }
+    timeout: { type: "number", default: 30, doc: "Request timeout in seconds." }
+  response:
+    status:           { type: "u16",     doc: "HTTP status code." }
+    body:             { type: "string?", doc: "Response body decoded as UTF-8." }
+    body_bytes:       { type: "string?", doc: "Hex-encoded response body when non-UTF-8." }
+    headers:          { type: "map<string,string>", doc: "Response headers (lowercased keys)." }
+    url:              { type: "string?", doc: "Final URL after the redirect chain." }
+    body_length:      { type: "u64?",    doc: "Decoded body length in bytes." }
+    content_encoding: { type: "string?", doc: "Content encoding (gzip, br, zstd, or none)." }
+  log_fields:
+    - { from: response, path: /status, as: status }
+    - { from: response, path: /body_length, as: body_length }
+    - { from: response, path: /content_encoding, as: enc }
+  effects: []
