@@ -1,14 +1,11 @@
 """Rust op emitter — ops YAML → the `contract-generated` crate.
 
 Projects the `Op` / `OpType` IR into `core/crates/contract-generated/src/lib.rs`:
-per op a `#[derive(JsonSchema)]` Request/Response struct pair and an `OpMeta`
+per op a Request/Response struct pair (deriving `serde`) and an `OpMeta`
 static, plus the named record types from the `types:` blocks. The `OpMeta`
 type itself is *not* generated — it lives in `agentos-ops` and the generated
-crate links it, so this output compiles beside the hand-written op modules
-(Phase 2 is additive). The meta's `request_schema` / `response_schema` are
-`fn() -> Value` closures that `schemars`-reflect the generated structs at
-call time — exactly the shape the hand-written modules use, so a meta walk
-over this crate reproduces `ops-manifest.json`.
+crate links it. The typed structs are the contract; `serde` deserialization
+in the op handlers is the enforcement — no JSON Schema, no `schemars`.
 """
 
 from __future__ import annotations
@@ -79,10 +76,6 @@ def _struct_base(op: Op) -> str:
 
 def _meta_ident(op: Op) -> str:
     return f"{op.group}_{op.action}".upper() + "_META"
-
-
-def _schema_fn(op: Op, side: str) -> str:
-    return f"{op.group}_{op.action}_{side}_schema"
 
 
 # --------------------------------------------------------------------------
@@ -173,18 +166,15 @@ def _emit_field(op: Op, f: OpField) -> tuple[list[str], str | None]:
 # Struct + meta emission
 # --------------------------------------------------------------------------
 
-_DERIVE = "#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]"
+_DERIVE = "#[derive(Debug, Clone, Serialize, Deserialize)]"
 
 
-def _emit_record(name: str, doc: str, fields: list[OpField], op: Op,
-                  *, deny_unknown: bool) -> list[str]:
-    """A plain `#[derive(JsonSchema)]` struct over a field list."""
+def _emit_record(name: str, doc: str, fields: list[OpField], op: Op) -> list[str]:
+    """A plain `serde`-deriving struct over a field list."""
     out: list[str] = []
     if doc:
         out.append(f"/// {doc}")
     out.append(_DERIVE)
-    if deny_unknown:
-        out.append("#[schemars(deny_unknown_fields)]")
     out.append(f"pub struct {name} {{")
     fns: list[str] = []
     for f in fields:
@@ -208,9 +198,9 @@ def _emit_op(op: Op) -> list[str]:
         "",
     ]
 
-    # Request struct — always a field-map, `deny_unknown_fields`.
+    # Request struct — always a field-map.
     out.extend(_emit_record(req_name, f"Request parameters for `{op.name}`.",
-                            op.request, op, deny_unknown=True))
+                            op.request, op))
 
     # Response struct — field-map or a `#[serde(transparent)]` scalar newtype.
     resp = op.response
@@ -226,17 +216,7 @@ def _emit_op(op: Op) -> list[str]:
         out.append("")
     elif resp:
         out.extend(_emit_record(resp_name, f"Response payload for `{op.name}`.",
-                                resp.fields, op, deny_unknown=False))
-
-    # Schema closures — lazy `schemars` reflection, exactly like OpMeta wants.
-    req_fn, resp_fn = _schema_fn(op, "request"), _schema_fn(op, "response")
-    out.append(f"fn {req_fn}() -> serde_json::Value {{")
-    out.append(f"    serde_json::to_value(schemars::schema_for!({req_name})).unwrap()")
-    out.append("}")
-    out.append(f"fn {resp_fn}() -> serde_json::Value {{")
-    out.append(f"    serde_json::to_value(schemars::schema_for!({resp_name})).unwrap()")
-    out.append("}")
-    out.append("")
+                                resp.fields, op))
 
     # OpMeta static.
     log = []
@@ -253,23 +233,15 @@ def _emit_op(op: Op) -> list[str]:
     caps = ", ".join(_rust_str(c) for c in op.capability)
     caps_block = f"&[{caps}]" if op.capability else "&[]"
 
-    scalar = bool(resp and resp.scalar)
-    unwrap = "scalar" if scalar and resp.type != "json" else None
-    decode = "hex" if scalar and resp.type == "bytes" else None
-
     out.append(f"/// `{op.name}`.")
     out.append(f"pub static {_meta_ident(op)}: OpMeta = OpMeta {{")
     out.append(f"    name: {_rust_str(op.name)},")
     out.append(f"    doc: {_rust_str(op.doc)},")
     out.append(f"    doc_full: {_rust_str(op.doc_full)},")
-    out.append(f"    request_schema: {req_fn},")
-    out.append(f"    response_schema: {resp_fn},")
     out.append(f"    log_fields: {log_block},")
     out.append(f"    fire_and_forget: {'true' if op.fire_and_forget else 'false'},")
     out.append(f"    trace_span: {'true' if op.trace_span else 'false'},")
     out.append(f"    required_capabilities: {caps_block},")
-    out.append(f"    response_unwrap: {f'Some({_rust_str(unwrap)})' if unwrap else 'None'},")
-    out.append(f"    response_decode: {f'Some({_rust_str(decode)})' if decode else 'None'},")
     out.append("};")
     out.append("")
     return out
@@ -285,10 +257,9 @@ def emit_ops_rust(onto: Ontology) -> str:
         "// DO NOT EDIT — generated from platform/ontology/ops/*.yaml.",
         "// Regen: `python3 platform/codegen/generate.py`.",
         "//",
-        "// Per op: a `#[derive(JsonSchema)]` Request/Response struct pair and an",
-        "// `OpMeta` static whose schema closures reflect those structs. The",
-        "// `OpMeta` type is linked from `agentos-ops` — this crate is the op",
-        "// *contract*, not the op *protocol*.",
+        "// Per op: a Request/Response struct pair and an `OpMeta` static.",
+        "// The `OpMeta` type is linked from `agentos-ops` — this crate is the",
+        "// op *contract*, not the op *protocol*.",
         "",
         "#![allow(clippy::all)]",
         "",
@@ -300,7 +271,6 @@ def emit_ops_rust(onto: Ontology) -> str:
         lines.append("use agentos_ops::{LogField, LogFieldSource, OpMeta};")
     else:
         lines.append("use agentos_ops::OpMeta;")
-    lines.append("use schemars::JsonSchema;")
     lines.append("use serde::{Deserialize, Serialize};")
     lines.append("")
 
@@ -316,25 +286,13 @@ def emit_ops_rust(onto: Ontology) -> str:
             lines.extend(_emit_record(
                 to_class_name(t.name),
                 f"Named record type `{t.name}`.",
-                t.fields, holder, deny_unknown=False,
+                t.fields, holder,
             ))
 
     lines.append("// ── Ops " + "─" * 53)
     lines.append("")
     for op in onto.ops:
         lines.extend(_emit_op(op))
-
-    # all_op_metas — the manifest-walk entry point, in IR (= manifest) order.
-    lines.append("/// Every generated op meta, in ontology order. Walked by the")
-    lines.append("/// `contract_manifest` bin to prove equivalence with the")
-    lines.append("/// hand-written `ops-manifest.json`.")
-    lines.append("pub fn all_op_metas() -> Vec<&'static OpMeta> {")
-    lines.append("    vec![")
-    for op in onto.ops:
-        lines.append(f"        &{_meta_ident(op)},")
-    lines.append("    ]")
-    lines.append("}")
-    lines.append("")
 
     if needs_value:
         # `serde_json::Value` is referenced by fully-qualified path; no `use`.
