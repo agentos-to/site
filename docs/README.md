@@ -28,9 +28,9 @@ plain `astro build`, then assemble `CNAME + dist/ → _site/`.
 `generate.py` reads `shapes/*.yaml` and emits typed code into each
 consumer SDK and into the Rust engine:
 
-- `../sdk-skills/agentos/_generated.py` (Python TypedDicts)
-- `../sdk-apps/src/shapes.ts` (TypeScript interfaces)
-- `../core/crates/shapes-generated/src/lib.rs` (Rust generated crate)
+- `../sdk/python/agentos/_generated.py` (Python TypedDicts)
+- `../sdk/typescript/src/shapes.ts` (TypeScript interfaces)
+- `../../core/crates/contract-generated/src/shapes.rs` (Rust — the contract crate's `shapes` module)
 
 Run `python3 generate.py --check` to confirm every downstream artifact
 is in sync with the current YAML.

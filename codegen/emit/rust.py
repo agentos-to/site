@@ -123,7 +123,7 @@ def emit_rust(onto: Ontology) -> str:
         "//   • a `pub static` ShapeHandle — name + identity + raw YAML",
         "//     body, for lazy upsert.",
         "//",
-        "// Engine code imports both: `use agentos_shapes_generated::{Theme, THEME};`.",
+        "// Engine code imports both: `use agentos_contract_generated::shapes::{Theme, THEME};`.",
         "",
         "#![allow(non_upper_case_globals)]",
         "",

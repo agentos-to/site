@@ -1,7 +1,7 @@
 """Audit Rust callsite usage of the generated `shapes::*` consts.
 
-Companion to `codegen_rust_shapes.py`. The codegen script emits one
-`pub const NAME: &str = "name";` per shape so the engine can refer to
+Companion to `platform/codegen/generate.py`. The codegen emits one
+`pub static NAME: ShapeHandle` per shape so the engine can refer to
 shapes symbolically (`shapes::ACTIVITY`) instead of by bare string
 (`"activity"`). This script walks the Rust code and reports:
 
@@ -23,7 +23,7 @@ Output is stable and sorted so diffs against the previous run
 highlight real changes. Exit codes:
     0  Clean audit (or informational only).
     1  Reserved for future --strict mode; currently never returned.
-    2  Fatal error (missing path, bad generated.rs parse).
+    2  Fatal error (missing path, bad generated-shapes parse).
 
 Run:
     python3 -m agentos.audit_rust_const_usage
@@ -47,14 +47,14 @@ from agentos.audit_rust_producers import scan_rust_producers
 
 
 # ─────────────────────────────────────────────────────────────────────
-# Defaults — same workspace layout as codegen_rust_shapes.py.
+# Defaults — the workspace layout `platform/codegen/generate.py` writes to.
 # ─────────────────────────────────────────────────────────────────────
 
 _WORKSPACE_ROOT = Path(__file__).resolve().parents[3]
 
 DEFAULT_CRATES_ROOT = _WORKSPACE_ROOT / "core" / "crates"
 DEFAULT_GENERATED_RS = (
-    _WORKSPACE_ROOT / "core" / "crates" / "shapes" / "src" / "generated.rs"
+    _WORKSPACE_ROOT / "core" / "crates" / "contract-generated" / "src" / "shapes.rs"
 )
 
 # `_SKIP_DIRS` mirrors audit_rust_producers — we want the two scans to
@@ -70,13 +70,11 @@ _RE_PUB_CONST = re.compile(
     re.MULTILINE,
 )
 
-# Regex for `shapes::NAME` / `shapes_generated::NAME` references in
-# hand-written Rust. Captures the const name. Accepts any path prefix so
-# `shapes::ACTIVITY`, `agentos_shapes::ACTIVITY`, and
-# `agentos_shapes_generated::ACTIVITY` all count.
-# `_` is a word char, so don't use `\b` before `shapes` — prefixes like
-# `agentos_shapes_generated` have no word boundary before `shapes`.
-_RE_SHAPES_USE = re.compile(r'shapes(?:_generated)?::([A-Z][A-Z0-9_]*)\b')
+# Regex for `shapes::NAME` references in hand-written Rust. Captures the
+# const name. The operative segment is the `shapes::` module path, so any
+# prefix counts — `agentos_contract_generated::shapes::ACTIVITY` matches on
+# its `shapes::ACTIVITY` tail.
+_RE_SHAPES_USE = re.compile(r'shapes::([A-Z][A-Z0-9_]*)\b')
 
 # Filtering: only SCREAMING_SNAKE that could plausibly be a shape
 # const. Rust types like `HashMap::NEW` or custom consts with two-plus
@@ -90,7 +88,7 @@ _RE_SHAPES_USE = re.compile(r'shapes(?:_generated)?::([A-Z][A-Z0-9_]*)\b')
 # ─────────────────────────────────────────────────────────────────────
 
 def parse_generated_consts(generated_rs: Path) -> dict[str, str]:
-    """Parse `generated.rs` into a `{CONST_NAME: "shape_value"}` dict.
+    """Parse the generated `shapes.rs` into a `{CONST_NAME: "shape_value"}` dict.
 
     The shape-value side of the map lets the audit cross-check: a
     literal `"activity"` in hand-written code can be rewritten to
@@ -98,8 +96,8 @@ def parse_generated_consts(generated_rs: Path) -> dict[str, str]:
     """
     if not generated_rs.exists():
         raise FileNotFoundError(
-            f"generated.rs not found at {generated_rs}. "
-            f"Run `python3 -m agentos.codegen_rust_shapes` first."
+            f"generated shapes not found at {generated_rs}. "
+            f"Run `python3 platform/codegen/generate.py` first."
         )
     text = generated_rs.read_text()
     consts: dict[str, str] = {}
@@ -121,7 +119,7 @@ def _iter_rust_files(crates_root: Path):
     from its own definition doesn't count as "usage" — so we skip it.
     """
     generated_rs = (
-        crates_root / "shapes-generated" / "src" / "lib.rs"
+        crates_root / "contract-generated" / "src" / "shapes.rs"
     ).resolve()
     for path in crates_root.rglob("*.rs"):
         if any(part in _SKIP_DIRS for part in path.parts):

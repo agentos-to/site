@@ -39,8 +39,8 @@ platform/
 | Python SDK — op stubs | `sdk/python/agentos/{capability,crypto,plist,secrets,shell,sql}.py` |
 | TypeScript SDK — shapes | `sdk/typescript/src/shapes.ts` |
 | TypeScript SDK — ops | `sdk/typescript/src/ops.ts` |
-| Rust — shapes (cross-repo) | `core/crates/shapes-generated/src/lib.rs` |
-| Rust — op contract (cross-repo) | `core/crates/contract-generated/src/lib.rs` |
+| Rust — shapes (cross-repo) | `core/crates/contract-generated/src/shapes.rs` |
+| Rust — op contract (cross-repo) | `core/crates/contract-generated/src/ops.rs` |
 | Reference docs | `docs/src/content/docs/` |
 
 ```bash

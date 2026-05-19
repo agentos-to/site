@@ -48,7 +48,7 @@ def emit_python(onto: Ontology) -> str:
     # the Rust engine can upsert the definition on the graph with a single
     # byte-compare — no reparse, no field-by-field merger. The body matches
     # what the Rust ShapeHandle carries via include_str!, so SHAPE_YAMLS is
-    # the Python mirror of the shapes-generated crate.
+    # the Python mirror of the contract crate's `shapes` module.
     lines.append("# Raw YAML bodies — consumed by the skill worker to attach")
     lines.append("# `__shape_yaml__` on every @returns(shape) response.")
     lines.append("SHAPE_YAMLS: dict[str, str] = {")

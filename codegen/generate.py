@@ -30,6 +30,7 @@ import ir_diff
 from emit import (
     build_skills_index,
     discover_skills,
+    emit_contract_root,
     emit_op_docs,
     emit_ops_python,
     emit_ops_rust,
@@ -51,10 +52,11 @@ from sdk_client import emit_sdk_client  # noqa: E402
 
 # The shape emitters — one per language with an SDK target. Adding a
 # language is one new `emit/<lang>.py` plus an entry here and in `targets`.
+# The Rust shapes land in the `shapes` module of the contract crate.
 EMITTERS = {
     "python": (emit_python, "_generated.py"),
     "typescript": (emit_typescript, "shape.ts"),
-    "rust": (emit_rust, "lib.rs"),
+    "rust": (emit_rust, "shapes.rs"),
 }
 
 
@@ -245,12 +247,14 @@ def main():
 
     # ---- Stage 2 (default path): IR → emitters -------------------------------
     # Output destinations per language — python/ts write into the in-repo SDK
-    # packages; rust is the one cross-repo write, into core/. Use --out-dir to
-    # override (e.g. for Go/Swift one-off exports).
+    # packages; rust is the one cross-repo write, into core/ (the `shapes`
+    # module of the contract crate). Use --out-dir to override (e.g. for
+    # Go/Swift one-off exports).
+    contract_crate = workspace / "core" / "crates" / "contract-generated" / "src"
     targets = {
         "python": platform_root / "sdk" / "python" / "agentos" / "_generated.py",
         "typescript": platform_root / "sdk" / "typescript" / "src" / "shapes.ts",
-        "rust": workspace / "core" / "crates" / "shapes-generated" / "src" / "lib.rs",
+        "rust": contract_crate / "shapes.rs",
     }
 
     langs = [args.lang] if args.lang else list(EMITTERS.keys())
@@ -267,14 +271,21 @@ def main():
         ir_path = codegen_dir / "ir.json"
         drift |= _check_or_write(ir_path, ir.serialize(ontology), "ir", check=args.check)
 
-        # Op contract — projected beside the shape targets: one Rust crate
-        # (contract-generated), one TS module (ops.ts), and the per-group
-        # Python op stubs into the SDK package.
+        # The contract crate root — declares the `shapes` + `ops` modules
+        # whose bodies the rust emitters wrote into the sibling files.
+        drift |= _check_or_write(
+            contract_crate / "lib.rs", emit_contract_root(),
+            "contract-root", check=args.check,
+        )
+
+        # Op contract — projected into the `ops` module of the contract
+        # crate, plus one TS module (ops.ts) and the per-group Python op
+        # stubs into the SDK package.
         if ontology.ops:
             op_targets = {
                 "ops-rust": (
                     emit_ops_rust(ontology),
-                    workspace / "core" / "crates" / "contract-generated" / "src" / "lib.rs",
+                    contract_crate / "ops.rs",
                 ),
                 "ops-ts": (
                     emit_ops_ts(ontology),

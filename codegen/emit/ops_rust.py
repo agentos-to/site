@@ -1,6 +1,6 @@
-"""Rust op emitter — ops YAML → the `contract-generated` crate.
+"""Rust op emitter — ops YAML → the `ops` module of the contract crate.
 
-Projects the `Op` / `OpType` IR into `core/crates/contract-generated/src/lib.rs`:
+Projects the `Op` / `OpType` IR into `core/crates/contract-generated/src/ops.rs`:
 per op a Request/Response struct pair (deriving `serde`) and an `OpMeta`
 static, plus the named record types from the `types:` blocks. The `OpMeta`
 type itself is *not* generated — it lives in `agentos-ops` and the generated
@@ -261,7 +261,7 @@ def _emit_op(op: Op) -> list[str]:
 
 
 def emit_ops_rust(onto: Ontology) -> str:
-    """Render the whole `contract-generated` crate body."""
+    """Render the `ops` module of the contract crate (`ops.rs`)."""
     needs_hashmap = any(_mentions(t, {"map"}, set()) for t in _walk_types(onto))
     needs_value = any(_mentions(t, set(), {"json"}) for t in _walk_types(onto))
     needs_log = any(op.log_fields for op in onto.ops)
@@ -272,7 +272,7 @@ def emit_ops_rust(onto: Ontology) -> str:
         "// Regen: `python3 platform/codegen/generate.py`.",
         "//",
         "// Per op: a Request/Response struct pair and an `OpMeta` static.",
-        "// The `OpMeta` type is linked from `agentos-ops` — this crate is the",
+        "// The `OpMeta` type is linked from `agentos-ops` — this module is the",
         "// op *contract*, not the op *protocol*.",
         "",
         "#![allow(clippy::all)]",

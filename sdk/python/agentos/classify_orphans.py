@@ -238,8 +238,9 @@ def _default_crates_roots() -> list[Path]:
 
 
 def _generated_rs_for(crates_root: Path) -> Path | None:
-    """Find the generated shapes crate's lib.rs relative to a crates root."""
-    candidate = Path(crates_root) / "shapes-generated" / "src" / "lib.rs"
+    """Find the generated `shapes` module of the contract crate, relative to
+    a crates root."""
+    candidate = Path(crates_root) / "contract-generated" / "src" / "shapes.rs"
     return candidate if candidate.is_file() else None
 
 
@@ -332,7 +333,7 @@ def classify(
         crates_root = Path(crates_root)
         # 1) Literal callsites — `ensure_tag("foo")`, etc. Remaining after
         #    the Phase 1 const migration will be a small set (newly-added
-        #    code or shapes not yet in generated.rs).
+        #    code or shapes not yet in the generated `shapes.rs`).
         for tag, sites in scan_rust_producers(crates_root).items():
             bucket = engine_map.setdefault(tag, [])
             for file_path, line, api in sites:
