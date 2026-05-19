@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "generate": "cd ../docs && python3 generate.py --lang typescript"
+    "generate": "cd ../../codegen && python3 generate.py --lang typescript"
   },
   "files": ["dist"],
   "license": "MIT"

@@ -173,12 +173,11 @@ def _write_configured_source_paths(paths: list[str], db_path: Path = AGENTOS_DB_
 
 
 #  Where a shapes dir can conventionally live under a source root. Ordered —
-# first match wins. `shapes/` is the canonical public location; the rest
-# cover workspaces that store shape definitions alongside docs/codegen.
+# first match wins. `shapes/` is the canonical public location;
+# `platform/ontology/shapes` is the agentos workspace layout.
 _SHAPES_CANDIDATES = (
     "shapes",
-    "site/docs/shapes",
-    "docs/shapes",
+    "platform/ontology/shapes",
     "agentos-sdk/shapes",
 )
 
@@ -218,7 +217,7 @@ def _probe_source_root(root: Path, origin: str) -> SkillSource:
       - `<root>/skills/` as a skills dir (or the root itself, if it looks
         like a skills dir)
       - A shapes dir at one of `_SHAPES_CANDIDATES` (conventional locations
-        like `shapes/` or `site/docs/shapes/`).
+        like `shapes/` or `platform/ontology/shapes/`).
     """
     root = root.expanduser()
     if not root.exists():
@@ -1570,7 +1569,7 @@ def check_shape_conformance(skill_dir: Path, shapes_dir: Path | None) -> list[st
                 warnings.append(
                     f"{rel}:{node.lineno}: {node.name} returns keys not declared on shape '{shape_name}': "
                     f"{', '.join(sorted(extra))} — the engine will union-extend on next run; "
-                    f"add to docs/shapes/{shape_name}.yaml to get SDK TypedDict coverage"
+                    f"add to platform/ontology/shapes/{shape_name}.yaml to get SDK TypedDict coverage"
                 )
     return warnings
 
@@ -1846,7 +1845,7 @@ def check_logout_presence(skill_dir: Path) -> list[str]:
 def check_auth_provider_contract(skill_dir: Path) -> list[str]:
     """Enforce the OAuth / cookie provider return contract at commit time.
 
-    Single source of truth: `docs/auth-contracts/{oauth,cookie}.yaml` →
+    Single source of truth: `platform/ontology/auth-contracts/{oauth,cookie}.yaml` →
     codegen'd into `agentos._generated_auth_contracts.AUTH_CONTRACTS`.
 
     For every function decorated `@provides(<kind>_auth, ...)`, this check:
@@ -1884,7 +1883,7 @@ def check_auth_provider_contract(skill_dir: Path) -> list[str]:
                     f"`@provides({kind}_auth, ...)` but `@returns(...)` is missing or "
                     f"uses a shape name. Auth providers must declare an inline "
                     f"return schema, e.g. `@returns({{\"access_token\": \"string\", ...}})`. "
-                    f"See docs/auth-contracts/{kind}.yaml for the contract."
+                    f"See platform/ontology/auth-contracts/{kind}.yaml for the contract."
                 )
                 continue
 
@@ -1895,7 +1894,7 @@ def check_auth_provider_contract(skill_dir: Path) -> list[str]:
                         f"{rel}:{node.lineno}: {node.name} is `@provides({kind}_auth, ...)` "
                         f"but missing required field `{req}` in @returns. "
                         f"Engine reads `{req}` (snake_case) — without it, all downstream "
-                        f"API calls silently 401. See docs/auth-contracts/{kind}.yaml."
+                        f"API calls silently 401. See platform/ontology/auth-contracts/{kind}.yaml."
                     )
 
             # 2. Forbidden camelCase variants?
@@ -1905,7 +1904,7 @@ def check_auth_provider_contract(skill_dir: Path) -> list[str]:
                     issues.append(
                         f"{rel}:{node.lineno}: {node.name} returns `{camel}` (camelCase) — "
                         f"engine expects `{snake}` (snake_case). Did you mean `{snake}`? "
-                        f"This is the mimestream bug; see docs/auth-contracts/{kind}.yaml."
+                        f"This is the mimestream bug; see platform/ontology/auth-contracts/{kind}.yaml."
                     )
 
             # 3. Recommended keys missing — print as warning-style suggestion
@@ -1920,7 +1919,7 @@ def check_auth_provider_contract(skill_dir: Path) -> list[str]:
                         issues.append(
                             f"{rel}:{node.lineno}: {node.name} omits recommended `{rec}` — "
                             f"without it, engine-driven token refresh is impossible. "
-                            f"docs/auth-contracts/oauth.yaml."
+                            f"platform/ontology/auth-contracts/oauth.yaml."
                         )
 
     return issues
@@ -2251,8 +2250,7 @@ def run_validate(target: str | None = None, *, validate_all: bool = False,
         print(f"  Run `agent-sdk validate --fix-sources` to review and remove missing entries.")
 
     # Prefer the shapes dir the workspace source discovered (which knows about
-    # `site/docs/shapes/` and similar layouts). Fall back to the env-based
-    # finder for legacy setups.
+    # `platform/ontology/shapes/`). Fall back to the env-based finder.
     workspace_source = next((s for s in sources if s.origin == "workspace"), None)
     shapes_dir = (workspace_source.shapes_dir if workspace_source else None) or _find_shapes_dir(skills_dir)
     known_shapes = _load_known_shapes(shapes_dir) if shapes_dir else set()

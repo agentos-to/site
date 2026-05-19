@@ -1277,25 +1277,25 @@ def build_skills_index(skills: list[dict], known_shapes: set[str]) -> dict[str, 
 
 
 # =============================================================================
-# Registry-driven codegen — lives in docs/codegen/ (D11)
+# Registry-driven codegen — submodules alongside this file in platform/codegen/ (D11)
 # =============================================================================
 #
 # Each submodule consumes the registry (emitted by `system.schema`) and
 # produces one output. generate.py stays the orchestrator.
 
-from codegen.tool_surface import load_tool_surface, emit_tool_surface_docs  # noqa: E402
-from codegen.sdk_client import emit_sdk_client  # noqa: E402
+from tool_surface import load_tool_surface, emit_tool_surface_docs  # noqa: E402
+from sdk_client import emit_sdk_client  # noqa: E402
 
 
 # =============================================================================
 # Auth-contract loader + emitters
 # =============================================================================
 #
-# `docs/auth-contracts/{oauth,cookie}.yaml` is the single source of truth for
+# `ontology/auth-contracts/{oauth,cookie}.yaml` is the single source of truth for
 # what skills decorated `@provides(oauth_auth, ...)` / `@provides(cookie_auth, ...)`
 # must return. We codegen:
 #
-#   - Python: sdk-skills/agentos/_generated_auth_contracts.py
+#   - Python: sdk/python/agentos/_generated_auth_contracts.py
 #       OAuthCredential / CookieCredential / Cookie TypedDicts +
 #       AUTH_CONTRACTS dict consumed by agent-sdk validate.
 #
@@ -1536,10 +1536,13 @@ def main():
     parser.add_argument("--check", action="store_true", help="Drift check: compare rendered output to files on disk; exit 1 if different")
     args = parser.parse_args()
 
-    # generate.py lives at `docs/generate.py`; docs_dir = workspace/docs,
-    # workspace = docs_dir.parent. Everything we emit lives in sibling repos.
-    docs_dir = Path(__file__).parent
-    workspace = docs_dir.parent
+    # generate.py lives at `platform/codegen/generate.py`.
+    #   codegen_dir   = platform/codegen
+    #   platform_root = platform/        — ontology, sdk, docs all live here
+    #   workspace     = ~/dev/agentos/   — the only cross-repo target is core/
+    codegen_dir = Path(__file__).parent
+    platform_root = codegen_dir.parent
+    workspace = platform_root.parent
 
     if args.from_api:
         agentos_bin = args.agentos_bin or "agentos"
@@ -1549,24 +1552,25 @@ def main():
         if args.dump_yaml:
             _dump_yaml_from_api(agentos_bin, args.dump_yaml)
     else:
-        shapes_dir = args.shapes_dir or docs_dir / "shapes"
+        shapes_dir = args.shapes_dir or platform_root / "ontology" / "shapes"
         if not shapes_dir.is_dir():
             print(f"Shapes directory not found: {shapes_dir}", file=sys.stderr)
             sys.exit(1)
         shapes = load_shapes(shapes_dir)
         print(f"Loaded {len(shapes)} shapes from {shapes_dir}")
 
-    # Output destinations per language — write directly into sibling SDK packages.
-    # Use --out-dir to override (e.g. for Go/Swift one-off exports).
+    # Output destinations per language — python/ts write into the in-repo SDK
+    # packages; rust is the one cross-repo write, into core/. Use --out-dir to
+    # override (e.g. for Go/Swift one-off exports).
     targets = {
-        "python": workspace / "sdk-skills" / "agentos" / "_generated.py",
-        "typescript": workspace / "sdk-apps" / "src" / "shapes.ts",
+        "python": platform_root / "sdk" / "python" / "agentos" / "_generated.py",
+        "typescript": platform_root / "sdk" / "typescript" / "src" / "shapes.ts",
         "rust": workspace / "core" / "crates" / "shapes-generated" / "src" / "lib.rs",
     }
 
     if args.docs:
         skills_root = args.skills_root or (workspace / "skills").resolve()
-        docs_out = args.docs_out or (docs_dir / "src" / "content" / "docs")
+        docs_out = args.docs_out or (platform_root / "docs" / "src" / "content" / "docs")
         if not skills_root.is_dir():
             print(f"Skills root not found: {skills_root}", file=sys.stderr)
             sys.exit(1)
@@ -1593,8 +1597,8 @@ def main():
         ops_total = sum(len(ns.get("ops", [])) for ns in namespaces)
         print(f"  tool-surface: {docs_out / 'tool-surface'} ({len(namespaces)} namespaces, {ops_total} ops)")
 
-        # SDK Client — emits sdk-skills/agentos/_engine_client.py.
-        sdk_out = workspace / "sdk-skills" / "agentos" / "_engine_client.py"
+        # SDK Client — emits sdk/python/agentos/_engine_client.py.
+        sdk_out = platform_root / "sdk" / "python" / "agentos" / "_engine_client.py"
         sdk_out.write_text(emit_sdk_client(namespaces))
         print(f"  sdk-client: {sdk_out}")
         return
@@ -1642,12 +1646,12 @@ def main():
     # the default run; --lang explicitly skips since auth contracts aren't
     # tied to any one language.
     if not args.lang:
-        contracts_dir = docs_dir / "auth-contracts"
+        contracts_dir = platform_root / "ontology" / "auth-contracts"
         if contracts_dir.is_dir():
             contracts = load_auth_contracts(contracts_dir)
             if contracts:
                 ac_targets = {
-                    "python": workspace / "sdk-skills" / "agentos" / "_generated_auth_contracts.py",
+                    "python": platform_root / "sdk" / "python" / "agentos" / "_generated_auth_contracts.py",
                     "rust":   workspace / "core" / "crates" / "auth" / "src" / "_generated_contracts.rs",
                 }
                 ac_outputs = {
