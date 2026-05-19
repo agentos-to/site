@@ -173,6 +173,25 @@ class OpLogField:
     key: str                        # audit-log key
 
 
+# The `effects:` vocabulary. An effect declares what graph data an op's
+# handler may touch — `validate()` enforces the grammar, the Rust emitter
+# projects it into `OpMeta.effects`, and the engine records it on every
+# audit line. `[]` = a pure primitive that touches no graph data.
+EFFECT_VERBS = {"creates", "mutates", "reads", "deletes"}
+EFFECT_TARGET_PREFIXES = ("shape:", "edge:")
+
+
+@dataclass
+class Effect:
+    """One declared data effect of an op — `{<verb>: <target>}` in YAML.
+
+    `verb` ∈ `EFFECT_VERBS`; `target` is `shape:<name>` / `shape:<dynamic>`
+    / `edge:<label>`. `<dynamic>` marks a target chosen at runtime (an op
+    whose touched shape is a request parameter)."""
+    verb: str
+    target: str
+
+
 @dataclass
 class Op:
     name: str                       # wire name, e.g. "shell.run"
@@ -186,7 +205,7 @@ class Op:
     request: list[OpField] = field(default_factory=list)
     response: OpResponse | None = None
     log_fields: list[OpLogField] = field(default_factory=list)
-    effects: list = field(default_factory=list)            # shapes/edges touched; [] = pure
+    effects: list[Effect] = field(default_factory=list)    # graph data touched; [] = pure
     leading_comment: str = ""
 
 
@@ -649,6 +668,21 @@ def _op_field_map(spec: dict | None) -> list[OpField]:
     return [_op_field(n, fd) for n, fd in (spec or {}).items()]
 
 
+def _op_effects(spec) -> list[Effect]:
+    """Parse a YAML `effects:` list into `Effect`s. Each entry is a
+    single-key `{<verb>: <target>}` mapping. Malformed entries become an
+    `Effect` with a sentinel verb so `validate()` reports them as errors —
+    parsing stays total; enforcement lives in one place."""
+    out: list[Effect] = []
+    for entry in spec or []:
+        if isinstance(entry, dict) and len(entry) == 1:
+            (verb, target), = entry.items()
+            out.append(Effect(verb=str(verb), target=str(target)))
+        else:
+            out.append(Effect(verb="?malformed", target=repr(entry)))
+    return out
+
+
 def load_ops(ops_dir: Path) -> tuple[list[Op], dict[str, OpType]]:
     """Load every `ops/*.yaml` into typed Op IR + the named-type table.
 
@@ -732,7 +766,7 @@ def load_ops(ops_dir: Path) -> tuple[list[Op], dict[str, OpType]]:
                 request=_op_field_map(body.get("request")),
                 response=response,
                 log_fields=log_fields,
-                effects=list(body.get("effects") or []),
+                effects=_op_effects(body.get("effects")),
                 leading_comment=lead,
             ))
 
@@ -783,41 +817,46 @@ def _check_op_type(tref: TypeRef, known_types: set[str]) -> str | None:
     return None
 
 
-def validate(onto: Ontology) -> list[str]:
-    """Lint the normalized tree. Returns human-readable warnings.
+def validate(onto: Ontology) -> list[tuple[str, str]]:
+    """Lint the normalized tree. Returns `(severity, message)` pairs,
+    severity ∈ `"error" | "warn"`.
 
-    Advisory — it reports, it does not transform, so it cannot change
-    emitter output. The CI drift + breaking-change gates (Phases 3–4)
-    build on top of it.
+    A `"warn"` is advisory — it reports, never transforms. An `"error"`
+    means the ontology is structurally invalid; `generate.py` refuses to
+    emit and exits non-zero. Shape/auth/type checks are advisory; the
+    `effects:` grammar is enforced (Phase 4 — `effects` is load-bearing,
+    so a malformed effect is a build failure, not a hint).
     """
-    warnings: list[str] = []
+    out: list[tuple[str, str]] = []
+    warn = lambda m: out.append(("warn", m))    # noqa: E731
+    err = lambda m: out.append(("error", m))    # noqa: E731
     shape_names = {s.name for s in onto.shapes}
 
     for s in onto.shapes:
         for a in s.also:
             if a not in shape_names:
-                warnings.append(f"shape {s.name!r}: `also` references unknown shape {a!r}")
+                warn(f"shape {s.name!r}: `also` references unknown shape {a!r}")
         for r in s.own_relations:
             tgt = (r.target or "").rstrip("[]")
             if tgt and tgt != "node" and tgt not in shape_names:
-                warnings.append(f"shape {s.name!r}: relation {r.name!r} targets unknown shape {tgt!r}")
+                warn(f"shape {s.name!r}: relation {r.name!r} targets unknown shape {tgt!r}")
         for f in s.own_fields:
             base = f.type.rstrip("[]")
             if base not in _SHAPE_TYPES:
-                warnings.append(f"shape {s.name!r}: field {f.name!r} has unknown type {f.type!r}")
+                warn(f"shape {s.name!r}: field {f.name!r} has unknown type {f.type!r}")
 
     for c in onto.auth_contracts:
         for g in c.groups:
             for f in g.required + g.recommended:
                 if f.type not in _AUTH_TYPES:
-                    warnings.append(f"auth {c.kind!r}: field {f.name!r} has unknown type {f.type!r}")
+                    warn(f"auth {c.kind!r}: field {f.name!r} has unknown type {f.type!r}")
 
     known_types = set(onto.op_types)
 
     def _check_op_field(where: str, f: OpField) -> None:
         unknown = _check_op_type(parse_type(f.type), known_types)
         if unknown:
-            warnings.append(f"{where}: field {f.name!r} references unknown type {unknown!r}")
+            warn(f"{where}: field {f.name!r} references unknown type {unknown!r}")
 
     for t in onto.op_types.values():
         for f in t.fields:
@@ -826,22 +865,36 @@ def validate(onto: Ontology) -> list[str]:
     op_names: set[str] = set()
     for o in onto.ops:
         if o.name in op_names:
-            warnings.append(f"op {o.name!r}: duplicate op name")
+            err(f"op {o.name!r}: duplicate op name")
         op_names.add(o.name)
         for f in o.request:
             _check_op_field(f"op {o.name!r} request", f)
         if o.response and o.response.scalar:
             unknown = _check_op_type(parse_type(o.response.type), known_types)
             if unknown:
-                warnings.append(f"op {o.name!r} response: unknown type {unknown!r}")
+                warn(f"op {o.name!r} response: unknown type {unknown!r}")
         elif o.response:
             for f in o.response.fields:
                 _check_op_field(f"op {o.name!r} response", f)
         for lf in o.log_fields:
             if lf.source not in ("request", "response"):
-                warnings.append(f"op {o.name!r}: log_field source {lf.source!r} not request/response")
+                warn(f"op {o.name!r}: log_field source {lf.source!r} not request/response")
+        # `effects:` grammar — enforced. A bad verb or an unresolvable
+        # `shape:` target fails the build: an effect the engine can't
+        # interpret is worse than no effect at all.
+        for e in o.effects:
+            if e.verb not in EFFECT_VERBS:
+                err(f"op {o.name!r}: effect verb {e.verb!r} not one of "
+                    f"{sorted(EFFECT_VERBS)}")
+            if not e.target.startswith(EFFECT_TARGET_PREFIXES):
+                err(f"op {o.name!r}: effect target {e.target!r} must start with "
+                    f"one of {list(EFFECT_TARGET_PREFIXES)}")
+            elif e.target.startswith("shape:"):
+                shape = e.target[len("shape:"):]
+                if shape != "<dynamic>" and shape not in shape_names:
+                    err(f"op {o.name!r}: effect targets unknown shape {shape!r}")
 
-    return warnings
+    return out
 
 
 def serialize(onto: Ontology) -> str:

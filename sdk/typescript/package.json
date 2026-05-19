@@ -7,8 +7,12 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "typecheck": "tsc --noEmit",
     "generate": "cd ../../codegen && python3 generate.py --lang typescript"
   },
   "files": ["dist"],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
 }

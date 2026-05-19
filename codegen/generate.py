@@ -20,10 +20,13 @@ from __future__ import annotations
 
 import argparse
 import difflib
+import json
+import subprocess
 import sys
 from pathlib import Path
 
 import ir
+import ir_diff
 from emit import (
     build_skills_index,
     discover_skills,
@@ -79,6 +82,60 @@ def _check_or_write(out_path: Path, output: str, label: str, *, check: bool) -> 
     return False
 
 
+def run_breaking_check(ontology: "ir.Ontology", codegen_dir: Path) -> int:
+    """Breaking-change gate — diff the current IR against the last release
+    tag's `codegen/ir.json`. Returns a process exit code.
+
+    Dormant until a `v*` tag exists: with no tagged release there is no
+    contract to break, so the gate passes and the first tag laid down
+    becomes the baseline. Once tagged, any removal / rename / retype /
+    tightening fails; pure additions pass.
+    """
+    platform_root = codegen_dir.parent
+    tags = subprocess.run(
+        ["git", "-C", str(platform_root), "tag", "-l", "v*",
+         "--sort=-version:refname"],
+        capture_output=True, text=True,
+    )
+    tag = ""
+    if tags.returncode == 0:
+        for line in tags.stdout.splitlines():
+            if line.strip():
+                tag = line.strip()
+                break
+    if not tag:
+        print("breaking-check: no `v*` release tag — gate dormant. The first "
+              "release tag becomes the contract baseline.")
+        return 0
+
+    show = subprocess.run(
+        ["git", "-C", str(platform_root), "show", f"{tag}:codegen/ir.json"],
+        capture_output=True, text=True,
+    )
+    if show.returncode != 0:
+        print(f"breaking-check: {tag} carries no codegen/ir.json — nothing to "
+              f"diff against; gate dormant.", file=sys.stderr)
+        return 0
+
+    baseline = json.loads(show.stdout)
+    current = json.loads(ir.serialize(ontology))
+    changes = ir_diff.diff(baseline, current)
+    for severity, path, msg in changes:
+        stream = sys.stderr if severity == "break" else sys.stdout
+        print(f"  {severity}: {path} — {msg}", file=stream)
+
+    breaking = ir_diff.breaks(changes)
+    if breaking:
+        print(f"\n❌ breaking-check: {len(breaking)} breaking change(s) vs {tag}. "
+              f"The contract is append-only — a removal, rename, retype, or "
+              f"tightening needs a new release line, not an edit to this one.",
+              file=sys.stderr)
+        return 1
+    print(f"breaking-check: clean vs {tag} "
+          f"({len(changes)} additive/advisory change(s)).")
+    return 0
+
+
 def main():
     parser = argparse.ArgumentParser(description="Generate typed contract code for Python, TypeScript, and Rust")
     parser.add_argument("--lang", choices=list(EMITTERS.keys()), help="Language to generate (default: all)")
@@ -91,6 +148,8 @@ def main():
     parser.add_argument("--skills-root", type=Path, help="Path to skills/ tree for --docs (default: ../skills)")
     parser.add_argument("--docs-out", type=Path, help="Reference output root for --docs (default: src/content/docs/reference)")
     parser.add_argument("--check", action="store_true", help="Drift check: compare rendered output to files on disk; exit 1 if different")
+    parser.add_argument("--breaking-check", action="store_true", help="Breaking-change gate: diff the IR against the last release tag; exit 1 on a removal/rename/retype/tightening")
+    parser.add_argument("--conformance", action="store_true", help="Cross-language conformance: prove Python + TypeScript project the fixture set identically to Rust (the Rust half runs via `./dev.sh test`)")
     args = parser.parse_args()
 
     # generate.py lives at `platform/codegen/generate.py`.
@@ -124,10 +183,28 @@ def main():
 
     ontology = ir.build(shapes, auth_contracts, ops, op_types)
 
-    # Validation runs on every invocation. Advisory in Phase 1 — it
-    # reports, never transforms, so it cannot change emitter output.
-    for warning in ir.validate(ontology):
-        print(f"  lint: {warning}", file=sys.stderr)
+    # Validation runs on every invocation. `warn` is advisory; `error`
+    # means the ontology is structurally invalid (e.g. a malformed
+    # `effects:` entry) — refuse to emit rather than project garbage.
+    lint = ir.validate(ontology)
+    for severity, msg in lint:
+        print(f"  lint [{severity}]: {msg}", file=sys.stderr)
+    if any(severity == "error" for severity, _ in lint):
+        print("Ontology is invalid — fix the errors above before generating.",
+              file=sys.stderr)
+        sys.exit(1)
+
+    # ---- Breaking-change gate ------------------------------------------------
+    # Independent of emission — diffs the IR against the last release tag.
+    if args.breaking_check:
+        sys.exit(run_breaking_check(ontology, codegen_dir))
+
+    # ---- Cross-language conformance ------------------------------------------
+    # The Python + TypeScript halves; the Rust half is `./dev.sh test`.
+    if args.conformance:
+        sys.exit(subprocess.run(
+            [sys.executable, str(codegen_dir / "conformance" / "check.py")],
+        ).returncode)
 
     # ---- Stage 2 (docs path) -------------------------------------------------
     if args.docs:

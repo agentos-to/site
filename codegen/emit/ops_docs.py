@@ -67,7 +67,8 @@ def _op_section(op: Op) -> list[str]:
     if flags:
         meta_rows.append(("Flags", flags))
     if op.effects:
-        meta_rows.append(("Effects", ", ".join(f"`{e}`" for e in op.effects)))
+        meta_rows.append(("Effects", ", ".join(
+            f"`{e.verb} {e.target}`" for e in op.effects)))
     if op.log_fields:
         lf = ", ".join(f"`{x.source}{x.path}` → `{x.key}`" for x in op.log_fields)
         meta_rows.append(("Audit log", lf))

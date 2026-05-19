@@ -78,6 +78,18 @@ def _meta_ident(op: Op) -> str:
     return f"{op.group}_{op.action}".upper() + "_META"
 
 
+def _effects_block(op: Op) -> str:
+    """The `OpMeta.effects` slice literal — `&[]` for a pure primitive."""
+    if not op.effects:
+        return "&[]"
+    items = [
+        f"        Effect {{ verb: EffectVerb::{to_class_name(e.verb)}, "
+        f"target: {_rust_str(e.target)} }},"
+        for e in op.effects
+    ]
+    return "&[\n" + "\n".join(items) + "\n    ]"
+
+
 # --------------------------------------------------------------------------
 # Type vocabulary footprint — which std imports the output needs
 # --------------------------------------------------------------------------
@@ -242,6 +254,7 @@ def _emit_op(op: Op) -> list[str]:
     out.append(f"    fire_and_forget: {'true' if op.fire_and_forget else 'false'},")
     out.append(f"    trace_span: {'true' if op.trace_span else 'false'},")
     out.append(f"    required_capabilities: {caps_block},")
+    out.append(f"    effects: {_effects_block(op)},")
     out.append("};")
     out.append("")
     return out
@@ -252,6 +265,7 @@ def emit_ops_rust(onto: Ontology) -> str:
     needs_hashmap = any(_mentions(t, {"map"}, set()) for t in _walk_types(onto))
     needs_value = any(_mentions(t, set(), {"json"}) for t in _walk_types(onto))
     needs_log = any(op.log_fields for op in onto.ops)
+    needs_effects = any(op.effects for op in onto.ops)
 
     lines = [
         "// DO NOT EDIT — generated from platform/ontology/ops/*.yaml.",
@@ -267,10 +281,16 @@ def emit_ops_rust(onto: Ontology) -> str:
     if needs_hashmap:
         lines.append("use std::collections::HashMap;")
         lines.append("")
+    op_imports = ["OpMeta"]
     if needs_log:
-        lines.append("use agentos_ops::{LogField, LogFieldSource, OpMeta};")
+        op_imports += ["LogField", "LogFieldSource"]
+    if needs_effects:
+        op_imports += ["Effect", "EffectVerb"]
+    op_imports.sort()
+    if len(op_imports) == 1:
+        lines.append(f"use agentos_ops::{op_imports[0]};")
     else:
-        lines.append("use agentos_ops::OpMeta;")
+        lines.append("use agentos_ops::{" + ", ".join(op_imports) + "};")
     lines.append("use serde::{Deserialize, Serialize};")
     lines.append("")
 

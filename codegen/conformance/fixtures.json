@@ -1,0 +1,97 @@
+[
+  {
+    "op": "shell.run", "kind": "request", "case": "all-fields",
+    "value": {
+      "binary": "/bin/ls", "args": ["-la", "/tmp"],
+      "timeout": 5.0, "cwd": "/tmp", "input": "hello"
+    }
+  },
+  {
+    "op": "shell.run", "kind": "request", "case": "minimal",
+    "value": { "binary": "/usr/bin/env", "args": [], "timeout": 30.0 }
+  },
+  {
+    "op": "shell.run", "kind": "response", "case": "ok",
+    "value": { "exit_code": 0, "stdout": "done\n", "stderr": "" }
+  },
+  {
+    "op": "shell.run", "kind": "response", "case": "signalled",
+    "value": { "exit_code": -1, "stdout": "", "stderr": "terminated" }
+  },
+  {
+    "op": "crypto.pbkdf2", "kind": "request", "case": "stretch",
+    "value": {
+      "password": "correct horse", "salt": "sodium",
+      "iterations": 4096, "length": 32
+    }
+  },
+  {
+    "op": "crypto.pbkdf2", "kind": "response", "case": "hex-key",
+    "value": "a1b2c3d4e5f60718"
+  },
+  {
+    "op": "secrets.read", "kind": "request", "case": "with-account",
+    "value": { "service": "Chrome Safe Storage", "account": "Chrome" }
+  },
+  {
+    "op": "plist.parse", "kind": "request", "case": "extract-map",
+    "value": { "hex_data": "00610062", "extract": { "title": 3, "body": 7 } }
+  },
+  {
+    "op": "http.request", "kind": "request", "case": "post-with-headers",
+    "value": {
+      "url": "https://api.test/v1/x", "method": "POST",
+      "headers": { "Cookie": "sid=abc", "Accept": "application/json" },
+      "params": { "q": "term", "page": 2 },
+      "body": "raw-body-bytes", "http2": true, "timeout": 30.0
+    }
+  },
+  {
+    "op": "http.request", "kind": "response", "case": "html-200",
+    "value": {
+      "status": 200, "body": "<html></html>",
+      "headers": { "content-type": "text/html" },
+      "url": "https://api.test/v1/x", "body_length": 13,
+      "content_encoding": "none"
+    }
+  },
+  {
+    "op": "auth_store.read", "kind": "response", "case": "found",
+    "value": {
+      "found": true, "identifier": "user@host.test",
+      "value": { "token": "xyz", "scope": ["read"] },
+      "source": "brave-browser", "last_verified": 1716000000
+    }
+  },
+  {
+    "op": "auth_store.read", "kind": "response", "case": "not-found",
+    "value": { "found": false }
+  },
+  {
+    "op": "sql.query", "kind": "request", "case": "select-with-params",
+    "value": {
+      "sql": "SELECT id, name FROM t WHERE id = :id",
+      "db": "~/data/app.db", "params": { "id": 7 }, "attach": {}
+    }
+  },
+  {
+    "op": "sql.query", "kind": "response", "case": "rows",
+    "value": [ { "id": 1, "name": "a" }, { "id": 2, "name": "b" } ]
+  },
+  {
+    "op": "capability.list_providers", "kind": "request", "case": "by-name",
+    "value": { "name": "llm", "model": "claude-opus-4-7" }
+  },
+  {
+    "op": "capability.list_providers", "kind": "response", "case": "ranked",
+    "value": {
+      "providers": [
+        {
+          "skill_id": "gmail", "via": "login", "cred_state": "present",
+          "urls": ["https://mail.google.com/*"]
+        },
+        { "skill_id": "local-llm", "via": "chat", "cred_state": "not_required" }
+      ]
+    }
+  }
+]
