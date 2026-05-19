@@ -250,9 +250,7 @@ export interface Book {
     inspiredBy?: Product[];
     manufacturer?: Organization;
     publishedBy?: Actor;
-    publisher?: Organization;
     tagged?: Tag[];
-    writtenBy?: Person;
     writtenBy?: Person;
 }
 
@@ -2756,3 +2754,121 @@ export interface Website {
     domain?: Domain;
     ownedBy?: Organization;
 }
+
+// ─── Display spec — `display:` block per shape ──────────────────────────
+// The closed role vocabulary every theme renders against; the frontend's
+// `resolveDisplay()` reads `SHAPE_DISPLAY[shape]` and projects a
+// `DisplayModel` from a node. See core/_roadmap/p1/shape-display/plan.md.
+
+export interface Display {
+    title?: string;       // → a field (default: `name`)
+    subtitle?: string;    // → a field or relation
+    image?: string;       // → a field (url) or a relation → node.image
+    highlights?: string[];// 0..4 fields/relations
+    body?: string;        // detail-only: one long text field
+    preview?: Record<string, "clip" | "full" | { max_chars: number }>;
+}
+
+export const SHAPE_DISPLAY: Record<string, Display> = {
+    "account": {"subtitle": "identifier"},
+    "activity": {"subtitle": "action"},
+    "actor": {"subtitle": "actorType"},
+    "agent": {"subtitle": "model"},
+    "aircraft": {"subtitle": "model"},
+    "airline": {"subtitle": "iataCode"},
+    "airport": {"subtitle": "iataCode"},
+    "app": {"subtitle": "name"},
+    "book": {"subtitle": "written_by"},
+    "booking_offer": {"subtitle": "totalAmount"},
+    "bookmark": {"subtitle": "name"},
+    "branch": {"subtitle": "commit"},
+    "brand": {"subtitle": "tagline"},
+    "calendar": {"subtitle": "source"},
+    "channel": {"subtitle": "subscriberCount"},
+    "class": {"subtitle": "activityType"},
+    "community": {"subtitle": "text"},
+    "conversation": {"subtitle": "text"},
+    "conversion": {"subtitle": "kind"},
+    "creative_work": {"subtitle": "written_by"},
+    "credential": {"subtitle": "source"},
+    "dimension": {"subtitle": "label"},
+    "dns_record": {"subtitle": "recordType"},
+    "document": {"subtitle": "author"},
+    "domain": {"subtitle": "registrar"},
+    "email": {"subtitle": "author"},
+    "episode": {"subtitle": "author"},
+    "event": {"subtitle": "eventType"},
+    "fare": {"subtitle": "fareFamily"},
+    "file": {"subtitle": "path"},
+    "financial_account": {"subtitle": "last4"},
+    "flight": {"subtitle": "airline"},
+    "font": {"subtitle": "author"},
+    "git_commit": {"subtitle": "author"},
+    "group": {"subtitle": "category"},
+    "hardware": {"subtitle": "author"},
+    "health-biomarker": {"subtitle": "category"},
+    "health-condition": {"subtitle": "clinicalStatus"},
+    "health-immunization": {"subtitle": "dateAdministered"},
+    "health-lab": {"subtitle": "labType"},
+    "health-observation": {"subtitle": "effectiveDate"},
+    "health-panel": {"subtitle": "effectiveDate"},
+    "health-procedure": {"subtitle": "performedDate"},
+    "health-reference-range": {"subtitle": "refText"},
+    "icon": {"subtitle": "purpose"},
+    "image": {"subtitle": "format"},
+    "intellectual_property": {"subtitle": "category"},
+    "invitation": {"subtitle": "invitationType"},
+    "leg": {"subtitle": "flightNumber"},
+    "list": {"subtitle": "name"},
+    "loaded_model": {"subtitle": "size"},
+    "mcp_session": {"subtitle": "client"},
+    "meeting": {"subtitle": "location"},
+    "membership": {"subtitle": "status"},
+    "memex": {"subtitle": "description"},
+    "message": {"subtitle": "from"},
+    "model": {"subtitle": "name"},
+    "note": {"subtitle": "noteType"},
+    "offer": {"subtitle": "price"},
+    "order": {"subtitle": "total"},
+    "organization": {"subtitle": "industry"},
+    "pass": {"subtitle": "status"},
+    "payment_method": {"subtitle": "displayName"},
+    "person": {"subtitle": "about"},
+    "place": {"subtitle": "fullAddress"},
+    "playlist": {"subtitle": "text"},
+    "podcast": {"subtitle": "host"},
+    "post": {"subtitle": "author"},
+    "practice": {"subtitle": "parent"},
+    "product": {"subtitle": "brand"},
+    "project": {"subtitle": "state"},
+    "protocol": {"subtitle": "name"},
+    "qualification": {"subtitle": "category"},
+    "quantity-kind": {"subtitle": "label"},
+    "quote": {"subtitle": "year"},
+    "repository": {"subtitle": "language"},
+    "reservation": {"subtitle": "reservationType"},
+    "result": {"subtitle": "url"},
+    "review": {"subtitle": "author"},
+    "role": {"subtitle": "name"},
+    "seatmap": {"title": "flightNumber"},
+    "shelf": {"subtitle": "isExclusive"},
+    "simulation": {"subtitle": "status"},
+    "skill": {"subtitle": "description"},
+    "software": {"subtitle": "applicationCategory"},
+    "sound": {"subtitle": "purpose"},
+    "source": {"subtitle": "sourceId"},
+    "spec": {"subtitle": "state"},
+    "tag": {"subtitle": "tagType"},
+    "task": {"subtitle": "state"},
+    "tax_line": {"subtitle": "description"},
+    "theme": {"subtitle": "family"},
+    "tool_call": {"subtitle": "name"},
+    "transaction": {"subtitle": "category"},
+    "transcript": {"subtitle": "language"},
+    "trip": {"subtitle": "tripType"},
+    "unit": {"subtitle": "symbol"},
+    "user": {"subtitle": "name"},
+    "video": {"subtitle": "author"},
+    "webpage": {"subtitle": "url"},
+    "website": {"subtitle": "url"},
+};

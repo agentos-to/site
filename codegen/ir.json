@@ -2370,25 +2370,11 @@
           "target": "actor"
         },
         {
-          "name": "publisher",
-          "type": "organization",
-          "is_relation": true,
-          "is_array": false,
-          "target": "organization"
-        },
-        {
           "name": "tagged",
           "type": "tag[]",
           "is_relation": true,
           "is_array": true,
           "target": "tag"
-        },
-        {
-          "name": "writtenBy",
-          "type": "person",
-          "is_relation": true,
-          "is_array": false,
-          "target": "person"
         },
         {
           "name": "written_by",
@@ -2403,10 +2389,10 @@
         "product"
       ],
       "plural": "books",
-      "subtitle": "author",
+      "subtitle": "written_by",
       "display": {
         "title": null,
-        "subtitle": "author",
+        "subtitle": "written_by",
         "image": null,
         "highlights": [],
         "body": null,
@@ -2499,25 +2485,11 @@
       ],
       "own_relations": [
         {
-          "name": "writtenBy",
-          "type": "person",
-          "is_relation": true,
-          "is_array": false,
-          "target": "person"
-        },
-        {
           "name": "contributors",
           "type": "person[]",
           "is_relation": true,
           "is_array": true,
           "target": "person"
-        },
-        {
-          "name": "publisher",
-          "type": "organization",
-          "is_relation": true,
-          "is_array": false,
-          "target": "organization"
         }
       ],
       "prior_art": [
@@ -2538,7 +2510,7 @@
         }
       ],
       "source_path": "book.yaml",
-      "raw_body": "plural: books\nidentity_any:\n- isbn13\n- isbn\ndisplay:\n  subtitle: author\nalso:\n- creative_work\n- product\nfields:\n  isbn: string\n  isbn13: string\n  pages: integer\n  genres: string[]\n  series: string\n  format: string\n  language: string\n  originalTitle: string\n  places: string[]\n  characters: string[]\n  awardsWon: string[]\nrelations:\n  writtenBy: person\n  contributors: person[]\n  publisher: organization\nprior_art:\n- source: schema.org/Book\n  url: https://schema.org/Book\n  notes: \"Our isbn maps to isbn; writtenBy = author; publisher matches; pages = numberOfPages;\\\n    \\ language = inLanguage; format \\u2248 bookFormat (Hardcover/Paperback/EBook).\"\n- source: ONIX for Books 3.0\n  url: https://www.editeur.org/83/Overview/\n  notes: Publishing-industry canonical. Our isbn/isbn13/pages/format/language/series/originalTitle\n    align with ONIX Product Identifier, Extent, ProductForm, Language, Collection,\n    and OriginalLanguageTitle composites.\n- source: Open Library Books API\n  url: https://openlibrary.org/developers/api\n  notes: Practical lookup by ISBN. Our genres/characters/places/awardsWon map to subjects/subject_people/subject_places/subject_times\n    (awards less standardized).\n"
+      "raw_body": "plural: books\nidentity_any:\n- isbn13\n- isbn\ndisplay:\n  subtitle: written_by\nalso:\n- creative_work\n- product\nfields:\n  isbn: string\n  isbn13: string\n  pages: integer\n  genres: string[]\n  series: string\n  format: string\n  language: string\n  originalTitle: string\n  places: string[]\n  characters: string[]\n  awardsWon: string[]\nrelations:\n  contributors: person[]\nprior_art:\n- source: schema.org/Book\n  url: https://schema.org/Book\n  notes: \"Our isbn maps to isbn; writtenBy = author; publisher matches; pages = numberOfPages;\\\n    \\ language = inLanguage; format \\u2248 bookFormat (Hardcover/Paperback/EBook).\"\n- source: ONIX for Books 3.0\n  url: https://www.editeur.org/83/Overview/\n  notes: Publishing-industry canonical. Our isbn/isbn13/pages/format/language/series/originalTitle\n    align with ONIX Product Identifier, Extent, ProductForm, Language, Collection,\n    and OriginalLanguageTitle composites.\n- source: Open Library Books API\n  url: https://openlibrary.org/developers/api\n  notes: Practical lookup by ISBN. Our genres/characters/places/awardsWon map to subjects/subject_people/subject_places/subject_times\n    (awards less standardized).\n"
     },
     {
       "name": "booking_offer",

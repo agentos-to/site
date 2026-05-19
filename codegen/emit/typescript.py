@@ -1,6 +1,8 @@
-"""TypeScript emitter — shape YAML → interfaces."""
+"""TypeScript emitter — shape YAML → interfaces + display spec map."""
 
 from __future__ import annotations
+
+import json
 
 from ir import Field, Ontology, _to_camel, to_class_name
 
@@ -29,6 +31,42 @@ def emit_typescript(onto: Ontology) -> str:
             lines.append(f"    {name}?: {ty};")
         lines.append("}")
         lines.append("")
+
+    # --- Display spec (shape-display plan) -----------------------------------
+    # One closed role vocabulary; per-shape role bindings. The frontend's
+    # `resolveDisplay()` reads `SHAPE_DISPLAY[shape]` and projects a
+    # `DisplayModel` from a node + the bindings.
+    lines.extend([
+        "// ─── Display spec — `display:` block per shape ──────────────────────────",
+        "// The closed role vocabulary every theme renders against; the frontend's",
+        "// `resolveDisplay()` reads `SHAPE_DISPLAY[shape]` and projects a",
+        "// `DisplayModel` from a node. See core/_roadmap/p1/shape-display/plan.md.",
+        "",
+        "export interface Display {",
+        "    title?: string;       // → a field (default: `name`)",
+        "    subtitle?: string;    // → a field or relation",
+        "    image?: string;       // → a field (url) or a relation → node.image",
+        "    highlights?: string[];// 0..4 fields/relations",
+        "    body?: string;        // detail-only: one long text field",
+        '    preview?: Record<string, "clip" | "full" | { max_chars: number }>;',
+        "}",
+        "",
+        "export const SHAPE_DISPLAY: Record<string, Display> = {",
+    ])
+    for s in shapes:
+        if not s.display:
+            continue
+        d = {}
+        if s.display.title:      d["title"]      = s.display.title
+        if s.display.subtitle:   d["subtitle"]   = s.display.subtitle
+        if s.display.image:      d["image"]      = s.display.image
+        if s.display.highlights: d["highlights"] = list(s.display.highlights)
+        if s.display.body:       d["body"]       = s.display.body
+        if s.display.preview:    d["preview"]    = dict(s.display.preview)
+        # JSON ensures double-quoted keys/strings (valid TS object literal).
+        lines.append(f"    {json.dumps(s.name)}: {json.dumps(d)},")
+    lines.append("};")
+    lines.append("")
 
     return "\n".join(lines)
 
