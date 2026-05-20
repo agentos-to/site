@@ -2820,7 +2820,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "health-reference-range": {"subtitle": "refText", "also": []},
     "icon": {"subtitle": "purpose", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work"]},
     "image": {"subtitle": "format", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work", "file"]},
-    "intellectual_property": {"subtitle": "category", "also": []},
+    "intellectual_property": {"subtitle": "category", "highlights": ["identifier", "status", "granted_by"], "also": []},
     "invitation": {"subtitle": "invitationType", "also": []},
     "leg": {"subtitle": "flightNumber", "also": []},
     "list": {"subtitle": "name", "also": []},

@@ -29,6 +29,7 @@ intellectual_property:
   plural: intellectual_properties
   display:
     subtitle: category
+    highlights: [identifier, status, granted_by]
   identity_any: [identifier]   # office serial / registration / patent
                                 # numbers are unique within a register;
                                 # jurisdiction-scoped identity (identity:
