@@ -6504,13 +6504,17 @@
         "file"
       ],
       "plural": "documents",
-      "subtitle": "author",
+      "subtitle": "contentType",
       "display": {
         "title": null,
-        "subtitle": "author",
+        "subtitle": "contentType",
         "image": null,
-        "highlights": [],
-        "body": null,
+        "highlights": [
+          "datePublished",
+          "author",
+          "wordCount"
+        ],
+        "body": "abstract",
         "preview": {}
       },
       "identity": [],
@@ -6594,7 +6598,7 @@
         }
       ],
       "source_path": "document.yaml",
-      "raw_body": "plural: documents\ndisplay:\n  subtitle: author\nalso:\n- file\nfields:\n  contentType: string\n  language: string\n  wordCount: integer\n  abstract: text\n  tableOfContents: text\nrelations:\n  author: actor\n  references: document[]\n  citedBy: document[]\nprior_art:\n- source: Dublin Core Metadata Initiative\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: \"Our contentType \\u2248 dc:format; language = dc:language; author = dc:creator;\\\n    \\ references/citedBy \\u2248 dc:relation.\"\n- source: schema.org/DigitalDocument\n  url: https://schema.org/DigitalDocument\n  notes: \"Our abstract \\u2248 abstract; tableOfContents = hasPart or accessModeSufficient;\\\n    \\ wordCount = wordCount.\"\n- source: W3C Web Annotation Data Model\n  url: https://www.w3.org/TR/annotation-model/\n  notes: Our references[]/citedBy[] are annotation target/body relationships between\n    documents.\n",
+      "raw_body": "plural: documents\ndisplay:\n  subtitle: contentType\n  highlights:\n  - datePublished\n  - author\n  - wordCount\n  body: abstract\nalso:\n- file\nfields:\n  contentType: string\n  language: string\n  wordCount: integer\n  abstract: text\n  tableOfContents: text\nrelations:\n  author: actor\n  references: document[]\n  citedBy: document[]\nprior_art:\n- source: Dublin Core Metadata Initiative\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: \"Our contentType \\u2248 dc:format; language = dc:language; author = dc:creator;\\\n    \\ references/citedBy \\u2248 dc:relation.\"\n- source: schema.org/DigitalDocument\n  url: https://schema.org/DigitalDocument\n  notes: \"Our abstract \\u2248 abstract; tableOfContents = hasPart or accessModeSufficient;\\\n    \\ wordCount = wordCount.\"\n- source: W3C Web Annotation Data Model\n  url: https://www.w3.org/TR/annotation-model/\n  notes: Our references[]/citedBy[] are annotation target/body relationships between\n    documents.\n",
       "ancestors": [
         "file"
       ]

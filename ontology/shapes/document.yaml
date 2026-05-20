@@ -5,7 +5,9 @@
 document:
   plural: documents
   display:
-    subtitle: author
+    subtitle: contentType
+    highlights: [datePublished, author, wordCount]
+    body: abstract
   also: [file]
   fields:
     contentType:      string    # markdown, html, pdf, plaintext, rst

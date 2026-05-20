@@ -2797,7 +2797,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "credential": {"subtitle": "source", "also": []},
     "dimension": {"subtitle": "label", "also": []},
     "dns_record": {"subtitle": "recordType", "also": []},
-    "document": {"subtitle": "author", "also": ["file"]},
+    "document": {"subtitle": "contentType", "highlights": ["datePublished", "author", "wordCount"], "body": "abstract", "also": ["file"]},
     "domain": {"subtitle": "registrar", "also": []},
     "email": {"subtitle": "author", "also": ["message"]},
     "episode": {"subtitle": "author", "also": []},
