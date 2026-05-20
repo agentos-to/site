@@ -49,6 +49,10 @@ def emit_typescript(onto: Ontology) -> str:
         "    highlights?: string[];// 0..4 fields/relations",
         "    body?: string;        // detail-only: one long text field",
         '    preview?: Record<string, "clip" | "full" | { max_chars: number }>;',
+        "    /** Transitive `also:` closure — the chain this shape inherits from.",
+        "     *  The resolver uses it to pick the most-specific shape on a",
+        "     *  multi-shape node (`shape[]` is alphabetical, not inheritance). */",
+        "    also: string[];",
         "}",
         "",
         "export const SHAPE_DISPLAY: Record<string, Display> = {",
@@ -63,6 +67,7 @@ def emit_typescript(onto: Ontology) -> str:
         if s.display.highlights: d["highlights"] = list(s.display.highlights)
         if s.display.body:       d["body"]       = s.display.body
         if s.display.preview:    d["preview"]    = dict(s.display.preview)
+        d["also"] = list(s.ancestors)
         # JSON ensures double-quoted keys/strings (valid TS object literal).
         lines.append(f"    {json.dumps(s.name)}: {json.dumps(d)},")
     lines.append("};")

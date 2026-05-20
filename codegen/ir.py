@@ -99,6 +99,7 @@ class Shape:
     prior_art: list[dict] = field(default_factory=list)      # [{source, url, notes}, ...] — external standards this shape aligns with
     source_path: str | None = None                            # relative path of the YAML file that defined this shape (e.g. "account.yaml", "agentos/theme.yaml")
     raw_body: str = ""                                         # original YAML body as read from disk (or as serialised back from graph api). Used by SHAPE_YAMLS codegen.
+    ancestors: list[str] = field(default_factory=list)        # transitive `also:` closure — every shape this one inherits from, walk order (immediate parents first, then grandparents, deduped).
 
 
 # =============================================================================
@@ -446,6 +447,95 @@ def _build_shapes(
             rels[label] = str(target)
         return rels
 
+    def resolve_display(name: str, seen: set | None = None) -> Display | None:
+        """Walk `also:` and deep-merge `display:` per role — most-specific
+        wins. Mirrors `resolve_fields` / `resolve_relations`. Scalar roles
+        (title/subtitle/image/body) override; `highlights` replaces the
+        whole list when re-declared (a child opts-in to parent highlights
+        by re-listing them); `preview` merges per-field key.
+
+        Returns None when no shape in the chain declared a `display:` (or
+        legacy top-level `subtitle:`)."""
+        if seen is None:
+            seen = set()
+        if name in seen or name not in raw:
+            return None
+        seen.add(name)
+        defn = raw.get(name, {})
+
+        merged: Display | None = None
+        for also in defn.get("also", []):
+            parent = resolve_display(also, seen)
+            if parent is None:
+                continue
+            if merged is None:
+                merged = Display(
+                    title=parent.title,
+                    subtitle=parent.subtitle,
+                    image=parent.image,
+                    highlights=list(parent.highlights),
+                    body=parent.body,
+                    preview=dict(parent.preview),
+                )
+            else:
+                # Later parent overrides earlier (sibling parents): the
+                # rightmost `also:` entry is the closer relative.
+                if parent.title is not None:    merged.title = parent.title
+                if parent.subtitle is not None: merged.subtitle = parent.subtitle
+                if parent.image is not None:    merged.image = parent.image
+                if parent.body is not None:     merged.body = parent.body
+                if parent.highlights:           merged.highlights = list(parent.highlights)
+                for k, v in parent.preview.items():
+                    merged.preview[k] = v
+
+        # Own display — legacy top-level `subtitle:` accepted as shorthand.
+        disp_raw = defn.get("display") or {}
+        if not disp_raw and "subtitle" in defn:
+            disp_raw = {"subtitle": defn.get("subtitle")}
+
+        if disp_raw:
+            if merged is None:
+                merged = Display(
+                    title=disp_raw.get("title"),
+                    subtitle=disp_raw.get("subtitle"),
+                    image=disp_raw.get("image"),
+                    highlights=list(disp_raw.get("highlights") or []),
+                    body=disp_raw.get("body"),
+                    preview=dict(disp_raw.get("preview") or {}),
+                )
+            else:
+                if disp_raw.get("title") is not None:    merged.title = disp_raw["title"]
+                if disp_raw.get("subtitle") is not None: merged.subtitle = disp_raw["subtitle"]
+                if disp_raw.get("image") is not None:    merged.image = disp_raw["image"]
+                if disp_raw.get("body") is not None:     merged.body = disp_raw["body"]
+                if disp_raw.get("highlights"):           merged.highlights = list(disp_raw["highlights"])
+                for k, v in (disp_raw.get("preview") or {}).items():
+                    merged.preview[k] = v
+
+        return merged
+
+    def resolve_ancestors(name: str, seen: set | None = None) -> list[str]:
+        """Transitive `also:` closure for one shape. Walk order: immediate
+        parents first (in declaration order), then their parents, deduped.
+        Used by the display resolver to pick the most-specific shape when
+        a node carries multiple `shape[]` members."""
+        if seen is None:
+            seen = set()
+        if name in seen or name not in raw:
+            return []
+        seen.add(name)
+        defn = raw.get(name, {})
+        out: list[str] = []
+        for also in defn.get("also", []):
+            if also not in raw:
+                continue
+            if also not in out:
+                out.append(also)
+            for a in resolve_ancestors(also, seen):
+                if a not in out:
+                    out.append(a)
+        return out
+
     shapes = []
     for shape_name in sorted(raw.keys()):
         defn = raw.get(shape_name, {})
@@ -454,23 +544,14 @@ def _build_shapes(
         # Metadata used by the doc emitter
         s.also = list(defn.get("also") or [])
         s.plural = defn.get("plural")
-        # `display:` block — new home for `subtitle:` and the other roles.
-        # Legacy top-level `subtitle: X` is still accepted (back-compat); the
-        # parser hoists it into `Display(subtitle=X)` so emit/docs.py keeps
-        # reading `s.subtitle` while consumers move to `s.display`.
-        disp_raw = defn.get("display") or {}
-        if disp_raw:
-            s.display = Display(
-                title=disp_raw.get("title"),
-                subtitle=disp_raw.get("subtitle"),
-                image=disp_raw.get("image"),
-                highlights=list(disp_raw.get("highlights") or []),
-                body=disp_raw.get("body"),
-                preview=dict(disp_raw.get("preview") or {}),
-            )
-        elif "subtitle" in defn:
-            s.display = Display(subtitle=defn.get("subtitle"))
+        # `display:` block — resolved through the `also:` chain so a child
+        # shape inherits its parents' role bindings unless it re-declares
+        # them. `s.display` is the *merged* spec; the emitters carry it to
+        # the SDKs so both resolvers stay one-line lookups. Legacy
+        # top-level `subtitle: X` is accepted inside resolve_display().
+        s.display = resolve_display(shape_name)
         s.subtitle = s.display.subtitle if s.display else None
+        s.ancestors = resolve_ancestors(shape_name)
         if "identity" in defn:
             ident = defn["identity"]
             s.identity = ident if isinstance(ident, list) else [ident]

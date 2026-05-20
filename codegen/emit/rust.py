@@ -218,6 +218,11 @@ def emit_rust(onto: Ontology) -> str:
         "    pub highlights: &'static [&'static str],",
         "    pub body: Option<&'static str>,",
         "    pub preview: &'static [(&'static str, PreviewPolicy)],",
+        "    /// Transitive `also:` closure — the chain this shape inherits",
+        "    /// from. The resolver uses it to pick the most-specific shape",
+        "    /// on a multi-shape node (`shape[]` is alphabetical, not",
+        "    /// inheritance order).",
+        "    pub also: &'static [&'static str],",
         "}",
         "",
         "/// Linear-scan lookup by shape name. ~100 shapes; binary search",
@@ -267,6 +272,7 @@ def emit_rust(onto: Ontology) -> str:
         lines.append(f"        highlights: {_rust_str_array(list(d.highlights))},")
         lines.append(f"        body: {_rust_opt_str(d.body)},")
         lines.append(f"        preview: {_rust_preview(d.preview)},")
+        lines.append(f"        also: {_rust_str_array(list(s.ancestors))},")
         lines.append("    }),")
     lines.append("];")
     lines.append("")
