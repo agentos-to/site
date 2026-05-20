@@ -2867,7 +2867,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "tax_line": {"subtitle": "description", "also": []},
     "theme": {"subtitle": "family", "also": []},
     "tool_call": {"subtitle": "name", "also": []},
-    "transaction": {"subtitle": "category", "also": []},
+    "transaction": {"subtitle": "category", "highlights": ["amount", "postingDate", "currency"], "body": "notes", "also": []},
     "transcript": {"subtitle": "language", "also": []},
     "trip": {"subtitle": "tripType", "also": []},
     "unit": {"subtitle": "symbol", "also": []},

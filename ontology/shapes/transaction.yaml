@@ -4,6 +4,8 @@ transaction:
   identity: [at, id]
   display:
     subtitle: category
+    highlights: [amount, postingDate, currency]
+    body: notes
   fields:
     amount:            number    # positive = credit, negative = debit
     currency:          string

@@ -28206,8 +28206,12 @@
         "title": null,
         "subtitle": "category",
         "image": null,
-        "highlights": [],
-        "body": null,
+        "highlights": [
+          "amount",
+          "postingDate",
+          "currency"
+        ],
+        "body": "notes",
         "preview": {}
       },
       "identity": [
@@ -28322,7 +28326,7 @@
         }
       ],
       "source_path": "transaction.yaml",
-      "raw_body": "plural: transactions\nidentity:\n- at\n- id\ndisplay:\n  subtitle: category\nfields:\n  amount: number\n  currency: string\n  balance: number\n  category: string\n  postingDate: datetime\n  pending: boolean\n  recurring: boolean\n  notes: string\n  type: string\n  details: json\nrelations:\n  at: actor\n  account: financial_account\nprior_art:\n- source: OFX (Open Financial Exchange) STMTTRN\n  url: https://financialdataexchange.org/ofx\n  notes: Direct source. Our amount/type/postingDate/balance map to STMTTRN TRNAMT/TRNTYPE/DTPOSTED/BALAMT.\n- source: ISO 20022 payments messaging\n  url: https://www.iso20022.org/\n  notes: \"Modern bank-messaging. Our currency = Ccy; category \\u2248 purpose code;\\\n    \\ details \\u2248 RemittanceInformation.\"\n- source: Plaid Transactions API\n  url: https://plaid.com/docs/api/products/transactions/\n  notes: Practical mirror. Our category/pending/recurring/notes match Plaid's category/pending/personal_finance_category/name\n    fields.\n",
+      "raw_body": "plural: transactions\nidentity:\n- at\n- id\ndisplay:\n  subtitle: category\n  highlights:\n  - amount\n  - postingDate\n  - currency\n  body: notes\nfields:\n  amount: number\n  currency: string\n  balance: number\n  category: string\n  postingDate: datetime\n  pending: boolean\n  recurring: boolean\n  notes: string\n  type: string\n  details: json\nrelations:\n  at: actor\n  account: financial_account\nprior_art:\n- source: OFX (Open Financial Exchange) STMTTRN\n  url: https://financialdataexchange.org/ofx\n  notes: Direct source. Our amount/type/postingDate/balance map to STMTTRN TRNAMT/TRNTYPE/DTPOSTED/BALAMT.\n- source: ISO 20022 payments messaging\n  url: https://www.iso20022.org/\n  notes: \"Modern bank-messaging. Our currency = Ccy; category \\u2248 purpose code;\\\n    \\ details \\u2248 RemittanceInformation.\"\n- source: Plaid Transactions API\n  url: https://plaid.com/docs/api/products/transactions/\n  notes: Practical mirror. Our category/pending/recurring/notes match Plaid's category/pending/personal_finance_category/name\n    fields.\n",
       "ancestors": []
     },
     {
