@@ -12260,7 +12260,7 @@
           "target": null
         },
         {
-          "name": "panels",
+          "name": "part_of",
           "type": "health-panel[]",
           "is_relation": true,
           "is_array": true,
@@ -12323,7 +12323,7 @@
       ],
       "own_relations": [
         {
-          "name": "panels",
+          "name": "part_of",
           "type": "health-panel[]",
           "is_relation": true,
           "is_array": true,
@@ -12343,7 +12343,7 @@
         }
       ],
       "source_path": "health-biomarker.yaml",
-      "raw_body": "plural: health-biomarkers\nidentity_any:\n- loincCode\n- measure\ndisplay:\n  subtitle: category\nfields:\n  measure: string\n  category: string\n  loincCode: string\n  analyteType: string\n  description: text\nrelations:\n  panels: health-panel[]\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 ObservationDefinition\"\n  url: https://www.hl7.org/fhir/observationdefinition.html\n  notes: \"FHIR's ObservationDefinition is the reusable definition of an observable,\\\n    \\ separate from the Observation that records a value. Our measure/category map\\\n    \\ to its code + quantitativeDetails. We deliberately do NOT include its qualifiedInterval\\\n    \\ \\u2014 reference ranges are their own shape (health-reference-range).\"\n- source: \"LOINC \\u2014 Logical Observation Identifiers Names and Codes\"\n  url: https://loinc.org/\n  notes: \"The universal code system for lab and clinical observations. loincCode is\\\n    \\ the join key \\u2014 every lab observable has a LOINC code (TSH 3016-3, LDL 2089-1,\\\n    \\ HbA1c 4548-4). LOINC identifies the observable only; it carries no reference\\\n    \\ range.\"\n",
+      "raw_body": "plural: health-biomarkers\nidentity_any:\n- loincCode\n- measure\ndisplay:\n  subtitle: category\nfields:\n  measure: string\n  category: string\n  loincCode: string\n  analyteType: string\n  description: text\nrelations:\n  part_of: health-panel[]\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 ObservationDefinition\"\n  url: https://www.hl7.org/fhir/observationdefinition.html\n  notes: \"FHIR's ObservationDefinition is the reusable definition of an observable,\\\n    \\ separate from the Observation that records a value. Our measure/category map\\\n    \\ to its code + quantitativeDetails. We deliberately do NOT include its qualifiedInterval\\\n    \\ \\u2014 reference ranges are their own shape (health-reference-range).\"\n- source: \"LOINC \\u2014 Logical Observation Identifiers Names and Codes\"\n  url: https://loinc.org/\n  notes: \"The universal code system for lab and clinical observations. loincCode is\\\n    \\ the join key \\u2014 every lab observable has a LOINC code (TSH 3016-3, LDL 2089-1,\\\n    \\ HbA1c 4548-4). LOINC identifies the observable only; it carries no reference\\\n    \\ range.\"\n",
       "ancestors": [],
       "field_order": [
         "measure",
@@ -12416,6 +12416,13 @@
           "target": null
         },
         {
+          "name": "allDay",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "bodySite",
           "type": "string",
           "is_relation": false,
@@ -12437,6 +12444,41 @@
           "target": null
         },
         {
+          "name": "currentUrl",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "dateUpdated",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "distinctId",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "endDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "icalUid",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "icd10Code",
           "type": "string",
           "is_relation": false,
@@ -12451,6 +12493,13 @@
           "target": null
         },
         {
+          "name": "properties",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "proximity",
           "type": "string",
           "is_relation": false,
@@ -12458,7 +12507,21 @@
           "target": null
         },
         {
+          "name": "recurrence",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
           "name": "severity",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "showAs",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -12472,11 +12535,74 @@
           "target": null
         },
         {
+          "name": "sourceTitle",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sourceUrl",
+          "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "startDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "timezone",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "verificationStatus",
           "type": "string",
           "is_relation": false,
           "is_array": false,
           "target": null
+        },
+        {
+          "name": "visibility",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "at",
+          "type": "actor",
+          "is_relation": true,
+          "is_array": false,
+          "target": "actor"
+        },
+        {
+          "name": "attachments",
+          "type": "file[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "file"
+        },
+        {
+          "name": "creator",
+          "type": "person",
+          "is_relation": true,
+          "is_array": false,
+          "target": "person"
         },
         {
           "name": "evidence",
@@ -12486,6 +12612,34 @@
           "target": "file"
         },
         {
+          "name": "involves",
+          "type": "person[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "person"
+        },
+        {
+          "name": "location",
+          "type": "place",
+          "is_relation": true,
+          "is_array": false,
+          "target": "place"
+        },
+        {
+          "name": "organizer",
+          "type": "person",
+          "is_relation": true,
+          "is_array": false,
+          "target": "person"
+        },
+        {
+          "name": "person",
+          "type": "person",
+          "is_relation": true,
+          "is_array": false,
+          "target": "person"
+        },
+        {
           "name": "subject",
           "type": "person",
           "is_relation": true,
@@ -12493,14 +12647,20 @@
           "target": "person"
         }
       ],
-      "also": [],
+      "also": [
+        "event"
+      ],
       "plural": "health-conditions",
       "subtitle": "clinicalStatus",
       "display": {
         "title": null,
         "subtitle": "clinicalStatus",
         "image": null,
-        "highlights": [],
+        "highlights": [
+          "startDate",
+          "endDate",
+          "location"
+        ],
         "body": null,
         "preview": {}
       },
@@ -12614,8 +12774,10 @@
         }
       ],
       "source_path": "health-condition.yaml",
-      "raw_body": "plural: health-conditions\nidentity_any:\n- snomedCode\n- name\ndisplay:\n  subtitle: clinicalStatus\nfields:\n  clinicalStatus: string\n  verificationStatus: string\n  proximity: string\n  bodySite: string\n  severity: string\n  snomedCode: string\n  icd10Code: string\n  clinicalArea: string\n  mitigation: text\nrelations:\n  subject: person\n  evidence: file[]\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Condition\"\n  url: https://www.hl7.org/fhir/condition.html\n  notes: The resource for a problem/diagnosis. Our clinicalStatus, verificationStatus,\n    severity, bodySite, onsetDate, abatementDate map directly. proximity='self' is\n    a plain FHIR Condition.\n- source: \"HL7 FHIR R5 \\u2014 FamilyMemberHistory\"\n  url: https://www.hl7.org/fhir/familymemberhistory.html\n  notes: \"FHIR's separate resource for hereditary risk. We fold it in via proximity\\\n    \\ \\u2014 proximity='father'|'extended-family' makes a condition node a family-history\\\n    \\ entry. FamilyMemberHistory.condition \\u2248 this node; FamilyMemberHistory.relationship\\\n    \\ \\u2248 our proximity. Deliberate divergence from FHIR's two-resource split.\"\n- source: SNOMED CT\n  url: https://www.snomed.org/\n  notes: The universal clinical terminology. snomedCode is the canonical identity\n    (asthma 195967001, eczema 43116000). FHIR Condition.code is SNOMED-coded; this\n    is the join key to the wider clinical world.\n- source: ICD-10-CM\n  url: https://www.cdc.gov/nchs/icd/icd-10-cm.htm\n  notes: \"The diagnosis/billing code system. icd10Code captures the code when it appears\\\n    \\ on an insurance claim or discharge summary \\u2014 complements (does not replace)\\\n    \\ SNOMED.\"\n",
-      "ancestors": [],
+      "raw_body": "plural: health-conditions\nalso:\n- event\nidentity_any:\n- snomedCode\n- name\ndisplay:\n  subtitle: clinicalStatus\nfields:\n  clinicalStatus: string\n  verificationStatus: string\n  proximity: string\n  bodySite: string\n  severity: string\n  snomedCode: string\n  icd10Code: string\n  clinicalArea: string\n  mitigation: text\nrelations:\n  subject: person\n  evidence: file[]\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Condition\"\n  url: https://www.hl7.org/fhir/condition.html\n  notes: The resource for a problem/diagnosis. Our clinicalStatus, verificationStatus,\n    severity, bodySite, onsetDate, abatementDate map directly. proximity='self' is\n    a plain FHIR Condition.\n- source: \"HL7 FHIR R5 \\u2014 FamilyMemberHistory\"\n  url: https://www.hl7.org/fhir/familymemberhistory.html\n  notes: \"FHIR's separate resource for hereditary risk. We fold it in via proximity\\\n    \\ \\u2014 proximity='father'|'extended-family' makes a condition node a family-history\\\n    \\ entry. FamilyMemberHistory.condition \\u2248 this node; FamilyMemberHistory.relationship\\\n    \\ \\u2248 our proximity. Deliberate divergence from FHIR's two-resource split.\"\n- source: SNOMED CT\n  url: https://www.snomed.org/\n  notes: The universal clinical terminology. snomedCode is the canonical identity\n    (asthma 195967001, eczema 43116000). FHIR Condition.code is SNOMED-coded; this\n    is the join key to the wider clinical world.\n- source: ICD-10-CM\n  url: https://www.cdc.gov/nchs/icd/icd-10-cm.htm\n  notes: \"The diagnosis/billing code system. icd10Code captures the code when it appears\\\n    \\ on an insurance claim or discharge summary \\u2014 complements (does not replace)\\\n    \\ SNOMED.\"\n",
+      "ancestors": [
+        "event"
+      ],
       "field_order": [
         "clinicalStatus",
         "verificationStatus",
@@ -12625,7 +12787,22 @@
         "snomedCode",
         "icd10Code",
         "clinicalArea",
-        "mitigation"
+        "mitigation",
+        "startDate",
+        "endDate",
+        "timezone",
+        "allDay",
+        "recurrence",
+        "status",
+        "visibility",
+        "showAs",
+        "dateUpdated",
+        "sourceUrl",
+        "sourceTitle",
+        "icalUid",
+        "distinctId",
+        "currentUrl",
+        "properties"
       ],
       "derived": {},
       "shortcuts": {}
@@ -13634,7 +13811,7 @@
           "target": "file"
         },
         {
-          "name": "fromPanel",
+          "name": "from_panel",
           "type": "health-panel",
           "is_relation": true,
           "is_array": false,
@@ -13778,7 +13955,7 @@
           "target": "health-biomarker"
         },
         {
-          "name": "fromPanel",
+          "name": "from_panel",
           "type": "health-panel",
           "is_relation": true,
           "is_array": false,
@@ -13829,7 +14006,7 @@
         }
       ],
       "source_path": "health-observation.yaml",
-      "raw_body": "plural: health-observations\nalso:\n- result\n- event\ndisplay:\n  subtitle: startDate\nfields:\n  value: number\n  valueText: string\n  refLow: number\n  refHigh: number\n  refText: string\n  flag: string\n  status: string\n  notes: text\nrelations:\n  measures: health-biomarker\n  fromPanel: health-panel\n  reportedRange: health-reference-range\n  document: file\n  subject: person\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Observation\"\n  url: https://www.hl7.org/fhir/observation.html\n  notes: \"The canonical resource for a measured value. value (with its UCUM unit)\\\n    \\ \\u2248 valueQuantity; effectiveDate \\u2248 effectiveDateTime; refLow/refHigh/refText\\\n    \\ \\u2248 the referenceRange backbone (the inline snapshot); flag \\u2248 interpretation;\\\n    \\ status \\u2248 status. `measures` \\u2248 code resolved to a biomarker. FHIR has\\\n    \\ no normalized-range link \\u2014 our `reportedRange` edge adds that.\"\n- source: \"HL7 v2.x \\u2014 OBX segment\"\n  url: https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX\n  notes: \"The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6\\\n    \\ (units) together \\u2248 our value-with-unit; OBX-7 (reference range), OBX-8\\\n    \\ (abnormal flag), OBX-14 (datetime) map to refText/ flag/effectiveDate. Confirms\\\n    \\ the snapshot field set against real lab feeds.\"\n- source: LOINC\n  url: https://loinc.org/\n  notes: \"The observation itself is not LOINC-coded \\u2014 its `biomarker` is. The\\\n    \\ `measures` edge carries the LOINC identity.\"\n- source: \"UCUM \\u2014 Unified Code for Units of Measure\"\n  url: https://ucum.org/\n  notes: \"The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM \\u2014\\\n    \\ the unit system FHIR mandates for Observation.valueQuantity, so observations\\\n    \\ round-trip into FHIR cleanly.\"\n",
+      "raw_body": "plural: health-observations\nalso:\n- result\n- event\ndisplay:\n  subtitle: startDate\nfields:\n  value: number\n  valueText: string\n  refLow: number\n  refHigh: number\n  refText: string\n  flag: string\n  status: string\n  notes: text\nrelations:\n  measures: health-biomarker\n  from_panel: health-panel\n  reportedRange: health-reference-range\n  document: file\n  subject: person\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Observation\"\n  url: https://www.hl7.org/fhir/observation.html\n  notes: \"The canonical resource for a measured value. value (with its UCUM unit)\\\n    \\ \\u2248 valueQuantity; effectiveDate \\u2248 effectiveDateTime; refLow/refHigh/refText\\\n    \\ \\u2248 the referenceRange backbone (the inline snapshot); flag \\u2248 interpretation;\\\n    \\ status \\u2248 status. `measures` \\u2248 code resolved to a biomarker. FHIR has\\\n    \\ no normalized-range link \\u2014 our `reportedRange` edge adds that.\"\n- source: \"HL7 v2.x \\u2014 OBX segment\"\n  url: https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX\n  notes: \"The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6\\\n    \\ (units) together \\u2248 our value-with-unit; OBX-7 (reference range), OBX-8\\\n    \\ (abnormal flag), OBX-14 (datetime) map to refText/ flag/effectiveDate. Confirms\\\n    \\ the snapshot field set against real lab feeds.\"\n- source: LOINC\n  url: https://loinc.org/\n  notes: \"The observation itself is not LOINC-coded \\u2014 its `biomarker` is. The\\\n    \\ `measures` edge carries the LOINC identity.\"\n- source: \"UCUM \\u2014 Unified Code for Units of Measure\"\n  url: https://ucum.org/\n  notes: \"The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM \\u2014\\\n    \\ the unit system FHIR mandates for Observation.valueQuantity, so observations\\\n    \\ round-trip into FHIR cleanly.\"\n",
       "ancestors": [
         "result",
         "event"

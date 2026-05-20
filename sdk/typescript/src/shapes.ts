@@ -1109,7 +1109,7 @@ export interface HealthBiomarker {
     description?: string;
     loincCode?: string;
     measure?: string;
-    panels?: HealthPanel[];
+    partOf?: HealthPanel[];
 }
 
 export interface HealthCondition {
@@ -1121,16 +1121,38 @@ export interface HealthCondition {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
     bodySite?: string;
     clinicalArea?: string;
     clinicalStatus?: string;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
+    icalUid?: string;
     icd10Code?: string;
     mitigation?: string;
+    properties?: unknown;
     proximity?: string;
+    recurrence?: string[];
     severity?: string;
+    showAs?: string;
     snomedCode?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
     verificationStatus?: string;
+    visibility?: string;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
     evidence?: File[];
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
+    person?: Person;
     subject?: Person;
 }
 
@@ -3288,7 +3310,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "group": {"subtitle": "category", "also": []},
     "hardware": {"subtitle": "author", "also": ["product"]},
     "health-biomarker": {"subtitle": "category", "also": []},
-    "health-condition": {"subtitle": "clinicalStatus", "also": []},
+    "health-condition": {"subtitle": "clinicalStatus", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "health-immunization": {"subtitle": "dateAdministered", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "health-lab": {"subtitle": "labType", "image": "image", "highlights": ["headquarters"], "also": ["organization", "actor"]},
     "health-observation": {"subtitle": "startDate", "highlights": ["startDate", "endDate", "location"], "also": ["result", "event"]},
@@ -3399,7 +3421,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "group": ["memberCount", "category"],
     "hardware": ["modelNumber", "serialNumber", "specs", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
     "health-biomarker": ["measure", "category", "loincCode", "analyteType", "description"],
-    "health-condition": ["clinicalStatus", "verificationStatus", "proximity", "bodySite", "severity", "snomedCode", "icd10Code", "clinicalArea", "mitigation"],
+    "health-condition": ["clinicalStatus", "verificationStatus", "proximity", "bodySite", "severity", "snomedCode", "icd10Code", "clinicalArea", "mitigation", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "health-immunization": ["dateAdministered", "cvxCode", "manufacturer", "lotNumber", "doseNumber", "seriesDoses", "site", "route", "diseaseTarget", "notes", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "health-lab": ["cliaNumber", "npi", "ccn", "labType", "accreditation", "industry", "actorType"],
     "health-observation": ["value", "valueText", "refLow", "refHigh", "refText", "flag", "status", "notes", "indexedAt", "resultType", "externalUrl", "postId", "score", "similarity", "community", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
@@ -3479,6 +3501,7 @@ export const EVENT_TYPES: readonly string[] = [
     "event",
     "flight",
     "git_commit",
+    "health-condition",
     "health-immunization",
     "health-observation",
     "health-panel",

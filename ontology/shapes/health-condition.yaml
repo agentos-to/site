@@ -25,6 +25,8 @@
 # `name` (inherited) is the condition name — "Asthma", "Deviated Septum".
 health-condition:
   plural: health-conditions
+  also: [event]                 # a condition has a lifespan — onset = startDate,
+                                  # abatement = endDate. Rule 1: dates ride on the event.
   identity_any: [snomedCode, name]
   display:
     subtitle: clinicalStatus
@@ -34,9 +36,11 @@ health-condition:
     proximity:        string    # self | father | mother | sibling | extended-family — WHOSE condition
     bodySite:         string    # anatomical location, plain text — "nasal septum", "upper back"
     severity:         string    # mild | moderate | severe
-    # Onset and abatement are event nodes — `subject --diagnosed_with--> condition`
-    # carries the `onset` event time on the edge or as a linked `event(onset)`
-    # node; abatement is its own `event(abatement)` node. Rule 1.
+    # Onset = startDate, abatement = endDate (inherited from event via also).
+    # A more complex case (multiple diagnosis events, recurrences after
+    # abatement) would model each as its own event node linked to this
+    # condition node; for V1 the inherited startDate/endDate covers the
+    # common case.
     snomedCode:       string    # SNOMED CT concept id for this condition
     icd10Code:        string    # ICD-10-CM code, when a billing/diagnosis code is on record
     clinicalArea:     string    # specialty field — "Cardiology", "Dermatology", "ENT"

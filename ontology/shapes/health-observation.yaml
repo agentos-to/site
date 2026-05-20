@@ -47,7 +47,7 @@ health-observation:
     notes:            text      # lab comments or annotations on this specific result
   relations:
     measures:         health-biomarker        # the biomarker this is a measurement of
-    fromPanel:        health-panel            # the panel / draw this observation was part of
+    from_panel:       health-panel            # the panel / draw this observation was part of
     reportedRange:    health-reference-range  # the normalized interval this result was read against
     document:         file                    # the source lab-report file on disk
     subject:          person                  # whose body this was measured from
