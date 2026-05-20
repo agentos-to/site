@@ -9,7 +9,10 @@ place:
   plural: places
   identity_any: [googlePlaceId, mapboxId]
   display:
-    subtitle: fullAddress
+    image: image
+    subtitle: featureType
+    highlights: [city, country, rating]
+    body: fullAddress
   fields:
     # Formatted strings (pre-computed, avoid client-side formatting)
     fullAddress:      string

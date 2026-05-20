@@ -20374,13 +20374,17 @@
       ],
       "also": [],
       "plural": "places",
-      "subtitle": "fullAddress",
+      "subtitle": "featureType",
       "display": {
         "title": null,
-        "subtitle": "fullAddress",
-        "image": null,
-        "highlights": [],
-        "body": null,
+        "subtitle": "featureType",
+        "image": "image",
+        "highlights": [
+          "city",
+          "country",
+          "rating"
+        ],
+        "body": "fullAddress",
         "preview": {}
       },
       "identity": [],
@@ -20656,7 +20660,7 @@
         }
       ],
       "source_path": "place.yaml",
-      "raw_body": "plural: places\nidentity_any:\n- googlePlaceId\n- mapboxId\ndisplay:\n  subtitle: fullAddress\nfields:\n  fullAddress: string\n  placeFormatted: string\n  streetNumber: string\n  street: string\n  neighborhood: string\n  locality: string\n  city: string\n  district: string\n  region: string\n  postalCode: string\n  country: string\n  countryCode: string\n  latitude: number\n  longitude: number\n  accuracy: string\n  featureType: string\n  categories: string[]\n  phone: string\n  website: url\n  hours: json\n  businessStatus: string\n  rating: number\n  reviewCount: integer\n  priceLevel: string\n  timezone: string\n  eta: string\n  isOrderable: boolean\n  closedMessage: string\n  productCount: integer\n  mapboxId: string\n  wikidataId: string\n  googlePlaceId: string\nrelations:\n  at: actor\n  brand: organization\n  offers: product[]\nprior_art:\n- source: schema.org/Place + PostalAddress\n  url: https://schema.org/Place\n  notes: \"Our latitude/longitude = geo.latitude/longitude; street/city/region/postalCode/countryCode\\\n    \\ map to PostalAddress streetAddress/addressLocality/addressRegion/postalCode/addressCountry;\\\n    \\ hours \\u2248 openingHoursSpecification; rating/reviewCount \\u2248 aggregateRating.\"\n- source: Google Places API (Place resource)\n  url: https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places\n  notes: \"Practical POI schema. Our googlePlaceId = id; featureType/categories \\u2248\\\n    \\ types/primaryType; businessStatus, priceLevel, rating match directly.\"\n- source: GeoJSON (RFC 7946) + ISO 3166-1\n  url: https://datatracker.ietf.org/doc/html/rfc7946\n  notes: Our latitude/longitude are a GeoJSON Point [lon, lat]; countryCode follows\n    ISO 3166-1 alpha-2.\n",
+      "raw_body": "plural: places\nidentity_any:\n- googlePlaceId\n- mapboxId\ndisplay:\n  image: image\n  subtitle: featureType\n  highlights:\n  - city\n  - country\n  - rating\n  body: fullAddress\nfields:\n  fullAddress: string\n  placeFormatted: string\n  streetNumber: string\n  street: string\n  neighborhood: string\n  locality: string\n  city: string\n  district: string\n  region: string\n  postalCode: string\n  country: string\n  countryCode: string\n  latitude: number\n  longitude: number\n  accuracy: string\n  featureType: string\n  categories: string[]\n  phone: string\n  website: url\n  hours: json\n  businessStatus: string\n  rating: number\n  reviewCount: integer\n  priceLevel: string\n  timezone: string\n  eta: string\n  isOrderable: boolean\n  closedMessage: string\n  productCount: integer\n  mapboxId: string\n  wikidataId: string\n  googlePlaceId: string\nrelations:\n  at: actor\n  brand: organization\n  offers: product[]\nprior_art:\n- source: schema.org/Place + PostalAddress\n  url: https://schema.org/Place\n  notes: \"Our latitude/longitude = geo.latitude/longitude; street/city/region/postalCode/countryCode\\\n    \\ map to PostalAddress streetAddress/addressLocality/addressRegion/postalCode/addressCountry;\\\n    \\ hours \\u2248 openingHoursSpecification; rating/reviewCount \\u2248 aggregateRating.\"\n- source: Google Places API (Place resource)\n  url: https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places\n  notes: \"Practical POI schema. Our googlePlaceId = id; featureType/categories \\u2248\\\n    \\ types/primaryType; businessStatus, priceLevel, rating match directly.\"\n- source: GeoJSON (RFC 7946) + ISO 3166-1\n  url: https://datatracker.ietf.org/doc/html/rfc7946\n  notes: Our latitude/longitude are a GeoJSON Point [lon, lat]; countryCode follows\n    ISO 3166-1 alpha-2.\n",
       "ancestors": []
     },
     {

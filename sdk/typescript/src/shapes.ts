@@ -2838,7 +2838,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "pass": {"subtitle": "status", "also": []},
     "payment_method": {"subtitle": "displayName", "also": []},
     "person": {"subtitle": "about", "image": "image", "highlights": ["birthday", "gender"], "body": "notes", "also": ["actor"]},
-    "place": {"subtitle": "fullAddress", "also": []},
+    "place": {"subtitle": "featureType", "image": "image", "highlights": ["city", "country", "rating"], "body": "fullAddress", "also": []},
     "playlist": {"subtitle": "text", "also": ["list"]},
     "podcast": {"subtitle": "host", "also": []},
     "post": {"subtitle": "author", "also": []},
