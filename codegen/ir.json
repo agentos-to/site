@@ -2411,9 +2411,12 @@
       "display": {
         "title": null,
         "subtitle": "written_by",
-        "image": null,
-        "highlights": [],
-        "body": null,
+        "image": "image",
+        "highlights": [
+          "datePublished",
+          "published_by"
+        ],
+        "body": "description",
         "preview": {}
       },
       "identity": [],
@@ -5429,9 +5432,12 @@
       "display": {
         "title": null,
         "subtitle": "written_by",
-        "image": null,
-        "highlights": [],
-        "body": null,
+        "image": "image",
+        "highlights": [
+          "datePublished",
+          "published_by"
+        ],
+        "body": "description",
         "preview": {}
       },
       "identity": [],
@@ -5557,7 +5563,7 @@
         }
       ],
       "source_path": "creative_work.yaml",
-      "raw_body": "plural: creative_works\ndisplay:\n  subtitle: written_by\nfields:\n  name: string\n  description: string\n  license: string\n  copyrightYear: integer\n  datePublished: date\n  dateCreated: date\n  url: string\n  language: string\n  coverage: string\n  tags: string[]\nrelations:\n  written_by: person\n  published_by: actor\n  contributors: person[]\n  copyrightHolder: person\nprior_art:\n- source: schema.org/CreativeWork\n  url: https://schema.org/CreativeWork\n  notes: \"Our name=name; written_by\\u2248author; published_by\\u2248publisher; datePublished=datePublished;\\\n    \\ license=license; copyrightHolder= copyrightHolder; copyrightYear=copyrightYear;\\\n    \\ description= description; url=url; language=inLanguage; tags=keywords.\"\n- source: Dublin Core Metadata Element Set (ISO 15836)\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: Maps cleanly to all 15 DC elements except `type` (carried by the shape discriminator),\n    `format` (subtype-specific), `identifier` (universal node id), `relation` (graph\n    edges), `subject` (tags).\n- source: FRBR (IFLA, 1998)\n  url: https://www.ifla.org/files/assets/cataloguing/frbr/frbr.pdf\n  notes: creative_work corresponds to FRBR's Work tier (the abstract intellectual\n    creation). Expression / Manifestation / Item not modeled in v1; subtype shapes\n    carry equivalents as array fields (font.weights, font.formats).\n",
+      "raw_body": "plural: creative_works\ndisplay:\n  image: image\n  subtitle: written_by\n  highlights:\n  - datePublished\n  - published_by\n  body: description\nfields:\n  name: string\n  description: string\n  license: string\n  copyrightYear: integer\n  datePublished: date\n  dateCreated: date\n  url: string\n  language: string\n  coverage: string\n  tags: string[]\nrelations:\n  written_by: person\n  published_by: actor\n  contributors: person[]\n  copyrightHolder: person\nprior_art:\n- source: schema.org/CreativeWork\n  url: https://schema.org/CreativeWork\n  notes: \"Our name=name; written_by\\u2248author; published_by\\u2248publisher; datePublished=datePublished;\\\n    \\ license=license; copyrightHolder= copyrightHolder; copyrightYear=copyrightYear;\\\n    \\ description= description; url=url; language=inLanguage; tags=keywords.\"\n- source: Dublin Core Metadata Element Set (ISO 15836)\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: Maps cleanly to all 15 DC elements except `type` (carried by the shape discriminator),\n    `format` (subtype-specific), `identifier` (universal node id), `relation` (graph\n    edges), `subject` (tags).\n- source: FRBR (IFLA, 1998)\n  url: https://www.ifla.org/files/assets/cataloguing/frbr/frbr.pdf\n  notes: creative_work corresponds to FRBR's Work tier (the abstract intellectual\n    creation). Expression / Manifestation / Item not modeled in v1; subtype shapes\n    carry equivalents as array fields (font.weights, font.formats).\n",
       "ancestors": []
     },
     {
@@ -9804,9 +9810,12 @@
       "display": {
         "title": null,
         "subtitle": "author",
-        "image": null,
-        "highlights": [],
-        "body": null,
+        "image": "image",
+        "highlights": [
+          "datePublished",
+          "published_by"
+        ],
+        "body": "description",
         "preview": {}
       },
       "identity": [],
@@ -13621,9 +13630,12 @@
       "display": {
         "title": null,
         "subtitle": "purpose",
-        "image": null,
-        "highlights": [],
-        "body": null,
+        "image": "image",
+        "highlights": [
+          "datePublished",
+          "published_by"
+        ],
+        "body": "description",
         "preview": {}
       },
       "identity": [],
@@ -13978,9 +13990,12 @@
       "display": {
         "title": null,
         "subtitle": "format",
-        "image": null,
-        "highlights": [],
-        "body": null,
+        "image": "image",
+        "highlights": [
+          "datePublished",
+          "published_by"
+        ],
+        "body": "description",
         "preview": {}
       },
       "identity": [],
@@ -26077,9 +26092,12 @@
       "display": {
         "title": null,
         "subtitle": "purpose",
-        "image": null,
-        "highlights": [],
-        "body": null,
+        "image": "image",
+        "highlights": [
+          "datePublished",
+          "published_by"
+        ],
+        "body": "description",
         "preview": {}
       },
       "identity": [],
@@ -29795,9 +29813,12 @@
       "display": {
         "title": null,
         "subtitle": "author",
-        "image": null,
-        "highlights": [],
-        "body": null,
+        "image": "image",
+        "highlights": [
+          "datePublished",
+          "published_by"
+        ],
+        "body": "description",
         "preview": {}
       },
       "identity": [],

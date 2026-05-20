@@ -17,7 +17,10 @@
 creative_work:
   plural: creative_works
   display:
+    image: image
     subtitle: written_by
+    highlights: [datePublished, published_by]
+    body: description
   fields:
     name:              string
     description:       string
