@@ -33,6 +33,7 @@ qualification:
                                # identifier, dedup falls back to provenance.
   display:
     subtitle: category
+    highlights: [identifier, validIn, granted_by]
   fields:
     category:         string    # degree | license | certification |
                                  #   board-certification | fellowship |

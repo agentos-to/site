@@ -2846,7 +2846,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "product": {"subtitle": "brand", "also": []},
     "project": {"subtitle": "state", "also": []},
     "protocol": {"subtitle": "name", "also": []},
-    "qualification": {"subtitle": "category", "also": []},
+    "qualification": {"subtitle": "category", "highlights": ["identifier", "validIn", "granted_by"], "also": []},
     "quantity-kind": {"subtitle": "label", "also": []},
     "quote": {"subtitle": "year", "also": []},
     "repository": {"subtitle": "language", "also": []},
