@@ -301,6 +301,30 @@ def emit_rust(onto: Ontology) -> str:
     lines.append("];")
     lines.append("")
 
+    # SHAPE_ANCESTORS — transitive `also:` closure per shape. The Phase 3
+    # derived-resolver needs it for the `is:` filter (check target's shape
+    # ancestry against the binding's target-shape constraint).
+    lines += [
+        "// ===========================================================",
+        "// Shape ancestors — transitive `also:` closure per shape",
+        "// ===========================================================",
+        "",
+        "/// Per-shape transitive `also:` closure. Order: immediate parents",
+        "/// first, then their parents, deduped. Used by `is:` filter in",
+        "/// derived bindings to check shape-membership across the `also:` chain.",
+        "pub fn lookup_ancestors(shape: &str) -> &'static [&'static str] {",
+        "    SHAPE_ANCESTORS.iter().find(|(n, _)| *n == shape).map(|(_, a)| *a).unwrap_or(&[])",
+        "}",
+        "",
+        "pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[",
+    ]
+    for s in shapes_sorted:
+        if not s.ancestors:
+            continue
+        lines.append(f'    ("{s.name}", {_rust_str_array(list(s.ancestors))}),')
+    lines.append("];")
+    lines.append("")
+
     # EVENT_TYPES — every shape whose `also:` chain includes `event`
     # (plus `event` itself). Derived from the shape graph.
     lines += [
