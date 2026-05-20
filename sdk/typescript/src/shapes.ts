@@ -2133,21 +2133,7 @@ export interface Person {
     content?: string;
     about?: string;
     actorType?: string;
-    additionalName?: string;
-    familyName?: string;
-    gender?: string;
-    givenName?: string;
-    honorificPrefix?: string;
-    honorificSuffix?: string;
-    legalName?: string;
-    maidenName?: string;
-    nameOrder?: string;
-    nickname?: string;
     notes?: string;
-    phoneticFamilyName?: string;
-    phoneticGivenName?: string;
-    preferredName?: string;
-    sortAs?: string;
     accounts?: Account[];
     memberships?: Membership[];
     passes?: Pass[];
@@ -3329,7 +3315,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "organization": {"subtitle": "industry", "image": "image", "highlights": ["headquarters"], "also": ["actor"]},
     "pass": {"subtitle": "status", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "payment_method": {"subtitle": "displayName", "also": []},
-    "person": {"subtitle": "about", "image": "image", "highlights": ["born_in.startDate", "gender"], "body": "notes", "also": ["actor"]},
+    "person": {"subtitle": "about", "image": "image", "highlights": ["birthdate", "gender"], "body": "notes", "also": ["actor"]},
     "place": {"subtitle": "featureType", "image": "image", "highlights": ["city", "country", "rating"], "body": "fullAddress", "also": []},
     "playlist": {"subtitle": "text", "also": ["list"]},
     "podcast": {"subtitle": "host", "also": []},
@@ -3440,7 +3426,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "organization": ["industry", "actorType"],
     "pass": ["status", "quantity", "purchasedQuantity", "useCount", "isAllDayPass", "price", "currency", "ticketNumber", "nameOnTicket", "seatAssignment", "boardingGroup", "ticketClass", "gate", "terminal", "checkinStatus", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "payment_method": ["identifier", "type", "subtype", "brand", "displayName", "customDescription", "holderName", "last4", "binRange", "expMonth", "expYear", "expirationDate", "currency", "balance", "fingerprint", "isDefault", "isPrimary", "isExpired", "isSelected", "status", "providerTokens", "metadata"],
-    "person": ["url", "givenName", "additionalName", "familyName", "honorificPrefix", "honorificSuffix", "legalName", "preferredName", "maidenName", "nickname", "sortAs", "nameOrder", "phoneticGivenName", "phoneticFamilyName", "notes", "gender", "about", "actorType"],
+    "person": ["url", "notes", "about", "actorType"],
     "place": ["fullAddress", "placeFormatted", "streetNumber", "street", "neighborhood", "locality", "city", "district", "region", "postalCode", "country", "countryCode", "latitude", "longitude", "accuracy", "featureType", "categories", "phone", "website", "hours", "businessStatus", "rating", "reviewCount", "priceLevel", "timezone", "eta", "isOrderable", "closedMessage", "productCount", "mapboxId", "wikidataId", "googlePlaceId"],
     "playlist": ["id", "listId", "listType", "ordering_mode", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path"],
     "podcast": ["feedUrl"],
@@ -3521,10 +3507,12 @@ export const EVENT_TYPES: readonly string[] = [
 // Binding grammar: {find, where, where_edge, is, get} | {latest: [...]} | dotted string.
 
 export const SHAPE_DERIVED: Record<string, Record<string, unknown>> = {
+    "person": {"birthdate": {"find": "born_in", "is": "birth", "get": "startDate"}, "current_residence": {"find": "lived_at", "where_edge": {"to": null}, "get": "name"}, "current_role": {"find": "worked_at", "where_edge": {"to": null}, "get": "title"}, "givenName": {"latest": [{"find": "born_in", "is": "birth", "get": "givenName"}, {"find": "changed", "is": "transition", "get": "givenName"}]}, "additionalName": {"latest": [{"find": "born_in", "is": "birth", "get": "additionalName"}, {"find": "changed", "is": "transition", "get": "additionalName"}]}, "familyName": {"latest": [{"find": "born_in", "is": "birth", "get": "familyName"}, {"find": "changed", "is": "transition", "get": "familyName"}]}, "honorificPrefix": {"latest": [{"find": "born_in", "is": "birth", "get": "honorificPrefix"}, {"find": "changed", "is": "transition", "get": "honorificPrefix"}]}, "honorificSuffix": {"latest": [{"find": "born_in", "is": "birth", "get": "honorificSuffix"}, {"find": "changed", "is": "transition", "get": "honorificSuffix"}]}, "legalName": {"latest": [{"find": "born_in", "is": "birth", "get": "legalName"}, {"find": "changed", "is": "transition", "get": "legalName"}]}, "maidenName": {"latest": [{"find": "born_in", "is": "birth", "get": "maidenName"}, {"find": "changed", "is": "transition", "get": "maidenName"}]}, "sortAs": {"latest": [{"find": "born_in", "is": "birth", "get": "sortAs"}, {"find": "changed", "is": "transition", "get": "sortAs"}]}, "nameOrder": {"latest": [{"find": "born_in", "is": "birth", "get": "nameOrder"}, {"find": "changed", "is": "transition", "get": "nameOrder"}]}, "phoneticGivenName": {"latest": [{"find": "born_in", "is": "birth", "get": "phoneticGivenName"}, {"find": "changed", "is": "transition", "get": "phoneticGivenName"}]}, "phoneticFamilyName": {"latest": [{"find": "born_in", "is": "birth", "get": "phoneticFamilyName"}, {"find": "changed", "is": "transition", "get": "phoneticFamilyName"}]}, "gender": {"latest": [{"find": "born_in", "is": "birth", "get": "gender"}, {"find": "changed", "is": "transition", "get": "gender"}]}, "nickname": {"latest": [{"find": "born_in", "is": "birth", "get": "nickname"}, {"find": "changed", "is": "transition", "get": "nickname"}]}},
 };
 
 // ─── Shortcuts per shape — write-side flat-create expansion table ───────
 // Each entry: flat_key -> {writes: <edge>[is=<shape>].<field>}
 
 export const SHAPE_SHORTCUTS: Record<string, Record<string, unknown>> = {
+    "person": {"birthdate": {"writes": "born_in[is=birth].startDate"}, "givenName": {"writes": "born_in[is=birth].givenName"}, "additionalName": {"writes": "born_in[is=birth].additionalName"}, "familyName": {"writes": "born_in[is=birth].familyName"}, "honorificPrefix": {"writes": "born_in[is=birth].honorificPrefix"}, "honorificSuffix": {"writes": "born_in[is=birth].honorificSuffix"}, "legalName": {"writes": "born_in[is=birth].legalName"}, "maidenName": {"writes": "born_in[is=birth].maidenName"}, "sortAs": {"writes": "born_in[is=birth].sortAs"}, "nameOrder": {"writes": "born_in[is=birth].nameOrder"}, "phoneticGivenName": {"writes": "born_in[is=birth].phoneticGivenName"}, "phoneticFamilyName": {"writes": "born_in[is=birth].phoneticFamilyName"}, "gender": {"writes": "born_in[is=birth].gender"}, "nickname": {"writes": "born_in[is=birth].nickname"}},
 };

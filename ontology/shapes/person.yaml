@@ -1,77 +1,48 @@
-# A real human. People are actors — they can own accounts, hold roles, attend meetings.
-# Resolved from contacts, message senders, meeting attendees, etc.
+# A real human. People are actors — they can own accounts, hold roles,
+# attend meetings, get involved in events. Resolved from contacts, message
+# senders, meeting attendees, etc.
 #
-# Name model (aligned with schema.org/Person + vCard 4.0 N property +
-# Google/Apple Contacts):
-#   - `givenName` / `familyName` / `additionalName` — the structured parts.
-#     "given" and "family" avoid Western "first/last" assumptions: in CJK
-#     names, the family name is SPOKEN FIRST.
-#   - `honorificPrefix` / `honorificSuffix` — "Dr", "Jr", "III", "PhD".
-#     TSA Secure Flight requires suffixes if they appear on government ID.
-#   - `legalName` — the full name exactly as on government ID. Source of
-#     truth for airline tickets (IATA PNR), passports (ICAO 9303). Structured
-#     reconstruction is lossy (diacritics stripped, hyphens vary); keep the
-#     verbatim string.
-#   - `preferredName` — what the person actually wants to be called.
-#     Distinct from `nickname` (casual only). Important for trans and
-#     chosen-name contexts where `givenName` on ID differs from daily use.
-#   - `maidenName` — cultural birth surname; used for genealogy, reunion
-#     search, Spanish-system apellido materno.
-#   - `sortAs` — vCard SORT-AS equivalent for last-names-with-particles
-#     ("van der Harten" sorts under "H"; "de la Cruz" under "C").
-#   - `nameOrder` — rendering hint: "given-family" (default) | "family-given"
-#     (CJK) | "patronymic" (Russian/Icelandic).
-#   - `phoneticGivenName` / `phoneticFamilyName` — Apple/Google phonetic
-#     variants; matters for TTS and call-screening on non-Latin names.
+# Per platform/README.md rule 1 (an event is a relationship; time and
+# place ride on it), the person node carries IDENTITY only — `url` and
+# the standard `id`. Everything that describes the person at a moment
+# lives on a typed event:
 #
-# `name` (standard field inherited from every shape) is the display form —
-# a single rendered string like "Dr. Giuseppe Efisio Contini, PhD".
+#   joe —born_in→  birth(...)        # birthdate, given/family/legal name, gender, ...
+#   joe —changed→  transition(...)   # subsequent name/gender/identity changes
+#   joe —lived_at→ place {from, to}  # residences, time-bracketed via edge_vals
+#   joe —worked_at→ org {from, to}   # roles, same dated-edge pattern
+#
+# Read-side ergonomics: `derived:` block walks events at read time and
+# projects current values (latest by startDate; tie-break = max edge id)
+# onto the node JSON. So `joe.givenName` Just Works without storing it
+# anywhere on the person node.
+#
+# Write-side ergonomics: `shortcuts:` block expands `data.create({shape:
+# person, birthdate: ..., givenName: ...})` into a nested birth event
+# automatically. No per-shape engine code; the expansion table is
+# codegen-emitted from this YAML.
+#
+# Name model + cultural grounding (CJK family-first, Spanish two-surname,
+# Icelandic patronymic, IATA PNR/ICAO 9303 legal-name verbatim) lives on
+# `birth.yaml` and `transition.yaml`. See those shapes + their prior_art
+# blocks for the field semantics.
 person:
   plural: people
-  identity_any: [url]  # canonical web identity — GitHub profile, personal site,
-                        # vendor bio page. Lets multi-source seeders dedupe
-                        # without guessing on name collisions.
-  display:
-    image: image
-    subtitle: about
-    # Depth-1 recursion: pull the birthday from the linked birth event.
-    # The engine read path projects `born_in.startDate` onto the
-    # relationship row's `target_vals` automatically — see
-    # `view::display::dotted_target_projections`.
-    highlights: [born_in.startDate, gender]
-    body: notes
-  also: [actor]       # a person is also an actor
+  identity_any: [url]  # canonical web identity — GitHub profile, personal
+                       # site, vendor bio. Lets multi-source seeders dedupe
+                       # without guessing on name collisions.
+  also: [actor]        # a person is also an actor
   fields:
-    url:              string    # canonical web identifier (GitHub profile,
-                                  # personal site, vendor bio). schema.org/Person/url.
-    # Structured name (schema.org aligned). Order in YAML is the order
-    # the detail panel renders — given → middle → family is the order
-    # vCard and schema.org parse on the page.
-    givenName:        string    # "Giuseppe" — given/first in Western order
-    additionalName:   string    # "Efisio" — middle names; comma-separated for multiples
-    familyName:       string    # "Contini" — family/surname (spoken first in CJK)
-    honorificPrefix:  string    # "Dr", "Rev", "Mx"
-    honorificSuffix:  string    # "Jr", "III", "PhD", "Esq" — central for TSA/ID
-    # Legal & preferred
-    legalName:        string    # verbatim as on government ID (passport / driver's license)
-    preferredName:    string    # what they actually want to be called (distinct from nickname)
-    maidenName:       string    # cultural birth surname
-    nickname:         string    # casual / informal
-    # Sort & order
-    sortAs:           string    # e.g. "Contini,Giuseppe" — vCard SORT-AS equivalent
-    nameOrder:        string    # "given-family" | "family-given" | "patronymic"
-    # Phonetics (Apple/Google Contacts)
-    phoneticGivenName:  string
-    phoneticFamilyName: string
-    # Bio
-    notes:            text
-    gender:           string
-    about:            text
+    url:     string    # canonical web identifier (GitHub profile, personal
+                       # site, vendor bio). schema.org/Person/url.
+    notes:   text      # private bio text
+    about:   text      # public bio text
+
   relations:
-    # `born_in` is a generic life-edge (rule 4 — owned by the verb, not
-    # a shape) pointing at an `event(birth)`. Not declared here, but
-    # the canonical home for birthdate per rule 1. Same pattern for
-    # `lived_at` (residences), `worked_at`, `married_to`, etc.
+    # `born_in`, `changed`, `lived_at`, `worked_at` are generic life-edges
+    # (rule 4 — owned by the verb, not a shape). Not declared here but the
+    # canonical homes for birthdate / identity changes / residences / roles
+    # respectively. See the `derived:` block below for the resolver wiring.
     accounts:         account[]      # platform identities this person owns
     roles:            role[]         # positions at organizations
     memberships:      membership[]   # gym, subscription, club, citizenship
@@ -79,59 +50,127 @@ person:
     qualifications:   qualification[] # degrees, licenses, certifications held
     practices:        practice[]     # disciplines / fields this person practices
     website:          website
+
+  # Read-side derived bindings. Engine pre-projects via the depth-1
+  # recursion machinery (life-events Phase 3) and evaluates lazily at
+  # read time. `find:` names the verb; `is:` filters by target shape via
+  # the also: chain; `get:` projects the target's field; `latest:` picks
+  # the most-recent arm by target.startDate (tie: max edge id).
+  derived:
+    birthdate:          {find: born_in,  is: birth, get: startDate}
+    current_residence:  {find: lived_at, where_edge: {to: null}, get: name}
+    current_role:       {find: worked_at, where_edge: {to: null}, get: title}
+
+    givenName:
+      latest:
+        - {find: born_in, is: birth,      get: givenName}
+        - {find: changed, is: transition, get: givenName}
+    additionalName:
+      latest:
+        - {find: born_in, is: birth,      get: additionalName}
+        - {find: changed, is: transition, get: additionalName}
+    familyName:
+      latest:
+        - {find: born_in, is: birth,      get: familyName}
+        - {find: changed, is: transition, get: familyName}
+    honorificPrefix:
+      latest:
+        - {find: born_in, is: birth,      get: honorificPrefix}
+        - {find: changed, is: transition, get: honorificPrefix}
+    honorificSuffix:
+      latest:
+        - {find: born_in, is: birth,      get: honorificSuffix}
+        - {find: changed, is: transition, get: honorificSuffix}
+    legalName:
+      latest:
+        - {find: born_in, is: birth,      get: legalName}
+        - {find: changed, is: transition, get: legalName}
+    maidenName:
+      latest:
+        - {find: born_in, is: birth,      get: maidenName}
+        - {find: changed, is: transition, get: maidenName}
+    sortAs:
+      latest:
+        - {find: born_in, is: birth,      get: sortAs}
+        - {find: changed, is: transition, get: sortAs}
+    nameOrder:
+      latest:
+        - {find: born_in, is: birth,      get: nameOrder}
+        - {find: changed, is: transition, get: nameOrder}
+    phoneticGivenName:
+      latest:
+        - {find: born_in, is: birth,      get: phoneticGivenName}
+        - {find: changed, is: transition, get: phoneticGivenName}
+    phoneticFamilyName:
+      latest:
+        - {find: born_in, is: birth,      get: phoneticFamilyName}
+        - {find: changed, is: transition, get: phoneticFamilyName}
+    gender:
+      latest:
+        - {find: born_in, is: birth,      get: gender}
+        - {find: changed, is: transition, get: gender}
+    nickname:
+      latest:
+        - {find: born_in, is: birth,      get: nickname}
+        - {find: changed, is: transition, get: nickname}
+
+  # Write-side flat-create expansion. Each entry maps a flat create-key
+  # to a single canonical write target. Multi-source bindings (`latest:`
+  # on the derived side) are not invertible on the flat surface — for
+  # updates, the caller creates a `transition` event explicitly.
+  #
+  # `birthplace` deferred to V2 — relation-write semantics (`location` is
+  # a relation on event/birth, not a val) need a richer expander.
+  shortcuts:
+    birthdate:          {writes: "born_in[is=birth].startDate"}
+    givenName:          {writes: "born_in[is=birth].givenName"}
+    additionalName:     {writes: "born_in[is=birth].additionalName"}
+    familyName:         {writes: "born_in[is=birth].familyName"}
+    honorificPrefix:    {writes: "born_in[is=birth].honorificPrefix"}
+    honorificSuffix:    {writes: "born_in[is=birth].honorificSuffix"}
+    legalName:          {writes: "born_in[is=birth].legalName"}
+    maidenName:         {writes: "born_in[is=birth].maidenName"}
+    sortAs:             {writes: "born_in[is=birth].sortAs"}
+    nameOrder:          {writes: "born_in[is=birth].nameOrder"}
+    phoneticGivenName:  {writes: "born_in[is=birth].phoneticGivenName"}
+    phoneticFamilyName: {writes: "born_in[is=birth].phoneticFamilyName"}
+    gender:             {writes: "born_in[is=birth].gender"}
+    nickname:           {writes: "born_in[is=birth].nickname"}
+
+  display:
+    image: image
+    subtitle: about
+    highlights: [birthdate, gender]    # both derived; resolver projects
+                                       # them onto the node JSON as if
+                                       # they were plain fields.
+    body: notes
+
   prior_art:
     - source: schema.org/Person
       url: https://schema.org/Person
       notes: >-
         Our givenName / familyName / additionalName / honorificPrefix /
-        honorificSuffix map directly. schema.org has no `middleName`
-        (additionalName is the slot); no `firstName`/`lastName` either —
-        those are informal Wikipedia-style labels, not spec.
-        about ≈ description. schema.org's `birthDate` lives on the
-        `--born_in--> event(birth) { startDate }` relationship per
-        rule 1, not as a flat field. `location` likewise — dated
-        `lived_at` edges per rule 3, not a single pointer. We diverge
-        by modeling accounts[] as a first-class relation rather than
-        sameAs URLs.
+        honorificSuffix live on `birth.yaml` (and `transition.yaml`),
+        not on the person node itself — schema.org's `birthDate` lives
+        on the `--born_in--> birth { startDate }` relationship per
+        rule 1. We diverge by modeling accounts[] as a first-class
+        relation rather than sameAs URLs.
     - source: vCard 4.0 (RFC 6350) §6.2.2 N property + §5.9 SORT-AS
       url: https://datatracker.ietf.org/doc/html/rfc6350#section-6.2.2
       notes: >-
-        The N property is `family;given;additional;prefixes;suffixes`, each
-        comma-multi-valued. Our five structured fields round-trip exactly.
-        sortAs mirrors RFC 6350's SORT-AS parameter for particled surnames
-        ("van der Harten" sorts under H).
-    - source: Google People API Name resource
-      url: https://developers.google.com/people/api/rest/v1/people#Name
-      notes: >-
-        Google uses givenName / familyName / middleName / honorificPrefix /
-        honorificSuffix + phoneticGivenName / phoneticFamilyName + displayName
-        + unstructuredName. We follow the same naming, using schema.org's
-        `additionalName` where Google says `middleName` (schema.org wins for
-        multi-value support).
-    - source: Apple CNContact
-      url: https://developer.apple.com/documentation/contacts/cncontact
-      notes: >-
-        Apple exposes givenName / middleName / familyName + phonetic*
-        variants + nameSuffix / namePrefix + previousFamilyName (≈ maidenName).
-        Same shape as Google; reinforces the field set.
-    - source: IATA PNR NM field + ICAO Doc 9303 (MRZ)
-      url: https://en.wikipedia.org/wiki/Machine-readable_passport
-      notes: >-
-        Airline ticketing and passport MRZ require a specific string form
-        (SURNAME/GIVENNAME TITLE, all caps, Latin-only, diacritics stripped,
-        30-char limits). Structured parts can't losslessly reconstruct this;
-        we store it verbatim in `legalName`.
+        The N property is `family;given;additional;prefixes;suffixes`,
+        each comma-multi-valued. Round-trips exactly through the birth
+        event's structured name fields.
     - source: W3C i18n — Personal names around the world
       url: https://www.w3.org/International/questions/qa-personal-names
       notes: >-
-        Canonical reference for why "first/last" is a Western bias.
-        CJK names put family first. Spanish uses two surnames. Icelandic
-        uses patronymics without family names. The `nameOrder` field
-        captures the rendering rule; structured fields stay neutral.
+        Canonical reference for why "first/last" is a Western bias. CJK
+        names put family first. Spanish uses two surnames. Icelandic
+        uses patronymics without family names. The birth event's
+        `nameOrder` field captures the rendering rule; structured fields
+        stay neutral.
     - source: FOAF (Friend of a Friend)
       url: http://xmlns.com/foaf/spec/
       notes: >-
-        Original social-graph vocabulary. foaf:Person with
-        givenName/familyName/nick/homepage; foaf:account ≈ our accounts[].
-        Largely superseded by schema.org but still a reference for
-        account-centric modeling.
+        Original social-graph vocabulary. Largely superseded by
+        schema.org but still a reference for account-centric modeling.

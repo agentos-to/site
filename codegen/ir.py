@@ -1065,6 +1065,10 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
         # (resolved against the target's own shape at render time).
         if s.display:
             known = {f.name for f in s.fields}
+            # Derived bindings are also valid as display references — they
+            # project onto the node JSON at read time and look like plain
+            # fields to the display resolver (Phase 3 of event-derived-attributes).
+            known |= set((s.derived or {}).keys())
 
             def _known_binding(binding: str) -> bool:
                 # Dotted bindings (`born_in.startDate`) walk a verb edge.
@@ -1094,35 +1098,21 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
                     warn(f"shape {s.name!r}: display.preview key {pk!r} "
                          f"is not a declared field")
 
-    # `derived:` + `shortcuts:` lint. Collect the global vocabularies once:
-    #   - every relation label that exists anywhere (per rule 4, edges
-    #     aren't owned by shapes — a `find:` may reference any relation
-    #     that exists on any shape)
-    #   - every known shape name (for the `is:` filter)
-    all_relations: set[str] = set()
-    for s in onto.shapes:
-        for r in s.own_relations:
-            all_relations.add(r.name)
+    # `derived:` + `shortcuts:` lint. Per rule 4 (edges aren't owned by
+    # shapes), verb labels like `born_in` / `lived_at` / `changed` are
+    # NOT declared on any shape — they're just verbs. The resolver returns
+    # None gracefully if a verb doesn't match any edge, so we don't warn
+    # on unknown `find:` / `writes:` verbs. Only the `is:` filter is
+    # globally checkable: shapes ARE formally declared.
 
     def _check_binding(where: str, b: object) -> None:
         """Walk a single derived binding. String form: dotted sugar
-        (`born_in.startDate`). Dict form: `{find, where, where_edge, is, get}`.
-        `latest:` recursion handled by the caller."""
+        (`born_in.startDate`). Dict form: `{find, where, where_edge, is, get}`."""
         if isinstance(b, str):
-            # Dotted sugar: `<rel>.<field>` — only the relation half is
-            # globally checkable; the field is resolved against the target's
-            # shape at render time.
-            head = b.split(".", 1)[0]
-            if head and head not in all_relations:
-                warn(f"{where}: dotted binding {b!r} references unknown "
-                     f"relation {head!r}")
-            return
+            return  # dotted sugar — no useful lint
         if not isinstance(b, dict):
             warn(f"{where}: binding must be a string or dict, got {type(b).__name__}")
             return
-        find = b.get("find")
-        if find and find not in all_relations:
-            warn(f"{where}: `find: {find!r}` references unknown relation")
         is_ = b.get("is")
         if is_ and is_ not in shape_names:
             warn(f"{where}: `is: {is_!r}` references unknown shape")
@@ -1139,10 +1129,6 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
                     _check_binding(f"{where}.latest[{i}]", arm)
             else:
                 _check_binding(where, binding)
-        # `shortcuts:` lint. `writes:` strings have the shape
-        # `<edge>[is=<shape>].<field>` — extract the edge label and check
-        # it; deeper validation (does that edge actually point at that
-        # shape, does that shape carry that field) is advisory only.
         for flat_key, entry in (s.shortcuts or {}).items():
             where = f"shape {s.name!r}: shortcuts.{flat_key}"
             if not isinstance(entry, dict):
@@ -1152,12 +1138,6 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
             writes = entry.get("writes")
             if not isinstance(writes, str):
                 warn(f"{where}: missing or non-string `writes:` value")
-                continue
-            # Edge label = everything up to `[` or `.`, whichever first.
-            edge_label = writes.split("[", 1)[0].split(".", 1)[0]
-            if edge_label and edge_label not in all_relations:
-                warn(f"{where}: `writes: {writes!r}` references unknown "
-                     f"relation {edge_label!r}")
 
     for c in onto.auth_contracts:
         for g in c.groups:
