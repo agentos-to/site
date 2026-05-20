@@ -2858,7 +2858,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "shelf": {"subtitle": "isExclusive", "also": ["list"]},
     "simulation": {"subtitle": "status", "also": []},
     "skill": {"subtitle": "description", "also": []},
-    "software": {"subtitle": "applicationCategory", "also": ["product"]},
+    "software": {"subtitle": "applicationCategory", "highlights": ["released", "version", "runtimePlatform"], "also": ["product"]},
     "sound": {"subtitle": "purpose", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work", "file"]},
     "source": {"subtitle": "sourceId", "also": []},
     "spec": {"subtitle": "state", "also": ["task", "file"]},

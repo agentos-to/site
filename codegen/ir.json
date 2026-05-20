@@ -25794,7 +25794,11 @@
         "title": null,
         "subtitle": "applicationCategory",
         "image": null,
-        "highlights": [],
+        "highlights": [
+          "released",
+          "version",
+          "runtimePlatform"
+        ],
         "body": null,
         "preview": {}
       },
@@ -25860,7 +25864,7 @@
         }
       ],
       "source_path": "software.yaml",
-      "raw_body": "plural: software\nidentity_any:\n- url\ndisplay:\n  subtitle: applicationCategory\nalso:\n- product\nfields:\n  version: string\n  applicationCategory: string\n  runtimePlatform: string\n  codename: string\nrelations:\n  manufacturer: organization\nprior_art:\n- source: schema.org/SoftwareApplication\n  url: https://schema.org/SoftwareApplication\n  notes: \"Our applicationCategory mirrors schema.org applicationCategory (free-form\\\n    \\ string, common values include \\\"GameApplication\\\", \\\"BusinessApplication\\\",\\\n    \\ \\\"BrowserApplication\\\"). Our version maps to softwareVersion; runtimePlatform\\\n    \\ maps to operatingSystem (the closest analog \\u2014 schema.org uses `operatingSystem`\\\n    \\ to mean \\\"which platform the software runs on\\\", which matches our intent).\\\n    \\ Codename has no schema.org equivalent.\"\n- source: schema.org/SoftwareSourceCode\n  url: https://schema.org/SoftwareSourceCode\n  notes: For libraries / open-source code (XP.css, 98.css), schema.org has a separate\n    SoftwareSourceCode type with codeRepository / programmingLanguage fields. We keep\n    one `software` shape and let the product's url field carry the repo URL when applicable.\n- source: Wikidata Q7397 (software)\n  url: https://www.wikidata.org/wiki/Q7397\n  notes: \"Wikidata software entities use P348 (software version identifier), P178\\\n    \\ (developer) \\u2248 our manufacturer/creator, P306 (operating system) \\u2248\\\n    \\ our runtimePlatform, and P2669 (discontinued date) \\u2014 inherited from product.\\\n    \\ Cross-reference identity rather than direct field alignment.\"\n",
+      "raw_body": "plural: software\nidentity_any:\n- url\ndisplay:\n  subtitle: applicationCategory\n  highlights:\n  - released\n  - version\n  - runtimePlatform\nalso:\n- product\nfields:\n  version: string\n  applicationCategory: string\n  runtimePlatform: string\n  codename: string\nrelations:\n  manufacturer: organization\nprior_art:\n- source: schema.org/SoftwareApplication\n  url: https://schema.org/SoftwareApplication\n  notes: \"Our applicationCategory mirrors schema.org applicationCategory (free-form\\\n    \\ string, common values include \\\"GameApplication\\\", \\\"BusinessApplication\\\",\\\n    \\ \\\"BrowserApplication\\\"). Our version maps to softwareVersion; runtimePlatform\\\n    \\ maps to operatingSystem (the closest analog \\u2014 schema.org uses `operatingSystem`\\\n    \\ to mean \\\"which platform the software runs on\\\", which matches our intent).\\\n    \\ Codename has no schema.org equivalent.\"\n- source: schema.org/SoftwareSourceCode\n  url: https://schema.org/SoftwareSourceCode\n  notes: For libraries / open-source code (XP.css, 98.css), schema.org has a separate\n    SoftwareSourceCode type with codeRepository / programmingLanguage fields. We keep\n    one `software` shape and let the product's url field carry the repo URL when applicable.\n- source: Wikidata Q7397 (software)\n  url: https://www.wikidata.org/wiki/Q7397\n  notes: \"Wikidata software entities use P348 (software version identifier), P178\\\n    \\ (developer) \\u2248 our manufacturer/creator, P306 (operating system) \\u2248\\\n    \\ our runtimePlatform, and P2669 (discontinued date) \\u2014 inherited from product.\\\n    \\ Cross-reference identity rather than direct field alignment.\"\n",
       "ancestors": [
         "product"
       ]

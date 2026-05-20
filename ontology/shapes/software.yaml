@@ -13,6 +13,7 @@ software:
   identity_any: [url]   # url is the web-canonical identifier (Wikipedia page, GitHub repo, vendor URL)
   display:
     subtitle: applicationCategory
+    highlights: [released, version, runtimePlatform]
   also: [product]       # software is also a product
   fields:
     version:           string    # canonical version string ("11.0", "2023.4.1", "sp3")
