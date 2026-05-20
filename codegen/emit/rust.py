@@ -179,4 +179,96 @@ def emit_rust(onto: Ontology) -> str:
         lines.append("};")
         lines.append("")
 
+    # ===========================================================
+    # Display specs — `display:` block per shape (shape-display plan)
+    # ===========================================================
+    #
+    # One closed role vocabulary; per-shape role bindings. The engine's
+    # `view::display::resolve_display` reads `SHAPE_DISPLAY[shape]` and
+    # projects a `DisplayModel` from a node — same projection as the
+    # frontend `resolveDisplay()`. See core/_roadmap/p1/shape-display/plan.md.
+    lines += [
+        "// ===========================================================",
+        "// Display specs — `display:` block per shape (shape-display plan)",
+        "// ===========================================================",
+        "//",
+        "// One closed role vocabulary; per-shape role bindings. The",
+        "// engine's `view::display::resolve_display` reads",
+        "// `SHAPE_DISPLAY[shape]` and projects a `DisplayModel` from a",
+        "// node — same projection as the frontend `resolveDisplay()`.",
+        "",
+        "/// Per-field clip policy at preview/card density.",
+        "/// `Clip` (default) applies the global preview cap; `Full` never",
+        "/// clips; `MaxChars(n)` is an explicit per-field cap.",
+        "#[derive(Debug, Clone, Copy, PartialEq, Eq)]",
+        "pub enum PreviewPolicy {",
+        "    Clip,",
+        "    Full,",
+        "    MaxChars(usize),",
+        "}",
+        "",
+        "/// The five closed roles every theme + renderer projects against.",
+        "/// `title` defaults to the `name` field when absent; the other",
+        "/// roles are simply absent if unbound.",
+        "#[derive(Debug, Clone)]",
+        "pub struct Display {",
+        "    pub title: Option<&'static str>,",
+        "    pub subtitle: Option<&'static str>,",
+        "    pub image: Option<&'static str>,",
+        "    pub highlights: &'static [&'static str],",
+        "    pub body: Option<&'static str>,",
+        "    pub preview: &'static [(&'static str, PreviewPolicy)],",
+        "}",
+        "",
+        "/// Linear-scan lookup by shape name. ~100 shapes; binary search",
+        "/// would shave microseconds and add ordering ceremony for no win.",
+        "pub fn lookup_display(shape: &str) -> Option<&'static Display> {",
+        "    SHAPE_DISPLAY.iter().find(|(name, _)| *name == shape).map(|(_, d)| d)",
+        "}",
+        "",
+        "pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[",
+    ]
+
+    def _rust_opt_str(v) -> str:
+        if v is None:
+            return "None"
+        return f'Some("{v}")'
+
+    def _rust_str_array(items: list[str]) -> str:
+        if not items:
+            return "&[]"
+        return "&[" + ", ".join(f'"{s}"' for s in items) + "]"
+
+    def _rust_preview(preview: dict) -> str:
+        if not preview:
+            return "&[]"
+        parts: list[str] = []
+        for key, policy in preview.items():
+            if policy == "full":
+                p = "PreviewPolicy::Full"
+            elif policy == "clip":
+                p = "PreviewPolicy::Clip"
+            elif isinstance(policy, dict) and "max_chars" in policy:
+                p = f"PreviewPolicy::MaxChars({int(policy['max_chars'])})"
+            else:
+                # Unknown policy — skip rather than emit broken Rust.
+                continue
+            parts.append(f'("{key}", {p})')
+        return "&[" + ", ".join(parts) + "]"
+
+    for s in shapes_sorted:
+        if not s.display:
+            continue
+        d = s.display
+        lines.append(f'    ("{s.name}", Display {{')
+        lines.append(f"        title: {_rust_opt_str(d.title)},")
+        lines.append(f"        subtitle: {_rust_opt_str(d.subtitle)},")
+        lines.append(f"        image: {_rust_opt_str(d.image)},")
+        lines.append(f"        highlights: {_rust_str_array(list(d.highlights))},")
+        lines.append(f"        body: {_rust_opt_str(d.body)},")
+        lines.append(f"        preview: {_rust_preview(d.preview)},")
+        lines.append("    }),")
+    lines.append("];")
+    lines.append("")
+
     return "\n".join(lines)
