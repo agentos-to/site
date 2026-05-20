@@ -101,6 +101,8 @@ class Shape:
     raw_body: str = ""                                         # original YAML body as read from disk (or as serialised back from graph api). Used by SHAPE_YAMLS codegen.
     ancestors: list[str] = field(default_factory=list)        # transitive `also:` closure — every shape this one inherits from, walk order (immediate parents first, then grandparents, deduped).
     field_order: list[str] = field(default_factory=list)      # YAML declaration order, this shape's own fields first, then inherited via `also:` (deduped). Drives `SHAPE_FIELD_ORDER` per the life-events plan — author order is meaning.
+    derived: dict = field(default_factory=dict)               # `derived:` block — per-field read-side bindings. Values are raw dicts with `find` / `where` / `where_edge` / `is` / `get` / `latest`. See event-derived-attributes plan §"The derived block".
+    shortcuts: dict = field(default_factory=dict)             # `shortcuts:` block — per-flat-key write-side expansions. Each entry maps a flat create-key to a single canonical write target (e.g. `birthdate: {writes: born_in[is=birth].startDate}`).
 
 
 # =============================================================================
@@ -613,6 +615,17 @@ def _build_shapes(
         except Exception:
             s.raw_body = ""
 
+        # `derived:` + `shortcuts:` blocks — raw dicts, validated by
+        # `validate()` against the relation graph (any `find:` must be a
+        # known relation label; any `is:` must be a known shape name; any
+        # `shortcuts.X.writes:` must resolve to a valid edge label).
+        derived = defn.get("derived") or {}
+        if isinstance(derived, dict):
+            s.derived = derived
+        shortcuts = defn.get("shortcuts") or {}
+        if isinstance(shortcuts, dict):
+            s.shortcuts = shortcuts
+
         # Prior art — optional list of external standards this shape aligns with.
         pa = defn.get("prior_art") or []
         if isinstance(pa, list):
@@ -1080,6 +1093,71 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
                 if pk not in known:
                     warn(f"shape {s.name!r}: display.preview key {pk!r} "
                          f"is not a declared field")
+
+    # `derived:` + `shortcuts:` lint. Collect the global vocabularies once:
+    #   - every relation label that exists anywhere (per rule 4, edges
+    #     aren't owned by shapes — a `find:` may reference any relation
+    #     that exists on any shape)
+    #   - every known shape name (for the `is:` filter)
+    all_relations: set[str] = set()
+    for s in onto.shapes:
+        for r in s.own_relations:
+            all_relations.add(r.name)
+
+    def _check_binding(where: str, b: object) -> None:
+        """Walk a single derived binding. String form: dotted sugar
+        (`born_in.startDate`). Dict form: `{find, where, where_edge, is, get}`.
+        `latest:` recursion handled by the caller."""
+        if isinstance(b, str):
+            # Dotted sugar: `<rel>.<field>` — only the relation half is
+            # globally checkable; the field is resolved against the target's
+            # shape at render time.
+            head = b.split(".", 1)[0]
+            if head and head not in all_relations:
+                warn(f"{where}: dotted binding {b!r} references unknown "
+                     f"relation {head!r}")
+            return
+        if not isinstance(b, dict):
+            warn(f"{where}: binding must be a string or dict, got {type(b).__name__}")
+            return
+        find = b.get("find")
+        if find and find not in all_relations:
+            warn(f"{where}: `find: {find!r}` references unknown relation")
+        is_ = b.get("is")
+        if is_ and is_ not in shape_names:
+            warn(f"{where}: `is: {is_!r}` references unknown shape")
+
+    for s in onto.shapes:
+        for field_name, binding in (s.derived or {}).items():
+            where = f"shape {s.name!r}: derived.{field_name}"
+            if isinstance(binding, dict) and "latest" in binding:
+                arms = binding["latest"] or []
+                if not isinstance(arms, list):
+                    warn(f"{where}.latest: expected a list, got {type(arms).__name__}")
+                    continue
+                for i, arm in enumerate(arms):
+                    _check_binding(f"{where}.latest[{i}]", arm)
+            else:
+                _check_binding(where, binding)
+        # `shortcuts:` lint. `writes:` strings have the shape
+        # `<edge>[is=<shape>].<field>` — extract the edge label and check
+        # it; deeper validation (does that edge actually point at that
+        # shape, does that shape carry that field) is advisory only.
+        for flat_key, entry in (s.shortcuts or {}).items():
+            where = f"shape {s.name!r}: shortcuts.{flat_key}"
+            if not isinstance(entry, dict):
+                warn(f"{where}: expected a dict with `writes:`, got "
+                     f"{type(entry).__name__}")
+                continue
+            writes = entry.get("writes")
+            if not isinstance(writes, str):
+                warn(f"{where}: missing or non-string `writes:` value")
+                continue
+            # Edge label = everything up to `[` or `.`, whichever first.
+            edge_label = writes.split("[", 1)[0].split(".", 1)[0]
+            if edge_label and edge_label not in all_relations:
+                warn(f"{where}: `writes: {writes!r}` references unknown "
+                     f"relation {edge_label!r}")
 
     for c in onto.auth_contracts:
         for g in c.groups:

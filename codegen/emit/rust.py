@@ -315,4 +315,32 @@ def emit_rust(onto: Ontology) -> str:
         "",
     ]
 
+    # SHAPE_DERIVED + SHAPE_SHORTCUTS — emitted as JSON strings the engine
+    # parses lazily via serde_json. Phase 3 wires the resolver into
+    # `view::display::evaluate_derived`. Static-string form avoids pulling
+    # phf into contract-generated; resolver caches per-shape after first parse.
+    import json as _json
+    derived_obj = {s.name: s.derived for s in shapes_sorted if s.derived}
+    shortcuts_obj = {s.name: s.shortcuts for s in shapes_sorted if s.shortcuts}
+    lines += [
+        "// ===========================================================",
+        "// Derived bindings per shape — read-side resolver input",
+        "// ===========================================================",
+        "",
+        "/// Per-shape `derived:` bindings as a JSON object. The engine",
+        "/// parses lazily via `serde_json::from_str` on first lookup and",
+        "/// caches per-shape. Binding grammar:",
+        "///   {find, where, where_edge, is, get} | {latest: [...]} | dotted string.",
+        f"pub static SHAPE_DERIVED_JSON: &str = r#\"{_json.dumps(derived_obj)}\"#;",
+        "",
+        "// ===========================================================",
+        "// Shortcuts per shape — write-side flat-create expansion",
+        "// ===========================================================",
+        "",
+        "/// Per-shape `shortcuts:` table as a JSON object. Each entry:",
+        "///   flat_key -> {writes: <edge>[is=<shape>].<field>}",
+        f"pub static SHAPE_SHORTCUTS_JSON: &str = r#\"{_json.dumps(shortcuts_obj)}\"#;",
+        "",
+    ]
+
     return "\n".join(lines)

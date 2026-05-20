@@ -104,6 +104,33 @@ def emit_python(onto: Ontology) -> str:
     lines.append("]")
     lines.append("")
 
+    # SHAPE_DERIVED — per-shape `derived:` bindings. Read-side resolver
+    # walks these at read time and projects computed values onto the node
+    # JSON. Each entry maps a derived-field name to a binding dict (see
+    # ir.Shape.derived for the binding grammar).
+    lines.append("# `derived:` bindings per shape — read-side resolver input.")
+    lines.append("# Binding grammar: {find, where, where_edge, is, get} | {latest: [...]} | dotted string.")
+    lines.append("SHAPE_DERIVED: dict[str, dict] = {")
+    for s in shapes:
+        if not s.derived:
+            continue
+        lines.append(f"    {s.name!r}: {s.derived!r},")
+    lines.append("}")
+    lines.append("")
+
+    # SHAPE_SHORTCUTS — per-shape `shortcuts:` block, the flat-create
+    # expansion table. Engine reads this on create() to rewrite a flat
+    # payload into the canonical nested edges_out form.
+    lines.append("# `shortcuts:` per shape — write-side flat-create expansion table.")
+    lines.append("# Each entry: flat_key -> {writes: <edge>[is=<shape>].<field>}")
+    lines.append("SHAPE_SHORTCUTS: dict[str, dict] = {")
+    for s in shapes:
+        if not s.shortcuts:
+            continue
+        lines.append(f"    {s.name!r}: {s.shortcuts!r},")
+    lines.append("}")
+    lines.append("")
+
     return "\n".join(lines)
 
 

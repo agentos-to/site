@@ -3516,3 +3516,15 @@ export const EVENT_TYPES: readonly string[] = [
     "transition",
     "trip",
 ] as const;
+
+// ─── Derived bindings per shape — read-side resolver input ──────────────
+// Binding grammar: {find, where, where_edge, is, get} | {latest: [...]} | dotted string.
+
+export const SHAPE_DERIVED: Record<string, Record<string, unknown>> = {
+};
+
+// ─── Shortcuts per shape — write-side flat-create expansion table ───────
+// Each entry: flat_key -> {writes: <edge>[is=<shape>].<field>}
+
+export const SHAPE_SHORTCUTS: Record<string, Record<string, unknown>> = {
+};

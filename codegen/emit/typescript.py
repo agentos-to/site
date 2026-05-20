@@ -103,6 +103,34 @@ def emit_typescript(onto: Ontology) -> str:
     lines.append("] as const;")
     lines.append("")
 
+    # SHAPE_DERIVED + SHAPE_SHORTCUTS — see python emitter / ir.Shape for
+    # binding grammar. The TS resolver mirrors the Rust one (Phase 3).
+    lines.extend([
+        "// ─── Derived bindings per shape — read-side resolver input ──────────────",
+        "// Binding grammar: {find, where, where_edge, is, get} | {latest: [...]} | dotted string.",
+        "",
+        "export const SHAPE_DERIVED: Record<string, Record<string, unknown>> = {",
+    ])
+    for s in shapes:
+        if not s.derived:
+            continue
+        lines.append(f"    {json.dumps(s.name)}: {json.dumps(s.derived)},")
+    lines.append("};")
+    lines.append("")
+
+    lines.extend([
+        "// ─── Shortcuts per shape — write-side flat-create expansion table ───────",
+        "// Each entry: flat_key -> {writes: <edge>[is=<shape>].<field>}",
+        "",
+        "export const SHAPE_SHORTCUTS: Record<string, Record<string, unknown>> = {",
+    ])
+    for s in shapes:
+        if not s.shortcuts:
+            continue
+        lines.append(f"    {json.dumps(s.name)}: {json.dumps(s.shortcuts)},")
+    lines.append("};")
+    lines.append("")
+
     return "\n".join(lines)
 
 

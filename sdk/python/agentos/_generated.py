@@ -3578,3 +3578,13 @@ EVENT_TYPES: list[str] = [
     'transition',
     'trip',
 ]
+
+# `derived:` bindings per shape — read-side resolver input.
+# Binding grammar: {find, where, where_edge, is, get} | {latest: [...]} | dotted string.
+SHAPE_DERIVED: dict[str, dict] = {
+}
+
+# `shortcuts:` per shape — write-side flat-create expansion table.
+# Each entry: flat_key -> {writes: <edge>[is=<shape>].<field>}
+SHAPE_SHORTCUTS: dict[str, dict] = {
+}

@@ -479,7 +479,9 @@
         "userId",
         "issuer",
         "metadata"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "activity",
@@ -856,7 +858,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "actor",
@@ -967,7 +971,9 @@
       "ancestors": [],
       "field_order": [
         "actorType"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "agent",
@@ -1120,7 +1126,9 @@
         "provider",
         "sessionId",
         "actorType"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "aircraft",
@@ -1539,7 +1547,9 @@
         "calories",
         "servingSize",
         "customizationGroups"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "airline",
@@ -1770,7 +1780,9 @@
         "alliance",
         "industry",
         "actorType"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "airport",
@@ -2022,7 +2034,9 @@
         "timezone",
         "elevationFt",
         "terminalCount"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "app",
@@ -2216,7 +2230,9 @@
         "defaultView",
         "isSystem",
         "handles"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "birth",
@@ -2688,7 +2704,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "book",
@@ -3272,7 +3290,9 @@
         "calories",
         "servingSize",
         "customizationGroups"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "booking_offer",
@@ -4188,7 +4208,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "bookmark",
@@ -4314,7 +4336,9 @@
       "ancestors": [],
       "field_order": [
         "name"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "branch",
@@ -4515,7 +4539,9 @@
         "behind",
         "isCurrent",
         "isRemote"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "brand",
@@ -4726,7 +4752,9 @@
         "country",
         "primaryColor",
         "textColor"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "calendar",
@@ -5008,7 +5036,9 @@
         "accessRole",
         "source",
         "timezone"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "channel",
@@ -5157,7 +5187,9 @@
       "field_order": [
         "banner",
         "subscriberCount"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "class",
@@ -5524,7 +5556,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "community",
@@ -5703,7 +5737,9 @@
         "memberCount",
         "subscriberCount",
         "allowCrypto"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "conversation",
@@ -5999,7 +6035,9 @@
         "source",
         "cwd",
         "gitBranch"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "conversion",
@@ -6365,7 +6403,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "creative_work",
@@ -6655,7 +6695,9 @@
         "language",
         "coverage",
         "tags"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "credential",
@@ -6928,7 +6970,9 @@
         "lastVerified",
         "refreshable",
         "storeRowId"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "dimension",
@@ -7196,7 +7240,9 @@
         "amount",
         "luminous",
         "dimensionless"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "dns_record",
@@ -7416,7 +7462,9 @@
         "priority",
         "recordId",
         "values"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "document",
@@ -7722,7 +7770,9 @@
         "lineCount",
         "kind",
         "sha"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "domain",
@@ -7880,7 +7930,9 @@
         "registrar",
         "autoRenew",
         "nameservers"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "email",
@@ -8602,7 +8654,9 @@
         "authResults",
         "bodyHtml",
         "isOutgoing"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "episode",
@@ -8791,7 +8845,9 @@
         "durationMs",
         "episodeNumber",
         "seasonNumber"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "event",
@@ -9223,7 +9279,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "fare",
@@ -9666,7 +9724,9 @@
         "changeable",
         "restrictions",
         "conditions"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "file",
@@ -9931,7 +9991,9 @@
         "lineCount",
         "kind",
         "sha"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "financial_account",
@@ -10278,7 +10340,9 @@
         "minimumPayment",
         "cardType",
         "interestRate"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "flight",
@@ -10789,7 +10853,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "font",
@@ -11157,7 +11223,9 @@
         "language",
         "coverage",
         "tags"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "git_commit",
@@ -11585,7 +11653,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "group",
@@ -11714,7 +11784,9 @@
       "field_order": [
         "memberCount",
         "category"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "hardware",
@@ -12088,7 +12160,9 @@
         "calories",
         "servingSize",
         "customizationGroups"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "health-biomarker",
@@ -12277,7 +12351,9 @@
         "loincCode",
         "analyteType",
         "description"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "health-condition",
@@ -12550,7 +12626,9 @@
         "icd10Code",
         "clinicalArea",
         "mitigation"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "health-immunization",
@@ -13021,7 +13099,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "health-lab",
@@ -13258,7 +13338,9 @@
         "accreditation",
         "industry",
         "actorType"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "health-observation",
@@ -13782,7 +13864,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "health-panel",
@@ -14260,7 +14344,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "health-procedure",
@@ -14754,7 +14840,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "health-reference-range",
@@ -15281,7 +15369,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "icon",
@@ -15566,7 +15656,9 @@
         "language",
         "coverage",
         "tags"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "image",
@@ -15963,7 +16055,9 @@
         "lineCount",
         "kind",
         "sha"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "intellectual_property",
@@ -16278,7 +16372,9 @@
         "validIn",
         "renewalPeriod",
         "verificationUrl"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "invitation",
@@ -16721,7 +16817,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "launch",
@@ -17139,7 +17237,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "leg",
@@ -17683,7 +17783,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "list",
@@ -18027,7 +18129,9 @@
         "icon_size",
         "sort_by",
         "path"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "loaded_model",
@@ -18375,7 +18479,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "mcp_session",
@@ -18629,7 +18735,9 @@
         "endedAt",
         "messageCount",
         "tokenCount"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "meeting",
@@ -19012,7 +19120,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "membership",
@@ -19472,7 +19582,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "memex",
@@ -19898,7 +20010,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "message",
@@ -20118,7 +20232,9 @@
         "isOutgoing",
         "isStarred",
         "conversationId"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "model",
@@ -20447,7 +20563,9 @@
         "format",
         "family",
         "digest"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "note",
@@ -20621,7 +20739,9 @@
       "field_order": [
         "noteType",
         "isPinned"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "offer",
@@ -21034,7 +21154,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "order",
@@ -21805,7 +21927,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "organization",
@@ -22008,7 +22132,9 @@
       "field_order": [
         "industry",
         "actorType"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "pass",
@@ -22605,7 +22731,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "payment_method",
@@ -23163,7 +23291,9 @@
         "status",
         "providerTokens",
         "metadata"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "person",
@@ -23648,7 +23778,9 @@
         "gender",
         "about",
         "actorType"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "place",
@@ -24279,7 +24411,9 @@
         "mapboxId",
         "wikidataId",
         "googlePlaceId"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "playlist",
@@ -24503,7 +24637,9 @@
         "icon_size",
         "sort_by",
         "path"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "podcast",
@@ -24665,7 +24801,9 @@
       "ancestors": [],
       "field_order": [
         "feedUrl"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "post",
@@ -24957,7 +25095,9 @@
         "score",
         "commentCount",
         "community"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "practice",
@@ -25138,7 +25278,9 @@
         "code",
         "codeSystem",
         "aliases"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "product",
@@ -25667,7 +25809,9 @@
         "calories",
         "servingSize",
         "customizationGroups"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "project",
@@ -25831,7 +25975,9 @@
         "state",
         "color",
         "parentId"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "protocol",
@@ -25987,7 +26133,9 @@
         "homepage",
         "rfc",
         "wikidataId"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "qualification",
@@ -26266,7 +26414,9 @@
         "level",
         "validIn",
         "verificationUrl"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "quantity-kind",
@@ -26423,7 +26573,9 @@
       "field_order": [
         "key",
         "label"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "quote",
@@ -26549,7 +26701,9 @@
       "field_order": [
         "context",
         "year"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "repository",
@@ -26832,7 +26986,9 @@
         "defaultBranch",
         "license",
         "size"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "reservation",
@@ -27535,7 +27691,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "result",
@@ -27736,7 +27894,9 @@
         "score",
         "similarity",
         "community"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "review",
@@ -28014,7 +28174,9 @@
         "score",
         "commentCount",
         "community"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "role",
@@ -28354,7 +28516,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "seatmap",
@@ -28708,7 +28872,9 @@
         "hasFreeSeats",
         "hasPaidSeats",
         "basicEconomyLocked"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "shelf",
@@ -28948,7 +29114,9 @@
         "icon_size",
         "sort_by",
         "path"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "simulation",
@@ -29254,7 +29422,9 @@
         "endedAt",
         "actionCount",
         "writeCount"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "skill",
@@ -29473,7 +29643,9 @@
         "color",
         "status",
         "error"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "software",
@@ -29870,7 +30042,9 @@
         "calories",
         "servingSize",
         "customizationGroups"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "sound",
@@ -30235,7 +30409,9 @@
         "lineCount",
         "kind",
         "sha"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "source",
@@ -30443,7 +30619,9 @@
         "enabled",
         "description",
         "lastSynced"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "spec",
@@ -30975,7 +31153,9 @@
         "lineCount",
         "kind",
         "sha"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "tag",
@@ -31138,7 +31318,9 @@
         "tagType",
         "annotated",
         "hash"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "task",
@@ -31645,7 +31827,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "tax_line",
@@ -32063,7 +32247,9 @@
         "rate",
         "taxableAmount",
         "inclusive"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "theme",
@@ -32261,7 +32447,9 @@
         "style",
         "startMenu",
         "defaultBackgroundColor"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "tool_call",
@@ -32490,7 +32678,9 @@
         "output",
         "isError",
         "durationMs"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "transaction",
@@ -32943,7 +33133,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "transcript",
@@ -33134,7 +33326,9 @@
         "durationMs",
         "segmentCount",
         "segments"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "transition",
@@ -33618,7 +33812,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "trip",
@@ -34343,7 +34539,9 @@
         "distinctId",
         "currentUrl",
         "properties"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "unit",
@@ -34712,7 +34910,9 @@
         "iso4217Numeric",
         "minorExponent",
         "logBase"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "user",
@@ -34872,7 +35072,9 @@
         "osUsername",
         "primaryUser",
         "actorType"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "video",
@@ -35273,7 +35475,9 @@
         "lineCount",
         "kind",
         "sha"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "webpage",
@@ -35436,7 +35640,9 @@
         "lastVisitUnix",
         "contentType",
         "error"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     },
     {
       "name": "website",
@@ -35643,7 +35849,9 @@
         "anonymous",
         "claimToken",
         "claimUrl"
-      ]
+      ],
+      "derived": {},
+      "shortcuts": {}
     }
   ],
   "auth_contracts": [
