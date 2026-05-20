@@ -50,6 +50,27 @@ property of the relationship** rides there too — `joe —owns→ adavia
 integer exactly as `node_vals` would; an ownership percentage belongs to
 the owning, not to either party.
 
+**Time intervals on edges — canonical convention.** When an edge
+represents a *period* (a residence, a job, a membership, a marriage),
+use `{from: date, to: date?}` as the edge_vals. `to: null` (or absent)
+means the interval is still open — the current/active period. The
+`current_*` derived bindings on shapes (e.g. `person.current_residence`,
+`person.current_role`) read this convention via the resolver's
+`where_edge: {to: null}` filter:
+
+```
+joe —lived_at→ austin    {from: 2018-06, to: 2020-09}   # closed
+joe —lived_at→ portland  {from: 2020-09, to: null}       # current
+joe —worked_at→ corp     {from: 2019-01, to: 2024-12, title: "engineer"}
+```
+
+This pairs naturally with rule 3 (node vs edge): a residence trips no
+triggers → stays a dated edge with `{from, to}`. If a residence ever
+*does* trip a trigger (needs reason, source-of-truth attribution,
+witnesses, paperwork — e.g. a visa-application proof-of-address), it
+promotes to its own `event(residence)` node and the `lived_at` edge
+becomes `lived_at_for` (a participation edge into the event node).
+
 ### 2. Edges are verb phrases — one naming axis, no exceptions
 
 Every edge label is a **lowercase snake_case verb phrase**, read
