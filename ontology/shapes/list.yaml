@@ -15,10 +15,18 @@
 #   temporal   → timeline / reverse-chrono feed;
 #                 edge.position = { temporal: { datetime: string } }
 #
-# `listType` is an OPEN STRING — semantic intent only. Skills and apps
-# may set any value ('folder' | 'album' | 'playlist' | 'launcher' |
-# 'tray' | 'desktop' | 'wallpapers' | 'shelf' | 'task-queue' |
-# 'search-snapshot' | ...). Nothing in the engine branches on it.
+# `listType` is an OPEN STRING — **content semantics only**. What KIND
+# of container: 'folder' (default, generic), 'playlist' (music linear
+# queue), 'album' (music release), 'gallery' (image grid), 'shelf'
+# (read-it-later), 'tag' (flat classifier), 'search-snapshot' (saved
+# query results), 'task-queue', etc.
+#
+# Shell position is NOT a listType. The desktop, tray, launchers, and
+# wallpapers folder are ALL `listType: 'folder'` with `id: 'desktop'` /
+# `'tray'` / `'primary-launcher'` / `'wallpapers'`. The theme's renderer
+# dispatches on `id` to apply specialized chrome (wallpaper+icons for
+# id='desktop', bottom strip for id='tray', etc.) — never on listType.
+# Nothing in the engine branches on listType either; it is a render hint.
 list:
   plural: lists
   identity: [at, id]
