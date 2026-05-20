@@ -100,6 +100,7 @@ class Shape:
     source_path: str | None = None                            # relative path of the YAML file that defined this shape (e.g. "account.yaml", "agentos/theme.yaml")
     raw_body: str = ""                                         # original YAML body as read from disk (or as serialised back from graph api). Used by SHAPE_YAMLS codegen.
     ancestors: list[str] = field(default_factory=list)        # transitive `also:` closure — every shape this one inherits from, walk order (immediate parents first, then grandparents, deduped).
+    field_order: list[str] = field(default_factory=list)      # YAML declaration order, this shape's own fields first, then inherited via `also:` (deduped). Drives `SHAPE_FIELD_ORDER` per the life-events plan — author order is meaning.
 
 
 # =============================================================================
@@ -234,6 +235,17 @@ class Op:
 # =============================================================================
 
 
+# =============================================================================
+# IR — event types
+# =============================================================================
+#
+# Event types are first-class shapes. Each subtype (`birth`, `transition`,
+# `launch`, `meeting`, ...) lives in its own `shapes/*.yaml` and chains
+# `also: [event]`. The shape IS the type — no separate registry, no
+# `eventType` string discriminator. `event_shape_names(ontology)`
+# derives the list at codegen time from the shape graph.
+
+
 @dataclass
 class Ontology:
     """The whole normalized contract — one tree, every emitter's input."""
@@ -253,6 +265,14 @@ class Ontology:
             if o.name == name:
                 return o
         return None
+
+    def event_shape_names(self) -> list[str]:
+        """Names of every shape whose `also:` chain transitively includes
+        `event`, plus `event` itself. Sorted. Drives `EVENT_TYPES` emission
+        per language — the shape IS the type."""
+        out = [s.name for s in self.shapes
+               if s.name == "event" or "event" in s.ancestors]
+        return sorted(out)
 
 
 # =============================================================================
@@ -514,6 +534,26 @@ def _build_shapes(
 
         return merged
 
+    def resolve_field_order(name: str, seen: set | None = None) -> list[str]:
+        """Per-shape declaration-order field list, this shape's fields first,
+        then each `also:` parent's fields appended (deduped). Drives
+        SHAPE_FIELD_ORDER per the life-events plan — author order is meaning."""
+        if seen is None:
+            seen = set()
+        if name in seen or name not in raw:
+            return []
+        seen.add(name)
+        defn = raw.get(name, {})
+        out: list[str] = []
+        for fname in (defn.get("fields") or {}).keys():
+            if fname not in out:
+                out.append(fname)
+        for also in defn.get("also") or []:
+            for fname in resolve_field_order(also, seen):
+                if fname not in out:
+                    out.append(fname)
+        return out
+
     def resolve_ancestors(name: str, seen: set | None = None) -> list[str]:
         """Transitive `also:` closure for one shape. Walk order: immediate
         parents first (in declaration order), then their parents, deduped.
@@ -552,6 +592,7 @@ def _build_shapes(
         s.display = resolve_display(shape_name)
         s.subtitle = s.display.subtitle if s.display else None
         s.ancestors = resolve_ancestors(shape_name)
+        s.field_order = resolve_field_order(shape_name)
         if "identity" in defn:
             ident = defn["identity"]
             s.identity = ident if isinstance(ident, list) else [ident]
@@ -902,6 +943,29 @@ _SHAPE_TYPES = {
 _AUTH_TYPES = {"string", "integer", "number", "boolean", "array", "json"}
 
 
+# Rule 1 — an event is a relationship; time and place ride on it. A
+# `datetime` on a non-event shape is a denormalization bug. This
+# allowlist is the narrow exception: transaction-time stamps ("when
+# AgentOS learned this fact") are fine on any node per rule 6 (two
+# clocks). Everything else gets a warning that surfaces three fixes:
+# (a) edge val on a verb edge, (b) promote to an event node, (c) add
+# the field name here if it really is transaction-time.
+TRANSACTION_TIME_ALLOWLIST = {
+    # generic transaction-time stamps
+    "recorded_at", "created_at", "updated_at", "dateUpdated",
+    "lastSeen", "last_synced_at", "synced_at", "crawled_at",
+    "fetched_at", "lastSynced",
+    # auth / credential lifecycle (when AgentOS learned the creds)
+    "lastVerified", "lastActive", "lastProfileFetch", "obtainedAt",
+    # execution span — "when this process ran on this machine"
+    "startedAt", "endedAt", "committedAt",
+    # search-index recency
+    "indexedAt",
+    # account onboarding-time
+    "joinedDate",
+}
+
+
 def build(
     shapes: list[Shape],
     auth_contracts: list[AuthContract],
@@ -960,19 +1024,53 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
             base = f.type.rstrip("[]")
             if base not in _SHAPE_TYPES:
                 warn(f"shape {s.name!r}: field {f.name!r} has unknown type {f.type!r}")
+        # Rule 1: orphan-datetime check. A `datetime` on a non-event shape
+        # is a denormalized date for a relationship — should be an edge
+        # val or an event node. Skip event-derived shapes (the date lives
+        # naturally on the event) and the transaction-time allowlist.
+        # Hard error after the life-events migration — the ontology is
+        # not allowed to grow a new orphan datetime without an explicit
+        # decision (allowlist, event-derive, or migrate the field).
+        is_event_derived = s.name == "event" or "event" in s.ancestors
+        if not is_event_derived:
+            for f in s.own_fields:
+                if f.type == "datetime" and f.name not in TRANSACTION_TIME_ALLOWLIST:
+                    err(f"shape {s.name!r}: field {f.name!r} is a datetime "
+                        f"on a non-event shape (rule 1). Fix: (a) edge val "
+                        f"on the verb edge that earns this date, (b) promote "
+                        f"to an event node with `--<verb>--> event {{startDate}}`, "
+                        f"or (c) add {f.name!r} to TRANSACTION_TIME_ALLOWLIST "
+                        f"in ir.py if it's really 'when AgentOS learned this'.")
         # `display:` block — role bindings must reference a field or relation
         # this shape carries (resolved fields, includes inherited + standard +
         # relations). Unknown bindings are advisory warnings, not errors —
         # consistent with the rest of shape lint.
+        #
+        # A binding may also be dotted (`born_in.startDate`) — depth-1
+        # recursion per the life-events plan. The relation half must be a
+        # known relation label; the field half is not validated here
+        # (resolved against the target's own shape at render time).
         if s.display:
             known = {f.name for f in s.fields}
+
+            def _known_binding(binding: str) -> bool:
+                # Dotted bindings (`born_in.startDate`) walk a verb edge.
+                # Per rule 4, verb edges aren't owned by shapes — `person`
+                # declares no `born_in` even though the canonical home for
+                # birthdate is `person --born_in--> event`. The validator
+                # therefore accepts any dotted binding; the resolver
+                # silently returns nothing if no matching edge exists.
+                if "." in binding:
+                    return True
+                return binding in known
+
             for role in ("title", "subtitle", "image", "body"):
                 binding = getattr(s.display, role)
-                if binding and binding not in known:
+                if binding and not _known_binding(binding):
                     warn(f"shape {s.name!r}: display.{role} binds to "
                          f"unknown field/relation {binding!r}")
             for hi in s.display.highlights:
-                if hi not in known:
+                if not _known_binding(hi):
                     warn(f"shape {s.name!r}: display.highlights includes "
                          f"unknown {hi!r}")
             if len(s.display.highlights) > 4:

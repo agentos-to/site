@@ -92,7 +92,6 @@ _SHAPE_EXTRAS = {
         "startDate": "2026-04-10T18:00:00Z",
         "endDate": "2026-04-10T20:00:00Z",
         "timezone": "America/Chicago",
-        "eventType": "meetup",
         "status": "confirmed",
         "allDay": False,""",
     "product": """

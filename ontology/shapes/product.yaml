@@ -34,9 +34,12 @@ product:
     availability:      string
     images:            json
     quantity:          integer
-    # Lifecycle dates (broadly applicable across product types — see header notes)
-    released:          datetime  # first appearance in the world (publication, launch, certification, …)
-    discontinued:      datetime  # end of availability (EOL, out-of-print, production-end, stopped-selling, …)
+    # Lifecycle dates ride on the relevant verb edges (per rule 1):
+    #   - released → `published_by --> publisher {date}` edge val, or an
+    #     `event(release)` node when multi-party (album launch, conference
+    #     reveal). schema.org's `releaseDate` is the same concept.
+    #   - discontinued → `event(discontinuation)` node, or `produced_by -->
+    #     manufacturer {discontinuedOn}` edge val. Wikidata P2669.
     # Physical / grocery
     weight:            string    # formatted weight/size ("12 oz", "3 lbs", "500ml")
     weightValue:      number    # numeric weight for math

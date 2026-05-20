@@ -13,6 +13,8 @@
 # Examples: joe.db (personal), astronomy.db (domain), spacex-history.db (community)
 memex:
   plural: memex
+  also: [event]                  # a memex spans time — created at a moment, snapshots
+                                  # capture a moment, lifetime ends at deletion. Rule 1.
   display:
     subtitle: description
   icon: brain
@@ -23,7 +25,8 @@ memex:
     nodeCount:        integer    # entities in this graph
     edgeCount:        integer    # relationships in this graph
     fileSize:         string     # human-readable database size
-    snapshotOf:       datetime   # if snapshot: when was the source captured
+                                   # For `origin: snapshot`, when the source was
+                                   # captured lives on event.startDate (inherited).
     published:        boolean    # available on the intergalactic network
   relations:
     owner:             person

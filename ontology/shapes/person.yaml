@@ -34,18 +34,24 @@ person:
   display:
     image: image
     subtitle: about
-    highlights: [birthday, gender]
+    # Depth-1 recursion: pull the birthday from the linked birth event.
+    # The engine read path projects `born_in.startDate` onto the
+    # relationship row's `target_vals` automatically — see
+    # `view::display::dotted_target_projections`.
+    highlights: [born_in.startDate, gender]
     body: notes
   also: [actor]       # a person is also an actor
   fields:
     url:              string    # canonical web identifier (GitHub profile,
                                   # personal site, vendor bio). schema.org/Person/url.
-    # Structured name (schema.org aligned)
+    # Structured name (schema.org aligned). Order in YAML is the order
+    # the detail panel renders — given → middle → family is the order
+    # vCard and schema.org parse on the page.
     givenName:        string    # "Giuseppe" — given/first in Western order
-    familyName:       string    # "Contini" — family/surname (spoken first in CJK)
     additionalName:   string    # "Efisio" — middle names; comma-separated for multiples
+    familyName:       string    # "Contini" — family/surname (spoken first in CJK)
     honorificPrefix:  string    # "Dr", "Rev", "Mx"
-    honorificSuffix:  string    # "Jr", "III", "PhD", "Esq" — load-bearing for TSA/ID
+    honorificSuffix:  string    # "Jr", "III", "PhD", "Esq" — central for TSA/ID
     # Legal & preferred
     legalName:        string    # verbatim as on government ID (passport / driver's license)
     preferredName:    string    # what they actually want to be called (distinct from nickname)
@@ -58,18 +64,20 @@ person:
     phoneticGivenName:  string
     phoneticFamilyName: string
     # Bio
-    birthday:         datetime
     notes:            text
     gender:           string
     about:            text
   relations:
+    # `born_in` is a generic life-edge (rule 4 — owned by the verb, not
+    # a shape) pointing at an `event(birth)`. Not declared here, but
+    # the canonical home for birthdate per rule 1. Same pattern for
+    # `lived_at` (residences), `worked_at`, `married_to`, etc.
     accounts:         account[]      # platform identities this person owns
     roles:            role[]         # positions at organizations
     memberships:      membership[]   # gym, subscription, club, citizenship
     passes:           pass[]         # class packs, day passes, tickets
     qualifications:   qualification[] # degrees, licenses, certifications held
     practices:        practice[]     # disciplines / fields this person practices
-    location:         place
     website:          website
   prior_art:
     - source: schema.org/Person
@@ -78,9 +86,13 @@ person:
         Our givenName / familyName / additionalName / honorificPrefix /
         honorificSuffix map directly. schema.org has no `middleName`
         (additionalName is the slot); no `firstName`/`lastName` either —
-        those are informal Wikipedia-style labels, not spec. birthday ≈ birthDate;
-        about ≈ description. We diverge by modeling accounts[] as a first-class
-        relation rather than sameAs URLs.
+        those are informal Wikipedia-style labels, not spec.
+        about ≈ description. schema.org's `birthDate` lives on the
+        `--born_in--> event(birth) { startDate }` relationship per
+        rule 1, not as a flat field. `location` likewise — dated
+        `lived_at` edges per rule 3, not a single pointer. We diverge
+        by modeling accounts[] as a first-class relation rather than
+        sameAs URLs.
     - source: vCard 4.0 (RFC 6350) §6.2.2 N property + §5.9 SORT-AS
       url: https://datatracker.ietf.org/doc/html/rfc6350#section-6.2.2
       notes: >-

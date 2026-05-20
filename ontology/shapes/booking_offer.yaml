@@ -51,6 +51,7 @@
 booking_offer:
   plural: booking_offers
   identity: [at, cartId]
+  also: [event]       # a booking_offer IS an event — the pre-commit review moment, with a short TTL
   display:
     subtitle: totalAmount
   fields:

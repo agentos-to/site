@@ -4,11 +4,9 @@ flight:
   plural: flights
   display:
     subtitle: airline
-  also: [leg]           # a flight is also a leg
+  also: [leg]           # a flight is also a leg (and a leg is also an event — startDate/endDate inherit)
   fields:
     flightNumber:     string    # e.g. UA 1234
-    departureTime:    datetime
-    arrivalTime:      datetime
     durationMinutes:  integer
     cabinClass:       string    # economy, premium_economy, business, first
     stops:             integer   # intermediate stops without transfer (rare, multi-stop flights)

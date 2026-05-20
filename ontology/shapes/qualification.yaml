@@ -40,8 +40,9 @@ qualification:
                                  #   diploma | apprenticeship | certificate | badge
     identifier:       string    # license / registration number, credential ID
     status:           string    # active | expired | revoked | suspended | inactive
-    issuedOn:         datetime   # when granted (schema.org datePublished)
-    expiresOn:        datetime   # when it lapses — null = never (a degree)
+    # Granting and expiry live on the issuance edge: `granted_by -->
+    # organization {issuedOn, expiresOn}` edge vals, or separate `event(issuance)`
+    # / `event(expiry)` nodes when richer history is wanted. Rule 1.
     renewalPeriod:    string     # renewal cadence — ISO-8601 duration or "2 years"
     level:            string     # educational / qualification level — "doctoral", "L7"
     validIn:          string     # jurisdiction where valid — "US-CA", "SG"

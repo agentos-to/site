@@ -22,13 +22,15 @@
 # `name` (inherited) is a human label, e.g. "USD→EUR 2026-05-15".
 conversion:
   plural: conversions
+  also: [event]         # an fx-rate observation IS an event — the rate held at a moment
   display:
     subtitle: kind
   fields:
     kind:     string    # molar-mass | fx
     factor:   number    # the multiplier — molar-mass case (derived from the molar mass)
     rate:     number    # the exchange rate — fx case
-    asOf:     datetime  # when this rate/factor was valid (fx rates move daily)
+                          # When the rate was valid lives on event.startDate
+                          # (inherited via `also: [event]`), per rule 1.
   relations:
     from:     unit      # source unit
     to:       unit      # target unit

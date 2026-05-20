@@ -28,9 +28,16 @@
 # `name` (inherited) is a human label, e.g. "Quest LDL reference (adult male)".
 health-reference-range:
   plural: health-reference-ranges
-  identity: [analyte, issuingLab, method, validFrom]  # compound — the natural key.
-                                                       # population fields disambiguate
-                                                       # further within a lab+method.
+  also: [event]                                          # a range IS an event-shaped fact —
+                                                          # it took effect at a moment, was
+                                                          # superseded at another. startDate /
+                                                          # endDate ride from event per rule 1.
+  identity: [analyte, issuingLab, method, startDate]    # compound — the natural key.
+                                                          # `startDate` is inherited from event
+                                                          # (was `validFrom` before the rule-1
+                                                          # migration). Population fields
+                                                          # disambiguate further within a
+                                                          # lab+method.
   display:
     subtitle: refText
   fields:
@@ -42,8 +49,9 @@ health-reference-range:
     provenance:       string    # established | verified | manufacturer-claimed  (per CLSI EP28-A3c)
     method:           string    # assay + instrument — the real driver of bias
                                   # ("calculated from total T + SHBG", "direct immunoassay")
-    validFrom:        datetime  # when this interval became the lab's standard
-    validTo:          datetime  # when it was superseded (null = current)
+                                  # When this interval became standard (formerly `validFrom`)
+                                  # and when it was superseded (formerly `validTo`) live on
+                                  # event.startDate / endDate (inherited).
     # Population filter — who this interval applies to. A range is only
     # valid for a partition of the population; these fields define it.
     ageLow:           number    # minimum age this interval applies to (years)

@@ -80,6 +80,30 @@ def emit_python(onto: Ontology) -> str:
     lines.append("}")
     lines.append("")
 
+    # SHAPE_FIELD_ORDER — YAML declaration order per shape (own fields
+    # first, then inherited via `also:` deduped). Detail panels render
+    # fields in this order so the author's editorial decision (e.g.
+    # given → middle → family on person) survives end to end.
+    lines.append("# YAML declaration order per shape — author order is meaning.")
+    lines.append("SHAPE_FIELD_ORDER: dict[str, list[str]] = {")
+    for s in shapes:
+        if not s.field_order:
+            continue
+        lines.append(f"    {s.name!r}: {list(s.field_order)!r},")
+    lines.append("}")
+    lines.append("")
+
+    # EVENT_TYPES — every shape whose `also:` chain includes `event` (plus
+    # `event` itself). Derived from the shape graph — no separate registry.
+    # `agent-sdk validate` uses this to recognise event-shape returns.
+    lines.append("# Every shape whose `also:` chain includes `event` (plus `event` itself).")
+    lines.append("# Derived from the shape graph — the shape IS the type.")
+    lines.append("EVENT_TYPES: list[str] = [")
+    for name in onto.event_shape_names():
+        lines.append(f"    {name!r},")
+    lines.append("]")
+    lines.append("")
+
     return "\n".join(lines)
 
 

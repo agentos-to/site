@@ -26,10 +26,11 @@ financial_account:
     available:         number    # available balance or credit
     creditLimit:      number
     minimumPayment:   number
-    paymentDueDate:  datetime
     cardType:         string    # visa | mastercard | amex (for card-backed accounts)
-    expiresAt:        datetime  # card expiration
     interestRate:     number    # APR
+    # Payment due dates ride on the billing-cycle event (one per cycle);
+    # card expiration belongs on the `holds --> payment_method` edge val
+    # (the date the issuer printed on the card). Rule 1.
   relations:
     at:                actor     # the institution — Chase, DBS, Coinbase.
                                   # Required for identity. Target is the

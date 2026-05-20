@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 101 shapes.
+// Generated from 104 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -48,12 +48,33 @@ export interface Activity {
     datePublished?: string;
     content?: string;
     action?: string;
-    at?: string;
+    allDay?: boolean;
     changedKeys?: string[];
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
     duration?: number;
+    endDate?: string;
+    icalUid?: string;
+    properties?: unknown;
+    recurrence?: string[];
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
     success?: boolean;
+    timezone?: string;
     toolName?: string;
+    visibility?: string;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
     folder?: List;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
+    person?: Person;
     session?: McpSession;
 }
 
@@ -102,7 +123,6 @@ export interface Aircraft {
     currency?: string;
     customizationGroups?: unknown;
     department?: string;
-    discontinued?: string;
     iataCode?: string;
     icaoCode?: string;
     images?: unknown;
@@ -115,7 +135,6 @@ export interface Aircraft {
     priceAmount?: number;
     quantity?: number;
     rangeKm?: number;
-    released?: string;
     seatCapacity?: number;
     servingSize?: string;
     sku?: string;
@@ -144,7 +163,6 @@ export interface Airline {
     alliance?: string;
     callsign?: string;
     country?: string;
-    founded?: string;
     iataCode?: string;
     icaoCode?: string;
     industry?: string;
@@ -192,6 +210,52 @@ export interface App {
     route?: string;
 }
 
+export interface Birth {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    additionalName?: string;
+    allDay?: boolean;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
+    familyName?: string;
+    gender?: string;
+    givenName?: string;
+    honorificPrefix?: string;
+    honorificSuffix?: string;
+    icalUid?: string;
+    legalName?: string;
+    maidenName?: string;
+    nameOrder?: string;
+    nickname?: string;
+    phoneticFamilyName?: string;
+    phoneticGivenName?: string;
+    properties?: unknown;
+    recurrence?: string[];
+    showAs?: string;
+    sortAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
+    visibility?: string;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
+    person?: Person;
+}
+
 export interface Book {
     id?: string;
     name?: string;
@@ -216,7 +280,6 @@ export interface Book {
     dateCreated?: unknown;
     department?: string;
     description?: string;
-    discontinued?: string;
     format?: string;
     genres?: string[];
     images?: unknown;
@@ -234,7 +297,6 @@ export interface Book {
     price?: string;
     priceAmount?: number;
     quantity?: number;
-    released?: string;
     series?: string;
     servingSize?: string;
     sku?: string;
@@ -263,6 +325,7 @@ export interface BookingOffer {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
     approvedAt?: string;
     baseAmount?: number;
     blob?: string;
@@ -273,35 +336,54 @@ export interface BookingOffer {
     contactEmail?: string;
     contactPhone?: string;
     currency?: string;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
     expiresAt?: string;
     feesAmount?: number;
     hasVoidWindow?: boolean;
+    icalUid?: string;
     isChangeable?: boolean;
     isRefundable?: boolean;
     itineraryHash?: string;
     preparedAt?: string;
     presentedAt?: string;
+    properties?: unknown;
+    recurrence?: string[];
     referenceNumber?: string;
     review?: string;
+    showAs?: string;
     signature?: string;
     signatureAlg?: string;
     signedBy?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
     status?: string;
     taxAmount?: number;
+    timezone?: string;
     totalAmount?: number;
+    visibility?: string;
     voidWindowEndsAt?: string;
     account?: Account;
     at?: Actor;
+    attachments?: File[];
     becameReservation?: Reservation;
     becameTransaction?: Transaction;
     billingAddress?: Place;
     broker?: Actor;
     buyers?: Person[];
+    creator?: Person;
     derivedFrom?: Offer;
     fares?: Fare[];
     guests?: Person[];
+    involves?: Person[];
+    location?: Place;
     membership?: Membership;
+    organizer?: Person;
     paymentMethod?: PaymentMethod;
+    person?: Person;
     reservedItems?: Pass[];
     taxLines?: TaxLine[];
     trips?: Trip[];
@@ -348,7 +430,6 @@ export interface Brand {
     datePublished?: string;
     content?: string;
     country?: string;
-    founded?: string;
     primaryColor?: string;
     tagline?: string;
     textColor?: string;
@@ -405,24 +486,15 @@ export interface Class {
     content?: string;
     activityType?: string;
     allDay?: boolean;
-    articleUrl?: string;
     capacity?: number;
-    crewIds?: string[];
     currentUrl?: string;
     dateUpdated?: string;
     distinctId?: string;
     endDate?: string;
-    eventType?: string;
-    flightNumber?: number;
     icalUid?: string;
     isFull?: boolean;
-    landingOutcomes?: unknown;
-    launchpadId?: string;
-    patchImage?: string;
     properties?: unknown;
     recurrence?: string[];
-    reusedBoosters?: string[];
-    rocketId?: string;
     showAs?: string;
     sourceTitle?: string;
     sourceUrl?: string;
@@ -431,8 +503,6 @@ export interface Class {
     status?: string;
     timezone?: string;
     visibility?: string;
-    webcastUrl?: string;
-    wikipediaUrl?: string;
     at?: Actor;
     attachments?: File[];
     creator?: Person;
@@ -493,12 +563,33 @@ export interface Conversion {
     author?: string;
     datePublished?: string;
     content?: string;
-    asOf?: string;
+    allDay?: boolean;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
     factor?: number;
+    icalUid?: string;
     kind?: string;
+    properties?: unknown;
     rate?: number;
+    recurrence?: string[];
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
+    visibility?: string;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
     from?: Unit;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
     parameter?: unknown;
+    person?: Person;
     to?: Unit;
 }
 
@@ -534,7 +625,6 @@ export interface Credential {
     datePublished?: string;
     content?: string;
     domain?: string;
-    expiresAt?: string;
     identifier?: string;
     itemType?: string;
     lastVerified?: string;
@@ -627,8 +717,6 @@ export interface Domain {
     datePublished?: string;
     content?: string;
     autoRenew?: boolean;
-    createdAt?: string;
-    expiresAt?: string;
     nameservers?: string[];
     registrar?: string;
     status?: string;
@@ -716,22 +804,13 @@ export interface Event {
     datePublished?: string;
     content?: string;
     allDay?: boolean;
-    articleUrl?: string;
-    crewIds?: string[];
     currentUrl?: string;
     dateUpdated?: string;
     distinctId?: string;
     endDate?: string;
-    eventType?: string;
-    flightNumber?: number;
     icalUid?: string;
-    landingOutcomes?: unknown;
-    launchpadId?: string;
-    patchImage?: string;
     properties?: unknown;
     recurrence?: string[];
-    reusedBoosters?: string[];
-    rocketId?: string;
     showAs?: string;
     sourceTitle?: string;
     sourceUrl?: string;
@@ -739,8 +818,6 @@ export interface Event {
     status?: string;
     timezone?: string;
     visibility?: string;
-    webcastUrl?: string;
-    wikipediaUrl?: string;
     at?: Actor;
     attachments?: File[];
     creator?: Person;
@@ -822,12 +899,10 @@ export interface FinancialAccount {
     cardType?: string;
     creditLimit?: number;
     currency?: string;
-    expiresAt?: string;
     identifier?: string;
     interestRate?: number;
     last4?: string;
     minimumPayment?: number;
-    paymentDueDate?: string;
     routingNumber?: string;
     accessedVia?: Account;
     at?: Actor;
@@ -843,27 +918,49 @@ export interface Flight {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
     arrivalTime?: string;
     cabinClass?: string;
     carbonEmissions?: unknown;
+    currentUrl?: string;
+    dateUpdated?: string;
     departureTime?: string;
+    distinctId?: string;
     duration?: string;
     durationMinutes?: number;
+    endDate?: string;
     flightNumber?: string;
+    icalUid?: string;
     layoverMinutes?: number;
     polyline?: string;
+    properties?: unknown;
+    recurrence?: string[];
     sequence?: number;
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
     stops?: number;
+    timezone?: string;
     trace?: unknown;
     tracePointCount?: number;
     vehicleType?: string;
+    visibility?: string;
     aircraft?: Aircraft;
     airline?: Airline;
     arrivesAt?: Airport;
+    at?: Actor;
+    attachments?: File[];
     carrier?: Organization;
+    creator?: Person;
     departsFrom?: Airport;
     destination?: Place;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
     origin?: Place;
+    person?: Person;
     trip?: Trip;
 }
 
@@ -909,15 +1006,37 @@ export interface GitCommit {
     datePublished?: string;
     content?: string;
     additions?: number;
+    allDay?: boolean;
     committedAt?: string;
+    currentUrl?: string;
+    dateUpdated?: string;
     deletions?: number;
+    distinctId?: string;
+    endDate?: string;
     filesChanged?: number;
+    icalUid?: string;
     message?: string;
+    properties?: unknown;
+    recurrence?: string[];
     sha?: string;
     shortHash?: string;
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
+    visibility?: string;
+    at?: Actor;
+    attachments?: File[];
     author?: Account;
     committer?: Account;
+    creator?: Person;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
     parent?: GitCommit;
+    person?: Person;
     repository?: Repository;
 }
 
@@ -952,7 +1071,6 @@ export interface Hardware {
     currency?: string;
     customizationGroups?: unknown;
     department?: string;
-    discontinued?: string;
     images?: unknown;
     modelNumber?: string;
     novaGroup?: number;
@@ -962,7 +1080,6 @@ export interface Hardware {
     price?: string;
     priceAmount?: number;
     quantity?: number;
-    released?: string;
     serialNumber?: string;
     servingSize?: string;
     sku?: string;
@@ -1004,13 +1121,11 @@ export interface HealthCondition {
     author?: string;
     datePublished?: string;
     content?: string;
-    abatementDate?: string;
     bodySite?: string;
     clinicalArea?: string;
     clinicalStatus?: string;
     icd10Code?: string;
     mitigation?: string;
-    onsetDate?: string;
     proximity?: string;
     severity?: string;
     snomedCode?: string;
@@ -1029,8 +1144,6 @@ export interface HealthImmunization {
     datePublished?: string;
     content?: string;
     allDay?: boolean;
-    articleUrl?: string;
-    crewIds?: string[];
     currentUrl?: string;
     cvxCode?: string;
     dateAdministered?: string;
@@ -1039,19 +1152,12 @@ export interface HealthImmunization {
     distinctId?: string;
     doseNumber?: number;
     endDate?: string;
-    eventType?: string;
-    flightNumber?: number;
     icalUid?: string;
-    landingOutcomes?: unknown;
-    launchpadId?: string;
     lotNumber?: string;
     manufacturer?: string;
     notes?: string;
-    patchImage?: string;
     properties?: unknown;
     recurrence?: string[];
-    reusedBoosters?: string[];
-    rocketId?: string;
     route?: string;
     seriesDoses?: number;
     showAs?: string;
@@ -1062,8 +1168,6 @@ export interface HealthImmunization {
     status?: string;
     timezone?: string;
     visibility?: string;
-    webcastUrl?: string;
-    wikipediaUrl?: string;
     administeredAt?: HealthLab;
     at?: Actor;
     attachments?: File[];
@@ -1089,7 +1193,6 @@ export interface HealthLab {
     actorType?: string;
     ccn?: string;
     cliaNumber?: string;
-    founded?: string;
     industry?: string;
     labType?: string;
     npi?: string;
@@ -1109,25 +1212,45 @@ export interface HealthObservation {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
     community?: string;
-    effectiveDate?: string;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
     externalUrl?: string;
     flag?: string;
+    icalUid?: string;
     indexedAt?: string;
     notes?: string;
     postId?: string;
+    properties?: unknown;
+    recurrence?: string[];
     refHigh?: number;
     refLow?: number;
     refText?: string;
     resultType?: string;
     score?: number;
+    showAs?: string;
     similarity?: number;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
     status?: string;
+    timezone?: string;
     value?: number;
     valueText?: string;
+    visibility?: string;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
     document?: File;
     fromPanel?: HealthPanel;
+    involves?: Person[];
+    location?: Place;
     measures?: HealthBiomarker;
+    organizer?: Person;
+    person?: Person;
     reportedRange?: HealthReferenceRange;
     subject?: Person;
 }
@@ -1141,10 +1264,15 @@ export interface HealthPanel {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
+    currentUrl?: string;
+    dateUpdated?: string;
     defaultView?: string;
     description?: string;
-    effectiveDate?: string;
+    distinctId?: string;
+    endDate?: string;
     fasting?: boolean;
+    icalUid?: string;
     iconSize?: number;
     isDefault?: boolean;
     isPublic?: boolean;
@@ -1155,13 +1283,28 @@ export interface HealthPanel {
     panelCode?: string;
     path?: string;
     privacy?: string;
+    properties?: unknown;
+    recurrence?: string[];
+    showAs?: string;
     sortBy?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
+    visibility?: string;
     at?: Actor;
+    attachments?: File[];
     backgroundImage?: Image;
     belongsTo?: Account;
     contains?: unknown[];
+    creator?: Person;
     document?: File;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
     performedAt?: HealthLab;
+    person?: Person;
     subject?: Person;
 }
 
@@ -1175,29 +1318,20 @@ export interface HealthProcedure {
     datePublished?: string;
     content?: string;
     allDay?: boolean;
-    articleUrl?: string;
     bodySite?: string;
     cptCode?: string;
-    crewIds?: string[];
     currentUrl?: string;
     dateUpdated?: string;
     distinctId?: string;
     endDate?: string;
-    eventType?: string;
     findings?: string;
-    flightNumber?: number;
     followUp?: string;
     icalUid?: string;
-    landingOutcomes?: unknown;
-    launchpadId?: string;
     outcome?: string;
-    patchImage?: string;
     performedDate?: string;
     procedureType?: string;
     properties?: unknown;
     recurrence?: string[];
-    reusedBoosters?: string[];
-    rocketId?: string;
     showAs?: string;
     snomedCode?: string;
     sourceTitle?: string;
@@ -1206,8 +1340,6 @@ export interface HealthProcedure {
     status?: string;
     timezone?: string;
     visibility?: string;
-    webcastUrl?: string;
-    wikipediaUrl?: string;
     at?: Actor;
     attachments?: File[];
     creator?: Person;
@@ -1234,22 +1366,42 @@ export interface HealthReferenceRange {
     content?: string;
     ageHigh?: number;
     ageLow?: number;
+    allDay?: boolean;
     category?: string;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
     fasting?: boolean;
     gestationalAge?: string;
     high?: number;
+    icalUid?: string;
     low?: number;
     method?: string;
     pregnancy?: string;
+    properties?: unknown;
     provenance?: string;
+    recurrence?: string[];
     refText?: string;
     sex?: string;
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
     timeOfDay?: string;
+    timezone?: string;
     unit?: string;
-    validFrom?: string;
-    validTo?: string;
+    visibility?: string;
     analyte?: HealthBiomarker;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
+    involves?: Person[];
     issuingLab?: HealthLab;
+    location?: Place;
+    organizer?: Person;
+    person?: Person;
 }
 
 export interface Icon {
@@ -1329,14 +1481,11 @@ export interface IntellectualProperty {
     datePublished?: string;
     content?: string;
     category?: string;
-    expiresOn?: string;
-    filedOn?: string;
     filingBasis?: string;
     identifier?: string;
     mark?: string;
     niceClass?: number[];
     register?: string;
-    registeredOn?: string;
     renewalPeriod?: string;
     status?: string;
     validIn?: string;
@@ -1356,18 +1505,80 @@ export interface Invitation {
     datePublished?: string;
     content?: string;
     acceptedAt?: string;
+    allDay?: boolean;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
     email?: string;
-    expiresAt?: string;
+    endDate?: string;
+    icalUid?: string;
     invitationType?: string;
     message?: string;
+    properties?: unknown;
+    recurrence?: string[];
     revokedAt?: string;
     role?: string;
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
     status?: string;
+    timezone?: string;
     token?: string;
+    visibility?: string;
     at?: Actor;
+    attachments?: File[];
+    creator?: Person;
     invitee?: Account;
     inviter?: Account;
+    involves?: Person[];
+    location?: Place;
     organization?: Organization;
+    organizer?: Person;
+    person?: Person;
+}
+
+export interface Launch {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    allDay?: boolean;
+    articleUrl?: string;
+    crewIds?: string[];
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
+    flightNumber?: number;
+    icalUid?: string;
+    landingOutcomes?: unknown;
+    launchpadId?: string;
+    patchImage?: string;
+    properties?: unknown;
+    recurrence?: string[];
+    reusedBoosters?: string[];
+    rocketId?: string;
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
+    visibility?: string;
+    webcastUrl?: string;
+    wikipediaUrl?: string;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
+    person?: Person;
 }
 
 export interface Leg {
@@ -1379,23 +1590,45 @@ export interface Leg {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
     arrivalTime?: string;
     cabinClass?: string;
     carbonEmissions?: unknown;
+    currentUrl?: string;
+    dateUpdated?: string;
     departureTime?: string;
+    distinctId?: string;
     duration?: string;
     durationMinutes?: number;
+    endDate?: string;
     flightNumber?: string;
+    icalUid?: string;
     layoverMinutes?: number;
     polyline?: string;
+    properties?: unknown;
+    recurrence?: string[];
     sequence?: number;
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
     trace?: unknown;
     tracePointCount?: number;
     vehicleType?: string;
+    visibility?: string;
     aircraft?: Aircraft;
+    at?: Actor;
+    attachments?: File[];
     carrier?: Organization;
+    creator?: Person;
     destination?: Place;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
     origin?: Place;
+    person?: Person;
     trip?: Trip;
 }
 
@@ -1434,12 +1667,33 @@ export interface LoadedModel {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
+    currentUrl?: string;
+    dateUpdated?: string;
     digest?: string;
-    expiresAt?: string;
+    distinctId?: string;
+    endDate?: string;
+    icalUid?: string;
+    properties?: unknown;
     quantization?: string;
+    recurrence?: string[];
+    showAs?: string;
     size?: string;
     sizeVram?: number;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
+    visibility?: string;
     vramUsage?: string;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
+    person?: Person;
 }
 
 export interface McpSession {
@@ -1473,27 +1727,19 @@ export interface Meeting {
     datePublished?: string;
     content?: string;
     allDay?: boolean;
-    articleUrl?: string;
     calendarLink?: string;
     conferenceProvider?: string;
-    crewIds?: string[];
     currentUrl?: string;
     dateUpdated?: string;
     distinctId?: string;
     endDate?: string;
-    eventType?: string;
-    flightNumber?: number;
     icalUid?: string;
     isVirtual?: boolean;
-    landingOutcomes?: unknown;
-    launchpadId?: string;
+    meetingType?: string;
     meetingUrl?: string;
-    patchImage?: string;
     phoneDialIn?: string;
     properties?: unknown;
     recurrence?: string[];
-    reusedBoosters?: string[];
-    rocketId?: string;
     showAs?: string;
     sourceTitle?: string;
     sourceUrl?: string;
@@ -1501,8 +1747,6 @@ export interface Meeting {
     status?: string;
     timezone?: string;
     visibility?: string;
-    webcastUrl?: string;
-    wikipediaUrl?: string;
     at?: Actor;
     attachments?: File[];
     creator?: Person;
@@ -1522,21 +1766,37 @@ export interface Membership {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
     autoRenew?: boolean;
     billingType?: string;
     currency?: string;
-    endEffectiveDate?: string;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
     guestPassQuantity?: number;
-    nextBillDate?: string;
+    icalUid?: string;
     price?: number;
-    startEffectiveDate?: string;
+    properties?: unknown;
+    recurrence?: string[];
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
     status?: string;
     tier?: string;
+    timezone?: string;
     useCount?: number;
+    visibility?: string;
     account?: Account;
     at?: Actor;
+    attachments?: File[];
+    creator?: Person;
+    involves?: Person[];
     location?: Place;
     member?: Person;
+    organizer?: Person;
+    person?: Person;
     plan?: Product;
 }
 
@@ -1549,16 +1809,37 @@ export interface Memex {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
+    currentUrl?: string;
+    dateUpdated?: string;
     description?: string;
+    distinctId?: string;
     edgeCount?: number;
+    endDate?: string;
     filePath?: string;
     fileSize?: string;
+    icalUid?: string;
     nodeCount?: number;
     origin?: string;
+    properties?: unknown;
     published?: boolean;
-    snapshotOf?: string;
+    recurrence?: string[];
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
+    visibility?: string;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
     forkedFrom?: Memex;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
     owner?: Person;
+    person?: Person;
     snapshots?: Memex[];
 }
 
@@ -1632,16 +1913,36 @@ export interface Offer {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
     availability?: string;
     bookingToken?: string;
     currency?: string;
+    currentUrl?: string;
+    dateUpdated?: string;
     departureToken?: string;
+    distinctId?: string;
+    endDate?: string;
+    icalUid?: string;
     offerType?: string;
     price?: number;
-    validFrom?: string;
-    validUntil?: string;
+    properties?: unknown;
+    recurrence?: string[];
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
+    visibility?: string;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
     for?: Product;
+    involves?: Person[];
+    location?: Place;
     offeredBy?: Organization;
+    organizer?: Person;
+    person?: Person;
     trips?: Trip[];
 }
 
@@ -1654,14 +1955,20 @@ export interface Order {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
     body?: string;
     currency?: string;
+    currentUrl?: string;
+    dateUpdated?: string;
     deliveryDate?: string;
     deliveryFee?: number;
     deliveryInstructions?: string;
+    distinctId?: string;
+    endDate?: string;
     eta?: string;
     fareBreakdown?: unknown;
     head?: string;
+    icalUid?: string;
     interactionType?: string;
     itemStates?: unknown;
     latestArrival?: string;
@@ -1673,18 +1980,32 @@ export interface Order {
     originalTotalAmount?: number;
     progress?: number;
     progressTotal?: number;
+    properties?: unknown;
+    recurrence?: string[];
     savings?: number;
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
     status?: string;
     subtotal?: number;
     summary?: string;
     taxes?: number;
     timeline?: unknown;
+    timezone?: string;
     tipAmount?: number;
     total?: string;
     totalAmount?: number;
+    visibility?: string;
     at?: Actor;
+    attachments?: File[];
     contains?: Product[];
+    creator?: Person;
     delivery?: Trip;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
+    person?: Person;
     shippingAddress?: Place;
     store?: Place;
     tracking?: Webpage;
@@ -1700,7 +2021,6 @@ export interface Organization {
     datePublished?: string;
     content?: string;
     actorType?: string;
-    founded?: string;
     industry?: string;
     domain?: Domain;
     headquarters?: Place;
@@ -1718,31 +2038,46 @@ export interface Pass {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
     boardingGroup?: string;
     checkinStatus?: string;
     currency?: string;
-    depletedDate?: string;
-    endEffectiveDate?: string;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
     gate?: string;
+    icalUid?: string;
     isAllDayPass?: boolean;
     nameOnTicket?: string;
     price?: number;
-    purchasedDate?: string;
+    properties?: unknown;
     purchasedQuantity?: number;
     quantity?: number;
+    recurrence?: string[];
     seatAssignment?: string;
-    startEffectiveDate?: string;
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
     status?: string;
     terminal?: string;
     ticketClass?: string;
     ticketNumber?: string;
+    timezone?: string;
     useCount?: number;
+    visibility?: string;
     account?: Account;
     at?: Actor;
+    attachments?: File[];
+    creator?: Person;
     for?: Leg;
     grantedBy?: Membership;
     holder?: Person;
+    involves?: Person[];
     location?: Place;
+    organizer?: Person;
+    person?: Person;
     reservation?: Reservation;
     type?: Product;
 }
@@ -1799,7 +2134,6 @@ export interface Person {
     about?: string;
     actorType?: string;
     additionalName?: string;
-    birthday?: string;
     familyName?: string;
     gender?: string;
     givenName?: string;
@@ -1815,7 +2149,6 @@ export interface Person {
     preferredName?: string;
     sortAs?: string;
     accounts?: Account[];
-    location?: Place;
     memberships?: Membership[];
     passes?: Pass[];
     practices?: Practice[];
@@ -1969,7 +2302,6 @@ export interface Product {
     currency?: string;
     customizationGroups?: unknown;
     department?: string;
-    discontinued?: string;
     images?: unknown;
     novaGroup?: number;
     nutritionScore?: string;
@@ -1978,7 +2310,6 @@ export interface Product {
     price?: string;
     priceAmount?: number;
     quantity?: number;
-    released?: string;
     servingSize?: string;
     sku?: string;
     soldByWeight?: boolean;
@@ -2031,9 +2362,7 @@ export interface Qualification {
     datePublished?: string;
     content?: string;
     category?: string;
-    expiresOn?: string;
     identifier?: string;
-    issuedOn?: string;
     level?: string;
     renewalPeriod?: string;
     status?: string;
@@ -2105,6 +2434,7 @@ export interface Reservation {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
     availableActions?: string[];
     baseAmount?: number;
     bookingTime?: string;
@@ -2112,24 +2442,42 @@ export interface Reservation {
     checkinUrl?: string;
     conditions?: unknown;
     currency?: string;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
     endTime?: string;
+    icalUid?: string;
     modifiedTime?: string;
     partySize?: number;
+    properties?: unknown;
+    recurrence?: string[];
     reservationId?: string;
     reservationType?: string;
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
     startTime?: string;
     status?: string;
     taxAmount?: number;
+    timezone?: string;
     totalAmount?: number;
+    visibility?: string;
     voidWindowEndsAt?: string;
     account?: Account;
     at?: Actor;
+    attachments?: File[];
     broker?: Actor;
+    creator?: Person;
     derivedFrom?: Offer;
     event?: Event;
+    involves?: Person[];
     location?: Place;
     order?: Order;
+    organizer?: Person;
     passengers?: Person[];
+    person?: Person;
     programMembership?: Membership;
     tickets?: Pass[];
     trips?: Trip[];
@@ -2192,12 +2540,31 @@ export interface Role {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
+    currentUrl?: string;
+    dateUpdated?: string;
     department?: string;
+    distinctId?: string;
     endDate?: string;
+    icalUid?: string;
+    properties?: unknown;
+    recurrence?: string[];
     roleType?: string;
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
     startDate?: string;
+    status?: string;
+    timezone?: string;
     title?: string;
+    visibility?: string;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
+    involves?: Person[];
+    location?: Place;
     organization?: Organization;
+    organizer?: Person;
     person?: Person;
 }
 
@@ -2215,7 +2582,6 @@ export interface Seatmap {
     basicEconomyLocked?: boolean;
     cabins?: unknown;
     classOfService?: string;
-    departureTime?: string;
     destination?: string;
     fareBasisCode?: string;
     flightNumber?: string;
@@ -2322,7 +2688,6 @@ export interface Software {
     currency?: string;
     customizationGroups?: unknown;
     department?: string;
-    discontinued?: string;
     images?: unknown;
     novaGroup?: number;
     nutritionScore?: string;
@@ -2331,7 +2696,6 @@ export interface Software {
     price?: string;
     priceAmount?: number;
     quantity?: number;
-    released?: string;
     runtimePlatform?: string;
     servingSize?: string;
     sku?: string;
@@ -2412,9 +2776,15 @@ export interface Spec {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
     encoding?: string;
+    endDate?: string;
     filename?: string;
     format?: string;
+    icalUid?: string;
     kind?: string;
     labels?: string[];
     lineCount?: number;
@@ -2424,22 +2794,36 @@ export interface Spec {
     priority?: number;
     problem?: string;
     projectId?: string;
+    properties?: unknown;
+    recurrence?: string[];
     remoteId?: string;
     sha?: string;
+    showAs?: string;
     size?: number;
-    startedAt?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
     state?: string;
+    status?: string;
     successCriteria?: string;
     target?: unknown;
     targetDate?: string;
+    timezone?: string;
+    visibility?: string;
     assignedTo?: Person;
     at?: Actor;
     attachedTo?: Message;
+    attachments?: File[];
     blockedBy?: Task[];
     blocks?: Task[];
     children?: Task[];
+    creator?: Person;
     dependsOn?: Spec[];
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
     parent?: Task;
+    person?: Person;
     project?: Project;
     repository?: Repository;
     supersedes?: Spec[];
@@ -2469,21 +2853,41 @@ export interface Task {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
+    icalUid?: string;
     labels?: string[];
     parentId?: string;
     priority?: number;
     projectId?: string;
+    properties?: unknown;
+    recurrence?: string[];
     remoteId?: string;
-    startedAt?: string;
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
     state?: string;
+    status?: string;
     target?: unknown;
     targetDate?: string;
+    timezone?: string;
+    visibility?: string;
     assignedTo?: Person;
     at?: Actor;
+    attachments?: File[];
     blockedBy?: Task[];
     blocks?: Task[];
     children?: Task[];
+    creator?: Person;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
     parent?: Task;
+    person?: Person;
     project?: Project;
     repository?: Repository;
 }
@@ -2565,18 +2969,39 @@ export interface Transaction {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
     amount?: number;
     balance?: number;
     category?: string;
     currency?: string;
+    currentUrl?: string;
+    dateUpdated?: string;
     details?: unknown;
+    distinctId?: string;
+    endDate?: string;
+    icalUid?: string;
     notes?: string;
     pending?: boolean;
     postingDate?: string;
+    properties?: unknown;
+    recurrence?: string[];
     recurring?: boolean;
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
     type?: string;
+    visibility?: string;
     account?: FinancialAccount;
     at?: Actor;
+    attachments?: File[];
+    creator?: Person;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
+    person?: Person;
 }
 
 export interface Transcript {
@@ -2596,6 +3021,52 @@ export interface Transcript {
     sourceType?: string;
 }
 
+export interface Transition {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    additionalName?: string;
+    allDay?: boolean;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
+    familyName?: string;
+    gender?: string;
+    givenName?: string;
+    honorificPrefix?: string;
+    honorificSuffix?: string;
+    icalUid?: string;
+    legalName?: string;
+    maidenName?: string;
+    nameOrder?: string;
+    nickname?: string;
+    phoneticFamilyName?: string;
+    phoneticGivenName?: string;
+    properties?: unknown;
+    recurrence?: string[];
+    showAs?: string;
+    sortAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
+    visibility?: string;
+    at?: Actor;
+    attachments?: File[];
+    creator?: Person;
+    involves?: Person[];
+    location?: Place;
+    organizer?: Person;
+    person?: Person;
+}
+
 export interface Trip {
     id?: string;
     name?: string;
@@ -2605,37 +3076,57 @@ export interface Trip {
     author?: string;
     datePublished?: string;
     content?: string;
+    allDay?: boolean;
     arrivalTime?: string;
     bookingToken?: string;
     cabinClass?: string;
     carbonEmissions?: unknown;
     currency?: string;
+    currentUrl?: string;
+    dateUpdated?: string;
     departureTime?: string;
     distance?: string;
+    distinctId?: string;
     duration?: string;
     durationMinutes?: number;
+    endDate?: string;
     fare?: string;
     fareAmount?: number;
     guest?: unknown;
+    icalUid?: string;
     isPool?: boolean;
     isReserve?: boolean;
     isScheduled?: boolean;
     isSurge?: boolean;
     marketplace?: string;
+    properties?: unknown;
     rating?: string;
+    recurrence?: string[];
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
     status?: string;
     stops?: number;
+    timezone?: string;
     trackingUrl?: string;
     tripType?: string;
     vehicle?: unknown;
     vehicleType?: string;
+    visibility?: string;
     at?: Actor;
+    attachments?: File[];
     carrier?: Organization;
+    creator?: Person;
     destination?: Place;
     driver?: Person;
+    involves?: Person[];
     legs?: Leg[];
+    location?: Place;
     order?: Order;
+    organizer?: Person;
     origin?: Place;
+    person?: Person;
 }
 
 export interface Unit {
@@ -2748,7 +3239,6 @@ export interface Website {
     anonymous?: boolean;
     claimToken?: string;
     claimUrl?: string;
-    expiresAt?: string;
     status?: string;
     versionId?: string;
     domain?: Domain;
@@ -2775,15 +3265,16 @@ export interface Display {
 
 export const SHAPE_DISPLAY: Record<string, Display> = {
     "account": {"subtitle": "identifier", "also": []},
-    "activity": {"subtitle": "action", "also": []},
+    "activity": {"subtitle": "action", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "actor": {"subtitle": "actorType", "also": []},
     "agent": {"subtitle": "model", "also": ["actor"]},
     "aircraft": {"subtitle": "model", "also": ["product"]},
-    "airline": {"subtitle": "iataCode", "image": "image", "highlights": ["headquarters", "founded"], "also": ["organization", "actor"]},
+    "airline": {"subtitle": "iataCode", "image": "image", "highlights": ["headquarters"], "also": ["organization", "actor"]},
     "airport": {"subtitle": "iataCode", "also": []},
     "app": {"subtitle": "name", "also": []},
+    "birth": {"subtitle": "location", "highlights": ["startDate", "location"], "also": ["event"]},
     "book": {"subtitle": "written_by", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work", "product"]},
-    "booking_offer": {"subtitle": "totalAmount", "also": []},
+    "booking_offer": {"subtitle": "totalAmount", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "bookmark": {"subtitle": "name", "also": []},
     "branch": {"subtitle": "commit", "also": []},
     "brand": {"subtitle": "tagline", "also": []},
@@ -2792,7 +3283,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "class": {"subtitle": "activityType", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "community": {"subtitle": "text", "also": []},
     "conversation": {"subtitle": "text", "also": []},
-    "conversion": {"subtitle": "kind", "also": []},
+    "conversion": {"subtitle": "kind", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "creative_work": {"subtitle": "written_by", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": []},
     "credential": {"subtitle": "source", "also": []},
     "dimension": {"subtitle": "label", "also": []},
@@ -2801,43 +3292,44 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "domain": {"subtitle": "registrar", "also": []},
     "email": {"subtitle": "author", "also": ["message"]},
     "episode": {"subtitle": "author", "also": []},
-    "event": {"subtitle": "eventType", "highlights": ["startDate", "endDate", "location"], "also": []},
+    "event": {"subtitle": "startDate", "highlights": ["startDate", "endDate", "location"], "also": []},
     "fare": {"subtitle": "fareFamily", "also": []},
     "file": {"subtitle": "path", "also": []},
     "financial_account": {"subtitle": "last4", "also": []},
-    "flight": {"subtitle": "airline", "also": ["leg"]},
+    "flight": {"subtitle": "airline", "highlights": ["startDate", "endDate", "location"], "also": ["leg", "event"]},
     "font": {"subtitle": "author", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work"]},
-    "git_commit": {"subtitle": "author", "also": []},
+    "git_commit": {"subtitle": "author", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "group": {"subtitle": "category", "also": []},
     "hardware": {"subtitle": "author", "also": ["product"]},
     "health-biomarker": {"subtitle": "category", "also": []},
     "health-condition": {"subtitle": "clinicalStatus", "also": []},
     "health-immunization": {"subtitle": "dateAdministered", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
-    "health-lab": {"subtitle": "labType", "image": "image", "highlights": ["headquarters", "founded"], "also": ["organization", "actor"]},
-    "health-observation": {"subtitle": "effectiveDate", "also": ["result"]},
-    "health-panel": {"subtitle": "effectiveDate", "also": ["list"]},
+    "health-lab": {"subtitle": "labType", "image": "image", "highlights": ["headquarters"], "also": ["organization", "actor"]},
+    "health-observation": {"subtitle": "startDate", "highlights": ["startDate", "endDate", "location"], "also": ["result", "event"]},
+    "health-panel": {"subtitle": "startDate", "highlights": ["startDate", "endDate", "location"], "also": ["list", "event"]},
     "health-procedure": {"subtitle": "performedDate", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
-    "health-reference-range": {"subtitle": "refText", "also": []},
+    "health-reference-range": {"subtitle": "refText", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "icon": {"subtitle": "purpose", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work"]},
     "image": {"subtitle": "format", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work", "file"]},
     "intellectual_property": {"subtitle": "category", "highlights": ["identifier", "status", "granted_by"], "also": []},
-    "invitation": {"subtitle": "invitationType", "also": []},
-    "leg": {"subtitle": "flightNumber", "also": []},
+    "invitation": {"subtitle": "invitationType", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
+    "launch": {"subtitle": "rocketId", "highlights": ["startDate", "rocketId", "launchpadId"], "also": ["event"]},
+    "leg": {"subtitle": "flightNumber", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "list": {"subtitle": "name", "also": []},
-    "loaded_model": {"subtitle": "size", "also": []},
+    "loaded_model": {"subtitle": "size", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "mcp_session": {"subtitle": "client", "also": []},
     "meeting": {"subtitle": "location", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
-    "membership": {"subtitle": "status", "also": []},
-    "memex": {"subtitle": "description", "also": []},
+    "membership": {"subtitle": "status", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
+    "memex": {"subtitle": "description", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "message": {"subtitle": "from", "also": []},
     "model": {"subtitle": "name", "also": []},
     "note": {"subtitle": "noteType", "also": []},
-    "offer": {"subtitle": "price", "also": []},
-    "order": {"subtitle": "total", "also": []},
-    "organization": {"subtitle": "industry", "image": "image", "highlights": ["headquarters", "founded"], "also": ["actor"]},
-    "pass": {"subtitle": "status", "also": []},
+    "offer": {"subtitle": "price", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
+    "order": {"subtitle": "total", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
+    "organization": {"subtitle": "industry", "image": "image", "highlights": ["headquarters"], "also": ["actor"]},
+    "pass": {"subtitle": "status", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "payment_method": {"subtitle": "displayName", "also": []},
-    "person": {"subtitle": "about", "image": "image", "highlights": ["birthday", "gender"], "body": "notes", "also": ["actor"]},
+    "person": {"subtitle": "about", "image": "image", "highlights": ["born_in.startDate", "gender"], "body": "notes", "also": ["actor"]},
     "place": {"subtitle": "featureType", "image": "image", "highlights": ["city", "country", "rating"], "body": "fullAddress", "also": []},
     "playlist": {"subtitle": "text", "also": ["list"]},
     "podcast": {"subtitle": "host", "also": []},
@@ -2850,29 +3342,177 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "quantity-kind": {"subtitle": "label", "also": []},
     "quote": {"subtitle": "year", "also": []},
     "repository": {"subtitle": "language", "also": []},
-    "reservation": {"subtitle": "reservationType", "also": []},
+    "reservation": {"subtitle": "reservationType", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "result": {"subtitle": "url", "also": []},
     "review": {"subtitle": "author", "also": ["post"]},
-    "role": {"subtitle": "name", "also": []},
+    "role": {"subtitle": "name", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "seatmap": {"title": "flightNumber", "also": []},
     "shelf": {"subtitle": "isExclusive", "also": ["list"]},
     "simulation": {"subtitle": "status", "also": []},
     "skill": {"subtitle": "description", "also": []},
-    "software": {"subtitle": "applicationCategory", "highlights": ["released", "version", "runtimePlatform"], "also": ["product"]},
+    "software": {"subtitle": "applicationCategory", "highlights": ["version", "runtimePlatform"], "also": ["product"]},
     "sound": {"subtitle": "purpose", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work", "file"]},
     "source": {"subtitle": "sourceId", "also": []},
-    "spec": {"subtitle": "state", "also": ["task", "file"]},
-    "tag": {"subtitle": "tagType", "also": []},
-    "task": {"subtitle": "state", "also": []},
+    "spec": {"subtitle": "state", "highlights": ["startDate", "endDate", "location"], "also": ["task", "event", "file"]},
+    "tag": {"title": "name", "subtitle": "tagType", "also": []},
+    "task": {"subtitle": "state", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "tax_line": {"subtitle": "description", "also": []},
     "theme": {"subtitle": "family", "also": []},
     "tool_call": {"subtitle": "name", "also": []},
-    "transaction": {"subtitle": "category", "highlights": ["amount", "postingDate", "currency"], "body": "notes", "also": []},
+    "transaction": {"subtitle": "category", "highlights": ["amount", "postingDate", "currency"], "body": "notes", "also": ["event"]},
     "transcript": {"subtitle": "language", "also": []},
-    "trip": {"subtitle": "tripType", "also": []},
+    "transition": {"subtitle": "startDate", "highlights": ["startDate", "givenName", "familyName", "gender"], "also": ["event"]},
+    "trip": {"subtitle": "tripType", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "unit": {"subtitle": "symbol", "also": []},
     "user": {"subtitle": "name", "also": ["actor"]},
     "video": {"subtitle": "author", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work", "file"]},
     "webpage": {"subtitle": "url", "also": []},
     "website": {"subtitle": "url", "also": []},
 };
+
+// ─── Field order — YAML declaration order per shape ────────────────────
+// Detail panels iterate this list and look up `node.vals[key]`. Own
+// fields first, then inherited via `also:` deduped.
+
+export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
+    "account": ["identifier", "handle", "displayName", "display", "email", "phone", "bio", "accountType", "color", "isActive", "joinedDate", "lastActive", "lastProfileFetch", "userId", "issuer", "metadata"],
+    "activity": ["action", "changedKeys", "toolName", "duration", "success", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "actor": ["actorType"],
+    "agent": ["model", "provider", "sessionId", "actorType"],
+    "aircraft": ["model", "variant", "seatCapacity", "rangeKm", "iataCode", "icaoCode", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
+    "airline": ["iataCode", "icaoCode", "callsign", "country", "alliance", "industry", "actorType"],
+    "airport": ["iataCode", "icaoCode", "city", "country", "countryCode", "timezone", "elevationFt", "terminalCount"],
+    "app": ["id", "name", "iconRole", "route", "defaultView", "isSystem", "handles"],
+    "birth": ["givenName", "additionalName", "familyName", "honorificPrefix", "honorificSuffix", "legalName", "maidenName", "sortAs", "nameOrder", "phoneticGivenName", "phoneticFamilyName", "gender", "nickname", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "book": ["isbn", "isbn13", "pages", "genres", "series", "format", "language", "originalTitle", "places", "characters", "awardsWon", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "coverage", "tags", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
+    "booking_offer": ["cartId", "referenceNumber", "status", "preparedAt", "presentedAt", "approvedAt", "expiresAt", "currency", "baseAmount", "taxAmount", "feesAmount", "totalAmount", "itineraryHash", "signature", "signatureAlg", "signedBy", "checkoutUrl", "confirmEndpoint", "isRefundable", "isChangeable", "hasVoidWindow", "voidWindowEndsAt", "conditions", "blob", "review", "contactEmail", "contactPhone", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "bookmark": ["name"],
+    "branch": ["commit", "upstream", "ahead", "behind", "isCurrent", "isRemote"],
+    "brand": ["tagline", "country", "primaryColor", "textColor"],
+    "calendar": ["calendarId", "color", "backgroundColor", "foregroundColor", "isPrimary", "isReadonly", "accessRole", "source", "timezone"],
+    "channel": ["banner", "subscriberCount"],
+    "class": ["activityType", "capacity", "spotsRemaining", "isFull", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "community": ["privacy", "memberCount", "subscriberCount", "allowCrypto"],
+    "conversation": ["isGroup", "isArchived", "unreadCount", "messageCount", "accountEmail", "historyId", "source", "cwd", "gitBranch"],
+    "conversion": ["kind", "factor", "rate", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "creative_work": ["name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags"],
+    "credential": ["domain", "identifier", "itemType", "source", "obtainedAt", "lastVerified", "refreshable", "storeRowId"],
+    "dimension": ["key", "label", "length", "mass", "time", "current", "temperature", "amount", "luminous", "dimensionless"],
+    "dns_record": ["domain", "recordName", "recordType", "type", "ttl", "priority", "recordId", "values"],
+    "document": ["contentType", "language", "wordCount", "abstract", "tableOfContents", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
+    "domain": ["status", "registrar", "autoRenew", "nameservers"],
+    "email": ["subject", "messageId", "inReplyTo", "isUnread", "isStarred", "isDraft", "isSent", "isTrash", "isSpam", "hasAttachments", "draftId", "conversationId", "accountEmail", "sizeEstimate", "references", "replyTo", "deliveredTo", "attachments", "toRaw", "ccRaw", "bccRaw", "unsubscribe", "unsubscribeOneClick", "manageSubscription", "listId", "isAutomated", "precedence", "mailer", "returnPath", "authResults", "bodyHtml", "isOutgoing"],
+    "episode": ["durationMs", "episodeNumber", "seasonNumber"],
+    "event": ["startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "fare": ["identifier", "bookingCode", "productType", "fareFamily", "class", "basePrice", "currency", "passengerType", "milesEarned", "pointsEarned", "components", "refundable", "changeable", "restrictions", "conditions"],
+    "file": ["filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
+    "financial_account": ["identifier", "accountId", "accountNumber", "routingNumber", "last4", "currency", "accountType", "balance", "available", "creditLimit", "minimumPayment", "cardType", "interestRate"],
+    "flight": ["flightNumber", "durationMinutes", "cabinClass", "stops", "carbonEmissions", "sequence", "departureTime", "arrivalTime", "duration", "vehicleType", "layoverMinutes", "trace", "tracePointCount", "polyline", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "font": ["family", "genericFamily", "postscriptName", "weights", "styles", "formats", "scripts", "glyphCount", "designerUrl", "vendorUrl", "licenseInfoUrl", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags"],
+    "git_commit": ["sha", "shortHash", "message", "additions", "deletions", "filesChanged", "committedAt", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "group": ["memberCount", "category"],
+    "hardware": ["modelNumber", "serialNumber", "specs", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
+    "health-biomarker": ["measure", "category", "loincCode", "analyteType", "description"],
+    "health-condition": ["clinicalStatus", "verificationStatus", "proximity", "bodySite", "severity", "snomedCode", "icd10Code", "clinicalArea", "mitigation"],
+    "health-immunization": ["dateAdministered", "cvxCode", "manufacturer", "lotNumber", "doseNumber", "seriesDoses", "site", "route", "diseaseTarget", "notes", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "health-lab": ["cliaNumber", "npi", "ccn", "labType", "accreditation", "industry", "actorType"],
+    "health-observation": ["value", "valueText", "refLow", "refHigh", "refText", "flag", "status", "notes", "indexedAt", "resultType", "externalUrl", "postId", "score", "similarity", "community", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "health-panel": ["panelCode", "fasting", "description", "id", "listId", "listType", "ordering_mode", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "health-procedure": ["performedDate", "procedureType", "bodySite", "outcome", "status", "cptCode", "snomedCode", "findings", "followUp", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "health-reference-range": ["low", "high", "unit", "refText", "category", "provenance", "method", "ageLow", "ageHigh", "sex", "pregnancy", "gestationalAge", "fasting", "timeOfDay", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "icon": ["dimension", "format", "url", "component", "purpose", "style", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "language", "coverage", "tags"],
+    "image": ["width", "height", "format", "altText", "appName", "windowId", "displayId", "displayIndex", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "encoding", "lineCount", "kind", "sha"],
+    "intellectual_property": ["category", "mark", "identifier", "register", "status", "filingBasis", "niceClass", "validIn", "renewalPeriod", "verificationUrl"],
+    "invitation": ["invitationType", "email", "role", "status", "token", "acceptedAt", "revokedAt", "message", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "launch": ["flightNumber", "rocketId", "launchpadId", "crewIds", "reusedBoosters", "landingOutcomes", "articleUrl", "webcastUrl", "wikipediaUrl", "patchImage", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "leg": ["sequence", "departureTime", "arrivalTime", "duration", "durationMinutes", "flightNumber", "cabinClass", "vehicleType", "layoverMinutes", "carbonEmissions", "trace", "tracePointCount", "polyline", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "list": ["id", "listId", "listType", "ordering_mode", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path"],
+    "loaded_model": ["size", "quantization", "vramUsage", "sizeVram", "digest", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "mcp_session": ["client", "projectId", "gitBranch", "sessionType", "startedAt", "endedAt", "messageCount", "tokenCount"],
+    "meeting": ["calendarLink", "isVirtual", "meetingUrl", "conferenceProvider", "phoneDialIn", "meetingType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "membership": ["status", "tier", "autoRenew", "price", "currency", "billingType", "useCount", "guestPassQuantity", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "memex": ["description", "origin", "filePath", "nodeCount", "edgeCount", "fileSize", "published", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "message": ["isOutgoing", "isStarred", "conversationId"],
+    "model": ["contextLength", "contextWindow", "maxOutput", "pricingInput", "pricingOutput", "modality", "modelType", "quantization", "quantizationLevel", "size", "parameterSize", "format", "family", "digest"],
+    "note": ["noteType", "isPinned"],
+    "offer": ["price", "currency", "offerType", "availability", "bookingToken", "departureToken", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "order": ["orderId", "orderDate", "total", "totalAmount", "originalTotal", "originalTotalAmount", "savings", "currency", "status", "deliveryDate", "eta", "subtotal", "tipAmount", "deliveryFee", "taxes", "summary", "fareBreakdown", "deliveryInstructions", "interactionType", "orderUuid", "body", "head", "messages", "timeline", "itemStates", "latestArrival", "progress", "progressTotal", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "organization": ["industry", "actorType"],
+    "pass": ["status", "quantity", "purchasedQuantity", "useCount", "isAllDayPass", "price", "currency", "ticketNumber", "nameOnTicket", "seatAssignment", "boardingGroup", "ticketClass", "gate", "terminal", "checkinStatus", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "payment_method": ["identifier", "type", "subtype", "brand", "displayName", "customDescription", "holderName", "last4", "binRange", "expMonth", "expYear", "expirationDate", "currency", "balance", "fingerprint", "isDefault", "isPrimary", "isExpired", "isSelected", "status", "providerTokens", "metadata"],
+    "person": ["url", "givenName", "additionalName", "familyName", "honorificPrefix", "honorificSuffix", "legalName", "preferredName", "maidenName", "nickname", "sortAs", "nameOrder", "phoneticGivenName", "phoneticFamilyName", "notes", "gender", "about", "actorType"],
+    "place": ["fullAddress", "placeFormatted", "streetNumber", "street", "neighborhood", "locality", "city", "district", "region", "postalCode", "country", "countryCode", "latitude", "longitude", "accuracy", "featureType", "categories", "phone", "website", "hours", "businessStatus", "rating", "reviewCount", "priceLevel", "timezone", "eta", "isOrderable", "closedMessage", "productCount", "mapboxId", "wikidataId", "googlePlaceId"],
+    "playlist": ["id", "listId", "listType", "ordering_mode", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path"],
+    "podcast": ["feedUrl"],
+    "post": ["externalUrl", "postType", "score", "commentCount", "community"],
+    "practice": ["description", "code", "codeSystem", "aliases"],
+    "product": ["category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
+    "project": ["state", "color", "parentId"],
+    "protocol": ["name", "homepage", "rfc", "wikidataId"],
+    "qualification": ["category", "identifier", "status", "renewalPeriod", "level", "validIn", "verificationUrl"],
+    "quantity-kind": ["key", "label"],
+    "quote": ["context", "year"],
+    "repository": ["stars", "forks", "language", "topics", "openIssues", "isArchived", "isPrivate", "defaultBranch", "license", "size"],
+    "reservation": ["reservationType", "reservationId", "status", "bookingType", "bookingTime", "modifiedTime", "startTime", "endTime", "partySize", "totalAmount", "baseAmount", "taxAmount", "currency", "checkinUrl", "conditions", "voidWindowEndsAt", "availableActions", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "result": ["indexedAt", "resultType", "externalUrl", "postId", "score", "similarity", "community"],
+    "review": ["rating", "ratingMax", "tags", "isVerified", "externalUrl", "postType", "score", "commentCount", "community"],
+    "role": ["title", "department", "roleType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "seatmap": ["flightNumber", "origin", "destination", "fareBasisCode", "classOfService", "aircraftCode", "totalSeats", "availableSeats", "cabins", "tiers", "hasExitRow", "hasFreeSeats", "hasPaidSeats", "basicEconomyLocked"],
+    "shelf": ["isExclusive", "id", "listId", "listType", "ordering_mode", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path"],
+    "simulation": ["status", "profile", "task", "graphMode", "startedAt", "endedAt", "actionCount", "writeCount"],
+    "skill": ["skillId", "description", "color", "status", "error"],
+    "software": ["version", "applicationCategory", "runtimePlatform", "codename", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
+    "sound": ["durationMs", "channels", "sampleRate", "bitDepth", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
+    "source": ["sourceId", "address", "scanner", "enabled", "description", "lastSynced"],
+    "spec": ["problem", "successCriteria", "remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
+    "tag": ["color", "tagType", "annotated", "hash"],
+    "task": ["remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "tax_line": ["code", "description", "amount", "currency", "kind", "nature", "country", "appliesToIndex", "refundable", "merchantImposed", "rate", "taxableAmount", "inclusive"],
+    "theme": ["themeId", "family", "description", "style", "startMenu", "defaultBackgroundColor"],
+    "tool_call": ["name", "input", "output", "isError", "durationMs"],
+    "transaction": ["amount", "currency", "balance", "category", "postingDate", "pending", "recurring", "notes", "type", "details", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "transcript": ["language", "sourceType", "contentRole", "durationMs", "segmentCount", "segments"],
+    "transition": ["givenName", "additionalName", "familyName", "honorificPrefix", "honorificSuffix", "legalName", "maidenName", "sortAs", "nameOrder", "phoneticGivenName", "phoneticFamilyName", "gender", "nickname", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "trip": ["tripType", "status", "departureTime", "arrivalTime", "duration", "durationMinutes", "distance", "vehicleType", "cabinClass", "fare", "fareAmount", "currency", "rating", "trackingUrl", "isSurge", "isScheduled", "stops", "bookingToken", "carbonEmissions", "isPool", "isReserve", "guest", "marketplace", "vehicle", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "unit": ["ucumCode", "symbol", "label", "kind", "siDigitalFrameworkUri", "unCefactCommonCode", "qudtUnitIri", "wikidataId", "toBaseFactor", "toBaseOffset", "iso4217", "iso4217Numeric", "minorExponent", "logBase"],
+    "user": ["osUsername", "primaryUser", "actorType"],
+    "video": ["durationMs", "resolution", "frameRate", "codec", "viewCount", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
+    "webpage": ["visitCount", "lastVisitUnix", "contentType", "error"],
+    "website": ["status", "versionId", "anonymous", "claimToken", "claimUrl"],
+};
+
+// ─── Event types — shapes whose `also:` chain includes `event` ──────────
+// Derived from the shape graph — the shape IS the type.
+
+export const EVENT_TYPES: readonly string[] = [
+    "activity",
+    "birth",
+    "booking_offer",
+    "class",
+    "conversion",
+    "event",
+    "flight",
+    "git_commit",
+    "health-immunization",
+    "health-observation",
+    "health-panel",
+    "health-procedure",
+    "health-reference-range",
+    "invitation",
+    "launch",
+    "leg",
+    "loaded_model",
+    "meeting",
+    "membership",
+    "memex",
+    "offer",
+    "order",
+    "pass",
+    "reservation",
+    "role",
+    "spec",
+    "task",
+    "transaction",
+    "transition",
+    "trip",
+] as const;

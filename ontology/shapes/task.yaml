@@ -3,6 +3,9 @@
 task:
   plural: tasks
   identity: [at, id]
+  also: [event]                  # a task IS event-shaped work — has a span (when started,
+                                  # when finished). targetDate is the *target* deadline,
+                                  # distinct from event.endDate (the actual end).
   display:
     subtitle: state
   fields:
@@ -10,8 +13,9 @@ task:
     priority:          integer   # 1 = highest (normalized across sources)
     state:             string
     labels:            string[]
-    startedAt:        datetime
-    targetDate:       datetime  # due date
+    targetDate:       datetime  # target deadline — *distinct* from event.endDate, which
+                                  # is the actual end. `startedAt` is event.startDate
+                                  # (inherited via `also: [event]`).
     target:            json      # structured target spec ({date, time, timezone}) — Todoist-style
     parentId:         string    # denormalized parent task id (authoritative edge is `parent`)
     projectId:        string    # denormalized project id (authoritative edge is `project`)

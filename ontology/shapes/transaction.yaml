@@ -2,6 +2,7 @@
 transaction:
   plural: transactions
   identity: [at, id]
+  also: [event]       # a transaction IS an event — the act of money moving
   display:
     subtitle: category
     highlights: [amount, postingDate, currency]

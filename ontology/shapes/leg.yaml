@@ -5,6 +5,7 @@
 # A direct Uber ride is one leg. A multi-stop Uber ride has one leg per stop pair.
 leg:
   plural: legs
+  also: [event]       # a leg is an event-shaped noun — happens at a time, has start/end
   display:
     subtitle: flightNumber
   fields:

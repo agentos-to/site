@@ -2,12 +2,14 @@
 # Fields for what happened, relations for who/what/where.
 activity:
   plural: activities
+  also: [event]                   # an activity IS an event — a system mutation at a moment
   display:
     subtitle: action
   icon: activity
   fields:
     action:           string      # create, update, delete, run, read, search, load
-    at:               datetime    # when this happened (immutable)
+                                    # When the activity happened lives on event.startDate
+                                    # (inherited via `also: [event]`), per rule 1.
     changedKeys:      string[]    # which fields changed (for updates)
     toolName:         string      # for skill runs: which operation
     duration:         number      # for skill runs: execution time in ms

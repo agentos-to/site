@@ -29,18 +29,20 @@
 pass:
   plural: passes
   identity: [at, id]
+  also: [event]                  # a pass IS an event-shaped right of access — start / end
+                                  # ride on event.startDate / endDate
   display:
     subtitle: status
   fields:
     status:            string    # active, depleted, expired, cancelled, refunded
-    purchasedDate:    datetime  # when purchased (also `published`)
-    startEffectiveDate: datetime # when usable from
-    endEffectiveDate: datetime  # when it expires (null = no expiry)
+                                  # When usable lives on event.startDate / endDate (inherited).
+                                  # Purchase and depletion are separate events — point at them
+                                  # via a `purchased_at` / `depleted_at` edge or event node
+                                  # rather than a flat field. Rule 1.
     quantity:          integer   # claims remaining (decrements on use)
     purchasedQuantity: integer   # starting count (for depletion tracking)
     useCount:         integer   # times consumed
     isAllDayPass:     boolean   # any-time-during-period pass (vs. quantity-based)
-    depletedDate:     datetime  # when quantity hit zero (null if still active)
     # Commercial fields — null for non-commercial / free passes
     price:             number
     currency:          string    # ISO 4217

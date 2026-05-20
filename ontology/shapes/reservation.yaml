@@ -43,6 +43,7 @@
 reservation:
   plural: reservations
   identity: [at, reservationId]
+  also: [event]       # a reservation IS an event — a future commitment at a time, with start/end
   display:
     subtitle: reservationType
   fields:

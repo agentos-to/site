@@ -13,7 +13,10 @@ software:
   identity_any: [url]   # url is the web-canonical identifier (Wikipedia page, GitHub repo, vendor URL)
   display:
     subtitle: applicationCategory
-    highlights: [released, version, runtimePlatform]
+    # Release date lives on the `published_by` edge val per rule 1 (was
+    # `released: datetime`, removed in the life-events migration). When a
+    # release-event node ships, swap this to `published_by.startDate`.
+    highlights: [version, runtimePlatform]
   also: [product]       # software is also a product
   fields:
     version:           string    # canonical version string ("11.0", "2023.4.1", "sp3")

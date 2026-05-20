@@ -73,6 +73,36 @@ def emit_typescript(onto: Ontology) -> str:
     lines.append("};")
     lines.append("")
 
+    # SHAPE_FIELD_ORDER — YAML declaration order per shape, so detail
+    # panels render rows in the author's order (e.g. given → middle →
+    # family on person, not the alphabetised graph order).
+    lines.extend([
+        "// ─── Field order — YAML declaration order per shape ────────────────────",
+        "// Detail panels iterate this list and look up `node.vals[key]`. Own",
+        "// fields first, then inherited via `also:` deduped.",
+        "",
+        "export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {",
+    ])
+    for s in shapes:
+        if not s.field_order:
+            continue
+        lines.append(f"    {json.dumps(s.name)}: {json.dumps(list(s.field_order))},")
+    lines.append("};")
+    lines.append("")
+
+    # EVENT_TYPES — every shape whose `also:` chain includes `event` (plus
+    # `event` itself). Derived from the shape graph — the shape IS the type.
+    lines.extend([
+        "// ─── Event types — shapes whose `also:` chain includes `event` ──────────",
+        "// Derived from the shape graph — the shape IS the type.",
+        "",
+        "export const EVENT_TYPES: readonly string[] = [",
+    ])
+    for name in onto.event_shape_names():
+        lines.append(f"    {json.dumps(name)},")
+    lines.append("] as const;")
+    lines.append("")
+
     return "\n".join(lines)
 
 

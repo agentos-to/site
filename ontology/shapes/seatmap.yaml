@@ -43,11 +43,12 @@ seatmap:
                                  # not a top-level field — see shape-display plan
                                  # for the intended editorial.
   fields:
-    # Flight scope (denormalized for display without join)
+    # Flight scope (denormalized for display without join). departureTime
+    # lives on the linked `flight` (event-derived: flight → leg → event.startDate);
+    # surface it via display depth-1 recursion if the card needs it.
     flightNumber:     string    # "UA 1336"
     origin:            string    # IATA ("AUS")
     destination:       string    # IATA ("SFO")
-    departureTime:    datetime
     fareBasisCode:    string    # "LAA0AQBN" — fare the seatmap was priced for
     classOfService:   string    # booking-class RBD ("N" for basic economy)
     aircraftCode:     string    # from aircraftInfo.icr or iataCode

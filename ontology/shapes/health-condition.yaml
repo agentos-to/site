@@ -34,8 +34,9 @@ health-condition:
     proximity:        string    # self | father | mother | sibling | extended-family — WHOSE condition
     bodySite:         string    # anatomical location, plain text — "nasal septum", "upper back"
     severity:         string    # mild | moderate | severe
-    onsetDate:        datetime  # when it began (approximate is fine)
-    abatementDate:    datetime  # when it resolved, if it did
+    # Onset and abatement are event nodes — `subject --diagnosed_with--> condition`
+    # carries the `onset` event time on the edge or as a linked `event(onset)`
+    # node; abatement is its own `event(abatement)` node. Rule 1.
     snomedCode:       string    # SNOMED CT concept id for this condition
     icd10Code:        string    # ICD-10-CM code, when a billing/diagnosis code is on record
     clinicalArea:     string    # specialty field — "Cardiology", "Dermatology", "ENT"

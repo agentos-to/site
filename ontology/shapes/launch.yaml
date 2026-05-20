@@ -1,0 +1,33 @@
+# A rocket launch event. Carries flight-specific fields that previously
+# lived on `event.yaml` as per-eventType denormalization — moved here
+# now that event subtypes are first-class shapes via `also: [event]`.
+#
+# This is the per-subtype pattern: any event type that needs typed
+# fields gets its own shape file. The base `event` shape stays the
+# universal when/where/who core; subtype shapes carry their own
+# vocabulary.
+launch:
+  plural: launches
+  also: [event]
+  display:
+    subtitle: rocketId
+    highlights: [startDate, rocketId, launchpadId]
+  fields:
+    flightNumber:     integer
+    rocketId:         string
+    launchpadId:      string
+    crewIds:          string[]
+    reusedBoosters:   string[]
+    landingOutcomes:  json       # per-booster outcome metadata
+    articleUrl:       url
+    webcastUrl:       url
+    wikipediaUrl:     url
+    patchImage:       url        # mission patch image
+  prior_art:
+    - source: SpaceX r/SpaceX API v4
+      url: https://github.com/r-spacex/SpaceX-API
+      notes: >-
+        Original source of these fields. The fly-by-night-launch.com
+        skill maps the v4 launches endpoint onto this shape; the
+        per-booster landing outcomes JSON mirrors that API's `cores`
+        sub-document.

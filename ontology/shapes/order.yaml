@@ -3,6 +3,7 @@
 order:
   plural: orders
   identity: [at, orderId]
+  also: [event]       # an order IS an event — the placement of a purchase at a point in time
   display:
     subtitle: total
   fields:

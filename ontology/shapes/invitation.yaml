@@ -16,6 +16,7 @@
 invitation:
   plural: invitations
   identity: [at, id]
+  also: [event]                  # an invitation IS an event — a "you're invited" issued at a moment
   display:
     subtitle: invitationType
   fields:
@@ -24,9 +25,12 @@ invitation:
     role:              string    # role being offered: admin, member, viewer, etc.
     status:            string    # pending, accepted, declined, revoked, expired
     token:             string    # invite token / link token (if applicable)
-    expiresAt:        datetime  # when the invite expires (if it does)
-    acceptedAt:       datetime  # when it was accepted
-    revokedAt:        datetime  # when it was revoked
+                                  # When the invite expires lives on event.endDate
+                                  # (inherited via `also: [event]`). Rule 1.
+    acceptedAt:       datetime  # when it was accepted (own lifecycle stamp,
+                                  #   legitimate under event-derived shape)
+    revokedAt:        datetime  # when it was revoked (own lifecycle stamp,
+                                  #   legitimate under event-derived shape)
     message:           text      # optional personal message attached to the invite
   relations:
     inviter:           account   # who sent the invite (the account that created it)

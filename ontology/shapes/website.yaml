@@ -8,10 +8,12 @@ website:
   fields:
     status:            string    # active, pending
     versionId:        string    # current deployment version
-    expiresAt:        datetime  # when an anonymous site auto-expires
     anonymous:         boolean   # true if published without an account
     claimToken:       string    # token to claim an anonymous site
     claimUrl:         url
+    # Anonymous-site auto-expiry rides on the `registered_with` edge val, or
+    # — when the site is later claimed — gets superseded by the claim event.
+    # Rule 1.
   relations:
     domain:            domain
     ownedBy:          organization

@@ -38,14 +38,17 @@
 membership:
   plural: memberships
   identity: [at, id]
+  also: [event]                  # a membership IS an event — a time-bounded right of
+                                  # belonging. Start / end ride on event.startDate / endDate.
   display:
     subtitle: status
   fields:
     status:            string    # active, paused, expired, cancelled, pending, revoked
     tier:              string    # human-readable tier/plan name (cached; also on plan relation)
-    startEffectiveDate: datetime # when it began (also `published`)
-    endEffectiveDate: datetime  # when it ends (null = open-ended)
-    nextBillDate:     datetime  # next charge (commercial recurring)
+                                  # Validity window lives on event.startDate / endDate
+                                  # (inherited via `also: [event]`). nextBillDate is
+                                  # derived — projected from the billing cycle, not
+                                  # stored. Rule 1.
     autoRenew:        boolean   # renews automatically
     # Commercial-specific (null for non-commercial memberships)
     price:             number    # per-billing-cycle price

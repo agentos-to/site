@@ -21,8 +21,9 @@ brand:
     subtitle: tagline
   fields:
     tagline:           string
-    founded:           datetime
     country:           string
+    # founding date lives on `ownedBy --> organization {founded}` edge val,
+    # or — if multi-party founding — a `founding` event node. Rule 1.
     # Visual identity — optional, populated when renderers need to brand
     # the presentation. None of these are required to construct a brand;
     # an un-styled brand just renders in the default palette.

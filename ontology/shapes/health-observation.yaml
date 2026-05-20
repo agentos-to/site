@@ -29,13 +29,16 @@
 # `name` (inherited) is the display label, e.g. "LDL Cholesterol 95 mg/dL".
 health-observation:
   plural: health-observations
-  also: [result]
+  also: [result, event]         # the measurement IS an event — sample taken at a moment.
+                                  # `also: [result]` covers the find-time metadata; event
+                                  # covers the when. Rule 1.
   display:
-    subtitle: effectiveDate
+    subtitle: startDate          # inherited from event — when the sample was taken
   fields:
     value:            number    # the measured quantity — 95, 1.24, 310; its UCUM unit rides on the val
     valueText:        string    # for non-numeric results — "Negative", "Reactive", "Trace"
-    effectiveDate:    datetime  # when the sample was taken / measurement made
+                                  # When the sample was taken lives on event.startDate
+                                  # (inherited via `also: [event]`), per rule 1.
     refLow:           number    # SNAPSHOT: reference low as printed on THIS report (unit on the val)
     refHigh:          number    # SNAPSHOT: reference high as printed on THIS report (unit on the val)
     refText:          string    # SNAPSHOT: verbatim range string from this specific report

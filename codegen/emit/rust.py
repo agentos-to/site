@@ -277,4 +277,42 @@ def emit_rust(onto: Ontology) -> str:
     lines.append("];")
     lines.append("")
 
+    # SHAPE_FIELD_ORDER — YAML declaration order per shape. The
+    # markdown renderer in graph.rs::format_node_md iterates this so
+    # `read()` output renders fields in author order.
+    lines += [
+        "// ===========================================================",
+        "// Field order — YAML declaration order per shape",
+        "// ===========================================================",
+        "",
+        "/// Linear-scan lookup by shape name. Returns this shape's field",
+        "/// names in declaration order (own first, then inherited via",
+        "/// `also:` deduped). Empty slice when the shape is unknown.",
+        "pub fn lookup_field_order(shape: &str) -> &'static [&'static str] {",
+        "    SHAPE_FIELD_ORDER.iter().find(|(name, _)| *name == shape).map(|(_, o)| *o).unwrap_or(&[])",
+        "}",
+        "",
+        "pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[",
+    ]
+    for s in shapes_sorted:
+        if not s.field_order:
+            continue
+        lines.append(f'    ("{s.name}", {_rust_str_array(list(s.field_order))}),')
+    lines.append("];")
+    lines.append("")
+
+    # EVENT_TYPES — every shape whose `also:` chain includes `event`
+    # (plus `event` itself). Derived from the shape graph.
+    lines += [
+        "// ===========================================================",
+        "// Event types — shapes whose `also:` chain includes `event`",
+        "// ===========================================================",
+        "",
+        "/// Every shape whose `also:` chain includes `event`, plus",
+        "/// `event` itself. Derived from the shape graph — the shape",
+        "/// IS the type.",
+        f"pub static EVENT_TYPES: &[&'static str] = {_rust_str_array(onto.event_shape_names())};",
+        "",
+    ]
+
     return "\n".join(lines)

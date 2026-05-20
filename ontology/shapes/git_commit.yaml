@@ -1,6 +1,7 @@
 # A git commit — a single point in version control history.
 git_commit:
   plural: git_commits
+  also: [event]       # a commit IS an event — a point-in-time write to a repository
   display:
     subtitle: author
   fields:

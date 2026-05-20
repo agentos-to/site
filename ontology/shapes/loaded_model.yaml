@@ -1,12 +1,15 @@
 # A currently loaded/running AI model instance.
 loaded_model:
   plural: loaded_models
+  also: [event]                  # a loaded model IS an event-shaped lease — spans
+                                  # the time it sits in memory, has a start + an expiry
   display:
     subtitle: size
   fields:
     size:              string    # memory footprint
     quantization:      string
-    expiresAt:        datetime
+                                  # The lease end lives on event.endDate (inherited
+                                  # via `also: [event]`), per rule 1.
     vramUsage:        string
     sizeVram:         integer   # VRAM bytes used by this model
     digest:            string    # content-addressable hash

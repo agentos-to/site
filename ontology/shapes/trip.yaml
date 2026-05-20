@@ -11,6 +11,7 @@
 trip:
   plural: trips
   identity: [at, id]
+  also: [event]       # a trip is an event-shaped noun — happens at a time, has start/end
   display:
     subtitle: tripType
   fields:

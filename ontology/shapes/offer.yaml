@@ -3,6 +3,7 @@
 offer:
   plural: offers
   identity: [id]
+  also: [event]                  # an offer IS an event — a priced availability with a TTL
   display:
     subtitle: price
   fields:
@@ -10,8 +11,8 @@ offer:
     currency:          string    # ISO 4217 (e.g. USD, EUR)
     offerType:        string
     availability:      string
-    validFrom:        datetime
-    validUntil:       datetime
+                                  # Validity window lives on event.startDate / endDate
+                                  # (inherited via `also: [event]`), per rule 1.
     bookingToken:     string    # opaque token for completing a booking
     departureToken:   string    # SerpAPI flights: multi-leg token for resolving a return leg price
   relations:

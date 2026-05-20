@@ -20,12 +20,15 @@
 # `name` (inherited) is the panel name — "CBC", "Comprehensive Metabolic Panel".
 health-panel:
   plural: health-panels
-  also: [list]
+  also: [list, event]            # a dated panel IS an event (the draw); also [list] gives
+                                  # us the ordered membership of biomarkers/observations
   display:
-    subtitle: effectiveDate
+    subtitle: startDate          # inherited from event — when the draw happened
   fields:
     panelCode:        string    # LOINC panel code when known (CBC w/ diff = 58410-2)
-    effectiveDate:    datetime  # date of draw — set for a dated report, null for a catalog panel
+                                  # When the draw happened lives on event.startDate
+                                  # (inherited via `also: [event]`). Catalog panels
+                                  # leave it null. Rule 1.
     fasting:          boolean    # whether the draw was taken fasting
     description:      text      # what this panel evaluates
   relations:

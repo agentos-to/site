@@ -6,11 +6,12 @@ organization:
   display:
     image: image
     subtitle: industry
-    highlights: [headquarters, founded]
+    highlights: [headquarters]
   also: [actor]       # an organization is also an actor
   fields:
     industry:          string
-    founded:           datetime
+    # Founding lives on `founded_by --> actor {date}` edge val, or a `founding`
+    # event node for multi-party foundings. Rule 1.
   relations:
     member:            person[]
     domain:            domain

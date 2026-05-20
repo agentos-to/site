@@ -53,11 +53,10 @@ intellectual_property:
                                 #   would be a separate field if patents
                                 #   are imported in anger.
     validIn:         string     # jurisdiction — "US", "EU", "WO" (Madrid)
-    filedOn:         datetime   # application date (the priority anchor)
-    registeredOn:    datetime   # null until registration issues
-    expiresOn:       datetime   # current term end — null = pending.
-                                #   Trademarks renew: expiresOn advances,
-                                #   not a new node (cf. qualification).
+    # Lifecycle dates (filed / registered / expired / lapsed) live on dated
+    # milestone edges to the granting office (per the shape's header note):
+    # `--filed_with--> office {date}`, `--registered_with--> office {date}`,
+    # `--expires_on--> event` etc. Rule 1.
     renewalPeriod:   string     # ISO-8601 duration — "P10Y" for a TM
     verificationUrl: url        # public registry link (USPTO TSDR etc.)
   relations:
