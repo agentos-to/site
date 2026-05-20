@@ -4556,7 +4556,11 @@
         "title": null,
         "subtitle": "activityType",
         "image": null,
-        "highlights": [],
+        "highlights": [
+          "startDate",
+          "endDate",
+          "location"
+        ],
         "body": null,
         "preview": {}
       },
@@ -7946,7 +7950,11 @@
         "title": null,
         "subtitle": "eventType",
         "image": null,
-        "highlights": [],
+        "highlights": [
+          "startDate",
+          "endDate",
+          "location"
+        ],
         "body": null,
         "preview": {}
       },
@@ -8209,7 +8217,7 @@
         }
       ],
       "source_path": "event.yaml",
-      "raw_body": "plural: events\nidentity:\n- at\n- id\ndisplay:\n  subtitle: eventType\nfields:\n  eventType: string\n  startDate: datetime\n  endDate: datetime\n  timezone: string\n  allDay: boolean\n  recurrence: string[]\n  status: string\n  visibility: string\n  showAs: string\n  dateUpdated: datetime\n  sourceUrl: url\n  sourceTitle: string\n  icalUid: string\n  distinctId: string\n  currentUrl: string\n  properties: json\n  articleUrl: url\n  webcastUrl: url\n  wikipediaUrl: url\n  patchImage: url\n  flightNumber: integer\n  rocketId: string\n  launchpadId: string\n  crewIds: string[]\n  reusedBoosters: string[]\n  landingOutcomes: json\nrelations:\n  at: actor\n  involves: person[]\n  location: place\n  organizer: person\n  creator: person\n  person: person\n  attachments: file[]\nprior_art:\n- source: schema.org/Event\n  url: https://schema.org/Event\n  notes: Core event type. Our startDate/endDate map 1:1; eventType is free-form vs.\n    schema.org's subtype hierarchy (Concert, Conference, BusinessEvent). organizer/location\n    match directly.\n- source: RFC 5545 (iCalendar) VEVENT\n  url: https://datatracker.ietf.org/doc/html/rfc5545\n  notes: \"Our icalUid is their UID; recurrence is their RRULE; status maps to STATUS\\\n    \\ (TENTATIVE/CONFIRMED/CANCELLED); showAs \\u2248 TRANSP; involves[] \\u2248 ATTENDEE.\"\n- source: ActivityStreams 2.0 Event\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-event\n  notes: \"Fediverse inbox format. Thinner than iCal \\u2014 no native recurrence or\\\n    \\ showAs; our involves[] \\u2248 attendees via as:Relationship.\"\n",
+      "raw_body": "plural: events\nidentity:\n- at\n- id\ndisplay:\n  subtitle: eventType\n  highlights:\n  - startDate\n  - endDate\n  - location\nfields:\n  eventType: string\n  startDate: datetime\n  endDate: datetime\n  timezone: string\n  allDay: boolean\n  recurrence: string[]\n  status: string\n  visibility: string\n  showAs: string\n  dateUpdated: datetime\n  sourceUrl: url\n  sourceTitle: string\n  icalUid: string\n  distinctId: string\n  currentUrl: string\n  properties: json\n  articleUrl: url\n  webcastUrl: url\n  wikipediaUrl: url\n  patchImage: url\n  flightNumber: integer\n  rocketId: string\n  launchpadId: string\n  crewIds: string[]\n  reusedBoosters: string[]\n  landingOutcomes: json\nrelations:\n  at: actor\n  involves: person[]\n  location: place\n  organizer: person\n  creator: person\n  person: person\n  attachments: file[]\nprior_art:\n- source: schema.org/Event\n  url: https://schema.org/Event\n  notes: Core event type. Our startDate/endDate map 1:1; eventType is free-form vs.\n    schema.org's subtype hierarchy (Concert, Conference, BusinessEvent). organizer/location\n    match directly.\n- source: RFC 5545 (iCalendar) VEVENT\n  url: https://datatracker.ietf.org/doc/html/rfc5545\n  notes: \"Our icalUid is their UID; recurrence is their RRULE; status maps to STATUS\\\n    \\ (TENTATIVE/CONFIRMED/CANCELLED); showAs \\u2248 TRANSP; involves[] \\u2248 ATTENDEE.\"\n- source: ActivityStreams 2.0 Event\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-event\n  notes: \"Fediverse inbox format. Thinner than iCal \\u2014 no native recurrence or\\\n    \\ showAs; our involves[] \\u2248 attendees via as:Relationship.\"\n",
       "ancestors": []
     },
     {
@@ -11523,7 +11531,11 @@
         "title": null,
         "subtitle": "dateAdministered",
         "image": null,
-        "highlights": [],
+        "highlights": [
+          "startDate",
+          "endDate",
+          "location"
+        ],
         "body": null,
         "preview": {}
       },
@@ -12944,7 +12956,11 @@
         "title": null,
         "subtitle": "performedDate",
         "image": null,
-        "highlights": [],
+        "highlights": [
+          "startDate",
+          "endDate",
+          "location"
+        ],
         "body": null,
         "preview": {}
       },
@@ -16159,7 +16175,11 @@
         "title": null,
         "subtitle": "location",
         "image": null,
-        "highlights": [],
+        "highlights": [
+          "startDate",
+          "endDate",
+          "location"
+        ],
         "body": null,
         "preview": {}
       },

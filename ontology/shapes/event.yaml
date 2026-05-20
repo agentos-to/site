@@ -11,6 +11,7 @@ event:
   identity: [at, id]
   display:
     subtitle: eventType
+    highlights: [startDate, endDate, location]
   fields:
     eventType:        string    # open vocabulary — subtypes define their own values
     startDate:        datetime  # when the event starts (UTC preferred)
