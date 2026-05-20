@@ -32,7 +32,10 @@ person:
                         # vendor bio page. Lets multi-source seeders dedupe
                         # without guessing on name collisions.
   display:
+    image: image
     subtitle: about
+    highlights: [birthday, gender]
+    body: notes
   also: [actor]       # a person is also an actor
   fields:
     url:              string    # canonical web identifier (GitHub profile,
