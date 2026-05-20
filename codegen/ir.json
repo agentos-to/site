@@ -1487,8 +1487,11 @@
       "display": {
         "title": null,
         "subtitle": "iataCode",
-        "image": null,
-        "highlights": [],
+        "image": "image",
+        "highlights": [
+          "headquarters",
+          "founded"
+        ],
         "body": null,
         "preview": {}
       },
@@ -11796,8 +11799,11 @@
       "display": {
         "title": null,
         "subtitle": "labType",
-        "image": null,
-        "highlights": [],
+        "image": "image",
+        "highlights": [
+          "headquarters",
+          "founded"
+        ],
         "body": null,
         "preview": {}
       },
@@ -18463,8 +18469,11 @@
       "display": {
         "title": null,
         "subtitle": "industry",
-        "image": null,
-        "highlights": [],
+        "image": "image",
+        "highlights": [
+          "headquarters",
+          "founded"
+        ],
         "body": null,
         "preview": {}
       },
@@ -18544,7 +18553,7 @@
         }
       ],
       "source_path": "organization.yaml",
-      "raw_body": "plural: organizations\nidentity: url\ndisplay:\n  subtitle: industry\nalso:\n- actor\nfields:\n  industry: string\n  founded: datetime\nrelations:\n  member: person[]\n  domain: domain\n  website: website\n  headquarters: place\n  parentOrganization: organization\nprior_art:\n- source: schema.org/Organization\n  url: https://schema.org/Organization\n  notes: \"Our industry \\u2248 naics/isicV4 (loosely); founded = foundingDate; member[]\\\n    \\ = member; headquarters = location; parentOrganization maps directly (schema.org's\\\n    \\ subOrganization is its declared inverse).\"\n- source: vCard 4.0 KIND=org (RFC 6350)\n  url: https://datatracker.ietf.org/doc/html/rfc6350\n  notes: \"Organization-as-contact. Our website/domain \\u2248 URL; headquarters \\u2248\\\n    \\ ADR. Thinner than schema.org for industry/founded.\"\n- source: Wikidata (Organization, Q43229)\n  url: https://www.wikidata.org/wiki/Q43229\n  notes: Cross-reference identity. Useful for deduping; no direct field alignment\n    but industry maps to P452 (industry) and founded to P571 (inception).\n",
+      "raw_body": "plural: organizations\nidentity: url\ndisplay:\n  image: image\n  subtitle: industry\n  highlights:\n  - headquarters\n  - founded\nalso:\n- actor\nfields:\n  industry: string\n  founded: datetime\nrelations:\n  member: person[]\n  domain: domain\n  website: website\n  headquarters: place\n  parentOrganization: organization\nprior_art:\n- source: schema.org/Organization\n  url: https://schema.org/Organization\n  notes: \"Our industry \\u2248 naics/isicV4 (loosely); founded = foundingDate; member[]\\\n    \\ = member; headquarters = location; parentOrganization maps directly (schema.org's\\\n    \\ subOrganization is its declared inverse).\"\n- source: vCard 4.0 KIND=org (RFC 6350)\n  url: https://datatracker.ietf.org/doc/html/rfc6350\n  notes: \"Organization-as-contact. Our website/domain \\u2248 URL; headquarters \\u2248\\\n    \\ ADR. Thinner than schema.org for industry/founded.\"\n- source: Wikidata (Organization, Q43229)\n  url: https://www.wikidata.org/wiki/Q43229\n  notes: Cross-reference identity. Useful for deduping; no direct field alignment\n    but industry maps to P452 (industry) and founded to P571 (inception).\n",
       "ancestors": [
         "actor"
       ]

@@ -4,7 +4,9 @@ organization:
   plural: organizations
   identity: url
   display:
+    image: image
     subtitle: industry
+    highlights: [headquarters, founded]
   also: [actor]       # an organization is also an actor
   fields:
     industry:          string
