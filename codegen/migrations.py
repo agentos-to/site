@@ -36,6 +36,7 @@ STRENGTHENING_OPS = {
     "rename_link",
     "rename_link_val",
     "move_to_event",
+    "flip_link",
 }
 PARAMETERIZED_OPS = {"add_field"}  # severity depends on params
 KNOWN_OPS = WEAKENING_OPS | STRENGTHENING_OPS | PARAMETERIZED_OPS
@@ -56,6 +57,7 @@ OP_SIGNATURES: dict[str, tuple[set[str], set[str]]] = {
     "rename_link":        ({"from", "to"},                          set()),
     "rename_link_val":    ({"link", "from", "to"},                  set()),
     "move_to_event":      ({"shape"},                               set()),
+    "flip_link":          ({"from", "to"},                          set()),
 }
 
 HASH_RE = re.compile(r"^sha256:[0-9a-f]{64}$")

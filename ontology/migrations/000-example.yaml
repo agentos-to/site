@@ -39,3 +39,4 @@ ops:
   - rename_link: {from: belongs_to, to: parent_of}
   - rename_link_val: {link: lived_at, from: start, to: from}
   - move_to_event: {shape: health-condition}
+  - flip_link: {from: owns, to: owned_by}

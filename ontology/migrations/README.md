@@ -64,13 +64,17 @@ default).
 |---|---|---|
 | `rename_link` | `{from, to}` | Link label rename. Rewrites `links.label` rows. |
 | `rename_link_val` | `{link, from, to}` | Rename a key on `link_vals` for one label. |
+| `flip_link` | `{from, to}` | Direction-flip + rename. Rewrites every row where `label = from` to `label = to` with `from_node` and `to_node` swapped. Used when an active-form label drops in favor of its past-participle canonical (`owns → owned_by`). |
 | `move_to_event` | `{shape}` | Adds `also: [event]`; folds onset/abatement-date fields into event start/end. |
 
-Two of these (`rename_link`, `rename_link_val`) exist because AgentOS
-types links via a separate registry (`platform/ontology/links/*.yaml`,
-Phase 1c) instead of treating them as classes the way TerminusDB does.
-`move_to_event` is the specific pattern for promoting an entity shape
-into the event lattice.
+Four of these (`rename_link`, `rename_link_val`, `flip_link`,
+`move_to_event`) exist because AgentOS types links via a separate
+registry (`platform/ontology/links/*.yaml`, Phase 1c) instead of
+treating them as classes the way TerminusDB does. `flip_link` is the
+shape-of-change the underscore-suffix audit produced: dropping an
+active-form label like `owns` in favor of its past-participle peer
+`owned_by` rewrites BOTH the label AND the direction-of-storage in
+every existing row.
 
 ## `default: Default | Error` — the tagged union
 

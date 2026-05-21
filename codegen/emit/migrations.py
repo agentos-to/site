@@ -83,6 +83,12 @@ pub enum MigrationOp {
     RenameLink { from: &'static str, to: &'static str },
     RenameLinkVal { link: &'static str, from: &'static str, to: &'static str },
     MoveToEvent { shape: &'static str },
+    /// Direction-flip + rename. Rewrites every `links` row where
+    /// `label = from` to `label = to` with `from_node` and `to_node`
+    /// swapped. Used when an active-form label is dropped in favor of
+    /// its past-participle canonical (e.g. `owns → owned_by`, where the
+    /// canonical reads in the opposite direction).
+    FlipLink { from: &'static str, to: &'static str },
 }
 
 impl MigrationOp {
@@ -215,6 +221,9 @@ def _emit_op(op) -> str:
                 f"from: {_rust_str(p['from'])}, to: {_rust_str(p['to'])} }}")
     if op.kind == "move_to_event":
         return f"MigrationOp::MoveToEvent {{ shape: {_rust_str(p['shape'])} }}"
+    if op.kind == "flip_link":
+        return (f"MigrationOp::FlipLink {{ from: {_rust_str(p['from'])}, "
+                f"to: {_rust_str(p['to'])} }}")
     raise ValueError(f"unhandled op kind in emitter: {op.kind}")
 
 
