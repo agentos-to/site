@@ -2,5 +2,5 @@
 # Storage label: `on`. Per-shape target lives in each shape's `links:` block.
 # Sources: email, organization, tool_call, video, website
 # Per-shape targets: channel, domain, product
-preposition: on
+preposition: "on"
 to: node

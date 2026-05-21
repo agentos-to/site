@@ -5,3 +5,4 @@
 # Targets: event, message, post
 from: file
 to: node
+reverse_name: attaches

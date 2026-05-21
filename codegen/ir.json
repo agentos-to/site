@@ -29844,23 +29844,13 @@
   },
   "links": [
     {
-      "name": "True",
-      "from_kind": "node",
-      "to_kind": "node",
-      "cardinality": "many_to_many",
-      "link_vals": {},
-      "inverse_of": null,
-      "group_file": "on.yaml",
-      "verb_root": null,
-      "preposition_root": "True"
-    },
-    {
       "name": "accessed_via",
       "from_kind": "node",
       "to_kind": "node",
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "accessed_via.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -29872,6 +29862,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "accommodates.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -29883,6 +29874,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "acted_on.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -29894,6 +29886,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "added_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -29905,6 +29898,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "addressed_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -29916,6 +29910,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "administered_at.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -29927,6 +29922,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "aired",
       "group_file": "aired_in.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -29938,6 +29934,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "allowed_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -29949,6 +29946,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "applies_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -29960,6 +29958,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "arrives_at.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -29971,6 +29970,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "assigned_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -29982,6 +29982,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "at_namespace.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -29993,6 +29994,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "attaches",
       "group_file": "attached_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30004,6 +30006,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "attendees",
       "group_file": "attended.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30015,6 +30018,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "authenticates",
       "group_file": "authenticated_via.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30026,6 +30030,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "authored_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30037,6 +30042,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "backed_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30048,6 +30054,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "belongs_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30059,6 +30066,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "billed_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30070,6 +30078,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "blind_copied_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30081,6 +30090,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "blocks",
       "group_file": "blocked_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30092,6 +30102,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "booked.yaml",
       "verb_root": "booked",
       "preposition_root": null
@@ -30103,6 +30114,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "booked.yaml",
       "verb_root": "booked",
       "preposition_root": null
@@ -30114,6 +30126,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "born.yaml",
       "verb_root": "born",
       "preposition_root": null
@@ -30125,6 +30138,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "born.yaml",
       "verb_root": "born",
       "preposition_root": null
@@ -30136,6 +30150,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "born.yaml",
       "verb_root": "born",
       "preposition_root": null
@@ -30147,6 +30162,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "bought_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30158,6 +30174,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "branded_as.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30169,6 +30186,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "brokered_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30180,6 +30198,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "bundles.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30191,6 +30210,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "cited_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30202,6 +30222,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "citizen_of.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30213,6 +30234,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "committed_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30224,6 +30246,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "concerns.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30235,6 +30258,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "contains.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30246,6 +30270,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "contributed_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30257,6 +30282,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "converts_from.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30268,6 +30294,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "converts_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30279,6 +30306,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "copied_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30290,6 +30318,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "covers.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30301,6 +30330,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "covers_trip.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30312,6 +30342,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "created_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30323,6 +30354,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "delivered_via.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30334,6 +30366,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "departs_from.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30345,6 +30378,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "depends_on.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30356,6 +30390,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "depicted_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30367,6 +30402,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "derived_from.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30378,6 +30414,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "developed_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30389,6 +30426,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "documented_in.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30400,6 +30438,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "driven_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30411,6 +30450,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "earns_into.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30422,6 +30462,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "ends_at.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30433,6 +30474,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "enrolled_in.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30444,6 +30486,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "evaluated_against.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30455,6 +30498,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "evidenced_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30466,6 +30510,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "extended.yaml",
       "verb_root": "extended",
       "preposition_root": null
@@ -30477,6 +30522,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "extended.yaml",
       "verb_root": "extended",
       "preposition_root": null
@@ -30488,6 +30534,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "extracted_from.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30499,6 +30546,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "featured.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30510,6 +30558,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "filed.yaml",
       "verb_root": "filed",
       "preposition_root": null
@@ -30521,6 +30570,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "filed.yaml",
       "verb_root": "filed",
       "preposition_root": null
@@ -30532,6 +30582,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "filed.yaml",
       "verb_root": "filed",
       "preposition_root": null
@@ -30543,6 +30594,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "flown_with.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30554,6 +30606,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "follows",
       "group_file": "followed_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30565,6 +30618,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "for.yaml",
       "verb_root": null,
       "preposition_root": "for"
@@ -30576,6 +30630,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "forked_from.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30587,6 +30642,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "funded_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30598,6 +30654,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "governed_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30609,6 +30666,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "granted_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30620,6 +30678,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "has_base_unit.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30631,6 +30690,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "headquartered_at.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30642,6 +30702,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "held.yaml",
       "verb_root": "held",
       "preposition_root": null
@@ -30653,6 +30714,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "held.yaml",
       "verb_root": "held",
       "preposition_root": null
@@ -30664,6 +30726,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "held.yaml",
       "verb_root": "held",
       "preposition_root": null
@@ -30675,6 +30738,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "holds_account.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30686,6 +30750,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "holds_pass.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30697,6 +30762,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "holds_qualification.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30708,6 +30774,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "holds_role.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30719,6 +30786,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "hosts",
       "group_file": "hosted_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30730,6 +30798,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "identified_as.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30741,6 +30810,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "imposed_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30752,6 +30822,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "in.yaml",
       "verb_root": null,
       "preposition_root": "in"
@@ -30763,6 +30834,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "influenced_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30774,6 +30846,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "inspired_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30785,6 +30858,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "instance_of.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30796,6 +30870,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "invested.yaml",
       "verb_root": "invested",
       "preposition_root": null
@@ -30807,6 +30882,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "invested.yaml",
       "verb_root": "invested",
       "preposition_root": null
@@ -30818,6 +30894,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "invokes",
       "group_file": "invoked_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30829,6 +30906,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "involves.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30840,6 +30918,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "issued_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30851,6 +30930,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "issued_pass.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30862,6 +30942,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "itemizes.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30876,6 +30957,7 @@
         "to": "date | null"
       },
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "lived_at.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30887,6 +30969,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "manufactured_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30898,6 +30981,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "measures.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30909,6 +30993,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "offers",
       "group_file": "offered.yaml",
       "verb_root": "offered",
       "preposition_root": null
@@ -30920,9 +31005,22 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "offered.yaml",
       "verb_root": "offered",
       "preposition_root": null
+    },
+    {
+      "name": "on",
+      "from_kind": "node",
+      "to_kind": "node",
+      "cardinality": "many_to_many",
+      "link_vals": {},
+      "inverse_of": null,
+      "reverse_name": null,
+      "group_file": "on.yaml",
+      "verb_root": null,
+      "preposition_root": "on"
     },
     {
       "name": "online_at",
@@ -30931,6 +31029,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "online_at.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30942,6 +31041,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "operated_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30953,6 +31053,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "ordered_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30964,6 +31065,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "organizes",
       "group_file": "organized_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30975,6 +31077,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "owns",
       "group_file": "owned_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -30986,6 +31089,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "paid.yaml",
       "verb_root": "paid",
       "preposition_root": null
@@ -30997,6 +31101,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "paid.yaml",
       "verb_root": "paid",
       "preposition_root": null
@@ -31008,6 +31113,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "contains",
       "group_file": "part_of.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31019,6 +31125,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "performed.yaml",
       "verb_root": "performed",
       "preposition_root": null
@@ -31030,6 +31137,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "performed.yaml",
       "verb_root": "performed",
       "preposition_root": null
@@ -31041,6 +31149,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "placed_via.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31052,6 +31161,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "points_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31063,6 +31173,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "posted.yaml",
       "verb_root": "posted",
       "preposition_root": null
@@ -31074,6 +31185,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "posted.yaml",
       "verb_root": "posted",
       "preposition_root": null
@@ -31085,6 +31197,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "practices.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31096,6 +31209,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "priced.yaml",
       "verb_root": "priced",
       "preposition_root": null
@@ -31107,6 +31221,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "priced.yaml",
       "verb_root": "priced",
       "preposition_root": null
@@ -31118,6 +31233,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "privacy_at.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31129,6 +31245,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "published.yaml",
       "verb_root": "published",
       "preposition_root": null
@@ -31140,6 +31257,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "published.yaml",
       "verb_root": "published",
       "preposition_root": null
@@ -31151,6 +31269,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "purchased_at.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31162,6 +31281,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "quantifies.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31173,6 +31293,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "realized_as.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31184,6 +31305,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "references.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31195,6 +31317,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "replies",
       "group_file": "replies_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31206,6 +31329,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "represents.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31217,6 +31341,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "reserves.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31228,6 +31353,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "reviews.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31239,6 +31365,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "routed_through.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31250,6 +31377,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "saved_under.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31261,6 +31389,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "schedules.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31272,6 +31401,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "seeded_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31283,6 +31413,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "sent_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31294,6 +31425,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "settled.yaml",
       "verb_root": "settled",
       "preposition_root": null
@@ -31305,6 +31437,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "settled.yaml",
       "verb_root": "settled",
       "preposition_root": null
@@ -31316,6 +31449,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "shipped_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31327,6 +31461,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "shows.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31338,6 +31473,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "speaks_protocol.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31349,6 +31485,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "specialization_of.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31360,6 +31497,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "starts_at.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31371,6 +31509,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "subsidiary_of.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31382,6 +31521,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": "has_subtask",
       "group_file": "subtask_of.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31393,6 +31533,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "succeeds.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31404,6 +31545,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "supersedes.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31415,6 +31557,7 @@
       "cardinality": "one_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "tagged_with.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31426,6 +31569,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "taught_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31437,6 +31581,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "terms_at.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31448,6 +31593,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "tied_to.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31459,6 +31605,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "tracked_at.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31470,6 +31617,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "transcribed_by.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31481,6 +31629,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "treats.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31492,6 +31641,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "under.yaml",
       "verb_root": null,
       "preposition_root": "under"
@@ -31503,6 +31653,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "valid_for.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31514,6 +31665,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "within_org.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31529,6 +31681,7 @@
         "title": "string"
       },
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "worked_at.yaml",
       "verb_root": null,
       "preposition_root": null
@@ -31540,6 +31693,7 @@
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
+      "reverse_name": null,
       "group_file": "written_by.yaml",
       "verb_root": null,
       "preposition_root": null

@@ -4,3 +4,4 @@
 # Targets: organization, person
 from: event
 to: actor
+reverse_name: organizes

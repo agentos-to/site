@@ -31,6 +31,7 @@ from emit import (
     build_skills_index,
     discover_skills,
     emit_contract_root,
+    emit_links,
     emit_migrations,
     emit_op_docs,
     emit_ops_python,
@@ -301,6 +302,15 @@ def main():
             contract_crate / "schema_hash.rs", schema_hash.emit_rust(ontology),
             "schema-hash", check=args.check,
         )
+
+        # Typed Link enum + reflection table — projected from
+        # `ontology/links/*.yaml`. Indexed by `Link as usize`; engine
+        # consumes via `agentos_contract_generated::links::Link`.
+        if typed_links:
+            drift |= _check_or_write(
+                contract_crate / "links.rs", emit_links(typed_links),
+                "links", check=args.check,
+            )
 
         # Migrations — `ontology/migrations/*.yaml` → typed `MIGRATIONS`
         # const. Engine walks the chain on `data.import`. See

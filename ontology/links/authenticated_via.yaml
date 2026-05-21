@@ -5,3 +5,4 @@
 # Targets: account, credential
 from: account
 to: node
+reverse_name: authenticates

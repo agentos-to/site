@@ -7,3 +7,4 @@
 from: actor
 to: node
 card: one_to_many
+reverse_name: attendees

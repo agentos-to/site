@@ -6,3 +6,4 @@
 from: account
 to: account
 card: many_to_many
+reverse_name: follows

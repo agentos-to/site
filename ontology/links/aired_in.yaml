@@ -3,3 +3,4 @@
 # Targets: podcast
 from: episode
 to: podcast
+reverse_name: aired

@@ -3,3 +3,4 @@
 # Targets: task
 from: task
 to: task
+reverse_name: has_subtask

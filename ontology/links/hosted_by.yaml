@@ -5,3 +5,4 @@
 # Targets: list, person
 from: node
 to: node
+reverse_name: hosts

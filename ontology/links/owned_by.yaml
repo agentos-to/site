@@ -3,3 +3,4 @@
 # Targets: account, organization, person
 from: node
 to: node
+reverse_name: owns

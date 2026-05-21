@@ -4,3 +4,4 @@
 from: task
 to: task
 card: one_to_many
+reverse_name: blocks

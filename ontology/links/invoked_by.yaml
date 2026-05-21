@@ -5,3 +5,4 @@
 # Targets: actor, message
 from: tool_call
 to: node
+reverse_name: invokes

@@ -3,3 +3,4 @@
 # Targets: message, post, tool_call
 from: node
 to: node
+reverse_name: replies

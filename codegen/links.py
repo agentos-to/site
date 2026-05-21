@@ -61,6 +61,10 @@ class Link:
     cardinality: str = "many_to_many"      # one_to_one | one_to_many | many_to_many
     link_vals: dict[str, Any] = field(default_factory=dict)
     inverse_of: str | None = None          # sibling label, if this is the reverse direction
+    reverse_name: str | None = None        # active-form name used as a derived
+                                           # reverse-accessor (e.g. `owned_by`'s
+                                           # `reverse_name` is `owns`). When unset
+                                           # codegen falls back to a stem heuristic.
     # Provenance — set by the loader so downstream tooling can map back to
     # the verb/preposition file even after flattening.
     group_file: str | None = None          # YAML filename (e.g. "offered.yaml")
@@ -78,6 +82,20 @@ SPECIAL_KINDS = {"node", "actor"}
 VERB_FILE_METADATA = {"verb", "forward", "inverse"}
 
 
+def derive_reverse_name(link: "Link") -> str | None:
+    """Reverse-accessor name for a canonical (past-participle) link.
+
+    Returns the link's explicit `reverse_name:` annotation, or None.
+
+    No stem heuristic — English orthography doesn't reliably derive
+    third-person-singular-present from a past-participle ("invoked" vs
+    "blocked" look identical but their stems differ in whether they end
+    in `e`). Wrong derivations are worse than missing ones; the registry
+    annotates each pair explicitly when an active reading exists.
+    """
+    return link.reverse_name
+
+
 def _parse_form(form: Any, label: str) -> dict[str, Any]:
     """Normalize a one-liner form dict, defaulting card/link_vals."""
     if not isinstance(form, dict):
@@ -88,6 +106,7 @@ def _parse_form(form: Any, label: str) -> dict[str, Any]:
         "cardinality": str(form.get("card") or form.get("cardinality") or "many_to_many"),
         "link_vals": dict(form.get("link_vals") or {}),
         "inverse_of": form.get("inverse_of"),
+        "reverse_name": form.get("reverse_name"),
     }
 
 
@@ -114,14 +133,17 @@ def _load_file(path: Path) -> list[Link]:
                 name=label,
                 from_kind=f["from"], to_kind=f["to"],
                 cardinality=f["cardinality"], link_vals=f["link_vals"],
-                inverse_of=f["inverse_of"],
+                inverse_of=f["inverse_of"], reverse_name=f["reverse_name"],
                 group_file=path.name, verb_root=verb,
             ))
         return out
 
     if "preposition" in data:
-        # Pattern 2 — bare preposition, multi-target stative
-        prep = str(data["preposition"]).strip()
+        # Pattern 2 — bare preposition, multi-target stative.
+        # YAML 1.1 implicitly resolves bare `on`/`off`/`yes`/`no` to booleans,
+        # so trust the file stem rather than the parsed value. Authors should
+        # still quote (`preposition: "on"`) for readability.
+        prep = path.stem
         out.append(Link(
             name=prep,
             from_kind=str(data.get("from") or "node"),
@@ -129,6 +151,7 @@ def _load_file(path: Path) -> list[Link]:
             cardinality=str(data.get("card") or data.get("cardinality") or "many_to_many"),
             link_vals=dict(data.get("link_vals") or {}),
             inverse_of=data.get("inverse_of"),
+            reverse_name=data.get("reverse_name"),
             group_file=path.name, preposition_root=prep,
         ))
         return out
@@ -141,6 +164,7 @@ def _load_file(path: Path) -> list[Link]:
         cardinality=str(data.get("card") or data.get("cardinality") or "many_to_many"),
         link_vals=dict(data.get("link_vals") or {}),
         inverse_of=data.get("inverse_of"),
+        reverse_name=data.get("reverse_name"),
         group_file=path.name,
     ))
     return out
