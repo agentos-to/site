@@ -8,6 +8,7 @@ renders one target. Adding a language is one new file: write
 from .auth import emit_python_auth_contracts, emit_rust_auth_contracts
 from .contract_root import emit_contract_root
 from .docs import build_skills_index, discover_skills, emit_shape_docs, emit_skill_docs
+from .migrations import emit_migrations
 from .ops_docs import emit_op_docs
 from .ops_python import emit_ops_python
 from .ops_rust import emit_ops_rust
@@ -31,4 +32,5 @@ __all__ = [
     "emit_ops_ts",
     "emit_op_docs",
     "emit_contract_root",
+    "emit_migrations",
 ]

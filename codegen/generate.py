@@ -31,6 +31,7 @@ from emit import (
     build_skills_index,
     discover_skills,
     emit_contract_root,
+    emit_migrations,
     emit_op_docs,
     emit_ops_python,
     emit_ops_rust,
@@ -285,6 +286,18 @@ def main():
             contract_crate / "schema_hash.rs", schema_hash.emit_rust(ontology),
             "schema-hash", check=args.check,
         )
+
+        # Migrations — `ontology/migrations/*.yaml` → typed `MIGRATIONS`
+        # const. Engine walks the chain on `data.import`. See
+        # `platform/ontology/migrations/README.md` for the grammar.
+        import migrations as migrations_loader
+        migrations_dir = platform_root / "ontology" / "migrations"
+        if migrations_dir.is_dir():
+            ms = migrations_loader.load_migrations(migrations_dir)
+            drift |= _check_or_write(
+                contract_crate / "migrations.rs", emit_migrations(ms),
+                "migrations", check=args.check,
+            )
 
         # Op contract — projected into the `ops` module of the contract
         # crate, plus one TS module (ops.ts) and the per-group Python op

@@ -12,7 +12,7 @@ from __future__ import annotations
 # Ontology branches with a Rust module in the contract crate. `auth-contracts`
 # is intentionally absent — those contracts have a single consumer and stay
 # in the `auth` crate (see phase5-contract-crate.md).
-_MODULES = ("ops", "schema_hash", "shapes")
+_MODULES = ("migrations", "ops", "schema_hash", "shapes")
 
 
 def emit_contract_root() -> str:

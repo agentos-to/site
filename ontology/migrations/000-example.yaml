@@ -1,0 +1,41 @@
+# Example migration — illustrates every op kind. Not part of any real
+# chain (from/to hashes are placeholders); kept so the codegen exercises
+# the full op vocabulary and the README's grammar stays in sync with
+# what the loader actually accepts.
+#
+# Real migrations land under 001-… onward and reference actual hashes.
+
+from: sha256:0000000000000000000000000000000000000000000000000000000000000000
+to:   sha256:1111111111111111111111111111111111111111111111111111111111111111
+doc:  "Example exercising the full op vocabulary (not a real migration)."
+
+ops:
+  # ── Weakening ─────────────────────────────────────────────────────────
+  - add_node_type: {name: example_shape}
+  - add_field: {shape: task, name: notes, type: "string?"}
+  - add_field:
+      shape: task
+      name: priority
+      type: string
+      default: {type: Default, value: "normal"}
+  - widen_field_type: {shape: task, field: due, from: "date", to: "string"}
+  - extend_enum: {shape: task, field: status, add: [waiting, blocked]}
+  - set_meta: {shape: task, key: example_key, value: "example value"}
+  - set_doc: {shape: task, value: "Example doc replacement."}
+
+  # ── Strengthening ─────────────────────────────────────────────────────
+  - drop_node_type: {name: deprecated_shape, cascade: false}
+  - rename_node_type: {from: TodoItem, to: Task}
+  - drop_field: {shape: task, name: archived}
+  - rename_field: {shape: task, from: due, to: due_date}
+  - narrow_field_type:
+      shape: task
+      field: status
+      from: string
+      to: "enum<todo|doing|done>"
+      default: {type: Default, value: "todo"}
+
+  # ── AgentOS-specific ──────────────────────────────────────────────────
+  - rename_link: {from: belongs_to, to: parent_of}
+  - rename_link_val: {link: lived_at, from: start, to: from}
+  - move_to_event: {shape: health-condition}
