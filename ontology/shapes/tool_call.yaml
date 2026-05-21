@@ -15,10 +15,10 @@ tool_call:
     isError:           boolean   # true if the tool reported an error
     durationMs:       integer   # optional — how long the tool ran
   links:
-    platform:          product
-    from:              actor     # the agent that made the call
-    inMessage:         message   # the message this call was part of
-    repliesTo:         tool_call # chain calls that reference a prior call's output
+    on:          product
+    invoked_by:              actor     # the agent that made the call
+    in:         message   # the message this call was part of
+    replies_to:         tool_call # chain calls that reference a prior call's output
   prior_art:
     - source: Anthropic Tool Use API
       url: https://docs.anthropic.com/en/docs/build-with-claude/tool-use

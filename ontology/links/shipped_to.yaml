@@ -1,0 +1,5 @@
+# Single-form link `shipped_to` (Pattern 3). Stem = storage label.
+# Sources: order
+# Targets: place
+from: order
+to: place

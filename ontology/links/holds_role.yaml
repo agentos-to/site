@@ -1,0 +1,6 @@
+# Single-form link `holds_role` (Pattern 3). Stem = storage label.
+# Sources: person
+# Targets: role
+from: person
+to: role
+card: one_to_many

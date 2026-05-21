@@ -39,20 +39,17 @@ name = human-readable pass type ("Fitness 10-Pack", "Day Pass",
 | **Plural** | `passes` |
 | **Subtitle field** | `status` |
 | **Identity** | `at`, `id` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
 | Field | Type |
 |---|---|
 | `status` | `string` |
-| `purchasedDate` | `datetime` |
-| `startEffectiveDate` | `datetime` |
-| `endEffectiveDate` | `datetime` |
 | `quantity` | `integer` |
 | `purchasedQuantity` | `integer` |
 | `useCount` | `integer` |
 | `isAllDayPass` | `boolean` |
-| `depletedDate` | `datetime` |
 | `price` | `number` |
 | `currency` | `string` |
 | `ticketNumber` | `string` |
@@ -64,18 +61,26 @@ name = human-readable pass type ("Fitness 10-Pack", "Day Pass",
 | `terminal` | `string` |
 | `checkinStatus` | `string` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `account` | [`account`](/shapes/reference/account/) |
-| `holder` | [`person`](/shapes/reference/person/) |
-| `grantedBy` | [`membership`](/shapes/reference/membership/) |
-| `type` | [`product`](/shapes/reference/product/) |
-| `location` | [`place`](/shapes/reference/place/) |
-| `for` | [`leg`](/shapes/reference/leg/) |
-| `reservation` | [`reservation`](/shapes/reference/reservation/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

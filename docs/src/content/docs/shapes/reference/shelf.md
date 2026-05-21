@@ -10,6 +10,7 @@ A bookshelf. Shelves are lists that contain books instead of generic products.
 | Metadata | Value |
 |---|---|
 | **Plural** | `shelves` |
+| **Subtitle field** | `isExclusive` |
 | **Also** | [`list`](/shapes/reference/list/) |
 
 ## Fields
@@ -18,30 +19,24 @@ A bookshelf. Shelves are lists that contain books instead of generic products.
 |---|---|
 | `isExclusive` | `boolean` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `contains` | [`book[]`](/shapes/reference/book/) |
-
 ## Inherited
 
 From [`list`](/shapes/reference/list/):
 
 | Field | Type |
 |---|---|
+| `default_view` | `string` |
+| `icon_size` | `integer` |
 | `isDefault` | `boolean` |
 | `isPublic` | `boolean` |
 | `itemCount` | `integer` |
-| `items` | `json` |
 | `listId` | `string` |
 | `listType` | `string` |
+| `member_shape` | `string` |
+| `ordering_mode` | `string` |
+| `path` | `string` |
 | `privacy` | `string` |
-
-| Relation | Target |
-|---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `belongsTo` | [`account`](/shapes/reference/account/) |
+| `sort_by` | `string` |
 
 ## Prior art
 

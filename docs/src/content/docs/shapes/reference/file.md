@@ -28,17 +28,11 @@ Base type for image. Covers repo files (GitHub, Cursor), email attachments
 | `kind` | `string` |
 | `sha` | `string` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `attachedTo` | [`message`](/shapes/reference/message/) |
-| `repository` | [`repository`](/shapes/reference/repository/) |
-
 ## Used as a base by
 
 - [`document`](/shapes/reference/document/)
 - [`image`](/shapes/reference/image/)
+- [`sound`](/shapes/reference/sound/)
 - [`spec`](/shapes/reference/spec/)
 - [`video`](/shapes/reference/video/)
 
@@ -52,6 +46,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [cursor](/skills/reference/dev/cursor/) — `op_pull_document`
+- [cursor](/skills/reference/dev/cursor/) — `pull_document`
 - [github](/skills/reference/dev/github/) — `list_documents`, `read_document`
 - [gmail](/skills/reference/comms/gmail/) — `get_attachment`

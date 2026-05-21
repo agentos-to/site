@@ -1,0 +1,6 @@
+# Single-form link `allowed_by` (Pattern 3). Stem = storage label.
+# Sources: intellectual_property
+# Targets: organization
+from: intellectual_property
+to: organization
+card: one_to_many

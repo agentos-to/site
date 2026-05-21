@@ -1,6 +1,6 @@
 """Auto-generated engine dispatch client — do not edit.
 
-Generated from 3 namespaces, 10 ops.
+Generated from 3 namespaces, 13 ops.
 Regenerate with: python3 docs/generate.py --docs
 
 Source of truth: crates/core/src/tools.rs REGISTRY (D11).
@@ -194,7 +194,7 @@ class _DataNamespace:
         Examples:
             list({ shape: "task", priority: 1 })
             list({ user_tag: "follow-up" })
-            list({ q: "memex", limit: 10 })
+            list({ q: "meeting", limit: 10 })
             list({ about: "shapes" })
         """
         return self._call("data.list", params)
@@ -204,41 +204,58 @@ class _DataNamespace:
 
         Args:
             vals (dict, required): Map of val key → value. `null` deletes (nodes only). Non-null sets. Object form `{value, unit}` overrides the inferred unit.
-            link (string, optional): Link id to update (writes link_vals — icon position, fares, etc.).
             id (string, optional): Node id to update.
+            link (string, optional): Link id to update (writes link_vals — icon position, fares, etc.).
 
         Examples:
-            update({ id: "abc123", vals: { "pref:theme": "xp" } })
-            update({ id: "abc123", vals: { "pref:fontSize": 14 } })
+            update({ id: "abc123", vals: { "pref:ui": { themeId: "xp", fontSize: 14 } } })
+            update({ id: "abc123", vals: { name: "Renamed" } })
             update({ id: "abc123", vals: { "pref:legacy": null } })
         """
         return self._call("data.update", params)
 
     def create(self, **params: Any) -> Any:
-        """Create a new node of the given shape. With `identity`, looks up an existing node first and updates it instead of creating a duplicate (upsert semantics).
+        """Create a node (`{shape, name?, vals?, identity?}`), or a relationship (`{from, label, to}`). With `identity`, an existing node is updated instead of duplicated (upsert semantics).
 
         Args:
-            shape (string, required): Shape name. Lazily registered on first use.
-            identity (dict, optional): Scalar (key, value) pairs. With `identity`, an existing match is updated instead of duplicated (upsert semantics).
-            name (string, optional): Display name for the node.
-            vals (dict, optional): Initial vals. Same shape as data.update vals.
+            from (string, optional): Link form: source node id.
+            identity (dict, optional): Node form: scalar (key, value) pairs. With `identity`, an existing match is updated instead of duplicated (upsert semantics).
+            label (string, optional): Link form: relationship label.
+            name (string, optional): Node form: display name for the node.
+            shape (string, optional): Node form: shape name. Lazily registered on first use.
+            to (string, optional): Link form: target node id.
+            vals (dict, optional): Node form: initial vals. Same shape as data.update vals.
 
         Examples:
             create({ shape: "bookmark", name: "Aircraft", vals: { address: "?shape=aircraft" } })
             create({ shape: "person", name: "Joe", identity: { email: "joe@example.com" } })
+            create({ from: "abc123", label: "measures", to: "def456" })
         """
         return self._call("data.create", params)
 
     def delete(self, **params: Any) -> Any:
-        """Soft-delete a node or relationship.
+        """Soft-delete a node or relationship. With `permanent: true`, hard-delete a soft-deleted node (purge).
 
         Args:
             id (string, required): Node or link id. Soft-delete.
+            permanent (bool, optional): When true, hard-delete a soft-deleted node (purge from disk). Used by 'empty trash'.
 
         Examples:
             delete({ id: "abc123" })
+            delete({ id: "abc123", permanent: true })
         """
         return self._call("data.delete", params)
+
+    def restore(self, **params: Any) -> Any:
+        """Restore a soft-deleted node. Flips deleted_at back to null on the node and on the original cascade batch of links. Emits an activity record.
+
+        Args:
+            id (string, required): Soft-deleted node id. Flips deleted_at back to null on the node and on every link in the original cascade batch.
+
+        Examples:
+            restore({ id: "abc123" })
+        """
+        return self._call("data.restore", params)
 
 
 class _SkillsNamespace:
@@ -310,6 +327,25 @@ class _SystemNamespace:
             system.schema()
         """
         return self._call("system.schema", params)
+
+    def schema_hash(self, **params: Any) -> Any:
+        """Deterministic content hash of the AgentOS ontology — pinned in every data-porter export to detect schema drift on import.
+
+        Examples:
+            system.schema_hash()
+        """
+        return self._call("system.schema_hash", params)
+
+    def schema_diff(self, **params: Any) -> Any:
+        """Walk the migration chain from a given pin to the current SCHEMA_HASH. Returns the ordered list of migration ids that data.import would replay, or a no_chain result with the stuck hash when no migration exists from the current cursor.
+
+        Args:
+            pin (string, required): An ontology hash to diff against current — `sha256:<hex>` (typically from an export's `_meta.schema_version`).
+
+        Examples:
+            system.schema_diff({ pin: "sha256:abc..." })
+        """
+        return self._call("system.schema_diff", params)
 
 
 class Client:

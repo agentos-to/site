@@ -53,6 +53,7 @@ over them in the UI.
 | **Plural** | `reservations` |
 | **Subtitle field** | `reservationType` |
 | **Identity** | `at`, `reservationId` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -76,22 +77,26 @@ over them in the UI.
 | `voidWindowEndsAt` | `datetime` |
 | `availableActions` | `string[]` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `trips` | [`trip[]`](/shapes/reference/trip/) |
-| `location` | [`place`](/shapes/reference/place/) |
-| `event` | [`event`](/shapes/reference/event/) |
-| `passengers` | [`person[]`](/shapes/reference/person/) |
-| `underName` | [`person`](/shapes/reference/person/) |
-| `account` | [`account`](/shapes/reference/account/) |
-| `broker` | [`actor`](/shapes/reference/actor/) |
-| `programMembership` | [`membership`](/shapes/reference/membership/) |
-| `order` | [`order`](/shapes/reference/order/) |
-| `tickets` | [`pass[]`](/shapes/reference/pass/) |
-| `derivedFrom` | [`offer`](/shapes/reference/offer/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

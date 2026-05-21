@@ -23,11 +23,11 @@ leg:
     tracePointCount: integer   # number of sample points
     polyline:          string    # Google encoded polyline (compact visual path, no timestamps)
   links:
-    origin:            place     # departure airport/station/address
-    destination:       place     # arrival airport/station/address
-    carrier:           organization  # airline or operator for this leg
-    aircraft:          aircraft  # aircraft type (flights)
-    trip:              trip      # parent trip
+    starts_at:            place     # departure airport/station/address
+    ends_at:       place     # arrival airport/station/address
+    operated_by:           organization  # airline or operator for this leg
+    flown_with:          aircraft  # aircraft type (flights)
+    in:              trip      # parent trip
   prior_art:
     - source: IATA NDC "segment"
       url: https://www.iata.org/en/programs/airline-distribution/retailing/ndc/

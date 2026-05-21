@@ -1,0 +1,6 @@
+# Single-form link `created_by` (Pattern 3). Stem = storage label.
+# Sources: event, note, product
+# Targets: actor, person
+from: node
+to: actor
+card: one_to_many

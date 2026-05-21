@@ -53,19 +53,6 @@ Domain relations auto-extracted from sender/recipient addresses.
 | `authResults` | `string` |
 | `bodyHtml` | `text` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `from` | [`account`](/shapes/reference/account/) |
-| `to` | [`account[]`](/shapes/reference/account/) |
-| `cc` | [`account[]`](/shapes/reference/account/) |
-| `bcc` | [`account[]`](/shapes/reference/account/) |
-| `domain` | [`domain`](/shapes/reference/domain/) |
-| `toDomain` | [`domain[]`](/shapes/reference/domain/) |
-| `ccDomain` | [`domain[]`](/shapes/reference/domain/) |
-| `tag` | [`tag[]`](/shapes/reference/tag/) |
-
 ## Inherited
 
 From [`message`](/shapes/reference/message/):
@@ -73,13 +60,6 @@ From [`message`](/shapes/reference/message/):
 | Field | Type |
 |---|---|
 | `isOutgoing` | `boolean` |
-
-| Relation | Target |
-|---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `inConversation` | [`conversation`](/shapes/reference/conversation/) |
-| `repliesTo` | [`message`](/shapes/reference/message/) |
-| `toolCalls` | [`tool_call[]`](/shapes/reference/tool_call/) |
 
 ## Prior art
 

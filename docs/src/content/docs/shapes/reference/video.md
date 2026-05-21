@@ -10,11 +10,15 @@ Engagement metrics (views, likes, comments) belong on the post that
 contains this video, not on the video itself. A video on your hard
 drive has no likes.
 
+A video is BOTH a creative_work (the film / clip is the work — its
+director, producer, license, datePublished come from there) AND a
+file (the bytes on disk, with a specific codec / resolution).
+
 | Metadata | Value |
 |---|---|
 | **Plural** | `videos` |
 | **Subtitle field** | `author` |
-| **Also** | [`file`](/shapes/reference/file/) |
+| **Also** | [`creative_work`](/shapes/reference/creative_work/) · [`file`](/shapes/reference/file/) |
 
 ## Fields
 
@@ -26,34 +30,28 @@ drive has no likes.
 | `codec` | `string` |
 | `viewCount` | `integer` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `channel` | [`channel`](/shapes/reference/channel/) |
-| `transcribe` | [`transcript`](/shapes/reference/transcript/) |
-| `addTo` | [`playlist`](/shapes/reference/playlist/) |
-
 ## Inherited
 
-From [`file`](/shapes/reference/file/):
+From [`creative_work`](/shapes/reference/creative_work/) · [`file`](/shapes/reference/file/):
 
 | Field | Type |
 |---|---|
+| `copyrightYear` | `integer` |
+| `coverage` | `string` |
+| `dateCreated` | `date` |
+| `description` | `string` |
 | `encoding` | `string` |
 | `filename` | `string` |
 | `format` | `string` |
 | `kind` | `string` |
+| `language` | `string` |
+| `license` | `string` |
 | `lineCount` | `integer` |
 | `mimeType` | `string` |
 | `path` | `string` |
 | `sha` | `string` |
 | `size` | `integer` |
-
-| Relation | Target |
-|---|---|
-| `attachedTo` | [`message`](/shapes/reference/message/) |
-| `repository` | [`repository`](/shapes/reference/repository/) |
+| `tags` | `string[]` |
 
 ## Prior art
 

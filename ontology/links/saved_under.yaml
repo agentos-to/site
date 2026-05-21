@@ -1,0 +1,5 @@
+# Single-form link `saved_under` (Pattern 3). Stem = storage label.
+# Sources: payment_method
+# Targets: account
+from: payment_method
+to: account

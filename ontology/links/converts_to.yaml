@@ -1,0 +1,5 @@
+# Single-form link `converts_to` (Pattern 3). Stem = storage label.
+# Sources: conversion
+# Targets: unit
+from: conversion
+to: unit

@@ -1,0 +1,6 @@
+# Verb-rooted link declarations for `filed` (Pattern 1) — see platform/codegen/links.py docstring + platform/README §2
+verb: filed
+# Sources across forms: activity, document, intellectual_property
+by: {from: document, to: organization, card: one_to_many}
+in: {from: activity, to: list}
+with: {from: node, to: organization, card: one_to_many}

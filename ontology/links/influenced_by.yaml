@@ -1,0 +1,6 @@
+# Single-form link `influenced_by` (Pattern 3). Stem = storage label.
+# Sources: software
+# Targets: creative_work
+from: software
+to: creative_work
+card: one_to_many

@@ -70,18 +70,18 @@ reservation:
   # flights, `location` for hotels/restaurants, `event` for event tickets.
   # The reservationType discriminator picks which one is populated.
   links:
-    at:                  actor       # airline / hotel chain / restaurant / rental co (namespace)
-    trips:               trip[]      # flights: outbound + return. Hotels/dining: empty.
-    location:            place       # hotels / restaurants / rental locations
-    event:               event       # event tickets (concert, game)
-    passengers:          person[]    # travelers (KTN/FF# live on their membership[] relations)
-    underName:           person      # primary holder (schema.org alignment)
-    account:             account     # booking login (united.com, etc.) if applicable
-    broker:              actor       # OTA / travel agent (Expedia, TripActions) if != `at`
-    programMembership:   membership  # FF / hotel loyalty applied to this booking
-    order:               order       # optional: payment record with itemized fare
-    tickets:             pass[]      # per-passenger admission credentials
-    derivedFrom:         offer       # the offer we booked from, if captured
+    at_namespace:                  actor       # airline / hotel chain / restaurant / rental co (namespace)
+    covers_trip:               trip[]      # flights: outbound + return. Hotels/dining: empty.
+    held_at:            place       # hotels / restaurants / rental locations
+    for:               event       # event tickets (concert, game)
+    accommodates:          person[]    # travelers (KTN/FF# live on their membership[] relations)
+    booked_for:           person      # primary holder (schema.org alignment)
+    booked_under:             account     # booking login (united.com, etc.) if applicable
+    brokered_by:              actor       # OTA / travel agent (Expedia, TripActions) if != `at`
+    enrolled_in:   membership  # FF / hotel loyalty applied to this booking
+    placed_via:               order       # optional: payment record with itemized fare
+    issued_pass:             pass[]      # per-passenger admission credentials
+    derived_from:         offer       # the offer we booked from, if captured
   prior_art:
     - source: schema.org/Reservation
       url: https://schema.org/Reservation

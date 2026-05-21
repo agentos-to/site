@@ -1,0 +1,5 @@
+# Single-form link `taught_by` (Pattern 3). Stem = storage label.
+# Sources: class
+# Targets: person
+from: class
+to: person

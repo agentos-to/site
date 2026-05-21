@@ -26,6 +26,10 @@ The result just carries search-specific metadata (when indexed, what type).
 | `similarity` | `number` |
 | `community` | `string` |
 
+## Used as a base by
+
+- [`health-observation`](/shapes/reference/health-observation/)
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

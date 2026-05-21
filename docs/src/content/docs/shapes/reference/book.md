@@ -1,19 +1,22 @@
 ---
 title: book
-description: "A book. Books are also products, so they inherit price/brand fields."
+description: "A book. Books are BOTH creative works (the intellectual work — its"
 sidebar:
   label: book
 ---
 
-A book. Books are also products, so they inherit price/brand fields.
+A book. Books are BOTH creative works (the intellectual work — its
+author, publisher, license, datePublished come from creative_work)
+AND products (commercial books are sold; they inherit price / brand
+/ lifecycle dates from product).
 User-specific state (rating, shelf, dates) and platform metrics are modeled as link values.
 
 | Metadata | Value |
 |---|---|
 | **Plural** | `books` |
-| **Subtitle field** | `author` |
+| **Subtitle field** | `written_by` |
 | **Identity (any)** | `isbn13`, `isbn` |
-| **Also** | [`product`](/shapes/reference/product/) |
+| **Also** | [`creative_work`](/shapes/reference/creative_work/) · [`product`](/shapes/reference/product/) |
 
 ## Fields
 
@@ -31,17 +34,9 @@ User-specific state (rating, shelf, dates) and platform metrics are modeled as l
 | `characters` | `string[]` |
 | `awardsWon` | `string[]` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `writtenBy` | [`person`](/shapes/reference/person/) |
-| `contributors` | [`person[]`](/shapes/reference/person/) |
-| `publisher` | [`organization`](/shapes/reference/organization/) |
-
 ## Inherited
 
-From [`product`](/shapes/reference/product/):
+From [`creative_work`](/shapes/reference/creative_work/) · [`product`](/shapes/reference/product/):
 
 | Field | Type |
 |---|---|
@@ -51,10 +46,15 @@ From [`product`](/shapes/reference/product/):
 | `calories` | `number` |
 | `categories` | `string[]` |
 | `category` | `string` |
+| `copyrightYear` | `integer` |
+| `coverage` | `string` |
 | `currency` | `string` |
 | `customizationGroups` | `json` |
+| `dateCreated` | `date` |
 | `department` | `string` |
+| `description` | `string` |
 | `images` | `json` |
+| `license` | `string` |
 | `novaGroup` | `integer` |
 | `nutritionScore` | `string` |
 | `originalPrice` | `string` |
@@ -65,15 +65,10 @@ From [`product`](/shapes/reference/product/):
 | `servingSize` | `string` |
 | `sku` | `string` |
 | `soldByWeight` | `boolean` |
+| `tags` | `string[]` |
 | `weight` | `string` |
 | `weightUnit` | `string` |
 | `weightValue` | `number` |
-
-| Relation | Target |
-|---|---|
-| `brand` | [`brand`](/shapes/reference/brand/) |
-| `manufacturer` | [`organization`](/shapes/reference/organization/) |
-| `tagged` | [`tag[]`](/shapes/reference/tag/) |
 
 ## Prior art
 

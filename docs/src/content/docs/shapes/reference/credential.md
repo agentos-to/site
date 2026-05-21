@@ -37,17 +37,8 @@ pair describe the same credential; whichever writes last wins).
 | `source` | `string` |
 | `obtainedAt` | `datetime` |
 | `lastVerified` | `datetime` |
-| `expiresAt` | `datetime` |
 | `refreshable` | `boolean` |
 | `storeRowId` | `integer` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `at` | [`organization`](/shapes/reference/organization/) |
-| `account` | [`account`](/shapes/reference/account/) |
-| `writtenBy` | [`skill`](/shapes/reference/skill/) |
 
 ## Prior art
 

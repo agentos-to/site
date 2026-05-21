@@ -1,0 +1,7 @@
+# Verb-rooted link declarations for `offered` (Pattern 1) — see platform/codegen/links.py docstring + platform/README §2
+verb: offered
+# `_by` widened to node→node to absorb the `place offers product` case from
+# the dropped active-form `offers` label (product offered_by place).
+# Sources across forms: offer, product
+by:  {from: node, to: node}
+for: {from: offer, to: product}

@@ -24,8 +24,8 @@ quantity-kind:
     key:    string   # machine key — "mass-concentration", "torque", "blood-glucose-concentration"
     label:  string   # human name — "mass concentration", "torque"
   links:
-    dimension: dimension       # the dimension every unit of this kind shares
-    parent:    quantity-kind   # broader kind — "blood glucose concentration"
+    measures: dimension       # the dimension every unit of this kind shares
+    specialization_of:    quantity-kind   # broader kind — "blood glucose concentration"
                                # has parent "mass concentration"
   prior_art:
     - source: "ISO 80000-1 — kind of quantity"

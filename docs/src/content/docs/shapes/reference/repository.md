@@ -28,13 +28,6 @@ A source code repository.
 | `license` | `string` |
 | `size` | `integer` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `forkedFrom` | [`repository`](/shapes/reference/repository/) |
-| `owner` | [`account`](/shapes/reference/account/) |
-
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

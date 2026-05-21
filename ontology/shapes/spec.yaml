@@ -10,7 +10,7 @@ spec:
     problem:           text
     successCriteria:  text
   links:
-    dependsOn:        spec[]
+    depends_on:        spec[]
     supersedes:        spec[]
   prior_art:
     - source: IETF RFC process

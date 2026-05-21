@@ -10,7 +10,7 @@ A podcast series. Contains episodes. Not the audio itself — that's on the epis
 | Metadata | Value |
 |---|---|
 | **Plural** | `podcasts` |
-| **Subtitle field** | `author` |
+| **Subtitle field** | `host` |
 | **Identity** | `at`, `id` |
 
 ## Fields
@@ -18,14 +18,6 @@ A podcast series. Contains episodes. Not the audio itself — that's on the epis
 | Field | Type |
 |---|---|
 | `feedUrl` | `url` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `host` | [`person[]`](/shapes/reference/person/) |
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `episode` | [`episode[]`](/shapes/reference/episode/) |
 
 ## Prior art
 

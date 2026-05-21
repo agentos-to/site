@@ -12,6 +12,7 @@ Links a person to an organization with a time range.
 |---|---|
 | **Plural** | `roles` |
 | **Subtitle field** | `name` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -20,15 +21,28 @@ Links a person to an organization with a time range.
 | `title` | `string` |
 | `department` | `string` |
 | `roleType` | `string` |
-| `startDate` | `datetime` |
-| `endDate` | `datetime` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `person` | [`person`](/shapes/reference/person/) |
-| `organization` | [`organization`](/shapes/reference/organization/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `status` | `string` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

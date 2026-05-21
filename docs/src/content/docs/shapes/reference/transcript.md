@@ -10,6 +10,7 @@ A text transcript of audio/video content. Linked from meetings and videos.
 | Metadata | Value |
 |---|---|
 | **Plural** | `transcripts` |
+| **Subtitle field** | `language` |
 
 ## Fields
 

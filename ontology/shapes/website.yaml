@@ -15,8 +15,8 @@ website:
     # — when the site is later claimed — gets superseded by the claim event.
     # Rule 1.
   links:
-    domain:            domain
-    ownedBy:          organization
+    on:            domain
+    owned_by:          organization
   prior_art:
     - source: schema.org/WebSite
       url: https://schema.org/WebSite

@@ -13,12 +13,12 @@ sidebar:
 
 ## Returns shapes
 
-- [`website`](/shapes/reference/website/) — from `op_create_website`, `op_update_website`
+- [`website`](/shapes/reference/website/) — from `create_website`, `update_website`
 - [`website[]`](/shapes/reference/website/) — from `list_websites`
 
 ## Readme
 
-Publish static files to the Cloudflare link instantly — no build step, no deploy config, no account required.
+Publish static files to the Cloudflare edge instantly — no build step, no deploy config, no account required.
 
 ## How It Works
 

@@ -27,13 +27,6 @@ capacity, and is typically part of a recurring schedule.
 | `spotsRemaining` | `integer` |
 | `isFull` | `boolean` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `instructor` | [`person`](/shapes/reference/person/) |
-| `venue` | [`place`](/shapes/reference/place/) |
-
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -41,22 +34,13 @@ From [`event`](/shapes/reference/event/):
 | Field | Type |
 |---|---|
 | `allDay` | `boolean` |
-| `articleUrl` | `url` |
-| `crewIds` | `string[]` |
 | `currentUrl` | `string` |
 | `dateUpdated` | `datetime` |
 | `distinctId` | `string` |
 | `endDate` | `datetime` |
-| `eventType` | `string` |
-| `flightNumber` | `integer` |
 | `icalUid` | `string` |
-| `landingOutcomes` | `json` |
-| `launchpadId` | `string` |
-| `patchImage` | `url` |
 | `properties` | `json` |
 | `recurrence` | `string[]` |
-| `reusedBoosters` | `string[]` |
-| `rocketId` | `string` |
 | `showAs` | `string` |
 | `sourceTitle` | `string` |
 | `sourceUrl` | `url` |
@@ -64,18 +48,6 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
-| `webcastUrl` | `url` |
-| `wikipediaUrl` | `url` |
-
-| Relation | Target |
-|---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `attachments` | [`file[]`](/shapes/reference/file/) |
-| `creator` | [`person`](/shapes/reference/person/) |
-| `involves` | [`person[]`](/shapes/reference/person/) |
-| `location` | [`place`](/shapes/reference/place/) |
-| `organizer` | [`person`](/shapes/reference/person/) |
-| `person` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

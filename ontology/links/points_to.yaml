@@ -1,0 +1,5 @@
+# Single-form link `points_to` (Pattern 3). Stem = storage label.
+# Sources: bookmark
+# Targets: node
+from: bookmark
+to: node

@@ -1,0 +1,6 @@
+# Single-form link `quantifies` (Pattern 3). Stem = storage label.
+# Sources: unit
+# Targets: quantity-kind
+from: unit
+to: quantity-kind
+card: one_to_many

@@ -1,0 +1,53 @@
+---
+title: shell.*
+description: "shell.* ops — controlled binary execution."
+sidebar:
+  label: shell
+---
+
+shell.* ops — controlled binary execution.
+
+Shell interpreters (sh, bash, zsh, fish, …) are blocked at the handler;
+only direct binaries run. Handlers live in agentos-exec-executors.
+
+## `shell.run`
+
+Run a binary with controlled arguments. Shell interpreters are blocked.
+
+| Metadata | Value |
+|---|---|
+| **Capability** | `shell` |
+| **Flags** | `trace_span` |
+| **Audit log** | `request/binary` → `binary` |
+
+### Request
+
+| Field | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `binary` | `string` | **yes** |  | Binary to execute (absolute path or $PATH name). |
+| `args` | `string[]` | no | `[]` | Argv tail — not shell-parsed. |
+| `timeout` | `number` | no | `30` | Timeout in seconds. |
+| `cwd` | `string?` | no |  | Working directory. Defaults to the process CWD. |
+| `input` | `string?` | no |  | Optional stdin bytes written to the child as UTF-8. |
+
+### Response
+
+| Field | Type | Description |
+|---|---|---|
+| `exit_code` | `i32` | Exit code; -1 if the child was signalled. |
+| `stdout` | `string` | Captured stdout (UTF-8 lossy). |
+| `stderr` | `string` | Captured stderr (UTF-8 lossy). |
+
+### Notes
+
+```text
+Execute a binary with controlled argv. The invocation is NOT shell-parsed,
+and shell interpreters (sh, bash, zsh, fish, etc.) are rejected to prevent
+command-injection shortcuts.
+
+Args:
+    binary, args, timeout, cwd, input.
+
+Returns:
+    {exit_code, stdout, stderr}.
+```

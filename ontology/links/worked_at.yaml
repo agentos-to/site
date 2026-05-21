@@ -1,0 +1,10 @@
+# Single-form link `worked_at` (Pattern 3). Stem = storage label.
+# Sources: person
+# Targets: organization
+from: person
+to: organization
+card: one_to_many
+link_vals:
+  from: date
+  to: date | null
+  title: string

@@ -1,0 +1,5 @@
+# Single-form link `subsidiary_of` (Pattern 3). Stem = storage label.
+# Sources: organization
+# Targets: organization
+from: organization
+to: organization

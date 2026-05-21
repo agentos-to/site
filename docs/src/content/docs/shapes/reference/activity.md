@@ -12,24 +12,39 @@ Fields for what happened, relations for who/what/where.
 |---|---|
 | **Plural** | `activities` |
 | **Subtitle field** | `action` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
 | Field | Type |
 |---|---|
 | `action` | `string` |
-| `at` | `datetime` |
 | `changedKeys` | `string[]` |
 | `toolName` | `string` |
 | `duration` | `number` |
 | `success` | `boolean` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `session` | [`mcp_session`](/shapes/reference/mcp_session/) |
-| `folder` | [`folder`](/shapes/reference/folder/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `status` | `string` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

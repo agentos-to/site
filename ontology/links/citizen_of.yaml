@@ -1,0 +1,6 @@
+# Single-form link `citizen_of` (Pattern 3). Stem = storage label.
+# Sources: person
+# Targets: organization
+from: person
+to: organization
+card: one_to_many

@@ -1,0 +1,6 @@
+# Single-form link `evidenced_by` (Pattern 3). Stem = storage label.
+# Sources: health-condition, health-immunization, health-procedure
+# Targets: file
+from: node
+to: file
+card: one_to_many

@@ -1,0 +1,5 @@
+# Single-form link `added_to` (Pattern 3). Stem = storage label.
+# Sources: video
+# Targets: playlist
+from: video
+to: playlist

@@ -41,14 +41,12 @@ email:
     authResults:      string    # Authentication-Results: spf/dkim/dmarc verdicts
     bodyHtml:         text      # HTML body (can be large)
   links:
-    from:              account   # sender
-    to:                account[] # recipients
-    cc:                account[] # cc recipients
-    bcc:               account[] # bcc recipients
-    domain:            domain    # sender's email domain
-    toDomain:         domain[]  # recipient domains
-    ccDomain:         domain[]  # cc domains
-    tag:               tag[]     # labels (Gmail), categories, flags
+    sent_by:              account   # sender
+    addressed_to:                account[] # recipients
+    copied_to:                account[] # cc recipients
+    blind_copied_to:               account[] # bcc recipients
+    on:            domain    # sender's email domain
+    tagged_with:               tag[]     # labels (Gmail), categories, flags
   prior_art:
     - source: RFC 5322 (Internet Message Format)
       url: https://datatracker.ietf.org/doc/html/rfc5322

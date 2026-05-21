@@ -14,8 +14,8 @@ airport:
     elevationFt:      integer
     terminalCount:    integer
   links:
-    location:          place
-    operator:          organization
+    held_at:          place
+    operated_by:          organization
   prior_art:
     - source: IATA/ICAO Airport Codes
       url: https://www.iata.org/en/publications/directories/code-search/

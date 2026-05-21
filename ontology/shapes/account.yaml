@@ -44,29 +44,28 @@ account:
                                   # not introspect; skills read/write their
                                   # own namespace.
   links:
-    at:                actor     # the namespace this account exists within.
+    at_namespace:                actor     # the namespace this account exists within.
                                   # Target is the entity that "owns" the
                                   # namespace: an organization (Chase, GitHub
                                   # Inc), a product (github.com, hachyderm.io),
                                   # or other software. Required for identity.
-    via:               product   # OPTIONAL: the software/product surface you
+    accessed_via:               product   # OPTIONAL: the software/product surface you
                                   # interact with at `at`. Often the same node
                                   # as `at` for centralized services. Distinct
                                   # for federated (at=instance, via=Mastodon).
-    operator:          actor     # OPTIONAL: the actor running the namespace.
+    operated_by:          actor     # OPTIONAL: the actor running the namespace.
                                   # Self for self-hosted (operator=person).
                                   # Often `at` itself for orgs that are their
                                   # own operator.
-    protocol:          protocol  # OPTIONAL: the protocol this account speaks
+    speaks_protocol:          protocol  # OPTIONAL: the protocol this account speaks
                                   # (e.g. ActivityPub for Mastodon accounts).
-    owner:             person    # OPTIONAL: the human behind this account.
-    authenticatedVia: account   # OPTIONAL: upstream credential-issuing
+    owned_by:             person    # OPTIONAL: the human behind this account.
+    authenticated_via: account   # OPTIONAL: upstream credential-issuing
                                   # account (federated SSO).
-    previousIdentity: account[] # OPTIONAL: prior identities this account
+    succeeds: account[] # OPTIONAL: prior identities this account
                                   # superseded (handle change, instance
                                   # migration, account merge).
-    follows:           account[]
-    followers:         account[]
+    followed_by:         account[]
   prior_art:
     - source: ActivityPub Actor model
       url: https://www.w3.org/TR/activitypub/

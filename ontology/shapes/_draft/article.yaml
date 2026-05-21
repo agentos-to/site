@@ -14,8 +14,8 @@ article:
     section:           string    # e.g. "Technology", "Opinion", "Science"
     language:          string    # ISO 639-1 (e.g. en, es, ja)
   links:
-    publisher:         organization
-    publishedIn:      website
+    published_by:         organization
+    published_in:      website
   prior_art:
     - source: schema.org/Article
       url: https://schema.org/Article

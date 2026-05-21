@@ -22,8 +22,8 @@ report:
     dataSources:      string[]  # URLs, file paths, tool names used as inputs
     subjectId:        string    # node ID of the entity this report is about
   links:
-    commissionedBy:   actor     # person or agent that requested this report
-    relatedSpecs:     spec[]    # specs this report informs or was written for
+    commissioned_by:   actor     # person or agent that requested this report
+    references:     spec[]    # specs this report informs or was written for
   prior_art:
     - source: schema.org/Report
       url: https://schema.org/Report

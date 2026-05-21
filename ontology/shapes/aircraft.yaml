@@ -13,7 +13,7 @@ aircraft:
     iataCode:         string    # 3-letter type code (e.g. 738, 77W)
     icaoCode:         string    # 4-letter type code (e.g. B738, B77W)
   links:
-    manufacturer:      organization
+    manufactured_by:      organization
   prior_art:
     - source: ICAO Aircraft Type Designators (Doc 8643)
       url: https://www.icao.int/publications/DOC8643/Pages/Search.aspx

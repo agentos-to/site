@@ -7,7 +7,7 @@ analytics_event:
     properties:        json      # arbitrary event properties
     currentUrl:       url       # page URL where the action fired
   links:
-    person:            person
+    triggered_by:            person
   prior_art:
     - source: PostHog Events API
       url: https://posthog.com/docs/api/events

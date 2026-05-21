@@ -91,18 +91,6 @@ is the stable provider-side id — AccountNumberToken for airlines,
 | `providerTokens` | `json` |
 | `metadata` | `json` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `account` | [`account`](/shapes/reference/account/) |
-| `holder` | [`person`](/shapes/reference/person/) |
-| `billingAddress` | [`place`](/shapes/reference/place/) |
-| `fundingAccount` | [`financial_account`](/shapes/reference/financial_account/) |
-| `issuer` | [`actor`](/shapes/reference/actor/) |
-| `membership` | [`membership`](/shapes/reference/membership/) |
-
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

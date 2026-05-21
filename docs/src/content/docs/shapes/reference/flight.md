@@ -19,21 +19,10 @@ A nonstop itinerary has one flight. A connection has multiple flights.
 | Field | Type |
 |---|---|
 | `flightNumber` | `string` |
-| `departureTime` | `datetime` |
-| `arrivalTime` | `datetime` |
 | `durationMinutes` | `integer` |
 | `cabinClass` | `string` |
 | `stops` | `integer` |
 | `carbonEmissions` | `json` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `airline` | [`airline`](/shapes/reference/airline/) |
-| `departsFrom` | [`airport`](/shapes/reference/airport/) |
-| `arrivesAt` | [`airport`](/shapes/reference/airport/) |
-| `aircraft` | [`aircraft`](/shapes/reference/aircraft/) |
 
 ## Inherited
 
@@ -41,20 +30,30 @@ From [`leg`](/shapes/reference/leg/):
 
 | Field | Type |
 |---|---|
+| `allDay` | `boolean` |
+| `arrivalTime` | `datetime` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `departureTime` | `datetime` |
+| `distinctId` | `string` |
 | `duration` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
 | `layoverMinutes` | `integer` |
 | `polyline` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
 | `sequence` | `integer` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `status` | `string` |
+| `timezone` | `string` |
 | `trace` | `json` |
 | `tracePointCount` | `integer` |
 | `vehicleType` | `string` |
-
-| Relation | Target |
-|---|---|
-| `carrier` | [`organization`](/shapes/reference/organization/) |
-| `destination` | [`place`](/shapes/reference/place/) |
-| `origin` | [`place`](/shapes/reference/place/) |
-| `trip` | [`trip`](/shapes/reference/trip/) |
+| `visibility` | `string` |
 
 ## Prior art
 

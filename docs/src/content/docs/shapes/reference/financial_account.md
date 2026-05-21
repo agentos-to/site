@@ -38,18 +38,8 @@ node persists.
 | `available` | `number` |
 | `creditLimit` | `number` |
 | `minimumPayment` | `number` |
-| `paymentDueDate` | `datetime` |
 | `cardType` | `string` |
-| `expiresAt` | `datetime` |
 | `interestRate` | `number` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `accessedVia` | [`account`](/shapes/reference/account/) |
-| `owner` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

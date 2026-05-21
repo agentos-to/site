@@ -1,0 +1,5 @@
+# Single-form link `issued_by` (Pattern 3). Stem = storage label.
+# Sources: health-reference-range, payment_method
+# Targets: actor, health-lab
+from: node
+to: node

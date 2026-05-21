@@ -15,6 +15,7 @@ A direct Uber ride is one leg. A multi-stop Uber ride has one leg per stop pair.
 |---|---|
 | **Plural** | `legs` |
 | **Subtitle field** | `flightNumber` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -34,15 +35,27 @@ A direct Uber ride is one leg. A multi-stop Uber ride has one leg per stop pair.
 | `tracePointCount` | `integer` |
 | `polyline` | `string` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `origin` | [`place`](/shapes/reference/place/) |
-| `destination` | [`place`](/shapes/reference/place/) |
-| `carrier` | [`organization`](/shapes/reference/organization/) |
-| `aircraft` | [`aircraft`](/shapes/reference/aircraft/) |
-| `trip` | [`trip`](/shapes/reference/trip/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `status` | `string` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Used as a base by
 

@@ -12,6 +12,7 @@ A financial transaction — credit card charge, bank transfer, etc.
 | **Plural** | `transactions` |
 | **Subtitle field** | `category` |
 | **Identity** | `at`, `id` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -28,12 +29,27 @@ A financial transaction — credit card charge, bank transfer, etc.
 | `type` | `string` |
 | `details` | `json` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `account` | [`financial_account`](/shapes/reference/financial_account/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `status` | `string` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

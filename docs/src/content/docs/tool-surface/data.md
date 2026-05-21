@@ -14,8 +14,9 @@ Query and mutate graph entities.
 - [`read`](#read) — Read one node (or link) by id
 - [`list`](#list) — List nodes by shape, user_tag, name match, FTS via `q`, system metadata, or skill membership
 - [`update`](#update) — Set or delete vals on an existing node
-- [`create`](#create) — Create a new node of the given shape
+- [`create`](#create) — Create a node (`{shape, name?, vals?, identity?}`), or a relationship (`{from, label, to}`)
 - [`delete`](#delete) — Soft-delete a node or relationship
+- [`restore`](#restore) — Restore a soft-deleted node
 
 ## `read`
 
@@ -93,7 +94,7 @@ List nodes by shape, user_tag, name match, FTS via `q`, system metadata, or skil
 ```js
 list({ shape: "task", priority: 1 })
 list({ user_tag: "follow-up" })
-list({ q: "memex", limit: 10 })
+list({ q: "meeting", limit: 10 })
 list({ about: "shapes" })
 ```
 
@@ -211,8 +212,8 @@ Set or delete vals on an existing node. `null` value deletes a val; non-null set
 ### Examples
 
 ```js
-update({ id: "abc123", vals: { "pref:theme": "xp" } })
-update({ id: "abc123", vals: { "pref:fontSize": 14 } })
+update({ id: "abc123", vals: { "pref:ui": { themeId: "xp", fontSize: 14 } } })
+update({ id: "abc123", vals: { name: "Renamed" } })
 update({ id: "abc123", vals: { "pref:legacy": null } })
 ```
 
@@ -223,12 +224,12 @@ update({ id: "abc123", vals: { "pref:legacy": null } })
   "additionalProperties": false,
   "description": "Pass exactly one of `id` (node) or `link` (link val). Link val deletion is not supported \u2014 pass a non-null value.",
   "properties": {
-    "link": {
-      "description": "Link id to update (writes link_vals \u2014 icon position, fares, etc.).",
-      "type": "string"
-    },
     "id": {
       "description": "Node id to update.",
+      "type": "string"
+    },
+    "link": {
+      "description": "Link id to update (writes link_vals \u2014 icon position, fares, etc.).",
       "type": "string"
     },
     "vals": {
@@ -246,13 +247,14 @@ update({ id: "abc123", vals: { "pref:legacy": null } })
 
 ## `create`
 
-Create a new node of the given shape. With `identity`, looks up an existing node first and updates it instead of creating a duplicate (upsert semantics).
+Create a node (`{shape, name?, vals?, identity?}`), or a relationship (`{from, label, to}`). With `identity`, an existing node is updated instead of duplicated (upsert semantics).
 
 ### Examples
 
 ```js
 create({ shape: "bookmark", name: "Aircraft", vals: { address: "?shape=aircraft" } })
 create({ shape: "person", name: "Joe", identity: { email: "joe@example.com" } })
+create({ from: "abc123", label: "measures", to: "def456" })
 ```
 
 ### Input schema
@@ -260,39 +262,63 @@ create({ shape: "person", name: "Joe", identity: { email: "joe@example.com" } })
 ```json
 {
   "additionalProperties": false,
+  "oneOf": [
+    {
+      "required": [
+        "shape"
+      ]
+    },
+    {
+      "required": [
+        "from",
+        "label",
+        "to"
+      ]
+    }
+  ],
   "properties": {
+    "from": {
+      "description": "Link form: source node id.",
+      "type": "string"
+    },
     "identity": {
-      "description": "Scalar (key, value) pairs. With `identity`, an existing match is updated instead of duplicated (upsert semantics).",
+      "description": "Node form: scalar (key, value) pairs. With `identity`, an existing match is updated instead of duplicated (upsert semantics).",
       "type": "object"
     },
+    "label": {
+      "description": "Link form: relationship label.",
+      "type": "string"
+    },
     "name": {
-      "description": "Display name for the node.",
+      "description": "Node form: display name for the node.",
       "type": "string"
     },
     "shape": {
-      "description": "Shape name. Lazily registered on first use.",
+      "description": "Node form: shape name. Lazily registered on first use.",
+      "type": "string"
+    },
+    "to": {
+      "description": "Link form: target node id.",
       "type": "string"
     },
     "vals": {
-      "description": "Initial vals. Same shape as data.update vals.",
+      "description": "Node form: initial vals. Same shape as data.update vals.",
       "type": "object"
     }
   },
-  "required": [
-    "shape"
-  ],
   "type": "object"
 }
 ```
 
 ## `delete`
 
-Soft-delete a node or relationship.
+Soft-delete a node or relationship. With `permanent: true`, hard-delete a soft-deleted node (purge).
 
 ### Examples
 
 ```js
 delete({ id: "abc123" })
+delete({ id: "abc123", permanent: true })
 ```
 
 ### Input schema
@@ -303,6 +329,38 @@ delete({ id: "abc123" })
   "properties": {
     "id": {
       "description": "Node or link id. Soft-delete.",
+      "type": "string"
+    },
+    "permanent": {
+      "description": "When true, hard-delete a soft-deleted node (purge from disk). Used by 'empty trash'.",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id"
+  ],
+  "type": "object"
+}
+```
+
+## `restore`
+
+Restore a soft-deleted node. Flips deleted_at back to null on the node and on the original cascade batch of links. Emits an activity record.
+
+### Examples
+
+```js
+restore({ id: "abc123" })
+```
+
+### Input schema
+
+```json
+{
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "description": "Soft-deleted node id. Flips deleted_at back to null on the node and on every link in the original cascade batch.",
       "type": "string"
     }
   },

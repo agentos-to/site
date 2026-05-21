@@ -22,22 +22,21 @@ State is derived from location: docs/specs/ = active, docs/specs/done/ = done.
 | `problem` | `text` |
 | `successCriteria` | `text` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `dependsOn` | [`spec[]`](/shapes/reference/spec/) |
-| `supersedes` | [`spec[]`](/shapes/reference/spec/) |
-
 ## Inherited
 
 From [`task`](/shapes/reference/task/) · [`file`](/shapes/reference/file/):
 
 | Field | Type |
 |---|---|
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
 | `encoding` | `string` |
+| `endDate` | `datetime` |
 | `filename` | `string` |
 | `format` | `string` |
+| `icalUid` | `string` |
 | `kind` | `string` |
 | `labels` | `string[]` |
 | `lineCount` | `integer` |
@@ -46,25 +45,21 @@ From [`task`](/shapes/reference/task/) · [`file`](/shapes/reference/file/):
 | `path` | `string` |
 | `priority` | `integer` |
 | `projectId` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
 | `remoteId` | `string` |
 | `sha` | `string` |
+| `showAs` | `string` |
 | `size` | `integer` |
-| `startedAt` | `datetime` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
 | `state` | `string` |
+| `status` | `string` |
 | `target` | `json` |
 | `targetDate` | `datetime` |
-
-| Relation | Target |
-|---|---|
-| `assignedTo` | [`person`](/shapes/reference/person/) |
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `attachedTo` | [`message`](/shapes/reference/message/) |
-| `blockedBy` | [`task[]`](/shapes/reference/task/) |
-| `blocks` | [`task[]`](/shapes/reference/task/) |
-| `children` | [`task[]`](/shapes/reference/task/) |
-| `parent` | [`task`](/shapes/reference/task/) |
-| `project` | [`project`](/shapes/reference/project/) |
-| `repository` | [`repository`](/shapes/reference/repository/) |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

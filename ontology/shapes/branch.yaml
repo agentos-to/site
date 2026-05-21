@@ -11,7 +11,7 @@ branch:
     isCurrent:        boolean
     isRemote:         boolean
   links:
-    repository:        repository
+    in:        repository
   prior_art:
     - source: Git Internals — Branches
       url: https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell

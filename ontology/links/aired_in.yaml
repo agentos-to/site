@@ -1,0 +1,5 @@
+# Single-form link `aired_in` (Pattern 3). Stem = storage label.
+# Sources: episode
+# Targets: podcast
+from: episode
+to: podcast

@@ -13,30 +13,24 @@ A video playlist. Playlists are lists that contain videos instead of products.
 | **Subtitle field** | `text` |
 | **Also** | [`list`](/shapes/reference/list/) |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `contains` | [`video[]`](/shapes/reference/video/) |
-
 ## Inherited
 
 From [`list`](/shapes/reference/list/):
 
 | Field | Type |
 |---|---|
+| `default_view` | `string` |
+| `icon_size` | `integer` |
 | `isDefault` | `boolean` |
 | `isPublic` | `boolean` |
 | `itemCount` | `integer` |
-| `items` | `json` |
 | `listId` | `string` |
 | `listType` | `string` |
+| `member_shape` | `string` |
+| `ordering_mode` | `string` |
+| `path` | `string` |
 | `privacy` | `string` |
-
-| Relation | Target |
-|---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `belongsTo` | [`account`](/shapes/reference/account/) |
+| `sort_by` | `string` |
 
 ## Prior art
 

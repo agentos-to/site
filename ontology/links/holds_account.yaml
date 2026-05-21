@@ -1,0 +1,6 @@
+# Single-form link `holds_account` (Pattern 3). Stem = storage label.
+# Sources: person
+# Targets: account
+from: person
+to: account
+card: one_to_many

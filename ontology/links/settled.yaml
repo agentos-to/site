@@ -1,0 +1,5 @@
+# Verb-rooted link declarations for `settled` (Pattern 1) — see platform/codegen/links.py docstring + platform/README §2
+verb: settled
+# Sources across forms: booking_offer, organization
+as: {from: booking_offer, to: transaction}
+with: {from: organization, to: organization, card: one_to_many}

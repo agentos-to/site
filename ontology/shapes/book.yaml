@@ -26,7 +26,7 @@ book:
     # (rule 2 verb phrases). Book used to redeclare them as `writtenBy` /
     # `publisher` (noun labels) — that broke the inheritance contract and
     # produced duplicate TS identifiers. Drop them; the chain handles it.
-    contributors:      person[]  # editors, translators, illustrators
+    contributed_by:      person[]  # editors, translators, illustrators
   prior_art:
     - source: schema.org/Book
       url: https://schema.org/Book

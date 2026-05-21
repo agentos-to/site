@@ -1,0 +1,6 @@
+# Single-form link `covers_trip` (Pattern 3). Stem = storage label.
+# Sources: booking_offer, offer, reservation
+# Targets: trip
+from: node
+to: trip
+card: one_to_many

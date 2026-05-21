@@ -1,0 +1,6 @@
+# Single-form link `enrolled_in` (Pattern 3). Stem = storage label.
+# Sources: person, reservation
+# Targets: membership
+from: node
+to: membership
+card: one_to_many

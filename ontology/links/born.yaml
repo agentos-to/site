@@ -1,0 +1,6 @@
+# Verb-rooted link declarations for `born` (Pattern 1) — see platform/codegen/links.py docstring + platform/README §2
+verb: born
+# Sources across forms: person
+at: {from: person, to: place, card: one_to_many}
+in: {from: person, to: birth, card: one_to_many}
+to: {from: person, to: person, card: one_to_many}

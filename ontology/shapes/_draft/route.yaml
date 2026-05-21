@@ -22,10 +22,10 @@ route:
     direction:         string    # inbound, outbound, northbound, etc.
     color:             string    # route color for display (hex, from GTFS)
   links:
-    stops:             place[]   # ordered waypoints (bus stops, stations, airports)
-    origin:            place     # first stop / departure point
-    destination:       place     # last stop / arrival point
-    operator:          organization  # transit agency, airline (overrides schedule.operator)
+    stops_at:             place[]   # ordered waypoints (bus stops, stations, airports)
+    starts_at:            place     # first stop / departure point
+    ends_at:       place     # last stop / arrival point
+    operated_by:          organization  # transit agency, airline (overrides schedule.operator)
   prior_art:
     - source: GTFS routes.txt
       url: https://gtfs.org/documentation/schedule/reference/#routestxt

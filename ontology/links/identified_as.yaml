@@ -1,0 +1,5 @@
+# Single-form link `identified_as` (Pattern 3). Stem = storage label.
+# Sources: user
+# Targets: person
+from: user
+to: person

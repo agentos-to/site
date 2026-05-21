@@ -62,8 +62,8 @@ health-reference-range:
     fasting:          boolean    # whether the interval assumes a fasting sample
     timeOfDay:        string    # for diurnal analytes (cortisol) — "morning", "midnight"
   links:
-    analyte:          health-biomarker   # the biomarker this interval is for
-    issuingLab:       health-lab         # the lab that established or verified this interval
+    measures:          health-biomarker   # the biomarker this interval is for
+    issued_by:       health-lab         # the lab that established or verified this interval
   prior_art:
     - source: CLSI EP28-A3c — Defining, Establishing, and Verifying Reference Intervals
       url: https://clsi.org/shop/standards/ep28/

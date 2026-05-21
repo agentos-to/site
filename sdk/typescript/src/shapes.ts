@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 104 shapes.
+// Generated from 100 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -70,21 +70,6 @@ export interface Actor {
     datePublished?: string;
     content?: string;
     actorType?: string;
-}
-
-export interface Agent {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    actorType?: string;
-    model?: string;
-    provider?: string;
-    sessionId?: string;
 }
 
 export interface Aircraft {
@@ -877,43 +862,6 @@ export interface Group {
     memberCount?: number;
 }
 
-export interface Hardware {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    aisle?: string;
-    availability?: string;
-    barcode?: string;
-    calories?: number;
-    categories?: string[];
-    category?: string;
-    currency?: string;
-    customizationGroups?: unknown;
-    department?: string;
-    images?: unknown;
-    modelNumber?: string;
-    novaGroup?: number;
-    nutritionScore?: string;
-    originalPrice?: string;
-    originalPriceAmount?: number;
-    price?: string;
-    priceAmount?: number;
-    quantity?: number;
-    serialNumber?: string;
-    servingSize?: string;
-    sku?: string;
-    soldByWeight?: boolean;
-    specs?: unknown;
-    weight?: string;
-    weightUnit?: string;
-    weightValue?: number;
-}
-
 export interface HealthBiomarker {
     id?: string;
     name?: string;
@@ -1495,39 +1443,6 @@ export interface Membership {
     tier?: string;
     timezone?: string;
     useCount?: number;
-    visibility?: string;
-}
-
-export interface Memex {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    allDay?: boolean;
-    currentUrl?: string;
-    dateUpdated?: string;
-    description?: string;
-    distinctId?: string;
-    endDate?: string;
-    filePath?: string;
-    fileSize?: string;
-    icalUid?: string;
-    linkCount?: number;
-    nodeCount?: number;
-    origin?: string;
-    properties?: unknown;
-    published?: boolean;
-    recurrence?: string[];
-    showAs?: string;
-    sourceTitle?: string;
-    sourceUrl?: string;
-    startDate?: string;
-    status?: string;
-    timezone?: string;
     visibility?: string;
 }
 
@@ -2162,25 +2077,6 @@ export interface Shelf {
     sortBy?: string;
 }
 
-export interface Simulation {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    actionCount?: number;
-    endedAt?: string;
-    graphMode?: string;
-    profile?: string;
-    startedAt?: string;
-    status?: string;
-    task?: string;
-    writeCount?: number;
-}
-
 export interface Skill {
     id?: string;
     name?: string;
@@ -2699,7 +2595,6 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "account": {"subtitle": "identifier", "also": []},
     "activity": {"subtitle": "action", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "actor": {"subtitle": "actorType", "also": []},
-    "agent": {"subtitle": "model", "also": ["actor"]},
     "aircraft": {"subtitle": "model", "also": ["product"]},
     "airline": {"subtitle": "iataCode", "image": "image", "highlights": ["headquarters"], "also": ["organization", "actor"]},
     "airport": {"subtitle": "iataCode", "also": []},
@@ -2732,7 +2627,6 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "font": {"subtitle": "author", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work"]},
     "git_commit": {"subtitle": "author", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "group": {"subtitle": "category", "also": []},
-    "hardware": {"subtitle": "author", "also": ["product"]},
     "health-biomarker": {"subtitle": "category", "also": []},
     "health-condition": {"subtitle": "clinicalStatus", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "health-immunization": {"subtitle": "dateAdministered", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
@@ -2752,7 +2646,6 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "mcp_session": {"subtitle": "client", "also": []},
     "meeting": {"subtitle": "location", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "membership": {"subtitle": "status", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
-    "memex": {"subtitle": "description", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "message": {"subtitle": "from", "also": []},
     "model": {"subtitle": "name", "also": []},
     "note": {"subtitle": "noteType", "also": []},
@@ -2780,7 +2673,6 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "role": {"subtitle": "name", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "seatmap": {"title": "flightNumber", "also": []},
     "shelf": {"subtitle": "isExclusive", "also": ["list"]},
-    "simulation": {"subtitle": "status", "also": []},
     "skill": {"subtitle": "description", "also": []},
     "software": {"subtitle": "applicationCategory", "highlights": ["version", "runtimePlatform"], "also": ["product"]},
     "sound": {"subtitle": "purpose", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work", "file"]},
@@ -2810,7 +2702,6 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "account": ["identifier", "handle", "displayName", "display", "email", "phone", "bio", "accountType", "color", "isActive", "joinedDate", "lastActive", "lastProfileFetch", "userId", "issuer", "metadata"],
     "activity": ["action", "changedKeys", "toolName", "duration", "success", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "actor": ["actorType"],
-    "agent": ["model", "provider", "sessionId", "actorType"],
     "aircraft": ["model", "variant", "seatCapacity", "rangeKm", "iataCode", "icaoCode", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
     "airline": ["iataCode", "icaoCode", "callsign", "country", "alliance", "industry", "actorType"],
     "airport": ["iataCode", "icaoCode", "city", "country", "countryCode", "timezone", "elevationFt", "terminalCount"],
@@ -2843,7 +2734,6 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "font": ["family", "genericFamily", "postscriptName", "weights", "styles", "formats", "scripts", "glyphCount", "designerUrl", "vendorUrl", "licenseInfoUrl", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags"],
     "git_commit": ["sha", "shortHash", "message", "additions", "deletions", "filesChanged", "committedAt", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "group": ["memberCount", "category"],
-    "hardware": ["modelNumber", "serialNumber", "specs", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
     "health-biomarker": ["measure", "category", "loincCode", "analyteType", "description"],
     "health-condition": ["clinicalStatus", "verificationStatus", "proximity", "bodySite", "severity", "snomedCode", "icd10Code", "clinicalArea", "mitigation", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "health-immunization": ["dateAdministered", "cvxCode", "manufacturer", "lotNumber", "doseNumber", "seriesDoses", "site", "route", "diseaseTarget", "notes", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
@@ -2863,7 +2753,6 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "mcp_session": ["client", "projectId", "gitBranch", "sessionType", "startedAt", "endedAt", "messageCount", "tokenCount"],
     "meeting": ["calendarLink", "isVirtual", "meetingUrl", "conferenceProvider", "phoneDialIn", "meetingType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "membership": ["status", "tier", "autoRenew", "price", "currency", "billingType", "useCount", "guestPassQuantity", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
-    "memex": ["description", "origin", "filePath", "nodeCount", "linkCount", "fileSize", "published", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "message": ["isOutgoing", "isStarred", "conversationId"],
     "model": ["contextLength", "contextWindow", "maxOutput", "pricingInput", "pricingOutput", "modality", "modelType", "quantization", "quantizationLevel", "size", "parameterSize", "format", "family", "digest"],
     "note": ["noteType", "isPinned"],
@@ -2891,7 +2780,6 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "role": ["title", "department", "roleType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "seatmap": ["flightNumber", "origin", "destination", "fareBasisCode", "classOfService", "aircraftCode", "totalSeats", "availableSeats", "cabins", "tiers", "hasExitRow", "hasFreeSeats", "hasPaidSeats", "basicEconomyLocked"],
     "shelf": ["isExclusive", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path"],
-    "simulation": ["status", "profile", "task", "graphMode", "startedAt", "endedAt", "actionCount", "writeCount"],
     "skill": ["skillId", "description", "color", "status", "error"],
     "software": ["version", "applicationCategory", "runtimePlatform", "codename", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
     "sound": ["durationMs", "channels", "sampleRate", "bitDepth", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
@@ -2937,7 +2825,6 @@ export const EVENT_TYPES: readonly string[] = [
     "loaded_model",
     "meeting",
     "membership",
-    "memex",
     "offer",
     "order",
     "pass",

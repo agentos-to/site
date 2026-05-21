@@ -23,12 +23,6 @@ A git branch.
 | `isCurrent` | `boolean` |
 | `isRemote` | `boolean` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `repository` | [`repository`](/shapes/reference/repository/) |
-
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

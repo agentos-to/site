@@ -1,0 +1,5 @@
+# Verb-rooted link declarations for `performed` (Pattern 1) — see platform/codegen/links.py docstring + platform/README §2
+verb: performed
+# Sources across forms: health-panel, health-procedure
+at: {from: node, to: health-lab}
+by: {from: health-procedure, to: person}

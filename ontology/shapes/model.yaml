@@ -25,7 +25,7 @@ model:
     family:            string    # model family, e.g., "llama", "qwen"
     digest:            string    # content-addressable hash of model weights
   links:
-    at:                actor     # the provider entity — organization (Anthropic,
+    at_namespace:                actor     # the provider entity — organization (Anthropic,
                                   # OpenAI, Meta) or product (ollama for
                                   # self-hosted). Required for identity.
   prior_art:

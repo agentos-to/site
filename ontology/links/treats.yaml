@@ -1,0 +1,5 @@
+# Single-form link `treats` (Pattern 3). Stem = storage label.
+# Sources: health-procedure
+# Targets: health-condition
+from: health-procedure
+to: health-condition

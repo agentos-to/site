@@ -16,7 +16,7 @@ The company (Costco Inc.) is an organization. The location is a place.
 | Metadata | Value |
 |---|---|
 | **Plural** | `places` |
-| **Subtitle field** | `fullAddress` |
+| **Subtitle field** | `featureType` |
 | **Identity (any)** | `googlePlaceId`, `mapboxId` |
 
 ## Fields
@@ -55,14 +55,6 @@ The company (Costco Inc.) is an organization. The location is a place.
 | `mapboxId` | `string` |
 | `wikidataId` | `string` |
 | `googlePlaceId` | `string` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `brand` | [`organization`](/shapes/reference/organization/) |
-| `offers` | [`product[]`](/shapes/reference/product/) |
 
 ## Prior art
 

@@ -56,17 +56,17 @@ product:
     servingSize:      string    # "1 cup (240ml)"
     customizationGroups: json   # Uber Eats item options tree (sizes, toppings, substitutions)
   links:
-    brand:             brand
-    manufacturer:      organization
-    creator:           actor[]   # authors / makers of the product. actor[] covers both
+    branded_as:             brand
+    manufactured_by:      organization
+    created_by:           actor[]   # authors / makers of the product. actor[] covers both
                                   # persons (Adam Hammad → XP.css) and orgs (Microsoft → Office).
                                   # Distinct from manufacturer (which is org-only and implies
                                   # commercial production); creator is broader attribution.
-    inspiredBy:        product[] # explicit influence/lineage links. Dual-use: cross-vendor
+    inspired_by:        product[] # explicit influence/lineage links. Dual-use: cross-vendor
                                   # historical influence (Windows 95 inspiredBy Mac System 7)
                                   # AND credit attribution (Windows XP inspiredBy XP.css).
                                   # Both are forms of influence — context disambiguates.
-    tagged:            tag[]     # dietary (VEGAN), allergens, certifications (Organic), departments
+    tagged_with:            tag[]     # dietary (VEGAN), allergens, certifications (Organic), departments
   prior_art:
     - source: schema.org/Product + Offer
       url: https://schema.org/Product

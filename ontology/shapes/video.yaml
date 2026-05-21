@@ -18,9 +18,9 @@ video:
     codec:             string    # e.g. "h264", "vp9"
     viewCount:        integer   # platform-reported view count (YouTube) — snapshot, not live
   links:
-    channel:           channel   # channel this was uploaded to
-    transcribe:        transcript
-    addTo:            playlist
+    on:           channel   # channel this was uploaded to
+    transcribed_by:        transcript
+    added_to:            playlist
   prior_art:
     - source: schema.org/VideoObject
       url: https://schema.org/VideoObject

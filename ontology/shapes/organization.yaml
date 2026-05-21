@@ -13,11 +13,11 @@ organization:
     # Founding lives on `founded_by --> actor {date}` link val, or a `founding`
     # event node for multi-party foundings. Rule 1.
   links:
-    member:            person[]
-    domain:            domain
-    website:           website
-    headquarters:      place
-    parentOrganization: organization  # the org this one is a part of /
+    for:            person[]
+    on:            domain
+    online_at:           website
+    headquartered_at:      place
+    subsidiary_of: organization  # the org this one is a part of /
                                        # subsidiary of (a hospital network, a
                                        # parent company). subOrganization is
                                        # the reverse — reach it by traversal.

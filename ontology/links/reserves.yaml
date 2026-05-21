@@ -1,0 +1,6 @@
+# Single-form link `reserves` (Pattern 3). Stem = storage label.
+# Sources: booking_offer
+# Targets: pass
+from: booking_offer
+to: pass
+card: one_to_many

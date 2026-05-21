@@ -1,0 +1,5 @@
+# Single-form link `authored_by` (Pattern 3). Stem = storage label.
+# Sources: document, git_commit
+# Targets: account, actor
+from: node
+to: node

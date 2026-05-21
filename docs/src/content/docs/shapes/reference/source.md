@@ -35,12 +35,6 @@ Renamed from `platform` to `scanner` to free `platform` from this overload —
 | `description` | `text` |
 | `lastSynced` | `datetime` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `folder` | [`folder`](/shapes/reference/folder/) |
-
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

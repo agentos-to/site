@@ -23,16 +23,6 @@ Claude transcripts, etc.
 | `isStarred` | `boolean` |
 | `conversationId` | `string` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `from` | [`actor`](/shapes/reference/actor/) |
-| `inConversation` | [`conversation`](/shapes/reference/conversation/) |
-| `repliesTo` | [`message`](/shapes/reference/message/) |
-| `toolCalls` | [`tool_call[]`](/shapes/reference/tool_call/) |
-
 ## Used as a base by
 
 - [`email`](/shapes/reference/email/)
@@ -48,5 +38,5 @@ External standards this shape draws from or aligns with. See [Shape design princ
 ## Skills that produce this shape
 
 - [claude](/skills/reference/ai/claude/) — `import_conversation`
-- [imessage](/skills/reference/comms/imessage/) — `op_list_messages`, `op_search_messages`, `op_get_message`
-- [whatsapp](/skills/reference/comms/whatsapp/) — `op_list_messages`, `op_search_messages`, `op_get_message`
+- [imessage](/skills/reference/comms/imessage/) — `list_messages`, `search_messages`, `get_message`
+- [whatsapp](/skills/reference/comms/whatsapp/) — `list_messages`, `search_messages`, `get_message`

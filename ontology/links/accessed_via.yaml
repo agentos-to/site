@@ -1,0 +1,5 @@
+# Single-form link `accessed_via` (Pattern 3). Stem = storage label.
+# Sources: account, financial_account
+# Targets: account, product
+from: node
+to: node

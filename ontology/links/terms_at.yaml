@@ -1,0 +1,5 @@
+# Single-form link `terms_at` (Pattern 3). Stem = storage label.
+# Sources: skill
+# Targets: webpage
+from: skill
+to: webpage

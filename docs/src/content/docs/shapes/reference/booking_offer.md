@@ -61,6 +61,7 @@ booking_offer itself stays domain-neutral: it's a priced commitment.
 | **Plural** | `booking_offers` |
 | **Subtitle field** | `totalAmount` |
 | **Identity** | `at`, `cartId` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -94,26 +95,26 @@ booking_offer itself stays domain-neutral: it's a priced commitment.
 | `contactEmail` | `string` |
 | `contactPhone` | `string` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `derivedFrom` | [`offer`](/shapes/reference/offer/) |
-| `trips` | [`trip[]`](/shapes/reference/trip/) |
-| `reservedItems` | [`pass[]`](/shapes/reference/pass/) |
-| `buyers` | [`person[]`](/shapes/reference/person/) |
-| `guests` | [`person[]`](/shapes/reference/person/) |
-| `underName` | [`person`](/shapes/reference/person/) |
-| `paymentMethod` | [`payment_method`](/shapes/reference/payment_method/) |
-| `billingAddress` | [`place`](/shapes/reference/place/) |
-| `fares` | [`fare[]`](/shapes/reference/fare/) |
-| `taxLines` | [`tax_line[]`](/shapes/reference/tax_line/) |
-| `account` | [`account`](/shapes/reference/account/) |
-| `membership` | [`membership`](/shapes/reference/membership/) |
-| `broker` | [`actor`](/shapes/reference/actor/) |
-| `becameReservation` | [`reservation`](/shapes/reference/reservation/) |
-| `becameTransaction` | [`transaction`](/shapes/reference/transaction/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

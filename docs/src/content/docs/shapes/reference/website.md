@@ -20,17 +20,9 @@ Websites are created/managed by the here.now publishing skill.
 |---|---|
 | `status` | `string` |
 | `versionId` | `string` |
-| `expiresAt` | `datetime` |
 | `anonymous` | `boolean` |
 | `claimToken` | `string` |
 | `claimUrl` | `url` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `domain` | [`domain`](/shapes/reference/domain/) |
-| `ownedBy` | [`organization`](/shapes/reference/organization/) |
 
 ## Prior art
 
@@ -42,4 +34,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [here-now](/skills/reference/hosting/here-now/) — `list_websites`, `op_create_website`, `op_update_website`
+- [here-now](/skills/reference/hosting/here-now/) — `list_websites`, `create_website`, `update_website`

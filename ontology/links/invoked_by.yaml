@@ -1,0 +1,7 @@
+# Single-form link `invoked_by` (Pattern 3). Stem = storage label.
+# A tool_call is invoked by the message that triggered it or the actor
+# that issued it.
+# Sources: tool_call
+# Targets: actor, message
+from: tool_call
+to: node

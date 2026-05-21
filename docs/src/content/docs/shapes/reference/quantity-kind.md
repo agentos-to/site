@@ -1,0 +1,44 @@
+---
+title: quantity-kind
+description: "A quantity kind — WHAT is being measured, semantically. 'Mass"
+sidebar:
+  label: quantity-kind
+---
+
+A quantity kind — WHAT is being measured, semantically. "Mass
+concentration", "blood glucose concentration", "torque", "energy".
+
+Many quantity kinds can share one dimension. Torque and energy are both
+L²MT⁻²; blood-glucose concentration and ordinary mass density are both
+L⁻³M. The dimension alone cannot tell them apart — the quantity kind is
+the layer that keeps them distinct. Adding a torque to an energy is
+dimensionally legal but semantically wrong; this is where that gets
+caught.
+
+This layer is OPTIONAL. Add a quantity-kind node only when the
+dimension is too coarse to be safe — when two same-dimension quantities
+would otherwise be silently conflated. A `unit` points at the quantity
+kinds it conventionally expresses; a quantity kind points at its
+dimension and, optionally, a broader parent kind.
+
+`name` (inherited) is the human label, same as `label`.
+
+| Metadata | Value |
+|---|---|
+| **Plural** | `quantity-kinds` |
+| **Subtitle field** | `label` |
+| **Identity** | `key` |
+
+## Fields
+
+| Field | Type |
+|---|---|
+| `key` | `string` |
+| `label` | `string` |
+
+## Prior art
+
+External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
+
+- **[ISO 80000-1 — kind of quantity](https://www.iso.org/standard/76921.html)** — ISO 80000 makes "kind of quantity" a rigorous first-class notion, distinct from dimension — quantities of the same dimension are not necessarily of the same kind.
+- **[QUDT — QuantityKind](https://www.qudt.org/doc/DOC_SCHEMA-QUDT.html)** — qudt:QuantityKind is exactly this layer. Its hasDimensionVector property corresponds to our `dimension` link; QUDT's broader/ narrower kind hierarchy corresponds to our `parent` link.

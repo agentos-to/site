@@ -27,13 +27,6 @@ One node per unique client+project+branch combo, updated on reconnection.
 | `messageCount` | `integer` |
 | `tokenCount` | `integer` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `participant` | [`actor`](/shapes/reference/actor/) |
-| `folder` | [`folder`](/shapes/reference/folder/) |
-
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

@@ -1,0 +1,8 @@
+# Single-form link `followed_by` (Pattern 3). Stem = storage label.
+# Social-graph follow edges. Many-to-many (an account may have many
+# followers and follow many accounts).
+# Sources: account
+# Targets: account
+from: account
+to: account
+card: many_to_many

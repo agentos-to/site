@@ -15,8 +15,8 @@ software:
     openSource:       boolean
     repositoryUrl:    url       # source code URL
   links:
-    developer:         organization  # who makes it
-    repository:        repository    # source code repo (if open source)
+    developed_by:         organization  # who makes it
+    in_repository:        repository    # source code repo (if open source)
   prior_art:
     - source: schema.org/SoftwareApplication
       url: https://schema.org/SoftwareApplication

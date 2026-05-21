@@ -1,0 +1,5 @@
+# Single-form link `covers` (Pattern 3). Stem = storage label.
+# Sources: intellectual_property
+# Targets: creative_work
+from: intellectual_property
+to: creative_work

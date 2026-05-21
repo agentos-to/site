@@ -3,7 +3,7 @@ title: Skills index
 description: "Every skill in the AgentOS catalog. Browse all or filter by category."
 ---
 
-The AgentOS skill catalog — **46** skills across **14** categories. Each skill is a Python adapter that connects to a service or provides a pure agent capability.
+The AgentOS skill catalog — **47** skills across **15** categories. Each skill is a Python adapter that connects to a service or provides a pure agent capability.
 
 See [Skills → Overview](/skills/overview/) for how to build one.
 
@@ -74,6 +74,10 @@ See [Skills → Overview](/skills/overview/) for how to build one.
 - [**Moltbook**](/skills/reference/media/moltbook/) — Read and publish Moltbook posts, comments, feeds, communities, and agent profiles. Use when working with Moltbook, submolts, or agent social posting
 - [**Reddit**](/skills/reference/media/reddit/) — Read public Reddit communities, posts, and comments
 - [**YouTube**](/skills/reference/media/youtube/) — Get video metadata and transcripts using yt-dlp
+
+## [misc](/skills/reference/misc/)
+
+- [**Health Records**](/skills/reference/misc/health/) — Parses on-disk lab reports into the health graph
 
 ## [productivity](/skills/reference/productivity/)
 

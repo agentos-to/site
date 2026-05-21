@@ -1,0 +1,6 @@
+# Single-form link `inspired_by` (Pattern 3). Stem = storage label.
+# Sources: product
+# Targets: product
+from: product
+to: product
+card: one_to_many

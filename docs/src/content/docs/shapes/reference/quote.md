@@ -17,6 +17,7 @@ quote --inspired--> anything
 | Metadata | Value |
 |---|---|
 | **Plural** | `quotes` |
+| **Subtitle field** | `year` |
 
 ## Fields
 

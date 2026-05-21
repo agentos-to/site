@@ -29,9 +29,9 @@ health-immunization:
     diseaseTarget:    string    # disease(s) protected against — "tetanus, diphtheria, pertussis"
     notes:            text      # annotations from the vaccination record
   links:
-    administeredAt:   health-lab    # clinic / pharmacy / travel-health center that gave the dose
-    subject:          person        # who received the vaccine
-    evidence:         file[]        # the vaccination-card / record file documenting this dose
+    administered_at:   health-lab    # clinic / pharmacy / travel-health center that gave the dose
+    concerns:          person        # who received the vaccine
+    evidenced_by:         file[]        # the vaccination-card / record file documenting this dose
   prior_art:
     - source: HL7 FHIR R5 — Immunization
       url: https://www.hl7.org/fhir/immunization.html

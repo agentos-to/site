@@ -65,8 +65,8 @@ unit:
     # --- logarithmic-only ---
     logBase:      number   # 10 or e — the base of the log scale
   links:
-    dimension:    dimension       # the dimension this unit measures
-    quantityKinds: quantity-kind[] # quantity kinds conventionally expressed in this unit
+    measures:    dimension       # the dimension this unit measures
+    quantifies: quantity-kind[] # quantity kinds conventionally expressed in this unit
   prior_art:
     - source: "UCUM — Unified Code for Units of Measure"
       url: https://ucum.org/ucum

@@ -46,7 +46,6 @@ id is a synthetic string the skill composes.
 | Metadata | Value |
 |---|---|
 | **Plural** | `seatmaps` |
-| **Subtitle field** | `cabinBrand` |
 | **Identity** | `id` |
 
 ## Fields
@@ -56,7 +55,6 @@ id is a synthetic string the skill composes.
 | `flightNumber` | `string` |
 | `origin` | `string` |
 | `destination` | `string` |
-| `departureTime` | `datetime` |
 | `fareBasisCode` | `string` |
 | `classOfService` | `string` |
 | `aircraftCode` | `string` |
@@ -68,15 +66,6 @@ id is a synthetic string the skill composes.
 | `hasFreeSeats` | `boolean` |
 | `hasPaidSeats` | `boolean` |
 | `basicEconomyLocked` | `boolean` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `flight` | [`flight`](/shapes/reference/flight/) |
-| `aircraft` | [`aircraft`](/shapes/reference/aircraft/) |
-| `reservation` | [`reservation`](/shapes/reference/reservation/) |
 
 ## Skills that produce this shape
 

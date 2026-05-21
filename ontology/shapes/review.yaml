@@ -11,7 +11,7 @@ review:
     isVerified:       boolean   # verified purchase
   links:
     reviews:           product   # what this review is about
-    postedBy:         account
+    posted_by:         account
   prior_art:
     - source: schema.org/Review
       url: https://schema.org/Review

@@ -12,8 +12,8 @@ role:
     roleType:         string    # employment, board, advisor, contractor, etc.
                                   # The time window is event.startDate / endDate (inherited).
   links:
-    person:            person
-    organization:      organization
+    held_by:            person
+    within_org:      organization
   prior_art:
     - source: schema.org/Role + OrganizationRole
       url: https://schema.org/OrganizationRole

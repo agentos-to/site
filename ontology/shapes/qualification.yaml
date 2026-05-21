@@ -51,7 +51,7 @@ qualification:
     held_by:           person        # who holds it (schema.org Person.hasCredential)
     granted_by:        organization  # the body that issued this instance
     governed_by:       organization  # the body that accredits / licenses / regulates
-    field:            practice      # the discipline / field this qualification is in
+    in:            practice      # the discipline / field this qualification is in
   prior_art:
     - source: schema.org EducationalOccupationalCredential
       url: https://schema.org/EducationalOccupationalCredential

@@ -21,6 +21,7 @@ Train journey = trip         |  each train boarded = leg
 | **Plural** | `trips` |
 | **Subtitle field** | `tripType` |
 | **Identity** | `at`, `id` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -51,17 +52,26 @@ Train journey = trip         |  each train boarded = leg
 | `marketplace` | `string` |
 | `vehicle` | `json` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `origin` | [`place`](/shapes/reference/place/) |
-| `destination` | [`place`](/shapes/reference/place/) |
-| `legs` | [`leg[]`](/shapes/reference/leg/) |
-| `carrier` | [`organization`](/shapes/reference/organization/) |
-| `driver` | [`person`](/shapes/reference/person/) |
-| `order` | [`order`](/shapes/reference/order/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

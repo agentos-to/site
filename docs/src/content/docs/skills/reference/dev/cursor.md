@@ -13,9 +13,9 @@ sidebar:
 
 ## Returns shapes
 
-- [`conversation`](/shapes/reference/conversation/) — from `op_get_session`
-- [`conversation[]`](/shapes/reference/conversation/) — from `op_list_sessions`, `op_backfill_session`
-- [`file[]`](/shapes/reference/file/) — from `op_pull_document`
+- [`conversation`](/shapes/reference/conversation/) — from `get_session`
+- [`conversation[]`](/shapes/reference/conversation/) — from `list_sessions`, `backfill_session`
+- [`file[]`](/shapes/reference/file/) — from `pull_document`
 
 ## Readme
 

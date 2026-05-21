@@ -1,0 +1,45 @@
+---
+title: llm.*
+description: "llm.* ops — schema resolution."
+sidebar:
+  label: llm
+---
+
+llm.* ops — schema resolution.
+
+llm.resolve_tools walks skills' `provides` entries to build provider-format
+tool definitions. Handler lives in agentos-core.
+
+## `llm.resolve_tools`
+
+Resolve skill-scoped tool refs ("skill.operation") to provider-native tool defs.
+
+| Metadata | Value |
+|---|---|
+| **Capability** | `llm` |
+
+### Request
+
+| Field | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `tools` | `string[]` | **yes** |  | Tool references (skill.operation). |
+
+### Response
+
+| Field | Type | Description |
+|---|---|---|
+| `tools` | `json[]` | Resolved tool definitions, one per input ref (in order). |
+
+### Notes
+
+```text
+Resolve a list of skill-scoped tool refs (`"skill.operation"`) into
+provider-native tool definitions. Used by llm.agent loops that need
+to pass the router's tool list into a chat call.
+
+Args:
+    tools: list of `"skill.operation"` strings.
+
+Returns:
+    {tools: [tool_def, …]}.
+```

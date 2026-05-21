@@ -13,7 +13,7 @@ gain also: [document] in a future migration once the shape stabilizes.
 | Metadata | Value |
 |---|---|
 | **Plural** | `documents` |
-| **Subtitle field** | `author` |
+| **Subtitle field** | `contentType` |
 | **Also** | [`file`](/shapes/reference/file/) |
 
 ## Fields
@@ -25,14 +25,6 @@ gain also: [document] in a future migration once the shape stabilizes.
 | `wordCount` | `integer` |
 | `abstract` | `text` |
 | `tableOfContents` | `text` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `author` | [`actor`](/shapes/reference/actor/) |
-| `references` | [`document[]`](/shapes/reference/document/) |
-| `citedBy` | [`document[]`](/shapes/reference/document/) |
 
 ## Inherited
 
@@ -49,11 +41,6 @@ From [`file`](/shapes/reference/file/):
 | `path` | `string` |
 | `sha` | `string` |
 | `size` | `integer` |
-
-| Relation | Target |
-|---|---|
-| `attachedTo` | [`message`](/shapes/reference/message/) |
-| `repository` | [`repository`](/shapes/reference/repository/) |
 
 ## Prior art
 

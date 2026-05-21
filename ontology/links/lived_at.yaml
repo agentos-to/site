@@ -1,0 +1,9 @@
+# Single-form link `lived_at` (Pattern 3). Stem = storage label.
+# Sources: person
+# Targets: place
+from: person
+to: place
+card: one_to_many
+link_vals:
+  from: date
+  to: date | null

@@ -41,13 +41,13 @@ trip:
     marketplace:       string    # Uber marketplace identifier (region/fleet)
     vehicle:           json      # vehicle details ({name, type, year, license_plate})
   links:
-    at:                actor     # the namespace this trip lives within (Uber, SerpAPI flight feed, etc.). Required for identity.
-    origin:            place     # pickup / departure airport / departure station
-    destination:       place     # dropoff / arrival airport / arrival station
-    legs:              leg[]     # ordered sub-movements (1 for direct, 2+ for connections/multi-stop)
-    carrier:           organization  # primary airline, transit agency
-    driver:            person    # driver/courier (rides/delivery)
-    order:             order     # the order this trip fulfills (delivery, ride booking)
+    at_namespace:                actor     # the namespace this trip lives within (Uber, SerpAPI flight feed, etc.). Required for identity.
+    starts_at:            place     # pickup / departure airport / departure station
+    ends_at:       place     # dropoff / arrival airport / arrival station
+    routed_through:              leg[]     # ordered sub-movements (1 for direct, 2+ for connections/multi-stop)
+    operated_by:           organization  # primary airline, transit agency
+    driven_by:            person    # driver/courier (rides/delivery)
+    placed_via:             order     # the order this trip fulfills (delivery, ride booking)
   prior_art:
     - source: schema.org/Trip + subTrip
       url: https://schema.org/Trip

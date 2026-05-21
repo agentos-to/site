@@ -46,8 +46,8 @@ health-condition:
     clinicalArea:     string    # specialty field — "Cardiology", "Dermatology", "ENT"
     mitigation:       text      # monitoring or management plan ("ultrasound every few years")
   links:
-    subject:          person      # who has this condition (self) or whose family member (family hx)
-    evidence:         file[]      # record files documenting this condition (reports, scans)
+    concerns:          person      # who has this condition (self) or whose family member (family hx)
+    evidenced_by:         file[]      # record files documenting this condition (reports, scans)
   prior_art:
     - source: HL7 FHIR R5 — Condition
       url: https://www.hl7.org/fhir/condition.html

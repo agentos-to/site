@@ -13,14 +13,12 @@ post:
     commentCount:     integer   # number of comments/replies
     community:         string    # denormalized community slug/name (for display; authoritative link is `publish`)
   links:
-    at:                actor     # the namespace this post lives within (Reddit, HN, Moltbook, YouTube, etc.). Required for identity.
-    postedBy:         account   # who posted it
-    publish:           community # subreddit, group, or channel it was posted to
-    repliesTo:        post      # parent post (makes this a "comment")
-    replies:          post[]    # nested comment tree (inverse of repliesTo)
+    at_namespace:                actor     # the namespace this post lives within (Reddit, HN, Moltbook, YouTube, etc.). Required for identity.
+    posted_by:         account   # who posted it
+    published_in:           community # subreddit, group, or channel it was posted to
+    replies_to:        post      # parent post (makes this a "comment"). Children read via reverse on replies_to.
     contains:          video[]   # embedded videos
-    media:             image[]   # embedded images
-    attachment:        file[]    # attached files
+    shows:             image[]   # embedded images
   prior_art:
     - source: ActivityStreams 2.0 (Note/Article + Create)
       url: https://www.w3.org/TR/activitystreams-vocabulary/

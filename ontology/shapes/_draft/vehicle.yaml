@@ -23,7 +23,7 @@ vehicle:
     color:             string
     odometer:          integer   # miles or km (last known)
   links:
-    manufacturer:      organization
+    manufactured_by:      organization
   prior_art:
     - source: ISO 3779 — VIN (Vehicle Identification Number)
       url: https://www.iso.org/standard/52200.html

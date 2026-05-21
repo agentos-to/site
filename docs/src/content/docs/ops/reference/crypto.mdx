@@ -1,0 +1,83 @@
+---
+title: crypto.*
+description: "crypto.* ops — key derivation and symmetric decryption."
+sidebar:
+  label: crypto
+---
+
+crypto.* ops — key derivation and symmetric decryption.
+
+Used almost exclusively by browser skills decrypting stored cookies.
+Handlers live in agentos-exec-executors.
+
+## `crypto.pbkdf2`
+
+PBKDF2-HMAC-SHA1 key derivation. Returns hex-encoded bytes.
+
+| Metadata | Value |
+|---|---|
+| **Capability** | `crypto` |
+
+### Request
+
+| Field | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `password` | `string` | **yes** |  | Password to stretch. |
+| `salt` | `string` | **yes** |  | Salt (opaque bytes as a string). |
+| `iterations` | `u32` | no | `1` | Iteration count. |
+| `length` | `u32` | no | `16` | Desired output length in bytes. |
+
+### Response
+
+Returns `bytes` — Derived key.
+
+### Notes
+
+```text
+PBKDF2-HMAC-SHA1 key derivation. Used by browser skills to reproduce
+Chrome's Safe Storage key stretch.
+
+Args:
+    password, salt: opaque strings.
+    iterations: default 1.
+    length: output byte length (default 16).
+
+Returns:
+    Derived key as bytes (hex-decoded by the SDK stub).
+```
+
+## `crypto.aes`
+
+AES-128-CBC decrypt. Key/data/iv are hex. Returns hex plaintext.
+
+| Metadata | Value |
+|---|---|
+| **Capability** | `crypto` |
+
+### Request
+
+| Field | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `key` | `string` | **yes** |  | Key as hex (16 bytes / 32 hex chars for AES-128). |
+| `data` | `string` | **yes** |  | Ciphertext as hex. |
+| `iv` | `string` | no | `'00000000000000000000000000000000'` | Initialization vector as hex. Defaults to 32 zero hex chars. |
+
+### Response
+
+Returns `bytes` — Decrypted plaintext.
+
+### Notes
+
+```text
+AES-128-CBC decrypt. Key, ciphertext, and IV are all hex-encoded.
+The returned plaintext is hex-encoded on the wire and decoded to
+bytes by the SDK stub.
+
+Args:
+    key: hex (16 bytes = 32 hex chars for AES-128).
+    data: ciphertext, hex.
+    iv: hex. Default: 32 zero chars (Chrome convention).
+
+Returns:
+    Plaintext bytes.
+```

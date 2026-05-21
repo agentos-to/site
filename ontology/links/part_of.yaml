@@ -1,0 +1,9 @@
+# Single-form link `part_of` (Pattern 3). Stem = storage label.
+# Stative containment — a row belongs to a parent collection. Covers
+# both health-biomarker and health-observation rows belonging to a
+# health-panel.
+# Sources: health-biomarker, health-observation
+# Targets: health-panel
+from: node
+to: node
+card: one_to_many

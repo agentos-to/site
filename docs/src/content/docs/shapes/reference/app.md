@@ -1,23 +1,26 @@
 ---
 title: app
-description: "A graphical app (TS/React) that runs on top of the engine — browser,"
+description: "An application — something the shell can spawn as a window. Includes"
 sidebar:
   label: app
 ---
 
-A graphical app (TS/React) that runs on top of the engine — browser,
-mail, wallet, agent inbox, etc. Distinct from `skill` (Python adapters
-with no UI) and `software` (third-party apps we connect to).
+An application — something the shell can spawn as a window. Includes
+system apps (Finder, Settings, eventually Recycle Bin — engine-resident,
+code-only, seeded by `seed_system_apps()` in identity.rs) and
+user-installed apps (any skill returning an app-shape dict). The shape
+is identical either way; only the seeding path differs.
 
-The engine reads app manifests from configured sources at boot and
-upserts an `app` node for each. Apps declare the shapes they render
-via `entity_types` and either take over the shell (`standalone`) or
-nest inside another app (`standalone: false`).
+Themes never reference app ids by string literal. They reference
+role-based list ids ('primary-launcher', 'tray', 'desktop') and render
+whatever bookmarks those lists contain. Per-theme renames happen via
+the theme bundle's `appOverrides[appId] = { name?, icon? }` map — the
+theme owns presentation, not identity.
 
 | Metadata | Value |
 |---|---|
 | **Plural** | `apps` |
-| **Subtitle field** | `description` |
+| **Subtitle field** | `name` |
 | **Identity** | `id` |
 
 ## Fields
@@ -25,13 +28,17 @@ nest inside another app (`standalone: false`).
 | Field | Type |
 |---|---|
 | `id` | `string` |
-| `app_id` | `string` |
-| `standalone` | `boolean` |
-| `description` | `string` |
-| `entity_types` | `json` |
+| `name` | `string` |
+| `iconRole` | `string` |
+| `route` | `string` |
+| `defaultView` | `string` |
+| `isSystem` | `boolean` |
+| `handles` | `string[]` |
 
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
-- **[Desktop Entry Specification (freedesktop.org)](https://specifications.freedesktop.org/desktop-entry-spec/latest/)** — Apps mirror .desktop entries — a user-facing name, a description, and metadata about what categories/file-types the app handles. Our entity_types plays the role of MimeType.
+- **[macOS .app bundle (Info.plist)](https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html)** — CFBundleIdentifier ≈ id; CFBundleName ≈ name; CFBundleIconFile ≈ iconRole (we use a role rather than a file path so themes can override).
+- **[freedesktop .desktop entry](https://specifications.freedesktop.org/desktop-entry-spec/latest/)** — Name, Icon, Exec — the Linux/XDG peer. We model the launchable surface, not the executable (the engine knows how to spawn).
+- **[Windows AppUserModelID](https://learn.microsoft.com/en-us/windows/win32/shell/appids)** — Stable per-app identity decoupled from the executable on disk. Our `id` plays the same role — themes and bookmarks reference it, the binary is an implementation detail of seed_system_apps().

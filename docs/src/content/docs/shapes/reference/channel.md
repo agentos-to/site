@@ -10,6 +10,7 @@ A content channel — typically a YouTube channel. Videos are uploaded to channe
 | Metadata | Value |
 |---|---|
 | **Plural** | `channels` |
+| **Subtitle field** | `subscriberCount` |
 | **Identity** | `at`, `id` |
 
 ## Fields
@@ -18,12 +19,6 @@ A content channel — typically a YouTube channel. Videos are uploaded to channe
 |---|---|
 | `banner` | `url` |
 | `subscriberCount` | `integer` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
 
 ## Prior art
 

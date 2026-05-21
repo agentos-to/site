@@ -1,41 +1,39 @@
 ---
 title: bookmark
-description: "A pointer into the graph. Bookmarks are the universal sidebar primitive"
+description: "A pointer into the graph — the universal shortcut. A bookmark is a"
 sidebar:
   label: bookmark
 ---
 
-A pointer into the graph. Bookmarks are the universal sidebar primitive
-in the Browser — the user (or the engine, at install time) writes a
-bookmark, the Browser surfaces it. Recursive uniformity: even the UI's
-chrome is graph data (A23 in the athena plan).
+A pointer into the graph — the universal shortcut. A bookmark is a
+name + a target; the target is the contract. Bookmarks are wrapped
+by `list --contains--> bookmark` links so the SAME bookmark can live
+in three lists (the desktop, the primary launcher, a user's pinned
+items) at three different positions with three different name
+overrides — the per-list metadata lives on the contains-link, not
+on the bookmark.
 
-A bookmark's `address` is a graph URI. Today the grammar is small but
-extensible:
-"?shape=X"       → list rows of shape X
-"?shape=*"       → list shape counts (graph overview)
-"node/<id>"      → open a single entity's detail view
-
-Position controls sidebar order (ascending). When two bookmarks share
-a position the tie-break is created_at ascending.
+Identity is `[target]`: one bookmark per addressable target. List
+membership comes from the --contains--> link, not from bookmark
+uniqueness. The bookmark's own icon comes from its target; per-list
+overrides ride on the contains-link as icon_override.
 
 | Metadata | Value |
 |---|---|
 | **Plural** | `bookmarks` |
-| **Subtitle field** | `address` |
-| **Identity** | `address` |
+| **Subtitle field** | `name` |
+| **Identity** | `target` |
 
 ## Fields
 
 | Field | Type |
 |---|---|
-| `address` | `string` |
-| `position` | `integer` |
-| `icon` | `string` |
+| `name` | `string` |
 
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
-- **[Browser bookmarks (Mosaic / Netscape Navigator hotlist)](https://en.wikipedia.org/wiki/Bookmark_(digital))** — Direct precedent. A bookmark is a name + a URL; the URL is the contract; the browser doesn't care what's behind it. We replace HTTP URLs with graph URIs; everything else maps 1:1.
-- **[Finder sidebar / Windows Explorer Quick Access](https://support.apple.com/guide/mac-help/customize-the-finder-sidebar-mchlp3014/mac)** — OS file managers use a bookmark sidebar as their universal navigation primitive (My Computer, Documents, Network). We treat every shape the same way — bookmark to a graph URI, no FS bias.
+- **[Browser bookmarks (Mosaic / Netscape Navigator hotlist)](https://en.wikipedia.org/wiki/Bookmark_(digital))** — Direct precedent. A bookmark is a name + a target; the target is the contract; the surface doesn't care what's behind it. We replace HTTP URLs with graph node references; everything else maps 1:1.
+- **[macOS alias / Windows .lnk file](https://en.wikipedia.org/wiki/Alias_(Mac_OS))** — OS-level shortcut primitive. Same shape: name + target. Per- instance position is handled by the parent folder/desktop in both — for us that lives on the contains-link.
+- **[Finder sidebar / Windows Explorer Quick Access](https://support.apple.com/guide/mac-help/customize-the-finder-sidebar-mchlp3014/mac)** — OS file managers use a bookmark sidebar as their universal navigation primitive (My Computer, Documents, Network). We treat every shape the same way — bookmark to any graph node, no FS bias.

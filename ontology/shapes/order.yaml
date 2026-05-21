@@ -37,12 +37,12 @@ order:
     progress:          number    # 0-100 percent
     progressTotal:    number
   links:
-    at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
+    at_namespace:                actor    # the namespace this lives within (organization, product, software, or protocol node)
     contains:          product[]
-    shippingAddress:  place
-    store:             place         # store/restaurant LOCATION (place with feature_type: poi)
-    delivery:          trip          # delivery trip (Uber Eats: store → customer)
-    tracking:          webpage       # carrier tracking page
+    shipped_to:  place
+    purchased_at:             place         # store/restaurant LOCATION (place with feature_type: poi)
+    delivered_via:          trip          # delivery trip (Uber Eats: store → customer)
+    tracked_at:          webpage       # carrier tracking page
   prior_art:
     - source: schema.org/Order
       url: https://schema.org/Order

@@ -1,0 +1,5 @@
+# Single-form link `written_by` (Pattern 3). Stem = storage label.
+# Sources: creative_work, credential
+# Targets: person, skill
+from: node
+to: node

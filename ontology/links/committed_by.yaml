@@ -1,0 +1,5 @@
+# Single-form link `committed_by` (Pattern 3). Stem = storage label.
+# Sources: git_commit
+# Targets: account
+from: git_commit
+to: account

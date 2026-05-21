@@ -8,7 +8,7 @@ channel:
     banner:            url       # channel banner/header image
     subscriberCount:  integer   # YouTube subscriber count
   links:
-    at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
+    at_namespace:                actor    # the namespace this lives within (organization, product, software, or protocol node)
   prior_art:
     - source: ActivityStreams 2.0 Collection
       url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection

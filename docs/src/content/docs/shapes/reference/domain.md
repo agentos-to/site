@@ -10,6 +10,7 @@ A registered domain name. Also auto-created from email sender/recipient addresse
 | Metadata | Value |
 |---|---|
 | **Plural** | `domains` |
+| **Subtitle field** | `registrar` |
 | **Identity** | `name` |
 
 ## Fields
@@ -18,9 +19,7 @@ A registered domain name. Also auto-created from email sender/recipient addresse
 |---|---|
 | `status` | `string` |
 | `registrar` | `string` |
-| `expiresAt` | `datetime` |
 | `autoRenew` | `boolean` |
-| `createdAt` | `datetime` |
 | `nameservers` | `string[]` |
 
 ## Prior art

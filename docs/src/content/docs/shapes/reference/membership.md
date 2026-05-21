@@ -48,6 +48,7 @@ content = full description from the provider (often rich markdown).
 | **Plural** | `memberships` |
 | **Subtitle field** | `status` |
 | **Identity** | `at`, `id` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -55,9 +56,6 @@ content = full description from the provider (often rich markdown).
 |---|---|
 | `status` | `string` |
 | `tier` | `string` |
-| `startEffectiveDate` | `datetime` |
-| `endEffectiveDate` | `datetime` |
-| `nextBillDate` | `datetime` |
 | `autoRenew` | `boolean` |
 | `price` | `number` |
 | `currency` | `string` |
@@ -65,15 +63,26 @@ content = full description from the provider (often rich markdown).
 | `useCount` | `integer` |
 | `guestPassQuantity` | `integer` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `account` | [`account`](/shapes/reference/account/) |
-| `member` | [`person`](/shapes/reference/person/) |
-| `plan` | [`product`](/shapes/reference/product/) |
-| `location` | [`place`](/shapes/reference/place/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

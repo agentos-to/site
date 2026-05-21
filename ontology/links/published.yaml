@@ -1,0 +1,5 @@
+# Verb-rooted link declarations for `published` (Pattern 1) — see platform/codegen/links.py docstring + platform/README §2
+verb: published
+# Sources across forms: creative_work, post
+by: {from: creative_work, to: actor}
+in: {from: post, to: community}

@@ -15,6 +15,7 @@ extracted from sources (literature notes from books, articles, videos).
 | Metadata | Value |
 |---|---|
 | **Plural** | `notes` |
+| **Subtitle field** | `noteType` |
 
 ## Fields
 
@@ -22,14 +23,6 @@ extracted from sources (literature notes from books, articles, videos).
 |---|---|
 | `noteType` | `string` |
 | `isPinned` | `boolean` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `createdBy` | [`person`](/shapes/reference/person/) |
-| `references` | [`note[]`](/shapes/reference/note/) |
-| `extractedFrom` | [`webpage`](/shapes/reference/webpage/) |
 
 ## Prior art
 

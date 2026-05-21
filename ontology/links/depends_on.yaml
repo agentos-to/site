@@ -1,0 +1,6 @@
+# Single-form link `depends_on` (Pattern 3). Stem = storage label.
+# Sources: conversion, spec
+# Targets: node, spec
+from: node
+to: node
+card: one_to_many

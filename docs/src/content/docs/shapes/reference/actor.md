@@ -21,9 +21,9 @@ Not used directly — person, organization, and agent extend it via `also`.
 
 ## Used as a base by
 
-- [`agent`](/shapes/reference/agent/)
 - [`organization`](/shapes/reference/organization/)
 - [`person`](/shapes/reference/person/)
+- [`user`](/shapes/reference/user/)
 
 ## Prior art
 

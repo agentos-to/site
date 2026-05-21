@@ -11,6 +11,7 @@ A currently loaded/running AI model instance.
 |---|---|
 | **Plural** | `loaded_models` |
 | **Subtitle field** | `size` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -18,10 +19,31 @@ A currently loaded/running AI model instance.
 |---|---|
 | `size` | `string` |
 | `quantization` | `string` |
-| `expiresAt` | `datetime` |
 | `vramUsage` | `string` |
 | `sizeVram` | `integer` |
 | `digest` | `string` |
+
+## Inherited
+
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
+|---|---|
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `status` | `string` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

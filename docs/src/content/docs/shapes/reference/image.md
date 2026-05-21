@@ -7,10 +7,16 @@ sidebar:
 
 An image file. Photos, screenshots, diagrams, artwork.
 
+An image is BOTH a creative_work (the photograph / illustration is the
+work — its author, publisher, license, datePublished come from there)
+AND a file (the bytes on disk, with a specific format and dimensions).
+
 | Metadata | Value |
 |---|---|
 | **Plural** | `images` |
-| **Also** | [`file`](/shapes/reference/file/) |
+| **Subtitle field** | `format` |
+| **Identity (any)** | `url` |
+| **Also** | [`creative_work`](/shapes/reference/creative_work/) · [`file`](/shapes/reference/file/) |
 
 ## Fields
 
@@ -27,23 +33,25 @@ An image file. Photos, screenshots, diagrams, artwork.
 
 ## Inherited
 
-From [`file`](/shapes/reference/file/):
+From [`creative_work`](/shapes/reference/creative_work/) · [`file`](/shapes/reference/file/):
 
 | Field | Type |
 |---|---|
+| `copyrightYear` | `integer` |
+| `coverage` | `string` |
+| `dateCreated` | `date` |
+| `description` | `string` |
 | `encoding` | `string` |
 | `filename` | `string` |
 | `kind` | `string` |
+| `language` | `string` |
+| `license` | `string` |
 | `lineCount` | `integer` |
 | `mimeType` | `string` |
 | `path` | `string` |
 | `sha` | `string` |
 | `size` | `integer` |
-
-| Relation | Target |
-|---|---|
-| `attachedTo` | [`message`](/shapes/reference/message/) |
-| `repository` | [`repository`](/shapes/reference/repository/) |
+| `tags` | `string[]` |
 
 ## Prior art
 

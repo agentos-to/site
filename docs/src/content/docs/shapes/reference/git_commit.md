@@ -11,6 +11,7 @@ A git commit — a single point in version control history.
 |---|---|
 | **Plural** | `git_commits` |
 | **Subtitle field** | `author` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -24,14 +25,27 @@ A git commit — a single point in version control history.
 | `filesChanged` | `integer` |
 | `committedAt` | `datetime` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `author` | [`account`](/shapes/reference/account/) |
-| `committer` | [`account`](/shapes/reference/account/) |
-| `repository` | [`repository`](/shapes/reference/repository/) |
-| `parent` | [`git_commit`](/shapes/reference/git_commit/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `status` | `string` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

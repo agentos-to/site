@@ -13,6 +13,7 @@ An offer wraps one or more flights into a bookable unit.
 | **Plural** | `offers` |
 | **Subtitle field** | `price` |
 | **Identity** | `id` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -22,18 +23,30 @@ An offer wraps one or more flights into a bookable unit.
 | `currency` | `string` |
 | `offerType` | `string` |
 | `availability` | `string` |
-| `validFrom` | `datetime` |
-| `validUntil` | `datetime` |
 | `bookingToken` | `string` |
 | `departureToken` | `string` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `for` | [`product`](/shapes/reference/product/) |
-| `offeredBy` | [`organization`](/shapes/reference/organization/) |
-| `trips` | [`trip[]`](/shapes/reference/trip/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `status` | `string` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

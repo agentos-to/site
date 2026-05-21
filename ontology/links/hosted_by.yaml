@@ -1,0 +1,7 @@
+# Single-form link `hosted_by` (Pattern 3). Stem = storage label.
+# Subject is in the keeping of host. Podcast hosted_by person, repository
+# hosted_by list/folder.
+# Sources: podcast, repository
+# Targets: list, person
+from: node
+to: node

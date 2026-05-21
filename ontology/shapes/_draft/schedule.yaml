@@ -29,8 +29,8 @@ schedule:
     nextFireAt:      datetime
   links:
     produces:          trip      # what each occurrence creates (transport schedules)
-    provider:          skill     # which skill runs this (claude, launchd, etc.)
-    operator:          organization  # who operates the service (airline, transit agency)
+    provided_by:          skill     # which skill runs this (claude, launchd, etc.)
+    operated_by:          organization  # who operates the service (airline, transit agency)
   prior_art:
     - source: RFC 5545 RRULE (iCalendar)
       url: https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10

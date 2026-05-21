@@ -11,9 +11,9 @@ skill:
     status:            string    # connected, disconnected, error
     error:             text      # error message if status is "error"
   links:
-    website:           website   # the service's homepage
-    privacyPolicy:    webpage   # privacy policy page
-    termsOfService:  webpage   # terms of service page
+    online_at:           website   # the service's homepage
+    privacy_at:    webpage   # privacy policy page
+    terms_at:  webpage   # terms of service page
   prior_art:
     - source: Model Context Protocol (MCP) — Server
       url: https://modelcontextprotocol.io/specification

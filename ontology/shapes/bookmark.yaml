@@ -21,7 +21,7 @@ bookmark:
                                   # (the user named the shortcut; the target
                                   # is the underlying thing).
   links:
-    target:            node      # ANY addressable shape — app, query, file,
+    points_to:            node      # ANY addressable shape — app, query, file,
                                   # url node, list, image, person. Single
                                   # relation, identity-keyed.
   prior_art:

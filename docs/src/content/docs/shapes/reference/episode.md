@@ -20,14 +20,6 @@ A single episode of a podcast or show. Transcribable.
 | `episodeNumber` | `integer` |
 | `seasonNumber` | `integer` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `series` | [`podcast`](/shapes/reference/podcast/) |
-| `transcribe` | [`transcript`](/shapes/reference/transcript/) |
-| `guest` | [`person[]`](/shapes/reference/person/) |
-
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

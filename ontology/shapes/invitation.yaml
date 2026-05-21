@@ -33,10 +33,10 @@ invitation:
                                   #   legitimate under event-derived shape)
     message:           text      # optional personal message attached to the invite
   links:
-    inviter:           account   # who sent the invite (the account that created it)
-    invitee:           account   # who is being invited (may not exist yet — email-only)
-    organization:      organization  # the org/workspace being invited into
-    at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
+    extended_by:           account   # who sent the invite (the account that created it)
+    extended_to:           account   # who is being invited (may not exist yet — email-only)
+    within_org:      organization  # the org/workspace being invited into
+    at_namespace:                actor    # the namespace this lives within (organization, product, software, or protocol node)
   prior_art:
     - source: ActivityStreams 2.0 Invite activity
       url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-invite

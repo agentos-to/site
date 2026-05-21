@@ -28,15 +28,6 @@ transcript, etc. Contains messages and links to participants.
 | `cwd` | `string` |
 | `gitBranch` | `string` |
 
-## Relations
-
-| Relation | Target |
-|---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `participant` | [`actor[]`](/shapes/reference/actor/) |
-| `message` | [`message[]`](/shapes/reference/message/) |
-| `in` | [`folder`](/shapes/reference/folder/) |
-
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
@@ -47,10 +38,10 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [granola](/skills/reference/productivity/granola/) — `op_list_conversations`, `op_get_conversation`
-- [cursor](/skills/reference/dev/cursor/) — `op_list_sessions`, `op_backfill_session`, `op_get_session`
+- [granola](/skills/reference/productivity/granola/) — `list_conversations`, `get_conversation`
+- [cursor](/skills/reference/dev/cursor/) — `list_sessions`, `backfill_session`, `get_session`
 - [claude](/skills/reference/ai/claude/) — `list_conversations`, `search_conversations`, `list_conversations_cli`, `get_conversation`, `read_conversation_cli`
 - [mimestream](/skills/reference/comms/mimestream/) — `list_conversations`, `get_conversation`
-- [imessage](/skills/reference/comms/imessage/) — `op_list_conversations`, `op_get_conversation`
+- [imessage](/skills/reference/comms/imessage/) — `list_conversations`, `get_conversation`
 - [gmail](/skills/reference/comms/gmail/) — `list_conversations`, `get_conversation`
-- [whatsapp](/skills/reference/comms/whatsapp/) — `op_list_conversations`, `op_get_conversation`
+- [whatsapp](/skills/reference/comms/whatsapp/) — `list_conversations`, `get_conversation`

@@ -1,0 +1,6 @@
+# Single-form link `accommodates` (Pattern 3). Stem = storage label.
+# Sources: booking_offer, reservation
+# Targets: person
+from: node
+to: person
+card: one_to_many

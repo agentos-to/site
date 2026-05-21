@@ -16,9 +16,8 @@ conversation:
     cwd:               string    # working directory (for dev-tool transcripts)
     gitBranch:        string    # git branch at the time of the conversation
   links:
-    at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
-    participant:       actor[]   # participants — people, agents, or organizations
-    message:           message[]
+    at_namespace:                actor    # the namespace this lives within (organization, product, software, or protocol node)
+    contains:           message[]
     in:                list      # directory this conversation happened in — a list with listType: 'folder'
   prior_art:
     - source: ActivityStreams 2.0 context/inReplyTo

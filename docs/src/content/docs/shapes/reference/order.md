@@ -13,6 +13,7 @@ Used for both e-commerce (Amazon) and delivery (Uber Eats) orders.
 | **Plural** | `orders` |
 | **Subtitle field** | `total` |
 | **Identity** | `at`, `orderId` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -47,16 +48,26 @@ Used for both e-commerce (Amazon) and delivery (Uber Eats) orders.
 | `progress` | `number` |
 | `progressTotal` | `number` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `contains` | [`product[]`](/shapes/reference/product/) |
-| `shippingAddress` | [`place`](/shapes/reference/place/) |
-| `store` | [`place`](/shapes/reference/place/) |
-| `delivery` | [`trip`](/shapes/reference/trip/) |
-| `tracking` | [`webpage`](/shapes/reference/webpage/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

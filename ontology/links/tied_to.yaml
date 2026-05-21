@@ -1,0 +1,5 @@
+# Single-form link `tied_to` (Pattern 3). Stem = storage label.
+# Sources: booking_offer, payment_method
+# Targets: membership
+from: node
+to: membership

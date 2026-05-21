@@ -39,8 +39,8 @@ creative_work:
     published_by:      actor       # who put it into the world — an org, a person
                                    # (self-published), or a periodical (itself a
                                    # creative_work; rule 4 — the hint does not constrain)
-    contributors:      person[]    # editors / illustrators / co-designers
-    copyrightHolder:   person      # may differ from the author (e.g. work-for-hire)
+    contributed_by:      person[]    # editors / illustrators / co-designers
+    held_by:   person      # may differ from the author (e.g. work-for-hire)
   prior_art:
     - source: schema.org/CreativeWork
       url: https://schema.org/CreativeWork

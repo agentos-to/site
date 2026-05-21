@@ -1,0 +1,33 @@
+---
+title: Ops
+description: "The engine op contract — primitives skills call."
+sidebar:
+  label: Overview
+---
+
+The op contract — the engine primitives skills call (`shell.run`,
+`http.request`, `sql.query`, …). Authored as YAML in
+`platform/ontology/ops/`, projected here and into every SDK.
+
+| Group | Ops |
+|---|---|
+| [`auth_store`](/ops/reference/auth_store/) | [`auth_store.read`](/ops/reference/auth_store/) |
+| [`capability`](/ops/reference/capability/) | [`capability.call`](/ops/reference/capability/), [`capability.list_providers`](/ops/reference/capability/) |
+| [`crypto`](/ops/reference/crypto/) | [`crypto.pbkdf2`](/ops/reference/crypto/), [`crypto.aes`](/ops/reference/crypto/) |
+| [`http`](/ops/reference/http/) | [`http.request`](/ops/reference/http/) |
+| [`llm`](/ops/reference/llm/) | [`llm.resolve_tools`](/ops/reference/llm/) |
+| [`plist`](/ops/reference/plist/) | [`plist.parse`](/ops/reference/plist/) |
+| [`secrets`](/ops/reference/secrets/) | [`secrets.read`](/ops/reference/secrets/), [`secrets.read_binary`](/ops/reference/secrets/) |
+| [`shell`](/ops/reference/shell/) | [`shell.run`](/ops/reference/shell/) |
+| [`sql`](/ops/reference/sql/) | [`sql.query`](/ops/reference/sql/), [`sql.execute`](/ops/reference/sql/) |
+
+## Named record types
+
+### `provider`
+
+| Field | Type | Description |
+|---|---|---|
+| `skill_id` | `string` | Skill id that declared @provides(name, ...). |
+| `via` | `string` | Operation name (via) on the skill that would be invoked. |
+| `cred_state` | `string` | Credential state: not_required, present, or missing. |
+| `urls` | `string[]?` | Optional URL patterns declared on the @provides entry. |

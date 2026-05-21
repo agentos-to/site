@@ -67,10 +67,10 @@ seatmap:
     hasPaidSeats:     boolean
     basicEconomyLocked: boolean   # true when fare doesn't allow seat selection
   links:
-    at:                actor      # the airline (namespace)
-    flight:            flight     # the flight this seatmap is for
-    aircraft:          aircraft   # the aircraft type
-    reservation:       reservation  # the booking this seatmap is being selected for (optional — only during checkout)
+    at_namespace:                actor      # the airline (namespace)
+    for:            flight     # the flight this seatmap is for
+    flown_with:          aircraft   # the aircraft type
+    under:       reservation  # the booking this seatmap is being selected for (optional — only during checkout)
 
 # ============================================================================
 # CABIN SUB-SHAPE (embedded in seatmap.cabins[])

@@ -13,7 +13,7 @@ meeting:
     phoneDialIn:       string    # phone entry point URI (tel:+1-...)
     meetingType:        string    # Google Calendar's eventType vocabulary: "default", "outOfOffice", "focusTime", "workingLocation"
   links:
-    transcribe:        transcript # meeting recording transcript
+    transcribed_by:        transcript # meeting recording transcript
   prior_art:
     - source: RFC 5545 VEVENT + conference property (RFC 7986)
       url: https://datatracker.ietf.org/doc/html/rfc7986#section-5.11

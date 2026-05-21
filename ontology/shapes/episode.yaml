@@ -8,9 +8,9 @@ episode:
     episodeNumber:    integer
     seasonNumber:     integer
   links:
-    series:            podcast   # which podcast this belongs to
-    transcribe:        transcript
-    guest:             person[]
+    aired_in:            podcast   # which podcast this belongs to
+    transcribed_by:        transcript
+    featured:             person[]
   prior_art:
     - source: Apple Podcasts RSS Extensions (itunes:episode)
       url: https://help.apple.com/itc/podcasts_connect/#/itcb54353390

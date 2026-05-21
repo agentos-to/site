@@ -23,12 +23,7 @@ Querying by "event" returns meetings too.
 | `meetingUrl` | `url` |
 | `conferenceProvider` | `string` |
 | `phoneDialIn` | `string` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `transcribe` | [`transcript`](/shapes/reference/transcript/) |
+| `meetingType` | `string` |
 
 ## Inherited
 
@@ -37,22 +32,13 @@ From [`event`](/shapes/reference/event/):
 | Field | Type |
 |---|---|
 | `allDay` | `boolean` |
-| `articleUrl` | `url` |
-| `crewIds` | `string[]` |
 | `currentUrl` | `string` |
 | `dateUpdated` | `datetime` |
 | `distinctId` | `string` |
 | `endDate` | `datetime` |
-| `eventType` | `string` |
-| `flightNumber` | `integer` |
 | `icalUid` | `string` |
-| `landingOutcomes` | `json` |
-| `launchpadId` | `string` |
-| `patchImage` | `url` |
 | `properties` | `json` |
 | `recurrence` | `string[]` |
-| `reusedBoosters` | `string[]` |
-| `rocketId` | `string` |
 | `showAs` | `string` |
 | `sourceTitle` | `string` |
 | `sourceUrl` | `url` |
@@ -60,18 +46,6 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
-| `webcastUrl` | `url` |
-| `wikipediaUrl` | `url` |
-
-| Relation | Target |
-|---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `attachments` | [`file[]`](/shapes/reference/file/) |
-| `creator` | [`person`](/shapes/reference/person/) |
-| `involves` | [`person[]`](/shapes/reference/person/) |
-| `location` | [`place`](/shapes/reference/place/) |
-| `organizer` | [`person`](/shapes/reference/person/) |
-| `person` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 
@@ -83,4 +57,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 ## Skills that produce this shape
 
-- [granola](/skills/reference/productivity/granola/) — `op_list_meetings`, `op_get_meeting`
+- [granola](/skills/reference/productivity/granola/) — `list_meetings`, `get_meeting`

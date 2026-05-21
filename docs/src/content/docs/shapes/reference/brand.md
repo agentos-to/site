@@ -33,18 +33,9 @@ convention; renderers can strip it if they need raw hex.
 | Field | Type |
 |---|---|
 | `tagline` | `string` |
-| `founded` | `datetime` |
 | `country` | `string` |
 | `primaryColor` | `string` |
 | `textColor` | `string` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `ownedBy` | [`organization`](/shapes/reference/organization/) |
-| `website` | [`website`](/shapes/reference/website/) |
-| `logo` | [`image`](/shapes/reference/image/) |
 
 ## Prior art
 

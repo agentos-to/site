@@ -1,18 +1,22 @@
 ---
 title: tag
-description: "A tag or label — Gmail label, Todoist label, GitHub label, git tag, etc."
+description: "A tag or label — Gmail label, Todoist label, GitHub label, git tag,"
 sidebar:
   label: tag
 ---
 
-A tag or label — Gmail label, Todoist label, GitHub label, git tag, etc.
+A tag or label — Gmail label, Todoist label, GitHub label, git tag,
+universal user tagging (Phase 7 of the bookmarks plan), etc.
 Cross-skill: anything can carry tags. An email has labels, a task has tags,
-a PR has labels, a git commit has tags.
+a PR has labels, a git commit has tags. Two tags with the same `name`
+resolve to the same node — `identity: name` dedups so users see a
+single `#urgent` regardless of how many surfaces apply it.
 
 | Metadata | Value |
 |---|---|
 | **Plural** | `tags` |
 | **Subtitle field** | `tagType` |
+| **Identity** | `name` |
 
 ## Fields
 

@@ -26,6 +26,7 @@ published = when the invitation was created/sent.
 | **Plural** | `invitations` |
 | **Subtitle field** | `invitationType` |
 | **Identity** | `at`, `id` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -36,19 +37,30 @@ published = when the invitation was created/sent.
 | `role` | `string` |
 | `status` | `string` |
 | `token` | `string` |
-| `expiresAt` | `datetime` |
 | `acceptedAt` | `datetime` |
 | `revokedAt` | `datetime` |
 | `message` | `text` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `inviter` | [`account`](/shapes/reference/account/) |
-| `invitee` | [`account`](/shapes/reference/account/) |
-| `organization` | [`organization`](/shapes/reference/organization/) |
-| `at` | [`actor`](/shapes/reference/actor/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Prior art
 

@@ -1,21 +1,26 @@
 ---
 title: software
-description: "A software application — web app, desktop app, mobile app, CLI tool."
+description: "A software product — operating system, application, library, icon pack,"
 sidebar:
   label: software
 ---
 
-A software application — web app, desktop app, mobile app, CLI tool.
-Software is also a product, but with additional fields for platforms,
-versions, and runtime requirements.
+A software product — operating system, application, library, icon pack,
+stylesheet kit, anything that's "code (or bundled assets) released into
+the world."
 
-Examples: Gmail, Cursor, Slack, yt-dlp, agentOS itself
+Examples: Windows XP, Mac OS 9, XP.css (CSS library), marchmountain
+icon pack, Photoshop, VS Code, Slack desktop app.
+
+Software is a product (`also: [product]`), so it inherits lifecycle dates
+(released, discontinued), brand, manufacturer, creator, inspiredBy, and the
+rest of product's surface. Software-specific fields below.
 
 | Metadata | Value |
 |---|---|
 | **Plural** | `software` |
-| **Subtitle field** | `text` |
-| **Identity** | `url` |
+| **Subtitle field** | `applicationCategory` |
+| **Identity (any)** | `url` |
 | **Also** | [`product`](/shapes/reference/product/) |
 
 ## Fields
@@ -23,17 +28,9 @@ Examples: Gmail, Cursor, Slack, yt-dlp, agentOS itself
 | Field | Type |
 |---|---|
 | `version` | `string` |
-| `license` | `string` |
-| `platform` | `string[]` |
-| `openSource` | `boolean` |
-| `repositoryUrl` | `url` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `developer` | [`organization`](/shapes/reference/organization/) |
-| `repository` | [`repository`](/shapes/reference/repository/) |
+| `applicationCategory` | `string` |
+| `runtimePlatform` | `string` |
+| `codename` | `string` |
 
 ## Inherited
 
@@ -46,7 +43,9 @@ From [`product`](/shapes/reference/product/):
 | `barcode` | `string` |
 | `calories` | `number` |
 | `categories` | `string[]` |
+| `category` | `string` |
 | `currency` | `string` |
+| `customizationGroups` | `json` |
 | `department` | `string` |
 | `images` | `json` |
 | `novaGroup` | `integer` |
@@ -63,20 +62,10 @@ From [`product`](/shapes/reference/product/):
 | `weightUnit` | `string` |
 | `weightValue` | `number` |
 
-| Relation | Target |
-|---|---|
-| `brand` | [`brand`](/shapes/reference/brand/) |
-| `manufacturer` | [`organization`](/shapes/reference/organization/) |
-| `tagged` | [`tag[]`](/shapes/reference/tag/) |
-
-## Used as a base by
-
-- [`platform`](/shapes/reference/platform/)
-
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
-- **[schema.org/SoftwareApplication](https://schema.org/SoftwareApplication)** — Our version = softwareVersion; license matches; platform[] ≈ operatingSystem; developer = creator/author.
-- **[SPDX License List](https://spdx.org/licenses/)** — Our license values are canonical SPDX identifiers.
-- **[schema.org/SoftwareSourceCode](https://schema.org/SoftwareSourceCode)** — Our repositoryUrl ≈ codeRepository; openSource implied by SPDX-license + codeRepository presence.
+- **[schema.org/SoftwareApplication](https://schema.org/SoftwareApplication)** — Our applicationCategory mirrors schema.org applicationCategory (free-form string, common values include "GameApplication", "BusinessApplication", "BrowserApplication"). Our version maps to softwareVersion; runtimePlatform maps to operatingSystem (the closest analog — schema.org uses `operatingSystem` to mean "which platform the software runs on", which matches our intent). Codename has no schema.org equivalent.
+- **[schema.org/SoftwareSourceCode](https://schema.org/SoftwareSourceCode)** — For libraries / open-source code (XP.css, 98.css), schema.org has a separate SoftwareSourceCode type with codeRepository / programmingLanguage fields. We keep one `software` shape and let the product's url field carry the repo URL when applicable.
+- **[Wikidata Q7397 (software)](https://www.wikidata.org/wiki/Q7397)** — Wikidata software entities use P348 (software version identifier), P178 (developer) ≈ our manufacturer/creator, P306 (operating system) ≈ our runtimePlatform, and P2669 (discontinued date) — inherited from product. Cross-reference identity rather than direct field alignment.

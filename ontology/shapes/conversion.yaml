@@ -32,11 +32,11 @@ conversion:
                           # When the rate was valid lives on event.startDate
                           # (inherited via `also: [event]`), per rule 1.
   links:
-    from:     unit      # source unit
-    to:       unit      # target unit
+    converts_from:     unit      # source unit
+    converts_to:       unit      # target unit
     # The external thing the conversion depends on. No shape constraint:
     # a substance node for the molar-mass case, a rate-source node for fx.
-    parameter: node
+    depends_on: node
   prior_art:
     - source: "NIH/NLM — UCUM conversion service"
       url: https://ucum.nlm.nih.gov/ucum-service.html

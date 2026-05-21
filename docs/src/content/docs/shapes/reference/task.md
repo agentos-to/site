@@ -13,6 +13,7 @@ and dependency tracking (blocked_by/blocks).
 | **Plural** | `tasks` |
 | **Subtitle field** | `state` |
 | **Identity** | `at`, `id` |
+| **Also** | [`event`](/shapes/reference/event/) |
 
 ## Fields
 
@@ -22,24 +23,32 @@ and dependency tracking (blocked_by/blocks).
 | `priority` | `integer` |
 | `state` | `string` |
 | `labels` | `string[]` |
-| `startedAt` | `datetime` |
 | `targetDate` | `datetime` |
 | `target` | `json` |
 | `parentId` | `string` |
 | `projectId` | `string` |
 
-## Relations
+## Inherited
 
-| Relation | Target |
+From [`event`](/shapes/reference/event/):
+
+| Field | Type |
 |---|---|
-| `at` | [`actor`](/shapes/reference/actor/) |
-| `assignedTo` | [`person`](/shapes/reference/person/) |
-| `project` | [`project`](/shapes/reference/project/) |
-| `repository` | [`repository`](/shapes/reference/repository/) |
-| `parent` | [`task`](/shapes/reference/task/) |
-| `children` | [`task[]`](/shapes/reference/task/) |
-| `blockedBy` | [`task[]`](/shapes/reference/task/) |
-| `blocks` | [`task[]`](/shapes/reference/task/) |
+| `allDay` | `boolean` |
+| `currentUrl` | `string` |
+| `dateUpdated` | `datetime` |
+| `distinctId` | `string` |
+| `endDate` | `datetime` |
+| `icalUid` | `string` |
+| `properties` | `json` |
+| `recurrence` | `string[]` |
+| `showAs` | `string` |
+| `sourceTitle` | `string` |
+| `sourceUrl` | `url` |
+| `startDate` | `datetime` |
+| `status` | `string` |
+| `timezone` | `string` |
+| `visibility` | `string` |
 
 ## Used as a base by
 

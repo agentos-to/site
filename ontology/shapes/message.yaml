@@ -11,11 +11,10 @@ message:
     isStarred:        boolean   # user-flagged as important
     conversationId:   string    # denormalized id of the parent conversation (authoritative link is `inConversation`)
   links:
-    at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
-    from:              actor     # sender — a person, agent, or organization
-    inConversation:   conversation
-    repliesTo:        message
-    toolCalls:        tool_call[]  # tool calls made within this message (typically assistant turns)
+    at_namespace:                actor    # the namespace this lives within (organization, product, software, or protocol node)
+    sent_by:              actor     # sender — a person, agent, or organization
+    in:   conversation
+    replies_to:        message
   prior_art:
     - source: ActivityStreams 2.0 Note/Activity
       url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note

@@ -1,0 +1,6 @@
+# Single-form link `holds_pass` (Pattern 3). Stem = storage label.
+# Sources: person
+# Targets: pass
+from: person
+to: pass
+card: one_to_many

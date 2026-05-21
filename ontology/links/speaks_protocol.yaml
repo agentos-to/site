@@ -1,0 +1,5 @@
+# Single-form link `speaks_protocol` (Pattern 3). Stem = storage label.
+# Sources: account
+# Targets: protocol
+from: account
+to: protocol

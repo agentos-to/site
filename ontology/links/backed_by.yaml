@@ -1,0 +1,5 @@
+# Single-form link `backed_by` (Pattern 3). Stem = storage label.
+# Sources: list
+# Targets: image
+from: list
+to: image

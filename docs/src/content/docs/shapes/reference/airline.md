@@ -31,15 +31,7 @@ From [`organization`](/shapes/reference/organization/):
 | Field | Type |
 |---|---|
 | `actorType` | `string` |
-| `founded` | `datetime` |
 | `industry` | `string` |
-
-| Relation | Target |
-|---|---|
-| `domain` | [`domain`](/shapes/reference/domain/) |
-| `headquarters` | [`place`](/shapes/reference/place/) |
-| `member` | [`person[]`](/shapes/reference/person/) |
-| `website` | [`website`](/shapes/reference/website/) |
 
 ## Prior art
 

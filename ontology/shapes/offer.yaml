@@ -16,9 +16,9 @@ offer:
     bookingToken:     string    # opaque token for completing a booking
     departureToken:   string    # SerpAPI flights: multi-leg token for resolving a return leg price
   links:
-    for:               product   # what this offer is selling
-    offeredBy:        organization
-    trips:             trip[]    # the trip(s) this offer books (flights: outbound + return)
+    offered_for:               product   # what this offer is selling
+    offered_by:        organization
+    covers_trip:             trip[]    # the trip(s) this offer books (flights: outbound + return)
   prior_art:
     - source: schema.org/Offer
       url: https://schema.org/Offer
