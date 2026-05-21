@@ -278,6 +278,14 @@ def main():
             "contract-root", check=args.check,
         )
 
+        # SCHEMA_HASH — deterministic content hash of the ontology, pinned
+        # in every data-porter export. See platform/codegen/schema_hash.py.
+        import schema_hash
+        drift |= _check_or_write(
+            contract_crate / "schema_hash.rs", schema_hash.emit_rust(ontology),
+            "schema-hash", check=args.check,
+        )
+
         # Op contract — projected into the `ops` module of the contract
         # crate, plus one TS module (ops.ts) and the per-group Python op
         # stubs into the SDK package.
