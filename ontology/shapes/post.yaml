@@ -16,7 +16,8 @@ post:
     at_namespace:                actor     # the namespace this post lives within (Reddit, HN, Moltbook, YouTube, etc.). Required for identity.
     posted_by:         account   # who posted it
     published_in:           community # subreddit, group, or channel it was posted to
-    replies_to:        post      # parent post (makes this a "comment"). Children read via reverse on replies_to.
+    replies_to:        post      # parent post (makes this a "comment")
+    replies:           post[]    # children — reverse-accessor reading of replies_to
     contains:          video[]   # embedded videos
     shows:             image[]   # embedded images
   prior_art:

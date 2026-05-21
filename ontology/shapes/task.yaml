@@ -25,7 +25,9 @@ task:
     in:           project
     references:        repository
     subtask_of:            task
+    has_subtask:       task[]   # children — reverse-accessor reading of subtask_of
     blocked_by:        task[]
+    blocks:            task[]   # tasks blocked by this one — reverse-accessor reading of blocked_by
   prior_art:
     - source: GitHub REST API — Issues
       url: https://docs.github.com/en/rest/issues/issues

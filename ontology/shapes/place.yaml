@@ -67,6 +67,7 @@ place:
                                       # (e.g. a chain's skill id, so rows from
                                       # different data sources don't collide).
     branded_as:             organization  # the company this location belongs to
+    offers:            product[]     # products available at this location — reverse-accessor reading of offered_by
   prior_art:
     - source: schema.org/Place + PostalAddress
       url: https://schema.org/Place
