@@ -696,6 +696,64 @@ def _load_shape_identity(shapes_dir: Path, shape_name: str) -> list[str] | None:
     return None
 
 
+def _load_link_registry(shapes_dir: Path | None) -> tuple[set[str], set[str]] | None:
+    """Load the canonical labels + reverse-accessor names from the link registry.
+
+    Returns `(canonical_labels, reverse_names)` as two sets — the union is the
+    full set of names the engine knows how to interpret on a returned dict
+    (either as a storage label directly, or as a derived reverse-accessor).
+
+    Resolution: assumes the link registry lives at `<shapes_dir>/../links/`,
+    matching `platform/ontology/{shapes,links}/`. Returns `None` if no such
+    directory exists (open-world — caller skips the link-registry check).
+
+    Reads YAML directly rather than importing `platform/codegen/links.py`
+    so the validator keeps its self-contained "just point me at a checkout"
+    posture — installed via pipx, runs anywhere with a shapes tree.
+    """
+    if not shapes_dir:
+        return None
+    links_dir = shapes_dir.parent / "links"
+    if not links_dir.is_dir():
+        return None
+    canonical: set[str] = set()
+    reverse: set[str] = set()
+    METADATA = {"verb", "forward", "inverse"}
+    for path in sorted(links_dir.glob("*.yaml")):
+        if path.name.startswith(("_", ".")):
+            continue
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        except yaml.YAMLError:
+            continue
+        if not isinstance(data, dict):
+            continue
+        if "verb" in data:
+            # Pattern 1 — verb-rooted, suffix-keyed prepositions.
+            verb = str(data["verb"]).strip()
+            for key, form in data.items():
+                if key in METADATA or not isinstance(form, dict):
+                    continue
+                canonical.add(f"{verb}_{key}")
+                rn = form.get("reverse_name")
+                if isinstance(rn, str) and rn:
+                    reverse.add(rn)
+        elif "preposition" in data:
+            # Pattern 2 — bare preposition, file stem wins (YAML 1.1 may
+            # have resolved bare `on:` to `True`).
+            canonical.add(path.stem)
+            rn = data.get("reverse_name")
+            if isinstance(rn, str) and rn:
+                reverse.add(rn)
+        else:
+            # Pattern 3 — single-form (stem = label).
+            canonical.add(path.stem)
+            rn = data.get("reverse_name")
+            if isinstance(rn, str) and rn:
+                reverse.add(rn)
+    return (canonical, reverse)
+
+
 def _load_shape_fields(shapes_dir: Path, shape_name: str) -> tuple[set[str], set[str]] | None:
     """Load (fields, relations) for a shape, following `also` chains."""
     if not shapes_dir:
@@ -1529,6 +1587,17 @@ def check_shape_conformance(skill_dir: Path, shapes_dir: Path | None) -> list[st
     warnings: list[str] = []
     if not shapes_dir:
         return warnings
+    # Link registry — when present, lets us flag return keys that look
+    # like link slots (declared in a shape's `relations:` block) but have
+    # no entry in `platform/ontology/links/`. Open-world: registry-less
+    # checkouts (e.g. a downstream consumer cloning only `shapes/`) skip
+    # this check entirely.
+    link_registry = _load_link_registry(shapes_dir)
+    known_link_slots: set[str] = set()
+    if link_registry is not None:
+        canonical, reverse = link_registry
+        known_link_slots = canonical | reverse
+
     for rel, _py_file, _source, tree in _iter_skill_py_files(skill_dir):
         for node in tree.body:  # top-level only
             if not _is_tool_function(node):
@@ -1571,6 +1640,23 @@ def check_shape_conformance(skill_dir: Path, shapes_dir: Path | None) -> list[st
                     f"{', '.join(sorted(extra))} — the engine will union-extend on next run; "
                     f"add to platform/ontology/shapes/{shape_name}.yaml to get SDK TypedDict coverage"
                 )
+
+            # Link-registry conformance — for every returned key that's
+            # declared as a relation on this shape, the registry must know
+            # the label (either as a canonical storage label or as a
+            # reverse-accessor name). Otherwise the engine can't decide
+            # what to write or which direction. Open-world: warn, not
+            # error. Skipped if `<shapes_dir>/../links/` isn't present.
+            if link_registry is not None:
+                slot_keys = (returned_keys & shape_relations) - {"id", "name"}
+                unknown_slots = sorted(slot_keys - known_link_slots)
+                if unknown_slots:
+                    warnings.append(
+                        f"{rel}:{node.lineno}: {node.name} returns link slot(s) "
+                        f"{', '.join(unknown_slots)} on shape '{shape_name}' but the "
+                        f"link registry has no matching canonical or reverse-accessor — "
+                        f"add to platform/ontology/links/ or rename to an existing label"
+                    )
     return warnings
 
 
