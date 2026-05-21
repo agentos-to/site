@@ -31,7 +31,7 @@ health-lab:
     labType:          string    # reference-lab | hospital-lab | clinic | point-of-care | screening-center
     accreditation:    string    # accrediting body — "CAP", "ISO 15189", "JCI"
     # The parent network (Quest, LabCorp, a hospital group) is the
-    # `parentOrganization` edge inherited from organization — not a field.
+    # `parentOrganization` link inherited from organization — not a field.
   prior_art:
     - source: schema.org/MedicalOrganization / DiagnosticLab
       url: https://schema.org/DiagnosticLab
@@ -53,4 +53,4 @@ health-lab:
         not a distinct resource — consistent with our also:[organization].
         FHIR Observation.performer / DiagnosticReport.performer reference
         it; our health-panel.performedAt and health-reference-range.
-        issuingLab edges are the same linkage.
+        issuingLab links are the same linkage.

@@ -13,7 +13,7 @@ airport:
     timezone:          string    # IANA timezone (e.g. America/Los_Angeles)
     elevationFt:      integer
     terminalCount:    integer
-  relations:
+  links:
     location:          place
     operator:          organization
   prior_art:

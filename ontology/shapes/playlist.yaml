@@ -4,7 +4,7 @@ playlist:
   display:
     subtitle: text
   also: [list]        # a playlist is also a list
-  relations:
+  links:
     contains:          video[]
   prior_art:
     - source: schema.org/MusicPlaylist / ItemList

@@ -36,7 +36,7 @@ order:
     latestArrival:    datetime  # latest estimated arrival
     progress:          number    # 0-100 percent
     progressTotal:    number
-  relations:
+  links:
     at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
     contains:          product[]
     shippingAddress:  place

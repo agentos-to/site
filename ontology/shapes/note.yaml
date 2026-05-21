@@ -11,7 +11,7 @@ note:
   fields:
     noteType:         string    # fleeting, literature, permanent, journal, draft
     isPinned:         boolean
-  relations:
+  links:
     createdBy:        person
     references:        note[]    # links to other notes
     extractedFrom:    webpage   # source material this note was taken from

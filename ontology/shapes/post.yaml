@@ -11,8 +11,8 @@ post:
     postType:         string    # story, comment, job, poll, etc.
     score:             integer   # net upvotes - downvotes (Reddit, HN, Moltbook)
     commentCount:     integer   # number of comments/replies
-    community:         string    # denormalized community slug/name (for display; authoritative edge is `publish`)
-  relations:
+    community:         string    # denormalized community slug/name (for display; authoritative link is `publish`)
+  links:
     at:                actor     # the namespace this post lives within (Reddit, HN, Moltbook, YouTube, etc.). Required for identity.
     postedBy:         account   # who posted it
     publish:           community # subreddit, group, or channel it was posted to

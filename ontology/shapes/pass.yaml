@@ -37,7 +37,7 @@ pass:
     status:            string    # active, depleted, expired, cancelled, refunded
                                   # When usable lives on event.startDate / endDate (inherited).
                                   # Purchase and depletion are separate events — point at them
-                                  # via a `purchased_at` / `depleted_at` edge or event node
+                                  # via a `purchased_at` / `depleted_at` link or event node
                                   # rather than a flat field. Rule 1.
     quantity:          integer   # claims remaining (decrements on use)
     purchasedQuantity: integer   # starting count (for depletion tracking)
@@ -58,7 +58,7 @@ pass:
     gate:              string    # boarding gate (air) / entry (venue); may be null early
     terminal:          string    # terminal (air) / section (venue)
     checkinStatus:    string    # open, checked_in, boarded, departed, no_show
-  relations:
+  links:
     at:                actor       # the organization granting the pass
     account:           account     # the account (login) this pass is tied to
     holder:            person      # OPTIONAL: the human behind the account

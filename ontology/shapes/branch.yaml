@@ -10,7 +10,7 @@ branch:
     behind:            integer
     isCurrent:        boolean
     isRemote:         boolean
-  relations:
+  links:
     repository:        repository
   prior_art:
     - source: Git Internals — Branches

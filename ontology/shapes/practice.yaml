@@ -12,7 +12,7 @@
 # degree is in it. One node; the optional `code` / `codeSystem` record
 # which registry classifies it, when one does (yoga has no NUCC code).
 #
-# Hierarchical via a self-referential `parent` edge — "Foot & Ankle" is
+# Hierarchical via a self-referential `parent` link — "Foot & Ankle" is
 # a sub-practice of "Orthopaedic Surgery", "Hatha Yoga" of "Yoga". Depth
 # is emergent; there is no level field.
 #
@@ -26,7 +26,7 @@ practice:
     code:             string    # taxonomy code, when one classifies it — "207X00000X"
     codeSystem:       string    # the taxonomy the code is from — NUCC | SOC | ISCED-F | ISCO
     aliases:          string[]  # other names this practice goes by — "Orthopedics", "Ortho"
-  relations:
+  links:
     parent:           practice  # the broader practice this one narrows
   prior_art:
     - source: NUCC Health Care Provider Taxonomy
@@ -34,7 +34,7 @@ practice:
       notes: >-
         US medical-specialty code set — 3 levels (Grouping / Classification
         / Specialization), 10-char alphanumeric codes. The source for
-        codeSystem=NUCC and for the parent-edge hierarchy.
+        codeSystem=NUCC and for the parent-link hierarchy.
     - source: Standard Occupational Classification (SOC) / O*NET-SOC
       url: https://www.bls.gov/soc/
       notes: >-

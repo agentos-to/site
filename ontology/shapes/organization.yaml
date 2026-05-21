@@ -10,9 +10,9 @@ organization:
   also: [actor]       # an organization is also an actor
   fields:
     industry:          string
-    # Founding lives on `founded_by --> actor {date}` edge val, or a `founding`
+    # Founding lives on `founded_by --> actor {date}` link val, or a `founding`
     # event node for multi-party foundings. Rule 1.
-  relations:
+  links:
     member:            person[]
     domain:            domain
     website:           website

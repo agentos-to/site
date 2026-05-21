@@ -1,9 +1,9 @@
 ---
 title: '"No Orphans" Constraint: Research Summary'
-description: How graph databases and entity systems handle the constraint that every node/entity must have at least one edge/relationship.
+description: How graph databases and entity systems handle the constraint that every node/entity must have at least one link/relationship.
 ---
 
-Research on how graph databases and entity systems handle the constraint that every node/entity must have at least one edge/relationship.
+Research on how graph databases and entity systems handle the constraint that every node/entity must have at least one link/relationship.
 
 **Core problem:**
 - You need to create entities before you can create relationships (foreign keys)

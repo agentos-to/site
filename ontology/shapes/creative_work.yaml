@@ -34,7 +34,7 @@ creative_work:
     coverage:          string    # Dublin Core "Coverage" — era / region / period
                                  # ("xp-era", "win9x", "2000s-web")
     tags:              string[]
-  relations:
+  links:
     written_by:        person      # the creator (designer / photographer / composer)
     published_by:      actor       # who put it into the world — an org, a person
                                    # (self-published), or a periodical (itself a
@@ -54,7 +54,7 @@ creative_work:
       notes: >-
         Maps cleanly to all 15 DC elements except `type` (carried by
         the shape discriminator), `format` (subtype-specific),
-        `identifier` (universal node id), `relation` (graph edges),
+        `identifier` (universal node id), `relation` (graph links),
         `subject` (tags).
     - source: FRBR (IFLA, 1998)
       url: https://www.ifla.org/files/assets/cataloguing/frbr/frbr.pdf

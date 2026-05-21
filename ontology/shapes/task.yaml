@@ -17,9 +17,9 @@ task:
                                   # is the actual end. `startedAt` is event.startDate
                                   # (inherited via `also: [event]`).
     target:            json      # structured target spec ({date, time, timezone}) — Todoist-style
-    parentId:         string    # denormalized parent task id (authoritative edge is `parent`)
-    projectId:        string    # denormalized project id (authoritative edge is `project`)
-  relations:
+    parentId:         string    # denormalized parent task id (authoritative link is `parent`)
+    projectId:        string    # denormalized project id (authoritative link is `project`)
+  links:
     at:                actor     # the namespace this task lives within (Linear, Todoist, GitHub, etc.). Required for identity.
     assignedTo:       person
     project:           project

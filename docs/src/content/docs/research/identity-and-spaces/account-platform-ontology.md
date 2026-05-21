@@ -1,12 +1,12 @@
 ---
 title: Account-Platform Relationship Ontology
-description: Desk-review companion covering what to call the edge between `account` and the service it lives at. `issuer` is wrong — what's right?
+description: Desk-review companion covering what to call the link between `account` and the service it lives at. `issuer` is wrong — what's right?
 ---
 
 Desk-review companion to `platform-identity-standards.md` and
 `platform-space-models.md`. Those cover *which platforms exist* and *how
 platforms model themselves*. This one covers the narrower question:
-**what do we call the edge between `account` and the service it lives at?**
+**what do we call the link between `account` and the service it lives at?**
 `issuer` is wrong. What's right?
 
 ---
@@ -25,8 +25,8 @@ homepage. The name on the account is `foaf:accountName`. The spec text is
 explicit: an OnlineAccount "represents the provision of some form of
 online service, by some party (indicated indirectly via a
 accountServiceHomepage) to some Agent." Note three things: (1) "held" is
-FOAF's verb for the person↔account edge, (2) the service is a *homepage
-URL*, not a typed entity, and (3) the edge to the service is named in
+FOAF's verb for the person↔account link, (2) the service is a *homepage
+URL*, not a typed entity, and (3) the link to the service is named in
 terms of what the service *provides* ("accountServiceHomepage"), not in
 terms of custody or hosting. FOAF learned this the hard way after
 hardcoding `foaf:aimChatID`, `foaf:icqChatID` etc. and watching them
@@ -60,7 +60,7 @@ establishes which server hosts it." The hosting relationship is encoded
 in the URL authority of the actor's ID, not as a first-class property.
 This is elegant for a federated protocol (the instance *is* the domain),
 but it means ActivityPub has nothing to teach us about the
-*name* of the edge — they just refused to name it.
+*name* of the link — they just refused to name it.
 
 ### Solid / WebID — `solid:oidcIssuer`
 
@@ -122,12 +122,12 @@ roles, three distinct words.
 ### Wikidata — platforms-as-entities, no verb
 
 Wikidata models platforms as first-class entities with Q-IDs (Q918 for
-Twitter/X, Q866 for YouTube, Q144644 for defunct ICQ). The edge from an
+Twitter/X, Q866 for YouTube, Q144644 for defunct ICQ). The link from an
 account to the platform is typically via `P2002` (Twitter username) or
 similar per-platform properties — still the FOAF `aimChatID` pathology.
 Wikidata hasn't named the *abstract* relationship either. What Wikidata
 contributes is a stable external reference (Q-IDs survive rebrand), but
-no vocabulary for the edge itself. Already covered in our existing
+no vocabulary for the link itself. Already covered in our existing
 `platform-identity-standards.md` research note.
 
 ### PKM tools — they all fudge it
@@ -139,7 +139,7 @@ no vocabulary for the edge itself. Already covered in our existing
 - **Roam**: attributes are free-form. Same.
 - **Notion**: databases have typed properties but no ontology. Every
   user invents their own "Platform" select field.
-- **Tana**: supertags give you real schema, but the name of the edge is
+- **Tana**: supertags give you real schema, but the name of the link is
   whatever the schema author chose. Tana itself ships no guidance.
 - **Readwise**: uses a `source` field (Kindle, Instapaper, Twitter) as
   a tagged string. Not an entity, not a relationship, just a label.
@@ -152,7 +152,7 @@ users sort it out. We're building a typed graph, so we can't punt.
 
 ## 2. The Three Relationships — Collapse or Split?
 
-From the survey, there are genuinely three different edges hiding
+From the survey, there are genuinely three different links hiding
 inside our current `issuer` field:
 
 **(a) Host / platform — the service is the place the identity exists.**
@@ -187,8 +187,8 @@ proper subset of the host case (a) whenever the host runs an OIDC
 provider. In the FOAF/schema.org tradition both (a) and (b) collapse
 into a single `provider` relationship; the distinction between
 "hosts an identity" and "holds an asset" is a property of the *service
-kind*, not of the edge. A Chase account's provider is a bank; a Reddit
-account's provider is a platform. The edge is the same edge, just
+kind*, not of the link. A Chase account's provider is a bank; a Reddit
+account's provider is a platform. The link is the same link, just
 pointing at differently-typed nodes.
 
 The argument for **keeping them split** is that the user actions differ:
@@ -199,15 +199,15 @@ same), but you cannot *move* a social identity (you can't transfer
 elsewhere and link them). That operational asymmetry *is* real. But it
 doesn't have to live in the name of the relationship; it can live in
 whether the shape allows the relationship to be *rewritten* (custody
-can change; host cannot). We can model that with a single edge name and
-a shape-level rule that `host` edges are immutable on an account record
-while `servicer` edges are mutable — or with a single edge and rely on
+can change; host cannot). We can model that with a single link name and
+a shape-level rule that `host` links are immutable on an account record
+while `servicer` links are mutable — or with a single link and rely on
 the downstream shape of the service node.
 
-**My read: one edge, one name.** The ontology stays clean, the
+**My read: one link, one name.** The ontology stays clean, the
 difference between "you can leave Chase" and "you can't leave Reddit"
 belongs in the service node's type (`financial_institution` vs
-`platform`), not in the edge name. This matches schema.org (`provider`
+`platform`), not in the link name. This matches schema.org (`provider`
 everywhere), FOAF (`accountServiceHomepage` for both social and
 financial), and ISO 20022 (one `AccountServicer` for both retail bank
 and asset manager).
@@ -256,7 +256,7 @@ typing than `at`. Doesn't read as naturally in sentences
 ("Joe's account service GitHub" vs. "Joe's account at GitHub").
 
 **My pick:** `at`. It's short, idiomatic, and free of prior art baggage.
-`service` is my backup if we ever need a noun form alongside the edge
+`service` is my backup if we ever need a noun form alongside the link
 (e.g. `service_kind: "financial_institution" | "platform" | "imap_server"`).
 
 Discarded candidates:
@@ -288,7 +288,7 @@ kill the standalone `platform` field on `post`, `message`, and `task`
 shapes — replace it with `at`, pointing at the same service node that
 `account.at` points at. The identity rule for `account` becomes
 `[[at, identifier]]` (still compound, same semantics). Migration is
-zero: no users, no data. Net effect: one edge name across all
+zero: no users, no data. Net effect: one link name across all
 shape-level "which service does this live at" references, consistent
 with FOAF's `accountServiceHomepage` wording at a third of the
 characters. Downstream: service nodes get a `kind` field
@@ -317,7 +317,7 @@ services. Answer: the phone number is a *contact point* (schema.org's
 `ContactPoint`), not an account. The account is `joe@apple.com` (or
 the Apple ID), and iMessage *delivers to* that phone number. Phone
 number → `ContactPoint` entity, `contactPointOn: [imessage, sms,
-whatsapp, signal]` — a different edge entirely from `account.at`. This
+whatsapp, signal]` — a different link entirely from `account.at`. This
 is the same reason FOAF split `foaf:mbox` (mailbox) from `foaf:account`.
 
 **Email addresses.** Is `joe@gmail.com` an account at Gmail, or an
@@ -325,13 +325,13 @@ email address at the gmail.com domain? Both. Model the account
 (`at: gmail.com`, `identifier: joe`) and the email address as a
 derived `ContactPoint` tied to it. Any skill using it for identity
 uses the account; any skill using it for delivery uses the ContactPoint.
-The `at` edge survives cleanly because the email address doesn't *have*
+The `at` link survives cleanly because the email address doesn't *have*
 an `at` — it's a value, not an account.
 
 **Federated logins ("Sign in with Google" to Notion).** The account at
 Notion has `at: notion.so`, and is linked (via a separate `authenticatedBy`
-or `sameAs` edge) to the Google account at `at: google.com`. Two
-accounts, two `at` edges, one cross-link. The fact that the Notion
+or `sameAs` link) to the Google account at `at: google.com`. Two
+accounts, two `at` links, one cross-link. The fact that the Notion
 session is signed by Google's OIDC issuer is a property of the *session*
 or *token*, not of the Notion account shape. This is where a `token`
 shape — if we ever add one — *would* legitimately carry an OIDC `iss`
@@ -339,7 +339,7 @@ field, using the real spec word in the real spec context.
 
 **Multi-custodian assets (a retirement fund that rolled over).** A 401(k)
 was at Principal 2018–2023, then moved to Fidelity 2023–present. Two
-options: (a) one `account` record with a mutable `at` edge and history
+options: (a) one `account` record with a mutable `at` link and history
 in a separate `account_transfer` shape, or (b) two `account` records
 linked by `continuationOf` / `rolledOverTo`. ISO 20022 takes approach
 (b) — each custodian-account pair is a distinct account, with
@@ -352,7 +352,7 @@ record at time T" versioning problem. `at` stays immutable per record.
 brokerage holds AAPL shares (issued by Apple), a Treasury bond (issued
 by the US Treasury), and cash (issued by the Fed). The brokerage is the
 `at` / servicer. The *assets inside* the account point at issuers via
-a different edge (`issuer` on the `security` shape, now used in its
+a different link (`issuer` on the `security` shape, now used in its
 proper ISO 20022 sense — the entity that created the instrument). This
 is the case where `issuer` actually earns its keep. On `account` →
 wrong word. On `security` → right word.
@@ -368,7 +368,7 @@ for a self-custody crypto wallet: the "service" is the protocol
 the query.
 
 **Offline accounts (a mattress-stuffed savings, a cash envelope).** There
-is no service. The `at` edge is null or points at a `self` entity.
+is no service. The `at` link is null or points at a `self` entity.
 This is the degenerate case, and it's fine — null `at` just means
 "no external service is involved." Identity rule `[[at, identifier]]`
 becomes `[[identifier]]` effectively (identifier unique within the
@@ -378,7 +378,7 @@ owner's graph).
 
 ## 5. One-line summary
 
-Steal **`at`** for the edge, adopt ISO 20022's intuition that the
+Steal **`at`** for the link, adopt ISO 20022's intuition that the
 service *services* the account (not issues it), put the platform-vs-bank
 distinction on the service node as a `kind`, and fold
 recommendation-for-RFP-open-question-5b into the shapes-from-skills

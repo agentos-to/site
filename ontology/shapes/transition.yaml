@@ -22,7 +22,7 @@
 # poll, GRC, passport amendment), an administrative filing (Singapore
 # ICA Change of Particulars), or a non-legal self-identification (going
 # by a nickname, social-only gender change). The act's legal character,
-# if any, rides on edges from this event to authority/document nodes —
+# if any, rides on links from this event to authority/document nodes —
 # out of scope V1.
 transition:
   plural: transitions

@@ -23,7 +23,7 @@ user:
   fields:
     osUsername:        string    # OS account name ($USER)
     primaryUser:      boolean   # primary user on this machine (exactly one true)
-  relations:
+  links:
     identified_as:    person    # link to the human behind the seat (optional)
   prefsSchemas:
     ui:

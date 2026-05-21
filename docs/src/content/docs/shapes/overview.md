@@ -89,11 +89,11 @@ These are available on every record without declaring them in a shape:
 
 ### Relations
 
-Relations declare connections to other records. Keys are edge labels, values are target shapes (`shape` or `shape[]` for arrays).
+Relations declare connections to other records. Keys are link labels, values are target shapes (`shape` or `shape[]` for arrays).
 
-When a skill returns a nested dict under a relation key, the engine extracts it as a child node and creates an edge from parent to child. See [Typed references](#typed-references-entity-relationships) below.
+When a skill returns a nested dict under a relation key, the engine extracts it as a child node and creates an link from parent to child. See [Typed references](#typed-references-entity-relationships) below.
 
-**The relation label is the edge label, not the child's shape.** A `flight` shape declaring `departsFrom: airport` produces a `--departsFrom-->` edge to a node tagged with shape `airport` — never with shape `departsFrom`. Sub-extracted children always take the *target type* declared in the parent's YAML; if you want a polymorphic relation (e.g. an `actor` slot pointing at a `person` vs an `organization`), the child object can override with `shape:` or `_tag:`.
+**The relation label is the link label, not the child's shape.** A `flight` shape declaring `departsFrom: airport` produces a `--departsFrom-->` link to a node tagged with shape `airport` — never with shape `departsFrom`. Sub-extracted children always take the *target type* declared in the parent's YAML; if you want a polymorphic relation (e.g. an `actor` slot pointing at a `person` vs an `organization`), the child object can override with `shape:` or `_tag:`.
 
 ### Identity
 
@@ -105,7 +105,7 @@ message:
   identity_any: [email]      # OR: any single key in this list is sufficient
 ```
 
-Use `identity` for compound keys (must all match) and `identity_any` for alternative keys (any one matches). Identity keys may be **fields** (string/number values) or **relations** (edges to other nodes — see "Identity via relation" below).
+Use `identity` for compound keys (must all match) and `identity_any` for alternative keys (any one matches). Identity keys may be **fields** (string/number values) or **relations** (links to other nodes — see "Identity via relation" below).
 
 #### Identity via relation
 
@@ -395,7 +395,7 @@ Not every entity has all of these — a product may have no `published`, an orde
 
 ### Typed references (entity relationships)
 
-To create linked entities and graph edges, return **flat** nested dicts (no wrapper). The relation key in the YAML shape declares the target type; the nested dict is the child record.
+To create linked entities and graph links, return **flat** nested dicts (no wrapper). The relation key in the YAML shape declares the target type; the nested dict is the child record.
 
 ```python
 @returns("email")
@@ -411,7 +411,7 @@ def get_email(*, id: str, **params) -> dict:
             "displayName": sender_name,
         },
         # Array relation — shape YAML says `to: account[]`,
-        # so a flat list here becomes: email --to--> account (one edge per recipient)
+        # so a flat list here becomes: email --to--> account (one link per recipient)
         "to": [
             {"id": addr, "handle": addr, "displayName": name}
             for addr, name in recipients

@@ -13,7 +13,7 @@ entity owns the namespace (an organization, a product, or other software).
 `identifier` is the local handle within that namespace. The relation-keyed
 identity means rebrands (Twitter → X), bank mergers (First Republic → Chase),
 and instance migrations don't fragment accounts on string changes — the node
-persists, the edge persists with it.
+persists, the link persists with it.
 
 | Metadata | Value |
 |---|---|

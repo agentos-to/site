@@ -409,7 +409,7 @@ When querying "who are Joe's children?":
 
 ### Hypothesis: Relationships Are First-Class Entities
 
-**Claim:** Relationships should have their own IDs, not just be edges.
+**Claim:** Relationships should have their own IDs, not just be links.
 
 **Reasoning:**
 - Can attach metadata (confidence, source, notes)
@@ -551,7 +551,7 @@ CREATE TABLE relationship_events (
 
 - Researched Schema.org, Facebook, FamilySearch, OGP, knowledge graphs
 - Found consensus on: timestamps everywhere, bidirectionality matters
-- Found divergence on: relationships as edges vs entities, explicit vs computed
+- Found divergence on: relationships as links vs entities, explicit vs computed
 - Decision: Follow FamilySearch's event-sourcing model
 - Decision: First-class GEDCOM 7 compatibility
 
@@ -623,7 +623,7 @@ Based on research across Google Takeout (23 products), Facebook Graph API, Insta
 | `blocked` | Unidirectional | person → person | created_at | Facebook |
 | `knows` | Bidirectional | person ↔ person | confidence, context | Schema.org |
 
-**Design note:** Facebook's `friend` is bidirectional (creates edges both ways). `follow` is unidirectional. Consider supporting both patterns.
+**Design note:** Facebook's `friend` is bidirectional (creates links both ways). `follow` is unidirectional. Consider supporting both patterns.
 
 ---
 
@@ -631,7 +631,7 @@ Based on research across Google Takeout (23 products), Facebook Graph API, Insta
 
 Already defined: `couple`, `parent_child` (primitives)
 
-**Additional family edges from Facebook (computed from primitives):**
+**Additional family links from Facebook (computed from primitives):**
 
 | Computed | Query Pattern |
 |----------|---------------|
@@ -941,11 +941,11 @@ Consider:
 
 | Aspect | Facebook | Google | Twitter | Our Model |
 |--------|----------|--------|---------|-----------|
-| **Relationship storage** | TAO (typed edges) | Separate APIs | Snowflake IDs | Event-sourced |
-| **Bidirectional handling** | Two edges | Varies | Two edges | Two edges |
+| **Relationship storage** | TAO (typed links) | Separate APIs | Snowflake IDs | Event-sourced |
+| **Bidirectional handling** | Two links | Varies | Two links | Two links |
 | **Timestamps** | Required | Usually | Required | Required |
-| **Metadata on edges** | Optional data | Varies | Limited | Full support |
-| **Privacy per-edge** | Yes | Limited | No | TBD |
+| **Metadata on links** | Optional data | Varies | Limited | Full support |
+| **Privacy per-link** | Yes | Limited | No | TBD |
 
 ---
 
@@ -1001,7 +1001,7 @@ Consider:
    - Recommendation: Generic `part_of` with metadata (position, role)
 
 3. **How to handle bidirectional relationships?**
-   - Recommendation: Store two edges (TAO pattern)
+   - Recommendation: Store two links (TAO pattern)
 
 4. **Privacy per-relationship?**
    - Open question: Do we need this complexity?
@@ -1074,7 +1074,7 @@ Only store explicit relationships (friendship, mentorship, authorship).
 
 1. **Single association per type** — Can't "like" something twice
 2. **Timestamps required** — Enables time-based ordering
-3. **Bidirectional = two edges** — Store both directions for symmetric
+3. **Bidirectional = two links** — Store both directions for symmetric
 4. **Optional data payload** — Relationships carry key-value metadata
 
 ### Principle 7: GEDCOM 7 Compatibility

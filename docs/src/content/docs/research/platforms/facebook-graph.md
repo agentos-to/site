@@ -102,7 +102,7 @@ The public API exposes their entity model.
 
 **Questions:**
 - What fields does each entity have?
-- What relationship types exist (edges)?
+- What relationship types exist (links)?
 - How do permissions/privacy work per entity?
 - What's deprecated vs current?
 
@@ -119,10 +119,10 @@ How has Facebook's graph changed over time?
 - 2018+: Privacy changes post-Cambridge Analytica
 - 2020s: Metaverse/Meta rebrand — new entity types?
 
-### 4. Relationship Types (Edges)
-Facebook calls relationships "edges." What types exist?
+### 4. Relationship Types (Links)
+Facebook calls relationships "links." What types exist?
 
-**Known edge types:**
+**Known link types:**
 - friend (bidirectional)
 - follow (unidirectional)
 - like
@@ -134,9 +134,9 @@ Facebook calls relationships "edges." What types exist?
 - reaction_to
 
 **Questions:**
-- Are edges typed or just generic connections?
-- Do edges have properties (timestamps, context)?
-- How do they handle edge cardinality (one-to-one, one-to-many, many-to-many)?
+- Are links typed or just generic connections?
+- Do links have properties (timestamps, context)?
+- How do they handle link cardinality (one-to-one, one-to-many, many-to-many)?
 
 ### 5. The "Social Graph" Concept
 Facebook popularized the term. What does it actually mean in their implementation?
@@ -154,8 +154,8 @@ Facebook popularized the term. What does it actually mean in their implementatio
 |--------|----------|-------------------|
 | ID format | Numeric IDs (big integers) | NanoID (8 char random) |
 | Core entity | User/Page | person/organization |
-| Relationships | "Edges" with types | Typed relationships |
-| Privacy | Per-entity, per-edge | TBD |
+| Relationships | "Links" with types | Typed relationships |
+| Privacy | Per-entity, per-link | TBD |
 | Schema | Evolving, versioned | Experimental |
 
 ---
@@ -173,11 +173,11 @@ Facebook popularized the term. What does it actually mean in their implementatio
 ## Research Queue
 
 - [x] Open Graph Protocol specification deep-dive — **Complete**: Full type system documented (music, video, article, book, profile, website, payment.link) with all properties and namespaces
-- [x] Graph API reference documentation analysis — **Complete**: User, Page, Post, Photo, Video, Album, Group, Event, Place, Comment schemas documented with all fields and edges
+- [x] Graph API reference documentation analysis — **Complete**: User, Page, Post, Photo, Video, Album, Group, Event, Place, Comment schemas documented with all fields and links
 - [x] Facebook engineering blog posts on graph architecture — **Complete**: TAO, Unicorn, Dragon, Graph Search architecture documented
 - [x] Academic papers on Facebook's social graph — **Complete**: "Anatomy of the Facebook Social Graph" (721M users, 68.7B friendships, 4.7 avg distance)
 - [x] Comparison: Facebook Graph API vs Google's APIs vs Twitter's API — **Complete**: Entity type comparison table (User/Post/Place across platforms), ID formats, relationship models
-- [x] Privacy/permission model for entities — **Complete**: Per-entity privacy, per-edge privacy, audience selector, mutual confirmation, API permission requirements
+- [x] Privacy/permission model for entities — **Complete**: Per-entity privacy, per-link privacy, audience selector, mutual confirmation, API permission requirements
 - [x] Instagram/WhatsApp entity integration (post-acquisition) — **Complete**: IG User/Media/Comment/Hashtag/Container, WhatsApp Message types, Threads User/Post, Accounts Center cross-product linking
 
 ---
@@ -269,7 +269,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 
 **Data Model:**
 - **Objects (nodes):** 64-bit Object Identifiers (OID), typed with key-value data
-- **Associations (edges):** Source ID, association type (atype), destination ID, timestamp, data
+- **Associations (links):** Source ID, association type (atype), destination ID, timestamp, data
 - Two objects can only have one association of the same type
 - Association lists ordered by time
 
@@ -305,7 +305,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 | relationship_status | string | See relationship types above |
 | significant_other | User | Partner (if confirmed) |
 
-**Edges:** /friends, /family (deprecated), /likes, /posts, /photos, /videos, /albums, /groups, /events, /accounts (pages managed)
+**Links:** /friends, /family (deprecated), /likes, /posts, /photos, /videos, /albums, /groups, /events, /accounts (pages managed)
 
 #### Page Entity
 | Field | Type | Description |
@@ -327,7 +327,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 | cover | CoverPhoto | Cover image |
 | picture | ProfilePicture | Profile image |
 
-**Edges:** /posts, /photos, /videos, /events, /feed, /ratings, /roles, /locations
+**Links:** /posts, /photos, /videos, /events, /feed, /ratings, /roles, /locations
 
 #### Post Entity
 | Field | Type | Description |
@@ -348,7 +348,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 | is_published | bool | Published status |
 | is_hidden | bool | Hidden from timeline |
 
-**Edges:** /comments, /reactions, /likes, /attachments, /sharedposts, /insights
+**Links:** /comments, /reactions, /likes, /attachments, /sharedposts, /insights
 
 #### Photo Entity
 | Field | Type | Description |
@@ -366,7 +366,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 | source | url | Full-size URL |
 | place | Place | Tagged location |
 
-**Edges:** /tags (with x, y coordinates), /comments, /reactions, /likes
+**Links:** /tags (with x, y coordinates), /comments, /reactions, /likes
 
 #### Video Entity
 | Field | Type | Description |
@@ -384,7 +384,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 | live_status | string | none, live, live_stopped |
 | permalink_url | url | Permanent link |
 
-**Edges:** /comments, /reactions, /likes, /tags, /thumbnails
+**Links:** /comments, /reactions, /likes, /tags, /thumbnails
 
 #### Album Entity
 | Field | Type | Description |
@@ -401,7 +401,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 | link | url | Facebook link |
 | privacy | string | Privacy setting |
 
-**Edges:** /photos, /comments, /likes, /picture
+**Links:** /photos, /comments, /likes, /picture
 
 #### Group Entity
 | Field | Type | Description |
@@ -418,7 +418,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 | member_count | int | Number of members |
 | is_community | bool | Community flag |
 
-**Edges:** /members (deprecated), /admins, /feed, /photos, /videos, /events, /files
+**Links:** /members (deprecated), /admins, /feed, /photos, /videos, /events, /files
 
 #### Event Entity
 | Field | Type | Description |
@@ -441,7 +441,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 | ticket_uri | url | Ticket link |
 | type | enum | private, public, group, community |
 
-**Edges:** /attending, /maybe, /declined, /noreply, /photos, /videos, /feed
+**Links:** /attending, /maybe, /declined, /noreply, /photos, /videos, /feed
 
 #### Place Entity
 | Field | Type | Description |
@@ -477,7 +477,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 | can_remove | bool | Can user remove |
 | is_hidden | bool | Hidden status |
 
-**Edges:** /comments (replies), /reactions, /likes
+**Links:** /comments (replies), /reactions, /likes
 
 ---
 
@@ -498,7 +498,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 | profile_picture_url | url | Avatar URL |
 | shopping_product_tag_eligibility | bool | Can tag products |
 
-**Edges:** /media, /stories, /live_media, /tags, /insights, /mentioned_media
+**Links:** /media, /stories, /live_media, /tags, /insights, /mentioned_media
 
 #### IG Media Entity
 | Field | Type | Description |
@@ -520,7 +520,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 | shortcode | string | URL shortcode |
 | children | array | Carousel children |
 
-**Edges:** /comments, /insights, /children
+**Links:** /comments, /insights, /children
 
 #### IG Comment Entity
 | Field | Type | Description |
@@ -533,7 +533,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 | hidden | bool | Hidden status |
 | user | IG User | Author user object |
 
-**Edges:** /replies
+**Links:** /replies
 
 #### IG Hashtag Entity
 | Field | Type | Description |
@@ -541,7 +541,7 @@ The Open Graph Protocol defines a complete type system for representing objects 
 | id | string | Hashtag ID (static, global) |
 | name | string | Tag without # |
 
-**Edges:** /recent_media, /top_media
+**Links:** /recent_media, /top_media
 
 **Limitation:** Max 30 unique hashtags per 7-day rolling window
 
@@ -619,9 +619,9 @@ Used for media publishing workflow.
 | **Content Entity** | Post, Photo, Video | Tweet/Post | - |
 | **Group Entity** | Group, Event | - | - |
 | **Place Entity** | Place, Location | Place | Place |
-| **Relationship Model** | Typed edges (TAO) | Follow relationship | contactGroups |
+| **Relationship Model** | Typed links (TAO) | Follow relationship | contactGroups |
 | **ID Format** | Numeric (64-bit) | Numeric (snowflake) | String (people/{id}) |
-| **Privacy Model** | Per-entity + per-edge | Public/protected | Per-contact |
+| **Privacy Model** | Per-entity + per-link | Public/protected | Per-contact |
 
 #### Twitter/X API v2 Entity Types
 - **Post** (formerly Tweet): id, text, created_at, author_id, conversation_id, entities (hashtags, mentions, urls)
@@ -684,7 +684,7 @@ Used for media publishing workflow.
 - **2010:** Open Graph Protocol announced, Like button (1B buttons in 24 hours)
 - **2012:** Timeline with structured life events
 - **2018:** Cambridge Analytica restrictions (87M users affected)
-- **Current:** 3.07 billion monthly active users, 1 trillion+ edges
+- **Current:** 3.07 billion monthly active users, 1 trillion+ links
 
 ---
 
@@ -694,8 +694,8 @@ Used for media publishing workflow.
 
 1. **64-bit IDs:** Universal identifier format across all entities
 2. **Typed associations:** Relationships explicitly typed (friend, follow, like, etc.)
-3. **Timestamps on edges:** Enables time-based ordering/filtering
-4. **Privacy per-edge:** Visibility controlled at relationship level
+3. **Timestamps on links:** Enables time-based ordering/filtering
+4. **Privacy per-link:** Visibility controlled at relationship level
 5. **500:1 read optimization:** Entire architecture built for reads
 6. **Product-specific namespaces:** Each Meta product (FB, IG, WA, Threads) has its own ID space
 7. **Vertical-specific schemas:** OGP uses namespaces for music, video, article, book, profile verticals
@@ -785,11 +785,11 @@ Based on Facebook's patterns, consider these entity categories:
 
 ## Relationship Implications
 
-### Complete Edge Type Taxonomy
+### Complete Link Type Taxonomy
 
 #### Social Relationships
 
-| Edge Type | Direction | Between | Properties |
+| Link Type | Direction | Between | Properties |
 |-----------|-----------|---------|------------|
 | `friend` | Bidirectional | User ↔ User | created_time |
 | `follow` | Unidirectional | User → User/Page | created_time |
@@ -801,7 +801,7 @@ Based on Facebook's patterns, consider these entity categories:
 
 #### Family Relationships (Deprecated but informative)
 
-| Edge Type | Inverse |
+| Link Type | Inverse |
 |-----------|---------|
 | `mother` | `son`/`daughter` |
 | `father` | `son`/`daughter` |
@@ -831,7 +831,7 @@ Based on Facebook's patterns, consider these entity categories:
 
 #### Content Relationships
 
-| Edge Type | Direction | Between | Properties |
+| Link Type | Direction | Between | Properties |
 |-----------|-----------|---------|------------|
 | `author_of` | Unidirectional | User/Page → Content | - |
 | `comment_on` | Unidirectional | Comment → Content | - |
@@ -843,7 +843,7 @@ Based on Facebook's patterns, consider these entity categories:
 
 #### Engagement Relationships
 
-| Edge Type | Direction | Between | Properties |
+| Link Type | Direction | Between | Properties |
 |-----------|-----------|---------|------------|
 | `liked` | Unidirectional | User → Content | created_time |
 | `reacted` | Unidirectional | User → Content | reaction_type, created_time |
@@ -852,7 +852,7 @@ Based on Facebook's patterns, consider these entity categories:
 
 #### Location Relationships
 
-| Edge Type | Direction | Between | Properties |
+| Link Type | Direction | Between | Properties |
 |-----------|-----------|---------|------------|
 | `located_at` | Unidirectional | Page/Event → Place | - |
 | `checked_in` | Unidirectional | User → Place | timestamp, message (deprecated) |
@@ -860,31 +860,31 @@ Based on Facebook's patterns, consider these entity categories:
 
 #### Platform Relationships
 
-| Edge Type | Direction | Between | Properties |
+| Link Type | Direction | Between | Properties |
 |-----------|-----------|---------|------------|
 | `uses_app` | Unidirectional | User → Application | installed_time |
 | `manages` | Unidirectional | User → Page | role |
 | `linked_account` | Bidirectional | Account ↔ Account | platform |
 
-### Key Design: Edges Have Properties
+### Key Design: Links Have Properties
 
-Facebook edges carry: association type, timestamp, optional data. This enables queries like "friends added in 2023" or "posts liked this week."
+Facebook links carry: association type, timestamp, optional data. This enables queries like "friends added in 2023" or "posts liked this week."
 
 ### TAO Association Rules
 
 1. **Single association per type:** Two objects can have at most ONE association of the same type
 2. **Timestamp required:** Every association has a creation timestamp
-3. **Bidirectional = two associations:** Friend relationships create edges in BOTH directions
+3. **Bidirectional = two associations:** Friend relationships create links in BOTH directions
 4. **Inverse types for bidirectional:** Uses different type IDs for each direction
 5. **Optional data payload:** Associations can carry key-value data (e.g., family type name)
 
-### Edge Cardinality Patterns
+### Link Cardinality Patterns
 
 | Pattern | Example | Implementation |
 |---------|---------|----------------|
 | One-to-One | significant_other | Mutual confirmation required |
 | One-to-Many | author → posts | Single direction |
-| Many-to-Many | friends | Bidirectional edges |
+| Many-to-Many | friends | Bidirectional links |
 | Self-referential | User → User (friend) | Same type on both ends |
 | Polymorphic | User → (Post\|Photo\|Video) | Target can be multiple types |
 
@@ -924,7 +924,7 @@ Based on Facebook's patterns, consider these relationship categories:
 
 ### 2026-01-24: Phase 2 - Relationship Deep-Dive
 - Comprehensive relationship type taxonomy (romantic, family, follow)
-- TAO association model details (typed edges, timestamps, bidirectional handling)
+- TAO association model details (typed links, timestamps, bidirectional handling)
 - Privacy model for relationships (audience selector, mutual confirmation)
 - API evolution (v3.2 deprecations, Cambridge Analytica impact)
 - Connection strength algorithms (dispersion metric)
@@ -937,14 +937,14 @@ Based on Facebook's patterns, consider these relationship categories:
 
 **Facebook Graph API v24.0 Entity Schemas:**
 - Complete field documentation for: User, Page, Post, Photo, Video, Album, Group, Event, Place, Comment
-- All edge types documented with properties
+- All link types documented with properties
 - Location object schema with GPS coordinates
 
 **Instagram Graph API Entity Types:**
 - IG User fields: id, username, biography, followers_count, media_count, etc.
 - IG Media fields: media_type, caption, timestamp, comments_count, like_count, children
 - IG Comment fields: text, timestamp, from, like_count
-- IG Hashtag: id, name with recent_media edge
+- IG Hashtag: id, name with recent_media link
 - IG Container: Publishing workflow entity with status tracking
 
 **Threads API Entity Types:**
@@ -973,7 +973,7 @@ Based on Facebook's patterns, consider these relationship categories:
 - Recommended entity types for our schema
 
 **Relationship Implications Updated:**
-- Complete edge taxonomy: Social, Family, Romantic, Content, Engagement, Location, Platform
+- Complete link taxonomy: Social, Family, Romantic, Content, Engagement, Location, Platform
 - TAO association rules (single per type, timestamps, bidirectional handling)
 - Cardinality patterns (one-to-one, one-to-many, many-to-many, polymorphic)
 - Recommended relationship types for our schema
@@ -982,7 +982,7 @@ Based on Facebook's patterns, consider these relationship categories:
 
 ## Relationship Modeling Deep-Dive
 
-This section focuses specifically on how Facebook models **relationships between entities** — the edges in their social graph.
+This section focuses specifically on how Facebook models **relationships between entities** — the links in their social graph.
 
 ### Core Philosophy
 
@@ -1060,12 +1060,12 @@ The core social relationship in Facebook — **bidirectional by design**.
 
 **Characteristics:**
 - Requires mutual acceptance (A sends request → B accepts)
-- Creates edges in both directions in TAO
+- Creates links in both directions in TAO
 - 5,000 friend limit per user
 - `/user/friends` endpoint only returns friends who also use the requesting app
 
 **Termination:**
-- Either party can unfriend (removes both edges)
+- Either party can unfriend (removes both links)
 - No notification sent to unfriended person
 - "Take a Break" feature as softer alternative to unfriending
 - Blocking is separate from unfriending (prevents all interaction)
@@ -1088,7 +1088,7 @@ Introduced September 2011 as "Subscribe", renamed to "Follow" December 2012.
 
 #### 5. Group Membership
 
-**Edge type:** User → Group (member_of)
+**Link type:** User → Group (member_of)
 
 **Properties:**
 - Role: member, admin, moderator
@@ -1101,17 +1101,17 @@ Introduced September 2011 as "Subscribe", renamed to "Follow" December 2012.
 
 **Likes (user → page):**
 - Asymmetric (page doesn't "like back")
-- `/user/likes` edge returns liked pages
+- `/user/likes` link returns liked pages
 - Includes `created_time` (when user liked)
 - Music, books, movies, sports teams are special page-like types
 
 **Admin/Manager (user → page):**
-- `/user/accounts` edge for pages where user has a role
+- `/user/accounts` link for pages where user has a role
 - Multiple role types (admin, editor, moderator, advertiser, analyst)
 
 #### 7. Event Attendance
 
-**Edge types:**
+**Link types:**
 - attending (confirmed)
 - maybe (tentative)
 - declined
@@ -1125,7 +1125,7 @@ Introduced September 2011 as "Subscribe", renamed to "Follow" December 2012.
 
 #### 8. Tagged Relationships
 
-**Edge type:** Entity → User (tagged_in)
+**Link type:** Entity → User (tagged_in)
 
 **Appears on:**
 - Photos
@@ -1142,7 +1142,7 @@ Introduced September 2011 as "Subscribe", renamed to "Follow" December 2012.
 
 ### TAO Association Model
 
-Facebook's TAO system stores relationships as **typed directed edges** called associations.
+Facebook's TAO system stores relationships as **typed directed links** called associations.
 
 **Association structure:**
 ```
@@ -1286,7 +1286,7 @@ Relationship data is largely inaccessible via API:
 - Friend lists only return app-using friends
 - Family relationships unavailable
 - Relationship status field returns no data
-- Most social edges require specific permissions and app review
+- Most social links require specific permissions and app review
 
 ---
 
@@ -1338,7 +1338,7 @@ Beyond explicit user-declared relationships, Facebook infers connections from:
    - Both parties in a relationship may have different privacy settings
 
 5. **Bidirectional ≠ Symmetric**
-   - Bidirectional = edges in both directions (friend)
+   - Bidirectional = links in both directions (friend)
    - Symmetric = same relationship type both ways
    - Can have bidirectional asymmetric (A follows B, B follows A are independent)
 
@@ -1380,7 +1380,7 @@ Beyond explicit user-declared relationships, Facebook infers connections from:
     - Separates intent (container) from final content (published media)
     - Enables status tracking: IN_PROGRESS, ERROR, FINISHED, PUBLISHED
 
-14. **Edge pagination is essential**
-    - All collection edges use cursor-based pagination
+14. **Link pagination is essential**
+    - All collection links use cursor-based pagination
     - Total counts are expensive (only available with summary=true)
     - Optimize for "most recent N" not "all"

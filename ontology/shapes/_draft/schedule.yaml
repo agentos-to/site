@@ -27,7 +27,7 @@ schedule:
     providerJobId:   string    # the provider's native ID (e.g. Claude Code's job ID)
     lastFiredAt:     datetime
     nextFireAt:      datetime
-  relations:
+  links:
     produces:          trip      # what each occurrence creates (transport schedules)
     provider:          skill     # which skill runs this (claude, launchd, etc.)
     operator:          organization  # who operates the service (airline, transit agency)

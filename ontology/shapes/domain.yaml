@@ -10,7 +10,7 @@ domain:
     autoRenew:        boolean
     nameservers:       string[]
     # Registration and expiry dates live on the `registered_with --> registrar`
-    # verb edge (`{registeredOn, expiresAt}` edge vals), not as flat fields.
+    # verb link (`{registeredOn, expiresAt}` link vals), not as flat fields.
     # Rule 1.
   prior_art:
     - source: RFC 1035 (Domain Names)

@@ -1194,7 +1194,7 @@ WALKING, DRIVING, IN_BUS, IN_PASSENGER_VEHICLE, IN_SUBWAY, IN_TRAIN, IN_TRAM, CY
 - Entity Reconciliation API for semantic clustering/deduplication
 - Converts relational data to RDF triples
 - Supports schema.org types (Person, Organization, LocalBusiness)
-- Handles graphs with billions of nodes, trillions of edges
+- Handles graphs with billions of nodes, trillions of links
 
 **Knowledge Graph Search API**:
 - Read-only access

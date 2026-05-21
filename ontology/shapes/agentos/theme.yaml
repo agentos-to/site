@@ -17,7 +17,7 @@
 # (docs/generate.py), so the seeder cannot write an undeclared val. The
 # theme's `ontology` block (its product + bundled assets) and its knob
 # var-groups are NOT node fields — the seeder turns `ontology` into
-# separate nodes + edges, and knob var-groups are frontend-only code.
+# separate nodes + links, and knob var-groups are frontend-only code.
 theme:
   plural: themes
   identity: themeId
@@ -30,7 +30,7 @@ theme:
     style:                  string  # default value of the family's `style` knob ("luna", "classic")
     startMenu:              string  # default value of the family's `startMenu` knob ("modern", "classic")
     defaultBackgroundColor: string  # CSS color behind the wallpaper; seeded into theme.pref:ui.background.color
-  relations:
+  links:
     represents:             product # the OS this theme recreates — "Windows XP theme ⟶ Windows XP"
   prior_art:
     - source: System theme APIs (macOS NSAppearance, Windows WinUI)

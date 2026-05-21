@@ -34,12 +34,12 @@ product:
     availability:      string
     images:            json
     quantity:          integer
-    # Lifecycle dates ride on the relevant verb edges (per rule 1):
-    #   - released → `published_by --> publisher {date}` edge val, or an
+    # Lifecycle dates ride on the relevant verb links (per rule 1):
+    #   - released → `published_by --> publisher {date}` link val, or an
     #     `event(release)` node when multi-party (album launch, conference
     #     reveal). schema.org's `releaseDate` is the same concept.
     #   - discontinued → `event(discontinuation)` node, or `produced_by -->
-    #     manufacturer {discontinuedOn}` edge val. Wikidata P2669.
+    #     manufacturer {discontinuedOn}` link val. Wikidata P2669.
     # Physical / grocery
     weight:            string    # formatted weight/size ("12 oz", "3 lbs", "500ml")
     weightValue:      number    # numeric weight for math
@@ -55,14 +55,14 @@ product:
     calories:          number    # per serving
     servingSize:      string    # "1 cup (240ml)"
     customizationGroups: json   # Uber Eats item options tree (sizes, toppings, substitutions)
-  relations:
+  links:
     brand:             brand
     manufacturer:      organization
     creator:           actor[]   # authors / makers of the product. actor[] covers both
                                   # persons (Adam Hammad → XP.css) and orgs (Microsoft → Office).
                                   # Distinct from manufacturer (which is org-only and implies
                                   # commercial production); creator is broader attribution.
-    inspiredBy:        product[] # explicit influence/lineage edges. Dual-use: cross-vendor
+    inspiredBy:        product[] # explicit influence/lineage links. Dual-use: cross-vendor
                                   # historical influence (Windows 95 inspiredBy Mac System 7)
                                   # AND credit attribution (Windows XP inspiredBy XP.css).
                                   # Both are forms of influence — context disambiguates.
@@ -89,7 +89,7 @@ product:
       notes: >-
         Our `creator: actor[]` mirrors schema.org/creator (Person|Organization).
         Our `inspiredBy: product[]` maps to schema.org/isBasedOn (CreativeWork
-        derivation/credit edge); we keep the more readable name and broaden the
+        derivation/credit link); we keep the more readable name and broaden the
         target to any product so non-CreativeWork lineages (one aircraft type
         inspired by another, one OS inspired by another) work the same way.
     - source: GS1 GTIN (UPC/EAN)

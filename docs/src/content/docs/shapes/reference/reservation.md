@@ -27,7 +27,7 @@ reservedTicket, reservationFor) and the per-type specializations
 captured as a stream of activities (booked, held, checked_in,
 rebooked, cancelled) with timestamps and actors, rather than as a
 single lossy enum. `status` gives the current state; the `activity`
-back-edges give the history.
+back-links give the history.
 
 Multi-passenger semantics:
 One PNR, N passengers, shared across flights/stays. `passengers` is
@@ -101,7 +101,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[schema.org/ReservationStatusType](https://schema.org/ReservationStatusType)** — Extended beyond schema.org's ConfirmedCancelledHoldPending set to add `no_show` and `completed` — values that matter for post-hoc reasoning but schema.org lacks.
 - **[Duffel Orders API](https://duffel.com/docs/api/v2/orders)** — Canonical flight-booking top-level entity. Our `reservationId` = booking_reference; `availableActions` = available_actions; `voidWindowEndsAt` = void_window_ends_at; `conditions` = conditions (change_before_departure, refund_before_departure). Duffel names the entity `Order`; we chose `reservation` to free up `order` for pure-commerce semantics.
 - **[IATA NDC OrderViewRS](https://www.iata.org/en/programs/airline-distribution/retailing/ndc/)** — NDC normalizes passengers to a top-level PaxList referenced by ID. Our graph gets the same effect with `passengers: person[]` — people are first-class nodes and the same `person` can appear on many reservations. Services (seat, baggage, meal) live on `pass`.
-- **[ActivityStreams 2.0 (Invite / Accept / Leave / Reject)](https://www.w3.org/TR/activitystreams-vocabulary/)** — Commitment lifecycle is an append-only stream of activities (booked, held, checked_in, rebooked, cancelled) rather than a single lossy enum. We use `status` for the snapshot and rely on back-edges from `activity` nodes for the history — the same pattern FEP-8a8e recommends for ActivityPub event-side state.
+- **[ActivityStreams 2.0 (Invite / Accept / Leave / Reject)](https://www.w3.org/TR/activitystreams-vocabulary/)** — Commitment lifecycle is an append-only stream of activities (booked, held, checked_in, rebooked, cancelled) rather than a single lossy enum. We use `status` for the snapshot and rely on back-links from `activity` nodes for the history — the same pattern FEP-8a8e recommends for ActivityPub event-side state.
 - **[FEP-8a8e Event interop](https://w3id.org/fep/8a8e)** — Splits supply-side status (on the event/flight) from demand-side status (on the attendee/passenger). We mirror this by keeping `status` on reservation (passenger-side) separate from any cancellation/delay state on the `flight` or `trip` itself.
 - **[Valueflows / REA — Commitment](https://www.valueflo.ws/concepts/flows/)** — REA accounting framing: a reservation IS a commitment with provider, receiver, resourceConformsTo, quantity, and time window. Useful lens for future extension (hotel nights, car rental days).
 

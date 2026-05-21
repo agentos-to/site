@@ -187,7 +187,7 @@ test = _Test()
 def claims(who):
     """Declare that this operation's emitted nodes are claimed by `who`.
 
-    The engine attaches a `Person --claims--> node` edge from the named
+    The engine attaches a `Person --claims--> node` link from the named
     claimant to every top-level node this operation upserts — automatic
     actor-ownership for first-party self-identity ops.
 
@@ -200,7 +200,7 @@ def claims(who):
         @claims("primary_user")
         @returns("financial_account[]")
         async def load_accounts(**params) -> list:
-            # Every financial_account this emits gets a `claims` edge from
+            # Every financial_account this emits gets a `claims` link from
             # the machine owner's person node, so the graph can answer
             # "where do I have accounts?"
             ...

@@ -21,7 +21,7 @@ report:
     confidence:        number    # 0.0–1.0 — agent's self-assessed reliability
     dataSources:      string[]  # URLs, file paths, tool names used as inputs
     subjectId:        string    # node ID of the entity this report is about
-  relations:
+  links:
     commissionedBy:   actor     # person or agent that requested this report
     relatedSpecs:     spec[]    # specs this report informs or was written for
   prior_art:

@@ -1,7 +1,7 @@
 """Audit shape-to-shape references embedded as field *types*.
 
 Complements `audit_shape_relations.py`. Where that script reads
-`relations:` (first-class edges in the graph) and `also:` (inheritance),
+`relations:` (first-class links in the graph) and `also:` (inheritance),
 this one reads `fields:` and asks: "is this field's declared type the
 name of another shape?"
 

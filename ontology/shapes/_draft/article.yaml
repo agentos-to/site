@@ -13,7 +13,7 @@ article:
     readingTime:      integer   # estimated minutes
     section:           string    # e.g. "Technology", "Opinion", "Science"
     language:          string    # ISO 639-1 (e.g. en, es, ja)
-  relations:
+  links:
     publisher:         organization
     publishedIn:      website
   prior_art:

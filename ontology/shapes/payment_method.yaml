@@ -78,7 +78,7 @@ payment_method:
     status:              string    # active | expired | revoked | pending_verification
     providerTokens:      json      # { persistentToken, accountNumberToken, key, deviceAccountNumber, ... } — opaque, round-trip only
     metadata:            json      # skill-namespaced freeform
-  relations:
+  links:
     at:                  actor              # namespace that holds the saved reference. Required for identity.
     account:             account            # login this instrument is saved under
     holder:              person             # human the instrument belongs to

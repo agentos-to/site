@@ -6,7 +6,7 @@
 # `identifier` is the local handle within that namespace. The relation-keyed
 # identity means rebrands (Twitter → X), bank mergers (First Republic → Chase),
 # and instance migrations don't fragment accounts on string changes — the node
-# persists, the edge persists with it.
+# persists, the link persists with it.
 account:
   plural: accounts
   identity: [at, identifier]
@@ -43,7 +43,7 @@ account:
                                   #   goodreads: { ... } }. The engine does
                                   # not introspect; skills read/write their
                                   # own namespace.
-  relations:
+  links:
     at:                actor     # the namespace this account exists within.
                                   # Target is the entity that "owns" the
                                   # namespace: an organization (Chase, GitHub

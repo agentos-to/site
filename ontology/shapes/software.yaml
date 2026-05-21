@@ -13,7 +13,7 @@ software:
   identity_any: [url]   # url is the web-canonical identifier (Wikipedia page, GitHub repo, vendor URL)
   display:
     subtitle: applicationCategory
-    # Release date lives on the `published_by` edge val per rule 1 (was
+    # Release date lives on the `published_by` link val per rule 1 (was
     # `released: datetime`, removed in the life-events migration). When a
     # release-event node ships, swap this to `published_by.startDate`.
     highlights: [version, runtimePlatform]
@@ -28,7 +28,7 @@ software:
     runtimePlatform:   string    # desktop | mobile | web | server | embedded
     codename:          string    # internal/development name ("Whistler" for XP,
                                   # "Cheetah" for Mac OS X 10.0, "Sonoma" for macOS 14)
-  relations:
+  links:
     manufacturer:      organization   # commercial producer (Microsoft for Windows)
                                        # — distinct from creator (which may be a person
                                        # for personal projects like XP.css).

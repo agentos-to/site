@@ -6,7 +6,7 @@ sidebar:
 ---
 
 A book. Books are also products, so they inherit price/brand fields.
-User-specific state (rating, shelf, dates) and platform metrics are modeled as edge values.
+User-specific state (rating, shelf, dates) and platform metrics are modeled as link values.
 
 | Metadata | Value |
 |---|---|

@@ -14,7 +14,7 @@ tool_call:
     output:            text      # tool result body (plain text or JSON)
     isError:           boolean   # true if the tool reported an error
     durationMs:       integer   # optional — how long the tool ran
-  relations:
+  links:
     platform:          product
     from:              actor     # the agent that made the call
     inMessage:         message   # the message this call was part of

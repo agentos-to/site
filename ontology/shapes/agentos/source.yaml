@@ -23,7 +23,7 @@ source:
     enabled:           boolean
     description:       text
     lastSynced:       datetime  # when items were last scanned from this source
-  relations:
+  links:
     folder:            list      # local sources → the list (listType: 'folder') at this path
   prior_art:
     - source: Homebrew Taps

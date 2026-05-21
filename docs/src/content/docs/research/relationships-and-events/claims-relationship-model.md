@@ -55,7 +55,7 @@ Crypto communities use ad-hoc KYC in group chats. Common pattern: new member mus
 Automated bots (`@IDCheckBot`, `@PersonaKYCbot`) can require government ID + live selfie matching before granting group access. This is essentially centralized KYC outsourced to a bot service — higher confidence but requires trusting the bot operator with your ID.
 
 **Key signing parties (PGP tradition):**
-In-person events where participants exchange PGP key fingerprints and verify government IDs. Each participant signs the others' public keys, creating web-of-trust edges. Still practiced in some FOSS communities. The format: exchange fingerprints on paper, verify ID in person, sign keys later at home. Evidence: cross-signatures on public keys.
+In-person events where participants exchange PGP key fingerprints and verify government IDs. Each participant signs the others' public keys, creating web-of-trust links. Still practiced in some FOSS communities. The format: exchange fingerprints on paper, verify ID in person, sign keys later at home. Evidence: cross-signatures on public keys.
 
 **What works:** Small group, high-stakes contexts where members have existing social connections. Verification is a social ritual, not a technical protocol. The social pressure of "everyone in this group vouched for you" is itself a trust mechanism.
 
@@ -636,7 +636,7 @@ claim:
 
 **1. `claims` should be a first-class relationship type (not a `references` role).**
 
-The epistemic provenance (confidence, method, evidence, decay) is core to this relationship — it's not metadata on a generic edge. Every query about person↔account links will want to filter/sort by confidence. This is important enough to be its own type.
+The epistemic provenance (confidence, method, evidence, decay) is core to this relationship — it's not metadata on a generic link. Every query about person↔account links will want to filter/sort by confidence. This is important enough to be its own type.
 
 **2. Support multiple evidence sources per claim.**
 
@@ -752,7 +752,7 @@ properties:
 Not just "I believe person X controls account Y" but also "I believe person X does NOT control account Y." Contradictory evidence is as valuable as confirming evidence. The TrustGraph model supports negative values (-1 to +1). Account takeover = negative claim against the old person→account link.
 
 **2. Claim inheritance through social graph.**
-If I verify that Alice is @alice on Twitter, and Alice tells me Bob is @bob on GitHub, that's a transitive claim with attenuated confidence. The graph should support this: claim confidence flows through trust edges, decaying at each hop. (EigenTrust math applies here.)
+If I verify that Alice is @alice on Twitter, and Alice tells me Bob is @bob on GitHub, that's a transitive claim with attenuated confidence. The graph should support this: claim confidence flows through trust links, decaying at each hop. (EigenTrust math applies here.)
 
 **3. Verification challenges (Keybase-style).**
 Instead of just checking existing links, we could generate a unique challenge string and ask the user to post it on their claimed account. This is how Keybase proofs worked — post a signed message. Evidence: the challenge string + the platform post containing it. Higher confidence than passive checking.

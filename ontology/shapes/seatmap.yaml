@@ -66,7 +66,7 @@ seatmap:
     hasFreeSeats:     boolean
     hasPaidSeats:     boolean
     basicEconomyLocked: boolean   # true when fare doesn't allow seat selection
-  relations:
+  links:
     at:                actor      # the airline (namespace)
     flight:            flight     # the flight this seatmap is for
     aircraft:          aircraft   # the aircraft type

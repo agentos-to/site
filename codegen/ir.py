@@ -101,7 +101,7 @@ class Shape:
     raw_body: str = ""                                         # original YAML body as read from disk (or as serialised back from graph api). Used by SHAPE_YAMLS codegen.
     ancestors: list[str] = field(default_factory=list)        # transitive `also:` closure — every shape this one inherits from, walk order (immediate parents first, then grandparents, deduped).
     field_order: list[str] = field(default_factory=list)      # YAML declaration order, this shape's own fields first, then inherited via `also:` (deduped). Drives `SHAPE_FIELD_ORDER` per the life-events plan — author order is meaning.
-    derived: dict = field(default_factory=dict)               # `derived:` block — per-field read-side bindings. Values are raw dicts with `find` / `where` / `where_edge` / `is` / `get` / `latest`. See event-derived-attributes plan §"The derived block".
+    derived: dict = field(default_factory=dict)               # `derived:` block — per-field read-side bindings. Values are raw dicts with `find` / `where` / `where_link` / `is` / `get` / `latest`. See event-derived-attributes plan §"The derived block".
     shortcuts: dict = field(default_factory=dict)             # `shortcuts:` block — per-flat-key write-side expansions. Each entry maps a flat create-key to a single canonical write target (e.g. `birthdate: {writes: born_in[is=birth].startDate}`).
 
 
@@ -201,7 +201,7 @@ class OpLogField:
 # projects it into `OpMeta.effects`, and the engine records it on every
 # audit line. `[]` = a pure primitive that touches no graph data.
 EFFECT_VERBS = {"creates", "mutates", "reads", "deletes"}
-EFFECT_TARGET_PREFIXES = ("shape:", "edge:")
+EFFECT_TARGET_PREFIXES = ("shape:", "link:")
 
 
 @dataclass
@@ -209,7 +209,7 @@ class Effect:
     """One declared data effect of an op — `{<verb>: <target>}` in YAML.
 
     `verb` ∈ `EFFECT_VERBS`; `target` is `shape:<name>` / `shape:<dynamic>`
-    / `edge:<label>`. `<dynamic>` marks a target chosen at runtime (an op
+    / `link:<label>`. `<dynamic>` marks a target chosen at runtime (an op
     whose touched shape is a request parameter)."""
     verb: str
     target: str
@@ -618,7 +618,7 @@ def _build_shapes(
         # `derived:` + `shortcuts:` blocks — raw dicts, validated by
         # `validate()` against the relation graph (any `find:` must be a
         # known relation label; any `is:` must be a known shape name; any
-        # `shortcuts.X.writes:` must resolve to a valid edge label).
+        # `shortcuts.X.writes:` must resolve to a valid link label).
         derived = defn.get("derived") or {}
         if isinstance(derived, dict):
             s.derived = derived
@@ -647,8 +647,8 @@ def _build_shapes(
             s.own_relations.append(Field(label, tgt_s, True, is_array, tgt_s.rstrip("[]")))
 
         # Relations resolved up front so they can SHADOW a same-named
-        # field: when a shape models a concept as an edge (`book
-        # --author--> person`), the edge is the source of truth — the
+        # field: when a shape models a concept as an link (`book
+        # --author--> person`), the link is the source of truth — the
         # generated type carries `author: Person`, never both a string
         # field and a relation. Without this, a standard field like
         # `author` and an `author` relation emit a duplicate identifier.
@@ -961,7 +961,7 @@ _AUTH_TYPES = {"string", "integer", "number", "boolean", "array", "json"}
 # allowlist is the narrow exception: transaction-time stamps ("when
 # AgentOS learned this fact") are fine on any node per rule 6 (two
 # clocks). Everything else gets a warning that surfaces three fixes:
-# (a) edge val on a verb edge, (b) promote to an event node, (c) add
+# (a) link val on a verb link, (b) promote to an event node, (c) add
 # the field name here if it really is transaction-time.
 TRANSACTION_TIME_ALLOWLIST = {
     # generic transaction-time stamps
@@ -1038,7 +1038,7 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
             if base not in _SHAPE_TYPES:
                 warn(f"shape {s.name!r}: field {f.name!r} has unknown type {f.type!r}")
         # Rule 1: orphan-datetime check. A `datetime` on a non-event shape
-        # is a denormalized date for a relationship — should be an edge
+        # is a denormalized date for a relationship — should be an link
         # val or an event node. Skip event-derived shapes (the date lives
         # naturally on the event) and the transaction-time allowlist.
         # Hard error after the life-events migration — the ontology is
@@ -1049,8 +1049,8 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
             for f in s.own_fields:
                 if f.type == "datetime" and f.name not in TRANSACTION_TIME_ALLOWLIST:
                     err(f"shape {s.name!r}: field {f.name!r} is a datetime "
-                        f"on a non-event shape (rule 1). Fix: (a) edge val "
-                        f"on the verb edge that earns this date, (b) promote "
+                        f"on a non-event shape (rule 1). Fix: (a) link val "
+                        f"on the verb link that earns this date, (b) promote "
                         f"to an event node with `--<verb>--> event {{startDate}}`, "
                         f"or (c) add {f.name!r} to TRANSACTION_TIME_ALLOWLIST "
                         f"in ir.py if it's really 'when AgentOS learned this'.")
@@ -1071,12 +1071,12 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
             known |= set((s.derived or {}).keys())
 
             def _known_binding(binding: str) -> bool:
-                # Dotted bindings (`born_in.startDate`) walk a verb edge.
-                # Per rule 4, verb edges aren't owned by shapes — `person`
+                # Dotted bindings (`born_in.startDate`) walk a verb link.
+                # Per rule 4, verb links aren't owned by shapes — `person`
                 # declares no `born_in` even though the canonical home for
                 # birthdate is `person --born_in--> event`. The validator
                 # therefore accepts any dotted binding; the resolver
-                # silently returns nothing if no matching edge exists.
+                # silently returns nothing if no matching link exists.
                 if "." in binding:
                     return True
                 return binding in known
@@ -1098,16 +1098,16 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
                     warn(f"shape {s.name!r}: display.preview key {pk!r} "
                          f"is not a declared field")
 
-    # `derived:` + `shortcuts:` lint. Per rule 4 (edges aren't owned by
+    # `derived:` + `shortcuts:` lint. Per rule 4 (links aren't owned by
     # shapes), verb labels like `born_in` / `lived_at` / `changed` are
     # NOT declared on any shape — they're just verbs. The resolver returns
-    # None gracefully if a verb doesn't match any edge, so we don't warn
+    # None gracefully if a verb doesn't match any link, so we don't warn
     # on unknown `find:` / `writes:` verbs. Only the `is:` filter is
     # globally checkable: shapes ARE formally declared.
 
     def _check_binding(where: str, b: object) -> None:
         """Walk a single derived binding. String form: dotted sugar
-        (`born_in.startDate`). Dict form: `{find, where, where_edge, is, get}`."""
+        (`born_in.startDate`). Dict form: `{find, where, where_link, is, get}`."""
         if isinstance(b, str):
             return  # dotted sugar — no useful lint
         if not isinstance(b, dict):

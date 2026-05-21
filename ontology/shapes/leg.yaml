@@ -22,7 +22,7 @@ leg:
     trace:             json      # GPS breadcrumbs: [{t, lat, lng, alt?, spd?, hdg?, acc?}, ...]
     tracePointCount: integer   # number of sample points
     polyline:          string    # Google encoded polyline (compact visual path, no timestamps)
-  relations:
+  links:
     origin:            place     # departure airport/station/address
     destination:       place     # arrival airport/station/address
     carrier:           organization  # airline or operator for this leg

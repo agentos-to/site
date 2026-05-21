@@ -57,7 +57,7 @@ membership:
     # Entitlement-tracking (gyms, clubs, etc.)
     useCount:         integer   # total uses to date (visits, classes, rides)
     guestPassQuantity: integer  # complimentary guest entries included
-  relations:
+  links:
     at:                actor    # typically an organization — the issuer of the
                                   # membership. `actor` (not `organization`) for
                                   # graph consistency with account.at / order.at
@@ -98,4 +98,4 @@ membership:
       url: http://xmlns.com/foaf/spec/#term_member
       notes: >-
         Social-web vocabulary for "X is a member of Y". Our member ↔ at
-        edge mirrors foaf:member; our tier ≈ foaf:membershipClass.
+        link mirrors foaf:member; our tier ≈ foaf:membershipClass.

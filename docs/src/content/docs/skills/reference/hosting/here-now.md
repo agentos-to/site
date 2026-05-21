@@ -18,7 +18,7 @@ sidebar:
 
 ## Readme
 
-Publish static files to the Cloudflare edge instantly — no build step, no deploy config, no account required.
+Publish static files to the Cloudflare link instantly — no build step, no deploy config, no account required.
 
 ## How It Works
 

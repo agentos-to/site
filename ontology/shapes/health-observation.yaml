@@ -6,17 +6,17 @@
 # rides on the value itself — every memex val stores a unit alongside it,
 # so there is no separate `unit` field. The value is meaningless without
 # the unit (95 mg/dL is not 95 mmol/L). It links to its biomarker via a
-# `measures` edge.
+# `measures` link.
 #
 # Reference range — TWO complementary mechanisms, on purpose:
 #   1. SNAPSHOT fields (refLow / refHigh / refText) — the interval THIS
 #      report actually printed, frozen onto the result. This is a
 #      historical fact: it never changes, even if the lab later revises
 #      its range. Always populated when the report stated a range.
-#   2. An optional `reportedRange` edge to a health-reference-range node,
+#   2. An optional `reportedRange` link to a health-reference-range node,
 #      set when that lab's interval is known as a first-class entity.
 #      Lets you reconcile the result against the normalized range.
-# The snapshot is the fact; the edge is the enrichment. Both can coexist.
+# The snapshot is the fact; the link is the enrichment. Both can coexist.
 #
 # `flag` (low / normal / high / critical) is DERIVED — a reader compares
 # `value` against the range. Stored as an optional convenience only; it
@@ -45,7 +45,7 @@ health-observation:
     flag:             string    # DERIVED — low | normal | high | critical. Convenience only.
     status:           string    # FHIR status — final, preliminary, amended, corrected
     notes:            text      # lab comments or annotations on this specific result
-  relations:
+  links:
     measures:         health-biomarker        # the biomarker this is a measurement of
     from_panel:       health-panel            # the panel / draw this observation was part of
     reportedRange:    health-reference-range  # the normalized interval this result was read against
@@ -60,7 +60,7 @@ health-observation:
         refLow/refHigh/refText ≈ the referenceRange backbone (the inline
         snapshot); flag ≈ interpretation; status ≈ status. `measures` ≈
         code resolved to a biomarker. FHIR has no normalized-range link —
-        our `reportedRange` edge adds that.
+        our `reportedRange` link adds that.
     - source: HL7 v2.x — OBX segment
       url: https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX
       notes: >-
@@ -73,7 +73,7 @@ health-observation:
       url: https://loinc.org/
       notes: >-
         The observation itself is not LOINC-coded — its `biomarker` is.
-        The `measures` edge carries the LOINC identity.
+        The `measures` link carries the LOINC identity.
     - source: UCUM — Unified Code for Units of Measure
       url: https://ucum.org/
       notes: >-

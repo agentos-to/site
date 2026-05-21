@@ -70,7 +70,7 @@ book = apollo[book_ref["__ref"]]
 
 # Dereference related entities
 work = deref(apollo, book.get("work"))
-primary_author = deref(apollo, book.get("primaryContributorEdge", {}).get("node"))
+primary_author = deref(apollo, book.get("primaryContributorLink", {}).get("node"))
 ```
 
 ### What you typically find in the Apollo cache

@@ -62,7 +62,7 @@ place:
     mapboxId:         string
     wikidataId:       string
     googlePlaceId:   string
-  relations:
+  links:
     at:                actor         # OPTIONAL: namespace owning this place record
                                       # (e.g. a chain's skill id, so rows from
                                       # different data sources don't collide).

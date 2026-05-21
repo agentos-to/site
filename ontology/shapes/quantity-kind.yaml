@@ -23,7 +23,7 @@ quantity-kind:
   fields:
     key:    string   # machine key — "mass-concentration", "torque", "blood-glucose-concentration"
     label:  string   # human name — "mass concentration", "torque"
-  relations:
+  links:
     dimension: dimension       # the dimension every unit of this kind shares
     parent:    quantity-kind   # broader kind — "blood glucose concentration"
                                # has parent "mass concentration"
@@ -38,5 +38,5 @@ quantity-kind:
       url: https://www.qudt.org/doc/DOC_SCHEMA-QUDT.html
       notes: >-
         qudt:QuantityKind is exactly this layer. Its hasDimensionVector
-        property corresponds to our `dimension` edge; QUDT's broader/
-        narrower kind hierarchy corresponds to our `parent` edge.
+        property corresponds to our `dimension` link; QUDT's broader/
+        narrower kind hierarchy corresponds to our `parent` link.

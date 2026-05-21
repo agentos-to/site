@@ -7,7 +7,7 @@
 # institution (Chase Bank, DBS, Coinbase) — an organization or product node.
 # `identifier` is typically the masked account number (or last4 if that's
 # all the provider shares). Relation-keyed identity means bank mergers
-# (First Republic → Chase) don't fragment the account; the edge moves, the
+# (First Republic → Chase) don't fragment the account; the link moves, the
 # node persists.
 financial_account:
   plural: financial_accounts
@@ -29,9 +29,9 @@ financial_account:
     cardType:         string    # visa | mastercard | amex (for card-backed accounts)
     interestRate:     number    # APR
     # Payment due dates ride on the billing-cycle event (one per cycle);
-    # card expiration belongs on the `holds --> payment_method` edge val
+    # card expiration belongs on the `holds --> payment_method` link val
     # (the date the issuer printed on the card). Rule 1.
-  relations:
+  links:
     at:                actor     # the institution — Chase, DBS, Coinbase.
                                   # Required for identity. Target is the
                                   # organization or product that issues /

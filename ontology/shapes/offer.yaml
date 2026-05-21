@@ -15,7 +15,7 @@ offer:
                                   # (inherited via `also: [event]`), per rule 1.
     bookingToken:     string    # opaque token for completing a booking
     departureToken:   string    # SerpAPI flights: multi-leg token for resolving a return leg price
-  relations:
+  links:
     for:               product   # what this offer is selling
     offeredBy:        organization
     trips:             trip[]    # the trip(s) this offer books (flights: outbound + return)

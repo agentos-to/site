@@ -20,7 +20,7 @@
 #     captured as a stream of activities (booked, held, checked_in,
 #     rebooked, cancelled) with timestamps and actors, rather than as a
 #     single lossy enum. `status` gives the current state; the `activity`
-#     back-edges give the history.
+#     back-links give the history.
 #
 # Multi-passenger semantics:
 #   One PNR, N passengers, shared across flights/stays. `passengers` is
@@ -69,7 +69,7 @@ reservation:
   # Our graph prefers concrete relations per reservationType — `trips` for
   # flights, `location` for hotels/restaurants, `event` for event tickets.
   # The reservationType discriminator picks which one is populated.
-  relations:
+  links:
     at:                  actor       # airline / hotel chain / restaurant / rental co (namespace)
     trips:               trip[]      # flights: outbound + return. Hotels/dining: empty.
     location:            place       # hotels / restaurants / rental locations
@@ -121,7 +121,7 @@ reservation:
         Commitment lifecycle is an append-only stream of activities
         (booked, held, checked_in, rebooked, cancelled) rather than a
         single lossy enum. We use `status` for the snapshot and rely on
-        back-edges from `activity` nodes for the history — the same
+        back-links from `activity` nodes for the history — the same
         pattern FEP-8a8e recommends for ActivityPub event-side state.
     - source: FEP-8a8e Event interop
       url: https://w3id.org/fep/8a8e

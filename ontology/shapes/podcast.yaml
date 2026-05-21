@@ -6,7 +6,7 @@ podcast:
     subtitle: host
   fields:
     feedUrl:          url       # RSS feed URL
-  relations:
+  links:
     host:              person[]
     at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
     episode:           episode[]

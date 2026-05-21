@@ -11,7 +11,7 @@ encrypted row in the vault (~/.agentos/data/agentos.db, credentials table).
 Every vault row also exists as a node of this shape. The *value* stays
 encrypted in the credentials table, addressed by `storeRowId`. This
 node carries only metadata — domain, identifier, itemType, timestamps,
-provenance edges — and nothing secret. Descriptor reads are cheap
+provenance links — and nothing secret. Descriptor reads are cheap
 (graph traversal), decryption is on demand (SDK's `auth_store.read`
 by identifier, after the vault system skill returns the descriptor).
 

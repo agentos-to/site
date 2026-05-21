@@ -11,7 +11,7 @@ flight:
     cabinClass:       string    # economy, premium_economy, business, first
     stops:             integer   # intermediate stops without transfer (rare, multi-stop flights)
     carbonEmissions:  json      # CO2 estimate from Google Flights
-  relations:
+  links:
     airline:           airline
     departsFrom:      airport
     arrivesAt:        airport

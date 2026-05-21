@@ -15,7 +15,7 @@ repository:
     defaultBranch:    string
     license:           string    # SPDX identifier (e.g. MIT, Apache-2.0)
     size:              integer   # repo size in KB
-  relations:
+  links:
     forkedFrom:       repository  # source repo this was forked from
     owner:             account
   prior_art:

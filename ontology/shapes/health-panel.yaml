@@ -5,7 +5,7 @@
 # A panel is both a *catalog* concept (the standard set of biomarkers a
 # "CBC" includes) and, when dated, a *report* concept (the CBC drawn on
 # 2024-03-20). When a panel node represents a specific dated draw,
-# `effectiveDate` is set, its `contains` edges point to observations, and
+# `effectiveDate` is set, its `contains` links point to observations, and
 # `document` points to the report file. When it represents the abstract
 # catalog panel, `effectiveDate` is null and `contains` points to
 # biomarkers.
@@ -31,7 +31,7 @@ health-panel:
                                   # leave it null. Rule 1.
     fasting:          boolean    # whether the draw was taken fasting
     description:      text      # what this panel evaluates
-  relations:
+  links:
     performedAt:      health-lab    # the lab that processed this draw
     document:         file          # the source report file on disk for this draw
     subject:          person        # whose draw this is (dated panels)
@@ -41,14 +41,14 @@ health-panel:
       notes: >-
         A dated panel is a DiagnosticReport: a set of observations grouped
         under one report with an effective date and a performer. Our
-        `contains` edges (from `list`) ≈ DiagnosticReport.result;
+        `contains` links (from `list`) ≈ DiagnosticReport.result;
         effectiveDate ≈ effectiveDateTime; performedAt ≈ performer.
     - source: LOINC — Panels and Forms
       url: https://loinc.org/panels/
       notes: >-
         LOINC defines panel codes and their member observables (CBC panel
         58410-2 enumerates hemoglobin, hematocrit, WBC, …). panelCode plus
-        the contains→biomarker edges mirror a LOINC panel definition.
+        the contains→biomarker links mirror a LOINC panel definition.
     - source: schema.org/MedicalTest
       url: https://schema.org/MedicalTest
       notes: >-

@@ -14,7 +14,7 @@ Identity is graph-native: (at, identifier). `at` is a relation to the
 institution (Chase Bank, DBS, Coinbase) — an organization or product node.
 `identifier` is typically the masked account number (or last4 if that's
 all the provider shares). Relation-keyed identity means bank mergers
-(First Republic → Chase) don't fragment the account; the edge moves, the
+(First Republic → Chase) don't fragment the account; the link moves, the
 node persists.
 
 | Metadata | Value |

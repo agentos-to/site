@@ -24,7 +24,7 @@ model:
     format:            string    # e.g., "gguf"
     family:            string    # model family, e.g., "llama", "qwen"
     digest:            string    # content-addressable hash of model weights
-  relations:
+  links:
     at:                actor     # the provider entity — organization (Anthropic,
                                   # OpenAI, Meta) or product (ollama for
                                   # self-hosted). Required for identity.

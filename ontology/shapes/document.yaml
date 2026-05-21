@@ -15,7 +15,7 @@ document:
     wordCount:        integer
     abstract:          text      # short summary of the document's contents
     tableOfContents: text      # section headings, one per line
-  relations:
+  links:
     author:            actor     # person or agent who produced this
     references:        document[]  # documents this document cites
     citedBy:          document[]  # documents that cite this one

@@ -11,10 +11,10 @@ website:
     anonymous:         boolean   # true if published without an account
     claimToken:       string    # token to claim an anonymous site
     claimUrl:         url
-    # Anonymous-site auto-expiry rides on the `registered_with` edge val, or
+    # Anonymous-site auto-expiry rides on the `registered_with` link val, or
     # — when the site is later claimed — gets superseded by the claim event.
     # Rule 1.
-  relations:
+  links:
     domain:            domain
     ownedBy:          organization
   prior_art:

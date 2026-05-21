@@ -2,7 +2,7 @@
 # a document --contains--> the quote, a person --authored--> the document.
 # The provenance chain IS the attribution. No spokenBy needed.
 #
-# Freeform edges handle everything:
+# Freeform links handle everything:
 #   document/book/article --contains--> quote
 #   person --attributed--> quote (when we know who said it)
 #   quote --inspired--> anything
@@ -18,11 +18,11 @@ quote:
       url: https://schema.org/Quotation
       notes: >-
         Our context ≈ about; year ≈ datePublished. schema.org models
-        spokenByCharacter/creator — we model attribution via graph edges
+        spokenByCharacter/creator — we model attribution via graph links
         instead.
     - source: Wikiquote data model
       url: https://en.wikiquote.org/wiki/Help:Sources
       notes: >-
-        Practical canonical quote source. Our provenance-via-edges (document
+        Practical canonical quote source. Our provenance-via-links (document
         --contains--> quote --attributedTo--> person) matches Wikiquote's
         source-citation discipline.

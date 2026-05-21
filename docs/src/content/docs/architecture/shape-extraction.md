@@ -3,7 +3,7 @@ title: Shape coercion & entity extraction
 description: How a skill's return dict turns into a graph node — the extraction pipeline, type coercion, identity-based upsert, and the self-identity guard that keeps your own person node from being overwritten.
 ---
 
-A skill returns a Python dict. Some milliseconds later, that dict has become one or more nodes in `~/.agentos/data/agentos.db`, with declared field types coerced, identity keys checked against existing nodes, and a provenance edge back to the skill. This page is the close-up of that exchange.
+A skill returns a Python dict. Some milliseconds later, that dict has become one or more nodes in `~/.agentos/data/agentos.db`, with declared field types coerced, identity keys checked against existing nodes, and a provenance link back to the skill. This page is the close-up of that exchange.
 
 This page assumes the [data model](/architecture/data-model/) — the three primitives, shapes as schema, why identity-based dedup exists at all. It goes one layer down: into the Rust extraction module that turns dicts into graph mutations.
 
@@ -16,8 +16,8 @@ flowchart TD
     IN["skill returns dict<br/>@returns('book') → tag = 'book'"] --> SR["shape registry lookup<br/>(also-chain expansion)<br/>shapes::registry().get('book')<br/>also: [product] → fields merge"]
     SR --> REL["shape relations stripped from field data<br/>nested dicts → recursed as child nodes<br/>(lines 590-599)"]
     REL --> TV["typed_val() per field<br/>(shape-driven coercion)<br/>'495' → ('495', 'integer')<br/>shapes/registry.rs:491"]
-    TV --> IK["identity keys assembled<br/>(vals + relation edges)<br/>build_identity_keys()<br/>extraction.rs:410"]
-    IK --> UP["upsert_by_identity_on()<br/>match → UPDATE, else CREATE<br/>+ imported_from edge<br/>graph/database.rs:1923"]
+    TV --> IK["identity keys assembled<br/>(vals + relation links)<br/>build_identity_keys()<br/>extraction.rs:410"]
+    IK --> UP["upsert_by_identity_on()<br/>match → UPDATE, else CREATE<br/>+ imported_from link<br/>graph/database.rs:1923"]
 ```
 
 Everything happens inside one SQLite transaction (`begin_transaction` at line 159, `commit` at line 191) — partial extraction never lands.
@@ -52,13 +52,13 @@ After coercion, `build_identity_keys` (`extraction.rs:410`) walks the shape's `a
 
 ### `identity: [issuer, identifier]` — compound key
 
-All keys must match. The lookup is `find_node_by_tag_vals_and_edges_on` (`crates/graph/src/database.rs:1824`), which builds a SQL query with one `node_vals` self-join per identity field plus a tag-edge join:
+All keys must match. The lookup is `find_node_by_tag_vals_and_links_on` (`crates/graph/src/database.rs:1824`), which builds a SQL query with one `node_vals` self-join per identity field plus a tag-link join:
 
 ```sql
 SELECT nv0.node_id FROM node_vals nv0
 JOIN node_vals nv1 ON nv1.node_id = nv0.node_id
                   AND nv1.key = ? AND nv1.value = ?    -- "identifier" = "joe@example.com"
-JOIN edges e_tag   ON e_tag.from_node = nv0.node_id
+JOIN links e_tag   ON e_tag.from_node = nv0.node_id
                   AND e_tag.label = 'tagged_with'
                   AND e_tag.to_node = ?                -- account tag id
                   AND e_tag.deleted_at IS NULL
@@ -68,7 +68,7 @@ WHERE nv0.key = ? AND nv0.value = ?                    -- "issuer" = "gmail"
 LIMIT 1
 ```
 
-If `identity` includes a relation key (e.g. `identity: [platform, brand]` where `brand` is a relation), it becomes a join on `edges` instead of `node_vals` (database.rs:1863-1867). Pure relation identity is supported — the function falls back to anchoring on the edges table when there are no field vals (line 1846).
+If `identity` includes a relation key (e.g. `identity: [platform, brand]` where `brand` is a relation), it becomes a join on `links` instead of `node_vals` (database.rs:1863-1867). Pure relation identity is supported — the function falls back to anchoring on the links table when there are no field vals (line 1846).
 
 ### `identity_any: [path, url]` — alternative key
 
@@ -92,14 +92,14 @@ Iteration order = YAML declaration order. Put your most reliable disambiguator f
 
 `upsert_by_identity_on` (`crates/graph/src/database.rs:1923`) is the single write path. It:
 
-1. Tries identity lookup. If miss, falls back to **import provenance** (`imported_from` edge from the skill node with this `remote_id`) — line 1943.
-2. **On hit (UPDATE):** bumps `updated_at`, calls `set_vals_on` to upsert each `(key, value, unit)` triple, ensures all tags are applied, ensures every relation identity edge exists. Existing vals not present in the new payload are **left in place**. (lines 1956-1987)
-3. **On miss (CREATE):** mints a new node id, stores all vals, applies tags, creates relation edges, records provenance.
-4. Either way: one `imported_from` edge per skill, with the skill's `remote_id` stored as an edge val. Re-importing the same record updates the timestamp on that edge (`record_import_on`, line 1980).
+1. Tries identity lookup. If miss, falls back to **import provenance** (`imported_from` link from the skill node with this `remote_id`) — line 1943.
+2. **On hit (UPDATE):** bumps `updated_at`, calls `set_vals_on` to upsert each `(key, value, unit)` triple, ensures all tags are applied, ensures every relation identity link exists. Existing vals not present in the new payload are **left in place**. (lines 1956-1987)
+3. **On miss (CREATE):** mints a new node id, stores all vals, applies tags, creates relation links, records provenance.
+4. Either way: one `imported_from` link per skill, with the skill's `remote_id` stored as an link val. Re-importing the same record updates the timestamp on that link (`record_import_on`, line 1980).
 
-Critical consequence: **fields are merged, not replaced.** If skill A writes `{name, isbn, pages}` and skill B later writes `{name, isbn, cover_url}` for the same identity, the resulting node carries `name + isbn + pages + cover_url`. The provenance edges remember which skill contributed which write, but vals themselves don't carry per-field origin. Last writer wins per key.
+Critical consequence: **fields are merged, not replaced.** If skill A writes `{name, isbn, pages}` and skill B later writes `{name, isbn, cover_url}` for the same identity, the resulting node carries `name + isbn + pages + cover_url`. The provenance links remember which skill contributed which write, but vals themselves don't carry per-field origin. Last writer wins per key.
 
-This is also how a node survives skill churn. Uninstall the WhatsApp skill, the `imported_from(whatsapp)` edge stays, the vals stay. Reinstall it, identity lookup hits the same node, and updates resume on the same `id`.
+This is also how a node survives skill churn. Uninstall the WhatsApp skill, the `imported_from(whatsapp)` link stays, the vals stay. Reinstall it, identity lookup hits the same node, and updates resume on the same `id`.
 
 ## Collisions and self-identity
 
@@ -118,7 +118,7 @@ for (key, value) in &filtered {
 }
 ```
 
-Returning `None` means: don't create the child node, don't create the edge to it. The parent record still lands.
+Returning `None` means: don't create the child node, don't create the link to it. The parent record still lands.
 
 The threat this closes: a Gmail skill returns an email with `from: { handle: "joe@gmail.com" }`. Without the guard, that nested dict becomes a fresh `account` node — identity `("email", "joe@gmail.com")` — and in the worst case, gets silently merged into the user's primary `person` via the `account` → `person` linkage (`link_account_to_primary_user`, line 360) using values the skill controls. With the guard, child extractions whose identity *is* the user are dropped before they can hijack the user's own node. The user's `person` is still authored only by the deterministic flow that runs at boot.
 

@@ -28,7 +28,7 @@ When an entity is created, updated, or deleted, the operation itself becomes a *
 - the **target** (what changed)
 - optionally the **source** (where data came from — a platform, a file, an API response)
 
-This follows the pattern established by W3C PROV-O, ActivityStreams, and Git: make events first-class objects, not edges.
+This follows the pattern established by W3C PROV-O, ActivityStreams, and Git: make events first-class objects, not links.
 
 ## Provenance as traversal
 

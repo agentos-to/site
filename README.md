@@ -29,7 +29,7 @@ platform/
 
 ## Ontology modeling — the rules
 
-**Read this before authoring or changing any shape, relation, or edge.**
+**Read this before authoring or changing any shape, relation, or link.**
 These are not style preferences — they are the contract. Anyone building
 anything that touches the ontology follows them. Prior art is unanimous:
 CIDOC-CRM, Wikidata, ActivityStreams 2.0, Neo4j, schema.org and Palantir
@@ -38,25 +38,25 @@ Foundry all converge on what's below.
 ### 1. An event is a relationship — time and place ride on it
 
 A book wasn't "published in 2019" — it was published *by a publisher*,
-in 2019. The year is a val on the `published_by` **edge**, never a
+in 2019. The year is a val on the `published_by` **link**, never a
 `datePublished` field on the book node. A node never carries a date,
 place, or detail for something that happened *to it via another party* —
-that is the denormalization bug. Edges carry typed vals (`edge_vals`);
+that is the denormalization bug. Links carry typed vals (`link_vals`);
 that is what they are for.
 
-Vals on an edge are not only *when* and *where*. Any **quantity that is a
+Vals on an link are not only *when* and *where*. Any **quantity that is a
 property of the relationship** rides there too — `joe —owns→ adavia
-{share: 1.0, units: 10000000}`. The `edge_vals` table types a number or
+{share: 1.0, units: 10000000}`. The `link_vals` table types a number or
 integer exactly as `node_vals` would; an ownership percentage belongs to
 the owning, not to either party.
 
-**Time intervals on edges — canonical convention.** When an edge
+**Time intervals on links — canonical convention.** When an link
 represents a *period* (a residence, a job, a membership, a marriage),
-use `{from: date, to: date?}` as the edge_vals. `to: null` (or absent)
+use `{from: date, to: date?}` as the link_vals. `to: null` (or absent)
 means the interval is still open — the current/active period. The
 `current_*` derived bindings on shapes (e.g. `person.current_residence`,
 `person.current_role`) read this convention via the resolver's
-`where_edge: {to: null}` filter:
+`where_link: {to: null}` filter:
 
 ```
 joe —lived_at→ austin    {from: 2018-06, to: 2020-09}   # closed
@@ -64,16 +64,16 @@ joe —lived_at→ portland  {from: 2020-09, to: null}       # current
 joe —worked_at→ corp     {from: 2019-01, to: 2024-12, title: "engineer"}
 ```
 
-This pairs naturally with rule 3 (node vs edge): a residence trips no
-triggers → stays a dated edge with `{from, to}`. If a residence ever
+This pairs naturally with rule 3 (node vs link): a residence trips no
+triggers → stays a dated link with `{from, to}`. If a residence ever
 *does* trip a trigger (needs reason, source-of-truth attribution,
 witnesses, paperwork — e.g. a visa-application proof-of-address), it
-promotes to its own `event(residence)` node and the `lived_at` edge
-becomes `lived_at_for` (a participation edge into the event node).
+promotes to its own `event(residence)` node and the `lived_at` link
+becomes `lived_at_for` (a participation link into the event node).
 
-### 2. Edges are verb phrases — one naming axis, no exceptions
+### 2. Links are verb phrases — one naming axis, no exceptions
 
-Every edge label is a **lowercase snake_case verb phrase**, read
+Every link label is a **lowercase snake_case verb phrase**, read
 `subject —label→ object`:
 
 ```
@@ -87,12 +87,12 @@ Banned, because each breaks the reading:
 - **bare nouns** — `organization`, `member`, `location`, `author`
 - **mixing conventions** — once `published_by` exists, never also `publisher`
 
-The preposition is part of the verb, chosen so the edge reads as
+The preposition is part of the verb, chosen so the link reads as
 English: `_at` / `_in` → a place · `_by` → the agent of the action ·
 `_to` / `_for` → other relational verbs · none → the verb stands alone
 (`founded`, `owns`, `wrote`). Direction lives in the label — store one
 direction, the reverse reading is derived (`inverse_name`), never a
-second edge.
+second link.
 
 The suffix follows English **idiom**, not the object's type: you
 `worked_at` an *organization*, `born_at` a *place*, `lived_at` an
@@ -103,28 +103,28 @@ holding a credential — takes a role-noun phrase: `citizen_of`,
 reads as English, carries direction. The ban is on a noun standing
 *alone* as the whole label (`member`, `author`).
 
-### 3. Node vs edge — a three-trigger test
+### 3. Node vs link — a three-trigger test
 
-A relationship is an **edge** by default. Promote it to a **node** at
+A relationship is an **link** by default. Promote it to a **node** at
 the first trigger that fires:
 
-1. **Arity** — more than two participants. An edge joins exactly two.
+1. **Arity** — more than two participants. An link joins exactly two.
 2. **Shared identity** — many parties must point at the *same* occurrence.
 3. **Independent reference** — the occurrence is itself named, queried,
    or carries its own relations.
 
 A residence (person + place + dates) trips none → a dated `lived_at`
-edge. A job (person + org + dates) trips none → a `worked_at` edge. A
+link. A job (person + org + dates) trips none → a `worked_at` link. A
 concert (attendee + venue + performer + promoter) trips all three → an
 `event` node. When a relationship *is* a node, time and place are vals
-**on that node**; the participation edges into it stay clean verb
+**on that node**; the participation links into it stay clean verb
 phrases (`performed_at`, `attended`).
 
-**Recurrence forces a node.** The graph stores at most one edge per
-`(from, label, to)` — `create_edge` is `ON CONFLICT … DO UPDATE`, so a
+**Recurrence forces a node.** The graph stores at most one link per
+`(from, label, to)` — `create_link` is `ON CONFLICT … DO UPDATE`, so a
 second `create` of the same triple overwrites the first's vals. When the
 *same* verb recurs between the *same* two parties — two filings with one
-office, two investments in one company — it cannot be N edges. Promote
+office, two investments in one company — it cannot be N links. Promote
 each occurrence to a node. This is trigger 3 made physical: a recurrence
 is almost always itself referenceable — a `document`, a `transaction` —
 and the storage layer makes the under-modeled version impossible to
@@ -132,14 +132,14 @@ write. (A *thin* recurrence with no referenceable occurrence — living at
 one address across two stints — has no natural node; that case is a
 known limit, not yet resolved.)
 
-### 4. Edge types are not owned by node shapes
+### 4. Link types are not owned by node shapes
 
-`lived_at` is one edge type, defined once, reused by many shapes. A
+`lived_at` is one link type, defined once, reused by many shapes. A
 shape's `relations:` block lists the relations it *expects* — as
 documentation and a validation hint — it does **not** own them, and an
-edge to an unexpected node stays possible. A shape gains no relation for
-every edge that can touch it: `person` declares no `lived_at` /
-`born_at` / `born_to` — those are generic life-edges, not person-fields.
+link to an unexpected node stays possible. A shape gains no relation for
+every link that can touch it: `person` declares no `lived_at` /
+`born_at` / `born_to` — those are generic life-links, not person-fields.
 
 Type a relation hint at the **widest actor it can take**. If an
 organization can fill the slot as readily as a person, type it `actor`,
@@ -152,11 +152,11 @@ narrower than reality is a hint that lies.
 A shape describes what something *is*, intrinsically — not what it did,
 not where it came from. A "Goodreads book" is just a `book`. If a shape
 adds no fields beyond a shape it `also:`-extends, it is a tag or an
-edge, not a shape. (Full list: `docs/.../shapes/shape-design-principles.md`.)
+link, not a shape. (Full list: `docs/.../shapes/shape-design-principles.md`.)
 
 ### 6. Two clocks — valid-time vs transaction-time
 
-An edge's `date` / `start` / `end` vals are **valid-time** — when the
+An link's `date` / `start` / `end` vals are **valid-time** — when the
 fact was true in the world. A separate `recorded_at` is
 **transaction-time** — when AgentOS learned it. Never conflate them: a
 correction must not erase the prior belief.

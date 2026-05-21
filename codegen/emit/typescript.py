@@ -107,7 +107,7 @@ def emit_typescript(onto: Ontology) -> str:
     # binding grammar. The TS resolver mirrors the Rust one (Phase 3).
     lines.extend([
         "// ─── Derived bindings per shape — read-side resolver input ──────────────",
-        "// Binding grammar: {find, where, where_edge, is, get} | {latest: [...]} | dotted string.",
+        "// Binding grammar: {find, where, where_link, is, get} | {latest: [...]} | dotted string.",
         "",
         "export const SHAPE_DERIVED: Record<string, Record<string, unknown>> = {",
     ])
@@ -120,7 +120,7 @@ def emit_typescript(onto: Ontology) -> str:
 
     lines.extend([
         "// ─── Shortcuts per shape — write-side flat-create expansion table ───────",
-        "// Each entry: flat_key -> {writes: <edge>[is=<shape>].<field>}",
+        "// Each entry: flat_key -> {writes: <link>[is=<shape>].<field>}",
         "",
         "export const SHAPE_SHORTCUTS: Record<string, Record<string, unknown>> = {",
     ])

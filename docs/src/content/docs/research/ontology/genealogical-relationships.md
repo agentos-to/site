@@ -405,7 +405,7 @@ FamilySearch models all family structures with just:
 
 Sibling, grandparent, cousin, etc. are **computed**, not stored.
 
-### 2. Relationships Are Entities, Not Edges
+### 2. Relationships Are Entities, Not Links
 
 Relationships in GEDCOM X have:
 - Their own IDs

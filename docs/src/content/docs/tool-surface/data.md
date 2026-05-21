@@ -11,7 +11,7 @@ Query and mutate graph entities.
 
 ## Ops
 
-- [`read`](#read) — Read one node (or edge) by id
+- [`read`](#read) — Read one node (or link) by id
 - [`list`](#list) — List nodes by shape, user_tag, name match, FTS via `q`, system metadata, or skill membership
 - [`update`](#update) — Set or delete vals on an existing node
 - [`create`](#create) — Create a new node of the given shape
@@ -19,7 +19,7 @@ Query and mutate graph entities.
 
 ## `read`
 
-Read one node (or edge) by id.
+Read one node (or link) by id.
 
 ### Examples
 
@@ -34,7 +34,7 @@ read({ id: "abc123" })
   "additionalProperties": false,
   "properties": {
     "id": {
-      "description": "Node or edge id.",
+      "description": "Node or link id.",
       "type": "string"
     },
     "view": {
@@ -44,7 +44,7 @@ read({ id: "abc123" })
           "description": "Max chars for content body. Integer, or the string \"full\"."
         },
         "depth": {
-          "description": "Edge-traversal depth. 0 = no relationships.",
+          "description": "Link-traversal depth. 0 = no relationships.",
           "minimum": 0,
           "type": "integer"
         },
@@ -221,10 +221,10 @@ update({ id: "abc123", vals: { "pref:legacy": null } })
 ```json
 {
   "additionalProperties": false,
-  "description": "Pass exactly one of `id` (node) or `edge` (edge val). Edge val deletion is not supported \u2014 pass a non-null value.",
+  "description": "Pass exactly one of `id` (node) or `link` (link val). Link val deletion is not supported \u2014 pass a non-null value.",
   "properties": {
-    "edge": {
-      "description": "Edge id to update (writes edge_vals \u2014 icon position, fares, etc.).",
+    "link": {
+      "description": "Link id to update (writes link_vals \u2014 icon position, fares, etc.).",
       "type": "string"
     },
     "id": {
@@ -302,7 +302,7 @@ delete({ id: "abc123" })
   "additionalProperties": false,
   "properties": {
     "id": {
-      "description": "Node or edge id. Soft-delete.",
+      "description": "Node or link id. Soft-delete.",
       "type": "string"
     }
   },

@@ -9,11 +9,11 @@
 #
 #   joe —born_in→  birth(...)        # birthdate, given/family/legal name, gender, ...
 #   joe —changed→  transition(...)   # subsequent name/gender/identity changes
-#   joe —lived_at→ place {from, to}  # residences, time-bracketed via edge_vals
-#   joe —worked_at→ org {from, to}   # roles, same dated-edge pattern
+#   joe —lived_at→ place {from, to}  # residences, time-bracketed via link_vals
+#   joe —worked_at→ org {from, to}   # roles, same dated-link pattern
 #
 # Read-side ergonomics: `derived:` block walks events at read time and
-# projects current values (latest by startDate; tie-break = max edge id)
+# projects current values (latest by startDate; tie-break = max link id)
 # onto the node JSON. So `joe.givenName` Just Works without storing it
 # anywhere on the person node.
 #
@@ -38,8 +38,8 @@ person:
     notes:   text      # private bio text
     about:   text      # public bio text
 
-  relations:
-    # `born_in`, `changed`, `lived_at`, `worked_at` are generic life-edges
+  links:
+    # `born_in`, `changed`, `lived_at`, `worked_at` are generic life-links
     # (rule 4 — owned by the verb, not a shape). Not declared here but the
     # canonical homes for birthdate / identity changes / residences / roles
     # respectively. See the `derived:` block below for the resolver wiring.
@@ -55,11 +55,11 @@ person:
   # recursion machinery (life-events Phase 3) and evaluates lazily at
   # read time. `find:` names the verb; `is:` filters by target shape via
   # the also: chain; `get:` projects the target's field; `latest:` picks
-  # the most-recent arm by target.startDate (tie: max edge id).
+  # the most-recent arm by target.startDate (tie: max link id).
   derived:
     birthdate:          {find: born_in,  is: birth, get: startDate}
-    current_residence:  {find: lived_at, where_edge: {to: null}, get: name}
-    current_role:       {find: worked_at, where_edge: {to: null}, get: title}
+    current_residence:  {find: lived_at, where_link: {to: null}, get: name}
+    current_role:       {find: worked_at, where_link: {to: null}, get: title}
 
     givenName:
       latest:

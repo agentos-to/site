@@ -114,7 +114,7 @@ When you scrape a friends list or followers page, you get limited data per perso
 ```
 
 This is what `list_friends`, `list_following`, `list_followers` return.
-Enough to create the person entity and the relationship edge.
+Enough to create the person entity and the relationship link.
 
 ### Rich (from profile scrape)
 

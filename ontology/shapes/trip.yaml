@@ -40,7 +40,7 @@ trip:
     guest:             json      # ride booked for a guest ({name, phone}) rather than the account holder
     marketplace:       string    # Uber marketplace identifier (region/fleet)
     vehicle:           json      # vehicle details ({name, type, year, license_plate})
-  relations:
+  links:
     at:                actor     # the namespace this trip lives within (Uber, SerpAPI flight feed, etc.). Required for identity.
     origin:            place     # pickup / departure airport / departure station
     destination:       place     # dropoff / arrival airport / arrival station

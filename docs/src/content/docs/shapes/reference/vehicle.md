@@ -10,9 +10,9 @@ Ownership, registration, and purchase are events/relationships, not
 properties of the vehicle. A car doesn't "become sold" — it changes
 hands. Plates belong to a registration, not the car.
 
-Ownership history: person --owns--> vehicle (edge with start/end dates)
+Ownership history: person --owns--> vehicle (link with start/end dates)
 Purchase: a transaction between buyer, seller, and vehicle
-Registration: vehicle registered in a jurisdiction (edge with plate, dates)
+Registration: vehicle registered in a jurisdiction (link with plate, dates)
 
 | Metadata | Value |
 |---|---|

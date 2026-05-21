@@ -14,7 +14,7 @@ class:
     capacity:          integer   # max attendees
     spotsRemaining:   integer   # current availability
     isFull:           boolean
-  relations:
+  links:
     instructor:        person    # who teaches/leads the class
     venue:             place     # specific room/studio within a location
   prior_art:

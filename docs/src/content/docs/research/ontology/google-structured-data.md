@@ -23,7 +23,7 @@ If Google is betting on entities, we should understand how they model them.
 - [x] How many entities does it contain? (5 billion entities, 500 billion facts as of 2020)
 - [x] What entity types exist in Knowledge Graph?
 - [x] How do they resolve entity identity? (Machine IDs / MIDs)
-- [x] How do they handle relationships? (Graph structure with edges as relationships)
+- [x] How do they handle relationships? (Graph structure with links as relationships)
 - [x] Who built it? Key engineers/researchers?
 
 ### Schema.org
@@ -136,7 +136,7 @@ If Google is betting on entities, we should understand how they model them.
 - Creates master entity with new MID when merging
 
 **Graph Structure:**
-- Non-hierarchical graph: nodes (topics/entities) connected by edges (relationships)
+- Non-hierarchical graph: nodes (topics/entities) connected by links (relationships)
 - Each entity can have multiple types assigned
 - Relationships are typed and can carry attributes
 
@@ -496,7 +496,7 @@ Thing
 **4. Properties vs Types**
 - Schema.org has 1,528 properties vs 827 types
 - Properties carry more information than types
-- Relationships are expressed as properties, not separate edge types
+- Relationships are expressed as properties, not separate link types
 - **Implication**: Rich properties may matter more than type granularity
 
 **5. Pragmatic Over Pure**
@@ -528,7 +528,7 @@ Thing
 ### How Schema.org Models Relationships
 
 **1. Relationships Are Properties**
-- No separate "edge" or "relationship" type
+- No separate "link" or "relationship" type
 - Relationships are properties on entities
 - `author`, `creator`, `memberOf`, `worksFor` — all properties
 

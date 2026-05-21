@@ -14,7 +14,7 @@ software:
     platform:          string[]  # web, macos, windows, linux, ios, android
     openSource:       boolean
     repositoryUrl:    url       # source code URL
-  relations:
+  links:
     developer:         organization  # who makes it
     repository:        repository    # source code repo (if open source)
   prior_art:

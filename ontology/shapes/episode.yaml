@@ -7,7 +7,7 @@ episode:
     durationMs:       integer
     episodeNumber:    integer
     seasonNumber:     integer
-  relations:
+  links:
     series:            podcast   # which podcast this belongs to
     transcribe:        transcript
     guest:             person[]

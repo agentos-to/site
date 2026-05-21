@@ -66,7 +66,7 @@ def _rust_field_type(f: Field, required: bool) -> str:
 
 def _emit_rust_struct(s: Shape) -> list[str]:
     """One `#[derive(Serialize, Deserialize)]` struct for a shape — the
-    typed payload for `ShapeHandle::upsert_struct`. Relations are edges,
+    typed payload for `ShapeHandle::upsert_struct`. Relations are links,
     not vals, so they are omitted; `id` is the node identity, never a val.
     Generated from the field list, so a seeder upserting via this struct
     structurally cannot write a val the shape does not declare."""
@@ -135,7 +135,7 @@ def emit_rust(onto: Ontology) -> str:
         "// ===========================================================",
         "//",
         "// Fields are the shape's declared fields plus the universal",
-        "// `name`; relations are edges (not vals) and are omitted.",
+        "// `name`; relations are links (not vals) and are omitted.",
         "// Identity fields and `name` are required; every other field is",
         "// Option + #[serde(default)], so a node carrying a subset still",
         "// deserializes and absent fields serialize to nothing.",
@@ -354,7 +354,7 @@ def emit_rust(onto: Ontology) -> str:
         "/// Per-shape `derived:` bindings as a JSON object. The engine",
         "/// parses lazily via `serde_json::from_str` on first lookup and",
         "/// caches per-shape. Binding grammar:",
-        "///   {find, where, where_edge, is, get} | {latest: [...]} | dotted string.",
+        "///   {find, where, where_link, is, get} | {latest: [...]} | dotted string.",
         f"pub static SHAPE_DERIVED_JSON: &str = r#\"{_json.dumps(derived_obj)}\"#;",
         "",
         "// ===========================================================",
@@ -362,7 +362,7 @@ def emit_rust(onto: Ontology) -> str:
         "// ===========================================================",
         "",
         "/// Per-shape `shortcuts:` table as a JSON object. Each entry:",
-        "///   flat_key -> {writes: <edge>[is=<shape>].<field>}",
+        "///   flat_key -> {writes: <link>[is=<shape>].<field>}",
         f"pub static SHAPE_SHORTCUTS_JSON: &str = r#\"{_json.dumps(shortcuts_obj)}\"#;",
         "",
     ]

@@ -20,7 +20,7 @@ email:
     isSpam:           boolean
     hasAttachments:   boolean
     draftId:          string    # Gmail draft-specific id alongside the message id
-    conversationId:   string    # denormalized thread id (authoritative edge is `inConversation` via `also: [message]`)
+    conversationId:   string    # denormalized thread id (authoritative link is `inConversation` via `also: [message]`)
     accountEmail:     string    # which account received this
     sizeEstimate:     integer   # bytes
     references:        string    # RFC 2822 References header chain
@@ -40,7 +40,7 @@ email:
     returnPath:       string    # Return-Path — envelope sender for bounces
     authResults:      string    # Authentication-Results: spf/dkim/dmarc verdicts
     bodyHtml:         text      # HTML body (can be large)
-  relations:
+  links:
     from:              account   # sender
     to:                account[] # recipients
     cc:                account[] # cc recipients

@@ -22,14 +22,14 @@ brand:
   fields:
     tagline:           string
     country:           string
-    # founding date lives on `ownedBy --> organization {founded}` edge val,
+    # founding date lives on `ownedBy --> organization {founded}` link val,
     # or — if multi-party founding — a `founding` event node. Rule 1.
     # Visual identity — optional, populated when renderers need to brand
     # the presentation. None of these are required to construct a brand;
     # an un-styled brand just renders in the default palette.
     primaryColor:      string    # signature brand color in CSS hex "#RRGGBB". e.g. "#002244" (United navy), "#DC143C" (Delta red), "#000000" (Uber).
     textColor:         string    # recommended foreground hex for text rendered over primaryColor. Usually "#ffffff" for dark primaries, "#000000" for light. Lets renderers pick legible text without running WCAG contrast math at render time.
-  relations:
+  links:
     ownedBy:          organization
     website:           website
     logo:              image      # brand wordmark or logomark; renderers can display inline.

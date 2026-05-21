@@ -21,7 +21,7 @@ See [Shape design principles](/shapes/shape-design-principles/) for how this sha
 
 ## Changes are entities
 
-When an entity is created, updated, or deleted, the operation itself becomes a **change entity** on the graph. A change has relationships to the actor (who did it), the target (what changed), and optionally the source (where data came from). This follows the pattern established by W3C PROV-O, ActivityStreams, and Git: make events first-class objects, not edges. Provenance isn't a static field — it's the full chain of change entities. Walk backwards to reconstruct any previous state.
+When an entity is created, updated, or deleted, the operation itself becomes a **change entity** on the graph. A change has relationships to the actor (who did it), the target (what changed), and optionally the source (where data came from). This follows the pattern established by W3C PROV-O, ActivityStreams, and Git: make events first-class objects, not links. Provenance isn't a static field — it's the full chain of change entities. Walk backwards to reconstruct any previous state.
 
 See [Identity & change](/shapes/identity-and-change/).
 

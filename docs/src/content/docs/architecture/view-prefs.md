@@ -197,7 +197,7 @@ data.update({ id, vals: { 'pref:ui': null } })
 
 ## Related
 
-- [Data model](/architecture/data-model/) — the val/edge primitives that
+- [Data model](/architecture/data-model/) — the val/link primitives that
   carry `pref:ui`.
 - [Shapes](/architecture/shape-extraction/) — how shape defs become
   graph nodes (the carrier for shape-default prefs).

@@ -67,7 +67,7 @@ Each triple has three components:
 
 ### Property Graphs
 
-**Property graphs** (Neo4j, etc.) allow properties on both nodes AND edges.
+**Property graphs** (Neo4j, etc.) allow properties on both nodes AND links.
 
 ```
 (:Person {name: "Joe"})-[:KNOWS {since: 2020}]->(:Person {name: "Alice"})
@@ -90,7 +90,7 @@ Each triple has three components:
 
 | Aspect | RDF | Property Graph |
 |--------|-----|----------------|
-| **Relationship metadata** | Requires reification/workarounds | Native edge properties |
+| **Relationship metadata** | Requires reification/workarounds | Native link properties |
 | **Scalability** | Harder for analytics workloads | Better for large-scale analytics |
 | **Semantic richness** | OWL reasoning, inference | Limited inference |
 | **Standards** | W3C standards (SPARQL, OWL, SHACL) | Vendor-specific |
@@ -215,7 +215,7 @@ The triple `<<:Joe :knows :Alice>>` can be used as a subject or object.
 
 **Advantages over standard reification:**
 - Compact syntax
-- Intuitive model (feels like edge properties)
+- Intuitive model (feels like link properties)
 - SPARQL-star for querying
 - Backward compatible
 
@@ -748,7 +748,7 @@ The semantic web community lacks consensus on fundamental questions.
 | Web publishing | JSON-LD + Schema.org |
 | Validation | SHACL |
 | Hierarchies/taxonomies | SKOS |
-| Edge properties | RDF-star or property graph |
+| Link properties | RDF-star or property graph |
 
 ---
 

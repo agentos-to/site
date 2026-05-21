@@ -11,7 +11,7 @@
 # point procedures.
 #
 # A procedure usually addresses a health-condition (the septoplasty
-# treats the deviated septum). That `treats` edge lets you ask "what was
+# treats the deviated septum). That `treats` link lets you ask "what was
 # done about the 2016 stomach problem".
 #
 # `bodySite` is a plain string — anatomy is not modeled as its own shape
@@ -37,7 +37,7 @@ health-procedure:
     snomedCode:       string    # SNOMED CT procedure concept id
     findings:         text      # what the procedure found / the report summary
     followUp:         text      # recommended follow-up actions
-  relations:
+  links:
     treats:           health-condition   # the condition this procedure addresses or investigates
     performer:        person             # surgeon / radiologist / clinician who performed it
     orderedBy:        person             # referring / ordering clinician — distinct from the
@@ -52,7 +52,7 @@ health-procedure:
         The resource for an action performed on a patient. performedDate ≈
         occurrenceDateTime/occurrencePeriod; status ≈ status; bodySite ≈
         bodySite; outcome ≈ outcome; findings ≈ report + note; `treats`
-        edge ≈ reason; performer ≈ performer.actor. `orderedBy` ≈
+        link ≈ reason; performer ≈ performer.actor. `orderedBy` ≈
         basedOn → ServiceRequest.requester — the clinician who ordered the
         study, which on imaging/scopes is rarely the one who performs it.
     - source: CPT — Current Procedural Terminology (AMA)

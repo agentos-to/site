@@ -2,7 +2,7 @@
 # author, publisher, license, datePublished come from creative_work)
 # AND products (commercial books are sold; they inherit price / brand
 # / lifecycle dates from product).
-# User-specific state (rating, shelf, dates) and platform metrics are modeled as edge values.
+# User-specific state (rating, shelf, dates) and platform metrics are modeled as link values.
 book:
   plural: books
   identity_any: [isbn13, isbn]
@@ -21,7 +21,7 @@ book:
     places:            string[]  # settings/locations in the book
     characters:        string[]  # named characters
     awardsWon:        string[]
-  relations:
+  links:
     # `written_by` and `published_by` are inherited from creative_work
     # (rule 2 verb phrases). Book used to redeclare them as `writtenBy` /
     # `publisher` (noun labels) — that broke the inheritance contract and

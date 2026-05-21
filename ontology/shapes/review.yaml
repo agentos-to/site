@@ -9,7 +9,7 @@ review:
     ratingMax:        number    # scale upper bound (e.g. 5, 10, 100)
     tags:              string[]
     isVerified:       boolean   # verified purchase
-  relations:
+  links:
     reviews:           product   # what this review is about
     postedBy:         account
   prior_art:

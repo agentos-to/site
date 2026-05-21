@@ -86,6 +86,6 @@ to surface drift earlier.
   state: most shapes exist because *skills* produce them; the engine
   never creates those records. The audit doesn't flag these as dead
   YAML — that judgment needs cross-reference against `skills/`.
-- **Out of scope**: relation names (`create_edge("acted_on")`) and
+- **Out of scope**: relation names (`create_link("acted_on")`) and
   field names (`set_val(..., "changedKeys", ...)`). Giving them const
   treatment would start violating §1. Left as-is.

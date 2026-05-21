@@ -6,7 +6,7 @@ analytics_event:
     distinctId:       string    # PostHog user identifier
     properties:        json      # arbitrary event properties
     currentUrl:       url       # page URL where the action fired
-  relations:
+  links:
     person:            person
   prior_art:
     - source: PostHog Events API

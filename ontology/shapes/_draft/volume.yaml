@@ -12,7 +12,7 @@ volume:
     volumeType:       string    # internal, external, network, cloud
     removable:         boolean   # ejectable media
     readOnly:         boolean
-  relations:
+  links:
     contains:          folder[]
   prior_art:
     - source: POSIX / Single Unix Specification (mount)

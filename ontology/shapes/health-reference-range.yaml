@@ -61,7 +61,7 @@ health-reference-range:
     gestationalAge:   string    # gestational age range, for pregnancy-specific intervals
     fasting:          boolean    # whether the interval assumes a fasting sample
     timeOfDay:        string    # for diurnal analytes (cortisol) — "morning", "midnight"
-  relations:
+  links:
     analyte:          health-biomarker   # the biomarker this interval is for
     issuingLab:       health-lab         # the lab that established or verified this interval
   prior_art:

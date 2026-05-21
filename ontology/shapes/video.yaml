@@ -17,7 +17,7 @@ video:
     frameRate:        number    # fps
     codec:             string    # e.g. "h264", "vp9"
     viewCount:        integer   # platform-reported view count (YouTube) — snapshot, not live
-  relations:
+  links:
     channel:           channel   # channel this was uploaded to
     transcribe:        transcript
     addTo:            playlist

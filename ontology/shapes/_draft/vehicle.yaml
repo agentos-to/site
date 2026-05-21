@@ -3,9 +3,9 @@
 # properties of the vehicle. A car doesn't "become sold" — it changes
 # hands. Plates belong to a registration, not the car.
 #
-# Ownership history: person --owns--> vehicle (edge with start/end dates)
+# Ownership history: person --owns--> vehicle (link with start/end dates)
 # Purchase: a transaction between buyer, seller, and vehicle
-# Registration: vehicle registered in a jurisdiction (edge with plate, dates)
+# Registration: vehicle registered in a jurisdiction (link with plate, dates)
 vehicle:
   plural: vehicles
   identity: vin
@@ -22,7 +22,7 @@ vehicle:
     drivetrain:        string    # FWD, RWD, AWD, 4WD
     color:             string
     odometer:          integer   # miles or km (last known)
-  relations:
+  links:
     manufacturer:      organization
   prior_art:
     - source: ISO 3779 — VIN (Vehicle Identification Number)

@@ -18,7 +18,7 @@ This isn't a limitation — it's the architecture. Local-first means:
 
 Everything that counts as *your data*:
 
-- **The graph** — every node, edge, and value you've ever stored. One SQLite file.
+- **The graph** — every node, link, and value you've ever stored. One SQLite file.
 - **Encrypted credentials** — sessions for services you've connected. Keys in Keychain, values in that same SQLite file.
 - **Skill code** — the Python that runs when you invoke a skill. Read at call time from `~/dev/agentos/skills/` or wherever you installed the skill.
 - **Settings and preferences** — stored as graph values (key-value on nodes), not in cloud configs.

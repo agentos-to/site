@@ -39,7 +39,7 @@ event:
     distinctId:       string    # analytics platform's distinct_id (PostHog)
     currentUrl:       string    # URL where the event fired
     properties:        json      # free-form event properties dict
-  relations:
+  links:
     at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
     involves:          person[]  # people this event involves (many-to-many)
     location:          place     # where it happens

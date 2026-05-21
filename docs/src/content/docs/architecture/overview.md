@@ -12,8 +12,8 @@ The entire system is built from a small number of primitives. Learn these and th
 Three kinds of thing live in SQLite at `~/.agentos/data/agentos.db`:
 
 - **Nodes** — bare identities. A node has an ID and timestamps; nothing else.
-- **Edges** — labeled, directional links between two nodes (`tagged_with`, `replied_to`, `parent`).
-- **Values** — keyed fields on a node or an edge (`name = "Joe"`, `done = true`).
+- **Links** — labeled, directional links between two nodes (`tagged_with`, `replied_to`, `parent`).
+- **Values** — keyed fields on a node or an link (`name = "Joe"`, `done = true`).
 
 That's the whole schema. There is no "tasks" table, no "messages" table, no type column on nodes. Semantic types are defined by [shapes](/shapes/overview/) — YAML files loaded into the graph at engine startup. The engine is **shape-aware but entity-agnostic**: it can coerce `priority` (integer) without knowing what "priority" means.
 

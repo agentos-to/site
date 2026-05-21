@@ -12,17 +12,17 @@
 # itself (the book, the font, the logo-as-artwork). An
 # intellectual_property node is the *legal right over* an intangible.
 # A logo can be both — a creative_work node AND the subject of an
-# intellectual_property node — wired by an edge, never by `also`.
+# intellectual_property node — wired by an link, never by `also`.
 #
 # NOT a `qualification`: a qualification attests to a person's
 # competency. An IP right attests to nothing and is held by an org as
 # readily as a person. Sibling nouns, no `also` between them.
 #
 # Lifecycle (filed -> examined -> published -> allowed -> registered ->
-# renewed) is N distinct-verb dated milestone edges to the granting
-# office, NOT fields on the node (events-as-edges rule 1). The node
+# renewed) is N distinct-verb dated milestone links to the granting
+# office, NOT fields on the node (events-as-links rule 1). The node
 # carries only intrinsic, current-state facts. `status` is the current
-# stage; the milestone edges carry the dated history.
+# stage; the milestone links carry the dated history.
 #
 # `name` (inherited) is the display label — "ADAVIA (trademark)".
 intellectual_property:
@@ -54,12 +54,12 @@ intellectual_property:
                                 #   are imported in anger.
     validIn:         string     # jurisdiction — "US", "EU", "WO" (Madrid)
     # Lifecycle dates (filed / registered / expired / lapsed) live on dated
-    # milestone edges to the granting office (per the shape's header note):
+    # milestone links to the granting office (per the shape's header note):
     # `--filed_with--> office {date}`, `--registered_with--> office {date}`,
     # `--expires_on--> event` etc. Rule 1.
     renewalPeriod:   string     # ISO-8601 duration — "P10Y" for a TM
     verificationUrl: url        # public registry link (USPTO TSDR etc.)
-  relations:
+  links:
     held_by:         actor         # owner — org or person (Wikidata P127)
     granted_by:      organization  # the IP office (USPTO, EUIPO, WIPO)
     covers:          creative_work # OPTIONAL — the artwork/logo/work the
@@ -83,8 +83,8 @@ intellectual_property:
       url: https://www.wipo.int/standards/en/
       notes: >-
         Standard lifecycle-event vocabulary (KeyEventCode). The
-        filed/published/granted/lapsed milestones are dated edges to the
-        granting office, not node fields — events-as-edges rule 1.
+        filed/published/granted/lapsed milestones are dated links to the
+        granting office, not node fields — events-as-links rule 1.
     - source: Nice Classification (Nice Agreement 1957; NCL 13-2026)
       url: https://www.wipo.int/en/web/classification-nice
       notes: >-

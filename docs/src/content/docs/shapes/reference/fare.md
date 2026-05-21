@@ -23,7 +23,7 @@ A booking price is not atomic — it decomposes into (base fare) +
 rule identifier, a branded product name, a class of service, and
 policy flags (refundable, changeable). Modeling fare as its own
 node lets booking_offer / reservation all reference the same fare
-identity, and lets N `tax_line` nodes hang off it via back-edges.
+identity, and lets N `tax_line` nodes hang off it via back-links.
 
 Relationship to adjacent shapes:
 - `offer` / `booking_offer` — purchasable bundle; carries 1+ fare

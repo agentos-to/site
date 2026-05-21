@@ -15,7 +15,7 @@ conversation:
     source:            string    # transcript provenance (e.g., granola's "manual" vs "recording")
     cwd:               string    # working directory (for dev-tool transcripts)
     gitBranch:        string    # git branch at the time of the conversation
-  relations:
+  links:
     at:                actor    # the namespace this lives within (organization, product, software, or protocol node)
     participant:       actor[]   # participants — people, agents, or organizations
     message:           message[]

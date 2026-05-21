@@ -56,7 +56,7 @@ Every tool dispatch — regardless of caller — emits two events on `~/.agentos
   "latency_ms": 5,
   "result": { "id": "hpefiq", "created": true },
   "error": null,
-  "entities": { "nodes": ["hpefiq"], "edges": [], "shapes": ["task"] },
+  "entities": { "nodes": ["hpefiq"], "links": [], "shapes": ["task"] },
   "mutation_id": null,
   "skill": null
 }
@@ -68,13 +68,13 @@ Every tool dispatch — regardless of caller — emits two events on `~/.agentos
 | `tool` / `operation` | Same value — the dotted op identity. Both fields exist for cross-interface debugging without translating between bare and dotted forms. |
 | `arguments` | The full input the engine saw, **including** `mutation_id`. |
 | `result` | Tool result on `"completed"`, `null` otherwise. |
-| `entities.nodes` / `entities.edges` | Graph IDs this call touched. `data.update` / `data.delete` echo the target id (or edge id). `data.create` echoes the new node's id on `"completed"`. The frontend invalidates every TanStack query bound to any of these IDs. |
+| `entities.nodes` / `entities.links` | Graph IDs this call touched. `data.update` / `data.delete` echo the target id (or link id). `data.create` echoes the new node's id on `"completed"`. The frontend invalidates every TanStack query bound to any of these IDs. |
 | `entities.shapes` | Shape tags this call touched. Echoed on `data.create` (the explicit `shape` argument). Drives invalidation of open list queries (`useEntities({shape: X})`) whose new row hasn't been bound yet. Shape echo on update/delete is intentionally deferred — id binding already invalidates the lists that contain the row. |
 | `mutation_id` | Echoes the client-supplied `params.mutation_id`; `null` for callers (MCP / CLI / cron) that don't mint one. The reactive bridge uses this to skip invalidating queries the local client has already patched optimistically. |
 | `client` | Identifier the caller set on its session (`agentos-call`, `agentos-mcp`, `agentos-web-bridge`, etc.). Useful for filtering activity feeds by origin. |
 | `latency_ms`, `request_id`, `session_id`, `working_dir` | Standard observability fields — same across all interfaces. |
 
-`entities` is always present; an empty `{nodes: [], edges: [], shapes: []}` means "this call touched no entities" (most read ops, all `system.*` ops, etc.).
+`entities` is always present; an empty `{nodes: [], links: [], shapes: []}` means "this call touched no entities" (most read ops, all `system.*` ops, etc.).
 
 ## `mutation_id` round-trip
 

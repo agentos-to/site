@@ -15,7 +15,7 @@ file:
     lineCount:        integer   # line count (text files)
     kind:              string    # file, dir, symlink, submodule
     sha:               string    # git blob SHA (repo files)
-  relations:
+  links:
     attachedTo:       message   # email/message this file was attached to
     repository:        repository
   prior_art:

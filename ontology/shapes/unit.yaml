@@ -64,7 +64,7 @@ unit:
     minorExponent: integer # minor-unit digits — 2 for USD cents, 0 for JPY
     # --- logarithmic-only ---
     logBase:      number   # 10 or e — the base of the log scale
-  relations:
+  links:
     dimension:    dimension       # the dimension this unit measures
     quantityKinds: quantity-kind[] # quantity kinds conventionally expressed in this unit
   prior_art:

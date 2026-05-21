@@ -22,7 +22,7 @@ simulation:
     endedAt:          datetime
     actionCount:      integer    # total actions taken
     writeCount:       integer    # writes to the fork overlay
-  relations:
+  links:
     primaryMemex:      memex           # the memex being written to (fork/live)
     mountedMemex:      memex[]         # additional read-only memex
     agent:             agent

@@ -7,13 +7,13 @@
 #
 # `ordering_mode` is a CLOSED ENUM — the renderer branches on it:
 #   linear     → vertical list (top-to-bottom) or horizontal strip;
-#                 edge.position = { linear: integer }
+#                 link.position = { linear: integer }
 #   spatial    → icon grid (col,row → x,y in CSS px);
-#                 edge.position = { spatial: { col: int, row: int } }
+#                 link.position = { spatial: { col: int, row: int } }
 #   unordered  → icon wrap, view-time sort via sort_by;
-#                 edge.position absent
+#                 link.position absent
 #   temporal   → timeline / reverse-chrono feed;
-#                 edge.position = { temporal: { datetime: string } }
+#                 link.position = { temporal: { datetime: string } }
 #
 # `listType` is an OPEN STRING — **content semantics only**. What KIND
 # of container: 'folder' (default, generic), 'playlist' (music linear
@@ -37,6 +37,13 @@ list:
     listId:            string    # platform list id (when imported from a third party)
     listType:          string    # OPEN STRING — semantic intent only.
     ordering_mode:    string    # CLOSED ENUM — 'linear' | 'spatial' | 'unordered' | 'temporal'.
+    member_shape:     string    # OPEN STRING — optional shape constraint. Unset =
+                                  # universal (mixed-shape: Bookmarks, Desktop, Recycle Bin).
+                                  # Set to a shape name (e.g. 'song' for a playlist,
+                                  # 'photo' for an album) → the "Add to <list>" gesture
+                                  # only offers this list when the right-clicked node
+                                  # matches. Display-time hint, not engine-enforced —
+                                  # the contains link type permits any node.
     privacy:           string
     isDefault:        boolean   # platform-created list (e.g. "Watch Later")
     isPublic:         boolean
@@ -47,10 +54,10 @@ list:
     sort_by:          string    # view-time sort field (unordered lists)
     # filesystem-mirrored lists (listType: 'folder') only
     path:              string    # POSIX path when this list mirrors a real directory
-  relations:
+  links:
     at:                actor     # namespace owner — null for system lists
     belongsTo:        account   # who owns this list — null for system lists
-    contains:          node[]    # ANY addressable shape. Edge vals carry per-entry
+    contains:          node[]    # ANY addressable shape. Link vals carry per-entry
                                   # metadata: position (typed by ordering_mode),
                                   # sort_order, name_override, icon_override.
     background_image: image     # optional — desktop wallpaper / folder backdrop
@@ -69,8 +76,8 @@ list:
       url: https://learn.microsoft.com/en-us/archive/msdn-magazine/2004/january/winfs-lets-users-search-and-manage-files-based-on-content
       notes: >-
         WinFS unified Folder + Contact + Photo under a single Item base,
-        with FolderMember as a holding edge. Our list-with-contains is the
-        same pattern: one shape, one edge mechanism, view-time projections
+        with FolderMember as a holding link. Our list-with-contains is the
+        same pattern: one shape, one link mechanism, view-time projections
         handle the "I want it to look like an album" case.
     - source: Vannevar Bush — As We May Think (Memex trails)
       url: https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/

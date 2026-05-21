@@ -10,8 +10,8 @@ The entire AgentOS data model fits in three primitives and one idea.
 Everything in AgentOS lives in one SQLite database at `~/.agentos/data/agentos.db`. The schema is tiny:
 
 - **Nodes** — bare identities. A node has an ID and timestamps. That's it.
-- **Edges** — labeled, directional links between two nodes (`tagged_with`, `replied_to`, `parent`).
-- **Values** — keyed fields on a node (`name = "Joe"`) or on an edge (`weight = 0.8`).
+- **Links** — labeled, directional links between two nodes (`tagged_with`, `replied_to`, `parent`).
+- **Values** — keyed fields on a node (`name = "Joe"`) or on an link (`weight = 0.8`).
 
 Plus two supporting tables:
 
@@ -46,7 +46,7 @@ Two flavors:
 
 This is how a WhatsApp contact and an iMessage contact with the same phone number become the same `person` node. It's how the same webpage read twice gets one `webpage` node with two `read` activities attached. It's how the graph stays clean without a human deduping.
 
-Identity is also how the graph survives skill churn. Uninstall the WhatsApp skill and the person's WhatsApp handle is still on that person node — edges and values outlive the skill that wrote them.
+Identity is also how the graph survives skill churn. Uninstall the WhatsApp skill and the person's WhatsApp handle is still on that person node — links and values outlive the skill that wrote them.
 
 ## How skills write
 
@@ -70,7 +70,7 @@ The SDK validator (`agent-sdk validate`) AST-checks return dicts against `@retur
 
 ## Why the engine is entity-agnostic
 
-The engine knows *about* shapes — field types, relations, identity keys. It does not know *what those fields mean*. It can coerce `priority` to an integer without having any opinion about what priority sorts first. It can follow a `parent` edge without knowing what a parent is.
+The engine knows *about* shapes — field types, relations, identity keys. It does not know *what those fields mean*. It can coerce `priority` to an integer without having any opinion about what priority sorts first. It can follow a `parent` link without knowing what a parent is.
 
 This is the principle that keeps the engine generic. If the engine ever learned that tasks have priorities and priorities are sortable, every new entity type would require a Rust change. Instead, meaning lives in:
 
@@ -80,14 +80,14 @@ This is the principle that keeps the engine generic. If the engine ever learned 
 
 See [Architectural laws](/architecture/architectural-laws/) for the full list of things the engine refuses to do.
 
-## Edges as first-class data
+## Links as first-class data
 
-Edges are not a join table. They have their own IDs, timestamps, and can carry values. `mentioned_in` can hold `offset` and `length`; `tagged_with` can hold `added_by`.
+Links are not a join table. They have their own IDs, timestamps, and can carry values. `mentioned_in` can hold `offset` and `length`; `tagged_with` can hold `added_by`.
 
-The edge table is identical in shape to the node table:
+The link table is identical in shape to the node table:
 
 ```sql
-CREATE TABLE edges (
+CREATE TABLE links (
   id          TEXT PRIMARY KEY,
   from_id     TEXT NOT NULL REFERENCES nodes(id),
   label       TEXT NOT NULL,
@@ -98,7 +98,7 @@ CREATE TABLE edges (
 );
 ```
 
-And edge values live in `edge_vals`, parallel to `node_vals`. Same story: no type-specific semantics in Rust, just storage.
+And link values live in `link_vals`, parallel to `node_vals`. Same story: no type-specific semantics in Rust, just storage.
 
 ## What you do with the graph
 

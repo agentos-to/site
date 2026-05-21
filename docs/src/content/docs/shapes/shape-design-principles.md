@@ -14,27 +14,27 @@ A book is a book. Not a "Goodreads book" or an "Amazon book." The shape defines 
 ## 2. No counts on shapes
 
 `worksCount`, `employeeCount`, `memberCount`, `subscriberCount`, `itemCount` — none of these should be stored fields. They're either:
-- **Computable** from graph structure (count of `book --writtenBy--> person` edges), or
+- **Computable** from graph structure (count of `book --writtenBy--> person` links), or
 - **Unreliable** because different sources disagree (LinkedIn says 5000 employees, PitchBook says 4800)
 
 The graph is not a global source of truth. Whoever provided the count is probably already outdated. Delete count fields. If the engine needs a count, it can query the graph.
 
 ## 3. A shape earns its existence by having unique fields
 
-If shape B has no fields beyond what shape A already has, B might not need to exist. The relationship between entities (edges) can express the role.
+If shape B has no fields beyond what shape A already has, B might not need to exist. The relationship between entities (links) can express the role.
 
-- `author` with no unique fields → just `person` with `book --writtenBy--> person` edges
+- `author` with no unique fields → just `person` with `book --writtenBy--> person` links
 - `shelf` with only `isExclusive` beyond `list` → questionable. Is it just a `list` of books?
 
 The `also` chain should add meaningful fields at each level. If a child shape is empty, it might be a tag (a label on an entity) rather than a shape (a type definition).
 
-## 4. Shapes are nouns, edges are verbs
+## 4. Shapes are nouns, links are verbs
 
-- "A person" is a shape. "A person authored a book" is an edge.
-- "An account" is a shape. "A person owns an account" is an edge.
-- "A book" is a shape. "A platform rates a book 4.2" is an edge with values.
+- "A person" is a shape. "A person authored a book" is an link.
+- "An account" is a shape. "A person owns an account" is an link.
+- "A book" is a shape. "A platform rates a book 4.2" is an link with values.
 
-When you're tempted to add a field that describes what the entity DID or what HAPPENED to it — that's probably an edge.
+When you're tempted to add a field that describes what the entity DID or what HAPPENED to it — that's probably an link.
 
 ## 5. Lists are lists
 
@@ -42,13 +42,13 @@ Shelf, playlist, album, folder, collection, calendar — these are all lists wit
 
 When two shapes are identical except for the name, that's a signal. Maybe they're the same shape with a `listType` field. Maybe they're tags on a generic `list`. We don't have the answer yet — this is an open design question.
 
-## 6. Platform-specific data lives on edges, not entities
+## 6. Platform-specific data lives on links, not entities
 
 A book's rating on Goodreads is a property of the Goodreads-book relationship, not the book.
 A person's karma on Reddit is a property of the Reddit-account relationship, not the person.
 A product's Prime eligibility is a property of the Amazon-product relationship, not the product.
 
-The graph supports edge values (`set_edge_val`). Use them.
+The graph supports link values (`set_link_val`). Use them.
 
 ## 7. Identity should be universal when possible
 
@@ -62,11 +62,11 @@ A person's birthday is an event: "this person was born on this date." An organiz
 
 This doesn't mean every date field becomes a full event entity today. `birthday` and `founded` can stay as fields for now. But the direction is: important dates become events linked to entities, not fields on entities.
 
-## 9. Edges are bidirectional
+## 9. Links are bidirectional
 
 The graph supports `inverse_name` on relationship types. If a person authored a book (`person --write--> book`), the book shows "written by person" (`book <--write-- person`). Both directions exist in the graph. Shapes declare one direction in `relations`; the engine resolves the other.
 
-When a skill creates an edge in one direction, the inverse is automatically queryable. "Show me all books written by this person" and "Show me who wrote this book" are the same edge traversed in opposite directions.
+When a skill creates an link in one direction, the inverse is automatically queryable. "Show me all books written by this person" and "Show me who wrote this book" are the same link traversed in opposite directions.
 
 ## 10. Principles evolve
 

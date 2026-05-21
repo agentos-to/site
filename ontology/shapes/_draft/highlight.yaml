@@ -6,7 +6,7 @@ highlight:
   fields:
     position:          string    # location in source (page number, timestamp, percentage)
     color:             string    # highlight color (yellow, green, blue, etc.)
-  relations:
+  links:
     extractedFrom:    book      # or article, webpage — the source work
     createdBy:        person    # who highlighted it
   prior_art:

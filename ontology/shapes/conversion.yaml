@@ -15,7 +15,7 @@
 #
 # This is the same lesson as health-reference-range: when a "property"
 # actually depends on a third thing, model the third thing. The
-# `parameter` edge points at it — a substance node, a rate-source node —
+# `parameter` link points at it — a substance node, a rate-source node —
 # with no shape constraint, because the two cases point at different
 # kinds of node.
 #
@@ -31,7 +31,7 @@ conversion:
     rate:     number    # the exchange rate — fx case
                           # When the rate was valid lives on event.startDate
                           # (inherited via `also: [event]`), per rule 1.
-  relations:
+  links:
     from:     unit      # source unit
     to:       unit      # target unit
     # The external thing the conversion depends on. No shape constraint:

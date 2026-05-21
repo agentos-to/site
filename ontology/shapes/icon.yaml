@@ -16,7 +16,7 @@
 # An icon is a creative_work (its designer matters, its license matters)
 # but NOT generally a file — component-backed icons live inside a JS
 # bundle and have no standalone file artifact. File-backed icons can be
-# joined to their file entry via a separate edge if/when needed.
+# joined to their file entry via a separate link if/when needed.
 icon:
   plural: icons
   # Either `component` (Vite import path for React-component icons) or

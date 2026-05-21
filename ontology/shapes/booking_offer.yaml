@@ -95,7 +95,7 @@ booking_offer:
     contactPhone:         string
   # booking_offer is the JOIN between everything that commits at once.
   # Domain-specific details live on the relations, not here.
-  relations:
+  links:
     at:                   actor              # provider namespace (united.com, duffel, opentable). Required for identity.
     derivedFrom:          offer              # the lean offer we priced up from (if captured)
     trips:                trip[]             # flights, rides, train journeys. Empty for non-transport.

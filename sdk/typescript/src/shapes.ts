@@ -27,15 +27,6 @@ export interface Account {
     metadata?: unknown;
     phone?: string;
     userId?: string;
-    at?: Actor;
-    authenticatedVia?: Account;
-    followers?: Account[];
-    follows?: Account[];
-    operator?: Actor;
-    owner?: Person;
-    previousIdentity?: Account[];
-    protocol?: Protocol;
-    via?: Product;
 }
 
 export interface Activity {
@@ -67,15 +58,6 @@ export interface Activity {
     timezone?: string;
     toolName?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    folder?: List;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
-    session?: McpSession;
 }
 
 export interface Actor {
@@ -143,11 +125,6 @@ export interface Aircraft {
     weight?: string;
     weightUnit?: string;
     weightValue?: number;
-    brand?: Brand;
-    creator?: Actor[];
-    inspiredBy?: Product[];
-    manufacturer?: Organization;
-    tagged?: Tag[];
 }
 
 export interface Airline {
@@ -166,11 +143,6 @@ export interface Airline {
     iataCode?: string;
     icaoCode?: string;
     industry?: string;
-    domain?: Domain;
-    headquarters?: Place;
-    member?: Person[];
-    parentOrganization?: Organization;
-    website?: Website;
 }
 
 export interface Airport {
@@ -190,8 +162,6 @@ export interface Airport {
     icaoCode?: string;
     terminalCount?: number;
     timezone?: string;
-    location?: Place;
-    operator?: Organization;
 }
 
 export interface App {
@@ -247,13 +217,6 @@ export interface Birth {
     status?: string;
     timezone?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
 }
 
 export interface Book {
@@ -305,15 +268,6 @@ export interface Book {
     weight?: string;
     weightUnit?: string;
     weightValue?: number;
-    brand?: Brand;
-    contributors?: Person[];
-    copyrightHolder?: Person;
-    creator?: Actor[];
-    inspiredBy?: Product[];
-    manufacturer?: Organization;
-    publishedBy?: Actor;
-    tagged?: Tag[];
-    writtenBy?: Person;
 }
 
 export interface BookingOffer {
@@ -366,28 +320,6 @@ export interface BookingOffer {
     totalAmount?: number;
     visibility?: string;
     voidWindowEndsAt?: string;
-    account?: Account;
-    at?: Actor;
-    attachments?: File[];
-    becameReservation?: Reservation;
-    becameTransaction?: Transaction;
-    billingAddress?: Place;
-    broker?: Actor;
-    buyers?: Person[];
-    creator?: Person;
-    derivedFrom?: Offer;
-    fares?: Fare[];
-    guests?: Person[];
-    involves?: Person[];
-    location?: Place;
-    membership?: Membership;
-    organizer?: Person;
-    paymentMethod?: PaymentMethod;
-    person?: Person;
-    reservedItems?: Pass[];
-    taxLines?: TaxLine[];
-    trips?: Trip[];
-    underName?: Person;
 }
 
 export interface Bookmark {
@@ -399,7 +331,6 @@ export interface Bookmark {
     author?: string;
     datePublished?: string;
     content?: string;
-    target?: unknown;
 }
 
 export interface Branch {
@@ -417,7 +348,6 @@ export interface Branch {
     isCurrent?: boolean;
     isRemote?: boolean;
     upstream?: string;
-    repository?: Repository;
 }
 
 export interface Brand {
@@ -433,9 +363,6 @@ export interface Brand {
     primaryColor?: string;
     tagline?: string;
     textColor?: string;
-    logo?: Image;
-    ownedBy?: Organization;
-    website?: Website;
 }
 
 export interface Calendar {
@@ -456,9 +383,6 @@ export interface Calendar {
     isReadonly?: boolean;
     source?: string;
     timezone?: string;
-    at?: Actor;
-    events?: Event[];
-    owner?: Person;
 }
 
 export interface Channel {
@@ -472,7 +396,6 @@ export interface Channel {
     content?: string;
     banner?: string;
     subscriberCount?: number;
-    at?: Actor;
 }
 
 export interface Class {
@@ -503,15 +426,6 @@ export interface Class {
     status?: string;
     timezone?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    instructor?: Person;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
-    venue?: Place;
 }
 
 export interface Community {
@@ -527,7 +441,6 @@ export interface Community {
     memberCount?: number;
     privacy?: string;
     subscriberCount?: number;
-    at?: Actor;
 }
 
 export interface Conversation {
@@ -548,10 +461,6 @@ export interface Conversation {
     messageCount?: number;
     source?: string;
     unreadCount?: number;
-    at?: Actor;
-    in?: List;
-    message?: Message[];
-    participant?: Actor[];
 }
 
 export interface Conversion {
@@ -581,16 +490,6 @@ export interface Conversion {
     status?: string;
     timezone?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    from?: Unit;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    parameter?: unknown;
-    person?: Person;
-    to?: Unit;
 }
 
 export interface CreativeWork {
@@ -609,10 +508,6 @@ export interface CreativeWork {
     language?: string;
     license?: string;
     tags?: string[];
-    contributors?: Person[];
-    copyrightHolder?: Person;
-    publishedBy?: Actor;
-    writtenBy?: Person;
 }
 
 export interface Credential {
@@ -632,9 +527,6 @@ export interface Credential {
     refreshable?: boolean;
     source?: string;
     storeRowId?: number;
-    account?: Account;
-    at?: Organization;
-    writtenBy?: Skill;
 }
 
 export interface Dimension {
@@ -656,7 +548,6 @@ export interface Dimension {
     mass?: number;
     temperature?: number;
     time?: number;
-    baseUnit?: Unit;
 }
 
 export interface DnsRecord {
@@ -684,6 +575,7 @@ export interface Document {
     text?: string;
     url?: string;
     image?: string;
+    author?: string;
     datePublished?: string;
     content?: string;
     abstract?: string;
@@ -700,11 +592,6 @@ export interface Document {
     size?: number;
     tableOfContents?: string;
     wordCount?: number;
-    attachedTo?: Message;
-    author?: Actor;
-    citedBy?: Document[];
-    references?: Document[];
-    repository?: Repository;
 }
 
 export interface Domain {
@@ -763,18 +650,6 @@ export interface Email {
     toRaw?: string;
     unsubscribe?: string;
     unsubscribeOneClick?: boolean;
-    at?: Actor;
-    bcc?: Account[];
-    cc?: Account[];
-    ccDomain?: Domain[];
-    domain?: Domain;
-    from?: Account;
-    inConversation?: Conversation;
-    repliesTo?: Message;
-    tag?: Tag[];
-    to?: Account[];
-    toDomain?: Domain[];
-    toolCalls?: ToolCall[];
 }
 
 export interface Episode {
@@ -789,9 +664,6 @@ export interface Episode {
     durationMs?: number;
     episodeNumber?: number;
     seasonNumber?: number;
-    guest?: Person[];
-    series?: Podcast;
-    transcribe?: Transcript;
 }
 
 export interface Event {
@@ -818,13 +690,6 @@ export interface Event {
     status?: string;
     timezone?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
 }
 
 export interface Fare {
@@ -851,13 +716,6 @@ export interface Fare {
     productType?: string;
     refundable?: boolean;
     restrictions?: string[];
-    at?: Actor;
-    earnsInto?: Membership;
-    for?: Trip;
-    legs?: Leg[];
-    offer?: Offer;
-    reservation?: Reservation;
-    taxLines?: TaxLine[];
 }
 
 export interface File {
@@ -878,8 +736,6 @@ export interface File {
     path?: string;
     sha?: string;
     size?: number;
-    attachedTo?: Message;
-    repository?: Repository;
 }
 
 export interface FinancialAccount {
@@ -904,9 +760,6 @@ export interface FinancialAccount {
     last4?: string;
     minimumPayment?: number;
     routingNumber?: string;
-    accessedVia?: Account;
-    at?: Actor;
-    owner?: Person;
 }
 
 export interface Flight {
@@ -947,21 +800,6 @@ export interface Flight {
     tracePointCount?: number;
     vehicleType?: string;
     visibility?: string;
-    aircraft?: Aircraft;
-    airline?: Airline;
-    arrivesAt?: Airport;
-    at?: Actor;
-    attachments?: File[];
-    carrier?: Organization;
-    creator?: Person;
-    departsFrom?: Airport;
-    destination?: Place;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    origin?: Place;
-    person?: Person;
-    trip?: Trip;
 }
 
 export interface Font {
@@ -991,10 +829,6 @@ export interface Font {
     tags?: string[];
     vendorUrl?: string;
     weights?: number[];
-    contributors?: Person[];
-    copyrightHolder?: Person;
-    publishedBy?: Actor;
-    writtenBy?: Person;
 }
 
 export interface GitCommit {
@@ -1003,6 +837,7 @@ export interface GitCommit {
     text?: string;
     url?: string;
     image?: string;
+    author?: string;
     datePublished?: string;
     content?: string;
     additions?: number;
@@ -1027,17 +862,6 @@ export interface GitCommit {
     status?: string;
     timezone?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    author?: Account;
-    committer?: Account;
-    creator?: Person;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    parent?: GitCommit;
-    person?: Person;
-    repository?: Repository;
 }
 
 export interface Group {
@@ -1088,11 +912,6 @@ export interface Hardware {
     weight?: string;
     weightUnit?: string;
     weightValue?: number;
-    brand?: Brand;
-    creator?: Actor[];
-    inspiredBy?: Product[];
-    manufacturer?: Organization;
-    tagged?: Tag[];
 }
 
 export interface HealthBiomarker {
@@ -1109,7 +928,6 @@ export interface HealthBiomarker {
     description?: string;
     loincCode?: string;
     measure?: string;
-    partOf?: HealthPanel[];
 }
 
 export interface HealthCondition {
@@ -1145,15 +963,6 @@ export interface HealthCondition {
     timezone?: string;
     verificationStatus?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    evidence?: File[];
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
-    subject?: Person;
 }
 
 export interface HealthImmunization {
@@ -1190,16 +999,6 @@ export interface HealthImmunization {
     status?: string;
     timezone?: string;
     visibility?: string;
-    administeredAt?: HealthLab;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    evidence?: File[];
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
-    subject?: Person;
 }
 
 export interface HealthLab {
@@ -1218,11 +1017,6 @@ export interface HealthLab {
     industry?: string;
     labType?: string;
     npi?: string;
-    domain?: Domain;
-    headquarters?: Place;
-    member?: Person[];
-    parentOrganization?: Organization;
-    website?: Website;
 }
 
 export interface HealthObservation {
@@ -1263,18 +1057,6 @@ export interface HealthObservation {
     value?: number;
     valueText?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    document?: File;
-    fromPanel?: HealthPanel;
-    involves?: Person[];
-    location?: Place;
-    measures?: HealthBiomarker;
-    organizer?: Person;
-    person?: Person;
-    reportedRange?: HealthReferenceRange;
-    subject?: Person;
 }
 
 export interface HealthPanel {
@@ -1301,6 +1083,7 @@ export interface HealthPanel {
     itemCount?: number;
     listId?: string;
     listType?: string;
+    memberShape?: string;
     orderingMode?: string;
     panelCode?: string;
     path?: string;
@@ -1315,19 +1098,6 @@ export interface HealthPanel {
     status?: string;
     timezone?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    backgroundImage?: Image;
-    belongsTo?: Account;
-    contains?: unknown[];
-    creator?: Person;
-    document?: File;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    performedAt?: HealthLab;
-    person?: Person;
-    subject?: Person;
 }
 
 export interface HealthProcedure {
@@ -1362,19 +1132,6 @@ export interface HealthProcedure {
     status?: string;
     timezone?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    evidence?: File[];
-    involves?: Person[];
-    location?: Place;
-    orderedBy?: Person;
-    organizer?: Person;
-    performedAt?: HealthLab;
-    performer?: Person;
-    person?: Person;
-    subject?: Person;
-    treats?: HealthCondition;
 }
 
 export interface HealthReferenceRange {
@@ -1415,15 +1172,6 @@ export interface HealthReferenceRange {
     timezone?: string;
     unit?: string;
     visibility?: string;
-    analyte?: HealthBiomarker;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    involves?: Person[];
-    issuingLab?: HealthLab;
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
 }
 
 export interface Icon {
@@ -1447,10 +1195,6 @@ export interface Icon {
     purpose?: string;
     style?: string;
     tags?: string[];
-    contributors?: Person[];
-    copyrightHolder?: Person;
-    publishedBy?: Actor;
-    writtenBy?: Person;
 }
 
 export interface Image {
@@ -1485,12 +1229,6 @@ export interface Image {
     tags?: string[];
     width?: number;
     windowId?: number;
-    attachedTo?: Message;
-    contributors?: Person[];
-    copyrightHolder?: Person;
-    publishedBy?: Actor;
-    repository?: Repository;
-    writtenBy?: Person;
 }
 
 export interface IntellectualProperty {
@@ -1512,9 +1250,6 @@ export interface IntellectualProperty {
     status?: string;
     validIn?: string;
     verificationUrl?: string;
-    covers?: CreativeWork;
-    grantedBy?: Organization;
-    heldBy?: Actor;
 }
 
 export interface Invitation {
@@ -1548,16 +1283,6 @@ export interface Invitation {
     timezone?: string;
     token?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    invitee?: Account;
-    inviter?: Account;
-    involves?: Person[];
-    location?: Place;
-    organization?: Organization;
-    organizer?: Person;
-    person?: Person;
 }
 
 export interface Launch {
@@ -1594,13 +1319,6 @@ export interface Launch {
     visibility?: string;
     webcastUrl?: string;
     wikipediaUrl?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
 }
 
 export interface Leg {
@@ -1640,18 +1358,6 @@ export interface Leg {
     tracePointCount?: number;
     vehicleType?: string;
     visibility?: string;
-    aircraft?: Aircraft;
-    at?: Actor;
-    attachments?: File[];
-    carrier?: Organization;
-    creator?: Person;
-    destination?: Place;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    origin?: Place;
-    person?: Person;
-    trip?: Trip;
 }
 
 export interface List {
@@ -1670,14 +1376,11 @@ export interface List {
     itemCount?: number;
     listId?: string;
     listType?: string;
+    memberShape?: string;
     orderingMode?: string;
     path?: string;
     privacy?: string;
     sortBy?: string;
-    at?: Actor;
-    backgroundImage?: Image;
-    belongsTo?: Account;
-    contains?: unknown[];
 }
 
 export interface LoadedModel {
@@ -1709,13 +1412,6 @@ export interface LoadedModel {
     timezone?: string;
     visibility?: string;
     vramUsage?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
 }
 
 export interface McpSession {
@@ -1735,8 +1431,6 @@ export interface McpSession {
     sessionType?: string;
     startedAt?: string;
     tokenCount?: number;
-    folder?: List;
-    participant?: Actor;
 }
 
 export interface Meeting {
@@ -1769,14 +1463,6 @@ export interface Meeting {
     status?: string;
     timezone?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
-    transcribe?: Transcript;
 }
 
 export interface Membership {
@@ -1810,16 +1496,6 @@ export interface Membership {
     timezone?: string;
     useCount?: number;
     visibility?: string;
-    account?: Account;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    involves?: Person[];
-    location?: Place;
-    member?: Person;
-    organizer?: Person;
-    person?: Person;
-    plan?: Product;
 }
 
 export interface Memex {
@@ -1836,11 +1512,11 @@ export interface Memex {
     dateUpdated?: string;
     description?: string;
     distinctId?: string;
-    edgeCount?: number;
     endDate?: string;
     filePath?: string;
     fileSize?: string;
     icalUid?: string;
+    linkCount?: number;
     nodeCount?: number;
     origin?: string;
     properties?: unknown;
@@ -1853,16 +1529,6 @@ export interface Memex {
     status?: string;
     timezone?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    forkedFrom?: Memex;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    owner?: Person;
-    person?: Person;
-    snapshots?: Memex[];
 }
 
 export interface Message {
@@ -1877,11 +1543,6 @@ export interface Message {
     conversationId?: string;
     isOutgoing?: boolean;
     isStarred?: boolean;
-    at?: Actor;
-    from?: Actor;
-    inConversation?: Conversation;
-    repliesTo?: Message;
-    toolCalls?: ToolCall[];
 }
 
 export interface Model {
@@ -1907,7 +1568,6 @@ export interface Model {
     quantization?: string;
     quantizationLevel?: string;
     size?: string;
-    at?: Actor;
 }
 
 export interface Note {
@@ -1921,9 +1581,6 @@ export interface Note {
     content?: string;
     isPinned?: boolean;
     noteType?: string;
-    createdBy?: Person;
-    extractedFrom?: Webpage;
-    references?: Note[];
 }
 
 export interface Offer {
@@ -1956,16 +1613,6 @@ export interface Offer {
     status?: string;
     timezone?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    for?: Product;
-    involves?: Person[];
-    location?: Place;
-    offeredBy?: Organization;
-    organizer?: Person;
-    person?: Person;
-    trips?: Trip[];
 }
 
 export interface Order {
@@ -2019,18 +1666,6 @@ export interface Order {
     total?: string;
     totalAmount?: number;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    contains?: Product[];
-    creator?: Person;
-    delivery?: Trip;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
-    shippingAddress?: Place;
-    store?: Place;
-    tracking?: Webpage;
 }
 
 export interface Organization {
@@ -2044,11 +1679,6 @@ export interface Organization {
     content?: string;
     actorType?: string;
     industry?: string;
-    domain?: Domain;
-    headquarters?: Place;
-    member?: Person[];
-    parentOrganization?: Organization;
-    website?: Website;
 }
 
 export interface Pass {
@@ -2089,19 +1719,6 @@ export interface Pass {
     timezone?: string;
     useCount?: number;
     visibility?: string;
-    account?: Account;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    for?: Leg;
-    grantedBy?: Membership;
-    holder?: Person;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
-    reservation?: Reservation;
-    type?: Product;
 }
 
 export interface PaymentMethod {
@@ -2135,13 +1752,6 @@ export interface PaymentMethod {
     status?: string;
     subtype?: string;
     type?: string;
-    account?: Account;
-    at?: Actor;
-    billingAddress?: Place;
-    fundingAccount?: FinancialAccount;
-    holder?: Person;
-    issuer?: Actor;
-    membership?: Membership;
 }
 
 export interface Person {
@@ -2156,13 +1766,6 @@ export interface Person {
     about?: string;
     actorType?: string;
     notes?: string;
-    accounts?: Account[];
-    memberships?: Membership[];
-    passes?: Pass[];
-    practices?: Practice[];
-    qualifications?: Qualification[];
-    roles?: Role[];
-    website?: Website;
 }
 
 export interface Place {
@@ -2206,9 +1809,6 @@ export interface Place {
     timezone?: string;
     website?: string;
     wikidataId?: string;
-    at?: Actor;
-    brand?: Organization;
-    offers?: Product[];
 }
 
 export interface Playlist {
@@ -2227,14 +1827,11 @@ export interface Playlist {
     itemCount?: number;
     listId?: string;
     listType?: string;
+    memberShape?: string;
     orderingMode?: string;
     path?: string;
     privacy?: string;
     sortBy?: string;
-    at?: Actor;
-    backgroundImage?: Image;
-    belongsTo?: Account;
-    contains?: Video[];
 }
 
 export interface Podcast {
@@ -2247,9 +1844,6 @@ export interface Podcast {
     datePublished?: string;
     content?: string;
     feedUrl?: string;
-    at?: Actor;
-    episode?: Episode[];
-    host?: Person[];
 }
 
 export interface Post {
@@ -2266,14 +1860,6 @@ export interface Post {
     externalUrl?: string;
     postType?: string;
     score?: number;
-    at?: Actor;
-    attachment?: File[];
-    contains?: Video[];
-    media?: Image[];
-    postedBy?: Account;
-    publish?: Community;
-    replies?: Post[];
-    repliesTo?: Post;
 }
 
 export interface Practice {
@@ -2289,7 +1875,6 @@ export interface Practice {
     code?: string;
     codeSystem?: string;
     description?: string;
-    parent?: Practice;
 }
 
 export interface Product {
@@ -2324,11 +1909,6 @@ export interface Product {
     weight?: string;
     weightUnit?: string;
     weightValue?: number;
-    brand?: Brand;
-    creator?: Actor[];
-    inspiredBy?: Product[];
-    manufacturer?: Organization;
-    tagged?: Tag[];
 }
 
 export interface Project {
@@ -2343,7 +1923,6 @@ export interface Project {
     color?: string;
     parentId?: string;
     state?: string;
-    at?: Actor;
 }
 
 export interface Protocol {
@@ -2376,10 +1955,6 @@ export interface Qualification {
     status?: string;
     validIn?: string;
     verificationUrl?: string;
-    field?: Practice;
-    governedBy?: Organization;
-    grantedBy?: Organization;
-    heldBy?: Person;
 }
 
 export interface QuantityKind {
@@ -2393,8 +1968,6 @@ export interface QuantityKind {
     content?: string;
     key?: string;
     label?: string;
-    dimension?: Dimension;
-    parent?: QuantityKind;
 }
 
 export interface Quote {
@@ -2429,8 +2002,6 @@ export interface Repository {
     size?: number;
     stars?: number;
     topics?: string[];
-    forkedFrom?: Repository;
-    owner?: Account;
 }
 
 export interface Reservation {
@@ -2473,23 +2044,6 @@ export interface Reservation {
     totalAmount?: number;
     visibility?: string;
     voidWindowEndsAt?: string;
-    account?: Account;
-    at?: Actor;
-    attachments?: File[];
-    broker?: Actor;
-    creator?: Person;
-    derivedFrom?: Offer;
-    event?: Event;
-    involves?: Person[];
-    location?: Place;
-    order?: Order;
-    organizer?: Person;
-    passengers?: Person[];
-    person?: Person;
-    programMembership?: Membership;
-    tickets?: Pass[];
-    trips?: Trip[];
-    underName?: Person;
 }
 
 export interface Result {
@@ -2528,15 +2082,6 @@ export interface Review {
     ratingMax?: number;
     score?: number;
     tags?: string[];
-    at?: Actor;
-    attachment?: File[];
-    contains?: Video[];
-    media?: Image[];
-    postedBy?: Account;
-    publish?: Community;
-    replies?: Post[];
-    repliesTo?: Post;
-    reviews?: Product;
 }
 
 export interface Role {
@@ -2566,14 +2111,6 @@ export interface Role {
     timezone?: string;
     title?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    involves?: Person[];
-    location?: Place;
-    organization?: Organization;
-    organizer?: Person;
-    person?: Person;
 }
 
 export interface Seatmap {
@@ -2599,10 +2136,6 @@ export interface Seatmap {
     origin?: string;
     tiers?: unknown;
     totalSeats?: number;
-    aircraft?: Aircraft;
-    at?: Actor;
-    flight?: Flight;
-    reservation?: Reservation;
 }
 
 export interface Shelf {
@@ -2622,14 +2155,11 @@ export interface Shelf {
     itemCount?: number;
     listId?: string;
     listType?: string;
+    memberShape?: string;
     orderingMode?: string;
     path?: string;
     privacy?: string;
     sortBy?: string;
-    at?: Actor;
-    backgroundImage?: Image;
-    belongsTo?: Account;
-    contains?: Book[];
 }
 
 export interface Simulation {
@@ -2649,12 +2179,6 @@ export interface Simulation {
     status?: string;
     task?: string;
     writeCount?: number;
-    agent?: Agent;
-    forkedFrom?: Simulation;
-    mountedMemex?: Memex[];
-    primaryMemex?: Memex;
-    startedBy?: Person;
-    tether?: Hardware;
 }
 
 export interface Skill {
@@ -2671,9 +2195,6 @@ export interface Skill {
     error?: string;
     skillId?: string;
     status?: string;
-    privacyPolicy?: Webpage;
-    termsOfService?: Webpage;
-    website?: Website;
 }
 
 export interface Software {
@@ -2712,11 +2233,6 @@ export interface Software {
     weight?: string;
     weightUnit?: string;
     weightValue?: number;
-    brand?: Brand;
-    creator?: Actor[];
-    inspiredBy?: Product[];
-    manufacturer?: Organization;
-    tagged?: Tag[];
 }
 
 export interface Sound {
@@ -2749,12 +2265,6 @@ export interface Sound {
     sha?: string;
     size?: number;
     tags?: string[];
-    attachedTo?: Message;
-    contributors?: Person[];
-    copyrightHolder?: Person;
-    publishedBy?: Actor;
-    repository?: Repository;
-    writtenBy?: Person;
 }
 
 export interface Source {
@@ -2772,7 +2282,6 @@ export interface Source {
     lastSynced?: string;
     scanner?: string;
     sourceId?: string;
-    folder?: List;
 }
 
 export interface Spec {
@@ -2818,23 +2327,6 @@ export interface Spec {
     targetDate?: string;
     timezone?: string;
     visibility?: string;
-    assignedTo?: Person;
-    at?: Actor;
-    attachedTo?: Message;
-    attachments?: File[];
-    blockedBy?: Task[];
-    blocks?: Task[];
-    children?: Task[];
-    creator?: Person;
-    dependsOn?: Spec[];
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    parent?: Task;
-    person?: Person;
-    project?: Project;
-    repository?: Repository;
-    supersedes?: Spec[];
 }
 
 export interface Tag {
@@ -2884,20 +2376,6 @@ export interface Task {
     targetDate?: string;
     timezone?: string;
     visibility?: string;
-    assignedTo?: Person;
-    at?: Actor;
-    attachments?: File[];
-    blockedBy?: Task[];
-    blocks?: Task[];
-    children?: Task[];
-    creator?: Person;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    parent?: Task;
-    person?: Person;
-    project?: Project;
-    repository?: Repository;
 }
 
 export interface TaxLine {
@@ -2922,13 +2400,6 @@ export interface TaxLine {
     rate?: number;
     refundable?: boolean;
     taxableAmount?: number;
-    appliesTo?: Fare;
-    at?: Actor;
-    imposedBy?: Actor;
-    location?: Place;
-    offer?: Offer;
-    reservation?: Reservation;
-    segment?: Leg;
 }
 
 export interface Theme {
@@ -2946,7 +2417,6 @@ export interface Theme {
     startMenu?: string;
     style?: string;
     themeId?: string;
-    represents?: Product;
 }
 
 export interface ToolCall {
@@ -2962,10 +2432,6 @@ export interface ToolCall {
     input?: string;
     isError?: boolean;
     output?: string;
-    from?: Actor;
-    inMessage?: Message;
-    platform?: Product;
-    repliesTo?: ToolCall;
 }
 
 export interface Transaction {
@@ -3002,14 +2468,6 @@ export interface Transaction {
     timezone?: string;
     type?: string;
     visibility?: string;
-    account?: FinancialAccount;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
 }
 
 export interface Transcript {
@@ -3066,13 +2524,6 @@ export interface Transition {
     status?: string;
     timezone?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    creator?: Person;
-    involves?: Person[];
-    location?: Place;
-    organizer?: Person;
-    person?: Person;
 }
 
 export interface Trip {
@@ -3122,19 +2573,6 @@ export interface Trip {
     vehicle?: unknown;
     vehicleType?: string;
     visibility?: string;
-    at?: Actor;
-    attachments?: File[];
-    carrier?: Organization;
-    creator?: Person;
-    destination?: Place;
-    driver?: Person;
-    involves?: Person[];
-    legs?: Leg[];
-    location?: Place;
-    order?: Order;
-    organizer?: Person;
-    origin?: Place;
-    person?: Person;
 }
 
 export interface Unit {
@@ -3160,8 +2598,6 @@ export interface Unit {
     ucumCode?: string;
     unCefactCommonCode?: string;
     wikidataId?: string;
-    dimension?: Dimension;
-    quantityKinds?: QuantityKind[];
 }
 
 export interface User {
@@ -3176,7 +2612,6 @@ export interface User {
     actorType?: string;
     osUsername?: string;
     primaryUser?: boolean;
-    identifiedAs?: Person;
 }
 
 export interface Video {
@@ -3209,15 +2644,6 @@ export interface Video {
     size?: number;
     tags?: string[];
     viewCount?: number;
-    addTo?: Playlist;
-    attachedTo?: Message;
-    channel?: Channel;
-    contributors?: Person[];
-    copyrightHolder?: Person;
-    publishedBy?: Actor;
-    repository?: Repository;
-    transcribe?: Transcript;
-    writtenBy?: Person;
 }
 
 export interface Webpage {
@@ -3249,8 +2675,6 @@ export interface Website {
     claimUrl?: string;
     status?: string;
     versionId?: string;
-    domain?: Domain;
-    ownedBy?: Organization;
 }
 
 // ─── Display spec — `display:` block per shape ──────────────────────────
@@ -3425,7 +2849,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "health-immunization": ["dateAdministered", "cvxCode", "manufacturer", "lotNumber", "doseNumber", "seriesDoses", "site", "route", "diseaseTarget", "notes", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "health-lab": ["cliaNumber", "npi", "ccn", "labType", "accreditation", "industry", "actorType"],
     "health-observation": ["value", "valueText", "refLow", "refHigh", "refText", "flag", "status", "notes", "indexedAt", "resultType", "externalUrl", "postId", "score", "similarity", "community", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
-    "health-panel": ["panelCode", "fasting", "description", "id", "listId", "listType", "ordering_mode", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "health-panel": ["panelCode", "fasting", "description", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "health-procedure": ["performedDate", "procedureType", "bodySite", "outcome", "status", "cptCode", "snomedCode", "findings", "followUp", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "health-reference-range": ["low", "high", "unit", "refText", "category", "provenance", "method", "ageLow", "ageHigh", "sex", "pregnancy", "gestationalAge", "fasting", "timeOfDay", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "icon": ["dimension", "format", "url", "component", "purpose", "style", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "language", "coverage", "tags"],
@@ -3434,12 +2858,12 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "invitation": ["invitationType", "email", "role", "status", "token", "acceptedAt", "revokedAt", "message", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "launch": ["flightNumber", "rocketId", "launchpadId", "crewIds", "reusedBoosters", "landingOutcomes", "articleUrl", "webcastUrl", "wikipediaUrl", "patchImage", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "leg": ["sequence", "departureTime", "arrivalTime", "duration", "durationMinutes", "flightNumber", "cabinClass", "vehicleType", "layoverMinutes", "carbonEmissions", "trace", "tracePointCount", "polyline", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
-    "list": ["id", "listId", "listType", "ordering_mode", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path"],
+    "list": ["id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path"],
     "loaded_model": ["size", "quantization", "vramUsage", "sizeVram", "digest", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "mcp_session": ["client", "projectId", "gitBranch", "sessionType", "startedAt", "endedAt", "messageCount", "tokenCount"],
     "meeting": ["calendarLink", "isVirtual", "meetingUrl", "conferenceProvider", "phoneDialIn", "meetingType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "membership": ["status", "tier", "autoRenew", "price", "currency", "billingType", "useCount", "guestPassQuantity", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
-    "memex": ["description", "origin", "filePath", "nodeCount", "edgeCount", "fileSize", "published", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "memex": ["description", "origin", "filePath", "nodeCount", "linkCount", "fileSize", "published", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "message": ["isOutgoing", "isStarred", "conversationId"],
     "model": ["contextLength", "contextWindow", "maxOutput", "pricingInput", "pricingOutput", "modality", "modelType", "quantization", "quantizationLevel", "size", "parameterSize", "format", "family", "digest"],
     "note": ["noteType", "isPinned"],
@@ -3450,7 +2874,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "payment_method": ["identifier", "type", "subtype", "brand", "displayName", "customDescription", "holderName", "last4", "binRange", "expMonth", "expYear", "expirationDate", "currency", "balance", "fingerprint", "isDefault", "isPrimary", "isExpired", "isSelected", "status", "providerTokens", "metadata"],
     "person": ["url", "notes", "about", "actorType"],
     "place": ["fullAddress", "placeFormatted", "streetNumber", "street", "neighborhood", "locality", "city", "district", "region", "postalCode", "country", "countryCode", "latitude", "longitude", "accuracy", "featureType", "categories", "phone", "website", "hours", "businessStatus", "rating", "reviewCount", "priceLevel", "timezone", "eta", "isOrderable", "closedMessage", "productCount", "mapboxId", "wikidataId", "googlePlaceId"],
-    "playlist": ["id", "listId", "listType", "ordering_mode", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path"],
+    "playlist": ["id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path"],
     "podcast": ["feedUrl"],
     "post": ["externalUrl", "postType", "score", "commentCount", "community"],
     "practice": ["description", "code", "codeSystem", "aliases"],
@@ -3466,7 +2890,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "review": ["rating", "ratingMax", "tags", "isVerified", "externalUrl", "postType", "score", "commentCount", "community"],
     "role": ["title", "department", "roleType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "seatmap": ["flightNumber", "origin", "destination", "fareBasisCode", "classOfService", "aircraftCode", "totalSeats", "availableSeats", "cabins", "tiers", "hasExitRow", "hasFreeSeats", "hasPaidSeats", "basicEconomyLocked"],
-    "shelf": ["isExclusive", "id", "listId", "listType", "ordering_mode", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path"],
+    "shelf": ["isExclusive", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path"],
     "simulation": ["status", "profile", "task", "graphMode", "startedAt", "endedAt", "actionCount", "writeCount"],
     "skill": ["skillId", "description", "color", "status", "error"],
     "software": ["version", "applicationCategory", "runtimePlatform", "codename", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
@@ -3527,14 +2951,14 @@ export const EVENT_TYPES: readonly string[] = [
 ] as const;
 
 // ─── Derived bindings per shape — read-side resolver input ──────────────
-// Binding grammar: {find, where, where_edge, is, get} | {latest: [...]} | dotted string.
+// Binding grammar: {find, where, where_link, is, get} | {latest: [...]} | dotted string.
 
 export const SHAPE_DERIVED: Record<string, Record<string, unknown>> = {
-    "person": {"birthdate": {"find": "born_in", "is": "birth", "get": "startDate"}, "current_residence": {"find": "lived_at", "where_edge": {"to": null}, "get": "name"}, "current_role": {"find": "worked_at", "where_edge": {"to": null}, "get": "title"}, "givenName": {"latest": [{"find": "born_in", "is": "birth", "get": "givenName"}, {"find": "changed", "is": "transition", "get": "givenName"}]}, "additionalName": {"latest": [{"find": "born_in", "is": "birth", "get": "additionalName"}, {"find": "changed", "is": "transition", "get": "additionalName"}]}, "familyName": {"latest": [{"find": "born_in", "is": "birth", "get": "familyName"}, {"find": "changed", "is": "transition", "get": "familyName"}]}, "honorificPrefix": {"latest": [{"find": "born_in", "is": "birth", "get": "honorificPrefix"}, {"find": "changed", "is": "transition", "get": "honorificPrefix"}]}, "honorificSuffix": {"latest": [{"find": "born_in", "is": "birth", "get": "honorificSuffix"}, {"find": "changed", "is": "transition", "get": "honorificSuffix"}]}, "legalName": {"latest": [{"find": "born_in", "is": "birth", "get": "legalName"}, {"find": "changed", "is": "transition", "get": "legalName"}]}, "maidenName": {"latest": [{"find": "born_in", "is": "birth", "get": "maidenName"}, {"find": "changed", "is": "transition", "get": "maidenName"}]}, "sortAs": {"latest": [{"find": "born_in", "is": "birth", "get": "sortAs"}, {"find": "changed", "is": "transition", "get": "sortAs"}]}, "nameOrder": {"latest": [{"find": "born_in", "is": "birth", "get": "nameOrder"}, {"find": "changed", "is": "transition", "get": "nameOrder"}]}, "phoneticGivenName": {"latest": [{"find": "born_in", "is": "birth", "get": "phoneticGivenName"}, {"find": "changed", "is": "transition", "get": "phoneticGivenName"}]}, "phoneticFamilyName": {"latest": [{"find": "born_in", "is": "birth", "get": "phoneticFamilyName"}, {"find": "changed", "is": "transition", "get": "phoneticFamilyName"}]}, "gender": {"latest": [{"find": "born_in", "is": "birth", "get": "gender"}, {"find": "changed", "is": "transition", "get": "gender"}]}, "nickname": {"latest": [{"find": "born_in", "is": "birth", "get": "nickname"}, {"find": "changed", "is": "transition", "get": "nickname"}]}},
+    "person": {"birthdate": {"find": "born_in", "is": "birth", "get": "startDate"}, "current_residence": {"find": "lived_at", "where_link": {"to": null}, "get": "name"}, "current_role": {"find": "worked_at", "where_link": {"to": null}, "get": "title"}, "givenName": {"latest": [{"find": "born_in", "is": "birth", "get": "givenName"}, {"find": "changed", "is": "transition", "get": "givenName"}]}, "additionalName": {"latest": [{"find": "born_in", "is": "birth", "get": "additionalName"}, {"find": "changed", "is": "transition", "get": "additionalName"}]}, "familyName": {"latest": [{"find": "born_in", "is": "birth", "get": "familyName"}, {"find": "changed", "is": "transition", "get": "familyName"}]}, "honorificPrefix": {"latest": [{"find": "born_in", "is": "birth", "get": "honorificPrefix"}, {"find": "changed", "is": "transition", "get": "honorificPrefix"}]}, "honorificSuffix": {"latest": [{"find": "born_in", "is": "birth", "get": "honorificSuffix"}, {"find": "changed", "is": "transition", "get": "honorificSuffix"}]}, "legalName": {"latest": [{"find": "born_in", "is": "birth", "get": "legalName"}, {"find": "changed", "is": "transition", "get": "legalName"}]}, "maidenName": {"latest": [{"find": "born_in", "is": "birth", "get": "maidenName"}, {"find": "changed", "is": "transition", "get": "maidenName"}]}, "sortAs": {"latest": [{"find": "born_in", "is": "birth", "get": "sortAs"}, {"find": "changed", "is": "transition", "get": "sortAs"}]}, "nameOrder": {"latest": [{"find": "born_in", "is": "birth", "get": "nameOrder"}, {"find": "changed", "is": "transition", "get": "nameOrder"}]}, "phoneticGivenName": {"latest": [{"find": "born_in", "is": "birth", "get": "phoneticGivenName"}, {"find": "changed", "is": "transition", "get": "phoneticGivenName"}]}, "phoneticFamilyName": {"latest": [{"find": "born_in", "is": "birth", "get": "phoneticFamilyName"}, {"find": "changed", "is": "transition", "get": "phoneticFamilyName"}]}, "gender": {"latest": [{"find": "born_in", "is": "birth", "get": "gender"}, {"find": "changed", "is": "transition", "get": "gender"}]}, "nickname": {"latest": [{"find": "born_in", "is": "birth", "get": "nickname"}, {"find": "changed", "is": "transition", "get": "nickname"}]}},
 };
 
 // ─── Shortcuts per shape — write-side flat-create expansion table ───────
-// Each entry: flat_key -> {writes: <edge>[is=<shape>].<field>}
+// Each entry: flat_key -> {writes: <link>[is=<shape>].<field>}
 
 export const SHAPE_SHORTCUTS: Record<string, Record<string, unknown>> = {
     "person": {"birthdate": {"writes": "born_in[is=birth].startDate"}, "givenName": {"writes": "born_in[is=birth].givenName"}, "additionalName": {"writes": "born_in[is=birth].additionalName"}, "familyName": {"writes": "born_in[is=birth].familyName"}, "honorificPrefix": {"writes": "born_in[is=birth].honorificPrefix"}, "honorificSuffix": {"writes": "born_in[is=birth].honorificSuffix"}, "legalName": {"writes": "born_in[is=birth].legalName"}, "maidenName": {"writes": "born_in[is=birth].maidenName"}, "sortAs": {"writes": "born_in[is=birth].sortAs"}, "nameOrder": {"writes": "born_in[is=birth].nameOrder"}, "phoneticGivenName": {"writes": "born_in[is=birth].phoneticGivenName"}, "phoneticFamilyName": {"writes": "born_in[is=birth].phoneticFamilyName"}, "gender": {"writes": "born_in[is=birth].gender"}, "nickname": {"writes": "born_in[is=birth].nickname"}},

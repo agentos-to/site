@@ -11,7 +11,7 @@ role:
     department:        string
     roleType:         string    # employment, board, advisor, contractor, etc.
                                   # The time window is event.startDate / endDate (inherited).
-  relations:
+  links:
     person:            person
     organization:      organization
   prior_art:

@@ -83,7 +83,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[schema.org/Subscription](https://schema.org/Subscription)** — Streaming/SaaS subscriptions fit this shape — one model covers gym memberships and Spotify Premium. billingType maps to billingPeriod; autoRenew maps directly.
 - **[Stripe Subscriptions API](https://docs.stripe.com/api/subscriptions)** — Practical API mirror for commercial memberships. Our status values (active/paused/cancelled/past_due) mirror Stripe Subscription.status. nextBillDate ≈ current_period_end.
 - **[Mindbody Contracts/Memberships](https://developers.mindbodyonline.com/PublicDocumentation/V6)** — Gym-industry API. Our useCount, guestPassQuantity, startEffectiveDate / endEffectiveDate are lifted from Mindbody's Membership record shape.
-- **[FOAF member / membershipClass](http://xmlns.com/foaf/spec/#term_member)** — Social-web vocabulary for "X is a member of Y". Our member ↔ at edge mirrors foaf:member; our tier ≈ foaf:membershipClass.
+- **[FOAF member / membershipClass](http://xmlns.com/foaf/spec/#term_member)** — Social-web vocabulary for "X is a member of Y". Our member ↔ at link mirrors foaf:member; our tier ≈ foaf:membershipClass.
 
 ## Skills that produce this shape
 

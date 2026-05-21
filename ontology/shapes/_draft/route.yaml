@@ -21,7 +21,7 @@ route:
     routeNumber:      string    # "29", "UA 1234", "Acela Express"
     direction:         string    # inbound, outbound, northbound, etc.
     color:             string    # route color for display (hex, from GTFS)
-  relations:
+  links:
     stops:             place[]   # ordered waypoints (bus stops, stations, airports)
     origin:            place     # first stop / departure point
     destination:       place     # last stop / arrival point

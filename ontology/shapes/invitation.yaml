@@ -32,7 +32,7 @@ invitation:
     revokedAt:        datetime  # when it was revoked (own lifecycle stamp,
                                   #   legitimate under event-derived shape)
     message:           text      # optional personal message attached to the invite
-  relations:
+  links:
     inviter:           account   # who sent the invite (the account that created it)
     invitee:           account   # who is being invited (may not exist yet — email-only)
     organization:      organization  # the org/workspace being invited into

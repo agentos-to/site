@@ -1958,7 +1958,7 @@ def check_claims(skill_dir: Path) -> list[str]:
     - **Error** if the claimant string isn't in the known set — runtime will
       skip attachment, so catch the typo at commit time.
     - **Warn** if `@claims` appears without `@returns(shape)` — the engine
-      only attaches claims edges to extracted top-level nodes; inline-dict
+      only attaches claims links to extracted top-level nodes; inline-dict
       returns and unclaimed ops don't produce a node.
 
     Precedent: mirrors `check_auth_provider_contract` structure.
@@ -1996,7 +1996,7 @@ def check_claims(skill_dir: Path) -> list[str]:
                 issues.append(
                     f"{rel}:{node.lineno}: {node.name} uses `@claims(\"{claimant}\")` "
                     f"but `@returns(...)` is missing or uses an inline dict. "
-                    f"Claims edges attach to extracted nodes — without a typed shape "
+                    f"Claims links attach to extracted nodes — without a typed shape "
                     f"return, no node lands on the graph and the decorator is a no-op."
                 )
     return issues

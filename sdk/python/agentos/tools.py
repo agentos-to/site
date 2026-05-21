@@ -43,7 +43,7 @@ oauth_auth = "oauth_auth"
 # `cdp_access`       — raw, protocol-level access. A provider returns a CDP
 #                      WebSocket URL + target descriptor for a debug-attachable
 #                      Chromium browser. Tiny surface: one `cdp_connect` tool.
-#                      Brave is today's provider; Chrome/Edge/Arc could join.
+#                      Brave is today's provider; Chrome/Link/Arc could join.
 # `browser_session`  — high-level, typed session API on top of `cdp_access`.
 #                      A provider exposes `session_open / navigate / evaluate /
 #                      on_event / get_cookies / get_storage / close`, hides the

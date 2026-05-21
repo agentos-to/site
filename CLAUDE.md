@@ -4,7 +4,7 @@
 
 > **Read this every session.** The README imported above carries the
 > **Ontology modeling rules** — six rules that govern every shape,
-> relation, and edge in `ontology/`. They are the contract. Not optional.
+> relation, and link in `ontology/`. They are the contract. Not optional.
 
 Platform is the AgentOS contract: the ontology (`ontology/`), the one
 codegen (`codegen/`), the generated SDKs (`sdk/`), the docs site
@@ -13,9 +13,9 @@ rules.
 
 ## Working here
 
-- **Touching the ontology** — shapes, relations, edges — obey the
+- **Touching the ontology** — shapes, relations, links — obey the
   README's "Ontology modeling — the rules". An event is a relationship;
-  time and place ride on the edge; edges are verb phrases.
+  time and place ride on the edge; links are verb phrases.
 - **Generated files are never hand-edited.** `sdk/**/_generated.*`,
   `sdk/typescript/src/{shapes,ops}.ts`, `core/crates/contract-generated/`
   are codegen output — change the YAML in `ontology/`, run

@@ -20,7 +20,7 @@ description: Research from 2026-02-05 session. Fascinating connections between i
 - More flexible: Directed Acyclic Graph (DAG)
 - Allows branching and convergence
 - Multiple pathways to same goal
-- Assumptions attached to edges, not just levels
+- Assumptions attached to links, not just levels
 
 **Results Framework (USAID/World Bank)**
 - Hierarchical tree with Intermediate Results (IRs)

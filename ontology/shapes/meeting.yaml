@@ -12,7 +12,7 @@ meeting:
     conferenceProvider: string    # "Google Meet", "Zoom", "Microsoft Teams"
     phoneDialIn:       string    # phone entry point URI (tel:+1-...)
     meetingType:        string    # Google Calendar's eventType vocabulary: "default", "outOfOffice", "focusTime", "workingLocation"
-  relations:
+  links:
     transcribe:        transcript # meeting recording transcript
   prior_art:
     - source: RFC 5545 VEVENT + conference property (RFC 7986)

@@ -165,10 +165,10 @@ class _DataNamespace:
         self._call = call
 
     def read(self, **params: Any) -> Any:
-        """Read one node (or edge) by id.
+        """Read one node (or link) by id.
 
         Args:
-            id (string, required): Node or edge id.
+            id (string, required): Node or link id.
             view (dict, optional)
 
         Examples:
@@ -204,7 +204,7 @@ class _DataNamespace:
 
         Args:
             vals (dict, required): Map of val key → value. `null` deletes (nodes only). Non-null sets. Object form `{value, unit}` overrides the inferred unit.
-            edge (string, optional): Edge id to update (writes edge_vals — icon position, fares, etc.).
+            link (string, optional): Link id to update (writes link_vals — icon position, fares, etc.).
             id (string, optional): Node id to update.
 
         Examples:
@@ -233,7 +233,7 @@ class _DataNamespace:
         """Soft-delete a node or relationship.
 
         Args:
-            id (string, required): Node or edge id. Soft-delete.
+            id (string, required): Node or link id. Soft-delete.
 
         Examples:
             delete({ id: "abc123" })

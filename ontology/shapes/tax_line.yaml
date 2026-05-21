@@ -51,9 +51,9 @@ tax_line:
     rate:              number    # ad-valorem rate (0.075 for 7.5%); null for flat
     taxableAmount:     number    # base the rate was applied to; null for flat fees
     inclusive:         boolean   # true = already included in displayed base price (VAT markets); false = added on top
-  relations:
+  links:
     at:                actor         # selling merchant's namespace
-    appliesTo:         fare          # OPTIONAL: the fare this prices alongside (back-edge from fare.taxLines)
+    appliesTo:         fare          # OPTIONAL: the fare this prices alongside (back-link from fare.taxLines)
     offer:             offer         # OPTIONAL: parent offer / booking_offer
     reservation:       reservation   # OPTIONAL: post-booking parent
     segment:           leg           # OPTIONAL: specific segment (richer than appliesToIndex when graph-resolved)

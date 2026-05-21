@@ -28,7 +28,7 @@ health-immunization:
     route:            string    # administration route — "intramuscular", "oral"
     diseaseTarget:    string    # disease(s) protected against — "tetanus, diphtheria, pertussis"
     notes:            text      # annotations from the vaccination record
-  relations:
+  links:
     administeredAt:   health-lab    # clinic / pharmacy / travel-health center that gave the dose
     subject:          person        # who received the vaccine
     evidence:         file[]        # the vaccination-card / record file documenting this dose

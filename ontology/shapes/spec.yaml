@@ -9,7 +9,7 @@ spec:
   fields:
     problem:           text
     successCriteria:  text
-  relations:
+  links:
     dependsOn:        spec[]
     supersedes:        spec[]
   prior_art:

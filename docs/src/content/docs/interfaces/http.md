@@ -25,9 +25,9 @@ Run it with `agentos bridge`. It auto-starts the engine if needed (via `ensure_e
 
 - `data.read` — fetch one node by id (with relationships + content).
 - `data.list` — list nodes by shape, user_tag, name, FTS via `q`, system metadata, or skill membership.
-- `data.update` — set or delete vals on an existing node, or set vals on an edge (`{edge: id, vals}`).
+- `data.update` — set or delete vals on an existing node, or set vals on an link (`{link: id, vals}`).
 - `data.create` — create a node, or upsert if `identity` is provided.
-- `data.delete` — soft-delete a node or edge.
+- `data.delete` — soft-delete a node or link.
 - `skills.run` — invoke a skill tool.
 - `skills.load` — fetch a skill manual before calling `run`.
 - `system.{boot, status, schema}` — engine lifecycle + introspection.
@@ -56,7 +56,7 @@ This is the primitive behind any "live activity feed" UI — you can see skills 
 User preferences are written through `POST /call` with `data.update` —
 there's no separate `PUT /user/pref` shim. Settings.tsx writes
 `pref:*` vals on the person node; the desktop folder writes positions
-through `data.update {edge: <id>, vals: {...}}` (the edge branch).
+through `data.update {link: <id>, vals: {...}}` (the link branch).
 
 ### Static assets
 
@@ -79,7 +79,7 @@ The `/observer/stream` endpoint emits newline-delimited events in SSE format. Ea
 
 ```
 event: activity
-data: {"phase":"completed","tool":"data.create","entities":{"nodes":["hpefiq"],"edges":[],"shapes":["task"]},"mutation_id":null,…}
+data: {"phase":"completed","tool":"data.create","entities":{"nodes":["hpefiq"],"links":[],"shapes":["task"]},"mutation_id":null,…}
 ```
 
 The `entities` field is what the frontend's reactive cache binds against — write `entities.nodes` invalidate queries bound to those ids, `entities.shapes` invalidate open list queries for those shapes. See the wire-shape page for the full field table and the `mutation_id` round-trip used for optimistic-UX dedupe.

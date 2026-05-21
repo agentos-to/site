@@ -9,9 +9,9 @@ A curated collection of images produced by the engine or a skill.
 The engine seeds system albums (e.g. "Wallpapers") at boot; skills
 may produce additional albums for photo libraries, screenshots, etc.
 
-Albums group images; the `image --add_to--> album` edge is the reverse
+Albums group images; the `image --add_to--> album` link is the reverse
 of a user-facing "add to album" action. Membership is immutable once
-the link is made (delete the edge to remove an image).
+the link is made (delete the link to remove an image).
 
 | Metadata | Value |
 |---|---|

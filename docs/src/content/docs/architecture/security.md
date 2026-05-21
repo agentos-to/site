@@ -82,11 +82,11 @@ Credential values in the vault are encrypted with **AES-256-GCM**. The 32-byte k
 - **Nonce** — 12-byte random nonce per encryption, standard for GCM.
 - **Key never on disk** — the vault contains ciphertext + nonce + auth tag; the key only ever lives in the Keychain and process memory.
 
-If Keychain is unreachable (non-macOS, locked), the vault currently falls back to unencrypted with a warning. That fallback is a known rough edge, not a design goal.
+If Keychain is unreachable (non-macOS, locked), the vault currently falls back to unencrypted with a warning. That fallback is a known rough link, not a design goal.
 
 ## What the engine refuses to do
 
-The Rust engine is a **generic entity store**. It knows about *nodes*, *edges*, *values*, *shapes*, *operations*. It does not know about *tasks*, *messages*, *people*, or any specific entity type.
+The Rust engine is a **generic entity store**. It knows about *nodes*, *links*, *values*, *shapes*, *operations*. It does not know about *tasks*, *messages*, *people*, or any specific entity type.
 
 Things the engine will not do:
 

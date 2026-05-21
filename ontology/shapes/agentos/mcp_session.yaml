@@ -15,7 +15,7 @@ mcp_session:
     endedAt:          datetime
     messageCount:     integer
     tokenCount:       integer
-  relations:
+  links:
     participant:       actor
     folder:            list      # working directory — a list node with listType: 'folder'
   prior_art:
