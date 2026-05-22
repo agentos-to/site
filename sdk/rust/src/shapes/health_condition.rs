@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/health-condition.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// A health condition — a diagnosis, problem, symptom, or family-history
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

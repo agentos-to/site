@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/person.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// A real human. People are actors — they can own accounts, hold roles,
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

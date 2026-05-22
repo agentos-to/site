@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/pass.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// A fixed-quantity right-of-access — a bundle of entries, a multi-day
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

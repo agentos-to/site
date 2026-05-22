@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/podcast.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// A podcast series. Contains episodes. Not the audio itself — that's on the episode.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

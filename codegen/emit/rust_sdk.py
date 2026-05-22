@@ -332,17 +332,19 @@ def _rust_string_literal(s: str) -> str:
 
 
 def _emit_shape_file(s: Shape) -> str:
-    """Full source for `platform/sdk/rust/src/shapes/<name>.rs`."""
+    """Full source for `platform/sdk/rust/src/shapes/<name>.rs`.
+
+    Every shape file pulls its types from the curated `sdk_prelude`
+    module in `mod.rs` — one canonical import line, no per-file symbol
+    list, no namespace leakage from mod.rs's internal lookup machinery
+    (PreviewPolicy, Display, lookup_*, etc). Standard Rust prelude
+    pattern — same as `serde::prelude`, `clap::prelude`, `bevy::prelude::*`.
+    """
     lines: list[str] = [
         f"// DO NOT EDIT — generated from platform/ontology/shapes/{s.source_path or s.name + '.yaml'}.",
         "// Regen: `python3 platform/codegen/generate.py`.",
         "",
-        "use agentos_graph::{",
-        "    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,",
-        "    ShapeDef, ShortcutDef,",
-        "};",
-        "use once_cell::sync::Lazy;",
-        "use serde::{Deserialize, Serialize};",
+        "use super::sdk_prelude::*;",
         "",
     ]
     lines.extend(_emit_shape_struct(s))
@@ -360,11 +362,45 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
     in the engine projects nodes against them. Their entries name all
     shapes — the binary footprint is a few KB of string literals, not
     a YAML wall."""
+    # Derive the prelude's contents from the ontology itself — re-export
+    # only the agentos_graph symbols at least one shape actually
+    # references, so adding/removing a YAML block (display, derived,
+    # shortcuts, out/in edges) keeps the prelude honest with zero
+    # `unused import` warnings. FieldDef + FieldType + ShapeDef are
+    # universal (every shape declares fields).
+    prelude_syms: list[str] = ["FieldDef", "FieldType", "ShapeDef"]
+    if any(s.display for s in shapes_sorted):
+        prelude_syms.append("DisplaySpec")
+    if any(s.derived for s in shapes_sorted):
+        prelude_syms.append("DerivedBinding")
+    if any(s.shortcuts for s in shapes_sorted):
+        prelude_syms.append("ShortcutDef")
+    if any(s.own_relations for s in shapes_sorted):
+        prelude_syms.extend(["Cardinality", "EdgeDef"])
+    prelude_syms.sort()
+
     lines: list[str] = [
         "// DO NOT EDIT — generated from platform/ontology/shapes/*.yaml.",
         "// Regen: `python3 platform/codegen/generate.py`.",
         "",
         "#![allow(non_upper_case_globals)]",
+        "",
+        "// Curated prelude for the generated shape files. Every shape file does",
+        "// `use super::sdk_prelude::*;` — one canonical import line, no per-file",
+        "// symbol list, no namespace leakage from mod.rs's own lookup machinery",
+        "// below (PreviewPolicy, Display, lookup_*, etc). Standard Rust idiom:",
+        "// `serde::prelude`, `clap::prelude`, `bevy::prelude::*` all work this way.",
+        "//",
+        "// Symbol set is derived from the ontology — only the types at least one",
+        "// shape references are re-exported, so an unused-import warning here is",
+        "// impossible by construction.",
+        "pub(crate) mod sdk_prelude {",
+        "    pub(crate) use agentos_graph::{",
+        f"        {', '.join(prelude_syms)},",
+        "    };",
+        "    pub(crate) use once_cell::sync::Lazy;",
+        "    pub(crate) use serde::{Deserialize, Serialize};",
+        "}",
         "",
     ]
 

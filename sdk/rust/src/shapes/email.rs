@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/email.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// An email message. Emails are also messages — querying by "message"
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/website.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// A published website (not a single page — see webpage for that).
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

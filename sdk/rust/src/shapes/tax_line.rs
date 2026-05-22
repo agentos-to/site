@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/tax_line.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// A single tax, fee, or surcharge line item on a priced commerce
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

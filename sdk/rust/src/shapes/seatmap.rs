@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/seatmap.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// A seat map for a specific flight + cabin, returned by an airline skill.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

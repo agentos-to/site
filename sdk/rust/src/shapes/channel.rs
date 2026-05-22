@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/channel.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// A content channel — typically a YouTube channel. Videos are uploaded to channels.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

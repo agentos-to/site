@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/actor.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// Base type for anything that can be attributed as "who did this" in the graph.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

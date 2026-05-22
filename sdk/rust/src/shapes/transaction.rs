@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/transaction.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// A financial transaction — credit card charge, bank transfer, etc.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

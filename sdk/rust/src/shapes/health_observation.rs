@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/health-observation.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// A single measured health value at a point in time — "LDL = 95 mg/dL on
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

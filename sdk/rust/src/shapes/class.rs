@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/class.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// A scheduled, bookable group activity — gym classes, workshops, courses.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

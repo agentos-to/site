@@ -3,6 +3,23 @@
 
 #![allow(non_upper_case_globals)]
 
+// Curated prelude for the generated shape files. Every shape file does
+// `use super::sdk_prelude::*;` — one canonical import line, no per-file
+// symbol list, no namespace leakage from mod.rs's own lookup machinery
+// below (PreviewPolicy, Display, lookup_*, etc). Standard Rust idiom:
+// `serde::prelude`, `clap::prelude`, `bevy::prelude::*` all work this way.
+//
+// Symbol set is derived from the ontology — only the types at least one
+// shape references are re-exported, so an unused-import warning here is
+// impossible by construction.
+pub(crate) mod sdk_prelude {
+    pub(crate) use agentos_graph::{
+        DerivedBinding, DisplaySpec, FieldDef, FieldType, ShapeDef, ShortcutDef,
+    };
+    pub(crate) use once_cell::sync::Lazy;
+    pub(crate) use serde::{Deserialize, Serialize};
+}
+
 pub mod account;
 pub mod activity;
 pub mod actor;

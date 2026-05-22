@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/volume.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// A mounted Volume — a `.db` memex file the engine has attached to the
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

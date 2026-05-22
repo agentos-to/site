@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/agentos/theme.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// An OS theme — a named knob-vector over its family's structure.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

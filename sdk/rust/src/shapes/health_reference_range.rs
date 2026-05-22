@@ -1,12 +1,7 @@
 // DO NOT EDIT — generated from platform/ontology/shapes/health-reference-range.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
-use agentos_graph::{
-    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
-    ShapeDef, ShortcutDef,
-};
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use super::sdk_prelude::*;
 
 /// A lab-specific reference interval — the "normal range" for a biomarker,
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
