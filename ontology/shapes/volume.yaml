@@ -1,0 +1,39 @@
+# A mounted Volume — a `.db` memex file the engine has attached to the
+# Registry. The home graph is the always-mounted writeable Volume; it
+# is the hardcoded constant and is NOT represented by a `volume` node.
+# Every OTHER mounted memex IS — one row per mount, persisted in home
+# so the mount survives engine restart (`auto_mount: true`).
+#
+# Mount lifecycle is six steps; this shape captures the persisted state
+# of step 5. See `core/_roadmap/p1/volumes/plan.md` "Mount lifecycle".
+volume:
+  plural: volumes
+  display:
+    subtitle: kind
+  icon: drive
+  fields:
+    kind:        string    # "memex" — v1. "tree" — v2+ (filesystem, NFS,
+                            #   SMB, cloud drives — transport via skill).
+    address:     string    # local path for memex Volumes — the absolute
+                            #   `.db` file path. v2: a URI for Tree Volumes.
+    auto_mount:  boolean   # re-mount on engine boot. true by default for
+                            #   mounts created via `data.mount`.
+  prior_art:
+    - source: HDT (Header, Dictionary, Triples)
+      url: https://www.rdfhdt.org/what-is-hdt/
+      notes: >-
+        RDF binary file format; one file = one queryable graph. The
+        Header describes the dataset in its own vocabulary — same
+        shapes-ride-along move as our embedded ontology.
+    - source: Stardog Virtual Graphs
+      url: https://docs.stardog.com/virtual-graphs/
+      notes: >-
+        Register an external source under a URI; query as a named graph.
+        Our volume shape is the registration row; mount/unmount is the
+        verb pair.
+    - source: macOS Disk Utility / DMG
+      url: https://support.apple.com/guide/disk-utility/welcome/mac
+      notes: >-
+        The UX mental model. A volume is an attached, browseable disk;
+        the Finder shows it in the sidebar; eject detaches it without
+        destroying the underlying file.

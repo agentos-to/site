@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 100 shapes.
+// Generated from 101 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -2542,6 +2542,20 @@ export interface Video {
     viewCount?: number;
 }
 
+export interface Volume {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    address?: string;
+    autoMount?: boolean;
+    kind?: string;
+}
+
 export interface Webpage {
     id?: string;
     name?: string;
@@ -2690,6 +2704,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "unit": {"subtitle": "symbol", "also": []},
     "user": {"subtitle": "name", "also": ["actor"]},
     "video": {"subtitle": "author", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work", "file"]},
+    "volume": {"subtitle": "kind", "also": []},
     "webpage": {"subtitle": "url", "also": []},
     "website": {"subtitle": "url", "also": []},
 };
@@ -2797,6 +2812,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "unit": ["ucumCode", "symbol", "label", "kind", "siDigitalFrameworkUri", "unCefactCommonCode", "qudtUnitIri", "wikidataId", "toBaseFactor", "toBaseOffset", "iso4217", "iso4217Numeric", "minorExponent", "logBase"],
     "user": ["osUsername", "primaryUser", "actorType"],
     "video": ["durationMs", "resolution", "frameRate", "codec", "viewCount", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
+    "volume": ["kind", "address", "auto_mount"],
     "webpage": ["visitCount", "lastVisitUnix", "contentType", "error"],
     "website": ["status", "versionId", "anonymous", "claimToken", "claimUrl"],
 };

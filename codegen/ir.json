@@ -28491,6 +28491,154 @@
       "shortcuts": {}
     },
     {
+      "name": "volume",
+      "class_name": "Volume",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "address",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "auto_mount",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "plural": "volumes",
+      "subtitle": "kind",
+      "display": {
+        "title": null,
+        "subtitle": "kind",
+        "image": null,
+        "highlights": [],
+        "body": null,
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "A mounted Volume — a `.db` memex file the engine has attached to the\nRegistry. The home graph is the always-mounted writeable Volume; it\nis the hardcoded constant and is NOT represented by a `volume` node.\nEvery OTHER mounted memex IS — one row per mount, persisted in home\nso the mount survives engine restart (`auto_mount: true`).\n\nMount lifecycle is six steps; this shape captures the persisted state\nof step 5. See `core/_roadmap/p1/volumes/plan.md` \"Mount lifecycle\".",
+      "own_fields": [
+        {
+          "name": "kind",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "address",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "auto_mount",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "HDT (Header, Dictionary, Triples)",
+          "url": "https://www.rdfhdt.org/what-is-hdt/",
+          "notes": "RDF binary file format; one file = one queryable graph. The Header describes the dataset in its own vocabulary — same shapes-ride-along move as our embedded ontology."
+        },
+        {
+          "source": "Stardog Virtual Graphs",
+          "url": "https://docs.stardog.com/virtual-graphs/",
+          "notes": "Register an external source under a URI; query as a named graph. Our volume shape is the registration row; mount/unmount is the verb pair."
+        },
+        {
+          "source": "macOS Disk Utility / DMG",
+          "url": "https://support.apple.com/guide/disk-utility/welcome/mac",
+          "notes": "The UX mental model. A volume is an attached, browseable disk; the Finder shows it in the sidebar; eject detaches it without destroying the underlying file."
+        }
+      ],
+      "source_path": "volume.yaml",
+      "raw_body": "plural: volumes\ndisplay:\n  subtitle: kind\nicon: drive\nfields:\n  kind: string\n  address: string\n  auto_mount: boolean\nprior_art:\n- source: HDT (Header, Dictionary, Triples)\n  url: https://www.rdfhdt.org/what-is-hdt/\n  notes: \"RDF binary file format; one file = one queryable graph. The Header describes\\\n    \\ the dataset in its own vocabulary \\u2014 same shapes-ride-along move as our\\\n    \\ embedded ontology.\"\n- source: Stardog Virtual Graphs\n  url: https://docs.stardog.com/virtual-graphs/\n  notes: Register an external source under a URI; query as a named graph. Our volume\n    shape is the registration row; mount/unmount is the verb pair.\n- source: macOS Disk Utility / DMG\n  url: https://support.apple.com/guide/disk-utility/welcome/mac\n  notes: The UX mental model. A volume is an attached, browseable disk; the Finder\n    shows it in the sidebar; eject detaches it without destroying the underlying file.\n",
+      "ancestors": [],
+      "field_order": [
+        "kind",
+        "address",
+        "auto_mount"
+      ],
+      "derived": {},
+      "shortcuts": {}
+    },
+    {
       "name": "webpage",
       "class_name": "Webpage",
       "fields": [
