@@ -15,13 +15,13 @@ from .ops_python import emit_ops_python
 from .ops_rust import emit_ops_rust
 from .ops_ts import emit_ops_ts
 from .python import emit_python
-from .rust import emit_rust
+from .rust_sdk import write_rust_sdk
 from .typescript import emit_typescript
 
 __all__ = [
     "emit_python",
     "emit_typescript",
-    "emit_rust",
+    "write_rust_sdk",
     "emit_python_auth_contracts",
     "emit_rust_auth_contracts",
     "emit_shape_docs",

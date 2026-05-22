@@ -10,6 +10,113 @@ _PY_TYPES = {
     "string[]": "list[str]", "integer[]": "list[int]",
 }
 
+
+# Map IR field-type strings to the FieldType enum variant the Rust
+# ShapeDef wire format expects (serialised as lowercase by serde).
+_WIRE_FIELD_TYPES = {
+    "string":      "string",
+    "text":        "text",
+    "url":         "url",
+    "integer":     "integer",
+    "number":      "number",
+    "boolean":     "boolean",
+    "json":        "json",
+    "date":        "date",
+    "datetime":    "datetime",
+    "string[]":    "stringlist",
+    "integer[]":   "integerlist",
+}
+
+
+def _shape_to_wire_def(s: Shape) -> dict:
+    """Convert IR Shape → a wire-format dict that deserialises into the
+    Rust `ShapeDef`. Mirrors `agentos_graph::ShapeDef` exactly: name,
+    plural, description, icon, fields (list of FieldDef), out / in
+    (list of EdgeDef), derived (list of DerivedBinding), shortcuts
+    (list of ShortcutDef), also, identity, identity_any, display.
+
+    Skill workers attach the matching entry as `__shape_def__` on every
+    `@returns(shape)` response. The engine deserialises it server-side
+    and upserts the shape-def before landing the data node — every
+    write carries its schema (shape-unification Phase 1)."""
+    required = set(s.identity)
+    seen: set[str] = set()
+    fields_out: list[dict] = []
+    for f in s.fields:
+        if f.is_relation or f.name == "id" or f.name in seen:
+            continue
+        seen.add(f.name)
+        ty = _WIRE_FIELD_TYPES.get(f.type, "json")
+        is_required = f.name == "name" or f.name in required
+        fd = {"name": f.name, "ty": ty}
+        if is_required:
+            fd["required"] = True
+        fields_out.append(fd)
+
+    out_edges: list[dict] = []
+    for r in s.own_relations:
+        is_many = r.is_array or (r.type or "").endswith("[]")
+        target = (r.target or "").rstrip("[]")
+        edge = {"label": r.name, "card": "many" if is_many else "one"}
+        if target:
+            edge["to"] = target
+        out_edges.append(edge)
+
+    derived = [{"key": k, "spec": v} for k, v in sorted(s.derived.items())]
+    shortcuts = [
+        {"key": k, "writes": str(v.get("writes", ""))}
+        for k, v in sorted(s.shortcuts.items())
+        if isinstance(v, dict) and "writes" in v
+    ]
+
+    out: dict = {"name": s.name}
+    if s.plural:
+        out["plural"] = s.plural
+    if s.leading_comment:
+        first = s.leading_comment.split("\n")[0].strip()
+        if first:
+            out["description"] = first
+    icon = _extract_icon(s.raw_body)
+    if icon:
+        out["icon"] = icon
+    if fields_out:
+        out["fields"] = fields_out
+    if out_edges:
+        out["out"] = out_edges
+    if derived:
+        out["derived"] = derived
+    if shortcuts:
+        out["shortcuts"] = shortcuts
+    if s.also:
+        out["also"] = list(s.also)
+    if s.identity:
+        out["identity"] = list(s.identity)
+    if s.identity_any:
+        out["identity_any"] = list(s.identity_any)
+    if s.display:
+        d = s.display
+        disp: dict = {}
+        if d.title:
+            disp["title"] = d.title
+        if d.subtitle:
+            disp["subtitle"] = d.subtitle
+        if d.image:
+            disp["image"] = d.image
+        if d.body:
+            disp["body"] = d.body
+        if d.highlights:
+            disp["highlights"] = list(d.highlights)
+        if disp:
+            out["display"] = disp
+    return out
+
+
+def _extract_icon(raw_body: str) -> str | None:
+    for line in raw_body.splitlines():
+        if line.startswith("icon:"):
+            return line.split(":", 1)[1].strip()
+    return None
+
 _PY_RESERVED = {
     "from", "import", "class", "return", "def", "if", "else", "for",
     "while", "with", "as", "try", "except", "finally", "raise", "pass",
@@ -43,19 +150,19 @@ def emit_python(onto: Ontology) -> str:
         lines.append("")
         lines.append("")
 
-    # SHAPE_YAMLS: raw YAML body per shape. The skill worker attaches the
-    # matching entry as `__shape_yaml__` on every @returns(shape) response so
-    # the Rust engine can upsert the definition on the graph with a single
-    # byte-compare — no reparse, no field-by-field merger. The body matches
-    # what the Rust ShapeHandle carries via include_str!, so SHAPE_YAMLS is
-    # the Python mirror of the contract crate's `shapes` module.
-    lines.append("# Raw YAML bodies — consumed by the skill worker to attach")
-    lines.append("# `__shape_yaml__` on every @returns(shape) response.")
-    lines.append("SHAPE_YAMLS: dict[str, str] = {")
+    # SHAPE_DEFS: per-shape structured schema. The skill worker attaches
+    # the matching entry as `__shape_def__` on every @returns(shape)
+    # response; the Rust engine deserialises it directly into
+    # `agentos_graph::ShapeDef` and upserts the shape-def alongside the
+    # data write (shape-unification Phase 1). Replaces the legacy
+    # `SHAPE_YAMLS` apparatus — engine no longer carries any YAML parser.
+    lines.append("# Structured shape defs — consumed by the skill worker to attach")
+    lines.append("# `__shape_def__` on every @returns(shape) response. Wire-equivalent")
+    lines.append("# to `agentos_graph::ShapeDef`.")
+    lines.append("SHAPE_DEFS: dict[str, dict] = {")
     for s in shapes:
-        if not s.raw_body:
-            continue
-        lines.append(f"    {s.name!r}: {s.raw_body!r},")
+        defn = _shape_to_wire_def(s)
+        lines.append(f"    {s.name!r}: {defn!r},")
     lines.append("}")
     lines.append("")
 

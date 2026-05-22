@@ -1,0 +1,95 @@
+// DO NOT EDIT — generated from platform/ontology/shapes/health-immunization.yaml.
+// Regen: `python3 platform/codegen/generate.py`.
+
+use agentos_graph::{
+    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
+    ShapeDef, ShortcutDef,
+};
+use once_cell::sync::Lazy;
+use serde::{Deserialize, Serialize};
+
+/// An immunization — a single vaccine administration at a point in time.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+pub struct HealthImmunization {
+    pub name: String,
+    pub text: Option<String>,
+    pub url: Option<String>,
+    pub image: Option<String>,
+    pub author: Option<String>,
+    pub date_published: Option<String>,
+    pub content: Option<String>,
+    pub all_day: Option<bool>,
+    pub current_url: Option<String>,
+    pub cvx_code: Option<String>,
+    pub date_administered: Option<String>,
+    pub date_updated: Option<String>,
+    pub disease_target: Option<String>,
+    pub distinct_id: Option<String>,
+    pub dose_number: Option<i64>,
+    pub end_date: Option<String>,
+    pub ical_uid: Option<String>,
+    pub lot_number: Option<String>,
+    pub manufacturer: Option<String>,
+    pub notes: Option<String>,
+    pub properties: Option<serde_json::Value>,
+    pub recurrence: Option<Vec<String>>,
+    pub route: Option<String>,
+    pub series_doses: Option<i64>,
+    pub show_as: Option<String>,
+    pub site: Option<String>,
+    pub source_title: Option<String>,
+    pub source_url: Option<String>,
+    pub start_date: Option<String>,
+    pub status: Option<String>,
+    pub timezone: Option<String>,
+    pub visibility: Option<String>,
+}
+
+pub static HEALTH_IMMUNIZATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
+    name: "health-immunization".into(),
+    plural: Some("health-immunizations".into()),
+    description: Some("An immunization — a single vaccine administration at a point in time.".into()),
+    fields: vec![
+        FieldDef::optional("id", FieldType::String),
+        FieldDef::required("name", FieldType::String),
+        FieldDef::optional("text", FieldType::String),
+        FieldDef::optional("url", FieldType::String),
+        FieldDef::optional("image", FieldType::String),
+        FieldDef::optional("author", FieldType::String),
+        FieldDef::optional("datePublished", FieldType::String),
+        FieldDef::optional("content", FieldType::String),
+        FieldDef::optional("allDay", FieldType::Boolean),
+        FieldDef::optional("currentUrl", FieldType::String),
+        FieldDef::optional("cvxCode", FieldType::String),
+        FieldDef::optional("dateAdministered", FieldType::Datetime),
+        FieldDef::optional("dateUpdated", FieldType::Datetime),
+        FieldDef::optional("diseaseTarget", FieldType::String),
+        FieldDef::optional("distinctId", FieldType::String),
+        FieldDef::optional("doseNumber", FieldType::Integer),
+        FieldDef::optional("endDate", FieldType::Datetime),
+        FieldDef::optional("icalUid", FieldType::String),
+        FieldDef::optional("lotNumber", FieldType::String),
+        FieldDef::optional("manufacturer", FieldType::String),
+        FieldDef::optional("notes", FieldType::Text),
+        FieldDef::optional("properties", FieldType::Json),
+        FieldDef::optional("recurrence", FieldType::StringList),
+        FieldDef::optional("route", FieldType::String),
+        FieldDef::optional("seriesDoses", FieldType::Integer),
+        FieldDef::optional("showAs", FieldType::String),
+        FieldDef::optional("site", FieldType::String),
+        FieldDef::optional("sourceTitle", FieldType::String),
+        FieldDef::optional("sourceUrl", FieldType::Url),
+        FieldDef::optional("startDate", FieldType::Datetime),
+        FieldDef::optional("status", FieldType::String),
+        FieldDef::optional("timezone", FieldType::String),
+        FieldDef::optional("visibility", FieldType::String),
+    ],
+    also: vec!["event".into()],
+    display: Some(DisplaySpec {
+        subtitle: Some("dateAdministered".into()),
+        highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
+        ..DisplaySpec::default()
+    }),
+    ..ShapeDef::default()
+});

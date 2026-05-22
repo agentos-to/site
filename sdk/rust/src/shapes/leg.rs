@@ -1,0 +1,101 @@
+// DO NOT EDIT — generated from platform/ontology/shapes/leg.yaml.
+// Regen: `python3 platform/codegen/generate.py`.
+
+use agentos_graph::{
+    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
+    ShapeDef, ShortcutDef,
+};
+use once_cell::sync::Lazy;
+use serde::{Deserialize, Serialize};
+
+/// One continuous movement on a single vehicle — takeoff to landing,
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+pub struct Leg {
+    pub name: String,
+    pub text: Option<String>,
+    pub url: Option<String>,
+    pub image: Option<String>,
+    pub author: Option<String>,
+    pub date_published: Option<String>,
+    pub content: Option<String>,
+    pub all_day: Option<bool>,
+    pub arrival_time: Option<String>,
+    pub cabin_class: Option<String>,
+    pub carbon_emissions: Option<serde_json::Value>,
+    pub current_url: Option<String>,
+    pub date_updated: Option<String>,
+    pub departure_time: Option<String>,
+    pub distinct_id: Option<String>,
+    pub duration: Option<String>,
+    pub duration_minutes: Option<i64>,
+    pub end_date: Option<String>,
+    pub flight_number: Option<String>,
+    pub ical_uid: Option<String>,
+    pub layover_minutes: Option<i64>,
+    pub polyline: Option<String>,
+    pub properties: Option<serde_json::Value>,
+    pub recurrence: Option<Vec<String>>,
+    pub sequence: Option<i64>,
+    pub show_as: Option<String>,
+    pub source_title: Option<String>,
+    pub source_url: Option<String>,
+    pub start_date: Option<String>,
+    pub status: Option<String>,
+    pub timezone: Option<String>,
+    pub trace: Option<serde_json::Value>,
+    pub trace_point_count: Option<i64>,
+    pub vehicle_type: Option<String>,
+    pub visibility: Option<String>,
+}
+
+pub static LEG: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
+    name: "leg".into(),
+    plural: Some("legs".into()),
+    description: Some("One continuous movement on a single vehicle — takeoff to landing,".into()),
+    fields: vec![
+        FieldDef::optional("id", FieldType::String),
+        FieldDef::required("name", FieldType::String),
+        FieldDef::optional("text", FieldType::String),
+        FieldDef::optional("url", FieldType::String),
+        FieldDef::optional("image", FieldType::String),
+        FieldDef::optional("author", FieldType::String),
+        FieldDef::optional("datePublished", FieldType::String),
+        FieldDef::optional("content", FieldType::String),
+        FieldDef::optional("allDay", FieldType::Boolean),
+        FieldDef::optional("arrivalTime", FieldType::Datetime),
+        FieldDef::optional("cabinClass", FieldType::String),
+        FieldDef::optional("carbonEmissions", FieldType::Json),
+        FieldDef::optional("currentUrl", FieldType::String),
+        FieldDef::optional("dateUpdated", FieldType::Datetime),
+        FieldDef::optional("departureTime", FieldType::Datetime),
+        FieldDef::optional("distinctId", FieldType::String),
+        FieldDef::optional("duration", FieldType::String),
+        FieldDef::optional("durationMinutes", FieldType::Integer),
+        FieldDef::optional("endDate", FieldType::Datetime),
+        FieldDef::optional("flightNumber", FieldType::String),
+        FieldDef::optional("icalUid", FieldType::String),
+        FieldDef::optional("layoverMinutes", FieldType::Integer),
+        FieldDef::optional("polyline", FieldType::String),
+        FieldDef::optional("properties", FieldType::Json),
+        FieldDef::optional("recurrence", FieldType::StringList),
+        FieldDef::optional("sequence", FieldType::Integer),
+        FieldDef::optional("showAs", FieldType::String),
+        FieldDef::optional("sourceTitle", FieldType::String),
+        FieldDef::optional("sourceUrl", FieldType::Url),
+        FieldDef::optional("startDate", FieldType::Datetime),
+        FieldDef::optional("status", FieldType::String),
+        FieldDef::optional("timezone", FieldType::String),
+        FieldDef::optional("trace", FieldType::Json),
+        FieldDef::optional("tracePointCount", FieldType::Integer),
+        FieldDef::optional("vehicleType", FieldType::String),
+        FieldDef::optional("visibility", FieldType::String),
+    ],
+    also: vec!["event".into()],
+    display: Some(DisplaySpec {
+        subtitle: Some("flightNumber".into()),
+        highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
+        ..DisplaySpec::default()
+    }),
+    ..ShapeDef::default()
+});

@@ -12,7 +12,12 @@ from __future__ import annotations
 # Ontology branches with a Rust module in the contract crate. `auth-contracts`
 # is intentionally absent — those contracts have a single consumer and stay
 # in the `auth` crate (see phase5-contract-crate.md).
-_MODULES = ("links", "migrations", "ops", "schema_hash", "shapes")
+#
+# `shapes` is intentionally absent — shape-unification Phase 1 moved the
+# shape SDK out of contract-generated into `platform/sdk/rust/`. Engine
+# crates `use agentos_sdk::shapes::VOLUME` directly. The engine binary
+# names ZERO shapes in its own source tree.
+_MODULES = ("links", "migrations", "ops", "schema_hash")
 
 
 def emit_contract_root() -> str:

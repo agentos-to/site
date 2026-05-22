@@ -1,0 +1,70 @@
+// DO NOT EDIT — generated from platform/ontology/shapes/financial_account.yaml.
+// Regen: `python3 platform/codegen/generate.py`.
+
+use agentos_graph::{
+    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
+    ShapeDef, ShortcutDef,
+};
+use once_cell::sync::Lazy;
+use serde::{Deserialize, Serialize};
+
+/// A financial account — bank checking/savings, brokerage, crypto wallet, etc.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+pub struct FinancialAccount {
+    pub name: String,
+    pub text: Option<String>,
+    pub url: Option<String>,
+    pub image: Option<String>,
+    pub author: Option<String>,
+    pub date_published: Option<String>,
+    pub content: Option<String>,
+    pub account_id: Option<String>,
+    pub account_number: Option<String>,
+    pub account_type: Option<String>,
+    pub available: Option<f64>,
+    pub balance: Option<f64>,
+    pub card_type: Option<String>,
+    pub credit_limit: Option<f64>,
+    pub currency: Option<String>,
+    pub identifier: String,
+    pub interest_rate: Option<f64>,
+    pub last4: Option<String>,
+    pub minimum_payment: Option<f64>,
+    pub routing_number: Option<String>,
+}
+
+pub static FINANCIAL_ACCOUNT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
+    name: "financial_account".into(),
+    plural: Some("financial_accounts".into()),
+    description: Some("A financial account — bank checking/savings, brokerage, crypto wallet, etc.".into()),
+    fields: vec![
+        FieldDef::optional("id", FieldType::String),
+        FieldDef::required("name", FieldType::String),
+        FieldDef::optional("text", FieldType::String),
+        FieldDef::optional("url", FieldType::String),
+        FieldDef::optional("image", FieldType::String),
+        FieldDef::optional("author", FieldType::String),
+        FieldDef::optional("datePublished", FieldType::String),
+        FieldDef::optional("content", FieldType::String),
+        FieldDef::optional("accountId", FieldType::String),
+        FieldDef::optional("accountNumber", FieldType::String),
+        FieldDef::optional("accountType", FieldType::String),
+        FieldDef::optional("available", FieldType::Number),
+        FieldDef::optional("balance", FieldType::Number),
+        FieldDef::optional("cardType", FieldType::String),
+        FieldDef::optional("creditLimit", FieldType::Number),
+        FieldDef::optional("currency", FieldType::String),
+        FieldDef::required("identifier", FieldType::String),
+        FieldDef::optional("interestRate", FieldType::Number),
+        FieldDef::optional("last4", FieldType::String),
+        FieldDef::optional("minimumPayment", FieldType::Number),
+        FieldDef::optional("routingNumber", FieldType::String),
+    ],
+    identity: vec!["at".into(), "identifier".into()],
+    display: Some(DisplaySpec {
+        subtitle: Some("last4".into()),
+        ..DisplaySpec::default()
+    }),
+    ..ShapeDef::default()
+});

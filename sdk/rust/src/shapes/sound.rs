@@ -1,0 +1,90 @@
+// DO NOT EDIT — generated from platform/ontology/shapes/sound.yaml.
+// Regen: `python3 platform/codegen/generate.py`.
+
+use agentos_graph::{
+    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
+    ShapeDef, ShortcutDef,
+};
+use once_cell::sync::Lazy;
+use serde::{Deserialize, Serialize};
+
+/// An audio clip — startup chimes, error beeps, notification dings,
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+pub struct Sound {
+    pub name: String,
+    pub text: Option<String>,
+    pub url: Option<String>,
+    pub image: Option<String>,
+    pub author: Option<String>,
+    pub date_published: Option<String>,
+    pub content: Option<String>,
+    pub bit_depth: Option<i64>,
+    pub channels: Option<i64>,
+    pub copyright_year: Option<i64>,
+    pub coverage: Option<String>,
+    pub date_created: Option<String>,
+    pub description: Option<String>,
+    pub duration_ms: Option<i64>,
+    pub encoding: Option<String>,
+    pub filename: Option<String>,
+    pub format: Option<String>,
+    pub kind: Option<String>,
+    pub language: Option<String>,
+    pub license: Option<String>,
+    pub line_count: Option<i64>,
+    pub mime_type: Option<String>,
+    pub path: Option<String>,
+    pub purpose: Option<String>,
+    pub sample_rate: Option<i64>,
+    pub sha: Option<String>,
+    pub size: Option<i64>,
+    pub tags: Option<Vec<String>>,
+}
+
+pub static SOUND: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
+    name: "sound".into(),
+    plural: Some("sounds".into()),
+    description: Some("An audio clip — startup chimes, error beeps, notification dings,".into()),
+    fields: vec![
+        FieldDef::optional("id", FieldType::String),
+        FieldDef::required("name", FieldType::String),
+        FieldDef::optional("text", FieldType::String),
+        FieldDef::optional("url", FieldType::String),
+        FieldDef::optional("image", FieldType::String),
+        FieldDef::optional("author", FieldType::String),
+        FieldDef::optional("datePublished", FieldType::String),
+        FieldDef::optional("content", FieldType::String),
+        FieldDef::optional("bitDepth", FieldType::Integer),
+        FieldDef::optional("channels", FieldType::Integer),
+        FieldDef::optional("copyrightYear", FieldType::Integer),
+        FieldDef::optional("coverage", FieldType::String),
+        FieldDef::optional("dateCreated", FieldType::Date),
+        FieldDef::optional("description", FieldType::String),
+        FieldDef::optional("durationMs", FieldType::Integer),
+        FieldDef::optional("encoding", FieldType::String),
+        FieldDef::optional("filename", FieldType::String),
+        FieldDef::optional("format", FieldType::String),
+        FieldDef::optional("kind", FieldType::String),
+        FieldDef::optional("language", FieldType::String),
+        FieldDef::optional("license", FieldType::String),
+        FieldDef::optional("lineCount", FieldType::Integer),
+        FieldDef::optional("mimeType", FieldType::String),
+        FieldDef::optional("path", FieldType::String),
+        FieldDef::optional("purpose", FieldType::String),
+        FieldDef::optional("sampleRate", FieldType::Integer),
+        FieldDef::optional("sha", FieldType::String),
+        FieldDef::optional("size", FieldType::Integer),
+        FieldDef::optional("tags", FieldType::StringList),
+    ],
+    also: vec!["creative_work".into(), "file".into()],
+    identity_any: vec!["url".into()],
+    display: Some(DisplaySpec {
+        subtitle: Some("purpose".into()),
+        image: Some("image".into()),
+        body: Some("description".into()),
+        highlights: vec!["datePublished".into(), "published_by".into()],
+        ..DisplaySpec::default()
+    }),
+    ..ShapeDef::default()
+});

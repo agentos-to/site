@@ -1,0 +1,100 @@
+// DO NOT EDIT — generated from platform/ontology/shapes/software.yaml.
+// Regen: `python3 platform/codegen/generate.py`.
+
+use agentos_graph::{
+    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
+    ShapeDef, ShortcutDef,
+};
+use once_cell::sync::Lazy;
+use serde::{Deserialize, Serialize};
+
+/// A software product — operating system, application, library, icon pack,
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+pub struct Software {
+    pub name: String,
+    pub text: Option<String>,
+    pub url: Option<String>,
+    pub image: Option<String>,
+    pub author: Option<String>,
+    pub date_published: Option<String>,
+    pub content: Option<String>,
+    pub aisle: Option<String>,
+    pub application_category: Option<String>,
+    pub availability: Option<String>,
+    pub barcode: Option<String>,
+    pub calories: Option<f64>,
+    pub categories: Option<Vec<String>>,
+    pub category: Option<String>,
+    pub codename: Option<String>,
+    pub currency: Option<String>,
+    pub customization_groups: Option<serde_json::Value>,
+    pub department: Option<String>,
+    pub images: Option<serde_json::Value>,
+    pub nova_group: Option<i64>,
+    pub nutrition_score: Option<String>,
+    pub original_price: Option<String>,
+    pub original_price_amount: Option<f64>,
+    pub price: Option<String>,
+    pub price_amount: Option<f64>,
+    pub quantity: Option<i64>,
+    pub runtime_platform: Option<String>,
+    pub serving_size: Option<String>,
+    pub sku: Option<String>,
+    pub sold_by_weight: Option<bool>,
+    pub version: Option<String>,
+    pub weight: Option<String>,
+    pub weight_unit: Option<String>,
+    pub weight_value: Option<f64>,
+}
+
+pub static SOFTWARE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
+    name: "software".into(),
+    plural: Some("software".into()),
+    description: Some("A software product — operating system, application, library, icon pack,".into()),
+    fields: vec![
+        FieldDef::optional("id", FieldType::String),
+        FieldDef::required("name", FieldType::String),
+        FieldDef::optional("text", FieldType::String),
+        FieldDef::optional("url", FieldType::String),
+        FieldDef::optional("image", FieldType::String),
+        FieldDef::optional("author", FieldType::String),
+        FieldDef::optional("datePublished", FieldType::String),
+        FieldDef::optional("content", FieldType::String),
+        FieldDef::optional("aisle", FieldType::String),
+        FieldDef::optional("applicationCategory", FieldType::String),
+        FieldDef::optional("availability", FieldType::String),
+        FieldDef::optional("barcode", FieldType::String),
+        FieldDef::optional("calories", FieldType::Number),
+        FieldDef::optional("categories", FieldType::StringList),
+        FieldDef::optional("category", FieldType::String),
+        FieldDef::optional("codename", FieldType::String),
+        FieldDef::optional("currency", FieldType::String),
+        FieldDef::optional("customizationGroups", FieldType::Json),
+        FieldDef::optional("department", FieldType::String),
+        FieldDef::optional("images", FieldType::Json),
+        FieldDef::optional("novaGroup", FieldType::Integer),
+        FieldDef::optional("nutritionScore", FieldType::String),
+        FieldDef::optional("originalPrice", FieldType::String),
+        FieldDef::optional("originalPriceAmount", FieldType::Number),
+        FieldDef::optional("price", FieldType::String),
+        FieldDef::optional("priceAmount", FieldType::Number),
+        FieldDef::optional("quantity", FieldType::Integer),
+        FieldDef::optional("runtimePlatform", FieldType::String),
+        FieldDef::optional("servingSize", FieldType::String),
+        FieldDef::optional("sku", FieldType::String),
+        FieldDef::optional("soldByWeight", FieldType::Boolean),
+        FieldDef::optional("version", FieldType::String),
+        FieldDef::optional("weight", FieldType::String),
+        FieldDef::optional("weightUnit", FieldType::String),
+        FieldDef::optional("weightValue", FieldType::Number),
+    ],
+    also: vec!["product".into()],
+    identity_any: vec!["url".into()],
+    display: Some(DisplaySpec {
+        subtitle: Some("applicationCategory".into()),
+        highlights: vec!["version".into(), "runtimePlatform".into()],
+        ..DisplaySpec::default()
+    }),
+    ..ShapeDef::default()
+});

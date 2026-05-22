@@ -39,11 +39,11 @@ from emit import (
     emit_ops_ts,
     emit_python,
     emit_python_auth_contracts,
-    emit_rust,
     emit_rust_auth_contracts,
     emit_shape_docs,
     emit_skill_docs,
     emit_typescript,
+    write_rust_sdk,
 )
 
 # Registry-driven codegen — submodules alongside this file (D11). Each
@@ -54,11 +54,14 @@ from sdk_client import emit_sdk_client  # noqa: E402
 
 # The shape emitters — one per language with an SDK target. Adding a
 # language is one new `emit/<lang>.py` plus an entry here and in `targets`.
-# The Rust shapes land in the `shapes` module of the contract crate.
+#
+# Rust is intentionally absent — its emitter (`emit/rust_sdk.py`) writes
+# a *tree* of files under `platform/sdk/rust/src/shapes/`, not a single
+# output, so it can't share the `(emitter, filename)` shape. Wired
+# separately below the EMITTERS loop.
 EMITTERS = {
     "python": (emit_python, "_generated.py"),
     "typescript": (emit_typescript, "shape.ts"),
-    "rust": (emit_rust, "shapes.rs"),
 }
 
 
@@ -264,19 +267,31 @@ def main():
 
     # ---- Stage 2 (default path): IR → emitters -------------------------------
     # Output destinations per language — python/ts write into the in-repo SDK
-    # packages; rust is the one cross-repo write, into core/ (the `shapes`
-    # module of the contract crate). Use --out-dir to override (e.g. for
-    # Go/Swift one-off exports).
+    # packages; rust writes into `platform/sdk/rust/src/shapes/` (a tree of
+    # files, one per shape — shape-unification Phase 1). Use --out-dir to
+    # override (e.g. for Go/Swift one-off exports).
     contract_crate = workspace / "core" / "crates" / "contract-generated" / "src"
     targets = {
         "python": platform_root / "sdk" / "python" / "agentos" / "_generated.py",
         "typescript": platform_root / "sdk" / "typescript" / "src" / "shapes.ts",
-        "rust": contract_crate / "shapes.rs",
     }
 
-    langs = [args.lang] if args.lang else list(EMITTERS.keys())
+    langs = [args.lang] if args.lang else list(EMITTERS.keys()) + ["rust"]
     drift = False
     for lang in langs:
+        if lang == "rust":
+            # rust_sdk writes a tree, not a single file — no string-compare
+            # against `targets` makes sense. With --check, we'd have to walk
+            # the existing tree and diff each file; v1 just re-emits and
+            # relies on git to flag drift.
+            rust_sdk_root = (
+                args.out_dir / "shapes"
+                if args.out_dir
+                else platform_root / "sdk" / "rust" / "src" / "shapes"
+            )
+            written = write_rust_sdk(ontology, rust_sdk_root)
+            print(f"  rust: {rust_sdk_root} ({len(written)} files)")
+            continue
         emitter, filename = EMITTERS[lang]
         output = emitter(ontology)
         out_path = args.out_dir / filename if args.out_dir else targets[lang]

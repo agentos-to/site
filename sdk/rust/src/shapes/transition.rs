@@ -1,0 +1,101 @@
+// DO NOT EDIT — generated from platform/ontology/shapes/transition.yaml.
+// Regen: `python3 platform/codegen/generate.py`.
+
+use agentos_graph::{
+    Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType,
+    ShapeDef, ShortcutDef,
+};
+use once_cell::sync::Lazy;
+use serde::{Deserialize, Serialize};
+
+/// An identity change — name, gender, religion, sports team, anything
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+pub struct Transition {
+    pub name: String,
+    pub text: Option<String>,
+    pub url: Option<String>,
+    pub image: Option<String>,
+    pub author: Option<String>,
+    pub date_published: Option<String>,
+    pub content: Option<String>,
+    pub additional_name: Option<String>,
+    pub all_day: Option<bool>,
+    pub current_url: Option<String>,
+    pub date_updated: Option<String>,
+    pub distinct_id: Option<String>,
+    pub end_date: Option<String>,
+    pub family_name: Option<String>,
+    pub gender: Option<String>,
+    pub given_name: Option<String>,
+    pub honorific_prefix: Option<String>,
+    pub honorific_suffix: Option<String>,
+    pub ical_uid: Option<String>,
+    pub legal_name: Option<String>,
+    pub maiden_name: Option<String>,
+    pub name_order: Option<String>,
+    pub nickname: Option<String>,
+    pub phonetic_family_name: Option<String>,
+    pub phonetic_given_name: Option<String>,
+    pub properties: Option<serde_json::Value>,
+    pub recurrence: Option<Vec<String>>,
+    pub show_as: Option<String>,
+    pub sort_as: Option<String>,
+    pub source_title: Option<String>,
+    pub source_url: Option<String>,
+    pub start_date: Option<String>,
+    pub status: Option<String>,
+    pub timezone: Option<String>,
+    pub visibility: Option<String>,
+}
+
+pub static TRANSITION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
+    name: "transition".into(),
+    plural: Some("transitions".into()),
+    description: Some("An identity change — name, gender, religion, sports team, anything".into()),
+    fields: vec![
+        FieldDef::optional("id", FieldType::String),
+        FieldDef::required("name", FieldType::String),
+        FieldDef::optional("text", FieldType::String),
+        FieldDef::optional("url", FieldType::String),
+        FieldDef::optional("image", FieldType::String),
+        FieldDef::optional("author", FieldType::String),
+        FieldDef::optional("datePublished", FieldType::String),
+        FieldDef::optional("content", FieldType::String),
+        FieldDef::optional("additionalName", FieldType::String),
+        FieldDef::optional("allDay", FieldType::Boolean),
+        FieldDef::optional("currentUrl", FieldType::String),
+        FieldDef::optional("dateUpdated", FieldType::Datetime),
+        FieldDef::optional("distinctId", FieldType::String),
+        FieldDef::optional("endDate", FieldType::Datetime),
+        FieldDef::optional("familyName", FieldType::String),
+        FieldDef::optional("gender", FieldType::String),
+        FieldDef::optional("givenName", FieldType::String),
+        FieldDef::optional("honorificPrefix", FieldType::String),
+        FieldDef::optional("honorificSuffix", FieldType::String),
+        FieldDef::optional("icalUid", FieldType::String),
+        FieldDef::optional("legalName", FieldType::String),
+        FieldDef::optional("maidenName", FieldType::String),
+        FieldDef::optional("nameOrder", FieldType::String),
+        FieldDef::optional("nickname", FieldType::String),
+        FieldDef::optional("phoneticFamilyName", FieldType::String),
+        FieldDef::optional("phoneticGivenName", FieldType::String),
+        FieldDef::optional("properties", FieldType::Json),
+        FieldDef::optional("recurrence", FieldType::StringList),
+        FieldDef::optional("showAs", FieldType::String),
+        FieldDef::optional("sortAs", FieldType::String),
+        FieldDef::optional("sourceTitle", FieldType::String),
+        FieldDef::optional("sourceUrl", FieldType::Url),
+        FieldDef::optional("startDate", FieldType::Datetime),
+        FieldDef::optional("status", FieldType::String),
+        FieldDef::optional("timezone", FieldType::String),
+        FieldDef::optional("visibility", FieldType::String),
+    ],
+    also: vec!["event".into()],
+    display: Some(DisplaySpec {
+        subtitle: Some("startDate".into()),
+        highlights: vec!["startDate".into(), "givenName".into(), "familyName".into(), "gender".into()],
+        ..DisplaySpec::default()
+    }),
+    ..ShapeDef::default()
+});
