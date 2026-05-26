@@ -18,6 +18,8 @@ pub struct Volume {
     #[serde(rename = "auto_mount")]
     pub auto_mount: Option<bool>,
     pub kind: Option<String>,
+    #[serde(rename = "volume_id")]
+    pub volume_id: Option<String>,
 }
 
 pub static VOLUME: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
@@ -37,6 +39,7 @@ pub static VOLUME: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("address", FieldType::String),
         FieldDef::optional("auto_mount", FieldType::Boolean),
         FieldDef::optional("kind", FieldType::String),
+        FieldDef::optional("volume_id", FieldType::String),
     ],
     display: Some(DisplaySpec {
         subtitle: Some("kind".into()),

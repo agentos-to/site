@@ -1271,7 +1271,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("unit", &["ucumCode", "symbol", "label", "kind", "siDigitalFrameworkUri", "unCefactCommonCode", "qudtUnitIri", "wikidataId", "toBaseFactor", "toBaseOffset", "iso4217", "iso4217Numeric", "minorExponent", "logBase"]),
     ("user", &["osUsername", "primaryUser", "actorType"]),
     ("video", &["durationMs", "resolution", "frameRate", "codec", "viewCount", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
-    ("volume", &["kind", "address", "auto_mount"]),
+    ("volume", &["volume_id", "kind", "address", "auto_mount"]),
     ("webpage", &["visitCount", "lastVisitUnix", "contentType", "error"]),
     ("website", &["status", "versionId", "anonymous", "claimToken", "claimUrl"]),
 ];

@@ -12,6 +12,14 @@ volume:
     subtitle: kind
   icon: drive
   fields:
+    volume_id:   string    # Kebab-case slug — `joe-health`, `bible`. The
+                            #   stable handle for `volume:` params + the
+                            #   prefix in cross-volume edges (`to:
+                            #   "joe-health:flpith"`). Derived from `name`
+                            #   via `slugify` with collision dedup against
+                            #   the live registry; stamped here so the UI
+                            #   can recover it without round-tripping
+                            #   through the mount registry.
     kind:        string    # "memex" — v1. "tree" — v2+ (filesystem, NFS,
                             #   SMB, cloud drives — transport via skill).
     address:     string    # local path for memex Volumes — the absolute
