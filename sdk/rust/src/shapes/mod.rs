@@ -34,6 +34,7 @@ pub mod bookmark;
 pub mod branch;
 pub mod brand;
 pub mod calendar;
+pub mod change;
 pub mod channel;
 pub mod class;
 pub mod community;
@@ -52,6 +53,7 @@ pub mod fare;
 pub mod file;
 pub mod financial_account;
 pub mod flight;
+pub mod flow;
 pub mod font;
 pub mod git_commit;
 pub mod group;
@@ -75,19 +77,24 @@ pub mod mcp_session;
 pub mod meeting;
 pub mod membership;
 pub mod message;
+pub mod milestone;
 pub mod model;
+pub mod module;
 pub mod note;
 pub mod offer;
 pub mod order;
 pub mod organization;
+pub mod outcome;
 pub mod pass;
 pub mod payment_method;
 pub mod person;
+pub mod persona;
 pub mod place;
 pub mod playlist;
 pub mod podcast;
 pub mod post;
 pub mod practice;
+pub mod principle;
 pub mod product;
 pub mod project;
 pub mod protocol;
@@ -106,6 +113,7 @@ pub mod software;
 pub mod sound;
 pub mod source;
 pub mod spec;
+pub mod step;
 pub mod tag;
 pub mod task;
 pub mod tax_line;
@@ -117,6 +125,7 @@ pub mod transition;
 pub mod trip;
 pub mod unit;
 pub mod user;
+pub mod user_identity;
 pub mod video;
 pub mod volume;
 pub mod webpage;
@@ -136,6 +145,7 @@ pub use bookmark::{BOOKMARK, Bookmark};
 pub use branch::{BRANCH, Branch};
 pub use brand::{BRAND, Brand};
 pub use calendar::{CALENDAR, Calendar};
+pub use change::{CHANGE, Change};
 pub use channel::{CHANNEL, Channel};
 pub use class::{CLASS, Class};
 pub use community::{COMMUNITY, Community};
@@ -154,6 +164,7 @@ pub use fare::{FARE, Fare};
 pub use file::{FILE, File};
 pub use financial_account::{FINANCIAL_ACCOUNT, FinancialAccount};
 pub use flight::{FLIGHT, Flight};
+pub use flow::{FLOW, Flow};
 pub use font::{FONT, Font};
 pub use git_commit::{GIT_COMMIT, GitCommit};
 pub use group::{GROUP, Group};
@@ -177,19 +188,24 @@ pub use mcp_session::{MCP_SESSION, McpSession};
 pub use meeting::{MEETING, Meeting};
 pub use membership::{MEMBERSHIP, Membership};
 pub use message::{MESSAGE, Message};
+pub use milestone::{MILESTONE, Milestone};
 pub use model::{MODEL, Model};
+pub use module::{MODULE, Module};
 pub use note::{NOTE, Note};
 pub use offer::{OFFER, Offer};
 pub use order::{ORDER, Order};
 pub use organization::{ORGANIZATION, Organization};
+pub use outcome::{OUTCOME, Outcome};
 pub use pass::{PASS, Pass};
 pub use payment_method::{PAYMENT_METHOD, PaymentMethod};
 pub use person::{PERSON, Person};
+pub use persona::{PERSONA, Persona};
 pub use place::{PLACE, Place};
 pub use playlist::{PLAYLIST, Playlist};
 pub use podcast::{PODCAST, Podcast};
 pub use post::{POST, Post};
 pub use practice::{PRACTICE, Practice};
+pub use principle::{PRINCIPLE, Principle};
 pub use product::{PRODUCT, Product};
 pub use project::{PROJECT, Project};
 pub use protocol::{PROTOCOL, Protocol};
@@ -208,6 +224,7 @@ pub use software::{SOFTWARE, Software};
 pub use sound::{SOUND, Sound};
 pub use source::{SOURCE, Source};
 pub use spec::{SPEC, Spec};
+pub use step::{STEP, Step};
 pub use tag::{TAG, Tag};
 pub use task::{TASK, Task};
 pub use tax_line::{TAX_LINE, TaxLine};
@@ -219,6 +236,7 @@ pub use transition::{TRANSITION, Transition};
 pub use trip::{TRIP, Trip};
 pub use unit::{UNIT, Unit};
 pub use user::{USER, User};
+pub use user_identity::{USER_IDENTITY, UserIdentity};
 pub use video::{VIDEO, Video};
 pub use volume::{VOLUME, Volume};
 pub use webpage::{WEBPAGE, Webpage};
@@ -376,6 +394,15 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         image: None,
         highlights: &[],
         body: None,
+        preview: &[],
+        also: &[],
+    }),
+    ("change", Display {
+        title: None,
+        subtitle: Some("kind"),
+        image: None,
+        highlights: &["status", "phase", "path"],
+        body: Some("summary"),
         preview: &[],
         also: &[],
     }),
@@ -540,6 +567,15 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         body: None,
         preview: &[],
         also: &["leg", "event"],
+    }),
+    ("flow", Display {
+        title: None,
+        subtitle: Some("goal"),
+        image: None,
+        highlights: &["trigger", "status"],
+        body: None,
+        preview: &[],
+        also: &[],
     }),
     ("font", Display {
         title: None,
@@ -748,11 +784,29 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &[],
     }),
+    ("milestone", Display {
+        title: None,
+        subtitle: Some("status"),
+        image: None,
+        highlights: &["status", "reachedAt"],
+        body: Some("criterion"),
+        preview: &[],
+        also: &["event"],
+    }),
     ("model", Display {
         title: None,
         subtitle: Some("name"),
         image: None,
         highlights: &[],
+        body: None,
+        preview: &[],
+        also: &[],
+    }),
+    ("module", Display {
+        title: None,
+        subtitle: Some("role"),
+        image: None,
+        highlights: &["status", "path"],
         body: None,
         preview: &[],
         also: &[],
@@ -793,6 +847,15 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &["actor"],
     }),
+    ("outcome", Display {
+        title: None,
+        subtitle: Some("status"),
+        image: None,
+        highlights: &[],
+        body: Some("statement"),
+        preview: &[],
+        also: &[],
+    }),
     ("pass", Display {
         title: None,
         subtitle: Some("status"),
@@ -819,6 +882,15 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         body: Some("notes"),
         preview: &[],
         also: &["actor"],
+    }),
+    ("persona", Display {
+        title: None,
+        subtitle: Some("headline"),
+        image: None,
+        highlights: &["reachesFor", "quote"],
+        body: Some("who"),
+        preview: &[],
+        also: &[],
     }),
     ("place", Display {
         title: None,
@@ -862,6 +934,15 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         image: None,
         highlights: &[],
         body: None,
+        preview: &[],
+        also: &[],
+    }),
+    ("principle", Display {
+        title: None,
+        subtitle: Some("domain"),
+        image: None,
+        highlights: &["statement", "status"],
+        body: Some("rationale"),
         preview: &[],
         also: &[],
     }),
@@ -1027,6 +1108,15 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &["task", "event", "file"],
     }),
+    ("step", Display {
+        title: None,
+        subtitle: Some("status"),
+        image: None,
+        highlights: &["position", "status"],
+        body: Some("detail"),
+        preview: &[],
+        also: &[],
+    }),
     ("tag", Display {
         title: Some("name"),
         subtitle: Some("tagType"),
@@ -1126,6 +1216,15 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &["actor"],
     }),
+    ("user_identity", Display {
+        title: None,
+        subtitle: Some("volume_id"),
+        image: None,
+        highlights: &["person_node_id", "active"],
+        body: None,
+        preview: &[],
+        also: &[],
+    }),
     ("video", Display {
         title: None,
         subtitle: Some("author"),
@@ -1187,6 +1286,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("branch", &["commit", "upstream", "ahead", "behind", "isCurrent", "isRemote"]),
     ("brand", &["tagline", "country", "primaryColor", "textColor"]),
     ("calendar", &["calendarId", "color", "backgroundColor", "foregroundColor", "isPrimary", "isReadonly", "accessRole", "source", "timezone"]),
+    ("change", &["kind", "summary", "status", "path", "phase", "version"]),
     ("channel", &["banner", "subscriberCount"]),
     ("class", &["activityType", "capacity", "spotsRemaining", "isFull", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("community", &["privacy", "memberCount", "subscriberCount", "allowCrypto"]),
@@ -1205,6 +1305,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("file", &["filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("financial_account", &["identifier", "accountId", "accountNumber", "routingNumber", "last4", "currency", "accountType", "balance", "available", "creditLimit", "minimumPayment", "cardType", "interestRate"]),
     ("flight", &["flightNumber", "durationMinutes", "cabinClass", "stops", "carbonEmissions", "sequence", "departureTime", "arrivalTime", "duration", "vehicleType", "layoverMinutes", "trace", "tracePointCount", "polyline", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
+    ("flow", &["goal", "trigger", "status"]),
     ("font", &["family", "genericFamily", "postscriptName", "weights", "styles", "formats", "scripts", "glyphCount", "designerUrl", "vendorUrl", "licenseInfoUrl", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags"]),
     ("git_commit", &["sha", "shortHash", "message", "additions", "deletions", "filesChanged", "committedAt", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("group", &["memberCount", "category"]),
@@ -1228,19 +1329,24 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("meeting", &["calendarLink", "isVirtual", "meetingUrl", "conferenceProvider", "phoneDialIn", "meetingType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("membership", &["status", "tier", "autoRenew", "price", "currency", "billingType", "useCount", "guestPassQuantity", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("message", &["isOutgoing", "isStarred", "conversationId"]),
+    ("milestone", &["reachedAt", "criterion", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("model", &["contextLength", "contextWindow", "maxOutput", "pricingInput", "pricingOutput", "modality", "modelType", "quantization", "quantizationLevel", "size", "parameterSize", "format", "family", "digest"]),
+    ("module", &["name", "role", "path", "version", "status", "planned"]),
     ("note", &["noteType", "isPinned"]),
     ("offer", &["price", "currency", "offerType", "availability", "bookingToken", "departureToken", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("order", &["orderId", "orderDate", "total", "totalAmount", "originalTotal", "originalTotalAmount", "savings", "currency", "status", "deliveryDate", "eta", "subtotal", "tipAmount", "deliveryFee", "taxes", "summary", "fareBreakdown", "deliveryInstructions", "interactionType", "orderUuid", "body", "head", "messages", "timeline", "itemStates", "latestArrival", "progress", "progressTotal", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("organization", &["industry", "actorType"]),
+    ("outcome", &["statement", "status", "archived", "metric", "baseline", "current", "target"]),
     ("pass", &["status", "quantity", "purchasedQuantity", "useCount", "isAllDayPass", "price", "currency", "ticketNumber", "nameOnTicket", "seatAssignment", "boardingGroup", "ticketClass", "gate", "terminal", "checkinStatus", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("payment_method", &["identifier", "type", "subtype", "brand", "displayName", "customDescription", "holderName", "last4", "binRange", "expMonth", "expYear", "expirationDate", "currency", "balance", "fingerprint", "isDefault", "isPrimary", "isExpired", "isSelected", "status", "providerTokens", "metadata"]),
     ("person", &["url", "notes", "about", "actorType"]),
+    ("persona", &["headline", "who", "goals", "painPoints", "reachesFor", "quote"]),
     ("place", &["fullAddress", "placeFormatted", "streetNumber", "street", "neighborhood", "locality", "city", "district", "region", "postalCode", "country", "countryCode", "latitude", "longitude", "accuracy", "featureType", "categories", "phone", "website", "hours", "businessStatus", "rating", "reviewCount", "priceLevel", "timezone", "eta", "isOrderable", "closedMessage", "productCount", "mapboxId", "wikidataId", "googlePlaceId"]),
     ("playlist", &["id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path"]),
     ("podcast", &["feedUrl"]),
     ("post", &["externalUrl", "postType", "score", "commentCount", "community"]),
     ("practice", &["description", "code", "codeSystem", "aliases"]),
+    ("principle", &["name", "statement", "rationale", "domain", "status"]),
     ("product", &["category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("project", &["state", "color", "parentId"]),
     ("protocol", &["name", "homepage", "rfc", "wikidataId"]),
@@ -1259,6 +1365,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("sound", &["durationMs", "channels", "sampleRate", "bitDepth", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("source", &["sourceId", "address", "scanner", "enabled", "description", "lastSynced"]),
     ("spec", &["problem", "successCriteria", "remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
+    ("step", &["position", "detail", "status"]),
     ("tag", &["color", "tagType", "annotated", "hash"]),
     ("task", &["remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("tax_line", &["code", "description", "amount", "currency", "kind", "nature", "country", "appliesToIndex", "refundable", "merchantImposed", "rate", "taxableAmount", "inclusive"]),
@@ -1270,6 +1377,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("trip", &["tripType", "status", "departureTime", "arrivalTime", "duration", "durationMinutes", "distance", "vehicleType", "cabinClass", "fare", "fareAmount", "currency", "rating", "trackingUrl", "isSurge", "isScheduled", "stops", "bookingToken", "carbonEmissions", "isPool", "isReserve", "guest", "marketplace", "vehicle", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("unit", &["ucumCode", "symbol", "label", "kind", "siDigitalFrameworkUri", "unCefactCommonCode", "qudtUnitIri", "wikidataId", "toBaseFactor", "toBaseOffset", "iso4217", "iso4217Numeric", "minorExponent", "logBase"]),
     ("user", &["osUsername", "primaryUser", "actorType"]),
+    ("user_identity", &["user_id", "volume_id", "person_node_id", "active"]),
     ("video", &["durationMs", "resolution", "frameRate", "codec", "viewCount", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("volume", &["volume_id", "kind", "address", "auto_mount"]),
     ("webpage", &["visitCount", "lastVisitUnix", "contentType", "error"]),
@@ -1313,6 +1421,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
     ("loaded_model", &["event"]),
     ("meeting", &["event"]),
     ("membership", &["event"]),
+    ("milestone", &["event"]),
     ("offer", &["event"]),
     ("order", &["event"]),
     ("organization", &["actor"]),
@@ -1338,7 +1447,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
 // Event types — shapes whose `also:` chain includes `event`
 // ===========================================================
 
-pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer", "class", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-observation", "health-panel", "health-procedure", "health-reference-range", "invitation", "launch", "leg", "loaded_model", "meeting", "membership", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "transition", "trip"];
+pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer", "class", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-observation", "health-panel", "health-procedure", "health-reference-range", "invitation", "launch", "leg", "loaded_model", "meeting", "membership", "milestone", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "transition", "trip"];
 
 // ===========================================================
 // Derived bindings — per-shape `derived:` block as JSON

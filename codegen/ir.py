@@ -103,6 +103,7 @@ class Shape:
     field_order: list[str] = field(default_factory=list)      # YAML declaration order, this shape's own fields first, then inherited via `also:` (deduped). Drives `SHAPE_FIELD_ORDER` per the life-events plan — author order is meaning.
     derived: dict = field(default_factory=dict)               # `derived:` block — per-field read-side bindings. Values are raw dicts with `find` / `where` / `where_link` / `is` / `get` / `latest`. See event-derived-attributes plan §"The derived block".
     shortcuts: dict = field(default_factory=dict)             # `shortcuts:` block — per-flat-key write-side expansions. Each entry maps a flat create-key to a single canonical write target (e.g. `birthdate: {writes: born_in[is=birth].startDate}`).
+    prefs_schemas: dict = field(default_factory=dict)         # `prefsSchemas:` block — shape-level pref vocabulary (namespace → entries[]). Settings reads it off the shape-def node to render its tabs. `user` is the canonical case; any shape can declare one.
 
 
 # =============================================================================
@@ -626,6 +627,13 @@ def _build_shapes(
         shortcuts = defn.get("shortcuts") or {}
         if isinstance(shortcuts, dict):
             s.shortcuts = shortcuts
+
+        # `prefsSchemas:` block — shape-level pref vocabulary. Carried
+        # through to the Rust/TS SDKs so Settings can render its tabs
+        # off the shape-def node without a second source of truth.
+        prefs_schemas = defn.get("prefsSchemas") or {}
+        if isinstance(prefs_schemas, dict):
+            s.prefs_schemas = prefs_schemas
 
         # Prior art — optional list of external standards this shape aligns with.
         pa = defn.get("prior_art") or []

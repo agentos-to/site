@@ -1,0 +1,42 @@
+# A tracked target-state — the change being sought, with a status and
+# (optionally) a metric that says when it's met. The universal unit of
+# "what we're trying to achieve": OKR objectives, learning outcomes,
+# clinical outcome measures, a roadmap end-state. NOT schema.org/result
+# ("what an action emitted") — an outcome is a target you track over time.
+outcome:
+  plural: outcomes
+  display:
+    subtitle: status
+    body: statement
+  icon: target
+  fields:
+    statement:  text     # the change being sought, one sentence ("agents pick up the roadmap cold")
+    status:     string   # not-started | active | at-risk | achieved | missed
+    archived:   boolean  # closed/shelved without every part built — drops off the active frontier
+    # optional OKR metric — most outcomes are qualitative; leave unset:
+    metric:     string   # what's measured ("30-day readmission rate")
+    baseline:   string   # starting value, so progress is interpretable
+    current:    string   # latest observed value
+    target:     string   # the value that counts as success
+  links:
+    depends_on:  outcome[]    # upstream outcomes that must move first
+    advances:    milestone    # the checkpoint this outcome drives toward
+    upholds:     principle[]  # the bright-lines this outcome must honor
+    serves:      node[]       # who it's for — a persona (archetype), or a real person / organization
+    owns:        node[]       # the flows / requirements / changes that compose it
+  prior_art:
+    - source: John Doerr, "Measure What Matters" (OKR)
+      url: https://www.whatmatters.com/faqs/okr-meaning-definition-example
+      notes: >-
+        Objective → statement; Key Result → the metric/baseline/current/target
+        quad ("I will X as measured by Y").
+    - source: W.K. Kellogg Foundation Logic Model Development Guide
+      url: https://www.nj.gov/state/assets/pdf/ofbi/kellogg-foundation-logic-model-development-guide.pdf
+      notes: >-
+        Outcomes as short/intermediate/long-term changes in a causal chain →
+        the depends_on / advances edges.
+    - source: schema.org/AchieveAction + result
+      url: https://schema.org/AchieveAction
+      notes: >-
+        Closest schema.org neighbor, but `result` models what an action
+        produced, not a tracked target-state — so outcome is its own type.

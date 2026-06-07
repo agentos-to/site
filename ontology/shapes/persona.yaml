@@ -1,0 +1,42 @@
+# An archetype of an audience segment — a named, hypothetical user that
+# stands in for a real cohort. Invented in UX by Alan Cooper. NOT a real
+# human (that is `person`); a persona specializes an audience. Used in
+# product/UX design, marketing segmentation, service design.
+persona:
+  plural: personas
+  display:
+    subtitle: headline
+    body: who
+    highlights: [reachesFor, quote]
+  icon: user-round-search
+  fields:
+    headline:    string   # one-line archetype descriptor ("the agent picking up the roadmap").
+                          #   NOT the `role` shape (that's a formal job-position at an org) — a
+                          #   persona is a fuzzy archetype, not pinned to one org position.
+    who:         text     # one paragraph — who they are
+    goals:       string[] # 2-3 things they want to accomplish (Cooper's core)
+    painPoints:  string[] # 2-3 frustrations / blockers (NN/g)
+    reachesFor:  text     # the words / tools they reach for (their language, not the system's)
+    quote:       text     # one representative line, in their voice
+  links:
+    parent:      persona  # a broader persona this one specializes
+    represents:  node     # the real research cohort / segment this distills
+    targets:     node     # the product / feature / surface designed for them
+  prior_art:
+    - source: Alan Cooper, "The Inmates Are Running the Asylum" (1999)
+      url: https://www.nngroup.com/articles/persona/
+      notes: >-
+        Origin of the persona method — "a precise definition of our user and
+        what he wishes to accomplish"; a hypothetical archetype, not a real
+        person. Maps to role + who + goals + quote.
+    - source: schema.org/PeopleAudience
+      url: https://schema.org/PeopleAudience
+      notes: >-
+        A persona is a narrative archetype OF an audience; it specializes
+        Audience (audienceType) but adds goals/quote that schema.org lacks —
+        and is firmly distinct from `person` (a real human).
+    - source: Nielsen Norman Group — personas
+      url: https://www.nngroup.com/articles/persona/
+      notes: >-
+        Canonical UX template — role + goals + pain points + quote, grounded
+        in field research.

@@ -1,0 +1,36 @@
+# A self-contained unit of a larger whole — a software module, a course
+# module, a hardware component, a curriculum unit. Defined by what it
+# encapsulates and what it depends on. The universal part-of-a-system shape.
+module:
+  plural: modules
+  display:
+    subtitle: role
+    highlights: [status, path]
+  icon: package
+  fields:
+    name:        string   # the unit's name
+    role:        text     # what it encapsulates / its responsibility
+    path:        string   # where it lives (a directory, when it's code) — drift-audited
+    version:     string   # release identifier (semver), when versioned
+    status:      string   # active | deprecated | experimental | planned
+    planned:     boolean  # does not exist yet — a future unit (skips the path drift-audit)
+  links:
+    part_of:    node      # the larger whole it composes (a repository, a course)
+    has_part:   module[]  # sub-modules it contains
+    depends_on: module[]  # other modules it requires
+  prior_art:
+    - source: schema.org hasPart / isPartOf (Course modules)
+      url: https://schema.org/hasPart
+      notes: >-
+        Course.hasPart models course modules; hasPart/isPartOf are the inverse
+        composition edges, reusable for any whole/part.
+    - source: UML 2.5 Component (OMG)
+      url: https://www.uml-diagrams.org/component.html
+      notes: >-
+        A component is a "modular part with encapsulated content, replaceable
+        within its environment" → role + depends_on.
+    - source: SPDX Package
+      url: https://spdx.dev/
+      notes: >-
+        A package is a versioned, named unit with declared dependencies →
+        version + depends_on, across software and hardware domains.

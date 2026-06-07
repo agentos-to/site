@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 101 shapes.
+// Generated from 110 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -368,6 +368,23 @@ export interface Calendar {
     isReadonly?: boolean;
     source?: string;
     timezone?: string;
+}
+
+export interface Change {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    kind?: string;
+    path?: string;
+    phase?: string;
+    status?: string;
+    summary?: string;
+    version?: string;
 }
 
 export interface Channel {
@@ -785,6 +802,20 @@ export interface Flight {
     tracePointCount?: number;
     vehicleType?: string;
     visibility?: string;
+}
+
+export interface Flow {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    goal?: string;
+    status?: string;
+    trigger?: string;
 }
 
 export interface Font {
@@ -1460,6 +1491,34 @@ export interface Message {
     isStarred?: boolean;
 }
 
+export interface Milestone {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    allDay?: boolean;
+    criterion?: string;
+    currentUrl?: string;
+    dateUpdated?: string;
+    distinctId?: string;
+    endDate?: string;
+    icalUid?: string;
+    properties?: unknown;
+    reachedAt?: string;
+    recurrence?: string[];
+    showAs?: string;
+    sourceTitle?: string;
+    sourceUrl?: string;
+    startDate?: string;
+    status?: string;
+    timezone?: string;
+    visibility?: string;
+}
+
 export interface Model {
     id?: string;
     name?: string;
@@ -1483,6 +1542,22 @@ export interface Model {
     quantization?: string;
     quantizationLevel?: string;
     size?: string;
+}
+
+export interface Module {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    path?: string;
+    planned?: boolean;
+    role?: string;
+    status?: string;
+    version?: string;
 }
 
 export interface Note {
@@ -1596,6 +1671,24 @@ export interface Organization {
     industry?: string;
 }
 
+export interface Outcome {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    archived?: boolean;
+    baseline?: string;
+    current?: string;
+    metric?: string;
+    statement?: string;
+    status?: string;
+    target?: string;
+}
+
 export interface Pass {
     id?: string;
     name?: string;
@@ -1681,6 +1774,23 @@ export interface Person {
     about?: string;
     actorType?: string;
     notes?: string;
+}
+
+export interface Persona {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    goals?: string[];
+    headline?: string;
+    painPoints?: string[];
+    quote?: string;
+    reachesFor?: string;
+    who?: string;
 }
 
 export interface Place {
@@ -1790,6 +1900,21 @@ export interface Practice {
     code?: string;
     codeSystem?: string;
     description?: string;
+}
+
+export interface Principle {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    domain?: string;
+    rationale?: string;
+    statement?: string;
+    status?: string;
 }
 
 export interface Product {
@@ -2225,6 +2350,20 @@ export interface Spec {
     visibility?: string;
 }
 
+export interface Step {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    detail?: string;
+    position?: number;
+    status?: string;
+}
+
 export interface Tag {
     id?: string;
     name?: string;
@@ -2510,6 +2649,21 @@ export interface User {
     primaryUser?: boolean;
 }
 
+export interface UserIdentity {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    active?: boolean;
+    personNodeId?: string;
+    userId?: string;
+    volumeId?: string;
+}
+
 export interface Video {
     id?: string;
     name?: string;
@@ -2621,6 +2775,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "branch": {"subtitle": "commit", "also": []},
     "brand": {"subtitle": "tagline", "also": []},
     "calendar": {"subtitle": "source", "also": []},
+    "change": {"subtitle": "kind", "highlights": ["status", "phase", "path"], "body": "summary", "also": []},
     "channel": {"subtitle": "subscriberCount", "also": []},
     "class": {"subtitle": "activityType", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "community": {"subtitle": "text", "also": []},
@@ -2639,6 +2794,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "file": {"subtitle": "path", "also": []},
     "financial_account": {"subtitle": "last4", "also": []},
     "flight": {"subtitle": "airline", "highlights": ["startDate", "endDate", "location"], "also": ["leg", "event"]},
+    "flow": {"subtitle": "goal", "highlights": ["trigger", "status"], "also": []},
     "font": {"subtitle": "author", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work"]},
     "git_commit": {"subtitle": "author", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "group": {"subtitle": "category", "also": []},
@@ -2662,19 +2818,24 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "meeting": {"subtitle": "location", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "membership": {"subtitle": "status", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "message": {"subtitle": "from", "also": []},
+    "milestone": {"subtitle": "status", "highlights": ["status", "reachedAt"], "body": "criterion", "also": ["event"]},
     "model": {"subtitle": "name", "also": []},
+    "module": {"subtitle": "role", "highlights": ["status", "path"], "also": []},
     "note": {"subtitle": "noteType", "also": []},
     "offer": {"subtitle": "price", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "order": {"subtitle": "total", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "organization": {"subtitle": "industry", "image": "image", "highlights": ["headquarters"], "also": ["actor"]},
+    "outcome": {"subtitle": "status", "body": "statement", "also": []},
     "pass": {"subtitle": "status", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "payment_method": {"subtitle": "displayName", "also": []},
     "person": {"subtitle": "about", "image": "image", "highlights": ["birthdate", "gender"], "body": "notes", "also": ["actor"]},
+    "persona": {"subtitle": "headline", "highlights": ["reachesFor", "quote"], "body": "who", "also": []},
     "place": {"subtitle": "featureType", "image": "image", "highlights": ["city", "country", "rating"], "body": "fullAddress", "also": []},
     "playlist": {"subtitle": "text", "also": ["list"]},
     "podcast": {"subtitle": "host", "also": []},
     "post": {"subtitle": "author", "also": []},
     "practice": {"subtitle": "parent", "also": []},
+    "principle": {"subtitle": "domain", "highlights": ["statement", "status"], "body": "rationale", "also": []},
     "product": {"subtitle": "brand", "also": []},
     "project": {"subtitle": "state", "also": []},
     "protocol": {"subtitle": "name", "also": []},
@@ -2693,6 +2854,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "sound": {"subtitle": "purpose", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work", "file"]},
     "source": {"subtitle": "sourceId", "also": []},
     "spec": {"subtitle": "state", "highlights": ["startDate", "endDate", "location"], "also": ["task", "event", "file"]},
+    "step": {"subtitle": "status", "highlights": ["position", "status"], "body": "detail", "also": []},
     "tag": {"title": "name", "subtitle": "tagType", "also": []},
     "task": {"subtitle": "state", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "tax_line": {"subtitle": "description", "also": []},
@@ -2704,6 +2866,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "trip": {"subtitle": "tripType", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "unit": {"subtitle": "symbol", "also": []},
     "user": {"subtitle": "name", "also": ["actor"]},
+    "user_identity": {"subtitle": "volume_id", "highlights": ["person_node_id", "active"], "also": []},
     "video": {"subtitle": "author", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work", "file"]},
     "volume": {"subtitle": "kind", "also": []},
     "webpage": {"subtitle": "url", "also": []},
@@ -2729,6 +2892,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "branch": ["commit", "upstream", "ahead", "behind", "isCurrent", "isRemote"],
     "brand": ["tagline", "country", "primaryColor", "textColor"],
     "calendar": ["calendarId", "color", "backgroundColor", "foregroundColor", "isPrimary", "isReadonly", "accessRole", "source", "timezone"],
+    "change": ["kind", "summary", "status", "path", "phase", "version"],
     "channel": ["banner", "subscriberCount"],
     "class": ["activityType", "capacity", "spotsRemaining", "isFull", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "community": ["privacy", "memberCount", "subscriberCount", "allowCrypto"],
@@ -2747,6 +2911,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "file": ["filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
     "financial_account": ["identifier", "accountId", "accountNumber", "routingNumber", "last4", "currency", "accountType", "balance", "available", "creditLimit", "minimumPayment", "cardType", "interestRate"],
     "flight": ["flightNumber", "durationMinutes", "cabinClass", "stops", "carbonEmissions", "sequence", "departureTime", "arrivalTime", "duration", "vehicleType", "layoverMinutes", "trace", "tracePointCount", "polyline", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "flow": ["goal", "trigger", "status"],
     "font": ["family", "genericFamily", "postscriptName", "weights", "styles", "formats", "scripts", "glyphCount", "designerUrl", "vendorUrl", "licenseInfoUrl", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags"],
     "git_commit": ["sha", "shortHash", "message", "additions", "deletions", "filesChanged", "committedAt", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "group": ["memberCount", "category"],
@@ -2770,19 +2935,24 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "meeting": ["calendarLink", "isVirtual", "meetingUrl", "conferenceProvider", "phoneDialIn", "meetingType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "membership": ["status", "tier", "autoRenew", "price", "currency", "billingType", "useCount", "guestPassQuantity", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "message": ["isOutgoing", "isStarred", "conversationId"],
+    "milestone": ["reachedAt", "criterion", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "model": ["contextLength", "contextWindow", "maxOutput", "pricingInput", "pricingOutput", "modality", "modelType", "quantization", "quantizationLevel", "size", "parameterSize", "format", "family", "digest"],
+    "module": ["name", "role", "path", "version", "status", "planned"],
     "note": ["noteType", "isPinned"],
     "offer": ["price", "currency", "offerType", "availability", "bookingToken", "departureToken", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "order": ["orderId", "orderDate", "total", "totalAmount", "originalTotal", "originalTotalAmount", "savings", "currency", "status", "deliveryDate", "eta", "subtotal", "tipAmount", "deliveryFee", "taxes", "summary", "fareBreakdown", "deliveryInstructions", "interactionType", "orderUuid", "body", "head", "messages", "timeline", "itemStates", "latestArrival", "progress", "progressTotal", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "organization": ["industry", "actorType"],
+    "outcome": ["statement", "status", "archived", "metric", "baseline", "current", "target"],
     "pass": ["status", "quantity", "purchasedQuantity", "useCount", "isAllDayPass", "price", "currency", "ticketNumber", "nameOnTicket", "seatAssignment", "boardingGroup", "ticketClass", "gate", "terminal", "checkinStatus", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "payment_method": ["identifier", "type", "subtype", "brand", "displayName", "customDescription", "holderName", "last4", "binRange", "expMonth", "expYear", "expirationDate", "currency", "balance", "fingerprint", "isDefault", "isPrimary", "isExpired", "isSelected", "status", "providerTokens", "metadata"],
     "person": ["url", "notes", "about", "actorType"],
+    "persona": ["headline", "who", "goals", "painPoints", "reachesFor", "quote"],
     "place": ["fullAddress", "placeFormatted", "streetNumber", "street", "neighborhood", "locality", "city", "district", "region", "postalCode", "country", "countryCode", "latitude", "longitude", "accuracy", "featureType", "categories", "phone", "website", "hours", "businessStatus", "rating", "reviewCount", "priceLevel", "timezone", "eta", "isOrderable", "closedMessage", "productCount", "mapboxId", "wikidataId", "googlePlaceId"],
     "playlist": ["id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "default_view", "icon_size", "sort_by", "path"],
     "podcast": ["feedUrl"],
     "post": ["externalUrl", "postType", "score", "commentCount", "community"],
     "practice": ["description", "code", "codeSystem", "aliases"],
+    "principle": ["name", "statement", "rationale", "domain", "status"],
     "product": ["category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
     "project": ["state", "color", "parentId"],
     "protocol": ["name", "homepage", "rfc", "wikidataId"],
@@ -2801,6 +2971,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "sound": ["durationMs", "channels", "sampleRate", "bitDepth", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
     "source": ["sourceId", "address", "scanner", "enabled", "description", "lastSynced"],
     "spec": ["problem", "successCriteria", "remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
+    "step": ["position", "detail", "status"],
     "tag": ["color", "tagType", "annotated", "hash"],
     "task": ["remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "tax_line": ["code", "description", "amount", "currency", "kind", "nature", "country", "appliesToIndex", "refundable", "merchantImposed", "rate", "taxableAmount", "inclusive"],
@@ -2812,6 +2983,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "trip": ["tripType", "status", "departureTime", "arrivalTime", "duration", "durationMinutes", "distance", "vehicleType", "cabinClass", "fare", "fareAmount", "currency", "rating", "trackingUrl", "isSurge", "isScheduled", "stops", "bookingToken", "carbonEmissions", "isPool", "isReserve", "guest", "marketplace", "vehicle", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "unit": ["ucumCode", "symbol", "label", "kind", "siDigitalFrameworkUri", "unCefactCommonCode", "qudtUnitIri", "wikidataId", "toBaseFactor", "toBaseOffset", "iso4217", "iso4217Numeric", "minorExponent", "logBase"],
     "user": ["osUsername", "primaryUser", "actorType"],
+    "user_identity": ["user_id", "volume_id", "person_node_id", "active"],
     "video": ["durationMs", "resolution", "frameRate", "codec", "viewCount", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
     "volume": ["volume_id", "kind", "address", "auto_mount"],
     "webpage": ["visitCount", "lastVisitUnix", "contentType", "error"],
@@ -2842,6 +3014,7 @@ export const EVENT_TYPES: readonly string[] = [
     "loaded_model",
     "meeting",
     "membership",
+    "milestone",
     "offer",
     "order",
     "pass",

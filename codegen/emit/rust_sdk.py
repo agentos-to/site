@@ -285,6 +285,18 @@ def _emit_shape_const(s: Shape) -> list[str]:
             lines.append("        ..DisplaySpec::default()")
             lines.append("    }),")
 
+    # prefs_schemas (JSON-opaque) — shape-level pref vocabulary
+    # (`namespace → entries[]`). Settings reads it off the shape-def
+    # node. Carried as `serde_json::Value` because each entry is a
+    # discriminated union over `kind` (select/number/boolean/color)
+    # with widely-varying field sets; typing it would freeze the
+    # vocabulary at the SDK boundary.
+    if s.prefs_schemas:
+        json_str = json.dumps(s.prefs_schemas).replace("\\", "\\\\").replace('"', '\\"')
+        lines.append(
+            f'    prefs_schemas: serde_json::from_str("{json_str}").ok(),'
+        )
+
     lines.append("    ..ShapeDef::default()")
     lines.append("});")
     return lines

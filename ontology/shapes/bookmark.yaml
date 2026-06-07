@@ -12,7 +12,7 @@
 # overrides ride on the contains-link as icon_override.
 bookmark:
   plural: bookmarks
-  identity: [target]
+  identity: [points_to]
   display:
     subtitle: name
   icon: "\U0001F516"

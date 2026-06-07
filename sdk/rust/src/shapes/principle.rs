@@ -1,12 +1,12 @@
-// DO NOT EDIT — generated from platform/ontology/shapes/bookmark.yaml.
+// DO NOT EDIT — generated from platform/ontology/shapes/principle.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
 use super::sdk_prelude::*;
 
-/// A pointer into the graph — the universal shortcut. A bookmark is a
+/// A guiding bright-line — a value or rule used to judge edge cases. Universal:
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", default)]
-pub struct Bookmark {
+pub struct Principle {
     pub name: String,
     pub text: Option<String>,
     pub url: Option<String>,
@@ -14,13 +14,17 @@ pub struct Bookmark {
     pub author: Option<String>,
     pub date_published: Option<String>,
     pub content: Option<String>,
+    pub domain: Option<String>,
+    pub rationale: Option<String>,
+    pub statement: Option<String>,
+    pub status: Option<String>,
 }
 
-pub static BOOKMARK: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
-    name: "bookmark".into(),
-    plural: Some("bookmarks".into()),
-    description: Some("A pointer into the graph — the universal shortcut. A bookmark is a".into()),
-    icon: Some("🔖".into()),
+pub static PRINCIPLE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
+    name: "principle".into(),
+    plural: Some("principles".into()),
+    description: Some("A guiding bright-line — a value or rule used to judge edge cases. Universal:".into()),
+    icon: Some("scale".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),
@@ -30,10 +34,15 @@ pub static BOOKMARK: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("author", FieldType::String),
         FieldDef::optional("datePublished", FieldType::String),
         FieldDef::optional("content", FieldType::String),
+        FieldDef::optional("domain", FieldType::String),
+        FieldDef::optional("rationale", FieldType::Text),
+        FieldDef::optional("statement", FieldType::Text),
+        FieldDef::optional("status", FieldType::String),
     ],
-    identity: vec!["points_to".into()],
     display: Some(DisplaySpec {
-        subtitle: Some("name".into()),
+        subtitle: Some("domain".into()),
+        body: Some("rationale".into()),
+        highlights: vec!["statement".into(), "status".into()],
         ..DisplaySpec::default()
     }),
     ..ShapeDef::default()

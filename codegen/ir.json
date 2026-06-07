@@ -354,7 +354,8 @@
         "metadata"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "activity",
@@ -655,7 +656,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "actor",
@@ -768,7 +770,8 @@
         "actorType"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "aircraft",
@@ -1146,7 +1149,8 @@
         "customizationGroups"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "airline",
@@ -1344,7 +1348,8 @@
         "actorType"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "airport",
@@ -1569,7 +1574,8 @@
         "terminalCount"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "app",
@@ -1765,7 +1771,8 @@
         "handles"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "birth",
@@ -2190,7 +2197,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "book",
@@ -2705,7 +2713,8 @@
         "customizationGroups"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "booking_offer",
@@ -3356,7 +3365,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "bookmark",
@@ -3431,7 +3441,7 @@
         "preview": {}
       },
       "identity": [
-        "target"
+        "points_to"
       ],
       "identity_any": [],
       "leading_comment": "A pointer into the graph — the universal shortcut. A bookmark is a\nname + a target; the target is the contract. Bookmarks are wrapped\nby `list --contains--> bookmark` links so the SAME bookmark can live\nin three lists (the desktop, the primary launcher, a user's pinned\nitems) at three different positions with three different name\noverrides — the per-list metadata lives on the contains-link, not\non the bookmark.\n\nIdentity is `[target]`: one bookmark per addressable target. List\nmembership comes from the --contains--> link, not from bookmark\nuniqueness. The bookmark's own icon comes from its target; per-list\noverrides ride on the contains-link as icon_override.",
@@ -3463,13 +3473,14 @@
         }
       ],
       "source_path": "bookmark.yaml",
-      "raw_body": "plural: bookmarks\nidentity:\n- target\ndisplay:\n  subtitle: name\nicon: \"\\U0001F516\"\nfields:\n  name: string\nlinks:\n  points_to: node\nprior_art:\n- source: Browser bookmarks (Mosaic / Netscape Navigator hotlist)\n  url: https://en.wikipedia.org/wiki/Bookmark_(digital)\n  notes: Direct precedent. A bookmark is a name + a target; the target is the contract;\n    the surface doesn't care what's behind it. We replace HTTP URLs with graph node\n    references; everything else maps 1:1.\n- source: macOS alias / Windows .lnk file\n  url: https://en.wikipedia.org/wiki/Alias_(Mac_OS)\n  notes: \"OS-level shortcut primitive. Same shape: name + target. Per- instance position\\\n    \\ is handled by the parent folder/desktop in both \\u2014 for us that lives on\\\n    \\ the contains-link.\"\n- source: Finder sidebar / Windows Explorer Quick Access\n  url: https://support.apple.com/guide/mac-help/customize-the-finder-sidebar-mchlp3014/mac\n  notes: \"OS file managers use a bookmark sidebar as their universal navigation primitive\\\n    \\ (My Computer, Documents, Network). We treat every shape the same way \\u2014\\\n    \\ bookmark to any graph node, no FS bias.\"\n",
+      "raw_body": "plural: bookmarks\nidentity:\n- points_to\ndisplay:\n  subtitle: name\nicon: \"\\U0001F516\"\nfields:\n  name: string\nlinks:\n  points_to: node\nprior_art:\n- source: Browser bookmarks (Mosaic / Netscape Navigator hotlist)\n  url: https://en.wikipedia.org/wiki/Bookmark_(digital)\n  notes: Direct precedent. A bookmark is a name + a target; the target is the contract;\n    the surface doesn't care what's behind it. We replace HTTP URLs with graph node\n    references; everything else maps 1:1.\n- source: macOS alias / Windows .lnk file\n  url: https://en.wikipedia.org/wiki/Alias_(Mac_OS)\n  notes: \"OS-level shortcut primitive. Same shape: name + target. Per- instance position\\\n    \\ is handled by the parent folder/desktop in both \\u2014 for us that lives on\\\n    \\ the contains-link.\"\n- source: Finder sidebar / Windows Explorer Quick Access\n  url: https://support.apple.com/guide/mac-help/customize-the-finder-sidebar-mchlp3014/mac\n  notes: \"OS file managers use a bookmark sidebar as their universal navigation primitive\\\n    \\ (My Computer, Documents, Network). We treat every shape the same way \\u2014\\\n    \\ bookmark to any graph node, no FS bias.\"\n",
       "ancestors": [],
       "field_order": [
         "name"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "branch",
@@ -3657,7 +3668,8 @@
         "isRemote"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "brand",
@@ -3827,7 +3839,8 @@
         "textColor"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "calendar",
@@ -4068,7 +4081,206 @@
         "timezone"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "change",
+      "class_name": "Change",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "path",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "phase",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "summary",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "version",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "plural": "changes",
+      "subtitle": "kind",
+      "display": {
+        "title": null,
+        "subtitle": "kind",
+        "image": null,
+        "highlights": [
+          "status",
+          "phase",
+          "path"
+        ],
+        "body": "summary",
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "A delta on something — a file born/modified/removed, a document revision,\na changelog entry, a release note. The universal \"what changed\" record.\n`kind` is the FATE of the target (so a drift audit can assert existence);\n`path` (when the target is a file) lets a checker stat it.",
+      "own_fields": [
+        {
+          "name": "kind",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "summary",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "path",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "phase",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "version",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "PROV-O (W3C)",
+          "url": "https://www.w3.org/TR/prov-o/",
+          "notes": "wasRevisionOf / wasGeneratedBy / wasInvalidatedBy model born/modified/removed → kind + the derived_from edge."
+        },
+        {
+          "source": "Keep a Changelog 1.1.0",
+          "url": "https://keepachangelog.com/en/1.1.0/",
+          "notes": "The six categories (Added/Changed/Deprecated/Removed/Fixed/Security) are the canonical `kind` enum."
+        },
+        {
+          "source": "Conventional Commits 1.0.0 + SemVer 2.0.0",
+          "url": "https://www.conventionalcommits.org/",
+          "notes": "Commit type → impact tier (feat=minor, fix=patch, BREAKING=major); supplies the `version` semantics."
+        }
+      ],
+      "source_path": "change.yaml",
+      "raw_body": "plural: changes\ndisplay:\n  subtitle: kind\n  body: summary\n  highlights:\n  - status\n  - phase\n  - path\nicon: file-diff\nfields:\n  kind: string\n  summary: text\n  status: string\n  path: string\n  phase: string\n  version: string\nlinks:\n  modifies: node\n  derived_from: change\nprior_art:\n- source: PROV-O (W3C)\n  url: https://www.w3.org/TR/prov-o/\n  notes: \"wasRevisionOf / wasGeneratedBy / wasInvalidatedBy model born/modified/removed\\\n    \\ \\u2192 kind + the derived_from edge.\"\n- source: Keep a Changelog 1.1.0\n  url: https://keepachangelog.com/en/1.1.0/\n  notes: The six categories (Added/Changed/Deprecated/Removed/Fixed/Security) are\n    the canonical `kind` enum.\n- source: Conventional Commits 1.0.0 + SemVer 2.0.0\n  url: https://www.conventionalcommits.org/\n  notes: \"Commit type \\u2192 impact tier (feat=minor, fix=patch, BREAKING=major);\\\n    \\ supplies the `version` semantics.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "kind",
+        "summary",
+        "status",
+        "path",
+        "phase",
+        "version"
+      ],
+      "derived": {},
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "channel",
@@ -4204,7 +4416,8 @@
         "subscriberCount"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "class",
@@ -4495,7 +4708,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "community",
@@ -4661,7 +4875,8 @@
         "allowCrypto"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "conversation",
@@ -4902,7 +5117,8 @@
         "gitBranch"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "conversion",
@@ -5178,7 +5394,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "creative_work",
@@ -5413,7 +5630,8 @@
         "tags"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "credential",
@@ -5645,7 +5863,8 @@
         "storeRowId"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "dimension",
@@ -5900,7 +6119,8 @@
         "dimensionless"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "dns_record",
@@ -6122,7 +6342,8 @@
         "values"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "document",
@@ -6380,7 +6601,8 @@
         "sha"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "domain",
@@ -6540,7 +6762,8 @@
         "nameservers"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "email",
@@ -7123,7 +7346,8 @@
         "isOutgoing"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "episode",
@@ -7271,7 +7495,8 @@
         "seasonNumber"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "event",
@@ -7606,7 +7831,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "fare",
@@ -7952,7 +8178,8 @@
         "conditions"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "file",
@@ -8190,7 +8417,8 @@
         "sha"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "financial_account",
@@ -8496,7 +8724,8 @@
         "interestRate"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "flight",
@@ -8875,7 +9104,160 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "flow",
+      "class_name": "Flow",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "goal",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "trigger",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "plural": "flows",
+      "subtitle": "goal",
+      "display": {
+        "title": null,
+        "subtitle": "goal",
+        "image": null,
+        "highlights": [
+          "trigger",
+          "status"
+        ],
+        "body": null,
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "A process / swim-lane — actors across ordered steps. The universal shape\nfor any multi-actor procedure: a business process, a user journey, an\nonboarding, a recipe, a build pipeline. Steps are their own `step` nodes\n(ordering needs an explicit position — schema.org/HowToStep warns markup\norder is insufficient; BPMN orders via sequence flow).",
+      "own_fields": [
+        {
+          "name": "goal",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "trigger",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "BPMN 2.0 (OMG)",
+          "url": "https://www.omg.org/spec/BPMN/2.0/",
+          "notes": "Pools/lanes = actors; SequenceFlow imposes step order; the lane a step sits in assigns its actor."
+        },
+        {
+          "source": "schema.org/HowTo",
+          "url": "https://schema.org/HowTo",
+          "notes": "HowTo = a flow; its steps are HowToStep items; HowTo.result ≈ goal."
+        },
+        {
+          "source": "UML Activity Diagram (activity partitions)",
+          "url": "https://www.uml-diagrams.org/activity-diagrams.html",
+          "notes": "Activity partitions are the formal name for swim-lanes; actions are ordered by control flow."
+        }
+      ],
+      "source_path": "flow.yaml",
+      "raw_body": "plural: flows\ndisplay:\n  subtitle: goal\n  highlights:\n  - trigger\n  - status\nicon: workflow\nfields:\n  goal: text\n  trigger: string\n  status: string\nlinks:\n  involves: node[]\n  has_step: step[]\n  serves: node[]\n  produces: node\nprior_art:\n- source: BPMN 2.0 (OMG)\n  url: https://www.omg.org/spec/BPMN/2.0/\n  notes: Pools/lanes = actors; SequenceFlow imposes step order; the lane a step sits\n    in assigns its actor.\n- source: schema.org/HowTo\n  url: https://schema.org/HowTo\n  notes: \"HowTo = a flow; its steps are HowToStep items; HowTo.result \\u2248 goal.\"\n- source: UML Activity Diagram (activity partitions)\n  url: https://www.uml-diagrams.org/activity-diagrams.html\n  notes: Activity partitions are the formal name for swim-lanes; actions are ordered\n    by control flow.\n",
+      "ancestors": [],
+      "field_order": [
+        "goal",
+        "trigger",
+        "status"
+      ],
+      "derived": {},
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "font",
@@ -9217,7 +9599,8 @@
         "tags"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "git_commit",
@@ -9548,7 +9931,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "group",
@@ -9679,7 +10063,8 @@
         "category"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "health-biomarker",
@@ -9855,7 +10240,8 @@
         "description"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "health-condition",
@@ -10229,7 +10615,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "health-immunization",
@@ -10610,7 +10997,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "health-lab",
@@ -10814,7 +11202,8 @@
         "actorType"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "health-observation",
@@ -11220,7 +11609,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "health-panel",
@@ -11595,7 +11985,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "health-procedure",
@@ -11957,7 +12348,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "health-reference-range",
@@ -12408,7 +12800,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "icon",
@@ -12667,7 +13060,8 @@
         "tags"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "image",
@@ -13024,7 +13418,8 @@
         "sha"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "intellectual_property",
@@ -13298,7 +13693,8 @@
         "verificationUrl"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "invitation",
@@ -13644,7 +14040,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "launch",
@@ -14015,7 +14412,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "leg",
@@ -14441,7 +14839,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "list",
@@ -14745,7 +15144,8 @@
         "path"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "loaded_model",
@@ -15046,7 +15446,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "mcp_session",
@@ -15273,7 +15674,8 @@
         "tokenCount"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "meeting",
@@ -15594,7 +15996,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "membership",
@@ -15950,7 +16353,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "message",
@@ -16101,7 +16505,269 @@
         "conversationId"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "milestone",
+      "class_name": "Milestone",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "allDay",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "criterion",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "currentUrl",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "dateUpdated",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "distinctId",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "endDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "icalUid",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "properties",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "reachedAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "recurrence",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "showAs",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sourceTitle",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sourceUrl",
+          "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "startDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "timezone",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "visibility",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [
+        "event"
+      ],
+      "plural": "milestones",
+      "subtitle": "status",
+      "display": {
+        "title": null,
+        "subtitle": "status",
+        "image": null,
+        "highlights": [
+          "status",
+          "reachedAt"
+        ],
+        "body": "criterion",
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "A point-in-time checkpoint — a significant, zero-duration moment in a\nlarger effort: \"Phase 1 approved\", \"1000 users\", \"manuscript delivered\".\nA milestone IS-A event (it has a when), so it inherits the event timeline:\nevent.startDate is the planned point; event.status carries the lifecycle\n(use values upcoming | reached | missed | cancelled). It adds only the\ncheckpoint specifics — when it was actually reached, and what counts as done.",
+      "own_fields": [
+        {
+          "name": "reachedAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "criterion",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "PMBOK Guide (PMI) — milestone",
+          "url": "https://www.wrike.com/project-management-guide/faq/what-is-a-milestone-in-project-management/",
+          "notes": "\"A significant point or event,\" zero duration → no span, just the planned point (event.startDate) + reachedAt; justifies also:[event]."
+        },
+        {
+          "source": "schema.org/Event (eventStatus, superEvent)",
+          "url": "https://schema.org/Event",
+          "notes": "Inherits point-in-time + status + nesting; superEvent → part_of, eventStatus → the inherited status field."
+        },
+        {
+          "source": "GitHub Milestones",
+          "url": "https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones",
+          "notes": "Real-world milestone-as-aggregator with a due date bundling work items → the completes edge."
+        }
+      ],
+      "source_path": "milestone.yaml",
+      "raw_body": "plural: milestones\nalso:\n- event\ndisplay:\n  subtitle: status\n  body: criterion\n  highlights:\n  - status\n  - reachedAt\nicon: flag\nfields:\n  reachedAt: datetime\n  criterion: text\nlinks:\n  part_of: node\n  blocked_by: milestone[]\n  completes: node[]\nprior_art:\n- source: \"PMBOK Guide (PMI) \\u2014 milestone\"\n  url: https://www.wrike.com/project-management-guide/faq/what-is-a-milestone-in-project-management/\n  notes: \"\\\"A significant point or event,\\\" zero duration \\u2192 no span, just the\\\n    \\ planned point (event.startDate) + reachedAt; justifies also:[event].\"\n- source: schema.org/Event (eventStatus, superEvent)\n  url: https://schema.org/Event\n  notes: \"Inherits point-in-time + status + nesting; superEvent \\u2192 part_of, eventStatus\\\n    \\ \\u2192 the inherited status field.\"\n- source: GitHub Milestones\n  url: https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones\n  notes: \"Real-world milestone-as-aggregator with a due date bundling work items \\u2192\\\n    \\ the completes edge.\"\n",
+      "ancestors": [
+        "event"
+      ],
+      "field_order": [
+        "reachedAt",
+        "criterion",
+        "startDate",
+        "endDate",
+        "timezone",
+        "allDay",
+        "recurrence",
+        "status",
+        "visibility",
+        "showAs",
+        "dateUpdated",
+        "sourceUrl",
+        "sourceTitle",
+        "icalUid",
+        "distinctId",
+        "currentUrl",
+        "properties"
+      ],
+      "derived": {},
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "model",
@@ -16417,7 +17083,198 @@
         "digest"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "module",
+      "class_name": "Module",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "path",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "planned",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "role",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "version",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "plural": "modules",
+      "subtitle": "role",
+      "display": {
+        "title": null,
+        "subtitle": "role",
+        "image": null,
+        "highlights": [
+          "status",
+          "path"
+        ],
+        "body": null,
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "A self-contained unit of a larger whole — a software module, a course\nmodule, a hardware component, a curriculum unit. Defined by what it\nencapsulates and what it depends on. The universal part-of-a-system shape.",
+      "own_fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "role",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "path",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "version",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "planned",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "schema.org hasPart / isPartOf (Course modules)",
+          "url": "https://schema.org/hasPart",
+          "notes": "Course.hasPart models course modules; hasPart/isPartOf are the inverse composition edges, reusable for any whole/part."
+        },
+        {
+          "source": "UML 2.5 Component (OMG)",
+          "url": "https://www.uml-diagrams.org/component.html",
+          "notes": "A component is a \"modular part with encapsulated content, replaceable within its environment\" → role + depends_on."
+        },
+        {
+          "source": "SPDX Package",
+          "url": "https://spdx.dev/",
+          "notes": "A package is a versioned, named unit with declared dependencies → version + depends_on, across software and hardware domains."
+        }
+      ],
+      "source_path": "module.yaml",
+      "raw_body": "plural: modules\ndisplay:\n  subtitle: role\n  highlights:\n  - status\n  - path\nicon: package\nfields:\n  name: string\n  role: text\n  path: string\n  version: string\n  status: string\n  planned: boolean\nlinks:\n  part_of: node\n  has_part: module[]\n  depends_on: module[]\nprior_art:\n- source: schema.org hasPart / isPartOf (Course modules)\n  url: https://schema.org/hasPart\n  notes: Course.hasPart models course modules; hasPart/isPartOf are the inverse composition\n    edges, reusable for any whole/part.\n- source: UML 2.5 Component (OMG)\n  url: https://www.uml-diagrams.org/component.html\n  notes: \"A component is a \\\"modular part with encapsulated content, replaceable within\\\n    \\ its environment\\\" \\u2192 role + depends_on.\"\n- source: SPDX Package\n  url: https://spdx.dev/\n  notes: \"A package is a versioned, named unit with declared dependencies \\u2192 version\\\n    \\ + depends_on, across software and hardware domains.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "name",
+        "role",
+        "path",
+        "version",
+        "status",
+        "planned"
+      ],
+      "derived": {},
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "note",
@@ -16550,7 +17407,8 @@
         "isPinned"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "offer",
@@ -16873,7 +17731,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "order",
@@ -17519,7 +18378,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "organization",
@@ -17653,7 +18513,217 @@
         "actorType"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "outcome",
+      "class_name": "Outcome",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "archived",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "baseline",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "current",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "metric",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "statement",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "plural": "outcomes",
+      "subtitle": "status",
+      "display": {
+        "title": null,
+        "subtitle": "status",
+        "image": null,
+        "highlights": [],
+        "body": "statement",
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "A tracked target-state — the change being sought, with a status and\n(optionally) a metric that says when it's met. The universal unit of\n\"what we're trying to achieve\": OKR objectives, learning outcomes,\nclinical outcome measures, a roadmap end-state. NOT schema.org/result\n(\"what an action emitted\") — an outcome is a target you track over time.",
+      "own_fields": [
+        {
+          "name": "statement",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "archived",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "metric",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "baseline",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "current",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "John Doerr, \"Measure What Matters\" (OKR)",
+          "url": "https://www.whatmatters.com/faqs/okr-meaning-definition-example",
+          "notes": "Objective → statement; Key Result → the metric/baseline/current/target quad (\"I will X as measured by Y\")."
+        },
+        {
+          "source": "W.K. Kellogg Foundation Logic Model Development Guide",
+          "url": "https://www.nj.gov/state/assets/pdf/ofbi/kellogg-foundation-logic-model-development-guide.pdf",
+          "notes": "Outcomes as short/intermediate/long-term changes in a causal chain → the depends_on / advances edges."
+        },
+        {
+          "source": "schema.org/AchieveAction + result",
+          "url": "https://schema.org/AchieveAction",
+          "notes": "Closest schema.org neighbor, but `result` models what an action produced, not a tracked target-state — so outcome is its own type."
+        }
+      ],
+      "source_path": "outcome.yaml",
+      "raw_body": "plural: outcomes\ndisplay:\n  subtitle: status\n  body: statement\nicon: target\nfields:\n  statement: text\n  status: string\n  archived: boolean\n  metric: string\n  baseline: string\n  current: string\n  target: string\nlinks:\n  depends_on: outcome[]\n  advances: milestone\n  upholds: principle[]\n  serves: node[]\n  owns: node[]\nprior_art:\n- source: John Doerr, \"Measure What Matters\" (OKR)\n  url: https://www.whatmatters.com/faqs/okr-meaning-definition-example\n  notes: \"Objective \\u2192 statement; Key Result \\u2192 the metric/baseline/current/target\\\n    \\ quad (\\\"I will X as measured by Y\\\").\"\n- source: W.K. Kellogg Foundation Logic Model Development Guide\n  url: https://www.nj.gov/state/assets/pdf/ofbi/kellogg-foundation-logic-model-development-guide.pdf\n  notes: \"Outcomes as short/intermediate/long-term changes in a causal chain \\u2192\\\n    \\ the depends_on / advances edges.\"\n- source: schema.org/AchieveAction + result\n  url: https://schema.org/AchieveAction\n  notes: \"Closest schema.org neighbor, but `result` models what an action produced,\\\n    \\ not a tracked target-state \\u2014 so outcome is its own type.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "statement",
+        "status",
+        "archived",
+        "metric",
+        "baseline",
+        "current",
+        "target"
+      ],
+      "derived": {},
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "pass",
@@ -18104,7 +19174,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "payment_method",
@@ -18565,7 +19636,8 @@
         "metadata"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "person",
@@ -18973,7 +20045,205 @@
         "nickname": {
           "writes": "born_in[is=birth].nickname"
         }
-      }
+      },
+      "prefs_schemas": {}
+    },
+    {
+      "name": "persona",
+      "class_name": "Persona",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "goals",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "headline",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "painPoints",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "quote",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "reachesFor",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "who",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "plural": "personas",
+      "subtitle": "headline",
+      "display": {
+        "title": null,
+        "subtitle": "headline",
+        "image": null,
+        "highlights": [
+          "reachesFor",
+          "quote"
+        ],
+        "body": "who",
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "An archetype of an audience segment — a named, hypothetical user that\nstands in for a real cohort. Invented in UX by Alan Cooper. NOT a real\nhuman (that is `person`); a persona specializes an audience. Used in\nproduct/UX design, marketing segmentation, service design.",
+      "own_fields": [
+        {
+          "name": "headline",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "who",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "goals",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "painPoints",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "reachesFor",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "quote",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "Alan Cooper, \"The Inmates Are Running the Asylum\" (1999)",
+          "url": "https://www.nngroup.com/articles/persona/",
+          "notes": "Origin of the persona method — \"a precise definition of our user and what he wishes to accomplish\"; a hypothetical archetype, not a real person. Maps to role + who + goals + quote."
+        },
+        {
+          "source": "schema.org/PeopleAudience",
+          "url": "https://schema.org/PeopleAudience",
+          "notes": "A persona is a narrative archetype OF an audience; it specializes Audience (audienceType) but adds goals/quote that schema.org lacks — and is firmly distinct from `person` (a real human)."
+        },
+        {
+          "source": "Nielsen Norman Group — personas",
+          "url": "https://www.nngroup.com/articles/persona/",
+          "notes": "Canonical UX template — role + goals + pain points + quote, grounded in field research."
+        }
+      ],
+      "source_path": "persona.yaml",
+      "raw_body": "plural: personas\ndisplay:\n  subtitle: headline\n  body: who\n  highlights:\n  - reachesFor\n  - quote\nicon: user-round-search\nfields:\n  headline: string\n  who: text\n  goals: string[]\n  painPoints: string[]\n  reachesFor: text\n  quote: text\nlinks:\n  parent: persona\n  represents: node\n  targets: node\nprior_art:\n- source: Alan Cooper, \"The Inmates Are Running the Asylum\" (1999)\n  url: https://www.nngroup.com/articles/persona/\n  notes: \"Origin of the persona method \\u2014 \\\"a precise definition of our user and\\\n    \\ what he wishes to accomplish\\\"; a hypothetical archetype, not a real person.\\\n    \\ Maps to role + who + goals + quote.\"\n- source: schema.org/PeopleAudience\n  url: https://schema.org/PeopleAudience\n  notes: \"A persona is a narrative archetype OF an audience; it specializes Audience\\\n    \\ (audienceType) but adds goals/quote that schema.org lacks \\u2014 and is firmly\\\n    \\ distinct from `person` (a real human).\"\n- source: \"Nielsen Norman Group \\u2014 personas\"\n  url: https://www.nngroup.com/articles/persona/\n  notes: \"Canonical UX template \\u2014 role + goals + pain points + quote, grounded\\\n    \\ in field research.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "headline",
+        "who",
+        "goals",
+        "painPoints",
+        "reachesFor",
+        "quote"
+      ],
+      "derived": {},
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "place",
@@ -19563,7 +20833,8 @@
         "googlePlaceId"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "playlist",
@@ -19761,7 +21032,8 @@
         "path"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "podcast",
@@ -19882,7 +21154,8 @@
         "feedUrl"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "post",
@@ -20063,7 +21336,8 @@
         "community"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "practice",
@@ -20231,7 +21505,183 @@
         "aliases"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "principle",
+      "class_name": "Principle",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "domain",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "rationale",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "statement",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "plural": "principles",
+      "subtitle": "domain",
+      "display": {
+        "title": null,
+        "subtitle": "domain",
+        "image": null,
+        "highlights": [
+          "statement",
+          "status"
+        ],
+        "body": "rationale",
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "A guiding bright-line — a value or rule used to judge edge cases. Universal:\ndesign principles, engineering laws, organizational values, ethical\nprinciples, architectural decision drivers. Anyone can hold principles.\nThe `rationale` is what lets a future reader apply it to a case it never\nnamed — the reasoning, not just the rule.",
+      "own_fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "statement",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "rationale",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "domain",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "principles.design",
+          "url": "https://principles.design/",
+          "notes": "1600+ principles modeled as name + statement + elaboration, grouped into named collections → name / statement / rationale."
+        },
+        {
+          "source": "MADR (Markdown ADR) — decision drivers",
+          "url": "https://adr.github.io/madr/",
+          "notes": "Decision drivers are principles applied to a choice; the status enum (proposed/accepted/deprecated/superseded) → status + supersedes."
+        },
+        {
+          "source": "GOV.UK Design Principles",
+          "url": "https://www.gov.uk/guidance/government-design-principles",
+          "notes": "Canonical 10-principle collection — each principle is an imperative statement + worked examples."
+        }
+      ],
+      "source_path": "principle.yaml",
+      "raw_body": "plural: principles\ndisplay:\n  subtitle: domain\n  body: rationale\n  highlights:\n  - statement\n  - status\nicon: scale\nfields:\n  name: string\n  statement: text\n  rationale: text\n  domain: string\n  status: string\nlinks:\n  held_by: actor\n  supersedes: principle\n  conflicts_with: principle[]\n  governs: node\nprior_art:\n- source: principles.design\n  url: https://principles.design/\n  notes: \"1600+ principles modeled as name + statement + elaboration, grouped into\\\n    \\ named collections \\u2192 name / statement / rationale.\"\n- source: \"MADR (Markdown ADR) \\u2014 decision drivers\"\n  url: https://adr.github.io/madr/\n  notes: \"Decision drivers are principles applied to a choice; the status enum (proposed/accepted/deprecated/superseded)\\\n    \\ \\u2192 status + supersedes.\"\n- source: GOV.UK Design Principles\n  url: https://www.gov.uk/guidance/government-design-principles\n  notes: \"Canonical 10-principle collection \\u2014 each principle is an imperative\\\n    \\ statement + worked examples.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "name",
+        "statement",
+        "rationale",
+        "domain",
+        "status"
+      ],
+      "derived": {},
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "product",
@@ -20691,7 +22141,8 @@
         "customizationGroups"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "project",
@@ -20842,7 +22293,8 @@
         "parentId"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "protocol",
@@ -21000,7 +22452,8 @@
         "wikidataId"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "qualification",
@@ -21224,7 +22677,8 @@
         "verificationUrl"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "quantity-kind",
@@ -21354,7 +22808,8 @@
         "label"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "quote",
@@ -21482,7 +22937,8 @@
         "year"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "repository",
@@ -21738,7 +23194,8 @@
         "size"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "reservation",
@@ -22239,7 +23696,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "result",
@@ -22442,7 +23900,8 @@
         "community"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "review",
@@ -22644,7 +24103,8 @@
         "community"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "role",
@@ -22915,7 +24375,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "seatmap",
@@ -23214,7 +24675,8 @@
         "basicEconomyLocked"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "shelf",
@@ -23428,7 +24890,8 @@
         "path"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "skill",
@@ -23606,7 +25069,8 @@
         "error"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "software",
@@ -23962,7 +25426,8 @@
         "customizationGroups"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "sound",
@@ -24287,7 +25752,8 @@
         "sha"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "source",
@@ -24482,7 +25948,8 @@
         "lastSynced"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "spec",
@@ -24882,7 +26349,155 @@
         "sha"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "step",
+      "class_name": "Step",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "detail",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "position",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "plural": "steps",
+      "subtitle": "status",
+      "display": {
+        "title": null,
+        "subtitle": "status",
+        "image": null,
+        "highlights": [
+          "position",
+          "status"
+        ],
+        "body": "detail",
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "One ordered act within a flow. A first-class node, not an array slot:\nschema.org warns markup order is insufficient — order rides on `position`\n(and an optional `next` edge); the actor is the swim-lane the step sits in.",
+      "own_fields": [
+        {
+          "name": "position",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "detail",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "schema.org/HowToStep",
+          "url": "https://schema.org/HowToStep",
+          "notes": "A step is its own type with a `position` Integer + nextItem/previousItem; schema.org states markup order alone is insufficient for ordering."
+        },
+        {
+          "source": "BPMN 2.0 SequenceFlow",
+          "url": "https://www.omg.org/spec/BPMN/2.0/",
+          "notes": "Order is an explicit SequenceFlow edge between activity nodes → the `next` edge; the actor is lane membership."
+        }
+      ],
+      "source_path": "step.yaml",
+      "raw_body": "plural: steps\ndisplay:\n  subtitle: status\n  body: detail\n  highlights:\n  - position\n  - status\nicon: list-ordered\nfields:\n  position: integer\n  detail: text\n  status: string\nlinks:\n  part_of: flow\n  next: step\n  performed_by: node\n  happens_in: module\nprior_art:\n- source: schema.org/HowToStep\n  url: https://schema.org/HowToStep\n  notes: A step is its own type with a `position` Integer + nextItem/previousItem;\n    schema.org states markup order alone is insufficient for ordering.\n- source: BPMN 2.0 SequenceFlow\n  url: https://www.omg.org/spec/BPMN/2.0/\n  notes: \"Order is an explicit SequenceFlow edge between activity nodes \\u2192 the\\\n    \\ `next` edge; the actor is lane membership.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "position",
+        "detail",
+        "status"
+      ],
+      "derived": {},
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "tag",
@@ -25047,7 +26662,8 @@
         "hash"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "task",
@@ -25401,7 +27017,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "tax_line",
@@ -25722,7 +27339,8 @@
         "inclusive"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "theme",
@@ -25907,7 +27525,8 @@
         "defaultBackgroundColor"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "tool_call",
@@ -26081,7 +27700,8 @@
         "durationMs"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "transaction",
@@ -26465,7 +28085,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "transcript",
@@ -26658,7 +28279,8 @@
         "segments"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "transition",
@@ -27095,7 +28717,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "trip",
@@ -27681,7 +29304,8 @@
         "properties"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "unit",
@@ -28023,7 +29647,8 @@
         "logBase"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "user",
@@ -28170,7 +29795,314 @@
         "actorType"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {
+        "ui": [
+          {
+            "key": "themeId",
+            "kind": "select",
+            "label": "Theme",
+            "description": "Desktop theme — window chrome, fonts, sounds.",
+            "group": "Theme",
+            "optionsShape": "theme",
+            "optionsValue": "themeId",
+            "optionsLabel": "name"
+          },
+          {
+            "key": "fontSize",
+            "kind": "number",
+            "label": "Font Size",
+            "description": "Base UI font size in pixels.",
+            "group": "Fonts",
+            "tab": "Fonts",
+            "min": 8,
+            "max": 20,
+            "step": 1,
+            "default": 12
+          },
+          {
+            "key": "background.color",
+            "kind": "color",
+            "label": "Background Color",
+            "description": "Solid background tone for this view.",
+            "group": "Background",
+            "tab": "Background",
+            "default": "#3A6EA5"
+          },
+          {
+            "key": "background.position",
+            "kind": "select",
+            "label": "Position",
+            "description": "How the wallpaper fills the surface.",
+            "group": "Background",
+            "tab": "Background",
+            "default": "fill",
+            "options": [
+              {
+                "value": "fill",
+                "label": "Fill"
+              },
+              {
+                "value": "fit",
+                "label": "Fit"
+              },
+              {
+                "value": "stretch",
+                "label": "Stretch"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              },
+              {
+                "value": "tile",
+                "label": "Tile"
+              }
+            ]
+          },
+          {
+            "key": "icons.iconSize",
+            "kind": "number",
+            "label": "Icon Size",
+            "description": "Icon side length in pixels.",
+            "group": "Icons",
+            "tab": "Icons",
+            "min": 24,
+            "max": 96,
+            "step": 4,
+            "default": 32
+          },
+          {
+            "key": "icons.iconSpacing",
+            "kind": "number",
+            "label": "Icon Spacing",
+            "description": "Pixels between icon cells.",
+            "group": "Icons",
+            "tab": "Icons",
+            "min": 4,
+            "max": 48,
+            "step": 2,
+            "default": 8
+          },
+          {
+            "key": "icons.showIcons",
+            "kind": "boolean",
+            "label": "Show Icons",
+            "description": "Render icons on this view.",
+            "group": "Icons",
+            "tab": "Icons",
+            "default": true
+          },
+          {
+            "key": "icons.startingCorner",
+            "kind": "select",
+            "label": "Starting Corner",
+            "description": "Where the first icon lands.",
+            "group": "Icons",
+            "tab": "Icons",
+            "default": "top-left",
+            "options": [
+              {
+                "value": "top-left",
+                "label": "Top Left"
+              },
+              {
+                "value": "top-right",
+                "label": "Top Right"
+              },
+              {
+                "value": "bottom-left",
+                "label": "Bottom Left"
+              },
+              {
+                "value": "bottom-right",
+                "label": "Bottom Right"
+              }
+            ]
+          },
+          {
+            "key": "icons.flowDirection",
+            "kind": "select",
+            "label": "Flow Direction",
+            "description": "Whether icons fill columns or rows first.",
+            "group": "Icons",
+            "tab": "Icons",
+            "default": "vertical-first",
+            "options": [
+              {
+                "value": "vertical-first",
+                "label": "Vertical First"
+              },
+              {
+                "value": "horizontal-first",
+                "label": "Horizontal First"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "user_identity",
+      "class_name": "UserIdentity",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "person_node_id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "user_id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "volume_id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "plural": "user_identities",
+      "subtitle": "volume_id",
+      "display": {
+        "title": null,
+        "subtitle": "volume_id",
+        "image": null,
+        "highlights": [
+          "person_node_id",
+          "active"
+        ],
+        "body": null,
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "An identity claim — \"the engine-level user X identifies as person:Y\nin volume Z\". Phase 5 of the volumes spec; lets one OS user map onto\nmultiple persona-nodes across multiple mounted volumes.\n\n`user_id` is foreign to `engine.db::users` — the engine's user\ntable — not to a graph node. A user_identity row is the bridge.\n\nMany mappings per user are normal:\nuser joe → person:joe in users/joe.db                 (active=true)\nuser joe → person:harry_potter in pods/hp.db          (active=false; role-play)\nuser joe → person:joe_health_subject in pods/health.db (active=true; explicit subject)\n\nThe `active` flag picks the \"default\" person inside each volume when\nthe user has multiple mappings into the same one.",
+      "own_fields": [
+        {
+          "name": "user_id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "volume_id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "person_node_id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "Solid (Tim Berners-Lee)",
+          "url": "https://solidproject.org/faq",
+          "notes": "Solid Pod ↔ WebID is the per-user identity model. A Solid user owns one personal pod whose WebID is the authoritative identity; cross-pod identity is a single relation. We split: User is engine state; Person is graph content; user_identity is the explicit bridge that can be many-to-many across volumes."
+        },
+        {
+          "source": "Unix/macOS — /etc/passwd vs /Users/<u>",
+          "url": "https://en.wikipedia.org/wiki/Passwd",
+          "notes": "OS users (engine.db::users) and home directories (~/.agentos/users/<u>.db) follow the Unix convention. The identity *within* the home is content the home owns."
+        }
+      ],
+      "source_path": "user_identity.yaml",
+      "raw_body": "plural: user_identities\ndisplay:\n  subtitle: volume_id\n  highlights:\n  - person_node_id\n  - active\nicon: user\nfields:\n  user_id: string\n  volume_id: string\n  person_node_id: string\n  active: boolean\nprior_art:\n- source: Solid (Tim Berners-Lee)\n  url: https://solidproject.org/faq\n  notes: \"Solid Pod \\u2194 WebID is the per-user identity model. A Solid user owns\\\n    \\ one personal pod whose WebID is the authoritative identity; cross-pod identity\\\n    \\ is a single relation. We split: User is engine state; Person is graph content;\\\n    \\ user_identity is the explicit bridge that can be many-to-many across volumes.\"\n- source: \"Unix/macOS \\u2014 /etc/passwd vs /Users/<u>\"\n  url: https://en.wikipedia.org/wiki/Passwd\n  notes: OS users (engine.db::users) and home directories (~/.agentos/users/<u>.db)\n    follow the Unix convention. The identity *within* the home is content the home\n    owns.\n",
+      "ancestors": [],
+      "field_order": [
+        "user_id",
+        "volume_id",
+        "person_node_id",
+        "active"
+      ],
+      "derived": {},
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "video",
@@ -28488,7 +30420,8 @@
         "sha"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "volume",
@@ -28651,7 +30584,8 @@
         "auto_mount"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "webpage",
@@ -28816,7 +30750,8 @@
         "error"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     },
     {
       "name": "website",
@@ -28996,7 +30931,8 @@
         "claimUrl"
       ],
       "derived": {},
-      "shortcuts": {}
+      "shortcuts": {},
+      "prefs_schemas": {}
     }
   ],
   "auth_contracts": [

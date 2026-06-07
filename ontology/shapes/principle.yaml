@@ -1,0 +1,39 @@
+# A guiding bright-line — a value or rule used to judge edge cases. Universal:
+# design principles, engineering laws, organizational values, ethical
+# principles, architectural decision drivers. Anyone can hold principles.
+# The `rationale` is what lets a future reader apply it to a case it never
+# named — the reasoning, not just the rule.
+principle:
+  plural: principles
+  display:
+    subtitle: domain
+    body: rationale
+    highlights: [statement, status]
+  icon: scale
+  fields:
+    name:       string  # short handle ("Rust is a generic engine")
+    statement:  text    # the bright-line itself, one imperative sentence
+    rationale:  text    # WHY it exists — the reasoning to judge edge cases by
+    domain:     string  # area governed: design | engineering | architecture | ethics | org-value
+    status:     string  # active | proposed | deprecated | superseded
+  links:
+    held_by:         actor       # the person / org / team that holds it
+    supersedes:      principle    # the earlier principle it replaces
+    conflicts_with:  principle[]  # tension surfaced when two principles pull opposite
+    governs:         node        # the artifact / system it constrains
+  prior_art:
+    - source: principles.design
+      url: https://principles.design/
+      notes: >-
+        1600+ principles modeled as name + statement + elaboration, grouped
+        into named collections → name / statement / rationale.
+    - source: MADR (Markdown ADR) — decision drivers
+      url: https://adr.github.io/madr/
+      notes: >-
+        Decision drivers are principles applied to a choice; the status enum
+        (proposed/accepted/deprecated/superseded) → status + supersedes.
+    - source: GOV.UK Design Principles
+      url: https://www.gov.uk/guidance/government-design-principles
+      notes: >-
+        Canonical 10-principle collection — each principle is an imperative
+        statement + worked examples.

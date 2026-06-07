@@ -1,0 +1,37 @@
+# A point-in-time checkpoint — a significant, zero-duration moment in a
+# larger effort: "Phase 1 approved", "1000 users", "manuscript delivered".
+# A milestone IS-A event (it has a when), so it inherits the event timeline:
+# event.startDate is the planned point; event.status carries the lifecycle
+# (use values upcoming | reached | missed | cancelled). It adds only the
+# checkpoint specifics — when it was actually reached, and what counts as done.
+milestone:
+  plural: milestones
+  also: [event]
+  display:
+    subtitle: status
+    body: criterion
+    highlights: [status, reachedAt]
+  icon: flag
+  fields:
+    reachedAt:  datetime  # the actual point it was reached (unset until reached)
+    criterion:  text      # the condition that defines "reached"
+  links:
+    part_of:     node        # the larger goal/effort this is a checkpoint within
+    blocked_by:  milestone[] # prerequisite milestones
+    completes:   node[]      # the requirement(s) / work satisfied at this point
+  prior_art:
+    - source: PMBOK Guide (PMI) — milestone
+      url: https://www.wrike.com/project-management-guide/faq/what-is-a-milestone-in-project-management/
+      notes: >-
+        "A significant point or event," zero duration → no span, just the
+        planned point (event.startDate) + reachedAt; justifies also:[event].
+    - source: schema.org/Event (eventStatus, superEvent)
+      url: https://schema.org/Event
+      notes: >-
+        Inherits point-in-time + status + nesting; superEvent → part_of,
+        eventStatus → the inherited status field.
+    - source: GitHub Milestones
+      url: https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones
+      notes: >-
+        Real-world milestone-as-aggregator with a due date bundling work
+        items → the completes edge.

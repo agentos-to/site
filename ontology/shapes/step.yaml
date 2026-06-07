@@ -1,0 +1,30 @@
+# One ordered act within a flow. A first-class node, not an array slot:
+# schema.org warns markup order is insufficient — order rides on `position`
+# (and an optional `next` edge); the actor is the swim-lane the step sits in.
+step:
+  plural: steps
+  display:
+    subtitle: status
+    body: detail
+    highlights: [position, status]
+  icon: list-ordered
+  fields:
+    position:  integer  # 1-based order within the flow (schema.org ListItem.position)
+    detail:    text     # what happens — the instruction (HowToStep.text)
+    status:    string   # built | partial | gap | later
+  links:
+    part_of:       flow    # the owning process
+    next:          step    # explicit successor (schema.org nextItem / BPMN sequenceFlow)
+    performed_by:  node    # the participant (persona/person/org) who performs it — its swim-lane
+    happens_in:    module  # where in the system this step occurs
+  prior_art:
+    - source: schema.org/HowToStep
+      url: https://schema.org/HowToStep
+      notes: >-
+        A step is its own type with a `position` Integer + nextItem/previousItem;
+        schema.org states markup order alone is insufficient for ordering.
+    - source: BPMN 2.0 SequenceFlow
+      url: https://www.omg.org/spec/BPMN/2.0/
+      notes: >-
+        Order is an explicit SequenceFlow edge between activity nodes → the
+        `next` edge; the actor is lane membership.
