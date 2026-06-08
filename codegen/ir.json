@@ -26515,6 +26515,224 @@
       "prefs_schemas": {}
     },
     {
+      "name": "symbol",
+      "class_name": "Symbol",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "lang",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "signature",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sourceLine",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sourcePath",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "summary",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "urn",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "plural": "symbols",
+      "subtitle": "signature",
+      "display": {
+        "title": null,
+        "subtitle": "signature",
+        "image": null,
+        "highlights": [
+          "kind",
+          "lang",
+          "sourcePath"
+        ],
+        "body": "summary",
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "A code symbol — one named thing in a source surface: an MCP tool/op, a\nRust fn/struct/trait, a TS hook/component, a shape. The unit of the\n**System Docs** volume's API reference, projected from the canonical\nsource (tool schemas, rustdoc JSON, ts-morph) — never authored by hand.\nA symbol describes *the code*, so it carries identity (`urn`), a callable\n`signature`, the `summary` line, and a source pointer back to the truth;\nthe full rendered docstring lives in its content `body` so it reads as a\npage. The cross-language `urn` is what lets a TS hook link the Rust tool\nit calls — cross-links are the product, not a flat dump.",
+      "own_fields": [
+        {
+          "name": "urn",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "lang",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "signature",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "summary",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sourcePath",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sourceLine",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "Language Server Protocol — DocumentSymbol / SymbolKind",
+          "url": "https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol",
+          "notes": "SymbolKind (Function/Struct/Interface/Method/Module…) is the canonical `kind` enum; DocumentSymbol's name + detail + range → our name + signature + sourcePath/sourceLine."
+        },
+        {
+          "source": "LSIF — Language Server Index Format",
+          "url": "https://microsoft.github.io/language-server-protocol/specifications/lsif/0.6.0/specification/",
+          "notes": "LSIF persists hover/definition/references as a graph of monikers across files — exactly our `urn` + calls/called_by trail, made queryable."
+        },
+        {
+          "source": "rustdoc JSON output format",
+          "url": "https://doc.rust-lang.org/rustdoc/unstable-features.html#--output-format-json-output-crate-info-in-json",
+          "notes": "The P3 extractor's source — Item{id, name, kind, docs, links} maps item.id → urn, kind → kind, docs → body, inner.decl → signature."
+        },
+        {
+          "source": "schema.org/SoftwareSourceCode + ctags",
+          "url": "https://schema.org/SoftwareSourceCode",
+          "notes": "codeRepository/programmingLanguage → lang; ctags' (tag, file, kind) triple is the minimal symbol-index prior art for sourcePath + kind."
+        }
+      ],
+      "source_path": "symbol.yaml",
+      "raw_body": "plural: symbols\ndisplay:\n  subtitle: signature\n  body: summary\n  highlights:\n  - kind\n  - lang\n  - sourcePath\nicon: code\nfields:\n  urn: string\n  kind: string\n  lang: string\n  signature: text\n  summary: text\n  sourcePath: string\n  sourceLine: integer\nlinks:\n  returns: node\n  calls: symbol\n  called_by: symbol\n  see: document\n  documents: node\nprior_art:\n- source: \"Language Server Protocol \\u2014 DocumentSymbol / SymbolKind\"\n  url: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol\n  notes: \"SymbolKind (Function/Struct/Interface/Method/Module\\u2026) is the canonical\\\n    \\ `kind` enum; DocumentSymbol's name + detail + range \\u2192 our name + signature\\\n    \\ + sourcePath/sourceLine.\"\n- source: \"LSIF \\u2014 Language Server Index Format\"\n  url: https://microsoft.github.io/language-server-protocol/specifications/lsif/0.6.0/specification/\n  notes: \"LSIF persists hover/definition/references as a graph of monikers across\\\n    \\ files \\u2014 exactly our `urn` + calls/called_by trail, made queryable.\"\n- source: rustdoc JSON output format\n  url: https://doc.rust-lang.org/rustdoc/unstable-features.html#--output-format-json-output-crate-info-in-json\n  notes: \"The P3 extractor's source \\u2014 Item{id, name, kind, docs, links} maps\\\n    \\ item.id \\u2192 urn, kind \\u2192 kind, docs \\u2192 body, inner.decl \\u2192 signature.\"\n- source: schema.org/SoftwareSourceCode + ctags\n  url: https://schema.org/SoftwareSourceCode\n  notes: \"codeRepository/programmingLanguage \\u2192 lang; ctags' (tag, file, kind)\\\n    \\ triple is the minimal symbol-index prior art for sourcePath + kind.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "urn",
+        "kind",
+        "lang",
+        "signature",
+        "summary",
+        "sourcePath",
+        "sourceLine"
+      ],
+      "derived": {},
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
       "name": "tag",
       "class_name": "Tag",
       "fields": [

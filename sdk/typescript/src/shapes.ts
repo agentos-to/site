@@ -1,5 +1,5 @@
 // Auto-generated from shape YAML — do not edit.
-// Generated from 110 shapes.
+// Generated from 111 shapes.
 // Regenerate with: python generate.py --lang typescript
 
 export interface Account {
@@ -2365,6 +2365,24 @@ export interface Step {
     status?: string;
 }
 
+export interface Symbol {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    kind?: string;
+    lang?: string;
+    signature?: string;
+    sourceLine?: number;
+    sourcePath?: string;
+    summary?: string;
+    urn?: string;
+}
+
 export interface Tag {
     id?: string;
     name?: string;
@@ -2858,6 +2876,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "source": {"subtitle": "sourceId", "also": []},
     "spec": {"subtitle": "state", "highlights": ["startDate", "endDate", "location"], "also": ["task", "event", "file"]},
     "step": {"subtitle": "status", "highlights": ["position", "status"], "body": "detail", "also": []},
+    "symbol": {"subtitle": "signature", "highlights": ["kind", "lang", "sourcePath"], "body": "summary", "also": []},
     "tag": {"title": "name", "subtitle": "tagType", "also": []},
     "task": {"subtitle": "state", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "tax_line": {"subtitle": "description", "also": []},
@@ -2975,6 +2994,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "source": ["sourceId", "address", "scanner", "enabled", "description", "lastSynced"],
     "spec": ["problem", "successCriteria", "remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
     "step": ["position", "detail", "status"],
+    "symbol": ["urn", "kind", "lang", "signature", "summary", "sourcePath", "sourceLine"],
     "tag": ["color", "tagType", "annotated", "hash"],
     "task": ["remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "tax_line": ["code", "description", "amount", "currency", "kind", "nature", "country", "appliesToIndex", "refundable", "merchantImposed", "rate", "taxableAmount", "inclusive"],

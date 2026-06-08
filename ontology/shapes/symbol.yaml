@@ -1,0 +1,55 @@
+# A code symbol — one named thing in a source surface: an MCP tool/op, a
+# Rust fn/struct/trait, a TS hook/component, a shape. The unit of the
+# **System Docs** volume's API reference, projected from the canonical
+# source (tool schemas, rustdoc JSON, ts-morph) — never authored by hand.
+# A symbol describes *the code*, so it carries identity (`urn`), a callable
+# `signature`, the `summary` line, and a source pointer back to the truth;
+# the full rendered docstring lives in its content `body` so it reads as a
+# page. The cross-language `urn` is what lets a TS hook link the Rust tool
+# it calls — cross-links are the product, not a flat dump.
+symbol:
+  plural: symbols
+  display:
+    subtitle: signature
+    body: summary
+    highlights: [kind, lang, sourcePath]
+  icon: code
+  fields:
+    urn:        string   # cross-language identity — mcp:data.read, rust:agentos_core::pages::render_page, ts:web/src/themes/slots#getAssetUrl
+    kind:       string   # namespace | op | fn | struct | trait | type | hook | component | module | crate | shape
+    lang:       string   # mcp | rust | typescript | yaml
+    signature:  text     # callable / type signature — read({ id, volume?, … })
+    summary:    text     # first docstring line (the one-liner)
+    sourcePath: string   # repo-relative path back to the canonical source
+    sourceLine: integer  # line in that file, when the extractor knows it
+  links:
+    # Containment (namespace → op, module → fn) uses the universal `contains`
+    # verb — not a symbol-owned link — so the generic subtree/map walk and
+    # `read({expand})` traverse symbols exactly as they do any other volume.
+    returns:    node        # the shape or type this symbol yields (widest actor: node)
+    calls:      symbol      # the trail — what this symbol invokes (recurrence-safe: one edge per pair)
+    called_by:  symbol      # inverse reading of calls, stored once
+    see:        document    # concept doc(s) that explain this symbol in prose
+    documents:  node        # the code/contract this symbol describes (for a doc-about-code edge)
+  prior_art:
+    - source: Language Server Protocol — DocumentSymbol / SymbolKind
+      url: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol
+      notes: >-
+        SymbolKind (Function/Struct/Interface/Method/Module…) is the canonical
+        `kind` enum; DocumentSymbol's name + detail + range → our name +
+        signature + sourcePath/sourceLine.
+    - source: LSIF — Language Server Index Format
+      url: https://microsoft.github.io/language-server-protocol/specifications/lsif/0.6.0/specification/
+      notes: >-
+        LSIF persists hover/definition/references as a graph of monikers across
+        files — exactly our `urn` + calls/called_by trail, made queryable.
+    - source: rustdoc JSON output format
+      url: https://doc.rust-lang.org/rustdoc/unstable-features.html#--output-format-json-output-crate-info-in-json
+      notes: >-
+        The P3 extractor's source — Item{id, name, kind, docs, links} maps
+        item.id → urn, kind → kind, docs → body, inner.decl → signature.
+    - source: schema.org/SoftwareSourceCode + ctags
+      url: https://schema.org/SoftwareSourceCode
+      notes: >-
+        codeRepository/programmingLanguage → lang; ctags' (tag, file, kind)
+        triple is the minimal symbol-index prior art for sourcePath + kind.

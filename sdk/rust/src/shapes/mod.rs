@@ -114,6 +114,7 @@ pub mod sound;
 pub mod source;
 pub mod spec;
 pub mod step;
+pub mod symbol;
 pub mod tag;
 pub mod task;
 pub mod tax_line;
@@ -225,6 +226,7 @@ pub use sound::{SOUND, Sound};
 pub use source::{SOURCE, Source};
 pub use spec::{SPEC, Spec};
 pub use step::{STEP, Step};
+pub use symbol::{SYMBOL, Symbol};
 pub use tag::{TAG, Tag};
 pub use task::{TASK, Task};
 pub use tax_line::{TAX_LINE, TaxLine};
@@ -1117,6 +1119,15 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &[],
     }),
+    ("symbol", Display {
+        title: None,
+        subtitle: Some("signature"),
+        image: None,
+        highlights: &["kind", "lang", "sourcePath"],
+        body: Some("summary"),
+        preview: &[],
+        also: &[],
+    }),
     ("tag", Display {
         title: Some("name"),
         subtitle: Some("tagType"),
@@ -1366,6 +1377,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("source", &["sourceId", "address", "scanner", "enabled", "description", "lastSynced"]),
     ("spec", &["problem", "successCriteria", "remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("step", &["position", "detail", "status"]),
+    ("symbol", &["urn", "kind", "lang", "signature", "summary", "sourcePath", "sourceLine"]),
     ("tag", &["color", "tagType", "annotated", "hash"]),
     ("task", &["remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("tax_line", &["code", "description", "amount", "currency", "kind", "nature", "country", "appliesToIndex", "refundable", "merchantImposed", "rate", "taxableAmount", "inclusive"]),
