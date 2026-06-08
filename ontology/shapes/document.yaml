@@ -19,6 +19,12 @@ document:
     authored_by:            actor     # person or agent who produced this
     references:        document[]  # documents this document cites
     cited_by:          document[]  # documents that cite this one
+    embeds:            node[]      # live windows transcluded into this page,
+                                     # rendered inline at read time in `position`
+                                     # order — a saved-query `list`, a record, a
+                                     # sub-document. `embeds` renders a *window*
+                                     # onto the target; it does NOT own it (the
+                                     # membership verb is `contains`).
   prior_art:
     - source: Dublin Core Metadata Initiative
       url: https://www.dublincore.org/specifications/dublin-core/dces/

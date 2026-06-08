@@ -1,0 +1,10 @@
+# Single-form link `embeds` (Pattern 3). Stem = storage label.
+# A document transcludes a live window onto the target, rendered inline at
+# read time in `position` order (a saved-query `list`, a record, a
+# sub-document). Distinct from `contains` (membership): `embeds` renders a
+# *window* onto the target, it does not *own* it.
+# Sources: document
+# Targets: node
+from: document
+to: node
+card: one_to_many
