@@ -316,6 +316,7 @@ export interface Bookmark {
     author?: string;
     datePublished?: string;
     content?: string;
+    handle?: string;
 }
 
 export interface Branch {
@@ -2888,7 +2889,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "birth": ["givenName", "additionalName", "familyName", "honorificPrefix", "honorificSuffix", "legalName", "maidenName", "sortAs", "nameOrder", "phoneticGivenName", "phoneticFamilyName", "gender", "nickname", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "book": ["isbn", "isbn13", "pages", "genres", "series", "format", "language", "originalTitle", "places", "characters", "awardsWon", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "coverage", "tags", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
     "booking_offer": ["cartId", "referenceNumber", "status", "preparedAt", "presentedAt", "approvedAt", "expiresAt", "currency", "baseAmount", "taxAmount", "feesAmount", "totalAmount", "itineraryHash", "signature", "signatureAlg", "signedBy", "checkoutUrl", "confirmEndpoint", "isRefundable", "isChangeable", "hasVoidWindow", "voidWindowEndsAt", "conditions", "blob", "review", "contactEmail", "contactPhone", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
-    "bookmark": ["name"],
+    "bookmark": ["name", "handle"],
     "branch": ["commit", "upstream", "ahead", "behind", "isCurrent", "isRemote"],
     "brand": ["tagline", "country", "primaryColor", "textColor"],
     "calendar": ["calendarId", "color", "backgroundColor", "foregroundColor", "isPrimary", "isReadonly", "accessRole", "source", "timezone"],

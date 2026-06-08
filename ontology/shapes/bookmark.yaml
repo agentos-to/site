@@ -10,6 +10,12 @@
 # membership comes from the --contains--> link, not from bookmark
 # uniqueness. The bookmark's own icon comes from its target; per-list
 # overrides ride on the contains-link as icon_override.
+#
+# `handle` makes a bookmark a resolvable symlink: `read({id: handle})`
+# finds no literal node, derefs the handle → this bookmark → points_to
+# target (across the mount boundary when points_to carries to_volume).
+# A literal node id always wins (Unix collision rule); the handle only
+# resolves a miss. One bookmark per target → at most one handle per node.
 bookmark:
   plural: bookmarks
   identity: [points_to]
@@ -20,6 +26,8 @@ bookmark:
     name:              string    # display name — may differ from target.name
                                   # (the user named the shortcut; the target
                                   # is the underlying thing).
+    handle:            string    # optional address — a short, stable slug you
+                                  # `read({id: handle})` by. The symlink name.
   links:
     points_to:            node      # ANY addressable shape — app, query, file,
                                   # url node, list, image, person. Single
