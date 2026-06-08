@@ -2726,6 +2726,7 @@ export interface Volume {
     content?: string;
     address?: string;
     autoMount?: boolean;
+    defaultView?: string;
     icon?: string;
     kind?: string;
     scope?: string;
@@ -3008,7 +3009,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "user": ["osUsername", "primaryUser", "actorType"],
     "user_identity": ["user_id", "volume_id", "person_node_id", "active"],
     "video": ["durationMs", "resolution", "frameRate", "codec", "viewCount", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
-    "volume": ["volume_id", "kind", "address", "auto_mount", "scope", "icon"],
+    "volume": ["volume_id", "kind", "address", "auto_mount", "scope", "icon", "default_view"],
     "webpage": ["visitCount", "lastVisitUnix", "contentType", "error"],
     "website": ["status", "versionId", "anonymous", "claimToken", "claimUrl"],
 };

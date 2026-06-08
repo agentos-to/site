@@ -37,6 +37,14 @@ volume:
                             #   `drive-optical`). Comes from the volume's
                             #   `_meta.icon`; overrides the kind-derived
                             #   fallback in the sidebar.
+    default_view: string   # the arrangement this volume ships with — a
+                            #   serialized view-query fragment WITHOUT
+                            #   `volume=` (e.g. `group=edge:contains`). Comes
+                            #   from the volume's `_meta.default_view`; the
+                            #   shell scopes it to this mount's slug and lands
+                            #   there by default. Absent → the `facet:shape`
+                            #   floor (what home, which has no `_meta`, gets).
+                            #   A user view-pref overrides it.
   prior_art:
     - source: HDT (Header, Dictionary, Triples)
       url: https://www.rdfhdt.org/what-is-hdt/
