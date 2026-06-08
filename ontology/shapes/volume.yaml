@@ -26,6 +26,17 @@ volume:
                             #   `.db` file path. v2: a URI for Tree Volumes.
     auto_mount:  boolean   # re-mount on engine boot. true by default for
                             #   mounts created via `data.mount`.
+    scope:       string    # "user" (default) — a memex/pod the user mounted,
+                            #   owned + writable + ejectable. "system" — a
+                            #   read-only volume the OS ships with itself
+                            #   (System Docs), mounted at boot from content
+                            #   embedded in the binary, never user-owned. The
+                            #   split lets the shell group + style the two
+                            #   differently (optical-disc icon for system).
+    icon:        string    # per-instance display glyph (theme-icon name, e.g.
+                            #   `drive-optical`). Comes from the volume's
+                            #   `_meta.icon`; overrides the kind-derived
+                            #   fallback in the sidebar.
   prior_art:
     - source: HDT (Header, Dictionary, Triples)
       url: https://www.rdfhdt.org/what-is-hdt/
