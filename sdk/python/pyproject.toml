@@ -13,6 +13,11 @@ dependencies = [
   "phonenumbers>=8",
   "fpdf2>=2.8",
   "qrcode[pil]>=7",
+  # Skill quality standards (core/CLAUDE.md): HTML parsing is lxml +
+  # cssselect, price parsing is price-parser. Part of the runtime contract.
+  "lxml>=5",
+  "cssselect>=1.2",
+  "price-parser>=0.3",
 ]
 
 [project.scripts]
