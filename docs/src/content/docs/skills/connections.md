@@ -54,6 +54,14 @@ connection("api",
     help_url="https://example.com/api-keys")
 ```
 
+Every api-key connection is **directly settable** — no login flow
+required. The key is stored with `skills.connect({ skill, key })`
+(MCP/CLI/HTTP), which writes the encrypted vault row + account node
+and returns the connection's state. `skills.load` shows per-connection
+auth state, and a keyless call fails with `NEEDS_CREDENTIALS` carrying
+the `help_url` and the literal connect call — so always set
+`help_url`: it's what the agent (or human) is told to visit.
+
 **Public + authed** — two identities against the same service:
 
 ```python
