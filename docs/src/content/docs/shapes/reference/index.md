@@ -3,7 +3,7 @@ title: Shapes
 description: "Every shape in the AgentOS ontology. Browse all 81, or follow a tag chain."
 ---
 
-The AgentOS ontology — **100** shapes. Each shape defines what an entity *is* (fields, relations, display hints). Shapes can extend other shapes via `also:`, which makes that shape a **tag** on the entity — a person is also an actor; a book is also a product.
+The AgentOS ontology — **111** shapes. Each shape defines what an entity *is* (fields, relations, display hints). Shapes can extend other shapes via `also:`, which makes that shape a **tag** on the entity — a person is also an actor; a book is also a product.
 
 See [Overview](/shapes/overview/) for the tactical reference and [Shape design principles](/shapes/shape-design-principles/) for the rules.
 
@@ -23,6 +23,7 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`branch`](/shapes/reference/branch/) — A git branch
 - [`brand`](/shapes/reference/brand/) — A consumer brand — a named, visual, commercial identity. Often (but not
 - [`calendar`](/shapes/reference/calendar/) — A calendar — container for events
+- [`change`](/shapes/reference/change/) — A delta on something — a file born/modified/removed, a document revision,
 - [`channel`](/shapes/reference/channel/) — A content channel — typically a YouTube channel. Videos are uploaded to channels
 - [`class`](/shapes/reference/class/) — also `event` — A scheduled, bookable group activity — gym classes, workshops, courses
 - [`community`](/shapes/reference/community/) — An online community — a subreddit, Facebook group, or similar
@@ -41,6 +42,7 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`file`](/shapes/reference/file/) — A file — source code, attachment, download, or any discrete digital artifact
 - [`financial_account`](/shapes/reference/financial_account/) — A financial account — bank checking/savings, brokerage, crypto wallet, etc
 - [`flight`](/shapes/reference/flight/) — also `leg` — A flight — a specific leg of air travel. A flight IS a leg
+- [`flow`](/shapes/reference/flow/) — A process / swim-lane — actors across ordered steps. The universal shape
 - [`font`](/shapes/reference/font/) — also `creative_work` — A typeface — the family-level work. One node per font family
 - [`git_commit`](/shapes/reference/git_commit/) — also `event` — A git commit — a single point in version control history
 - [`group`](/shapes/reference/group/) — A group or community — online group, reading group, etc
@@ -64,19 +66,24 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`meeting`](/shapes/reference/meeting/) — also `event` — A calendar meeting — an event with virtual meeting details and transcripts
 - [`membership`](/shapes/reference/membership/) — also `event` — A time-bounded right-of-belonging granted by an organization
 - [`message`](/shapes/reference/message/) — A single message in a conversation. Base type — email extends this via `also`
+- [`milestone`](/shapes/reference/milestone/) — also `event` — A point-in-time checkpoint — a significant, zero-duration moment in a
 - [`model`](/shapes/reference/model/) — An AI model — LLM, embedding model, or other ML model
+- [`module`](/shapes/reference/module/) — A self-contained unit of a larger whole — a software module, a course
 - [`note`](/shapes/reference/note/) — Private text content, primarily for the author. Journal entries, PKM notes,
 - [`offer`](/shapes/reference/offer/) — also `event` — A purchasable offer — typically a flight itinerary with a price
 - [`order`](/shapes/reference/order/) — also `event` — A purchase order. Contains products and tracks delivery
 - [`organization`](/shapes/reference/organization/) — also `actor` — A company, nonprofit, or other organization. Organizations are actors — they
+- [`outcome`](/shapes/reference/outcome/) — A tracked target-state — the change being sought, with a status and
 - [`pass`](/shapes/reference/pass/) — also `event` — A fixed-quantity right-of-access — a bundle of entries, a multi-day
 - [`payment_method`](/shapes/reference/payment_method/) — A saved payment instrument — credit/debit card, PayPal/Venmo account,
 - [`person`](/shapes/reference/person/) — also `actor` — A real human. People are actors — they can own accounts, hold roles,
+- [`persona`](/shapes/reference/persona/) — An archetype of an audience segment — a named, hypothetical user that
 - [`place`](/shapes/reference/place/) — A physical location — address, building, city, or point of interest
 - [`playlist`](/shapes/reference/playlist/) — also `list` — A video playlist. Playlists are lists that contain videos instead of products
 - [`podcast`](/shapes/reference/podcast/) — A podcast series. Contains episodes. Not the audio itself — that's on the episode
 - [`post`](/shapes/reference/post/) — A piece of published content — a Reddit submission, HN story, YouTube upload,
 - [`practice`](/shapes/reference/practice/) — A field of practice or study — a discipline a person practices, or the
+- [`principle`](/shapes/reference/principle/) — A guiding bright-line — a value or rule used to judge edge cases. Universal:
 - [`product`](/shapes/reference/product/) — A purchasable item OR an identifiable product released into the world
 - [`project`](/shapes/reference/project/) — A project that groups tasks. Tasks belong to projects
 - [`protocol`](/shapes/reference/protocol/) — A protocol or technical spec — git, bitcoin, ssh, smtp, oauth, etc
@@ -95,6 +102,8 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`sound`](/shapes/reference/sound/) — also `creative_work`, `file` — An audio clip — startup chimes, error beeps, notification dings,
 - [`source`](/shapes/reference/source/) — A content source — where skills, themes, shapes, and wallpapers live
 - [`spec`](/shapes/reference/spec/) — also `task`, `file` — A spec — a design document describing work to be done
+- [`step`](/shapes/reference/step/) — One ordered act within a flow. A first-class node, not an array slot:
+- [`symbol`](/shapes/reference/symbol/) — A code symbol — one named thing in a source surface: an MCP tool/op, a
 - [`tag`](/shapes/reference/tag/) — A tag or label — Gmail label, Todoist label, GitHub label, git tag,
 - [`task`](/shapes/reference/task/) — also `event` — A work item — issue, ticket, or to-do. Supports hierarchy (parent/children)
 - [`tax_line`](/shapes/reference/tax_line/) — A single tax, fee, or surcharge line item on a priced commerce
@@ -106,6 +115,8 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`trip`](/shapes/reference/trip/) — also `event` — A directed journey from origin to destination — one direction of travel
 - [`unit`](/shapes/reference/unit/) — A unit of measure — a concrete scale for a quantity. mg/dL, USD, pascal,
 - [`user`](/shapes/reference/user/) — also `actor` — An AgentOS user — the seat at this machine. Carries the user's
+- [`user_identity`](/shapes/reference/user_identity/) — An identity claim — "the engine-level user X identifies as person:Y
 - [`video`](/shapes/reference/video/) — also `creative_work`, `file` — A video file — the media artifact, not the social context around it
+- [`volume`](/shapes/reference/volume/) — A mounted Volume — a `.db` memex file the engine has attached to the
 - [`webpage`](/shapes/reference/webpage/) — A web page. Base type for search result. Also used for browser history
 - [`website`](/shapes/reference/website/) — A published website (not a single page — see webpage for that)

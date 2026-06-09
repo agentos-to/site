@@ -30738,6 +30738,13 @@
           "target": null
         },
         {
+          "name": "freeBytes",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "icon",
           "type": "string",
           "is_relation": false,
@@ -30752,8 +30759,36 @@
           "target": null
         },
         {
+          "name": "provider",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "removable",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "scope",
           "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "totalBytes",
+          "type": "integer",
           "is_relation": false,
           "is_array": false,
           "target": null
@@ -30779,7 +30814,7 @@
       },
       "identity": [],
       "identity_any": [],
-      "leading_comment": "A mounted Volume — a `.db` memex file the engine has attached to the\nRegistry. The home graph is the always-mounted writeable Volume; it\nis the hardcoded constant and is NOT represented by a `volume` node.\nEvery OTHER mounted memex IS — one row per mount, persisted in home\nso the mount survives engine restart (`auto_mount: true`).\n\nMount lifecycle is six steps; this shape captures the persisted state\nof step 5. See `core/_roadmap/p1/volumes/plan.md` \"Mount lifecycle\".",
+      "leading_comment": "A mounted Volume — any named source of typed nodes the engine has\nattached to the Registry: a `.db` memex file, a YAML text volume, or a\ntransport volume served live by a skill (the host filesystem, a USB\nstick, a browser's data). The home graph is the always-mounted\nwriteable Volume; it is the hardcoded constant. Every OTHER mount IS a\n`volume` node — one row per mount, persisted so the mount survives\nengine restart (`auto_mount: true`).\n\nMount lifecycle is six steps; this shape captures the persisted state\nof step 5. See `core/_roadmap/p2/realms-transports/plan.md`.",
       "own_fields": [
         {
           "name": "volume_id",
@@ -30803,8 +30838,43 @@
           "target": null
         },
         {
+          "name": "provider",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "auto_mount",
           "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "removable",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "totalBytes",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "freeBytes",
+          "type": "integer",
           "is_relation": false,
           "is_array": false,
           "target": null
@@ -30850,13 +30920,18 @@
         }
       ],
       "source_path": "volume.yaml",
-      "raw_body": "plural: volumes\ndisplay:\n  subtitle: kind\nicon: drive\nfields:\n  volume_id: string\n  kind: string\n  address: string\n  auto_mount: boolean\n  scope: string\n  icon: string\n  default_view: string\nprior_art:\n- source: HDT (Header, Dictionary, Triples)\n  url: https://www.rdfhdt.org/what-is-hdt/\n  notes: \"RDF binary file format; one file = one queryable graph. The Header describes\\\n    \\ the dataset in its own vocabulary \\u2014 same shapes-ride-along move as our\\\n    \\ embedded ontology.\"\n- source: Stardog Virtual Graphs\n  url: https://docs.stardog.com/virtual-graphs/\n  notes: Register an external source under a URI; query as a named graph. Our volume\n    shape is the registration row; mount/unmount is the verb pair.\n- source: macOS Disk Utility / DMG\n  url: https://support.apple.com/guide/disk-utility/welcome/mac\n  notes: The UX mental model. A volume is an attached, browseable disk; the Finder\n    shows it in the sidebar; eject detaches it without destroying the underlying file.\n",
+      "raw_body": "plural: volumes\ndisplay:\n  subtitle: kind\nicon: drive\nfields:\n  volume_id: string\n  kind: string\n  address: string\n  provider: string\n  auto_mount: boolean\n  readOnly: boolean\n  removable: boolean\n  totalBytes: integer\n  freeBytes: integer\n  scope: string\n  icon: string\n  default_view: string\nprior_art:\n- source: HDT (Header, Dictionary, Triples)\n  url: https://www.rdfhdt.org/what-is-hdt/\n  notes: \"RDF binary file format; one file = one queryable graph. The Header describes\\\n    \\ the dataset in its own vocabulary \\u2014 same shapes-ride-along move as our\\\n    \\ embedded ontology.\"\n- source: Stardog Virtual Graphs\n  url: https://docs.stardog.com/virtual-graphs/\n  notes: Register an external source under a URI; query as a named graph. Our volume\n    shape is the registration row; mount/unmount is the verb pair.\n- source: macOS Disk Utility / DMG\n  url: https://support.apple.com/guide/disk-utility/welcome/mac\n  notes: The UX mental model. A volume is an attached, browseable disk; the Finder\n    shows it in the sidebar; eject detaches it without destroying the underlying file.\n",
       "ancestors": [],
       "field_order": [
         "volume_id",
         "kind",
         "address",
+        "provider",
         "auto_mount",
+        "readOnly",
+        "removable",
+        "totalBytes",
+        "freeBytes",
         "scope",
         "icon",
         "default_view"

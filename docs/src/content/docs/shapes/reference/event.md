@@ -69,6 +69,7 @@ Per-subtype fields live on subtype shapes:
 - [`loaded_model`](/shapes/reference/loaded_model/)
 - [`meeting`](/shapes/reference/meeting/)
 - [`membership`](/shapes/reference/membership/)
+- [`milestone`](/shapes/reference/milestone/)
 - [`offer`](/shapes/reference/offer/)
 - [`order`](/shapes/reference/order/)
 - [`pass`](/shapes/reference/pass/)

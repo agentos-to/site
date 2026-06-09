@@ -18,17 +18,24 @@ membership comes from the --contains--> link, not from bookmark
 uniqueness. The bookmark's own icon comes from its target; per-list
 overrides ride on the contains-link as icon_override.
 
+`handle` makes a bookmark a resolvable symlink: `read({id: handle})`
+finds no literal node, derefs the handle → this bookmark → points_to
+target (across the mount boundary when points_to carries to_volume).
+A literal node id always wins (Unix collision rule); the handle only
+resolves a miss. One bookmark per target → at most one handle per node.
+
 | Metadata | Value |
 |---|---|
 | **Plural** | `bookmarks` |
 | **Subtitle field** | `name` |
-| **Identity** | `target` |
+| **Identity** | `points_to` |
 
 ## Fields
 
 | Field | Type |
 |---|---|
 | `name` | `string` |
+| `handle` | `string` |
 
 ## Prior art
 

@@ -11,31 +11,10 @@ Engine lifecycle.
 
 ## Ops
 
-- [`boot`](#boot) — Session bootstrap: identity, project, recent activity, tools
 - [`status`](#status) — Engine snapshot: version, uptime, PID, DB path, recent op stats
 - [`schema`](#schema) — Emit the full tool surface registry as JSON — single source of truth for SDK codegen and docs generation (see D11)
 - [`schema_hash`](#schema_hash) — Deterministic content hash of the AgentOS ontology — pinned in every data-porter export to detect schema drift on import
 - [`schema_diff`](#schema_diff) — Walk the migration chain from a given pin to the current SCHEMA_HASH
-
-## `boot`
-
-Session bootstrap: identity, project, recent activity, tools.
-
-### Examples
-
-```js
-boot()
-```
-
-### Input schema
-
-```json
-{
-  "additionalProperties": false,
-  "properties": {},
-  "type": "object"
-}
-```
 
 ## `status`
 

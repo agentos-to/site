@@ -1,41 +1,40 @@
 ---
 title: volume
-description: "A storage volume — local disk, external drive, network share, or cloud drive."
+description: "A mounted Volume — a .db memex file the engine has attached to the"
 sidebar:
   label: volume
 ---
 
-A storage volume — local disk, external drive, network share, or cloud drive.
-Distinct from folder: volumes have capacity, filesystem type, and mount state.
+A mounted Volume — a `.db` memex file the engine has attached to the
+Registry. The home graph is the always-mounted writeable Volume; it
+is the hardcoded constant and is NOT represented by a `volume` node.
+Every OTHER mounted memex IS — one row per mount, persisted in home
+so the mount survives engine restart (`auto_mount: true`).
+
+Mount lifecycle is six steps; this shape captures the persisted state
+of step 5. See `core/_roadmap/p1/volumes/plan.md` "Mount lifecycle".
 
 | Metadata | Value |
 |---|---|
 | **Plural** | `volumes` |
-| **Subtitle field** | `path` |
+| **Subtitle field** | `kind` |
 
 ## Fields
 
 | Field | Type |
 |---|---|
-| `path` | `string` |
-| `totalBytes` | `integer` |
-| `freeBytes` | `integer` |
-| `usedBytes` | `integer` |
-| `filesystem` | `string` |
-| `volumeType` | `string` |
-| `removable` | `boolean` |
-| `readOnly` | `boolean` |
-
-## Relations
-
-| Relation | Target |
-|---|---|
-| `contains` | [`folder[]`](/shapes/reference/folder/) |
+| `volume_id` | `string` |
+| `kind` | `string` |
+| `address` | `string` |
+| `auto_mount` | `boolean` |
+| `scope` | `string` |
+| `icon` | `string` |
+| `default_view` | `string` |
 
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
-- **[POSIX / Single Unix Specification (mount)](https://pubs.opengroup.org/onlinepubs/9699919799/functions/mount.html)** — Our path = mount point; filesystem ≈ fs type; readOnly ≈ ro mount option.
-- **[macOS DiskArbitration + diskutil](https://ss64.com/osx/diskutil.html)** — Practical source. Our totalBytes/freeBytes/usedBytes/removable/ volumeType match diskutil info output.
-- **[Linux /proc/mounts + statvfs](https://man7.org/linux/man-pages/man5/proc.5.html)** — POSIX-family source. Our filesystem values (apfs, hfs+, ext4, ntfs) are standard /proc/mounts fs-types.
+- **[HDT (Header, Dictionary, Triples)](https://www.rdfhdt.org/what-is-hdt/)** — RDF binary file format; one file = one queryable graph. The Header describes the dataset in its own vocabulary — same shapes-ride-along move as our embedded ontology.
+- **[Stardog Virtual Graphs](https://docs.stardog.com/virtual-graphs/)** — Register an external source under a URI; query as a named graph. Our volume shape is the registration row; mount/unmount is the verb pair.
+- **[macOS Disk Utility / DMG](https://support.apple.com/guide/disk-utility/welcome/mac)** — The UX mental model. A volume is an attached, browseable disk; the Finder shows it in the sidebar; eject detaches it without destroying the underlying file.

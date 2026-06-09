@@ -1,6 +1,6 @@
 """Auto-generated engine dispatch client — do not edit.
 
-Generated from 3 namespaces, 13 ops.
+Generated from 4 namespaces, 18 ops.
 Regenerate with: python3 docs/generate.py --docs
 
 Source of truth: crates/core/src/tools.rs REGISTRY (D11).
@@ -165,14 +165,19 @@ class _DataNamespace:
         self._call = call
 
     def read(self, **params: Any) -> Any:
-        """Read one node (or link) by id.
+        """Read one node (or link) by id. On a volume read, add `expand`/`depth` to get a hydrated nested subtree (the whole tree in one call) following containment edges — see the `expand` param.
 
         Args:
             id (string, required): Node or link id.
+            depth (int, optional): SUBTREE PROJECTION (volume reads): hops to follow `expand` edges. Default 4. Supplying `expand` or `depth` switches read into subtree mode.
+            expand (list[string], optional): SUBTREE PROJECTION (volume reads): containment edge labels to follow from this node, e.g. ["contains","owns","has_step"]. Returns a hydrated, NESTED tree (each child under `children`, with `_via` = the label) instead of a flat node — the whole subtree in ONE call. Reference edges (depends_on, upholds, serves, …) are never expanded. If omitted but `depth` is set, defaults to the containment spine (contains/owns/has_step/has_part).
+            fields (list[string], optional): SUBTREE PROJECTION: project each node's vals to this subset (id/name/shape always kept).
             view (dict, optional)
+            volume (string, optional): Which Volume to read from. Defaults to "home". A mounted memex's volume_id targets that memex's pool.
 
         Examples:
             read({ id: "abc123" })
+            read({ id: "roadmap", volume: "agentos-roadmap", depth: 4 })
         """
         return self._call("data.read", params)
 
@@ -190,6 +195,8 @@ class _DataNamespace:
             type (string, optional): Modifier for `skill`: list entities (vs. the skill manifest).
             user_tag (string | list[string], optional): User-tag name (or array — intersection).
             view (dict, optional)
+            volume (string, optional): Which Volume to list from. Defaults to "home". Mutually exclusive with `volumes`.
+            volumes (string | list[string], optional): Federation: union across multiple Volumes. Array of ids, or the string "all" for every mounted Volume.
 
         Examples:
             list({ shape: "task", priority: 1 })
@@ -206,6 +213,7 @@ class _DataNamespace:
             vals (dict, required): Map of val key → value. `null` deletes (nodes only). Non-null sets. Object form `{value, unit}` overrides the inferred unit.
             id (string, optional): Node id to update.
             link (string, optional): Link id to update (writes link_vals — icon position, fares, etc.).
+            volume (string, optional): Which Volume to write to. Defaults to "home". Errors on read-only mounts.
 
         Examples:
             update({ id: "abc123", vals: { "pref:ui": { themeId: "xp", fontSize: 14 } } })
@@ -223,13 +231,15 @@ class _DataNamespace:
             label (string, optional): Link form: relationship label.
             name (string, optional): Node form: display name for the node.
             shape (string, optional): Node form: shape name. Lazily registered on first use.
-            to (string, optional): Link form: target node id.
+            to (string, optional): Link form: target node id. Accepts the qualified `"<volume_id>:<node_id>"` form to bridge into a mounted memex.
             vals (dict, optional): Node form: initial vals. Same shape as data.update vals.
+            volume (string, optional): Which Volume to write the new node/link in. Defaults to "home". Errors on read-only mounts.
 
         Examples:
-            create({ shape: "bookmark", name: "Aircraft", vals: { address: "?shape=aircraft" } })
             create({ shape: "person", name: "Joe", identity: { email: "joe@example.com" } })
             create({ from: "abc123", label: "measures", to: "def456" })
+            // bookmark: a named handle → any node, one atomic call
+            create({ shape: "bookmark", vals: { handle: "home" }, links_out: [{ label: "points_to", target_id: "<node-id>" }] })
         """
         return self._call("data.create", params)
 
@@ -239,6 +249,7 @@ class _DataNamespace:
         Args:
             id (string, required): Node or link id. Soft-delete.
             permanent (bool, optional): When true, hard-delete a soft-deleted node (purge from disk). Used by 'empty trash'.
+            volume (string, optional): Which Volume to delete from. Defaults to "home". Errors on read-only mounts.
 
         Examples:
             delete({ id: "abc123" })
@@ -256,6 +267,75 @@ class _DataNamespace:
             restore({ id: "abc123" })
         """
         return self._call("data.restore", params)
+
+    def export(self, **params: Any) -> Any:
+        """Export a typed subgraph to a SQLite artifact. Writes _meta.schema_version pin for safe re-import.
+
+        Args:
+            description (string, required): One-paragraph human description of what this memex contains. Persisted to _meta.description.
+            icon (string, required): Icon-shape `purpose` name (e.g. "book", "heart", "home"). Persisted to _meta.icon. Theme adapters resolve names to renderable assets.
+            name (string, required): Display name for the memex — "Joe Health", "Bible", "US IP Law (2026)". Persisted to _meta.name.
+            out_path (string, required): Destination path (~ expanded). Existing file is overwritten.
+            selection (dict, required): One of {all: true} (full-DB backup — bypasses closure, includes orphans + trash by default), {shapes: [..]} (type-driven closure), or {nodes: [..]} (explicit seeds + closure).
+            closure (dict, optional): Optional closure filters. V1 walks every link by default.
+
+        Examples:
+            export({ selection: { shapes: ["health-*"] }, out_path: "~/health.db", label: "Health profile" })
+            export({ selection: { shapes: ["transaction", "account"] }, out_path: "~/finance.db", label: "Finance 2026" })
+            export({ selection: { nodes: ["abc123"] }, out_path: "~/seed.db", closure: { max_depth: 2 } })
+            export({ selection: { all: true }, out_path: "~/full.db" })
+        """
+        return self._call("data.export", params)
+
+    def import_(self, **params: Any) -> Any:
+        """Import a previously-exported artifact, replaying any migration chain from its pin to live SCHEMA_HASH.
+
+        Args:
+            in_path (string, required): Artifact path (~ expanded). SQLite for v1.
+            on_id_collision (string, optional): Default merge: overwrite vals + ensure links/shapes/content on existing id.
+            on_schema_drift (string, optional): Default migrate: replay chain from artifact pin to live.
+            plan_only (bool, optional): Compute the diff + per-row category, do not write.
+
+        Examples:
+            import({ in_path: "~/health.db" })
+            import({ in_path: "~/health.db", plan_only: true })
+        """
+        return self._call("data.import", params)
+
+    def mount(self, **params: Any) -> Any:
+        """Mount a memex `.db` file as a read-only Volume. Persists a volume node + emits a create activity. Survives engine restart.
+
+        Args:
+            path (string, required): Path to a memex `.db` file (~ expanded). Must carry _meta.type='memex'.
+
+        Examples:
+            mount({ path: "~/bible.db" })
+            mount({ path: "/Users/joe/dev/agentos/_joe/health.db" })
+        """
+        return self._call("data.mount", params)
+
+    def unmount(self, **params: Any) -> Any:
+        """Detach a mounted Volume by volume_id (the slug). Soft-deletes the volume node + emits a delete activity. File on disk is untouched.
+
+        Args:
+            id (string, required): Volume id (the slug returned by data.mount), NOT the graph node id.
+
+        Examples:
+            unmount({ id: "joe-health" })
+        """
+        return self._call("data.unmount", params)
+
+    def volume_stats(self, **params: Any) -> Any:
+        """Disk + content statistics for a Volume: file size on disk, node count, shape histogram, schema version. Powers Properties' General tab (used space, node count) and the shape donut. Defaults to the home Volume when `id` is omitted.
+
+        Args:
+            id (string, optional): Volume id slug. Accepts "home" / "memex" for the home vault. Defaults to "home" when omitted.
+
+        Examples:
+            volume_stats({})                       // home
+            volume_stats({ id: "joe-health" })     // a mounted pod
+        """
+        return self._call("data.volume_stats", params)
 
 
 class _SkillsNamespace:
@@ -300,14 +380,6 @@ class _SystemNamespace:
     def __init__(self, call):
         self._call = call
 
-    def boot(self, **params: Any) -> Any:
-        """Session bootstrap: identity, project, recent activity, tools.
-
-        Examples:
-            boot()
-        """
-        return self._call("system.boot", params)
-
     def status(self, **params: Any) -> Any:
         """Engine snapshot: version, uptime, PID, DB path, recent op stats.
 
@@ -348,6 +420,25 @@ class _SystemNamespace:
         return self._call("system.schema_diff", params)
 
 
+class _ReadmeNamespace:
+    """Proxy for the `readme` namespace."""
+
+    def __init__(self, call):
+        self._call = call
+
+    def get(self, **params: Any) -> Any:
+        """Identity, tools, and the roadmap for your working directory.
+
+        Args:
+            cwd (string, optional): Working directory to orient against. Optional — defaults to the session's directory (MCP clients supply it via roots; the CLI passes $PWD).
+
+        Examples:
+            readme()
+            readme({ cwd: "/path/to/project" })
+        """
+        return self._call("readme.get", params)
+
+
 class Client:
     """Engine dispatch client.
 
@@ -367,6 +458,7 @@ class Client:
         self.data = _DataNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.skills = _SkillsNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.system = _SystemNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
+        self.readme = _ReadmeNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
 
 
 class AsyncClient:
@@ -388,6 +480,7 @@ class AsyncClient:
         self.data = _DataNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.skills = _SkillsNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.system = _SystemNamespace(lambda op, params: _async_call(self._socket_path, op, params))
+        self.readme = _ReadmeNamespace(lambda op, params: _async_call(self._socket_path, op, params))
 
     async def __aenter__(self):
         return self

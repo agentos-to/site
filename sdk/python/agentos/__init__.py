@@ -38,6 +38,7 @@ from agentos.decorators import returns, provides, connection, timeout, claims, t
 from agentos.tools import (
     web_search, web_read, email_lookup, flight_search,
     geocoding, map_tiles, file_list, file_read, file_info,
+    volume_transport,
     cookie_auth, oauth_auth,
     login_credentials, password, api_key, signs_for,
     cdp_access, browser_session,
@@ -80,6 +81,7 @@ __all__ = [
     # Standard tools
     "web_search", "web_read", "email_lookup", "flight_search",
     "geocoding", "map_tiles", "file_list", "file_read", "file_info",
+    "volume_transport",
     "cookie_auth", "oauth_auth",
     "login_credentials", "password", "api_key", "signs_for",
     # Skill result helpers

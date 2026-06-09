@@ -29,7 +29,7 @@ The HTTP bridge accepts JSON of the form:
 
 | Field | Required | Notes |
 |---|---|---|
-| `op` | yes | Dotted op identity — `data.read`, `data.list`, `data.update`, `data.create`, `data.delete`, `skills.run`, `skills.load`, `system.{boot,status,schema}`, or any `tools.<capability>` contributed by an installed skill's `@provides`. |
+| `op` | yes | Dotted op identity — `data.read`, `data.list`, `data.update`, `data.create`, `data.delete`, `skills.run`, `skills.load`, `system.{status,schema}`, or any `tools.<capability>` contributed by an installed skill's `@provides`. |
 | `params` | no | Op-specific arguments. Op pages under [`tool-surface/`](/tool-surface/) document each schema. |
 | `params.mutation_id` | no | Client-minted UUID. The engine strips it from arguments before tool dispatch (no effect on tool behavior) and round-trips it into the observer event so the originating client can dedupe its own echo. Required only when the caller wants optimistic-UX dedupe (see below). |
 | `params.view` | no | Output projection. The bridge auto-fills `{format: "json"}` when omitted; the CLI defaults to markdown for human readability. All ops accept it. |

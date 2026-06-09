@@ -31,6 +31,24 @@ file_list = "file_list"
 file_read = "file_read"
 file_info = "file_info"
 
+# Volume transport — the skill announces mountable volumes and serves
+# their contents to the finder/graph layer. One capability, a fixed
+# three-verb interface (the KIO-worker / 9P read-only core):
+#
+#   list_volumes()              → volume[]  (ANNOUNCE — called at boot +
+#                                 on refresh; entries upsert as volume
+#                                 nodes under a realm)
+#   list_contents(id, cursor?)  → typed child nodes + nextCursor (SERVE)
+#   read_node(id)               → one node's full detail
+#
+# `@provides(volume_transport)` goes on `list_volumes` only — it marks
+# the skill as a transport; `list_contents` / `read_node` are reached by
+# their fixed names on the announcing skill (browse binds to the stamped
+# provider, never a fresh capability walk). Read-only by construction:
+# the write verbs don't exist yet. Contract:
+# core/_roadmap/p2/realms-transports/plan.md "The transport contract".
+volume_transport = "volume_transport"
+
 # LLM inference
 llm = "llm"
 

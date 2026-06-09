@@ -1,11 +1,13 @@
-# A mounted Volume — a `.db` memex file the engine has attached to the
-# Registry. The home graph is the always-mounted writeable Volume; it
-# is the hardcoded constant and is NOT represented by a `volume` node.
-# Every OTHER mounted memex IS — one row per mount, persisted in home
-# so the mount survives engine restart (`auto_mount: true`).
+# A mounted Volume — any named source of typed nodes the engine has
+# attached to the Registry: a `.db` memex file, a YAML text volume, or a
+# transport volume served live by a skill (the host filesystem, a USB
+# stick, a browser's data). The home graph is the always-mounted
+# writeable Volume; it is the hardcoded constant. Every OTHER mount IS a
+# `volume` node — one row per mount, persisted so the mount survives
+# engine restart (`auto_mount: true`).
 #
 # Mount lifecycle is six steps; this shape captures the persisted state
-# of step 5. See `core/_roadmap/p1/volumes/plan.md` "Mount lifecycle".
+# of step 5. See `core/_roadmap/p2/realms-transports/plan.md`.
 volume:
   plural: volumes
   display:
@@ -20,12 +22,30 @@ volume:
                             #   the live registry; stamped here so the UI
                             #   can recover it without round-tripping
                             #   through the mount registry.
-    kind:        string    # "memex" — v1. "tree" — v2+ (filesystem, NFS,
-                            #   SMB, cloud drives — transport via skill).
-    address:     string    # local path for memex Volumes — the absolute
-                            #   `.db` file path. v2: a URI for Tree Volumes.
+    kind:        string    # the transport axis. "memex" | "text" — built-in
+                            #   (the engine opens a SQLite pool / YAML dir).
+                            #   "filesystem" — served live by the skill that
+                            #   announced it via @provides(volume_transport);
+                            #   later: "browser" | "service" | "device".
+    address:     string    # the locator, transport-specific. memex: absolute
+                            #   `.db` path. text: the YAML dir. filesystem:
+                            #   the mount point ("/", "/Volumes/Backup").
+    provider:    string    # transport volumes only — the skill id that
+                            #   announced this volume, stamped by the ENGINE
+                            #   at announce time (never self-declared). A
+                            #   volume's address only means something to the
+                            #   skill that announced it; browse dispatches
+                            #   here, not through a fresh capability walk.
     auto_mount:  boolean   # re-mount on engine boot. true by default for
                             #   mounts created via `data.mount`.
+    readOnly:    boolean   # the transport refuses writes. Transport volumes
+                            #   are read-only in v1 (the three read verbs are
+                            #   the whole contract).
+    removable:   boolean   # filesystem transport — a /Volumes/* mount (DMG,
+                            #   USB) vs the internal disk; drives the eject
+                            #   affordance + glyph.
+    totalBytes:  integer   # filesystem transport — capacity, from statvfs.
+    freeBytes:   integer   # filesystem transport — free space, from statvfs.
     scope:       string    # "user" (default) — a memex/pod the user mounted,
                             #   owned + writable + ejectable. "system" — a
                             #   read-only volume the OS ships with itself

@@ -9,7 +9,8 @@ See [`_roadmap/p1/unified-surface/unified-surface.md`](https://github.com/agento
 
 ## Namespaces
 
-- [`data`](/tool-surface/data/) (6 ops) — Query and mutate graph entities
+- [`data`](/tool-surface/data/) (11 ops) — Query and mutate graph entities
 - [`skills`](/tool-surface/skills/) (2 ops) — Skill introspection and direct dispatch
-- [`system`](/tool-surface/system/) (5 ops) — Engine lifecycle
+- [`system`](/tool-surface/system/) (4 ops) — Engine lifecycle
+- [`readme`](/tool-surface/readme/) (1 op) — Orient yourself
 - [`tools`](/tool-surface/tools/) *(empty)* — Dynamic capability providers contributed by installed skills
