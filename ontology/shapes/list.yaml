@@ -49,6 +49,14 @@ list:
     isPublic:         boolean
     itemCount:        integer   # cached count of items — derived, optional
     # view-time prefs (per-list, optional — most lists ignore)
+    arrangement:       string    # serialized view-query fragment ('group=facet:shape')
+                                  # — how a renderer arranges this list's members.
+                                  # Folders carry their arrangements: a curated
+                                  # collection (Credits) declares group=facet:shape
+                                  # and renders sectioned by shape, derived never
+                                  # materialized. Same grammar as a volume's
+                                  # default_view; future bookmark folders and
+                                  # playlists render through the same knob.
     default_view:     string    # 'icon' | 'list' | 'detail' | 'gallery'
     icon_size:        integer   # per-list view-time scale (CSS px)
     sort_by:          string    # view-time sort field (unordered lists)

@@ -14,6 +14,7 @@ pub struct Playlist {
     pub author: Option<String>,
     pub date_published: Option<String>,
     pub content: Option<String>,
+    pub arrangement: Option<String>,
     #[serde(rename = "default_view")]
     pub default_view: Option<String>,
     #[serde(rename = "icon_size")]
@@ -46,6 +47,7 @@ pub static PLAYLIST: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("author", FieldType::String),
         FieldDef::optional("datePublished", FieldType::String),
         FieldDef::optional("content", FieldType::String),
+        FieldDef::optional("arrangement", FieldType::String),
         FieldDef::optional("default_view", FieldType::String),
         FieldDef::optional("icon_size", FieldType::Integer),
         FieldDef::optional("isDefault", FieldType::Boolean),

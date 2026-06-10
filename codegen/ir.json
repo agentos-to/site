@@ -11695,6 +11695,13 @@
           "target": null
         },
         {
+          "name": "arrangement",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "currentUrl",
           "type": "string",
           "is_relation": false,
@@ -11979,6 +11986,7 @@
         "isDefault",
         "isPublic",
         "itemCount",
+        "arrangement",
         "default_view",
         "icon_size",
         "sort_by",
@@ -14918,6 +14926,13 @@
           "target": null
         },
         {
+          "name": "arrangement",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "default_view",
           "type": "string",
           "is_relation": false,
@@ -15084,6 +15099,13 @@
           "target": null
         },
         {
+          "name": "arrangement",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "default_view",
           "type": "string",
           "is_relation": false,
@@ -15141,7 +15163,7 @@
         }
       ],
       "source_path": "list.yaml",
-      "raw_body": "plural: lists\nidentity:\n- at\n- id\ndisplay:\n  subtitle: name\nfields:\n  id: string\n  listId: string\n  listType: string\n  ordering_mode: string\n  member_shape: string\n  privacy: string\n  isDefault: boolean\n  isPublic: boolean\n  itemCount: integer\n  default_view: string\n  icon_size: integer\n  sort_by: string\n  path: string\nlinks:\n  at_namespace: actor\n  belongs_to: account\n  contains: node[]\n  backed_by: image\nprior_art:\n- source: schema.org/ItemList\n  url: https://schema.org/ItemList\n  notes: \"listType \\u2248 itemListOrder; contains \\u2248 itemListElement; isPublic\\\n    \\ \\u2248 publicAccess.\"\n- source: ActivityStreams 2.0 Collection / OrderedCollection\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection\n  notes: \"contains[] \\u2248 items; ordering_mode='linear' \\u2248 OrderedCollection,\\\n    \\ ordering_mode='unordered' \\u2248 Collection.\"\n- source: WinFS Item / FolderMember\n  url: https://learn.microsoft.com/en-us/archive/msdn-magazine/2004/january/winfs-lets-users-search-and-manage-files-based-on-content\n  notes: 'WinFS unified Folder + Contact + Photo under a single Item base, with FolderMember\n    as a holding link. Our list-with-contains is the same pattern: one shape, one\n    link mechanism, view-time projections handle the \"I want it to look like an album\"\n    case.'\n- source: \"Vannevar Bush \\u2014 As We May Think (Memex trails)\"\n  url: https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/\n  notes: A Memex trail is a named, ordered list of associative jumps. A `list` with\n    ordering_mode='linear' and contains-bookmarks IS Bush's trail. Foundational precedent\n    for the everything-is-a-list thesis.\n- source: POSIX / Single Unix Specification (directories)\n  url: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html\n  notes: listType='folder' with optional `path` field mirrors a POSIX directory. The\n    engine treats it as a list; the filesystem mirror is a projection, not a separate\n    primitive.\n",
+      "raw_body": "plural: lists\nidentity:\n- at\n- id\ndisplay:\n  subtitle: name\nfields:\n  id: string\n  listId: string\n  listType: string\n  ordering_mode: string\n  member_shape: string\n  privacy: string\n  isDefault: boolean\n  isPublic: boolean\n  itemCount: integer\n  arrangement: string\n  default_view: string\n  icon_size: integer\n  sort_by: string\n  path: string\nlinks:\n  at_namespace: actor\n  belongs_to: account\n  contains: node[]\n  backed_by: image\nprior_art:\n- source: schema.org/ItemList\n  url: https://schema.org/ItemList\n  notes: \"listType \\u2248 itemListOrder; contains \\u2248 itemListElement; isPublic\\\n    \\ \\u2248 publicAccess.\"\n- source: ActivityStreams 2.0 Collection / OrderedCollection\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection\n  notes: \"contains[] \\u2248 items; ordering_mode='linear' \\u2248 OrderedCollection,\\\n    \\ ordering_mode='unordered' \\u2248 Collection.\"\n- source: WinFS Item / FolderMember\n  url: https://learn.microsoft.com/en-us/archive/msdn-magazine/2004/january/winfs-lets-users-search-and-manage-files-based-on-content\n  notes: 'WinFS unified Folder + Contact + Photo under a single Item base, with FolderMember\n    as a holding link. Our list-with-contains is the same pattern: one shape, one\n    link mechanism, view-time projections handle the \"I want it to look like an album\"\n    case.'\n- source: \"Vannevar Bush \\u2014 As We May Think (Memex trails)\"\n  url: https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/\n  notes: A Memex trail is a named, ordered list of associative jumps. A `list` with\n    ordering_mode='linear' and contains-bookmarks IS Bush's trail. Foundational precedent\n    for the everything-is-a-list thesis.\n- source: POSIX / Single Unix Specification (directories)\n  url: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html\n  notes: listType='folder' with optional `path` field mirrors a POSIX directory. The\n    engine treats it as a list; the filesystem mirror is a projection, not a separate\n    primitive.\n",
       "ancestors": [],
       "field_order": [
         "id",
@@ -15153,6 +15175,7 @@
         "isDefault",
         "isPublic",
         "itemCount",
+        "arrangement",
         "default_view",
         "icon_size",
         "sort_by",
@@ -20912,6 +20935,13 @@
           "target": null
         },
         {
+          "name": "arrangement",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "default_view",
           "type": "string",
           "is_relation": false,
@@ -21041,6 +21071,7 @@
         "isDefault",
         "isPublic",
         "itemCount",
+        "arrangement",
         "default_view",
         "icon_size",
         "sort_by",
@@ -24754,6 +24785,13 @@
           "target": null
         },
         {
+          "name": "arrangement",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "default_view",
           "type": "string",
           "is_relation": false,
@@ -24899,6 +24937,7 @@
         "isDefault",
         "isPublic",
         "itemCount",
+        "arrangement",
         "default_view",
         "icon_size",
         "sort_by",

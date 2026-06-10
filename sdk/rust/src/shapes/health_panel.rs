@@ -15,6 +15,7 @@ pub struct HealthPanel {
     pub date_published: Option<String>,
     pub content: Option<String>,
     pub all_day: Option<bool>,
+    pub arrangement: Option<String>,
     pub current_url: Option<String>,
     pub date_updated: Option<String>,
     #[serde(rename = "default_view")]
@@ -65,6 +66,7 @@ pub static HEALTH_PANEL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("datePublished", FieldType::String),
         FieldDef::optional("content", FieldType::String),
         FieldDef::optional("allDay", FieldType::Boolean),
+        FieldDef::optional("arrangement", FieldType::String),
         FieldDef::optional("currentUrl", FieldType::String),
         FieldDef::optional("dateUpdated", FieldType::Datetime),
         FieldDef::optional("default_view", FieldType::String),

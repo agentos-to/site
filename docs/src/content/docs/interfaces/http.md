@@ -30,7 +30,7 @@ Run it with `agentos bridge`. It auto-starts the engine if needed (via `ensure_e
 - `data.delete` — soft-delete a node or link.
 - `skills.run` — invoke a skill tool.
 - `skills.load` — fetch a skill manual before calling `run`.
-- `system.{boot, status, schema}` — engine lifecycle + introspection.
+- `system.{status, schema}` — engine lifecycle + introspection.
 - `tools.<capability>` — dynamic capability tools contributed by installed skills' `@provides` (e.g. `tools.web_search`).
 
 See [`tool-surface/`](/tool-surface/) for the full op catalog (one page per namespace, generated from the registry). All ops accept `view: { format: "json" | "markdown" }` to override the per-interface default — HTTP defaults to JSON.

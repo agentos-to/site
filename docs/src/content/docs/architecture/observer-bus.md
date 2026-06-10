@@ -50,7 +50,7 @@ Every event is a JSON object. Two flavors share the wire — **live** events fro
 
 | `phase` | `tool` examples | Notable fields |
 |---|---|---|
-| `started` | `read`, `search`, `run`, `boot`, `create`, `delete`, `accounts` | `request_id`, `skill?`, `operation`, `arguments`, `display` |
+| `started` | `read`, `search`, `run`, `create`, `delete`, `accounts` | `request_id`, `skill?`, `operation`, `arguments`, `display` |
 | `completed` | same | adds `latency_ms`, `result` |
 | `failed` | same | adds `latency_ms`, `error` |
 | `history` | `activity` | replayed past activity from `graph::observer_history`; `display.title` is the activity summary |
