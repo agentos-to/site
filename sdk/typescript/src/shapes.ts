@@ -1015,6 +1015,7 @@ export interface HealthObservation {
     distinctId?: string;
     endDate?: string;
     externalUrl?: string;
+    favicon?: string;
     flag?: string;
     icalUid?: string;
     indexedAt?: string;
@@ -2101,6 +2102,7 @@ export interface Result {
     content?: string;
     community?: string;
     externalUrl?: string;
+    favicon?: string;
     indexedAt?: string;
     postId?: string;
     resultType?: string;
@@ -2753,6 +2755,7 @@ export interface Webpage {
     content?: string;
     contentType?: string;
     error?: string;
+    favicon?: string;
     lastVisitUnix?: number;
     visitCount?: number;
 }
@@ -2951,7 +2954,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "health-condition": ["clinicalStatus", "verificationStatus", "proximity", "bodySite", "severity", "snomedCode", "icd10Code", "clinicalArea", "mitigation", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "health-immunization": ["dateAdministered", "cvxCode", "manufacturer", "lotNumber", "doseNumber", "seriesDoses", "site", "route", "diseaseTarget", "notes", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "health-lab": ["cliaNumber", "npi", "ccn", "labType", "accreditation", "industry", "actorType"],
-    "health-observation": ["value", "valueText", "refLow", "refHigh", "refText", "flag", "status", "notes", "indexedAt", "resultType", "externalUrl", "postId", "score", "similarity", "community", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
+    "health-observation": ["value", "valueText", "refLow", "refHigh", "refText", "flag", "status", "notes", "indexedAt", "resultType", "favicon", "externalUrl", "postId", "score", "similarity", "community", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "health-panel": ["panelCode", "fasting", "description", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "health-procedure": ["performedDate", "procedureType", "bodySite", "outcome", "status", "cptCode", "snomedCode", "findings", "followUp", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "health-reference-range": ["low", "high", "unit", "refText", "category", "provenance", "method", "ageLow", "ageHigh", "sex", "pregnancy", "gestationalAge", "fasting", "timeOfDay", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
@@ -2993,7 +2996,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "quote": ["context", "year"],
     "repository": ["stars", "forks", "language", "topics", "openIssues", "isArchived", "isPrivate", "defaultBranch", "license", "size"],
     "reservation": ["reservationType", "reservationId", "status", "bookingType", "bookingTime", "modifiedTime", "startTime", "endTime", "partySize", "totalAmount", "baseAmount", "taxAmount", "currency", "checkinUrl", "conditions", "voidWindowEndsAt", "availableActions", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
-    "result": ["indexedAt", "resultType", "externalUrl", "postId", "score", "similarity", "community"],
+    "result": ["indexedAt", "resultType", "favicon", "externalUrl", "postId", "score", "similarity", "community"],
     "review": ["rating", "ratingMax", "tags", "isVerified", "externalUrl", "postType", "score", "commentCount", "community"],
     "role": ["title", "department", "roleType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "seatmap": ["flightNumber", "origin", "destination", "fareBasisCode", "classOfService", "aircraftCode", "totalSeats", "availableSeats", "cabins", "tiers", "hasExitRow", "hasFreeSeats", "hasPaidSeats", "basicEconomyLocked"],
@@ -3019,7 +3022,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "user_identity": ["user_id", "volume_id", "person_node_id", "active"],
     "video": ["durationMs", "resolution", "frameRate", "codec", "viewCount", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
     "volume": ["volume_id", "kind", "address", "provider", "auto_mount", "readOnly", "removable", "totalBytes", "freeBytes", "scope", "icon", "default_view"],
-    "webpage": ["visitCount", "lastVisitUnix", "contentType", "error"],
+    "webpage": ["visitCount", "lastVisitUnix", "contentType", "favicon", "error"],
     "website": ["status", "versionId", "anonymous", "claimToken", "claimUrl"],
 };
 

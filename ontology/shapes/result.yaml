@@ -8,6 +8,7 @@ result:
   fields:
     indexedAt:        datetime  # when the search engine last crawled this
     resultType:       string    # web, image, video, news, etc.
+    favicon:           url       # the target site's favicon URL, as reported by the search engine — never derived
     externalUrl:      url       # linked URL when the result is itself a pointer to another resource
     postId:           string    # when the result points to a post — the post's id in the source platform
     score:             integer   # search relevance score / post score (if surfaced in results)

@@ -11330,6 +11330,13 @@
           "target": null
         },
         {
+          "name": "favicon",
+          "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "flag",
           "type": "string",
           "is_relation": false,
@@ -11603,6 +11610,7 @@
         "notes",
         "indexedAt",
         "resultType",
+        "favicon",
         "externalUrl",
         "postId",
         "score",
@@ -23820,6 +23828,13 @@
           "target": null
         },
         {
+          "name": "favicon",
+          "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "indexedAt",
           "type": "datetime",
           "is_relation": false,
@@ -23885,6 +23900,13 @@
           "target": null
         },
         {
+          "name": "favicon",
+          "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "externalUrl",
           "type": "url",
           "is_relation": false,
@@ -23934,11 +23956,12 @@
         }
       ],
       "source_path": "result.yaml",
-      "raw_body": "plural: results\ndisplay:\n  subtitle: url\nfields:\n  indexedAt: datetime\n  resultType: string\n  externalUrl: url\n  postId: string\n  score: integer\n  similarity: number\n  community: string\nprior_art:\n- source: OpenSearch Description Document\n  url: https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md\n  notes: \"Result-pointer model: each hit has a URL + metadata. Our resultType \\u2248\\\n    \\ Url template's type attribute.\"\n- source: Web Search API conventions (Brave/Bing)\n  url: https://api.search.brave.com/app/documentation/web-search/get-started\n  notes: Practical source. Our indexedAt/resultType align with common fields across\n    Brave, Bing, and Exa web APIs.\n",
+      "raw_body": "plural: results\ndisplay:\n  subtitle: url\nfields:\n  indexedAt: datetime\n  resultType: string\n  favicon: url\n  externalUrl: url\n  postId: string\n  score: integer\n  similarity: number\n  community: string\nprior_art:\n- source: OpenSearch Description Document\n  url: https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md\n  notes: \"Result-pointer model: each hit has a URL + metadata. Our resultType \\u2248\\\n    \\ Url template's type attribute.\"\n- source: Web Search API conventions (Brave/Bing)\n  url: https://api.search.brave.com/app/documentation/web-search/get-started\n  notes: Practical source. Our indexedAt/resultType align with common fields across\n    Brave, Bing, and Exa web APIs.\n",
       "ancestors": [],
       "field_order": [
         "indexedAt",
         "resultType",
+        "favicon",
         "externalUrl",
         "postId",
         "score",
@@ -31054,6 +31077,13 @@
           "target": null
         },
         {
+          "name": "favicon",
+          "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "lastVisitUnix",
           "type": "integer",
           "is_relation": false,
@@ -31107,6 +31137,13 @@
           "target": null
         },
         {
+          "name": "favicon",
+          "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "error",
           "type": "string",
           "is_relation": false,
@@ -31133,12 +31170,13 @@
         }
       ],
       "source_path": "webpage.yaml",
-      "raw_body": "plural: webpages\nidentity: url\ndisplay:\n  subtitle: url\nfields:\n  visitCount: integer\n  lastVisitUnix: integer\n  contentType: string\n  error: string\nprior_art:\n- source: schema.org/WebPage\n  url: https://schema.org/WebPage\n  notes: \"Our URL-as-identity matches schema.org's @id/url convention; contentType\\\n    \\ \\u2248 encodingFormat.\"\n- source: HTTP semantics (RFC 9110)\n  url: https://datatracker.ietf.org/doc/html/rfc9110\n  notes: \"Our contentType is the Content-Type response header; error \\u2248 non-2xx\\\n    \\ status text.\"\n- source: Chrome history / WebExtensions History API\n  url: https://developer.chrome.com/docs/extensions/reference/api/history\n  notes: Practical source. Our visitCount/lastVisitUnix lift from the history API's\n    VisitItem structure.\n",
+      "raw_body": "plural: webpages\nidentity: url\ndisplay:\n  subtitle: url\nfields:\n  visitCount: integer\n  lastVisitUnix: integer\n  contentType: string\n  favicon: url\n  error: string\nprior_art:\n- source: schema.org/WebPage\n  url: https://schema.org/WebPage\n  notes: \"Our URL-as-identity matches schema.org's @id/url convention; contentType\\\n    \\ \\u2248 encodingFormat.\"\n- source: HTTP semantics (RFC 9110)\n  url: https://datatracker.ietf.org/doc/html/rfc9110\n  notes: \"Our contentType is the Content-Type response header; error \\u2248 non-2xx\\\n    \\ status text.\"\n- source: Chrome history / WebExtensions History API\n  url: https://developer.chrome.com/docs/extensions/reference/api/history\n  notes: Practical source. Our visitCount/lastVisitUnix lift from the history API's\n    VisitItem structure.\n",
       "ancestors": [],
       "field_order": [
         "visitCount",
         "lastVisitUnix",
         "contentType",
+        "favicon",
         "error"
       ],
       "derived": {},

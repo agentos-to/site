@@ -16,6 +16,7 @@ pub struct Webpage {
     pub content: Option<String>,
     pub content_type: Option<String>,
     pub error: Option<String>,
+    pub favicon: Option<String>,
     pub last_visit_unix: Option<i64>,
     pub visit_count: Option<i64>,
 }
@@ -35,6 +36,7 @@ pub static WEBPAGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("content", FieldType::String),
         FieldDef::optional("contentType", FieldType::String),
         FieldDef::optional("error", FieldType::String),
+        FieldDef::optional("favicon", FieldType::Url),
         FieldDef::optional("lastVisitUnix", FieldType::Integer),
         FieldDef::optional("visitCount", FieldType::Integer),
     ],

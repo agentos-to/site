@@ -9,6 +9,7 @@ webpage:
     visitCount:       integer   # browser history visit count
     lastVisitUnix:   integer   # browser history last visit timestamp
     contentType:      string    # MIME type (e.g. text/html, text/markdown)
+    favicon:           url       # the site's favicon URL, as reported by the source — never derived
     error:             string    # error message if fetch failed
   prior_art:
     - source: schema.org/WebPage
