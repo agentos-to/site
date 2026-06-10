@@ -522,6 +522,25 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
     lines.append("];")
     lines.append("")
 
+    # Plurals.
+    lines += [
+        "// ===========================================================",
+        "// Plurals — the ontology's `plural:` per shape",
+        "// ===========================================================",
+        "",
+        "pub fn lookup_plural(shape: &str) -> Option<&'static str> {",
+        "    SHAPE_PLURALS.iter().find(|(name, _)| *name == shape).map(|(_, p)| *p)",
+        "}",
+        "",
+        "pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[",
+    ]
+    for s in shapes_sorted:
+        if not s.plural:
+            continue
+        lines.append(f'    ("{s.name}", "{s.plural}"),')
+    lines.append("];")
+    lines.append("")
+
     # Ancestors.
     lines += [
         "// ===========================================================",
