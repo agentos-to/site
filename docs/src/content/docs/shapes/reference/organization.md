@@ -21,6 +21,16 @@ can be attributed as "who" in the graph alongside people and agents.
 |---|---|
 | `industry` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `for` | [`person[]`](/shapes/reference/person/) |
+| `on` | [`domain`](/shapes/reference/domain/) |
+| `online_at` | [`website`](/shapes/reference/website/) |
+| `headquartered_at` | [`place`](/shapes/reference/place/) |
+| `subsidiary_of` | [`organization`](/shapes/reference/organization/) |
+
 ## Inherited
 
 From [`actor`](/shapes/reference/actor/):

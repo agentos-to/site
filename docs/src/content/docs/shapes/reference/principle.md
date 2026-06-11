@@ -26,6 +26,15 @@ named — the reasoning, not just the rule.
 | `domain` | `string` |
 | `status` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `held_by` | [`actor`](/shapes/reference/actor/) |
+| `supersedes` | [`principle`](/shapes/reference/principle/) |
+| `conflicts_with` | [`principle[]`](/shapes/reference/principle/) |
+| `governs` | `node` |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

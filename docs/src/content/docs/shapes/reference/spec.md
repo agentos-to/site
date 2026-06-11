@@ -22,6 +22,13 @@ State is derived from location: docs/specs/ = active, docs/specs/done/ = done.
 | `problem` | `text` |
 | `successCriteria` | `text` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `depends_on` | [`spec[]`](/shapes/reference/spec/) |
+| `supersedes` | [`spec[]`](/shapes/reference/spec/) |
+
 ## Inherited
 
 From [`task`](/shapes/reference/task/) · [`file`](/shapes/reference/file/):
@@ -60,6 +67,23 @@ From [`task`](/shapes/reference/task/) · [`file`](/shapes/reference/file/):
 | `targetDate` | `datetime` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `assigned_to` | [`person`](/shapes/reference/person/) |
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `attached_to` | [`message`](/shapes/reference/message/) |
+| `blocked_by` | [`task[]`](/shapes/reference/task/) |
+| `blocks` | [`task[]`](/shapes/reference/task/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `has_subtask` | [`task[]`](/shapes/reference/task/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `in` | [`repository`](/shapes/reference/repository/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
+| `references` | [`repository`](/shapes/reference/repository/) |
+| `subtask_of` | [`task`](/shapes/reference/task/) |
 
 ## Prior art
 

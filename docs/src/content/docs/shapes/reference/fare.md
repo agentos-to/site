@@ -66,6 +66,18 @@ is the single-letter form airlines + some rail systems use.
 | `restrictions` | `string[]` |
 | `conditions` | `json` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `priced_for` | [`trip`](/shapes/reference/trip/) |
+| `routed_through` | [`leg[]`](/shapes/reference/leg/) |
+| `derived_from` | [`offer`](/shapes/reference/offer/) |
+| `under` | [`reservation`](/shapes/reference/reservation/) |
+| `itemizes` | [`tax_line[]`](/shapes/reference/tax_line/) |
+| `earns_into` | [`membership`](/shapes/reference/membership/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

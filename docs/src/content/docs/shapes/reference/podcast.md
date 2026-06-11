@@ -19,6 +19,13 @@ A podcast series. Contains episodes. Not the audio itself — that's on the epis
 |---|---|
 | `feedUrl` | `url` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `hosted_by` | [`person[]`](/shapes/reference/person/) |
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

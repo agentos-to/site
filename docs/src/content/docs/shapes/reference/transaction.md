@@ -29,6 +29,13 @@ A financial transaction — credit card charge, bank transfer, etc.
 | `type` | `string` |
 | `details` | `json` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `posted_to` | [`financial_account`](/shapes/reference/financial_account/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -50,6 +57,14 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

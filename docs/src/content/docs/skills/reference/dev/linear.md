@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `dev` |
-| **Capabilities** | `http` |
 | **Website** | <https://linear.app> |
 
 ## Returns shapes

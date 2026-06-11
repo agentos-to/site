@@ -49,6 +49,18 @@ blocks for the field semantics.
 | `notes` | `text` |
 | `about` | `text` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `holds_account` | [`account[]`](/shapes/reference/account/) |
+| `holds_role` | [`role[]`](/shapes/reference/role/) |
+| `enrolled_in` | [`membership[]`](/shapes/reference/membership/) |
+| `holds_pass` | [`pass[]`](/shapes/reference/pass/) |
+| `holds_qualification` | [`qualification[]`](/shapes/reference/qualification/) |
+| `practices` | [`practice[]`](/shapes/reference/practice/) |
+| `online_at` | [`website`](/shapes/reference/website/) |
+
 ## Inherited
 
 From [`actor`](/shapes/reference/actor/):

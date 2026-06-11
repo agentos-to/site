@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `media` |
-| **Capabilities** | `http` |
 | **Website** | <https://news.ycombinator.com> |
 
 ## Returns shapes

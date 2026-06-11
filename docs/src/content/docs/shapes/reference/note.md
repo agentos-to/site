@@ -24,6 +24,14 @@ extracted from sources (literature notes from books, articles, videos).
 | `noteType` | `string` |
 | `isPinned` | `boolean` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `references` | [`note[]`](/shapes/reference/note/) |
+| `extracted_from` | [`webpage`](/shapes/reference/webpage/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

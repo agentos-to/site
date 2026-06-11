@@ -60,6 +60,15 @@ Nothing in the engine branches on listType either; it is a render hint.
 | `sort_by` | `string` |
 | `path` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `belongs_to` | [`account`](/shapes/reference/account/) |
+| `contains` | `node[]` |
+| `backed_by` | [`image`](/shapes/reference/image/) |
+
 ## Used as a base by
 
 - [`health-panel`](/shapes/reference/health-panel/)

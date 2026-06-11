@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `media` |
-| **Capabilities** | `http` |
 | **Website** | <https://www.moltbook.com> |
 
 ## Returns shapes

@@ -28,6 +28,14 @@ transcript, etc. Contains messages and links to participants.
 | `cwd` | `string` |
 | `gitBranch` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `contains` | [`message[]`](/shapes/reference/message/) |
+| `in` | [`list`](/shapes/reference/list/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
@@ -44,4 +52,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - [mimestream](/skills/reference/comms/mimestream/) — `list_conversations`, `get_conversation`
 - [imessage](/skills/reference/comms/imessage/) — `list_conversations`, `get_conversation`
 - [gmail](/skills/reference/comms/gmail/) — `list_conversations`, `get_conversation`
-- [whatsapp](/skills/reference/comms/whatsapp/) — `list_conversations`, `get_conversation`
+- [whatsapp](/skills/reference/comms/whatsapp/) — `list_conversations`, `get_conversation`, `mark_read`

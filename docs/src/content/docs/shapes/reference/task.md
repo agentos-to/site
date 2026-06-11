@@ -28,6 +28,19 @@ and dependency tracking (blocked_by/blocks).
 | `parentId` | `string` |
 | `projectId` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `assigned_to` | [`person`](/shapes/reference/person/) |
+| `in` | [`project`](/shapes/reference/project/) |
+| `references` | [`repository`](/shapes/reference/repository/) |
+| `subtask_of` | [`task`](/shapes/reference/task/) |
+| `has_subtask` | [`task[]`](/shapes/reference/task/) |
+| `blocked_by` | [`task[]`](/shapes/reference/task/) |
+| `blocks` | [`task[]`](/shapes/reference/task/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -49,6 +62,14 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Used as a base by
 

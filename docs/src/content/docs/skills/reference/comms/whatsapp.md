@@ -1,6 +1,6 @@
 ---
 title: WhatsApp
-description: "WhatsApp messages, contacts, and sending via live WhatsApp Web"
+description: "Full WhatsApp presence via live WhatsApp Web — read, send text and media, react, show typing, search the full server-side history"
 sidebar:
   label: whatsapp
 ---
@@ -12,9 +12,9 @@ sidebar:
 
 ## Returns shapes
 
-- [`conversation`](/shapes/reference/conversation/) — from `get_conversation`
+- [`conversation`](/shapes/reference/conversation/) — from `get_conversation`, `mark_read`
 - [`conversation[]`](/shapes/reference/conversation/) — from `list_conversations`
-- [`message`](/shapes/reference/message/) — from `get_message`, `send_message`
+- [`message`](/shapes/reference/message/) — from `get_message`, `send_message`, `send_media`
 - [`message[]`](/shapes/reference/message/) — from `list_messages`, `search_messages`
 - [`person[]`](/shapes/reference/person/) — from `list_persons`
 
@@ -22,7 +22,7 @@ sidebar:
 
 Read and send WhatsApp messages through a live WhatsApp Web tab. Ops run as
 JS payloads in the engine-owned Brave instance via the `browser_session`
-capability — the engine holds the CDP session; this skill never sees the
+service — the engine holds the CDP session; this app never sees the
 protocol. WhatsApp's own code decrypts everything; the payloads read the
 in-page Store collections.
 
@@ -50,18 +50,47 @@ Every op that takes a chat accepts a JID **or a fuzzy name substring**
 - **Group members:** `list_persons` with `conversation_id` (opens the chat
   to trigger WhatsApp's lazy participant load — takes a few seconds)
 - **Send:** `send_message` with `to` + `text`
-- **React:** `send_reaction` with `chat` + `emoji` (any Unicode emoji)
+- **Send media:** `send_media` with `to` + `path` (a blob-store path) +
+  optional `caption`; `ptt: true` sends an ogg/opus file as a voice note
+- **React:** `send_reaction` with `emoji` + either `chat` (latest
+  message) or `message_id` (that exact message)
+- **Show typing:** `send_typing` with `chat` right before a real send
+  (`kind: recording` for the mic indicator, `paused` to clear)
+- **Online dot:** `set_presence` with `state: available | unavailable`
+- **Deep search:** `search_messages` — WhatsApp's own server-side
+  search, full history; scope with `conversation_id`, walk pages with
+  `page`
+- **Mark read:** `mark_read` with `conversation_id` — read receipt +
+  badge clear on every device. Reading a chat on the user's behalf
+  isn't finished until this runs.
 
 ## Behavior notes
 
-- `search_messages` searches the **in-memory** Store — recent history per
-  chat, not the full archive. For deep history, `list_messages` the
-  conversation first to page more into memory.
+- `search_messages` runs **server-side** — the same index the Web UI's
+  search box hits, so results reach years back regardless of what's
+  loaded in memory. WhatsApp matches words/prefixes, not substrings.
+- `send_media` sends only from the engine's blob store: inbound media
+  hydrated by `get_message` is already there; stage new bytes with
+  `blobs.put`. Same 10MB eval-channel cap as inbound hydration, in the
+  opposite direction. Voice notes (`ptt: true`) need ogg/opus input.
+- Byte fidelity: WhatsApp's prep pipeline **re-encodes images** (sha
+  changes, pixels survive — verified 367×206 in/out); ogg/opus voice
+  notes pass through **byte-identical** (sha-verified round trip).
+- `send_typing` is honesty, not theater — fire it only when a real
+  send follows. WhatsApp's own decay clears it; `kind: paused` clears
+  it explicitly.
 - First op after an engine restart is slow (~10-30s): browser launch + page
   load + Store init. Warm ops run in well under a second.
 - Media messages map with `type` (`image`, `video`, `ptt`, …) and use the
   caption as `content` (never the preview thumbnail WhatsApp stores in the
-  body field); media payloads themselves are not downloaded.
+  body field). **`get_message` hydrates the payload**: the decrypted bytes
+  land in the engine blob store and the message returns with an attached
+  file entity (`attaches[0].path` is the on-disk file, typed `image` /
+  `video` / `sound` / `file`, deduped by content hash). `list_messages`
+  and live `watch` messages stay caption-only — re-read one message to
+  pull its payload. Payloads over 10MB stay un-hydrated (the bytes cross
+  the eval channel as one base64 JSON value; the worker caps a line at
+  16MB).
 - Meta AI responses (`rich_response` type) have their text extracted from
   response fragments automatically.
 - `send_message` returns the sent message entity (same shape as
@@ -70,9 +99,10 @@ Every op that takes a chat accepts a JID **or a fuzzy name substring**
 - `send_reaction` reports `dispatched`, not delivered: WhatsApp Web gives
   a headless tab no client-side echo for reactions. Check a phone if
   delivery matters.
-- `watch` survives page reloads, session drops, and browser restarts (the
-  engine re-installs the hook and reconnects with backoff). Only an engine
-  restart clears it — re-arm with one `watch` call.
+- `watch` is durable: it survives page reloads, session drops, browser
+  restarts (the engine re-installs the hook and reconnects with backoff),
+  and engine restarts (the intent persists on the graph; boot re-arms it).
+  Arm once, ever.
 - Chats are `@lid`-keyed (WhatsApp's post-2026 chat ids); groups stay
   `@g.us`. `list_persons` resolves LIDs to names + phone JIDs via Contacts.
 
@@ -91,9 +121,19 @@ Payloads use WhatsApp Web's module system: `WAWebCollections` (Chat / Msg /
 Contact), `WAWebChatLoadMessages.loadEarlierMsgs`, `WAWebSendMsgChatAction.
 addAndSendMsgToChat`, `WAWebSendReactionMsgAction.sendReactionToMsg`,
 `WAWebCmd.openChatAt`, `WAWebMsgKey.newId/fromString` (send ids),
-`WAWebUserPrefsMeUser.getMeUser` (login probe). Model fields carry the
-`__x_` prefix. If WhatsApp ships a breaking Web update, the whatsapp-web.js
-project is the reference for re-deriving module names and call shapes.
+`WAWebUserPrefsMeUser.getMeUser` (login probe),
+`WAWebChatStateBridge.sendChatStateComposing/Recording/Paused(wid)`
+(typing), `WAWebPresenceChatAction.sendPresenceAvailable/Unavailable()`
+(online dot), `Msg.search(query, page, count, remote)` (server-side
+search — positional args, 1-based page, `remote` = chat JID string or
+undefined), and the media-send pipeline `WAWebMediaOpaqueData.
+createFromData → WAWebPrepRawMedia.prepRawMedia → WAWebMediaStorage.
+getOrCreateMediaObject → WAWebMmsMediaTypes.msgToMediaType →
+WAWebMediaMmsV4Upload.uploadMedia → mediaData.set(entry) → spread
+`mediaData.toJSON()` into the full message construct`. Model fields
+carry the `__x_` prefix. If WhatsApp ships a breaking Web update, the
+whatsapp-web.js project is the reference for re-deriving module names
+and call shapes.
 
 Drift traps already survived (patterns to keep):
 
@@ -111,3 +151,26 @@ Drift traps already survived (patterns to keep):
   per-chat list (locally-sent messages land there first).
 - For media, `__x_body` holds the preview thumbnail base64 — text lives in
   `__x_caption` only.
+- **`sendSeen` takes an options object** (`{chat, threadId?,
+  afterAvailable?}`), NOT the bare chat model whatsapp-web.js passes —
+  passing the model throws `Cannot read properties of undefined
+  (reading 'markedUnread')`.
+- **Headless tabs defer read receipts**: `Stream.available` is false
+  while the tab is hidden, and `sendSeen` parks the receipt until the
+  tab becomes visible — which a headless tab never does. Pass
+  `afterAvailable: false` to send through the unavailable stream
+  immediately (`mark_read` does).
+- **`unreadCount: -1` is the manual marked-unread flag**, not a count.
+  The UI's mark-as-read clears `chat.markedUnread = false` *then* sends
+  seen; `sendSeen` alone early-returns while the flag is set.
+- **Media download is `WAWebDownloadManager.downloadManager
+  .downloadAndMaybeDecrypt({directPath, encFilehash, filehash, mediaKey,
+  mediaKeyTimestamp, type, signal, downloadQpl})`** → decrypted
+  ArrayBuffer. `downloadQpl` accepts a chainable mock (`addAnnotations`/
+  `addPoint` returning `this`). The higher-level `downloadMsg` path
+  resolves the mediaObject but parks the bytes out of reach
+  (`mediaBlob` stays null, `contentInfo.staticUrl` empty in headless).
+- **`__debug.modulesMap` only enumerates LOADED modules** —
+  `window.require` lazy-loads on demand. A module missing from the map
+  (e.g. `WAWebDownloadManager`) may still require() fine; probe by name
+  before concluding drift.

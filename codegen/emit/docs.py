@@ -277,6 +277,21 @@ def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -
     a link so generated pages never produce dead `/shapes/reference/void/` URLs.
     """
     out_dir.mkdir(parents=True, exist_ok=True)
+    # The output dir is wholly owned by this emitter — prune pages whose
+    # skill no longer exists, or a deleted skill keeps a live docs page
+    # forever.
+    live: set[Path] = set()
+    for rec in skills:
+        cat_dir = out_dir / rec["category"] if rec["category"] else out_dir
+        live.add(cat_dir / f"{rec['skill_id']}.md")
+        live.add(cat_dir / "index.md")
+    live.add(out_dir / "index.md")
+    for page in out_dir.rglob("*.md"):
+        if page not in live:
+            page.unlink()
+    for sub in sorted(out_dir.glob("*/"), reverse=True):
+        if sub.is_dir() and not any(sub.iterdir()):
+            sub.rmdir()
     # Group skills by category so we can emit per-category index pages below.
     by_cat: dict[str, list[dict]] = {}
     for rec in skills:

@@ -22,6 +22,15 @@ schema.org warns markup order is insufficient — order rides on `position`
 | `detail` | `text` |
 | `status` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `part_of` | [`flow`](/shapes/reference/flow/) |
+| `next` | [`step`](/shapes/reference/step/) |
+| `performed_by` | `node` |
+| `happens_in` | [`module`](/shapes/reference/module/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

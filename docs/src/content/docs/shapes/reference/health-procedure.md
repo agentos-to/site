@@ -50,6 +50,17 @@ CPT (billing) and SNOMED CT (clinical) both code procedures —
 | `findings` | `text` |
 | `followUp` | `text` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `treats` | [`health-condition`](/shapes/reference/health-condition/) |
+| `performed_by` | [`person`](/shapes/reference/person/) |
+| `ordered_by` | [`person`](/shapes/reference/person/) |
+| `performed_at` | [`health-lab`](/shapes/reference/health-lab/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `evidenced_by` | [`file[]`](/shapes/reference/file/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -70,6 +81,14 @@ From [`event`](/shapes/reference/event/):
 | `startDate` | `datetime` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

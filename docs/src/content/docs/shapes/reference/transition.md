@@ -78,6 +78,15 @@ From [`event`](/shapes/reference/event/):
 | `timezone` | `string` |
 | `visibility` | `string` |
 
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

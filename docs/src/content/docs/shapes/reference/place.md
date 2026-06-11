@@ -56,6 +56,14 @@ The company (Costco Inc.) is an organization. The location is a place.
 | `wikidataId` | `string` |
 | `googlePlaceId` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `branded_as` | [`organization`](/shapes/reference/organization/) |
+| `offers` | [`product[]`](/shapes/reference/product/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

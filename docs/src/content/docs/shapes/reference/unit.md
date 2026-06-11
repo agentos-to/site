@@ -66,6 +66,13 @@ count       — dimensionless tallies
 | `minorExponent` | `integer` |
 | `logBase` | `number` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `measures` | [`dimension`](/shapes/reference/dimension/) |
+| `quantifies` | [`quantity-kind[]`](/shapes/reference/quantity-kind/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

@@ -26,6 +26,15 @@ gain also: [document] in a future migration once the shape stabilizes.
 | `abstract` | `text` |
 | `tableOfContents` | `text` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `authored_by` | [`actor`](/shapes/reference/actor/) |
+| `references` | [`document[]`](/shapes/reference/document/) |
+| `cited_by` | [`document[]`](/shapes/reference/document/) |
+| `embeds` | `node[]` |
+
 ## Inherited
 
 From [`file`](/shapes/reference/file/):
@@ -41,6 +50,11 @@ From [`file`](/shapes/reference/file/):
 | `path` | `string` |
 | `sha` | `string` |
 | `size` | `integer` |
+
+| Relation | Target |
+|---|---|
+| `attached_to` | [`message`](/shapes/reference/message/) |
+| `in` | [`repository`](/shapes/reference/repository/) |
 
 ## Prior art
 

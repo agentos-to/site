@@ -1,18 +1,18 @@
 ---
 title: source
-description: "A content source — where skills, themes, shapes, and wallpapers live."
+description: "A content source — where apps, themes, shapes, and wallpapers live."
 sidebar:
   label: source
 ---
 
-A content source — where skills, themes, shapes, and wallpapers live.
+A content source — where apps, themes, shapes, and wallpapers live.
 Sources are like Cydia repos, Homebrew taps, or APT sources.
 
 Identity: address — the canonical location (filesystem path, git URL, or HTTP URL).
 Two entries pointing to the same address are the same source.
 
 Scanner tells the engine how to scan this source:
-- "agentos" scans for skills/, themes/, apps/, shapes/, wallpapers/ subdirs
+- "agentos" scans for apps/, themes/, apps/, shapes/, wallpapers/ subdirs
 - Future: homebrew, apt, synology, etc.
 
 Renamed from `platform` to `scanner` to free `platform` from this overload —
@@ -34,6 +34,12 @@ Renamed from `platform` to `scanner` to free `platform` from this overload —
 | `enabled` | `boolean` |
 | `description` | `text` |
 | `lastSynced` | `datetime` |
+
+## Relations
+
+| Relation | Target |
+|---|---|
+| `in` | [`list`](/shapes/reference/list/) |
 
 ## Prior art
 

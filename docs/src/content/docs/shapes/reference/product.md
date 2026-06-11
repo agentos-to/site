@@ -7,7 +7,7 @@ sidebar:
 
 A purchasable item OR an identifiable product released into the world.
 Base type for book, aircraft, hardware, software.
-Cross-skill: Amazon products, Uber Eats grocery items, any retail catalog,
+Cross-app: Amazon products, Uber Eats grocery items, any retail catalog,
 operating systems (Windows XP, Mac OS 9), aircraft types (Boeing 737),
 books (any ISBN), cited code libraries (XP.css, 98.css).
 
@@ -20,7 +20,7 @@ Lifecycle fields (released, discontinued) are context-dependent:
 (Boeing 707: released 1958-10-26, discontinued 1979-01-01)
 - book:            released = publication date; discontinued = "out of print"
 - retail product:  released = first sold; discontinued = stopped selling
-A single field family captures all of these. Skills/apps can interpret
+A single field family captures all of these. Apps/apps can interpret
 discontinued meaning per product-type via the product's `also:` shape membership.
 
 | Metadata | Value |
@@ -56,6 +56,16 @@ discontinued meaning per product-type via the product's `also:` shape membership
 | `calories` | `number` |
 | `servingSize` | `string` |
 | `customizationGroups` | `json` |
+
+## Relations
+
+| Relation | Target |
+|---|---|
+| `branded_as` | [`brand`](/shapes/reference/brand/) |
+| `manufactured_by` | [`organization`](/shapes/reference/organization/) |
+| `created_by` | [`actor[]`](/shapes/reference/actor/) |
+| `inspired_by` | [`product[]`](/shapes/reference/product/) |
+| `tagged_with` | [`tag[]`](/shapes/reference/tag/) |
 
 ## Used as a base by
 

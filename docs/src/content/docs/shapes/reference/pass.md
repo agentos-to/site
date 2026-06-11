@@ -61,6 +61,19 @@ name = human-readable pass type ("Fitness 10-Pack", "Day Pass",
 | `terminal` | `string` |
 | `checkinStatus` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `held_via` | [`account`](/shapes/reference/account/) |
+| `held_by` | [`person`](/shapes/reference/person/) |
+| `granted_by` | [`membership`](/shapes/reference/membership/) |
+| `instance_of` | [`product`](/shapes/reference/product/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `valid_for` | [`leg`](/shapes/reference/leg/) |
+| `under` | [`reservation`](/shapes/reference/reservation/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -81,6 +94,13 @@ From [`event`](/shapes/reference/event/):
 | `startDate` | `datetime` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

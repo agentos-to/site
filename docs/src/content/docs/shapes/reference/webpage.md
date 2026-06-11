@@ -37,4 +37,3 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - [brave-browser](/skills/reference/browsers/brave-browser/) — `list_webpages`, `search_webpages`
 - [firecrawl](/skills/reference/web/firecrawl/) — `read_webpage`
 - [exa](/skills/reference/web/exa/) — `read_webpage`
-- [curl](/skills/reference/web/curl/) — `read_webpage`

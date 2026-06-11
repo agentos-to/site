@@ -39,6 +39,12 @@ is emergent; there is no level field.
 | `codeSystem` | `string` |
 | `aliases` | `string[]` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `specialization_of` | [`practice`](/shapes/reference/practice/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

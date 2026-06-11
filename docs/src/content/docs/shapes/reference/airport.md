@@ -26,6 +26,13 @@ An airport. Created from flight search results and linked to flights.
 | `elevationFt` | `integer` |
 | `terminalCount` | `integer` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `operated_by` | [`organization`](/shapes/reference/organization/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

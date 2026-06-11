@@ -52,6 +52,15 @@ Bachelor of Surgery", "FRCS (Edinburgh)", "California Medical License".
 | `validIn` | `string` |
 | `verificationUrl` | `url` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `held_by` | [`person`](/shapes/reference/person/) |
+| `granted_by` | [`organization`](/shapes/reference/organization/) |
+| `governed_by` | [`organization`](/shapes/reference/organization/) |
+| `in` | [`practice`](/shapes/reference/practice/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

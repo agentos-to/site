@@ -63,6 +63,16 @@ content = full description from the provider (often rich markdown).
 | `useCount` | `integer` |
 | `guestPassQuantity` | `integer` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `held_via` | [`account`](/shapes/reference/account/) |
+| `for` | [`person`](/shapes/reference/person/) |
+| `under` | [`product`](/shapes/reference/product/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -83,6 +93,13 @@ From [`event`](/shapes/reference/event/):
 | `startDate` | `datetime` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

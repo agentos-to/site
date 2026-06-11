@@ -1,0 +1,93 @@
+---
+title: blobs.*
+description: "blobs.* ops — the content-addressed blob store at ~/.agentos/blobs."
+sidebar:
+  label: blobs
+---
+
+blobs.* ops — the content-addressed blob store at ~/.agentos/blobs.
+
+Engine-owned bytes on disk; graph nodes reference blobs by the returned
+path (a file-shaped node's `path` field). Apps hand the engine base64
+and the engine owns placement, hashing, and dedup — no app ever
+invents a path into the user's state dir. Handlers live in
+agentos-exec-executors.
+
+## `blobs.put`
+
+Store base64 bytes content-addressed under ~/.agentos/blobs; returns path, sha256, size.
+
+| Metadata | Value |
+|---|---|
+| **Service** | `blobs` |
+
+### Request
+
+| Field | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `data` | `string` | **yes** |  | Base64-encoded bytes to store. |
+| `ext` | `string` | no | `'bin'` | File extension (no dot), e.g. jpg, ogg, pdf. |
+
+### Response
+
+| Field | Type | Description |
+|---|---|---|
+| `path` | `string` | Absolute path of the stored blob. |
+| `sha256` | `string` | SHA-256 of the bytes, hex. |
+| `size` | `u64` | Byte length of the decoded payload. |
+
+### Notes
+
+```text
+Store bytes in the engine's content-addressed blob store:
+`~/.agentos/blobs/<sha256[0:2]>/<sha256>.<ext>`. Identical bytes land
+on the same path, so re-storing is a free no-op — dedup by
+construction. The returned absolute path is what a file-shaped graph
+node carries in its `path` field.
+
+Args:
+    data: base64-encoded bytes.
+    ext: filename extension (no dot); names the stored file.
+
+Returns:
+    path, sha256, size of the stored blob.
+```
+
+## `blobs.get`
+
+Read one blob back from ~/.agentos/blobs by absolute path; returns base64 data, sha256, size.
+
+| Metadata | Value |
+|---|---|
+| **Service** | `blobs` |
+
+### Request
+
+| Field | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `path` | `string` | **yes** |  | Absolute path inside ~/.agentos/blobs. |
+
+### Response
+
+| Field | Type | Description |
+|---|---|---|
+| `data` | `string` | Base64-encoded bytes of the blob. |
+| `sha256` | `string` | SHA-256 of the bytes, hex. |
+| `size` | `u64` | Byte length of the blob. |
+
+### Notes
+
+```text
+Read bytes back from the engine's content-addressed blob store —
+the read half of `blobs.put`, behind the same policy gate. The
+path must resolve inside `~/.agentos/blobs`; the engine refuses
+anything else, so an app can only ever read bytes the store
+already owns — never an arbitrary file.
+
+Args:
+    path: absolute blob-store path (from `blobs.put`, or the
+        `path` field of a hydrated attachment).
+
+Returns:
+    data (base64), sha256, size of the blob.
+```

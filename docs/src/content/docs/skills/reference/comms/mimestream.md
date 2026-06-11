@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `comms` |
-| **Capabilities** | `http`, `plist`, `secrets`, `sql` |
 | **Website** | <https://mimestream.com> |
 
 ## Returns shapes

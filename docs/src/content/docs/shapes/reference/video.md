@@ -18,6 +18,7 @@ file (the bytes on disk, with a specific codec / resolution).
 |---|---|
 | **Plural** | `videos` |
 | **Subtitle field** | `author` |
+| **Identity (any)** | `sha`, `url` |
 | **Also** | [`creative_work`](/shapes/reference/creative_work/) · [`file`](/shapes/reference/file/) |
 
 ## Fields
@@ -29,6 +30,14 @@ file (the bytes on disk, with a specific codec / resolution).
 | `frameRate` | `number` |
 | `codec` | `string` |
 | `viewCount` | `integer` |
+
+## Relations
+
+| Relation | Target |
+|---|---|
+| `on` | [`channel`](/shapes/reference/channel/) |
+| `transcribed_by` | [`transcript`](/shapes/reference/transcript/) |
+| `added_to` | [`playlist`](/shapes/reference/playlist/) |
 
 ## Inherited
 
@@ -52,6 +61,15 @@ From [`creative_work`](/shapes/reference/creative_work/) · [`file`](/shapes/ref
 | `sha` | `string` |
 | `size` | `integer` |
 | `tags` | `string[]` |
+
+| Relation | Target |
+|---|---|
+| `attached_to` | [`message`](/shapes/reference/message/) |
+| `contributed_by` | [`person[]`](/shapes/reference/person/) |
+| `held_by` | [`person`](/shapes/reference/person/) |
+| `in` | [`repository`](/shapes/reference/repository/) |
+| `published_by` | [`actor`](/shapes/reference/actor/) |
+| `written_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

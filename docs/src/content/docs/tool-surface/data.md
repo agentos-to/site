@@ -12,7 +12,7 @@ Query and mutate graph entities.
 ## Ops
 
 - [`read`](#read) — Read one node (or link) by id
-- [`list`](#list) — List nodes by shape, user_tag, name match, FTS via `q`, system metadata, or skill membership
+- [`list`](#list) — List nodes by shape, user_tag, name match, FTS via `q`, system metadata, or app membership
 - [`update`](#update) — Set or delete vals on an existing node
 - [`create`](#create) — Create a node (`{shape, name?, vals?, identity?}`), or a relationship (`{from, label, to}`)
 - [`delete`](#delete) — Soft-delete a node or relationship
@@ -117,7 +117,7 @@ read({ id: "roadmap", volume: "agentos-roadmap", depth: 4 })
 
 ## `list`
 
-List nodes by shape, user_tag, name match, FTS via `q`, system metadata, or skill membership.
+List nodes by shape, user_tag, name match, FTS via `q`, system metadata, or app membership.
 
 ### Examples
 
@@ -133,10 +133,14 @@ list({ about: "shapes" })
 ```json
 {
   "additionalProperties": false,
-  "description": "Pass exactly one of shape | user_tag | name | about | skill | q. The handler rejects empty calls.",
+  "description": "Pass exactly one of shape | user_tag | name | about | app | q. The handler rejects empty calls.",
   "properties": {
     "about": {
       "description": "Engine introspection (e.g. \"shapes\").",
+      "type": "string"
+    },
+    "app": {
+      "description": "List entities (or app manifest with type=\"entity\") for this app.",
       "type": "string"
     },
     "limit": {
@@ -170,12 +174,8 @@ list({ about: "shapes" })
         }
       ]
     },
-    "skill": {
-      "description": "List entities (or skill manifest with type=\"entity\") for this skill.",
-      "type": "string"
-    },
     "type": {
-      "description": "Modifier for `skill`: list entities (vs. the skill manifest).",
+      "description": "Modifier for `app`: list entities (vs. the app manifest).",
       "enum": [
         "entity"
       ],

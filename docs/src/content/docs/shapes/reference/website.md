@@ -6,7 +6,7 @@ sidebar:
 ---
 
 A published website (not a single page — see webpage for that).
-Websites are created/managed by the here.now publishing skill.
+Websites are created/managed by the here.now publishing app.
 
 | Metadata | Value |
 |---|---|
@@ -23,6 +23,13 @@ Websites are created/managed by the here.now publishing skill.
 | `anonymous` | `boolean` |
 | `claimToken` | `string` |
 | `claimUrl` | `url` |
+
+## Relations
+
+| Relation | Target |
+|---|---|
+| `on` | [`domain`](/shapes/reference/domain/) |
+| `owned_by` | [`organization`](/shapes/reference/organization/) |
 
 ## Prior art
 

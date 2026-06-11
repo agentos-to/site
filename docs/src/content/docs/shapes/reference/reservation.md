@@ -77,6 +77,23 @@ over them in the UI.
 | `voidWindowEndsAt` | `datetime` |
 | `availableActions` | `string[]` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `covers_trip` | [`trip[]`](/shapes/reference/trip/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `for` | [`event`](/shapes/reference/event/) |
+| `accommodates` | [`person[]`](/shapes/reference/person/) |
+| `booked_for` | [`person`](/shapes/reference/person/) |
+| `booked_under` | [`account`](/shapes/reference/account/) |
+| `brokered_by` | [`actor`](/shapes/reference/actor/) |
+| `enrolled_in` | [`membership`](/shapes/reference/membership/) |
+| `placed_via` | [`order`](/shapes/reference/order/) |
+| `issued_pass` | [`pass[]`](/shapes/reference/pass/) |
+| `derived_from` | [`offer`](/shapes/reference/offer/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -97,6 +114,13 @@ From [`event`](/shapes/reference/event/):
 | `startDate` | `datetime` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

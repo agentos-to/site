@@ -25,6 +25,18 @@ just a post that replies_to another post. Reviews extend post via `also`.
 | `commentCount` | `integer` |
 | `community` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `posted_by` | [`account`](/shapes/reference/account/) |
+| `published_in` | [`community`](/shapes/reference/community/) |
+| `replies_to` | [`post`](/shapes/reference/post/) |
+| `replies` | [`post[]`](/shapes/reference/post/) |
+| `contains` | [`video[]`](/shapes/reference/video/) |
+| `shows` | [`image[]`](/shapes/reference/image/) |
+
 ## Used as a base by
 
 - [`review`](/shapes/reference/review/)

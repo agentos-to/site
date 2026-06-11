@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `dev` |
-| **Capabilities** | `shell` |
 | **Website** | <https://github.com> |
 
 ## Returns shapes

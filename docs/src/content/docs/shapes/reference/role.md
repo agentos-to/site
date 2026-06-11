@@ -22,6 +22,13 @@ Links a person to an organization with a time range.
 | `department` | `string` |
 | `roleType` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `held_by` | [`person`](/shapes/reference/person/) |
+| `within_org` | [`organization`](/shapes/reference/organization/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -43,6 +50,15 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

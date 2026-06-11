@@ -15,7 +15,7 @@ invites, Google Calendar event invites, Linear team invites — all the same sha
 Identity: [platform, id] — one node per platform+invite combo. The id is
 typically the invite token or a platform-specific invite id.
 
-invitationType is an open vocabulary — skills set whatever makes sense:
+invitationType is an open vocabulary — apps set whatever makes sense:
 "organization", "workspace", "team", "repository", "event", "channel", etc.
 
 Standard fields (inherited): id, name, url, image, published, content
@@ -41,6 +41,15 @@ published = when the invitation was created/sent.
 | `revokedAt` | `datetime` |
 | `message` | `text` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `extended_by` | [`account`](/shapes/reference/account/) |
+| `extended_to` | [`account`](/shapes/reference/account/) |
+| `within_org` | [`organization`](/shapes/reference/organization/) |
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -61,6 +70,14 @@ From [`event`](/shapes/reference/event/):
 | `startDate` | `datetime` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

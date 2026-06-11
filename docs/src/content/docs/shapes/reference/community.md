@@ -22,6 +22,12 @@ An online community — a subreddit, Facebook group, or similar.
 | `subscriberCount` | `integer` |
 | `allowCrypto` | `boolean` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

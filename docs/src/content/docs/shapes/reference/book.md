@@ -34,6 +34,12 @@ User-specific state (rating, shelf, dates) and platform metrics are modeled as l
 | `characters` | `string[]` |
 | `awardsWon` | `string[]` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `contributed_by` | [`person[]`](/shapes/reference/person/) |
+
 ## Inherited
 
 From [`creative_work`](/shapes/reference/creative_work/) · [`product`](/shapes/reference/product/):
@@ -69,6 +75,17 @@ From [`creative_work`](/shapes/reference/creative_work/) · [`product`](/shapes/
 | `weight` | `string` |
 | `weightUnit` | `string` |
 | `weightValue` | `number` |
+
+| Relation | Target |
+|---|---|
+| `branded_as` | [`brand`](/shapes/reference/brand/) |
+| `created_by` | [`actor[]`](/shapes/reference/actor/) |
+| `held_by` | [`person`](/shapes/reference/person/) |
+| `inspired_by` | [`product[]`](/shapes/reference/product/) |
+| `manufactured_by` | [`organization`](/shapes/reference/organization/) |
+| `published_by` | [`actor`](/shapes/reference/actor/) |
+| `tagged_with` | [`tag[]`](/shapes/reference/tag/) |
+| `written_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `ai` |
-| **Capabilities** | `http` |
 | **Website** | <https://openrouter.ai> |
 
 ## Returns shapes

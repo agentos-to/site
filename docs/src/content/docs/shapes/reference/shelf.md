@@ -19,6 +19,12 @@ A bookshelf. Shelves are lists that contain books instead of generic products.
 |---|---|
 | `isExclusive` | `boolean` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `contains` | [`book[]`](/shapes/reference/book/) |
+
 ## Inherited
 
 From [`list`](/shapes/reference/list/):
@@ -38,6 +44,12 @@ From [`list`](/shapes/reference/list/):
 | `path` | `string` |
 | `privacy` | `string` |
 | `sort_by` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `backed_by` | [`image`](/shapes/reference/image/) |
+| `belongs_to` | [`account`](/shapes/reference/account/) |
 
 ## Prior art
 

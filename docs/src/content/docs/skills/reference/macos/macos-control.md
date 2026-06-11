@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `macos` |
-| **Capabilities** | `shell` |
 | **Website** | <https://www.apple.com/macos/> |
 
 ## Returns shapes

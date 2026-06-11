@@ -54,6 +54,16 @@ something found, with find-time metadata.
 | `status` | `string` |
 | `notes` | `text` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `measures` | [`health-biomarker`](/shapes/reference/health-biomarker/) |
+| `part_of` | [`health-panel`](/shapes/reference/health-panel/) |
+| `evaluated_against` | [`health-reference-range`](/shapes/reference/health-reference-range/) |
+| `documented_in` | [`file`](/shapes/reference/file/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+
 ## Inherited
 
 From [`result`](/shapes/reference/result/) · [`event`](/shapes/reference/event/):
@@ -82,6 +92,14 @@ From [`result`](/shapes/reference/result/) · [`event`](/shapes/reference/event/
 | `startDate` | `datetime` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

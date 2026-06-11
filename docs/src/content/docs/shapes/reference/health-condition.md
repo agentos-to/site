@@ -52,6 +52,13 @@ join key (asthma = 195967001). ICD-10-CM is the billing/diagnosis code.
 | `clinicalArea` | `string` |
 | `mitigation` | `text` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `evidenced_by` | [`file[]`](/shapes/reference/file/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -73,6 +80,14 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

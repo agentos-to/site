@@ -27,6 +27,15 @@ any agent framework that records tool use.
 | `isError` | `boolean` |
 | `durationMs` | `integer` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `on` | [`product`](/shapes/reference/product/) |
+| `invoked_by` | [`actor`](/shapes/reference/actor/) |
+| `in` | [`message`](/shapes/reference/message/) |
+| `replies_to` | [`tool_call`](/shapes/reference/tool_call/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

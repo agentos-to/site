@@ -3,19 +3,19 @@ title: Shapes
 description: "Every shape in the AgentOS ontology. Browse all 81, or follow a tag chain."
 ---
 
-The AgentOS ontology — **111** shapes. Each shape defines what an entity *is* (fields, relations, display hints). Shapes can extend other shapes via `also:`, which makes that shape a **tag** on the entity — a person is also an actor; a book is also a product.
+The AgentOS ontology — **112** shapes. Each shape defines what an entity *is* (fields, relations, display hints). Shapes can extend other shapes via `also:`, which makes that shape a **tag** on the entity — a person is also an actor; a book is also a product.
 
 See [Overview](/shapes/overview/) for the tactical reference and [Shape design principles](/shapes/shape-design-principles/) for the rules.
 
 ## All shapes
 
 - [`account`](/shapes/reference/account/) — A user's presence within a namespace — their GitHub handle, Gmail address,
-- [`activity`](/shapes/reference/activity/) — also `event` — An immutable change event — a graph mutation, skill run, search, or load
+- [`activity`](/shapes/reference/activity/) — also `event` — An immutable change event — a graph mutation, app run, search, or load
 - [`actor`](/shapes/reference/actor/) — Base type for anything that can be attributed as "who did this" in the graph
 - [`aircraft`](/shapes/reference/aircraft/) — also `product` — An aircraft type (not an individual plane). Linked from flight search results
 - [`airline`](/shapes/reference/airline/) — also `organization` — A commercial airline. Created from flight search results
 - [`airport`](/shapes/reference/airport/) — An airport. Created from flight search results and linked to flights
-- [`app`](/shapes/reference/app/) — An application — something the shell can spawn as a window. Includes
+- [`app`](/shapes/reference/app/) — An application — the one installable, launchable unit. System apps
 - [`birth`](/shapes/reference/birth/) — also `event` — A person's birth. The canonical event recording given/family names,
 - [`book`](/shapes/reference/book/) — also `creative_work`, `product` — A book. Books are BOTH creative works (the intellectual work — its
 - [`booking_offer`](/shapes/reference/booking_offer/) — also `event` — A signed, itemized, fully-priced commitment presented to a human for
@@ -95,14 +95,15 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`result`](/shapes/reference/result/) — A search result — a pointer to something found. Not the thing itself
 - [`review`](/shapes/reference/review/) — also `post` — A user review of a product. Reviews are also posts, so they carry engagement metrics
 - [`role`](/shapes/reference/role/) — also `event` — A person's position at an organization (job title, board seat, etc.)
-- [`seatmap`](/shapes/reference/seatmap/) — A seat map for a specific flight + cabin, returned by an airline skill
+- [`seatmap`](/shapes/reference/seatmap/) — A seat map for a specific flight + cabin, returned by an airline app
+- [`service`](/shapes/reference/service/) — A service — a named interface the engine brokers between strangers
 - [`shelf`](/shapes/reference/shelf/) — also `list` — A bookshelf. Shelves are lists that contain books instead of generic products
-- [`skill`](/shapes/reference/skill/) — A connected service/integration in agentOS. Each skill provides tools
 - [`software`](/shapes/reference/software/) — also `product` — A software product — operating system, application, library, icon pack,
 - [`sound`](/shapes/reference/sound/) — also `creative_work`, `file` — An audio clip — startup chimes, error beeps, notification dings,
-- [`source`](/shapes/reference/source/) — A content source — where skills, themes, shapes, and wallpapers live
+- [`source`](/shapes/reference/source/) — A content source — where apps, themes, shapes, and wallpapers live
 - [`spec`](/shapes/reference/spec/) — also `task`, `file` — A spec — a design document describing work to be done
 - [`step`](/shapes/reference/step/) — One ordered act within a flow. A first-class node, not an array slot:
+- [`subscription`](/shapes/reference/subscription/) — A standing subscription — a durable intent to stream live entities, re-armed on every engine boot
 - [`symbol`](/shapes/reference/symbol/) — A code symbol — one named thing in a source surface: an MCP tool/op, a
 - [`tag`](/shapes/reference/tag/) — A tag or label — Gmail label, Todoist label, GitHub label, git tag,
 - [`task`](/shapes/reference/task/) — also `event` — A work item — issue, ticket, or to-do. Supports hierarchy (parent/children)

@@ -25,6 +25,12 @@ An aircraft type (not an individual plane). Linked from flight search results.
 | `iataCode` | `string` |
 | `icaoCode` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `manufactured_by` | [`organization`](/shapes/reference/organization/) |
+
 ## Inherited
 
 From [`product`](/shapes/reference/product/):
@@ -54,6 +60,13 @@ From [`product`](/shapes/reference/product/):
 | `weight` | `string` |
 | `weightUnit` | `string` |
 | `weightValue` | `number` |
+
+| Relation | Target |
+|---|---|
+| `branded_as` | [`brand`](/shapes/reference/brand/) |
+| `created_by` | [`actor[]`](/shapes/reference/actor/) |
+| `inspired_by` | [`product[]`](/shapes/reference/product/) |
+| `tagged_with` | [`tag[]`](/shapes/reference/tag/) |
 
 ## Prior art
 

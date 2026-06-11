@@ -44,6 +44,12 @@ the observable ONLY; it never carries a range.
 | `analyteType` | `string` |
 | `description` | `text` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `part_of` | [`health-panel[]`](/shapes/reference/health-panel/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

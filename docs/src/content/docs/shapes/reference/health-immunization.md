@@ -41,6 +41,14 @@ capture position in a series ("dose 2 of 3").
 | `diseaseTarget` | `string` |
 | `notes` | `text` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `administered_at` | [`health-lab`](/shapes/reference/health-lab/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `evidenced_by` | [`file[]`](/shapes/reference/file/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -62,6 +70,14 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

@@ -32,6 +32,16 @@ it calls — cross-links are the product, not a flat dump.
 | `sourcePath` | `string` |
 | `sourceLine` | `integer` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `returns` | `node` |
+| `calls` | [`symbol`](/shapes/reference/symbol/) |
+| `called_by` | [`symbol`](/shapes/reference/symbol/) |
+| `see` | [`document`](/shapes/reference/document/) |
+| `documents` | `node` |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

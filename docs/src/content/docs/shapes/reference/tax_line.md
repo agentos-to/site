@@ -64,6 +64,18 @@ refundable by law; merchant surcharges often are not.
 | `taxableAmount` | `number` |
 | `inclusive` | `boolean` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `applies_to` | [`fare`](/shapes/reference/fare/) |
+| `derived_from` | [`offer`](/shapes/reference/offer/) |
+| `under` | [`reservation`](/shapes/reference/reservation/) |
+| `for` | [`leg`](/shapes/reference/leg/) |
+| `imposed_by` | [`actor`](/shapes/reference/actor/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

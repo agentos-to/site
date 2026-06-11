@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `logistics` |
-| **Capabilities** | `http` |
 | **Website** | <https://uber.com> |
 
 ## Returns shapes

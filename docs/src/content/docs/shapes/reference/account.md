@@ -42,6 +42,19 @@ persists, the link persists with it.
 | `issuer` | `string` |
 | `metadata` | `json` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `accessed_via` | [`product`](/shapes/reference/product/) |
+| `operated_by` | [`actor`](/shapes/reference/actor/) |
+| `speaks_protocol` | [`protocol`](/shapes/reference/protocol/) |
+| `owned_by` | [`person`](/shapes/reference/person/) |
+| `authenticated_via` | [`account`](/shapes/reference/account/) |
+| `succeeds` | [`account[]`](/shapes/reference/account/) |
+| `followed_by` | [`account[]`](/shapes/reference/account/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

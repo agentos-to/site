@@ -8,5 +8,4 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `macos` |
-| **Capabilities** | `shell`, `sql` |
 | **Website** | <https://support.apple.com/guide/keychain-access> |

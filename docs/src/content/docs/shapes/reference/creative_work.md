@@ -42,6 +42,15 @@ pickers or per-file provenance ship.
 | `coverage` | `string` |
 | `tags` | `string[]` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `written_by` | [`person`](/shapes/reference/person/) |
+| `published_by` | [`actor`](/shapes/reference/actor/) |
+| `contributed_by` | [`person[]`](/shapes/reference/person/) |
+| `held_by` | [`person`](/shapes/reference/person/) |
+
 ## Used as a base by
 
 - [`book`](/shapes/reference/book/)

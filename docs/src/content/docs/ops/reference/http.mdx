@@ -16,7 +16,7 @@ Stateless HTTP op. SDK callers use client.get/post/… — this op is their shar
 
 | Metadata | Value |
 |---|---|
-| **Capability** | `http` |
+| **Service** | `http` |
 | **Flags** | `trace_span` |
 | **Audit log** | `response/status` → `status`, `response/body_length` → `body_length`, `response/content_encoding` → `enc` |
 
@@ -48,7 +48,7 @@ Stateless HTTP op. SDK callers use client.get/post/… — this op is their shar
 
 ```text
 Stateless HTTP op. Every verb-dispatched SDK method (`client.get`,
-`client.post`, …) routes through this; skill code does not call
+`client.post`, …) routes through this; app code does not call
 `http.request` directly. No cookie-jar state survives between calls —
 the SDK's ambient Jar serializes cookies into the request's Cookie:
 header and feeds Set-Cookie responses back into itself.

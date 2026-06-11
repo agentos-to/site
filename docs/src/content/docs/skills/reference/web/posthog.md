@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `web` |
-| **Capabilities** | `http` |
 | **Website** | <https://posthog.com> |
 
 ## Returns shapes

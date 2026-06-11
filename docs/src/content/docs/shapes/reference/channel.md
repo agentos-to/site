@@ -20,6 +20,12 @@ A content channel — typically a YouTube channel. Videos are uploaded to channe
 | `banner` | `url` |
 | `subscriberCount` | `integer` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

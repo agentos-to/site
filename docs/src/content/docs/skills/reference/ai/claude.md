@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `ai` |
-| **Capabilities** | `http`, `secrets`, `shell` |
 | **Website** | <https://claude.ai> |
 
 ## Returns shapes

@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `macos` |
-| **Capabilities** | `shell` |
 | **Website** | <https://support.apple.com/guide/keychain-access> |
 
 ## Returns shapes

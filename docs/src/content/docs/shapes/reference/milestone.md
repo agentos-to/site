@@ -25,6 +25,14 @@ checkpoint specifics — when it was actually reached, and what counts as done.
 | `reachedAt` | `datetime` |
 | `criterion` | `text` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `part_of` | `node` |
+| `blocked_by` | [`milestone[]`](/shapes/reference/milestone/) |
+| `completes` | `node[]` |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -46,6 +54,15 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

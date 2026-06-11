@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `comms` |
-| **Capabilities** | `shell`, `sql` |
 | **Website** | <https://support.apple.com/messages> |
 
 ## Returns shapes

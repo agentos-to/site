@@ -52,6 +52,18 @@ Train journey = trip         |  each train boarded = leg
 | `marketplace` | `string` |
 | `vehicle` | `json` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `starts_at` | [`place`](/shapes/reference/place/) |
+| `ends_at` | [`place`](/shapes/reference/place/) |
+| `routed_through` | [`leg[]`](/shapes/reference/leg/) |
+| `operated_by` | [`organization`](/shapes/reference/organization/) |
+| `driven_by` | [`person`](/shapes/reference/person/) |
+| `placed_via` | [`order`](/shapes/reference/order/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -72,6 +84,14 @@ From [`event`](/shapes/reference/event/):
 | `startDate` | `datetime` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

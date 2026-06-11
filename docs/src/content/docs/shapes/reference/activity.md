@@ -1,11 +1,11 @@
 ---
 title: activity
-description: "An immutable change event — a graph mutation, skill run, search, or load."
+description: "An immutable change event — a graph mutation, app run, search, or load."
 sidebar:
   label: activity
 ---
 
-An immutable change event — a graph mutation, skill run, search, or load.
+An immutable change event — a graph mutation, app run, search, or load.
 Fields for what happened, relations for who/what/where.
 
 | Metadata | Value |
@@ -23,6 +23,13 @@ Fields for what happened, relations for who/what/where.
 | `toolName` | `string` |
 | `duration` | `number` |
 | `success` | `boolean` |
+
+## Relations
+
+| Relation | Target |
+|---|---|
+| `in` | [`mcp_session`](/shapes/reference/mcp_session/) |
+| `filed_in` | [`list`](/shapes/reference/list/) |
 
 ## Inherited
 
@@ -45,6 +52,15 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

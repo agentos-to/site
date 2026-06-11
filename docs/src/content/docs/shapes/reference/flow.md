@@ -24,6 +24,15 @@ order is insufficient; BPMN orders via sequence flow).
 | `trigger` | `string` |
 | `status` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `involves` | `node[]` |
+| `has_step` | [`step[]`](/shapes/reference/step/) |
+| `serves` | `node[]` |
+| `produces` | `node` |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

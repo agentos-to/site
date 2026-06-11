@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `dev` |
-| **Capabilities** | `http`, `shell`, `sql` |
 | **Website** | <https://cursor.com> |
 
 ## Returns shapes

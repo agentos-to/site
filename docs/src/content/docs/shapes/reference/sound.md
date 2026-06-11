@@ -22,7 +22,7 @@ license) and the file artifact (size, mimeType).
 |---|---|
 | **Plural** | `sounds` |
 | **Subtitle field** | `purpose` |
-| **Identity (any)** | `url` |
+| **Identity (any)** | `sha`, `url` |
 | **Also** | [`creative_work`](/shapes/reference/creative_work/) · [`file`](/shapes/reference/file/) |
 
 ## Fields
@@ -57,6 +57,15 @@ From [`creative_work`](/shapes/reference/creative_work/) · [`file`](/shapes/ref
 | `sha` | `string` |
 | `size` | `integer` |
 | `tags` | `string[]` |
+
+| Relation | Target |
+|---|---|
+| `attached_to` | [`message`](/shapes/reference/message/) |
+| `contributed_by` | [`person[]`](/shapes/reference/person/) |
+| `held_by` | [`person`](/shapes/reference/person/) |
+| `in` | [`repository`](/shapes/reference/repository/) |
+| `published_by` | [`actor`](/shapes/reference/actor/) |
+| `written_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

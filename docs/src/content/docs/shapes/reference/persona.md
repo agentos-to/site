@@ -26,6 +26,14 @@ product/UX design, marketing segmentation, service design.
 | `reachesFor` | `text` |
 | `quote` | `text` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `parent` | [`persona`](/shapes/reference/persona/) |
+| `represents` | `node` |
+| `targets` | `node` |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

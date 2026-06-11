@@ -26,6 +26,13 @@ a changelog entry, a release note. The universal "what changed" record.
 | `phase` | `string` |
 | `version` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `modifies` | `node` |
+| `derived_from` | [`change`](/shapes/reference/change/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

@@ -53,6 +53,17 @@ Domain relations auto-extracted from sender/recipient addresses.
 | `authResults` | `string` |
 | `bodyHtml` | `text` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `sent_by` | [`account`](/shapes/reference/account/) |
+| `addressed_to` | [`account[]`](/shapes/reference/account/) |
+| `copied_to` | [`account[]`](/shapes/reference/account/) |
+| `blind_copied_to` | [`account[]`](/shapes/reference/account/) |
+| `on` | [`domain`](/shapes/reference/domain/) |
+| `tagged_with` | [`tag[]`](/shapes/reference/tag/) |
+
 ## Inherited
 
 From [`message`](/shapes/reference/message/):
@@ -60,6 +71,13 @@ From [`message`](/shapes/reference/message/):
 | Field | Type |
 |---|---|
 | `isOutgoing` | `boolean` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `attaches` | [`file[]`](/shapes/reference/file/) |
+| `in` | [`conversation`](/shapes/reference/conversation/) |
+| `replies_to` | [`message`](/shapes/reference/message/) |
 
 ## Prior art
 

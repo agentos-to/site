@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `media` |
-| **Capabilities** | `http`, `shell` |
 | **Website** | <https://facebook.com> |
 
 ## Returns shapes

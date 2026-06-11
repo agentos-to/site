@@ -43,6 +43,12 @@ separate nodes + links, and knob var-groups are frontend-only code.
 | `startMenu` | `string` |
 | `defaultBackgroundColor` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `represents` | [`product`](/shapes/reference/product/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

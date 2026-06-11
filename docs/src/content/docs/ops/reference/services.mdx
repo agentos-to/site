@@ -1,0 +1,87 @@
+---
+title: services.*
+description: "services.* ops — generic service dispatch."
+sidebar:
+  label: services
+---
+
+services.* ops — generic service dispatch.
+
+Apps never name each other. Consumers ask for a service; the engine
+walks the apps providing it, picks one (the service node's
+`defaults_to` app first, then the usual ranking), dispatches.
+
+## `services.call`
+
+Match an app providing service `name` and dispatch its tool, returning the tool's result unchanged.
+
+| Metadata | Value |
+|---|---|
+| **Flags** | `trace_span` |
+
+### Request
+
+| Field | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `name` | `string` | **yes** |  | Service name to match. |
+| `verb` | `string?` | no |  | Tool-name override; defaults to the provider's declared via. |
+| `params` | `json` | no | `None` | Parameters for the picked tool. Passed through unchanged. |
+| `app` | `string?` | no |  | App-id override; forces a specific provider. |
+
+### Response
+
+Returns `json` — The picked tool's return value, unchanged — no envelope.
+
+### Notes
+
+```text
+Matchmake a provider for service `name` and dispatch `verb` on it.
+The tool's return value is passed through unchanged — no envelope.
+
+Used by SDK wrappers (`credentials.retrieve`, `llm.oneshot`, etc.)
+and by apps that consume a service across app boundaries without
+naming the provider.
+
+Args:
+    name: service name (e.g. `"login_credentials"`, `"llm"`).
+    verb: tool to invoke on the picked provider. Defaults to the
+          provider's declared `via`.
+    params: parameters forwarded to the picked tool, unchanged.
+    app: optional app-id override; forces a specific provider.
+
+Returns:
+    The picked tool's return value, unchanged.
+```
+
+## `services.list_providers`
+
+List every app providing service `name` with its ranking and credential state.
+
+### Request
+
+| Field | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `name` | `string` | **yes** |  | Service name to enumerate providers for. |
+| `model` | `string?` | no |  | Optional model filter for llm service matches. |
+
+### Response
+
+| Field | Type | Description |
+|---|---|---|
+| `providers` | `provider[]` | All apps providing `name`, ranked. |
+
+### Notes
+
+```text
+Enumerate apps that provide service `name`. Returns the ranked
+candidate list without dispatching any tool — useful for
+introspection, provider selection, or iterating providers with
+per-provider fallback logic in app code.
+
+Args:
+    name: service name.
+    model: optional model filter for `llm` service matches.
+
+Returns:
+    `{providers: [{app_id, via, cred_state, urls?}, ...]}`.
+```

@@ -7,7 +7,7 @@ sidebar:
 
 crypto.* ops — key derivation and symmetric decryption.
 
-Used almost exclusively by browser skills decrypting stored cookies.
+Used almost exclusively by browser apps decrypting stored cookies.
 Handlers live in agentos-exec-executors.
 
 ## `crypto.pbkdf2`
@@ -16,7 +16,7 @@ PBKDF2-HMAC-SHA1 key derivation. Returns hex-encoded bytes.
 
 | Metadata | Value |
 |---|---|
-| **Capability** | `crypto` |
+| **Service** | `crypto` |
 
 ### Request
 
@@ -34,7 +34,7 @@ Returns `bytes` — Derived key.
 ### Notes
 
 ```text
-PBKDF2-HMAC-SHA1 key derivation. Used by browser skills to reproduce
+PBKDF2-HMAC-SHA1 key derivation. Used by browser apps to reproduce
 Chrome's Safe Storage key stretch.
 
 Args:
@@ -52,7 +52,7 @@ AES-128-CBC decrypt. Key/data/iv are hex. Returns hex plaintext.
 
 | Metadata | Value |
 |---|---|
-| **Capability** | `crypto` |
+| **Service** | `crypto` |
 
 ### Request
 

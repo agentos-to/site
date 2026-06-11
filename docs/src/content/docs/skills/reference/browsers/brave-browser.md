@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `browsers` |
-| **Capabilities** | `crypto`, `http`, `secrets`, `shell`, `sql` |
 | **Website** | <https://brave.com> |
 
 ## Returns shapes

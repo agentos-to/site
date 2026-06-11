@@ -60,6 +60,13 @@ interval that lab considered valid in 2014, not today's.
 | `fasting` | `boolean` |
 | `timeOfDay` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `measures` | [`health-biomarker`](/shapes/reference/health-biomarker/) |
+| `issued_by` | [`health-lab`](/shapes/reference/health-lab/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -81,6 +88,15 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

@@ -42,6 +42,14 @@ kinds of node.
 | `factor` | `number` |
 | `rate` | `number` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `converts_from` | [`unit`](/shapes/reference/unit/) |
+| `converts_to` | [`unit`](/shapes/reference/unit/) |
+| `depends_on` | `node` |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -63,6 +71,15 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

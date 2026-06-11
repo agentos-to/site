@@ -41,6 +41,14 @@ node persists.
 | `cardType` | `string` |
 | `interestRate` | `number` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `accessed_via` | [`account`](/shapes/reference/account/) |
+| `owned_by` | [`person`](/shapes/reference/person/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

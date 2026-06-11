@@ -33,6 +33,14 @@ From [`organization`](/shapes/reference/organization/):
 | `actorType` | `string` |
 | `industry` | `string` |
 
+| Relation | Target |
+|---|---|
+| `for` | [`person[]`](/shapes/reference/person/) |
+| `headquartered_at` | [`place`](/shapes/reference/place/) |
+| `on` | [`domain`](/shapes/reference/domain/) |
+| `online_at` | [`website`](/shapes/reference/website/) |
+| `subsidiary_of` | [`organization`](/shapes/reference/organization/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

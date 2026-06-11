@@ -57,11 +57,20 @@ From [`event`](/shapes/reference/event/):
 | `timezone` | `string` |
 | `visibility` | `string` |
 
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.
 
-- **[SpaceX r/SpaceX API v4](https://github.com/r-spacex/SpaceX-API)** — Original source of these fields. The fly-by-night-launch.com skill maps the v4 launches endpoint onto this shape; the per-booster landing outcomes JSON mirrors that API's `cores` sub-document.
+- **[SpaceX r/SpaceX API v4](https://github.com/r-spacex/SpaceX-API)** — Original source of these fields. The fly-by-night-launch.com app maps the v4 launches endpoint onto this shape; the per-booster landing outcomes JSON mirrors that API's `cores` sub-document.
 
 ## Skills that produce this shape
 

@@ -1,11 +1,11 @@
 ---
 title: seatmap
-description: "A seat map for a specific flight + cabin, returned by an airline skill."
+description: "A seat map for a specific flight + cabin, returned by an airline app."
 sidebar:
   label: seatmap
 ---
 
-A seat map for a specific flight + cabin, returned by an airline skill.
+A seat map for a specific flight + cabin, returned by an airline app.
 
 A seatmap is the RENDERABLE STATE of a cabin at a moment in time:
 which seats exist, which are available, their prices, and the
@@ -41,7 +41,7 @@ shape; we follow.
 
 Identity: the tuple (flight, fareBasisCode) — a seatmap is scoped to
 one flight AND one fare (different fares yield different eligibility).
-id is a synthetic string the skill composes.
+id is a synthetic string the app composes.
 
 | Metadata | Value |
 |---|---|
@@ -66,6 +66,15 @@ id is a synthetic string the skill composes.
 | `hasFreeSeats` | `boolean` |
 | `hasPaidSeats` | `boolean` |
 | `basicEconomyLocked` | `boolean` |
+
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `for` | [`flight`](/shapes/reference/flight/) |
+| `flown_with` | [`aircraft`](/shapes/reference/aircraft/) |
+| `under` | [`reservation`](/shapes/reference/reservation/) |
 
 ## Skills that produce this shape
 

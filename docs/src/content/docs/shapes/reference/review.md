@@ -22,6 +22,13 @@ A user review of a product. Reviews are also posts, so they carry engagement met
 | `tags` | `string[]` |
 | `isVerified` | `boolean` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `reviews` | [`product`](/shapes/reference/product/) |
+| `posted_by` | [`account`](/shapes/reference/account/) |
+
 ## Inherited
 
 From [`post`](/shapes/reference/post/):
@@ -33,6 +40,15 @@ From [`post`](/shapes/reference/post/):
 | `externalUrl` | `url` |
 | `postType` | `string` |
 | `score` | `integer` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `contains` | [`video[]`](/shapes/reference/video/) |
+| `published_in` | [`community`](/shapes/reference/community/) |
+| `replies` | [`post[]`](/shapes/reference/post/) |
+| `replies_to` | [`post`](/shapes/reference/post/) |
+| `shows` | [`image[]`](/shapes/reference/image/) |
 
 ## Prior art
 

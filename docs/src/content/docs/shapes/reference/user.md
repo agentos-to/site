@@ -36,6 +36,12 @@ the rest.
 | `osUsername` | `string` |
 | `primaryUser` | `boolean` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `identified_as` | [`person`](/shapes/reference/person/) |
+
 ## Inherited
 
 From [`actor`](/shapes/reference/actor/):

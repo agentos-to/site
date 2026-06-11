@@ -26,6 +26,14 @@ An offer wraps one or more flights into a bookable unit.
 | `bookingToken` | `string` |
 | `departureToken` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `offered_for` | [`product`](/shapes/reference/product/) |
+| `offered_by` | [`organization`](/shapes/reference/organization/) |
+| `covers_trip` | [`trip[]`](/shapes/reference/trip/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -47,6 +55,15 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

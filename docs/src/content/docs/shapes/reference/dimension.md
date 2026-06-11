@@ -47,6 +47,12 @@ engine can do dimension arithmetic (multiply = add the vectors, divide
 | `luminous` | `integer` |
 | `dimensionless` | `boolean` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `has_base_unit` | [`unit`](/shapes/reference/unit/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

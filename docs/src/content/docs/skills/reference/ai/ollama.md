@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `ai` |
-| **Capabilities** | `http`, `shell` |
 | **Website** | <https://ollama.com> |
 
 ## Returns shapes

@@ -13,7 +13,7 @@ encrypted in the credentials table, addressed by `storeRowId`. This
 node carries only metadata — domain, identifier, itemType, timestamps,
 provenance links — and nothing secret. Descriptor reads are cheap
 (graph traversal), decryption is on demand (SDK's `auth_store.read`
-by identifier, after the vault system skill returns the descriptor).
+by identifier, after the vault system app returns the descriptor).
 
 Identity is `(domain, identifier, itemType)` — one node per
 distinct credential, matching the unique-row constraint on the
@@ -39,6 +39,13 @@ pair describe the same credential; whichever writes last wins).
 | `lastVerified` | `datetime` |
 | `refreshable` | `boolean` |
 | `storeRowId` | `integer` |
+
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`organization`](/shapes/reference/organization/) |
+| `written_by` | [`app`](/shapes/reference/app/) |
 
 ## Prior art
 

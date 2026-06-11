@@ -25,6 +25,14 @@ encapsulates and what it depends on. The universal part-of-a-system shape.
 | `status` | `string` |
 | `planned` | `boolean` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `part_of` | `node` |
+| `has_part` | [`module[]`](/shapes/reference/module/) |
+| `depends_on` | [`module[]`](/shapes/reference/module/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

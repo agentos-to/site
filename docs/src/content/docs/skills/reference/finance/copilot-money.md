@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `finance` |
-| **Capabilities** | `sql` |
 | **Website** | <https://copilot.money> |
 
 ## Returns shapes

@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `fitness` |
-| **Capabilities** | `http` |
 | **Website** | <https://boulderingproject.portal.approach.app> |
 
 ## Returns shapes

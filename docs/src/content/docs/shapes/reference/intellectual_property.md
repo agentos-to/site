@@ -54,6 +54,14 @@ stage; the milestone links carry the dated history.
 | `renewalPeriod` | `string` |
 | `verificationUrl` | `url` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `held_by` | [`actor`](/shapes/reference/actor/) |
+| `granted_by` | [`organization`](/shapes/reference/organization/) |
+| `covers` | [`creative_work`](/shapes/reference/creative_work/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

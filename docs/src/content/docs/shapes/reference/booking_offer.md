@@ -95,6 +95,27 @@ booking_offer itself stays domain-neutral: it's a priced commitment.
 | `contactEmail` | `string` |
 | `contactPhone` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `derived_from` | [`offer`](/shapes/reference/offer/) |
+| `covers_trip` | [`trip[]`](/shapes/reference/trip/) |
+| `reserves` | [`pass[]`](/shapes/reference/pass/) |
+| `bought_by` | [`person[]`](/shapes/reference/person/) |
+| `accommodates` | [`person[]`](/shapes/reference/person/) |
+| `booked_for` | [`person`](/shapes/reference/person/) |
+| `paid_with` | [`payment_method`](/shapes/reference/payment_method/) |
+| `billed_to` | [`place`](/shapes/reference/place/) |
+| `priced_at` | [`fare[]`](/shapes/reference/fare/) |
+| `itemizes` | [`tax_line[]`](/shapes/reference/tax_line/) |
+| `booked_under` | [`account`](/shapes/reference/account/) |
+| `tied_to` | [`membership`](/shapes/reference/membership/) |
+| `brokered_by` | [`actor`](/shapes/reference/actor/) |
+| `realized_as` | [`reservation`](/shapes/reference/reservation/) |
+| `settled_as` | [`transaction`](/shapes/reference/transaction/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -115,6 +136,14 @@ From [`event`](/shapes/reference/event/):
 | `startDate` | `datetime` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

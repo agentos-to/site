@@ -37,6 +37,12 @@ resolves a miss. One bookmark per target → at most one handle per node.
 | `name` | `string` |
 | `handle` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `points_to` | `node` |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

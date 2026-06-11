@@ -27,6 +27,13 @@ capacity, and is typically part of a recurring schedule.
 | `spotsRemaining` | `integer` |
 | `isFull` | `boolean` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `taught_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -48,6 +55,14 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

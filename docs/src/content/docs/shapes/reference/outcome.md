@@ -28,6 +28,16 @@ clinical outcome measures, a roadmap end-state. NOT schema.org/result
 | `current` | `string` |
 | `target` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `depends_on` | [`outcome[]`](/shapes/reference/outcome/) |
+| `advances` | [`milestone`](/shapes/reference/milestone/) |
+| `upholds` | [`principle[]`](/shapes/reference/principle/) |
+| `serves` | `node[]` |
+| `owns` | `node[]` |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

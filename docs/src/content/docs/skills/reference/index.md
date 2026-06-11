@@ -3,7 +3,7 @@ title: Skills index
 description: "Every skill in the AgentOS catalog. Browse all or filter by category."
 ---
 
-The AgentOS skill catalog — **46** skills across **15** categories. Each skill is a Python adapter that connects to a service or provides a pure agent capability.
+The AgentOS skill catalog — **45** skills across **15** categories. Each skill is a Python adapter that connects to a service or provides a pure agent capability.
 
 See [Skills → Overview](/skills/overview/) for how to build one.
 
@@ -27,7 +27,7 @@ See [Skills → Overview](/skills/overview/) for how to build one.
 - [**Gmail**](/skills/reference/comms/gmail/) — Full-featured Gmail — read, search, send, reply, forward, label, archive, draft, attachments, filters, and batch operations. Auth can use the shared `google` OAuth capability when a provider integration is available
 - [**iMessage**](/skills/reference/comms/imessage/) — Send and read iMessages and SMS from macOS Messages app
 - [**Mimestream**](/skills/reference/comms/mimestream/) — Read and search email from Mimestream, a native macOS email client for Gmail
-- [**WhatsApp**](/skills/reference/comms/whatsapp/) — WhatsApp messages, contacts, and sending via live WhatsApp Web
+- [**WhatsApp**](/skills/reference/comms/whatsapp/) — Full WhatsApp presence via live WhatsApp Web — read, send text and media, react, show typing, search the full server-side history
 
 ## [dev](/skills/reference/dev/)
 
@@ -92,7 +92,6 @@ See [Skills → Overview](/skills/overview/) for how to build one.
 ## [web](/skills/reference/web/)
 
 - [**Brave Search**](/skills/reference/web/brave/) — Privacy-focused web search with independent index
-- [**Curl**](/skills/reference/web/curl/) — Simple URL fetching using curl (no API key needed)
 - [**Exa**](/skills/reference/web/exa/) — Semantic web search and content extraction
 - [**Firecrawl**](/skills/reference/web/firecrawl/) — Read webpages with browser rendering for JS-heavy sites
 - [**PostHog**](/skills/reference/web/posthog/) — Product analytics — events, persons, and session recordings

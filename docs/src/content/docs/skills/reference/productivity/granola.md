@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `productivity` |
-| **Capabilities** | `http` |
 | **Website** | <https://granola.ai> |
 
 ## Returns shapes

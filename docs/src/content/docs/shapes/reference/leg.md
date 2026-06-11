@@ -35,6 +35,16 @@ A direct Uber ride is one leg. A multi-stop Uber ride has one leg per stop pair.
 | `tracePointCount` | `integer` |
 | `polyline` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `starts_at` | [`place`](/shapes/reference/place/) |
+| `ends_at` | [`place`](/shapes/reference/place/) |
+| `operated_by` | [`organization`](/shapes/reference/organization/) |
+| `flown_with` | [`aircraft`](/shapes/reference/aircraft/) |
+| `in` | [`trip`](/shapes/reference/trip/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -56,6 +66,15 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Used as a base by
 

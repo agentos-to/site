@@ -13,6 +13,12 @@ A video playlist. Playlists are lists that contain videos instead of products.
 | **Subtitle field** | `text` |
 | **Also** | [`list`](/shapes/reference/list/) |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `contains` | [`video[]`](/shapes/reference/video/) |
+
 ## Inherited
 
 From [`list`](/shapes/reference/list/):
@@ -32,6 +38,12 @@ From [`list`](/shapes/reference/list/):
 | `path` | `string` |
 | `privacy` | `string` |
 | `sort_by` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `backed_by` | [`image`](/shapes/reference/image/) |
+| `belongs_to` | [`account`](/shapes/reference/account/) |
 
 ## Prior art
 

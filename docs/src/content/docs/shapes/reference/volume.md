@@ -7,7 +7,7 @@ sidebar:
 
 A mounted Volume — any named source of typed nodes the engine has
 attached to the Registry: a `.db` memex file, a YAML text volume, or a
-transport volume served live by a skill (the host filesystem, a USB
+transport volume served live by an app (the host filesystem, a USB
 stick, a browser's data). The home graph is the always-mounted
 writeable Volume; it is the hardcoded constant. Every OTHER mount IS a
 `volume` node — one row per mount, persisted so the mount survives

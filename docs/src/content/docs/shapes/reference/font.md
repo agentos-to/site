@@ -52,6 +52,13 @@ From [`creative_work`](/shapes/reference/creative_work/):
 | `license` | `string` |
 | `tags` | `string[]` |
 
+| Relation | Target |
+|---|---|
+| `contributed_by` | [`person[]`](/shapes/reference/person/) |
+| `held_by` | [`person`](/shapes/reference/person/) |
+| `published_by` | [`actor`](/shapes/reference/actor/) |
+| `written_by` | [`person`](/shapes/reference/person/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

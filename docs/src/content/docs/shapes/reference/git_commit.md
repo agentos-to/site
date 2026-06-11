@@ -25,6 +25,15 @@ A git commit — a single point in version control history.
 | `filesChanged` | `integer` |
 | `committedAt` | `datetime` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `authored_by` | [`account`](/shapes/reference/account/) |
+| `committed_by` | [`account`](/shapes/reference/account/) |
+| `in` | [`repository`](/shapes/reference/repository/) |
+| `derived_from` | [`git_commit`](/shapes/reference/git_commit/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -46,6 +55,15 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

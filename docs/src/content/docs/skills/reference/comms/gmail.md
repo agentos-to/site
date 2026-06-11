@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `comms` |
-| **Capabilities** | `http` |
 | **Website** | <https://mail.google.com> |
 
 ## Returns shapes

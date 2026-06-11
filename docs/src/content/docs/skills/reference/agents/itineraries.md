@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `agents` |
-| **Capabilities** | `http` |
 
 ## Returns shapes
 

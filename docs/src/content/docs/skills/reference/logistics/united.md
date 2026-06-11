@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `logistics` |
-| **Capabilities** | `http` |
 | **Website** | <https://www.united.com> |
 
 ## Returns shapes

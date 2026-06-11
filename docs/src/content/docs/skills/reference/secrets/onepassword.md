@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `secrets` |
-| **Capabilities** | `shell` |
 | **Website** | <https://1password.com/> |
 
 ## Returns shapes

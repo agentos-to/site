@@ -40,6 +40,14 @@ no single FHIR resource (closest is a definitional ServiceRequest).
 | `fasting` | `boolean` |
 | `description` | `text` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `performed_at` | [`health-lab`](/shapes/reference/health-lab/) |
+| `documented_in` | [`file`](/shapes/reference/file/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+
 ## Inherited
 
 From [`list`](/shapes/reference/list/) · [`event`](/shapes/reference/event/):
@@ -74,6 +82,17 @@ From [`list`](/shapes/reference/list/) · [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `backed_by` | [`image`](/shapes/reference/image/) |
+| `belongs_to` | [`account`](/shapes/reference/account/) |
+| `contains` | `node[]` |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

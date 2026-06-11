@@ -8,7 +8,6 @@ sidebar:
 | Metadata | Value |
 |---|---|
 | **Category** | `hosting` |
-| **Capabilities** | `http` |
 | **Website** | <https://porkbun.com> |
 
 ## Returns shapes

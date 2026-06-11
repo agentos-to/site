@@ -25,6 +25,12 @@ Querying by "event" returns meetings too.
 | `phoneDialIn` | `string` |
 | `meetingType` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `transcribed_by` | [`transcript`](/shapes/reference/transcript/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -46,6 +52,15 @@ From [`event`](/shapes/reference/event/):
 | `status` | `string` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

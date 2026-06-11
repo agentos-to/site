@@ -24,6 +24,15 @@ A nonstop itinerary has one flight. A connection has multiple flights.
 | `stops` | `integer` |
 | `carbonEmissions` | `json` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `operated_by` | [`airline`](/shapes/reference/airline/) |
+| `departs_from` | [`airport`](/shapes/reference/airport/) |
+| `arrives_at` | [`airport`](/shapes/reference/airport/) |
+| `flown_with` | [`aircraft`](/shapes/reference/aircraft/) |
+
 ## Inherited
 
 From [`leg`](/shapes/reference/leg/):
@@ -54,6 +63,18 @@ From [`leg`](/shapes/reference/leg/):
 | `tracePointCount` | `integer` |
 | `vehicleType` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `ends_at` | [`place`](/shapes/reference/place/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `in` | [`trip`](/shapes/reference/trip/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
+| `starts_at` | [`place`](/shapes/reference/place/) |
 
 ## Prior art
 

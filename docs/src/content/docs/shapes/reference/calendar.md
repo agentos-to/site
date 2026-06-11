@@ -27,6 +27,14 @@ A calendar — container for events.
 | `source` | `string` |
 | `timezone` | `string` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `owned_by` | [`person`](/shapes/reference/person/) |
+| `schedules` | [`event[]`](/shapes/reference/event/) |
+
 ## Prior art
 
 External standards this shape draws from or aligns with. See [Shape design principles](/shapes/shape-design-principles/) for how prior art informs shape design.

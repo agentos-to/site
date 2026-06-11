@@ -49,6 +49,17 @@ Per-subtype fields live on subtype shapes:
 | `currentUrl` | `string` |
 | `properties` | `json` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `concerns` | [`person`](/shapes/reference/person/) |
+
 ## Used as a base by
 
 - [`activity`](/shapes/reference/activity/)

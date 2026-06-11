@@ -48,6 +48,17 @@ Used for both e-commerce (Amazon) and delivery (Uber Eats) orders.
 | `progress` | `number` |
 | `progressTotal` | `number` |
 
+## Relations
+
+| Relation | Target |
+|---|---|
+| `at_namespace` | [`actor`](/shapes/reference/actor/) |
+| `contains` | [`product[]`](/shapes/reference/product/) |
+| `shipped_to` | [`place`](/shapes/reference/place/) |
+| `purchased_at` | [`place`](/shapes/reference/place/) |
+| `delivered_via` | [`trip`](/shapes/reference/trip/) |
+| `tracked_at` | [`webpage`](/shapes/reference/webpage/) |
+
 ## Inherited
 
 From [`event`](/shapes/reference/event/):
@@ -68,6 +79,14 @@ From [`event`](/shapes/reference/event/):
 | `startDate` | `datetime` |
 | `timezone` | `string` |
 | `visibility` | `string` |
+
+| Relation | Target |
+|---|---|
+| `concerns` | [`person`](/shapes/reference/person/) |
+| `created_by` | [`person`](/shapes/reference/person/) |
+| `held_at` | [`place`](/shapes/reference/place/) |
+| `involves` | [`person[]`](/shapes/reference/person/) |
+| `organized_by` | [`person`](/shapes/reference/person/) |
 
 ## Prior art
 

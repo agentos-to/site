@@ -13,6 +13,7 @@ Base type for image. Covers repo files (GitHub, Cursor), email attachments
 |---|---|
 | **Plural** | `files` |
 | **Subtitle field** | `path` |
+| **Identity (any)** | `sha`, `url` |
 
 ## Fields
 
@@ -27,6 +28,13 @@ Base type for image. Covers repo files (GitHub, Cursor), email attachments
 | `lineCount` | `integer` |
 | `kind` | `string` |
 | `sha` | `string` |
+
+## Relations
+
+| Relation | Target |
+|---|---|
+| `attached_to` | [`message`](/shapes/reference/message/) |
+| `in` | [`repository`](/shapes/reference/repository/) |
 
 ## Used as a base by
 
