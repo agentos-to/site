@@ -2,21 +2,16 @@
 
 Each connection is a client. There are three kinds: a browser, a fetch,
 and an API client. The connection picks the kind via ``client="…"``;
-apps write ``await client.get("/path")`` and everything else — the
-ambient cookie jar, the matching header bundle, the base URL — is
-supplied by the ``Client`` the worker built from ``__call__.connection``
-at tool entry.
+apps write ``await client.get("/path")`` and the matching header bundle
+is composed from the call's ``client="browser" | "fetch" | "api"`` kind.
 
-Per-call overrides exist for the rare (≤5%) case where a single
-request inside a tool genuinely needs to break from the connection's
-defaults:
+Per-call overrides exist for the rare case where a single request
+inside a tool needs to break from the connection's defaults:
 
     await client.get(url, client="fetch")     # XHR-style for one call
-    await client.get(url, incognito=True)     # bypass jar seed + writeback
-    await client.get(url, headers={...})      # merge on top of bundle
-
-``client.current()`` is the one debug/RE introspection hook. Apps
-never import ``_current_client``.
+    await client.get(url, headers={...})       # merge on top of bundle
+    await client.get(url, skip_cookies=[...])  # strip named cookies from
+                                               # a caller-supplied Cookie:
 """
 
 from __future__ import annotations
@@ -24,7 +19,6 @@ from __future__ import annotations
 import json as _json
 import urllib.parse as _urllib_parse
 
-from agentos import _jar
 from agentos._bridge import dispatch
 
 
@@ -135,64 +129,50 @@ def _prepare_body(json=None, data=None, body=None, headers=None):
 
 
 async def _request(method: str, url: str, **kwargs) -> dict:
-    """Serialize SDK kwargs into an ``http.request`` envelope, attach
-    cookies + header bundle from the ambient ``Client``, dispatch, and
-    feed any ``Set-Cookie`` response headers back into the same live jar.
+    """Serialize SDK kwargs into an ``http.request`` envelope, attach the
+    header bundle for the call's client kind, and dispatch.
 
     Per-call overrides:
-      - ``client="browser" | "fetch" | "api"`` overrides the connection's
-        kind for this one call (including header bundle; jar usage still
-        controlled by ``incognito``).
-      - ``incognito=True`` skips both jar read and jar write for this
-        call — third-party fetches shouldn't send the authed session's
-        cookies, and nothing they return should persist.
+      - ``client="browser" | "fetch" | "api"`` selects the header bundle
+        for this call. ``api`` (the default) ships no bundle.
       - ``headers={...}`` merge on top of the bundle (caller wins).
-      - ``skip_cookies=["name", ...]`` filters specific cookie names from
-        the outbound Cookie: header. The jar still stores them, and
-        responses still update them — the filter is send-only. Used by
-        Amazon to strip ``csd-key`` / ``csm-hit`` / ``aws-waf-token``
-        which trip Lightsaber bot detection on first request."""
+      - ``skip_cookies=["name", ...]`` strips specific cookie names from
+        a caller-supplied ``Cookie:`` header before send. Used by Amazon
+        to drop ``csd-key`` / ``csm-hit`` / ``aws-waf-token``, which trip
+        Lightsaber bot detection."""
     json_body = kwargs.pop("json", None)
     data = kwargs.pop("data", None)
     body = kwargs.pop("body", None)
     headers = kwargs.pop("headers", None)
-    kind_override = kwargs.pop("client", None)
-    incognito = kwargs.pop("incognito", False)
+    kind = kwargs.pop("client", None)
     skip_cookies = kwargs.pop("skip_cookies", None) or ()
 
     out_body, caller_headers = _prepare_body(
         json=json_body, data=data, body=body, headers=headers
     )
 
-    ambient = _jar._current_client.get()
-    kind = kind_override or (ambient.connection.get("client") if ambient else None)
-
     # Compose headers: bundle < caller. (Same-key caller entry wins.)
     bundle = _bundle_for(kind)
     merged_headers = {**bundle, **caller_headers}
 
-    # Jar read: attach Cookie: header if we have a live jar and the
-    # caller didn't supply their own. Skipped for incognito and for
-    # stateless api calls (jar is None).
-    use_jar = (
-        not incognito
-        and ambient is not None
-        and ambient.jar is not None
-    )
-    if use_jar:
-        cookie_header = ambient.jar.cookie_header_for(url)
-        if cookie_header and skip_cookies:
+    # Strip named cookies from a caller-supplied Cookie: header.
+    if skip_cookies:
+        cookie_header = next(
+            (v for k, v in merged_headers.items() if k.lower() == "cookie"),
+            None,
+        )
+        if cookie_header:
             skip_set = set(skip_cookies)
             parts = [p for p in (part.strip() for part in cookie_header.split(";")) if p]
-            cookie_header = "; ".join(
+            filtered = "; ".join(
                 p for p in parts if p.split("=", 1)[0] not in skip_set
             )
-        if cookie_header:
-            # Fold into the request's Cookie: header. The engine's
-            # http.request op no longer grows a separate cookies= kwarg
-            # — cookies are just a header, same as every other header
-            # after this refactor.
-            merged_headers.setdefault("Cookie", cookie_header)
+            for k in list(merged_headers):
+                if k.lower() == "cookie":
+                    if filtered:
+                        merged_headers[k] = filtered
+                    else:
+                        del merged_headers[k]
 
     envelope = {"method": method, "url": url, **kwargs}
     if out_body is not None:
@@ -200,31 +180,7 @@ async def _request(method: str, url: str, **kwargs) -> dict:
     if merged_headers:
         envelope["headers"] = merged_headers
 
-    resp = await dispatch("http.request", envelope)
-
-    if use_jar:
-        _ingest_set_cookie(ambient.jar, url, resp)
-
-    return resp
-
-
-def _ingest_set_cookie(jar: _jar.Jar, url: str, resp: dict) -> None:
-    """Pull Set-Cookie out of the response (case-insensitively, since the
-    engine echoes whatever casing wreq produced) and hand it to the jar.
-    One header value per call; multi-cookie flattening is handled by the
-    engine's header capture layer — if/when it grows list support, this
-    already tolerates either shape."""
-    headers = resp.get("headers") or {}
-    if not isinstance(headers, dict):
-        return
-    raw: str | list[str] | None = None
-    for k, v in headers.items():
-        if k.lower() == "set-cookie":
-            raw = v
-            break
-    if not raw:
-        return
-    jar.ingest(url, raw)
+    return await dispatch("http.request", envelope)
 
 
 # ---------------------------------------------------------------------------
@@ -267,37 +223,3 @@ async def patch(url: str, **kwargs) -> dict:
 async def head(url: str, **kwargs) -> dict:
     """HTTP HEAD."""
     return await _request("HEAD", url, **kwargs)
-
-
-# ---------------------------------------------------------------------------
-# Introspection — the sole public accessor for the ambient Client.
-# ---------------------------------------------------------------------------
-
-
-def current() -> _jar.Client | None:
-    """Return the currently-ambient ``Client``, or ``None`` if called
-    outside a tool invocation. Used for debug and reverse-engineering
-    only — app logic shouldn't branch on this."""
-    return _jar._current_client.get()
-
-
-def cookie(name: str) -> str | None:
-    """Look up a single cookie's value in the ambient Jar by name.
-
-    Returns ``None`` if no cookie with that name is set, or if called
-    outside a tool invocation, or on an ``api``-kind connection (no
-    jar). Intended for the rare case where app logic needs to read
-    a specific cookie (e.g. NextAuth's ``lastActiveOrg`` hint) — the
-    Cookie: header rides automatically on ``client.get/post``.
-
-    When multiple jar entries share a name (same name, different
-    domain/path), returns the value of whichever the jar yields first.
-    Most callers want a specific name scoped to their domain, which
-    this gives them."""
-    ambient = _jar._current_client.get()
-    if ambient is None or ambient.jar is None:
-        return None
-    for c in ambient.jar.cookies:
-        if c.name == name:
-            return c.value
-    return None

@@ -1389,8 +1389,7 @@ _REMOVED_MODULE_HINTS: dict[str, str] = {
     "http": (
         "removed — use `client.get/post/put/delete/patch/head` for "
         "network verbs and `url.build/parse/encode/decode` for URL "
-        "string math. Cookies ride the ambient Jar via the "
-        "connection's `client=` value."
+        "string math."
     ),
 }
 
