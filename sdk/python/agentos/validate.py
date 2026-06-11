@@ -1964,7 +1964,7 @@ def check_account_trio(app_dir: Path) -> list[str]:
             f"{rel}:{lineno}: `{name}` is @account.login but no op is "
             f"@account.logout. Every app that can log in must be able to "
             f"log out — server-side revoke is what makes logout more than "
-            f"a local-cache delete. See docs/.../apps/adding-login.md."
+            f"a local-cache delete. See apps-adding-login on the system volume."
         )
     return issues
 

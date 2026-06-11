@@ -7,6 +7,10 @@ project into. One ontology, one generator, one repo.
 GitHub remote: `agentos-to/site`. Sits at `~/dev/agentos/platform/`
 alongside `core/`, `apps/`, `commons/`.
 
+Narrative docs live on the engine's **system volume**
+(`core/system-docs/`), not here — agentos.to returns as a
+static-exported read-only AgentOS instance (change-static-export).
+
 ## Layout
 
 ```
@@ -24,10 +28,9 @@ platform/
 │   ├── emit/                  one dumb projection per target
 │   ├── sdk_client.py          engine-client emitter
 │   └── tool_surface.py        tool-surface docs emitter
-├── sdk/
-│   ├── python/            the `agentos` package — Python App SDK
-│   └── rust/              generated Rust shape tree
-└── docs/                  Astro site → agentos.to
+└── sdk/
+    ├── python/            the `agentos` package — Python App SDK
+    └── rust/              generated Rust shape tree
 ```
 
 ## Ontology modeling — the rules
@@ -193,19 +196,6 @@ cd codegen && python3 generate.py --check    # drift check, exits 1 on stale
 Drift is caught by `core/dev.sh` on every engine build — it runs
 `generate.py --check` and fails on any mismatch. Generated files are
 checked in; never hand-edit them.
-
-## The docs site
-
-`docs/` is a standard Astro/Starlight site. Develop and build from
-inside it:
-
-```bash
-cd docs && pnpm install && pnpm dev
-cd docs && pnpm exec astro build
-```
-
-It deploys to [agentos.to](https://agentos.to) via
-`.github/workflows/deploy.yml` on every push to `main`.
 
 ## License
 

@@ -1,0 +1,939 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-wwc3bqpt"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Schema.org Relationship Modeling Research | AgentOS Docs</title><link rel="canonical" href="https://agentos.to/research/ontology/schema-org-relationships/"/><link rel="sitemap" href="../../../sitemap-index.xml"/><script type="module">
+						import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+						// Starlight renders code fences through Expressive Code, which wraps
+						// content in .expressive-code > pre > code.language-mermaid and applies
+						// syntax-highlight styles. Unwrap those to plain <pre class="mermaid">text</pre>
+						// so mermaid can run on the raw source.
+						const render = () => {
+							const blocks = document.querySelectorAll('code.language-mermaid');
+							if (!blocks.length) return;
+							blocks.forEach((code) => {
+								const wrapper = code.closest('.expressive-code') || code.closest('pre');
+								if (!wrapper || wrapper.dataset.mermaidMounted === '1') return;
+								const pre = document.createElement('pre');
+								pre.className = 'mermaid';
+								pre.textContent = code.textContent;
+								wrapper.replaceWith(pre);
+								pre.dataset.mermaidMounted = '1';
+							});
+							const isDark = document.documentElement.dataset.theme !== 'light';
+							mermaid.initialize({
+								startOnLoad: false,
+								theme: isDark ? 'dark' : 'default',
+								securityLevel: 'loose',
+								themeVariables: isDark ? {
+									background: '#0b0b0f',
+									primaryColor: '#1a1a24',
+									primaryTextColor: '#e8e8ee',
+									primaryBorderColor: '#3d3d4d',
+									lineColor: '#8b8b98',
+									secondaryColor: '#141420',
+									tertiaryColor: '#101018',
+								} : {},
+							});
+							mermaid.run({ querySelector: 'pre.mermaid:not([data-processed])' });
+						};
+
+						if (document.readyState === 'loading') {
+							document.addEventListener('DOMContentLoaded', render);
+						} else {
+							render();
+						}
+
+						// Re-run on Astro view transitions
+						document.addEventListener('astro:after-swap', render);
+					</script><link rel="shortcut icon" href="../../../favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v6.1.5"/><meta name="generator" content="Starlight v0.38.3"/><meta property="og:title" content="Schema.org Relationship Modeling Research"/><meta property="og:type" content="article"/><meta property="og:url" content="https://agentos.to/research/ontology/schema-org-relationships/"/><meta property="og:locale" content="en"/><meta property="og:description" content="How Schema.org and Google Structured Data express relationships between entities."/><meta property="og:site_name" content="AgentOS Docs"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="How Schema.org and Google Structured Data express relationships between entities."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="../../../_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="../../../_astro/common.D4duwXY4.css">
+<link rel="stylesheet" href="../../../_astro/Code.DQp0_qN-.css"><script type="module" src="../../../_astro/page.BIhdncjw.js"></script></head> <body class="astro-wwc3bqpt"> <a href="#_top" class="astro-3x7q7msw">Skip to content</a> <div class="page sl-flex astro-axwskc5k"> <header class="header astro-axwskc5k"><div class="header astro-3ef6ksr2"> <div class="title-wrapper sl-flex astro-3ef6ksr2"> <a href="../../../index.html" class="site-title sl-flex astro-c5jbctzu">  <span class="astro-c5jbctzu" translate="no"> AgentOS Docs </span> </a> </div> <nav class="topic-tabs astro-3ef6ksr2" aria-label="Sections"> <ul class="astro-3ef6ksr2"> <li class="astro-3ef6ksr2"> <a href="../../../introduction/what-is-agentos/index.html" class="astro-3ef6ksr2">Learn</a> </li><li class="astro-3ef6ksr2"> <a href="../../../introduction/how-we-build/index.html" class="astro-3ef6ksr2">Build</a> </li><li class="astro-3ef6ksr2"> <a href="../../../shapes/overview/index.html" class="astro-3ef6ksr2">Shapes</a> </li><li class="astro-3ef6ksr2"> <a href="../../../research/ontology/relationship-modeling/index.html" aria-current="page" class="astro-3ef6ksr2">Research</a> </li> </ul> </nav> <div class="sl-flex print:hidden search-wrap astro-3ef6ksr2"> <site-search class="astro-3ef6ksr2 astro-tijk2zt5" data-translations="{&#34;placeholder&#34;:&#34;Search&#34;}"> <button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-tijk2zt5"> <svg aria-hidden="true" class="astro-tijk2zt5 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg> <span class="sl-hidden md:sl-block astro-tijk2zt5" aria-hidden="true">Search</span> <kbd class="sl-hidden md:sl-flex astro-tijk2zt5" style="display: none;"> <kbd class="astro-tijk2zt5">Ctrl</kbd><kbd class="astro-tijk2zt5">K</kbd> </kbd> </button> <dialog style="padding:0" aria-label="Search" class="astro-tijk2zt5"> <div class="dialog-frame sl-flex astro-tijk2zt5">  <button data-close-modal class="sl-flex md:sl-hidden astro-tijk2zt5"> Cancel </button> <div class="search-container astro-tijk2zt5"> <div id="starlight__search" class="astro-tijk2zt5"></div> </div> </div> </dialog> </site-search>  <script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script> <script type="module" src="../../../_astro/Search.astro_astro_type_script_index_0_lang.Rw77DzG6.js"></script>  </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-3ef6ksr2"> <div class="sl-flex social-icons astro-3ef6ksr2">  </div> <script type="module">class s extends HTMLElement{constructor(){super();const t=typeof localStorage<"u"&&localStorage.getItem("starlight-theme")||(window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");document.documentElement.dataset.theme=t==="light"?"light":"dark",this.handleMouseDown=this.handleMouseDown.bind(this),this.updateMaskPosition(t)}connectedCallback(){this.addEventListener("click",this.handleMouseDown)}disconnectedCallback(){this.removeEventListener("click",this.handleMouseDown)}updateMaskPosition(e){const t=this.querySelector("#moon-mask circle:last-child");t&&t.setAttribute("cx",e==="dark"?"17":"24")}handleMouseDown(){const e=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=e,localStorage.setItem("starlight-theme",e),this.updateMaskPosition(e)}}customElements.define("theme-toggle",s);</script><theme-toggle class="astro-dwm5f72o"> <button type="button" class="astro-h5tvx5sw">  <svg aria-hidden="true" height="20" viewBox="0 0 24 24" width="20" class="astro-dwm5f72o"> <mask class="moon astro-dwm5f72o" id="moon-mask"> <rect x="0" y="0" width="100%" height="100%" fill="white" class="astro-dwm5f72o"></rect> <circle cx="24" cy="10" r="6" fill="black" class="astro-dwm5f72o"></circle> </mask> <circle class="sun astro-dwm5f72o" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor"></circle> <g class="sun-beams astro-dwm5f72o" stroke="currentColor"> <line x1="12" y1="1" x2="12" y2="3" class="astro-dwm5f72o"></line> <line x1="12" y1="21" x2="12" y2="23" class="astro-dwm5f72o"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" class="astro-dwm5f72o"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" class="astro-dwm5f72o"></line> <line x1="1" y1="12" x2="3" y2="12" class="astro-dwm5f72o"></line> <line x1="21" y1="12" x2="23" y2="12" class="astro-dwm5f72o"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" class="astro-dwm5f72o"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" class="astro-dwm5f72o"></line> </g> </svg>  </button>  </theme-toggle> <script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div> <div class="progress-scroll-container astro-mu7un3ux" aria-hidden="true"> <div id="progress-scroll" class="astro-mu7un3ux"></div> </div> <script type="module">window.addEventListener("scroll",function(){if(document){const e=document.getElementById("progress-scroll");if(e){var o=window.scrollY||document.documentElement.scrollTop,n=document.documentElement.scrollHeight-window.innerHeight,t=o/n*100;e.style.width=t+"%"}}});</script></header> <nav class="sidebar print:hidden astro-axwskc5k" aria-label="Main"> <starlight-menu-button class="print:hidden astro-4nzlrr7f"> <button aria-expanded="false" aria-label="Menu" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-4nzlrr7f"> <svg aria-hidden="true" class="open-menu astro-4nzlrr7f astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg> <svg aria-hidden="true" class="close-menu astro-4nzlrr7f astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg> </button> </starlight-menu-button> <script type="module">class s extends HTMLElement{constructor(){super(),this.btn=this.querySelector("button"),this.btn.addEventListener("click",()=>this.toggleExpanded());const t=this.closest("nav");t&&t.addEventListener("keyup",e=>this.closeOnEscape(e))}setExpanded(t){this.setAttribute("aria-expanded",String(t)),document.body.toggleAttribute("data-mobile-menu-expanded",t)}toggleExpanded(){this.setExpanded(this.getAttribute("aria-expanded")!=="true")}closeOnEscape(t){t.code==="Escape"&&(this.setExpanded(!1),this.btn.focus())}}customElements.define("starlight-menu-button",s);</script>  <div id="starlight__sidebar" class="sidebar-pane astro-axwskc5k"> <div class="sidebar-content sl-flex astro-axwskc5k"> <ul class="starlight-sidebar-topics astro-gu6alnkl"> <li class="astro-gu6alnkl"> <a href="../../../introduction/what-is-agentos/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.17 2.06A13.1 13.1 0 0 0 19 1.87a12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2 13.1 13.1 0 0 0-2.17.19 1 1 0 0 0-.83 1v12a1 1 0 0 0 1.17 1 10.9 10.9 0 0 1 8.25 1.91l.12.07h.11a.91.91 0 0 0 .7 0h.11l.12-.07A10.899 10.899 0 0 1 20.83 16 1 1 0 0 0 22 15V3a1 1 0 0 0-.83-.94ZM11 15.35a12.87 12.87 0 0 0-6-1.48H4v-10c.333-.02.667-.02 1 0a10.86 10.86 0 0 1 6 1.8v9.68Zm9-1.44h-1a12.87 12.87 0 0 0-6 1.48V5.67a10.86 10.86 0 0 1 6-1.8c.333-.02.667-.02 1 0v10.04Zm1.17 4.15a13.098 13.098 0 0 0-2.17-.19 12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2.05c-.727.003-1.453.066-2.17.19A1 1 0 0 0 2 19.21a1 1 0 0 0 1.17.79 10.9 10.9 0 0 1 8.25 1.91 1 1 0 0 0 1.16 0A10.9 10.9 0 0 1 20.83 20a1 1 0 0 0 1.17-.79 1 1 0 0 0-.83-1.15Z"/></svg> </div> <div class="astro-gu6alnkl"> Learn  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../introduction/how-we-build/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 22H5a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3h1a4 4 0 0 1 7.3-2.18c.448.64.692 1.4.7 2.18h3a1 1 0 0 1 1 1v3a4 4 0 0 1 2.18 7.3A3.86 3.86 0 0 1 18 18v3a1 1 0 0 1-1 1ZM5 8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11v-3.18a1 1 0 0 1 1.33-.95 1.77 1.77 0 0 0 1.74-.23 2 2 0 0 0 .93-1.37 2 2 0 0 0-.48-1.59 1.89 1.89 0 0 0-2.17-.55 1 1 0 0 1-1.33-.95V8h-3.2a1 1 0 0 1-1-1.33 1.77 1.77 0 0 0-.23-1.74 1.939 1.939 0 0 0-3-.43A2 2 0 0 0 8 6c.002.23.046.456.13.67A1 1 0 0 1 7.18 8H5Z"/></svg> </div> <div class="astro-gu6alnkl"> Build  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../shapes/overview/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17.084 3.165L12.000 0.220L6.916 3.165L1.801 6.110L1.801 17.890L12.000 23.780L22.199 17.890L22.199 6.110L17.084 3.165ZM12.000 11.938L9.334 16.557L6.668 11.938L4.002 7.319L14.666 7.319L12.000 11.938Z"/></svg> </div> <div class="astro-gu6alnkl"> Shapes  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../research/ontology/relationship-modeling/index.html" class="starlight-sidebar-topics-current astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M9 10h1a1 1 0 1 0 0-2H9a1 1 0 0 0 0 2Zm0 2a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2H9Zm11-3.06a1.3 1.3 0 0 0-.06-.27v-.09c-.05-.1-.11-.2-.19-.28l-6-6a1.07 1.07 0 0 0-.28-.19h-.09a.88.88 0 0 0-.33-.11H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8.94Zm-6-3.53L16.59 8H15a1 1 0 0 1-1-1V5.41ZM18 19a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5v3a3 3 0 0 0 3 3h3v9Zm-3-3H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2Z"/></svg> </div> <div class="astro-gu6alnkl"> Research  </div> </a> </li> </ul> <sl-sidebar-state-persist data-hash="10ohntw" class="astro-7su4sbaf"> <script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script>  <ul class="top-level astro-bctztgix"> <li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Ontology</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="0"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/ontology/genealogical-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Genealogical Relationships Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/google-structured-data/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Google Structured Data &amp; Knowledge Graph Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/no-orphans-constraint/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">&quot;No Orphans&quot; Constraint: Research Summary</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/ogp-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Open Graph Protocol: Relationship Modeling</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/open-graph-protocol/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Open Graph Protocol Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/outcome-entity/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">The Outcome Entity: A Universal Systems Primitive</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/relationship-modeling/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Relationship Modeling Patterns in Knowledge Graphs</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-entities/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Entity Schema</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-org-relationships/index.html" aria-current="page" class="astro-bctztgix"> <span class="astro-bctztgix">Schema.org Relationship Modeling Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Relationship Schema</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Platforms</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="1"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/platforms/facebook-graph/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Facebook Entity Graph Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/platforms/familysearch/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">FamilySearch Genealogical Data Model</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/platforms/google-takeout/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Google Takeout Entity Research</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Identity &amp; spaces</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="2"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/account-platform-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Account-Platform Relationship Ontology</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/digital-spaces-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Digital Spaces in Ontology Standards</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/platform-identity-standards/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Platform Identity and Normalization Standards</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/platform-space-models/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">How Major Platforms Model Their Own Spaces</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Relationships &amp; events</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="3"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/causal-chains-entity-graphs/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Blog Ideas: Causal Chains, Development Frameworks, and Entity Graphs</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/claims-relationship-model/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Identity Verification Across Platforms: 2025-2026 Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/event-vs-work-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Should &quot;Event&quot; Be a Subtype of &quot;Work&quot;? An Ontological Analysis</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/speech-acts-entity-primitives/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Speech Act Theory Maps to Entity Primitives</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Context &amp; ecosystem</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="4"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/context/ai-text-editing/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">AI Text &amp; Code Editing UX Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/markdown-ecosystem/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Markdown Ecosystem Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/pkm-community/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">PKM Community Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/semantic-file-systems/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Semantic File Systems Research</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">DX patterns</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="5"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/dx-patterns/sdk-dx-patterns/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">SDK &amp; Plugin Platform DX Patterns — Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/dx-patterns/simplification-passes-accreted-cruft/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Simplification Passes &amp; Accreted Cruft — Cross-Domain Briefing</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Interfaces</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="6"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/interfaces/overview/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Interfaces surface (research)</span>  </a> </li> </ul> </details> </li> </ul>  <script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script> </sl-sidebar-state-persist> <div class="md:sl-hidden"> <div class="mobile-preferences sl-flex astro-3e5tv76g"> <div class="social-icons astro-3e5tv76g">  </div> <theme-toggle class="astro-dwm5f72o"> <button type="button" class="astro-h5tvx5sw">  <svg aria-hidden="true" height="20" viewBox="0 0 24 24" width="20" class="astro-dwm5f72o"> <mask class="moon astro-dwm5f72o" id="moon-mask"> <rect x="0" y="0" width="100%" height="100%" fill="white" class="astro-dwm5f72o"></rect> <circle cx="24" cy="10" r="6" fill="black" class="astro-dwm5f72o"></circle> </mask> <circle class="sun astro-dwm5f72o" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor"></circle> <g class="sun-beams astro-dwm5f72o" stroke="currentColor"> <line x1="12" y1="1" x2="12" y2="3" class="astro-dwm5f72o"></line> <line x1="12" y1="21" x2="12" y2="23" class="astro-dwm5f72o"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" class="astro-dwm5f72o"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" class="astro-dwm5f72o"></line> <line x1="1" y1="12" x2="3" y2="12" class="astro-dwm5f72o"></line> <line x1="21" y1="12" x2="23" y2="12" class="astro-dwm5f72o"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" class="astro-dwm5f72o"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" class="astro-dwm5f72o"></line> </g> </svg>  </button>  </theme-toggle>  </div> </div> </div> </div> </nav> <div class="main-frame astro-axwskc5k">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-bqhhi3bs"> <aside class="right-sidebar-container print:hidden astro-bqhhi3bs"> <div class="right-sidebar astro-bqhhi3bs"> <div class="lg:sl-hidden astro-o32dv7js"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-4kdwwhqw"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-4kdwwhqw"><details id="starlight__mobile-toc" class="astro-4kdwwhqw"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-4kdwwhqw"><span class="toggle sl-flex astro-4kdwwhqw">On this page<svg aria-hidden="true" class="caret astro-4kdwwhqw astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-4kdwwhqw"></span></summary><div class="dropdown astro-4kdwwhqw"><ul class="isMobile astro-uwnltsxm" style="--depth: 0;"> <li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#_top" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#why-this-matters" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Why This Matters</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#core-relationship-types" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Core Relationship Types</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#person-to-person-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Person-to-Person Relationships</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#person-to-organization-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Person-to-Organization Relationships</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#organization-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Organization Relationships</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#part-whole-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Part-Whole Relationships</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#content-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Content Relationships</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#relationship-directionality--inverse-properties" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Relationship Directionality &amp; Inverse Properties</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#the-inverseof-meta-property" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">The inverseOf Meta-Property</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#properties-without-explicit-inverses" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Properties WITHOUT Explicit Inverses</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#json-ld-reverse-for-missing-inverses" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">JSON-LD @reverse for Missing Inverses</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#temporal-relationships" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Temporal Relationships</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#the-role-pattern" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">The Role Pattern</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#temporal-properties-on-entities" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Temporal Properties on Entities</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#example-time-qualified-employment" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Example: Time-Qualified Employment</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#relationship-strength--weight" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Relationship Strength &amp; Weight</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-schemaorg-doesnt-have" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What Schema.org DOESN’T Have</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#alternative-the-relationship-vocabulary" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Alternative: The RELATIONSHIP Vocabulary</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#workaround-custom-extensions" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Workaround: Custom Extensions</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#property-hierarchy--specificity" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Property Hierarchy &amp; Specificity</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#subpropertyof-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">subPropertyOf Relationships</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#generic-vs-specific-properties" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Generic vs Specific Properties</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#json-ld-expression-patterns" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">JSON-LD Expression Patterns</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#basic-relationship" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Basic Relationship</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#nested-entity-relationship" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Nested Entity Relationship</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#referenced-entity-same-document" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Referenced Entity (Same Document)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#cross-site-identity-with-sameas" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Cross-Site Identity with sameAs</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#known-limitations--controversies" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Known Limitations &amp; Controversies</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#1-symmetric-vs-asymmetric-ambiguity" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">1. Symmetric vs Asymmetric Ambiguity</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2-no-relationship-reification-native" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2. No Relationship Reification (Native)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#3-incomplete-inverse-coverage" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">3. Incomplete Inverse Coverage</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#4-flat-over-normalized" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4. Flat Over Normalized</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#5-no-cardinality-constraints" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">5. No Cardinality Constraints</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#6-limited-provenance" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">6. Limited Provenance</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#7-datatype-issues" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">7. Datatype Issues</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#recent-evolution-2024-2025" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Recent Evolution (2024-2025)</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#version-294-december-2025" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Version 29.4 (December 2025)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#ongoing-patterns" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Ongoing Patterns</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#comparison-with-other-vocabularies" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Comparison with Other Vocabularies</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#schemaorg-vs-foaf" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Schema.org vs FOAF</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#schemaorg-vs-wikidata" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Schema.org vs Wikidata</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#implications-for-entity-modeling" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Implications for Entity Modeling</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-to-adopt-from-schemaorg" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What to Adopt from Schema.org</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-to-extend-beyond-schemaorg" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What to Extend Beyond Schema.org</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#recommended-core-relationship-properties" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Recommended Core Relationship Properties</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#sources" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Sources</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#primary-sources" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Primary Sources</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#technical-references" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Technical References</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#schemaorg-releases" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Schema.org Releases</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#session-log" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Session Log</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2025-01-24-initial-research" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2025-01-24: Initial Research</span> </a>  </li> </ul> </li> </ul></div></details></nav></mobile-starlight-toc><script type="module" src="../../../_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.hwBsy0Mo.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-o32dv7js"><div class="sl-container astro-o32dv7js"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-uwnltsxm" style="--depth: 0;"> <li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#_top" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#why-this-matters" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Why This Matters</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#core-relationship-types" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Core Relationship Types</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#person-to-person-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Person-to-Person Relationships</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#person-to-organization-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Person-to-Organization Relationships</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#organization-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Organization Relationships</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#part-whole-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Part-Whole Relationships</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#content-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Content Relationships</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#relationship-directionality--inverse-properties" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Relationship Directionality &amp; Inverse Properties</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#the-inverseof-meta-property" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">The inverseOf Meta-Property</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#properties-without-explicit-inverses" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Properties WITHOUT Explicit Inverses</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#json-ld-reverse-for-missing-inverses" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">JSON-LD @reverse for Missing Inverses</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#temporal-relationships" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Temporal Relationships</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#the-role-pattern" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">The Role Pattern</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#temporal-properties-on-entities" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Temporal Properties on Entities</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#example-time-qualified-employment" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Example: Time-Qualified Employment</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#relationship-strength--weight" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Relationship Strength &amp; Weight</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-schemaorg-doesnt-have" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What Schema.org DOESN’T Have</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#alternative-the-relationship-vocabulary" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Alternative: The RELATIONSHIP Vocabulary</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#workaround-custom-extensions" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Workaround: Custom Extensions</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#property-hierarchy--specificity" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Property Hierarchy &amp; Specificity</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#subpropertyof-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">subPropertyOf Relationships</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#generic-vs-specific-properties" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Generic vs Specific Properties</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#json-ld-expression-patterns" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">JSON-LD Expression Patterns</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#basic-relationship" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Basic Relationship</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#nested-entity-relationship" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Nested Entity Relationship</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#referenced-entity-same-document" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Referenced Entity (Same Document)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#cross-site-identity-with-sameas" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Cross-Site Identity with sameAs</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#known-limitations--controversies" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Known Limitations &amp; Controversies</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#1-symmetric-vs-asymmetric-ambiguity" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">1. Symmetric vs Asymmetric Ambiguity</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2-no-relationship-reification-native" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2. No Relationship Reification (Native)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#3-incomplete-inverse-coverage" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">3. Incomplete Inverse Coverage</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#4-flat-over-normalized" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4. Flat Over Normalized</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#5-no-cardinality-constraints" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">5. No Cardinality Constraints</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#6-limited-provenance" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">6. Limited Provenance</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#7-datatype-issues" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">7. Datatype Issues</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#recent-evolution-2024-2025" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Recent Evolution (2024-2025)</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#version-294-december-2025" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Version 29.4 (December 2025)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#ongoing-patterns" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Ongoing Patterns</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#comparison-with-other-vocabularies" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Comparison with Other Vocabularies</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#schemaorg-vs-foaf" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Schema.org vs FOAF</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#schemaorg-vs-wikidata" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Schema.org vs Wikidata</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#implications-for-entity-modeling" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Implications for Entity Modeling</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-to-adopt-from-schemaorg" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What to Adopt from Schema.org</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-to-extend-beyond-schemaorg" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What to Extend Beyond Schema.org</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#recommended-core-relationship-properties" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Recommended Core Relationship Properties</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#sources" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Sources</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#primary-sources" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Primary Sources</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#technical-references" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Technical References</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#schemaorg-releases" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Schema.org Releases</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#session-log" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Session Log</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2025-01-24-initial-research" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2025-01-24: Initial Research</span> </a>  </li> </ul> </li> </ul></nav></starlight-toc><script type="module" src="../../../_astro/TableOfContents.astro_astro_type_script_index_0_lang.FuRcXuRY.js"></script></div></div> </div> </aside> <div class="main-pane astro-bqhhi3bs">  <main data-pagefind-body class="astro-wwc3bqpt" lang="en" dir="ltr">    <div class="content-panel astro-wjgruomq"> <div class="sl-container astro-wjgruomq"> <h1 id="_top" class="astro-wj2r53xi">Schema.org Relationship Modeling Research</h1> </div> </div> <div class="content-panel astro-wjgruomq"> <div class="sl-container astro-wjgruomq"> <div class="sl-markdown-content"> <div class="sl-heading-wrapper level-h2"><h2 id="why-this-matters">Why This Matters</h2><a class="sl-anchor-link" href="#why-this-matters"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Why This Matters”</span></a></div>
+<p>Understanding Schema.org’s relationship model is critical because:</p>
+<ol>
+<li><strong>Schema.org is the web standard</strong> — Used on 45+ million domains, co-created by Google, Microsoft, Yahoo, Yandex</li>
+<li><strong>Google interprets these relationships</strong> — Affects Knowledge Graph, search understanding, AI reasoning</li>
+<li><strong>JSON-LD is the preferred format</strong> — 83% adoption; Google’s recommended approach</li>
+<li><strong>Pragmatic design over academic purity</strong> — Tradeoffs made for real-world adoption</li>
+</ol>
+<p>This document focuses specifically on <strong>RELATIONSHIPS</strong>, not entity types.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="core-relationship-types">Core Relationship Types</h2><a class="sl-anchor-link" href="#core-relationship-types"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Core Relationship Types”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="person-to-person-relationships">Person-to-Person Relationships</h3><a class="sl-anchor-link" href="#person-to-person-relationships"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Person-to-Person Relationships”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Property</th><th>Description</th><th>Directionality</th><th>Notes</th></tr></thead><tbody><tr><td><code dir="auto">knows</code></td><td>Most generic bi-directional social/work relation</td><td>Symmetric</td><td>Deliberately generic; equivalent to FOAF’s <code dir="auto">foaf:knows</code></td></tr><tr><td><code dir="auto">spouse</code></td><td>Person’s spouse</td><td>Symmetric</td><td>Expects Person</td></tr><tr><td><code dir="auto">colleague</code></td><td>A colleague of the person</td><td>Symmetric</td><td>Accepts Person or URL</td></tr><tr><td><code dir="auto">relatedTo</code></td><td>Most generic familial relation</td><td>Symmetric</td><td>For family connections</td></tr><tr><td><code dir="auto">parent</code></td><td>A parent of this person</td><td>Directional</td><td>Inverse: <code dir="auto">children</code></td></tr><tr><td><code dir="auto">children</code></td><td>A child of the person</td><td>Directional</td><td>Inverse: <code dir="auto">parent</code></td></tr><tr><td><code dir="auto">sibling</code></td><td>A sibling of the person</td><td>Symmetric</td><td>No explicit inverse needed</td></tr><tr><td><code dir="auto">follows</code></td><td>Most generic uni-directional social relation</td><td>Directional</td><td>Social media-style following</td></tr></tbody></table>
+<p><strong>Key Insight</strong>: Schema.org deliberately uses generic terms (<code dir="auto">knows</code>, <code dir="auto">relatedTo</code>) rather than granular relationship types. This is a conscious design choice favoring broad adoption over precise semantics.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="person-to-organization-relationships">Person-to-Organization Relationships</h3><a class="sl-anchor-link" href="#person-to-organization-relationships"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Person-to-Organization Relationships”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Property</th><th>Description</th><th>Direction</th><th>Notes</th></tr></thead><tbody><tr><td><code dir="auto">worksFor</code></td><td>Organizations that person works for</td><td>Person → Org</td><td>Current employment</td></tr><tr><td><code dir="auto">affiliation</code></td><td>Organization person is affiliated with</td><td>Person → Org</td><td>Broader than employment (schools, clubs, teams)</td></tr><tr><td><code dir="auto">memberOf</code></td><td>Organization/ProgramMembership person belongs to</td><td>Person → Org</td><td>Has inverse: <code dir="auto">member</code></td></tr><tr><td><code dir="auto">alumniOf</code></td><td>Organization person is alumni of</td><td>Person → Org</td><td>Has inverse: <code dir="auto">alumni</code></td></tr><tr><td><code dir="auto">sponsor</code></td><td>Person/org that supports something</td><td>Either direction</td><td>Financial/support relationship</td></tr><tr><td><code dir="auto">funder</code></td><td>Person/org providing financial contribution</td><td>Either direction</td><td>More specific than sponsor</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="organization-relationships">Organization Relationships</h3><a class="sl-anchor-link" href="#organization-relationships"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Organization Relationships”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Property</th><th>Description</th><th>Direction</th><th>Inverse</th></tr></thead><tbody><tr><td><code dir="auto">member</code></td><td>Member of an Organization</td><td>Org → Person/Org</td><td><code dir="auto">memberOf</code></td></tr><tr><td><code dir="auto">employee</code></td><td>Someone working for the organization</td><td>Org → Person</td><td>—</td></tr><tr><td><code dir="auto">founder</code></td><td>Person/org who founded this organization</td><td>Org → Person/Org</td><td>—</td></tr><tr><td><code dir="auto">alumni</code></td><td>Alumni of the organization</td><td>Org → Person</td><td><code dir="auto">alumniOf</code></td></tr><tr><td><code dir="auto">parentOrganization</code></td><td>Parent organization</td><td>Org → Org</td><td><code dir="auto">subOrganization</code></td></tr><tr><td><code dir="auto">subOrganization</code></td><td>Subsidiary/child organization</td><td>Org → Org</td><td><code dir="auto">parentOrganization</code></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="part-whole-relationships">Part-Whole Relationships</h3><a class="sl-anchor-link" href="#part-whole-relationships"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Part-Whole Relationships”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Property</th><th>Description</th><th>Domain</th><th>Inverse</th></tr></thead><tbody><tr><td><code dir="auto">hasPart</code></td><td>Indicates something contains parts</td><td>CreativeWork, Place</td><td><code dir="auto">isPartOf</code></td></tr><tr><td><code dir="auto">isPartOf</code></td><td>Indicates something is part of a larger whole</td><td>CreativeWork, Place</td><td><code dir="auto">hasPart</code></td></tr><tr><td><code dir="auto">containedInPlace</code></td><td>Geographic containment</td><td>Place</td><td><code dir="auto">containsPlace</code></td></tr><tr><td><code dir="auto">containsPlace</code></td><td>Place contains another place</td><td>Place</td><td><code dir="auto">containedInPlace</code></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="content-relationships">Content Relationships</h3><a class="sl-anchor-link" href="#content-relationships"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Content Relationships”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Property</th><th>Description</th><th>Direction</th><th>Notes</th></tr></thead><tbody><tr><td><code dir="auto">author</code></td><td>Who created it</td><td>CreativeWork → Person/Org</td><td></td></tr><tr><td><code dir="auto">creator</code></td><td>Broader than author</td><td>CreativeWork → Person/Org</td><td>For non-textual works</td></tr><tr><td><code dir="auto">publisher</code></td><td>Who published it</td><td>CreativeWork → Person/Org</td><td></td></tr><tr><td><code dir="auto">contributor</code></td><td>Secondary contributor</td><td>CreativeWork → Person/Org</td><td></td></tr><tr><td><code dir="auto">about</code></td><td>Subject matter</td><td>CreativeWork → Thing</td><td>What the work is about</td></tr><tr><td><code dir="auto">mentions</code></td><td>References another thing</td><td>CreativeWork → Thing</td><td>Weaker than <code dir="auto">about</code></td></tr></tbody></table>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="relationship-directionality--inverse-properties">Relationship Directionality &#x26; Inverse Properties</h2><a class="sl-anchor-link" href="#relationship-directionality--inverse-properties"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Relationship Directionality &#x26; Inverse Properties”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="the-inverseof-meta-property">The <code dir="auto">inverseOf</code> Meta-Property</h3><a class="sl-anchor-link" href="#the-inverseof-meta-property"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “The inverseOf Meta-Property”</span></a></div>
+<p>Schema.org explicitly declares inverse relationships using the <code dir="auto">inverseOf</code> property at the schema level:</p>
+<div class="expressive-code"><link rel="stylesheet" href="../../../_astro/ec.3svgr.css"><script type="module" src="../../../_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">alumni → inverseOf → alumniOf</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">member → inverseOf → memberOf</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">hasPart → inverseOf → isPartOf</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">parentOrganization → inverseOf → subOrganization</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">owns → inverseOf → owner</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">makesOffer → inverseOf → offeredBy</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">mainEntity → inverseOf → mainEntityOfPage</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="alumni → inverseOf → alumniOfmember → inverseOf → memberOfhasPart → inverseOf → isPartOfparentOrganization → inverseOf → subOrganizationowns → inverseOf → ownermakesOffer → inverseOf → offeredBymainEntity → inverseOf → mainEntityOfPage"><div></div></button></div></figure></div>
+<p><strong>Key Properties with Declared Inverses:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Property</th><th>Inverse Property</th></tr></thead><tbody><tr><td><code dir="auto">alumniOf</code></td><td><code dir="auto">alumni</code></td></tr><tr><td><code dir="auto">memberOf</code></td><td><code dir="auto">member</code></td></tr><tr><td><code dir="auto">isPartOf</code></td><td><code dir="auto">hasPart</code></td></tr><tr><td><code dir="auto">parentOrganization</code></td><td><code dir="auto">subOrganization</code></td></tr><tr><td><code dir="auto">owns</code></td><td><code dir="auto">owner</code></td></tr><tr><td><code dir="auto">makesOffer</code></td><td><code dir="auto">offeredBy</code></td></tr><tr><td><code dir="auto">mainEntityOfPage</code></td><td><code dir="auto">mainEntity</code></td></tr><tr><td><code dir="auto">about</code></td><td><code dir="auto">subjectOf</code></td></tr><tr><td><code dir="auto">funding</code></td><td><code dir="auto">fundedItem</code></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="properties-without-explicit-inverses">Properties WITHOUT Explicit Inverses</h3><a class="sl-anchor-link" href="#properties-without-explicit-inverses"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Properties WITHOUT Explicit Inverses”</span></a></div>
+<p>Many Schema.org relationships lack declared inverses:</p>
+<ul>
+<li><code dir="auto">worksFor</code> — No inverse like <code dir="auto">employs</code> (use <code dir="auto">employee</code> on Organization instead)</li>
+<li><code dir="auto">knows</code> — Bi-directional by definition, no formal inverse</li>
+<li><code dir="auto">spouse</code> — Symmetric, no inverse needed</li>
+<li><code dir="auto">author</code> — No formal inverse (though <code dir="auto">creator</code> property exists)</li>
+<li><code dir="auto">parent</code>/<code dir="auto">children</code> — These ARE inverses of each other but not formally declared</li>
+</ul>
+<p><strong>Practical Implication</strong>: When an inverse doesn’t exist, you must:</p>
+<ol>
+<li>Express the relationship from both directions explicitly</li>
+<li>Use JSON-LD’s <code dir="auto">@reverse</code> keyword</li>
+<li>Let consuming applications infer the inverse</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="json-ld-reverse-for-missing-inverses">JSON-LD <code dir="auto">@reverse</code> for Missing Inverses</h3><a class="sl-anchor-link" href="#json-ld-reverse-for-missing-inverses"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “JSON-LD @reverse for Missing Inverses”</span></a></div>
+<p>When Schema.org lacks a property for the inverse direction, JSON-LD provides <code dir="auto">@reverse</code>:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@context"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"WebPage"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@reverse"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"mentions"</span><span style="--0:#F0F3F6;--1:#000000">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">      </span></span><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"WebPage"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#72F088;--1:#0451A5">"url"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://example.com/page-that-links-to-me"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">      </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;@context&#x22;: &#x22;https://schema.org&#x22;,  &#x22;@type&#x22;: &#x22;WebPage&#x22;,  &#x22;@reverse&#x22;: {    &#x22;mentions&#x22;: [      {        &#x22;@type&#x22;: &#x22;WebPage&#x22;,        &#x22;url&#x22;: &#x22;https://example.com/page-that-links-to-me&#x22;      }    ]  }}"><div></div></button></div></figure></div>
+<p>This expresses “this other page mentions me” when you can only say “I mention them” with the standard property.</p>
+<p><strong>Important</strong>: Google’s Rich Results Test validates <code dir="auto">@reverse</code> syntax, but it’s unclear how much Google uses reverse relationships for knowledge extraction.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="temporal-relationships">Temporal Relationships</h2><a class="sl-anchor-link" href="#temporal-relationships"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Temporal Relationships”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="the-role-pattern">The Role Pattern</h3><a class="sl-anchor-link" href="#the-role-pattern"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “The Role Pattern”</span></a></div>
+<p>Schema.org handles time-bound relationships through the <strong>Role</strong> type:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@context"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"SportsTeam"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"San Francisco 49ers"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"member"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"OrganizationRole"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"member"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Person"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Joe Montana"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">},</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"startDate"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"1979"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"endDate"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"1992"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"roleName"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Quarterback"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;@context&#x22;: &#x22;https://schema.org&#x22;,  &#x22;@type&#x22;: &#x22;SportsTeam&#x22;,  &#x22;name&#x22;: &#x22;San Francisco 49ers&#x22;,  &#x22;member&#x22;: {    &#x22;@type&#x22;: &#x22;OrganizationRole&#x22;,    &#x22;member&#x22;: {      &#x22;@type&#x22;: &#x22;Person&#x22;,      &#x22;name&#x22;: &#x22;Joe Montana&#x22;    },    &#x22;startDate&#x22;: &#x22;1979&#x22;,    &#x22;endDate&#x22;: &#x22;1992&#x22;,    &#x22;roleName&#x22;: &#x22;Quarterback&#x22;  }}"><div></div></button></div></figure></div>
+<p><strong>Role Properties:</strong></p>
+<ul>
+<li><code dir="auto">startDate</code> — When the role began (ISO 8601 format)</li>
+<li><code dir="auto">endDate</code> — When the role ended (ISO 8601 format)</li>
+<li><code dir="auto">roleName</code> — Specific name of the role (e.g., “Quarterback”, “CEO”)</li>
+</ul>
+<p><strong>Role Subtypes:</strong></p>
+<ul>
+<li><code dir="auto">Role</code> — Generic role wrapper</li>
+<li><code dir="auto">OrganizationRole</code> — For organizational membership with <code dir="auto">numberedPosition</code></li>
+<li><code dir="auto">EmployeeRole</code> — Adds <code dir="auto">baseSalary</code>, <code dir="auto">salaryCurrency</code> for employment</li>
+<li><code dir="auto">PerformanceRole</code> — For performers (characterName)</li>
+<li><code dir="auto">LinkRole</code> — For qualifying hyperlinks</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="temporal-properties-on-entities">Temporal Properties on Entities</h3><a class="sl-anchor-link" href="#temporal-properties-on-entities"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Temporal Properties on Entities”</span></a></div>
+<p>Direct temporal properties (without Role wrapper):</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Property</th><th>Used On</th><th>Purpose</th></tr></thead><tbody><tr><td><code dir="auto">startDate</code></td><td>Event, Role, Schedule, CreativeWorkSeason</td><td>When something begins</td></tr><tr><td><code dir="auto">endDate</code></td><td>Event, Role, Schedule, CreativeWorkSeason</td><td>When something ends</td></tr><tr><td><code dir="auto">validFrom</code></td><td>Offer, PriceSpecification, Permit</td><td>When something becomes valid</td></tr><tr><td><code dir="auto">validThrough</code></td><td>Offer, JobPosting, Demand</td><td>When validity expires</td></tr><tr><td><code dir="auto">birthDate</code></td><td>Person</td><td>Date of birth</td></tr><tr><td><code dir="auto">deathDate</code></td><td>Person</td><td>Date of death</td></tr><tr><td><code dir="auto">foundingDate</code></td><td>Organization</td><td>When org was founded</td></tr><tr><td><code dir="auto">dissolutionDate</code></td><td>Organization</td><td>When org was dissolved</td></tr><tr><td><code dir="auto">datePublished</code></td><td>CreativeWork</td><td>Publication date</td></tr><tr><td><code dir="auto">dateCreated</code></td><td>CreativeWork</td><td>Creation date</td></tr><tr><td><code dir="auto">dateModified</code></td><td>CreativeWork</td><td>Last modification</td></tr></tbody></table>
+<p><strong>Key Distinction:</strong></p>
+<ul>
+<li><code dir="auto">startDate</code>/<code dir="auto">endDate</code> — For events and time-bound activities</li>
+<li><code dir="auto">validFrom</code>/<code dir="auto">validThrough</code> — For validity periods (offers, pricing, permits)</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="example-time-qualified-employment">Example: Time-Qualified Employment</h3><a class="sl-anchor-link" href="#example-time-qualified-employment"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Example: Time-Qualified Employment”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@context"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org/"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Person"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Albert Einstein"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"hasOccupation"</span><span style="--0:#F0F3F6;--1:#000000">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Role"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"hasOccupation"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Occupation"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Patent examiner"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#72F088;--1:#0451A5">"occupationalCategory"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"23-2099.00"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">      </span></span><span style="--0:#F0F3F6;--1:#000000">},</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"startDate"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"1901"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"endDate"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"1906"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">},</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Occupation"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Professor of Physics"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"educationRequirements"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"PhD in Physics"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;@context&#x22;: &#x22;https://schema.org/&#x22;,  &#x22;@type&#x22;: &#x22;Person&#x22;,  &#x22;name&#x22;: &#x22;Albert Einstein&#x22;,  &#x22;hasOccupation&#x22;: [    {      &#x22;@type&#x22;: &#x22;Role&#x22;,      &#x22;hasOccupation&#x22;: {        &#x22;@type&#x22;: &#x22;Occupation&#x22;,        &#x22;name&#x22;: &#x22;Patent examiner&#x22;,        &#x22;occupationalCategory&#x22;: &#x22;23-2099.00&#x22;      },      &#x22;startDate&#x22;: &#x22;1901&#x22;,      &#x22;endDate&#x22;: &#x22;1906&#x22;    },    {      &#x22;@type&#x22;: &#x22;Occupation&#x22;,      &#x22;name&#x22;: &#x22;Professor of Physics&#x22;,      &#x22;educationRequirements&#x22;: &#x22;PhD in Physics&#x22;    }  ]}"><div></div></button></div></figure></div>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="relationship-strength--weight">Relationship Strength &#x26; Weight</h2><a class="sl-anchor-link" href="#relationship-strength--weight"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Relationship Strength &#x26; Weight”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="what-schemaorg-doesnt-have">What Schema.org DOESN’T Have</h3><a class="sl-anchor-link" href="#what-schemaorg-doesnt-have"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “What Schema.org DOESN’T Have”</span></a></div>
+<p><strong>Schema.org has no built-in mechanism for:</strong></p>
+<ul>
+<li>Relationship strength/intensity (1-10 scale)</li>
+<li>Acquaintance vs friend vs close friend</li>
+<li>Confidence levels</li>
+<li>Frequency of interaction</li>
+<li>Emotional closeness</li>
+</ul>
+<p>This is a significant limitation for social/personal relationship modeling.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="alternative-the-relationship-vocabulary">Alternative: The RELATIONSHIP Vocabulary</h3><a class="sl-anchor-link" href="#alternative-the-relationship-vocabulary"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Alternative: The RELATIONSHIP Vocabulary”</span></a></div>
+<p>The <a href="https://vocab.org/relationship/">RELATIONSHIP vocabulary</a> extends FOAF with more granular relationship types:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Relationship</th><th>Definition</th></tr></thead><tbody><tr><td><code dir="auto">acquaintanceOf</code></td><td>More than slight knowledge but short of friendship</td></tr><tr><td><code dir="auto">friendOf</code></td><td>Mutual friendship</td></tr><tr><td><code dir="auto">closeFriendOf</code></td><td>Close mutual friendship</td></tr><tr><td><code dir="auto">parentOf</code></td><td>Parent of this person</td></tr><tr><td><code dir="auto">childOf</code></td><td>Child of this person</td></tr><tr><td><code dir="auto">spouseOf</code></td><td>Married to</td></tr><tr><td><code dir="auto">lifePartnerOf</code></td><td>Domestic partner</td></tr><tr><td><code dir="auto">enemyOf</code></td><td>Mutual enmity</td></tr><tr><td><code dir="auto">collaboratesWith</code></td><td>Working together on a project</td></tr><tr><td><code dir="auto">employerOf</code></td><td>Employs this person</td></tr><tr><td><code dir="auto">employedBy</code></td><td>Employed by this person</td></tr><tr><td><code dir="auto">mentorOf</code></td><td>Acts as mentor</td></tr><tr><td><code dir="auto">apprenticeTo</code></td><td>Apprentice of</td></tr></tbody></table>
+<p><strong>Note</strong>: This vocabulary is <strong>categorical</strong> (friend vs acquaintance) rather than <strong>quantitative</strong> (strength = 0.7).</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="workaround-custom-extensions">Workaround: Custom Extensions</h3><a class="sl-anchor-link" href="#workaround-custom-extensions"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Workaround: Custom Extensions”</span></a></div>
+<p>For relationship strength, you’d need custom properties:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@context"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"@vocab"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org/"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"relationshipStrength"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://example.org/relationshipStrength"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">},</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Person"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Alice"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"knows"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Person"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Bob"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"relationshipStrength"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#91CBFF;--1:#08774E">0.8</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;@context&#x22;: {    &#x22;@vocab&#x22;: &#x22;https://schema.org/&#x22;,    &#x22;relationshipStrength&#x22;: &#x22;https://example.org/relationshipStrength&#x22;  },  &#x22;@type&#x22;: &#x22;Person&#x22;,  &#x22;name&#x22;: &#x22;Alice&#x22;,  &#x22;knows&#x22;: {    &#x22;@type&#x22;: &#x22;Person&#x22;,    &#x22;name&#x22;: &#x22;Bob&#x22;,    &#x22;relationshipStrength&#x22;: 0.8  }}"><div></div></button></div></figure></div>
+<p>However, Google won’t interpret custom properties for search features.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="property-hierarchy--specificity">Property Hierarchy &#x26; Specificity</h2><a class="sl-anchor-link" href="#property-hierarchy--specificity"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Property Hierarchy &#x26; Specificity”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="subpropertyof-relationships">subPropertyOf Relationships</h3><a class="sl-anchor-link" href="#subpropertyof-relationships"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “subPropertyOf Relationships”</span></a></div>
+<p>Schema.org uses <code dir="auto">subPropertyOf</code> to establish property hierarchies:</p>
+<ul>
+<li>If property <code dir="auto">A</code> is a subproperty of <code dir="auto">B</code>, then <code dir="auto">A</code> implies <code dir="auto">B</code></li>
+<li>Example: If <code dir="auto">author</code> were subproperty of <code dir="auto">creator</code>, every author would also be a creator</li>
+</ul>
+<p><strong>Example Hierarchies:</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">affiliation → subPropertyOf → memberOf (affiliation is more specific)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="affiliation → subPropertyOf → memberOf (affiliation is more specific)"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="generic-vs-specific-properties">Generic vs Specific Properties</h3><a class="sl-anchor-link" href="#generic-vs-specific-properties"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Generic vs Specific Properties”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Generic</th><th>Specific Alternatives</th></tr></thead><tbody><tr><td><code dir="auto">knows</code></td><td><code dir="auto">colleague</code>, <code dir="auto">spouse</code>, <code dir="auto">sibling</code></td></tr><tr><td><code dir="auto">relatedTo</code></td><td><code dir="auto">parent</code>, <code dir="auto">children</code>, <code dir="auto">spouse</code></td></tr><tr><td><code dir="auto">creator</code></td><td><code dir="auto">author</code>, <code dir="auto">illustrator</code>, <code dir="auto">composer</code></td></tr><tr><td><code dir="auto">contributor</code></td><td><code dir="auto">editor</code>, <code dir="auto">translator</code></td></tr></tbody></table>
+<p><strong>Recommendation</strong>: Use the most specific property that applies. Use generic properties (<code dir="auto">knows</code>, <code dir="auto">relatedTo</code>) only when more specific ones don’t fit.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="json-ld-expression-patterns">JSON-LD Expression Patterns</h2><a class="sl-anchor-link" href="#json-ld-expression-patterns"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “JSON-LD Expression Patterns”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="basic-relationship">Basic Relationship</h3><a class="sl-anchor-link" href="#basic-relationship"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Basic Relationship”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@context"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Person"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Jane Doe"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"colleague"</span><span style="--0:#F0F3F6;--1:#000000">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#ADDCFF;--1:#A31515">"http://www.xyz.edu/students/alicejones.html"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#ADDCFF;--1:#A31515">"http://www.xyz.edu/students/bobsmith.html"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;@context&#x22;: &#x22;https://schema.org&#x22;,  &#x22;@type&#x22;: &#x22;Person&#x22;,  &#x22;name&#x22;: &#x22;Jane Doe&#x22;,  &#x22;colleague&#x22;: [    &#x22;http://www.xyz.edu/students/alicejones.html&#x22;,    &#x22;http://www.xyz.edu/students/bobsmith.html&#x22;  ]}"><div></div></button></div></figure></div>
+<p>Note: Relationships can accept URLs as values (not just embedded objects).</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="nested-entity-relationship">Nested Entity Relationship</h3><a class="sl-anchor-link" href="#nested-entity-relationship"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Nested Entity Relationship”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@context"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Person"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"George Bush"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"disambiguatingDescription"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"41st President of the United States"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"children"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Person"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"George W. Bush"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"disambiguatingDescription"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"43rd President of the United States"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;@context&#x22;: &#x22;https://schema.org&#x22;,  &#x22;@type&#x22;: &#x22;Person&#x22;,  &#x22;name&#x22;: &#x22;George Bush&#x22;,  &#x22;disambiguatingDescription&#x22;: &#x22;41st President of the United States&#x22;,  &#x22;children&#x22;: {    &#x22;@type&#x22;: &#x22;Person&#x22;,    &#x22;name&#x22;: &#x22;George W. Bush&#x22;,    &#x22;disambiguatingDescription&#x22;: &#x22;43rd President of the United States&#x22;  }}"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="referenced-entity-same-document">Referenced Entity (Same Document)</h3><a class="sl-anchor-link" href="#referenced-entity-same-document"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Referenced Entity (Same Document)”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@context"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@graph"</span><span style="--0:#F0F3F6;--1:#000000">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"@id"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"#person1"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Person"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Alice"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"knows"</span><span style="--0:#F0F3F6;--1:#000000">: {</span><span style="--0:#72F088;--1:#0451A5">"@id"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"#person2"</span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">},</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"@id"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"#person2"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Person"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Bob"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"knows"</span><span style="--0:#F0F3F6;--1:#000000">: {</span><span style="--0:#72F088;--1:#0451A5">"@id"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"#person1"</span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;@context&#x22;: &#x22;https://schema.org&#x22;,  &#x22;@graph&#x22;: [    {      &#x22;@id&#x22;: &#x22;#person1&#x22;,      &#x22;@type&#x22;: &#x22;Person&#x22;,      &#x22;name&#x22;: &#x22;Alice&#x22;,      &#x22;knows&#x22;: {&#x22;@id&#x22;: &#x22;#person2&#x22;}    },    {      &#x22;@id&#x22;: &#x22;#person2&#x22;,      &#x22;@type&#x22;: &#x22;Person&#x22;,      &#x22;name&#x22;: &#x22;Bob&#x22;,      &#x22;knows&#x22;: {&#x22;@id&#x22;: &#x22;#person1&#x22;}    }  ]}"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="cross-site-identity-with-sameas">Cross-Site Identity with <code dir="auto">sameAs</code></h3><a class="sl-anchor-link" href="#cross-site-identity-with-sameas"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Cross-Site Identity with sameAs”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@context"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Person"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Tim Berners-Lee"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"sameAs"</span><span style="--0:#F0F3F6;--1:#000000">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#ADDCFF;--1:#A31515">"https://www.wikidata.org/wiki/Q80"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#ADDCFF;--1:#A31515">"https://en.wikipedia.org/wiki/Tim_Berners-Lee"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#ADDCFF;--1:#A31515">"https://twitter.com/timberners_lee"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;@context&#x22;: &#x22;https://schema.org&#x22;,  &#x22;@type&#x22;: &#x22;Person&#x22;,  &#x22;name&#x22;: &#x22;Tim Berners-Lee&#x22;,  &#x22;sameAs&#x22;: [    &#x22;https://www.wikidata.org/wiki/Q80&#x22;,    &#x22;https://en.wikipedia.org/wiki/Tim_Berners-Lee&#x22;,    &#x22;https://twitter.com/timberners_lee&#x22;  ]}"><div></div></button></div></figure></div>
+<p><strong><code dir="auto">sameAs</code> is critical for entity reconciliation</strong> — it declares “this entity is the same as that entity on another site.”</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="known-limitations--controversies">Known Limitations &#x26; Controversies</h2><a class="sl-anchor-link" href="#known-limitations--controversies"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Known Limitations &#x26; Controversies”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="1-symmetric-vs-asymmetric-ambiguity">1. Symmetric vs Asymmetric Ambiguity</h3><a class="sl-anchor-link" href="#1-symmetric-vs-asymmetric-ambiguity"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “1. Symmetric vs Asymmetric Ambiguity”</span></a></div>
+<p><code dir="auto">knows</code> is defined as “bi-directional” but there’s no formal mechanism ensuring symmetry. If Alice <code dir="auto">knows</code> Bob, must Bob <code dir="auto">knows</code> Alice be stated?</p>
+<p><strong>Schema.org’s answer</strong>: Both directions should be stated explicitly for clarity. The schema doesn’t enforce symmetry.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="2-no-relationship-reification-native">2. No Relationship Reification (Native)</h3><a class="sl-anchor-link" href="#2-no-relationship-reification-native"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “2. No Relationship Reification (Native)”</span></a></div>
+<p>Schema.org doesn’t have native relationship reification (making statements about statements). The Role pattern is a workaround, not true reification.</p>
+<p><strong>Example problem</strong>: “Alice worked for Company X from 2010-2015, introduced by Bob”</p>
+<p>The Role pattern handles dates but not “introduced by Bob.”</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="3-incomplete-inverse-coverage">3. Incomplete Inverse Coverage</h3><a class="sl-anchor-link" href="#3-incomplete-inverse-coverage"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “3. Incomplete Inverse Coverage”</span></a></div>
+<p>Many useful inverses aren’t defined:</p>
+<ul>
+<li><code dir="auto">worksFor</code> has no <code dir="auto">employs</code> inverse</li>
+<li><code dir="auto">author</code> has no <code dir="auto">authorOf</code> inverse</li>
+<li><code dir="auto">knows</code> (symmetric) doesn’t need inverse, but tooling doesn’t always recognize this</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="4-flat-over-normalized">4. Flat Over Normalized</h3><a class="sl-anchor-link" href="#4-flat-over-normalized"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “4. Flat Over Normalized”</span></a></div>
+<p>Schema.org prioritizes “something is better than nothing” over precise semantics:</p>
+<blockquote>
+<p>“The vocabulary is intentionally ‘flat and less normalized’ rather than database-oriented”</p>
+</blockquote>
+<p>This means:</p>
+<ul>
+<li>Properties accept <code dir="auto">Text</code> even when specific types are expected</li>
+<li>Relationships can be URLs or embedded objects</li>
+<li>Data quality varies wildly in the wild</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="5-no-cardinality-constraints">5. No Cardinality Constraints</h3><a class="sl-anchor-link" href="#5-no-cardinality-constraints"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “5. No Cardinality Constraints”</span></a></div>
+<p>All properties are multi-value by default. There’s no way to say “a Person can have only one spouse” (legally debatable anyway).</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="6-limited-provenance">6. Limited Provenance</h3><a class="sl-anchor-link" href="#6-limited-provenance"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “6. Limited Provenance”</span></a></div>
+<p>No native properties for:</p>
+<ul>
+<li>Who asserted this relationship</li>
+<li>When was it asserted</li>
+<li>Confidence level</li>
+<li>Source of information</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="7-datatype-issues">7. Datatype Issues</h3><a class="sl-anchor-link" href="#7-datatype-issues"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “7. Datatype Issues”</span></a></div>
+<p>Schema.org creates custom datatypes (like <code dir="auto">schema:Text</code>, <code dir="auto">schema:URL</code>) that duplicate XSD standards, causing interoperability issues with RDF tools.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="recent-evolution-2024-2025">Recent Evolution (2024-2025)</h2><a class="sl-anchor-link" href="#recent-evolution-2024-2025"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Recent Evolution (2024-2025)”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="version-294-december-2025">Version 29.4 (December 2025)</h3><a class="sl-anchor-link" href="#version-294-december-2025"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Version 29.4 (December 2025)”</span></a></div>
+<p>Recent additions relevant to relationships:</p>
+<ul>
+<li><code dir="auto">lifeEvent</code> property added to Person (accepts Event type)</li>
+<li><code dir="auto">linkRelationship</code> property for web link relationships</li>
+<li>Enhanced event types: <code dir="auto">ConferenceEvent</code>, <code dir="auto">PerformingArtsEvent</code>, <code dir="auto">InstantaneousEvent</code></li>
+<li>OWL equivalences added for external ontology interoperability</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="ongoing-patterns">Ongoing Patterns</h3><a class="sl-anchor-link" href="#ongoing-patterns"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Ongoing Patterns”</span></a></div>
+<ol>
+<li><strong>More event/action types</strong> — Moving beyond static entities to temporal occurrences</li>
+<li><strong>Cross-vocabulary alignment</strong> — Better interop with GS1, UN/CEFACT</li>
+<li><strong>Pending vocabulary growth</strong> — 825+ terms in pending section</li>
+<li><strong>Extension namespaces</strong> — Domain-specific vocabularies (health, auto)</li>
+</ol>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="comparison-with-other-vocabularies">Comparison with Other Vocabularies</h2><a class="sl-anchor-link" href="#comparison-with-other-vocabularies"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Comparison with Other Vocabularies”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="schemaorg-vs-foaf">Schema.org vs FOAF</h3><a class="sl-anchor-link" href="#schemaorg-vs-foaf"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Schema.org vs FOAF”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Aspect</th><th>Schema.org</th><th>FOAF</th></tr></thead><tbody><tr><td>Relationship granularity</td><td>Generic (<code dir="auto">knows</code>)</td><td>Also generic (<code dir="auto">knows</code>)</td></tr><tr><td>Extensions</td><td>Via properties</td><td>RELATIONSHIP vocabulary</td></tr><tr><td>Adoption</td><td>45M+ domains</td><td>Academic/semantic web</td></tr><tr><td>JSON-LD support</td><td>Native</td><td>Supported</td></tr><tr><td>Google interpretation</td><td>Yes</td><td>Limited</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="schemaorg-vs-wikidata">Schema.org vs Wikidata</h3><a class="sl-anchor-link" href="#schemaorg-vs-wikidata"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Schema.org vs Wikidata”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Aspect</th><th>Schema.org</th><th>Wikidata</th></tr></thead><tbody><tr><td>Relationship model</td><td>Properties on entities</td><td>Statements with qualifiers</td></tr><tr><td>Temporal support</td><td>Role pattern</td><td>Qualifiers (start time, end time)</td></tr><tr><td>Provenance</td><td>Not native</td><td>References on statements</td></tr><tr><td>Reification</td><td>Limited (Role)</td><td>Full qualifier support</td></tr><tr><td>Scale</td><td>1,528 properties</td><td>12,000+ properties</td></tr></tbody></table>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="implications-for-entity-modeling">Implications for Entity Modeling</h2><a class="sl-anchor-link" href="#implications-for-entity-modeling"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Implications for Entity Modeling”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="what-to-adopt-from-schemaorg">What to Adopt from Schema.org</h3><a class="sl-anchor-link" href="#what-to-adopt-from-schemaorg"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “What to Adopt from Schema.org”</span></a></div>
+<ol>
+<li><strong>Relationships as properties</strong> — Simple, widely understood model</li>
+<li><strong>Inverse property pairs</strong> — Declare both directions for important relationships</li>
+<li><strong>Role pattern for temporal</strong> — Wrap relationships that need dates</li>
+<li><strong><code dir="auto">sameAs</code> for identity</strong> — Critical for cross-source reconciliation</li>
+<li><strong>Generic + specific</strong> — Have both <code dir="auto">knows</code> and <code dir="auto">colleague</code>, <code dir="auto">spouse</code>, etc.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="what-to-extend-beyond-schemaorg">What to Extend Beyond Schema.org</h3><a class="sl-anchor-link" href="#what-to-extend-beyond-schemaorg"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “What to Extend Beyond Schema.org”</span></a></div>
+<ol>
+<li><strong>Relationship strength/weight</strong> — Add custom properties if needed</li>
+<li><strong>Provenance</strong> — Track who asserted relationships and when</li>
+<li><strong>Confidence levels</strong> — Useful for AI-extracted relationships</li>
+<li><strong>Richer temporal model</strong> — Consider Wikidata-style qualifiers</li>
+<li><strong>Bi-directional enforcement</strong> — If A knows B, create B knows A automatically</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="recommended-core-relationship-properties">Recommended Core Relationship Properties</h3><a class="sl-anchor-link" href="#recommended-core-relationship-properties"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Recommended Core Relationship Properties”</span></a></div>
+<p>For a personal knowledge graph, consider:</p>
+<p><strong>Person-Person:</strong></p>
+<ul>
+<li><code dir="auto">knows</code> (generic)</li>
+<li><code dir="auto">relatedTo</code> (family - generic)</li>
+<li><code dir="auto">spouse</code>, <code dir="auto">parent</code>, <code dir="auto">children</code>, <code dir="auto">sibling</code> (family - specific)</li>
+<li><code dir="auto">colleague</code>, <code dir="auto">collaboratesWith</code> (professional)</li>
+</ul>
+<p><strong>Person-Organization:</strong></p>
+<ul>
+<li><code dir="auto">memberOf</code> / <code dir="auto">member</code></li>
+<li><code dir="auto">worksFor</code> / <code dir="auto">employee</code> (or custom <code dir="auto">employs</code>)</li>
+<li><code dir="auto">alumniOf</code> / <code dir="auto">alumni</code></li>
+<li><code dir="auto">affiliation</code></li>
+<li><code dir="auto">founded</code> / <code dir="auto">founder</code></li>
+</ul>
+<p><strong>Content:</strong></p>
+<ul>
+<li><code dir="auto">author</code> / <code dir="auto">creator</code></li>
+<li><code dir="auto">about</code> / <code dir="auto">mentions</code></li>
+<li><code dir="auto">isPartOf</code> / <code dir="auto">hasPart</code></li>
+</ul>
+<p><strong>Identity:</strong></p>
+<ul>
+<li><code dir="auto">sameAs</code> — Always include for cross-referencing</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="sources">Sources</h2><a class="sl-anchor-link" href="#sources"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Sources”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="primary-sources">Primary Sources</h3><a class="sl-anchor-link" href="#primary-sources"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Primary Sources”</span></a></div>
+<p><strong>Schema.org Official:</strong></p>
+<ul>
+<li><a href="https://schema.org/Person">https://schema.org/Person</a> — Person type with all relationship properties</li>
+<li><a href="https://schema.org/knows">https://schema.org/knows</a> — “knows” property definition</li>
+<li><a href="https://schema.org/spouse">https://schema.org/spouse</a> — Spouse property</li>
+<li><a href="https://schema.org/colleague">https://schema.org/colleague</a> — Colleague property</li>
+<li><a href="https://schema.org/memberOf">https://schema.org/memberOf</a> — MemberOf property</li>
+<li><a href="https://schema.org/Role">https://schema.org/Role</a> — Role type for temporal qualification</li>
+<li><a href="https://schema.org/inverseOf">https://schema.org/inverseOf</a> — Inverse property meta-definition</li>
+<li><a href="https://schema.org/hasPart">https://schema.org/hasPart</a> — Part-whole relationship</li>
+<li><a href="https://schema.org/isPartOf">https://schema.org/isPartOf</a> — Inverse of hasPart</li>
+<li><a href="https://schema.org/startDate">https://schema.org/startDate</a> — Temporal property</li>
+<li><a href="https://schema.org/validFrom">https://schema.org/validFrom</a> — Validity property</li>
+</ul>
+<p><strong>JSON-LD:</strong></p>
+<ul>
+<li><a href="https://w3c.github.io/json-ld-bp/">https://w3c.github.io/json-ld-bp/</a> — JSON-LD Best Practices (W3C)</li>
+<li><a href="https://json-ld.github.io/json-ld.org/spec/latest/json-ld-api-best-practices/">https://json-ld.github.io/json-ld.org/spec/latest/json-ld-api-best-practices/</a> — API best practices</li>
+<li><a href="https://www.w3.org/ns/json-ld">https://www.w3.org/ns/json-ld</a> — JSON-LD vocabulary (includes @reverse)</li>
+</ul>
+<p><strong>Alternative Vocabularies:</strong></p>
+<ul>
+<li><a href="https://vocab.org/relationship/">https://vocab.org/relationship/</a> — RELATIONSHIP vocabulary for FOAF</li>
+<li><a href="https://gmpg.org/xfn/and/foaf">https://gmpg.org/xfn/and/foaf</a> — XFN and FOAF comparison</li>
+<li><a href="https://www.w3.org/2001/sw/Europe/events/foaf-galway/papers/fp/ontological_consideration_on_human_relationship_vocabulary/">https://www.w3.org/2001/sw/Europe/events/foaf-galway/papers/fp/ontological_consideration_on_human_relationship_vocabulary/</a> — FOAF relationship ontology research</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="technical-references">Technical References</h3><a class="sl-anchor-link" href="#technical-references"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Technical References”</span></a></div>
+<p><strong>Inverse Properties:</strong></p>
+<ul>
+<li><a href="https://schema.org/inverseOf">https://schema.org/inverseOf</a> — Meta-property definition</li>
+<li><a href="https://www.w3.org/wiki/WebSchemas/InverseProperties">https://www.w3.org/wiki/WebSchemas/InverseProperties</a> — W3C WebSchemas discussion</li>
+</ul>
+<p><strong>Temporal Modeling:</strong></p>
+<ul>
+<li><a href="https://schema.org/EmployeeRole">https://schema.org/EmployeeRole</a> — Employee role with salary</li>
+<li><a href="https://schema.org/OrganizationRole">https://schema.org/OrganizationRole</a> — Organization role with position</li>
+<li><a href="https://www.w3.org/wiki/images/2/22/RolesinSchema.orgMar26.pdf">https://www.w3.org/wiki/images/2/22/RolesinSchema.orgMar26.pdf</a> — Roles in Schema.org (W3C)</li>
+</ul>
+<p><strong>Limitations &#x26; Criticism:</strong></p>
+<ul>
+<li><a href="https://github.com/schemaorg/schemaorg/issues/1781">https://github.com/schemaorg/schemaorg/issues/1781</a> — Datatype duplication issues</li>
+<li><a href="https://github.com/schemaorg/schemaorg/issues/1896">https://github.com/schemaorg/schemaorg/issues/1896</a> — subPropertyOf inference questions</li>
+<li><a href="https://queue.acm.org/detail.cfm?id=2857276">https://queue.acm.org/detail.cfm?id=2857276</a> — “Schema.org: Evolution” (ACM) — discusses pragmatic constraints</li>
+<li><a href="https://stackoverflow.com/questions/27149247/use-schema-org-as-database-schema-a-rational-approuch">https://stackoverflow.com/questions/27149247/use-schema-org-as-database-schema-a-rational-approuch</a> — Database schema concerns</li>
+</ul>
+<p><strong>JSON-LD @reverse:</strong></p>
+<ul>
+<li><a href="https://www.richeyweb.com/blog/seo/self-reporting-backlinks-with-json-ld-reverse">https://www.richeyweb.com/blog/seo/self-reporting-backlinks-with-json-ld-reverse</a> — Practical @reverse examples</li>
+<li><a href="https://json-ld.org/spec/latest/json-ld-connect/">https://json-ld.org/spec/latest/json-ld-connect/</a> — JSON-LD Connect spec</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="schemaorg-releases">Schema.org Releases</h3><a class="sl-anchor-link" href="#schemaorg-releases"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Schema.org Releases”</span></a></div>
+<ul>
+<li><a href="https://www.schema.org/docs/releases.html">https://www.schema.org/docs/releases.html</a> — Full release history</li>
+<li><a href="https://schema.org/version/latest">https://schema.org/version/latest</a> — Current version (29.4 as of Dec 2025)</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="session-log">Session Log</h2><a class="sl-anchor-link" href="#session-log"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Session Log”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="2025-01-24-initial-research">2025-01-24: Initial Research</h3><a class="sl-anchor-link" href="#2025-01-24-initial-research"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “2025-01-24: Initial Research”</span></a></div>
+<ul>
+<li>Created focused research document on Schema.org relationships</li>
+<li>Web searches covering:
+<ul>
+<li>Core relationship properties (knows, spouse, colleague, memberOf)</li>
+<li>JSON-LD relationship patterns</li>
+<li>Inverse properties and directionality</li>
+<li>Temporal relationships (Role pattern, startDate/endDate)</li>
+<li>Relationship strength limitations</li>
+<li>Recent Schema.org evolution (v29.4)</li>
+<li>Known limitations and criticisms</li>
+</ul>
+</li>
+<li>Fetched and analyzed complete Schema.org Person type definition</li>
+<li>Compared with FOAF, RELATIONSHIP vocabulary, Wikidata approaches</li>
+</ul>
+<p><strong>Key Findings:</strong></p>
+<ol>
+<li>Schema.org uses <strong>generic relationship types</strong> (<code dir="auto">knows</code>) by design</li>
+<li><strong>Role pattern</strong> is the standard for time-bound relationships</li>
+<li><strong>No native support</strong> for relationship strength/weight</li>
+<li><code dir="auto">@reverse</code> in JSON-LD enables inverse relationships not in schema</li>
+<li>~40% of relationship properties have explicit inverses</li>
+<li>Pragmatic design prioritizes adoption over semantic precision</li>
+</ol>
+<p><strong>Implications for Our Project:</strong></p>
+<ul>
+<li>Use Schema.org property names for interoperability</li>
+<li>Extend with custom properties for strength/confidence if needed</li>
+<li>Implement Role pattern for temporal relationships</li>
+<li>Always create both directions of important relationships</li>
+<li>Include <code dir="auto">sameAs</code> for entity reconciliation</li>
+</ul> </div> <footer class="sl-flex astro-bmlnrcen"> <div class="meta sl-flex astro-bmlnrcen">   </div> <div class="pagination-links print:hidden astro-sjqzzol4" dir="ltr"> <a href="../../../research/ontology/schema-entities/index.html" rel="prev" class="astro-sjqzzol4"> <svg aria-hidden="true" class="astro-sjqzzol4 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg> <span class="astro-sjqzzol4"> Previous <br class="astro-sjqzzol4"> <span class="link-title astro-sjqzzol4">Entity Schema</span> </span> </a> <a href="../../../research/ontology/schema-relationships/index.html" rel="next" class="astro-sjqzzol4"> <svg aria-hidden="true" class="astro-sjqzzol4 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg> <span class="astro-sjqzzol4"> Next <br class="astro-sjqzzol4"> <span class="link-title astro-sjqzzol4">Relationship Schema</span> </span> </a> </div>  </footer> </div> </div>  </main> </div> </div> </div> </div> </body></html>

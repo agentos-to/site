@@ -51,7 +51,7 @@ def _emit_preamble(namespaces: list[dict]) -> list[str]:
         '"""Auto-generated engine dispatch client — do not edit.',
         "",
         f"Generated from {len(namespaces)} namespaces, {op_count} ops.",
-        "Regenerate with: python3 docs/generate.py --docs",
+        "Regenerate with: python3 codegen/generate.py",
         "",
         "Source of truth: crates/core/src/tools.rs REGISTRY (D11).",
         '"""',

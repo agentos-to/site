@@ -1,0 +1,755 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-wwc3bqpt"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>FamilySearch Genealogical Data Model | AgentOS Docs</title><link rel="canonical" href="https://agentos.to/research/platforms/familysearch/"/><link rel="sitemap" href="../../../sitemap-index.xml"/><script type="module">
+						import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+						// Starlight renders code fences through Expressive Code, which wraps
+						// content in .expressive-code > pre > code.language-mermaid and applies
+						// syntax-highlight styles. Unwrap those to plain <pre class="mermaid">text</pre>
+						// so mermaid can run on the raw source.
+						const render = () => {
+							const blocks = document.querySelectorAll('code.language-mermaid');
+							if (!blocks.length) return;
+							blocks.forEach((code) => {
+								const wrapper = code.closest('.expressive-code') || code.closest('pre');
+								if (!wrapper || wrapper.dataset.mermaidMounted === '1') return;
+								const pre = document.createElement('pre');
+								pre.className = 'mermaid';
+								pre.textContent = code.textContent;
+								wrapper.replaceWith(pre);
+								pre.dataset.mermaidMounted = '1';
+							});
+							const isDark = document.documentElement.dataset.theme !== 'light';
+							mermaid.initialize({
+								startOnLoad: false,
+								theme: isDark ? 'dark' : 'default',
+								securityLevel: 'loose',
+								themeVariables: isDark ? {
+									background: '#0b0b0f',
+									primaryColor: '#1a1a24',
+									primaryTextColor: '#e8e8ee',
+									primaryBorderColor: '#3d3d4d',
+									lineColor: '#8b8b98',
+									secondaryColor: '#141420',
+									tertiaryColor: '#101018',
+								} : {},
+							});
+							mermaid.run({ querySelector: 'pre.mermaid:not([data-processed])' });
+						};
+
+						if (document.readyState === 'loading') {
+							document.addEventListener('DOMContentLoaded', render);
+						} else {
+							render();
+						}
+
+						// Re-run on Astro view transitions
+						document.addEventListener('astro:after-swap', render);
+					</script><link rel="shortcut icon" href="../../../favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v6.1.5"/><meta name="generator" content="Starlight v0.38.3"/><meta property="og:title" content="FamilySearch Genealogical Data Model"/><meta property="og:type" content="article"/><meta property="og:url" content="https://agentos.to/research/platforms/familysearch/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Research document for informing family relationship modeling in our knowledge graph."/><meta property="og:site_name" content="AgentOS Docs"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Research document for informing family relationship modeling in our knowledge graph."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="../../../_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="../../../_astro/common.D4duwXY4.css">
+<link rel="stylesheet" href="../../../_astro/Code.DQp0_qN-.css"><script type="module" src="../../../_astro/page.BIhdncjw.js"></script></head> <body class="astro-wwc3bqpt"> <a href="#_top" class="astro-3x7q7msw">Skip to content</a> <div class="page sl-flex astro-axwskc5k"> <header class="header astro-axwskc5k"><div class="header astro-3ef6ksr2"> <div class="title-wrapper sl-flex astro-3ef6ksr2"> <a href="../../../index.html" class="site-title sl-flex astro-c5jbctzu">  <span class="astro-c5jbctzu" translate="no"> AgentOS Docs </span> </a> </div> <nav class="topic-tabs astro-3ef6ksr2" aria-label="Sections"> <ul class="astro-3ef6ksr2"> <li class="astro-3ef6ksr2"> <a href="../../../introduction/what-is-agentos/index.html" class="astro-3ef6ksr2">Learn</a> </li><li class="astro-3ef6ksr2"> <a href="../../../introduction/how-we-build/index.html" class="astro-3ef6ksr2">Build</a> </li><li class="astro-3ef6ksr2"> <a href="../../../shapes/overview/index.html" class="astro-3ef6ksr2">Shapes</a> </li><li class="astro-3ef6ksr2"> <a href="../../../research/ontology/relationship-modeling/index.html" aria-current="page" class="astro-3ef6ksr2">Research</a> </li> </ul> </nav> <div class="sl-flex print:hidden search-wrap astro-3ef6ksr2"> <site-search class="astro-3ef6ksr2 astro-tijk2zt5" data-translations="{&#34;placeholder&#34;:&#34;Search&#34;}"> <button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-tijk2zt5"> <svg aria-hidden="true" class="astro-tijk2zt5 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg> <span class="sl-hidden md:sl-block astro-tijk2zt5" aria-hidden="true">Search</span> <kbd class="sl-hidden md:sl-flex astro-tijk2zt5" style="display: none;"> <kbd class="astro-tijk2zt5">Ctrl</kbd><kbd class="astro-tijk2zt5">K</kbd> </kbd> </button> <dialog style="padding:0" aria-label="Search" class="astro-tijk2zt5"> <div class="dialog-frame sl-flex astro-tijk2zt5">  <button data-close-modal class="sl-flex md:sl-hidden astro-tijk2zt5"> Cancel </button> <div class="search-container astro-tijk2zt5"> <div id="starlight__search" class="astro-tijk2zt5"></div> </div> </div> </dialog> </site-search>  <script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script> <script type="module" src="../../../_astro/Search.astro_astro_type_script_index_0_lang.Rw77DzG6.js"></script>  </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-3ef6ksr2"> <div class="sl-flex social-icons astro-3ef6ksr2">  </div> <script type="module">class s extends HTMLElement{constructor(){super();const t=typeof localStorage<"u"&&localStorage.getItem("starlight-theme")||(window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");document.documentElement.dataset.theme=t==="light"?"light":"dark",this.handleMouseDown=this.handleMouseDown.bind(this),this.updateMaskPosition(t)}connectedCallback(){this.addEventListener("click",this.handleMouseDown)}disconnectedCallback(){this.removeEventListener("click",this.handleMouseDown)}updateMaskPosition(e){const t=this.querySelector("#moon-mask circle:last-child");t&&t.setAttribute("cx",e==="dark"?"17":"24")}handleMouseDown(){const e=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=e,localStorage.setItem("starlight-theme",e),this.updateMaskPosition(e)}}customElements.define("theme-toggle",s);</script><theme-toggle class="astro-dwm5f72o"> <button type="button" class="astro-h5tvx5sw">  <svg aria-hidden="true" height="20" viewBox="0 0 24 24" width="20" class="astro-dwm5f72o"> <mask class="moon astro-dwm5f72o" id="moon-mask"> <rect x="0" y="0" width="100%" height="100%" fill="white" class="astro-dwm5f72o"></rect> <circle cx="24" cy="10" r="6" fill="black" class="astro-dwm5f72o"></circle> </mask> <circle class="sun astro-dwm5f72o" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor"></circle> <g class="sun-beams astro-dwm5f72o" stroke="currentColor"> <line x1="12" y1="1" x2="12" y2="3" class="astro-dwm5f72o"></line> <line x1="12" y1="21" x2="12" y2="23" class="astro-dwm5f72o"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" class="astro-dwm5f72o"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" class="astro-dwm5f72o"></line> <line x1="1" y1="12" x2="3" y2="12" class="astro-dwm5f72o"></line> <line x1="21" y1="12" x2="23" y2="12" class="astro-dwm5f72o"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" class="astro-dwm5f72o"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" class="astro-dwm5f72o"></line> </g> </svg>  </button>  </theme-toggle> <script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div> <div class="progress-scroll-container astro-mu7un3ux" aria-hidden="true"> <div id="progress-scroll" class="astro-mu7un3ux"></div> </div> <script type="module">window.addEventListener("scroll",function(){if(document){const e=document.getElementById("progress-scroll");if(e){var o=window.scrollY||document.documentElement.scrollTop,n=document.documentElement.scrollHeight-window.innerHeight,t=o/n*100;e.style.width=t+"%"}}});</script></header> <nav class="sidebar print:hidden astro-axwskc5k" aria-label="Main"> <starlight-menu-button class="print:hidden astro-4nzlrr7f"> <button aria-expanded="false" aria-label="Menu" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-4nzlrr7f"> <svg aria-hidden="true" class="open-menu astro-4nzlrr7f astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg> <svg aria-hidden="true" class="close-menu astro-4nzlrr7f astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg> </button> </starlight-menu-button> <script type="module">class s extends HTMLElement{constructor(){super(),this.btn=this.querySelector("button"),this.btn.addEventListener("click",()=>this.toggleExpanded());const t=this.closest("nav");t&&t.addEventListener("keyup",e=>this.closeOnEscape(e))}setExpanded(t){this.setAttribute("aria-expanded",String(t)),document.body.toggleAttribute("data-mobile-menu-expanded",t)}toggleExpanded(){this.setExpanded(this.getAttribute("aria-expanded")!=="true")}closeOnEscape(t){t.code==="Escape"&&(this.setExpanded(!1),this.btn.focus())}}customElements.define("starlight-menu-button",s);</script>  <div id="starlight__sidebar" class="sidebar-pane astro-axwskc5k"> <div class="sidebar-content sl-flex astro-axwskc5k"> <ul class="starlight-sidebar-topics astro-gu6alnkl"> <li class="astro-gu6alnkl"> <a href="../../../introduction/what-is-agentos/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.17 2.06A13.1 13.1 0 0 0 19 1.87a12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2 13.1 13.1 0 0 0-2.17.19 1 1 0 0 0-.83 1v12a1 1 0 0 0 1.17 1 10.9 10.9 0 0 1 8.25 1.91l.12.07h.11a.91.91 0 0 0 .7 0h.11l.12-.07A10.899 10.899 0 0 1 20.83 16 1 1 0 0 0 22 15V3a1 1 0 0 0-.83-.94ZM11 15.35a12.87 12.87 0 0 0-6-1.48H4v-10c.333-.02.667-.02 1 0a10.86 10.86 0 0 1 6 1.8v9.68Zm9-1.44h-1a12.87 12.87 0 0 0-6 1.48V5.67a10.86 10.86 0 0 1 6-1.8c.333-.02.667-.02 1 0v10.04Zm1.17 4.15a13.098 13.098 0 0 0-2.17-.19 12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2.05c-.727.003-1.453.066-2.17.19A1 1 0 0 0 2 19.21a1 1 0 0 0 1.17.79 10.9 10.9 0 0 1 8.25 1.91 1 1 0 0 0 1.16 0A10.9 10.9 0 0 1 20.83 20a1 1 0 0 0 1.17-.79 1 1 0 0 0-.83-1.15Z"/></svg> </div> <div class="astro-gu6alnkl"> Learn  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../introduction/how-we-build/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 22H5a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3h1a4 4 0 0 1 7.3-2.18c.448.64.692 1.4.7 2.18h3a1 1 0 0 1 1 1v3a4 4 0 0 1 2.18 7.3A3.86 3.86 0 0 1 18 18v3a1 1 0 0 1-1 1ZM5 8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11v-3.18a1 1 0 0 1 1.33-.95 1.77 1.77 0 0 0 1.74-.23 2 2 0 0 0 .93-1.37 2 2 0 0 0-.48-1.59 1.89 1.89 0 0 0-2.17-.55 1 1 0 0 1-1.33-.95V8h-3.2a1 1 0 0 1-1-1.33 1.77 1.77 0 0 0-.23-1.74 1.939 1.939 0 0 0-3-.43A2 2 0 0 0 8 6c.002.23.046.456.13.67A1 1 0 0 1 7.18 8H5Z"/></svg> </div> <div class="astro-gu6alnkl"> Build  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../shapes/overview/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17.084 3.165L12.000 0.220L6.916 3.165L1.801 6.110L1.801 17.890L12.000 23.780L22.199 17.890L22.199 6.110L17.084 3.165ZM12.000 11.938L9.334 16.557L6.668 11.938L4.002 7.319L14.666 7.319L12.000 11.938Z"/></svg> </div> <div class="astro-gu6alnkl"> Shapes  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../research/ontology/relationship-modeling/index.html" class="starlight-sidebar-topics-current astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M9 10h1a1 1 0 1 0 0-2H9a1 1 0 0 0 0 2Zm0 2a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2H9Zm11-3.06a1.3 1.3 0 0 0-.06-.27v-.09c-.05-.1-.11-.2-.19-.28l-6-6a1.07 1.07 0 0 0-.28-.19h-.09a.88.88 0 0 0-.33-.11H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8.94Zm-6-3.53L16.59 8H15a1 1 0 0 1-1-1V5.41ZM18 19a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5v3a3 3 0 0 0 3 3h3v9Zm-3-3H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2Z"/></svg> </div> <div class="astro-gu6alnkl"> Research  </div> </a> </li> </ul> <sl-sidebar-state-persist data-hash="10ohntw" class="astro-7su4sbaf"> <script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script>  <ul class="top-level astro-bctztgix"> <li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Ontology</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="0"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/ontology/genealogical-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Genealogical Relationships Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/google-structured-data/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Google Structured Data &amp; Knowledge Graph Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/no-orphans-constraint/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">&quot;No Orphans&quot; Constraint: Research Summary</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/ogp-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Open Graph Protocol: Relationship Modeling</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/open-graph-protocol/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Open Graph Protocol Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/outcome-entity/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">The Outcome Entity: A Universal Systems Primitive</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/relationship-modeling/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Relationship Modeling Patterns in Knowledge Graphs</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-entities/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Entity Schema</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-org-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Schema.org Relationship Modeling Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Relationship Schema</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Platforms</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="1"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/platforms/facebook-graph/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Facebook Entity Graph Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/platforms/familysearch/index.html" aria-current="page" class="astro-bctztgix"> <span class="astro-bctztgix">FamilySearch Genealogical Data Model</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/platforms/google-takeout/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Google Takeout Entity Research</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Identity &amp; spaces</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="2"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/account-platform-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Account-Platform Relationship Ontology</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/digital-spaces-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Digital Spaces in Ontology Standards</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/platform-identity-standards/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Platform Identity and Normalization Standards</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/platform-space-models/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">How Major Platforms Model Their Own Spaces</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Relationships &amp; events</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="3"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/causal-chains-entity-graphs/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Blog Ideas: Causal Chains, Development Frameworks, and Entity Graphs</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/claims-relationship-model/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Identity Verification Across Platforms: 2025-2026 Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/event-vs-work-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Should &quot;Event&quot; Be a Subtype of &quot;Work&quot;? An Ontological Analysis</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/speech-acts-entity-primitives/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Speech Act Theory Maps to Entity Primitives</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Context &amp; ecosystem</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="4"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/context/ai-text-editing/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">AI Text &amp; Code Editing UX Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/markdown-ecosystem/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Markdown Ecosystem Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/pkm-community/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">PKM Community Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/semantic-file-systems/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Semantic File Systems Research</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">DX patterns</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="5"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/dx-patterns/sdk-dx-patterns/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">SDK &amp; Plugin Platform DX Patterns — Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/dx-patterns/simplification-passes-accreted-cruft/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Simplification Passes &amp; Accreted Cruft — Cross-Domain Briefing</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Interfaces</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="6"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/interfaces/overview/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Interfaces surface (research)</span>  </a> </li> </ul> </details> </li> </ul>  <script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script> </sl-sidebar-state-persist> <div class="md:sl-hidden"> <div class="mobile-preferences sl-flex astro-3e5tv76g"> <div class="social-icons astro-3e5tv76g">  </div> <theme-toggle class="astro-dwm5f72o"> <button type="button" class="astro-h5tvx5sw">  <svg aria-hidden="true" height="20" viewBox="0 0 24 24" width="20" class="astro-dwm5f72o"> <mask class="moon astro-dwm5f72o" id="moon-mask"> <rect x="0" y="0" width="100%" height="100%" fill="white" class="astro-dwm5f72o"></rect> <circle cx="24" cy="10" r="6" fill="black" class="astro-dwm5f72o"></circle> </mask> <circle class="sun astro-dwm5f72o" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor"></circle> <g class="sun-beams astro-dwm5f72o" stroke="currentColor"> <line x1="12" y1="1" x2="12" y2="3" class="astro-dwm5f72o"></line> <line x1="12" y1="21" x2="12" y2="23" class="astro-dwm5f72o"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" class="astro-dwm5f72o"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" class="astro-dwm5f72o"></line> <line x1="1" y1="12" x2="3" y2="12" class="astro-dwm5f72o"></line> <line x1="21" y1="12" x2="23" y2="12" class="astro-dwm5f72o"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" class="astro-dwm5f72o"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" class="astro-dwm5f72o"></line> </g> </svg>  </button>  </theme-toggle>  </div> </div> </div> </div> </nav> <div class="main-frame astro-axwskc5k">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-bqhhi3bs"> <aside class="right-sidebar-container print:hidden astro-bqhhi3bs"> <div class="right-sidebar astro-bqhhi3bs"> <div class="lg:sl-hidden astro-o32dv7js"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-4kdwwhqw"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-4kdwwhqw"><details id="starlight__mobile-toc" class="astro-4kdwwhqw"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-4kdwwhqw"><span class="toggle sl-flex astro-4kdwwhqw">On this page<svg aria-hidden="true" class="caret astro-4kdwwhqw astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-4kdwwhqw"></span></summary><div class="dropdown astro-4kdwwhqw"><ul class="isMobile astro-uwnltsxm" style="--depth: 0;"> <li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#_top" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#executive-summary" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Executive Summary</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#1-familysearch-data-model-overview" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">1. FamilySearch Data Model Overview</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#11-core-philosophy" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">1.1 Core Philosophy</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#12-the-two-relationship-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">1.2 The Two Relationship Types</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#13-person-entity-structure" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">1.3 Person Entity Structure</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#2-relationship-types-in-detail" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">2. Relationship Types in Detail</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#21-couple-relationship" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2.1 Couple Relationship</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#22-child-and-parents-relationship" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2.2 Child-and-Parents Relationship</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#3-gedcom-standards" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">3. GEDCOM Standards</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#31-gedcom-7-familysearch-gedcom" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">3.1 GEDCOM 7 (FamilySearch GEDCOM)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#32-gedcom-x" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">3.2 GEDCOM X</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#33-gedcom-x-vs-gedcom-7" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">3.3 GEDCOM X vs GEDCOM 7</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#4-handling-complex-cases" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">4. Handling Complex Cases</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#41-multiple-parents-adoption-foster-step" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4.1 Multiple Parents (Adoption, Foster, Step)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#42-step-parents" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4.2 Step-Parents</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#43-multiple-marriages" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4.3 Multiple Marriages</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#44-same-sex-parents" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4.4 Same-Sex Parents</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#45-uncertaindisputed-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4.5 Uncertain/Disputed Relationships</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#5-relationship-metadata" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">5. Relationship Metadata</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#51-dates" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">5.1 Dates</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#52-source-citations" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">5.2 Source Citations</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#53-confidencequality" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">5.3 Confidence/Quality</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#6-familysearch-api-summary" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">6. FamilySearch API Summary</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#61-authentication" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">6.1 Authentication</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#62-key-endpoints" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">6.2 Key Endpoints</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#63-response-formats" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">6.3 Response Formats</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#7-comparison-with-other-platforms" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">7. Comparison with Other Platforms</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#71-ancestrycom" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">7.1 Ancestry.com</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#72-myheritage" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">7.2 MyHeritage</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#73-graph-databases-for-genealogy" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">7.3 Graph Databases for Genealogy</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#8-recommendations-for-our-schema" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">8. Recommendations for Our Schema</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#81-core-family-relationship-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">8.1 Core Family Relationship Types</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#82-derived-relationships-computed-not-stored" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">8.2 Derived Relationships (Computed, Not Stored)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#83-relationship-metadata-pattern" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">8.3 Relationship Metadata Pattern</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#84-multiple-parent-sets" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">8.4 Multiple Parent Sets</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#85-same-sex-parents" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">8.5 Same-Sex Parents</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#86-bidirectional-vs-unidirectional" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">8.6 Bidirectional vs Unidirectional</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#9-sources-consulted" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">9. Sources Consulted</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#official-documentation" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Official Documentation</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#help-articles" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Help Articles</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#other-platforms" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Other Platforms</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#academiccommunity" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Academic/Community</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#10-key-takeaways" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">10. Key Takeaways</span> </a>  </li> </ul></div></details></nav></mobile-starlight-toc><script type="module" src="../../../_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.hwBsy0Mo.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-o32dv7js"><div class="sl-container astro-o32dv7js"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-uwnltsxm" style="--depth: 0;"> <li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#_top" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#executive-summary" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Executive Summary</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#1-familysearch-data-model-overview" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">1. FamilySearch Data Model Overview</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#11-core-philosophy" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">1.1 Core Philosophy</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#12-the-two-relationship-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">1.2 The Two Relationship Types</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#13-person-entity-structure" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">1.3 Person Entity Structure</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#2-relationship-types-in-detail" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">2. Relationship Types in Detail</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#21-couple-relationship" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2.1 Couple Relationship</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#22-child-and-parents-relationship" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2.2 Child-and-Parents Relationship</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#3-gedcom-standards" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">3. GEDCOM Standards</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#31-gedcom-7-familysearch-gedcom" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">3.1 GEDCOM 7 (FamilySearch GEDCOM)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#32-gedcom-x" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">3.2 GEDCOM X</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#33-gedcom-x-vs-gedcom-7" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">3.3 GEDCOM X vs GEDCOM 7</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#4-handling-complex-cases" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">4. Handling Complex Cases</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#41-multiple-parents-adoption-foster-step" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4.1 Multiple Parents (Adoption, Foster, Step)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#42-step-parents" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4.2 Step-Parents</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#43-multiple-marriages" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4.3 Multiple Marriages</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#44-same-sex-parents" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4.4 Same-Sex Parents</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#45-uncertaindisputed-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4.5 Uncertain/Disputed Relationships</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#5-relationship-metadata" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">5. Relationship Metadata</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#51-dates" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">5.1 Dates</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#52-source-citations" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">5.2 Source Citations</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#53-confidencequality" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">5.3 Confidence/Quality</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#6-familysearch-api-summary" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">6. FamilySearch API Summary</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#61-authentication" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">6.1 Authentication</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#62-key-endpoints" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">6.2 Key Endpoints</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#63-response-formats" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">6.3 Response Formats</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#7-comparison-with-other-platforms" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">7. Comparison with Other Platforms</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#71-ancestrycom" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">7.1 Ancestry.com</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#72-myheritage" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">7.2 MyHeritage</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#73-graph-databases-for-genealogy" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">7.3 Graph Databases for Genealogy</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#8-recommendations-for-our-schema" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">8. Recommendations for Our Schema</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#81-core-family-relationship-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">8.1 Core Family Relationship Types</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#82-derived-relationships-computed-not-stored" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">8.2 Derived Relationships (Computed, Not Stored)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#83-relationship-metadata-pattern" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">8.3 Relationship Metadata Pattern</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#84-multiple-parent-sets" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">8.4 Multiple Parent Sets</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#85-same-sex-parents" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">8.5 Same-Sex Parents</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#86-bidirectional-vs-unidirectional" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">8.6 Bidirectional vs Unidirectional</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#9-sources-consulted" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">9. Sources Consulted</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#official-documentation" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Official Documentation</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#help-articles" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Help Articles</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#other-platforms" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Other Platforms</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#academiccommunity" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Academic/Community</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#10-key-takeaways" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">10. Key Takeaways</span> </a>  </li> </ul></nav></starlight-toc><script type="module" src="../../../_astro/TableOfContents.astro_astro_type_script_index_0_lang.FuRcXuRY.js"></script></div></div> </div> </aside> <div class="main-pane astro-bqhhi3bs">  <main data-pagefind-body class="astro-wwc3bqpt" lang="en" dir="ltr">    <div class="content-panel astro-wjgruomq"> <div class="sl-container astro-wjgruomq"> <h1 id="_top" class="astro-wj2r53xi">FamilySearch Genealogical Data Model</h1> </div> </div> <div class="content-panel astro-wjgruomq"> <div class="sl-container astro-wjgruomq"> <div class="sl-markdown-content"> <p><strong>Research Date:</strong> 2026-01-24</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="executive-summary">Executive Summary</h2><a class="sl-anchor-link" href="#executive-summary"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Executive Summary”</span></a></div>
+<p>FamilySearch, operated by The Church of Jesus Christ of Latter-day Saints, has the most mature and battle-tested genealogical data model in existence. Their system uses <strong>GEDCOM X</strong> as the underlying data format and maintains <strong>GEDCOM 7</strong> (FamilySearch GEDCOM) as the interchange standard. The key insight is that FamilySearch uses only <strong>two relationship types</strong> (Couple and Parent-Child) with <strong>fact qualifiers</strong> to express the full complexity of family relationships.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="1-familysearch-data-model-overview">1. FamilySearch Data Model Overview</h2><a class="sl-anchor-link" href="#1-familysearch-data-model-overview"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “1. FamilySearch Data Model Overview”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="11-core-philosophy">1.1 Core Philosophy</h3><a class="sl-anchor-link" href="#11-core-philosophy"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “1.1 Core Philosophy”</span></a></div>
+<p>FamilySearch’s data model is centered on <strong>persons</strong> linked together by <strong>relationships</strong>. All other data objects (sources, places, discussions, memories) provide supporting information.</p>
+<div class="expressive-code"><link rel="stylesheet" href="../../../_astro/ec.3svgr.css"><script type="module" src="../../../_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">Person ←→ Relationships ←→ Person</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">   </span></span><span style="--0:#f0f3f6;--1:#000000">↓           ↓            ↓</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000"> </span></span><span style="--0:#f0f3f6;--1:#000000">Facts      Facts        Facts</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">   </span></span><span style="--0:#f0f3f6;--1:#000000">↓           ↓            ↓</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">Sources    Sources      Sources</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Person ←→ Relationships ←→ Person   ↓           ↓            ↓ Facts      Facts        Facts   ↓           ↓            ↓Sources    Sources      Sources"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="12-the-two-relationship-types">1.2 The Two Relationship Types</h3><a class="sl-anchor-link" href="#12-the-two-relationship-types"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “1.2 The Two Relationship Types”</span></a></div>
+<p><strong>FamilySearch has only two relationship types:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Relationship Type</th><th>Description</th><th>API Resource</th></tr></thead><tbody><tr><td><strong>Couple Relationship</strong></td><td>Between two people (spouses, partners)</td><td><code dir="auto">/platform/tree/couple-relationships/{crid}</code></td></tr><tr><td><strong>Child-and-Parents Relationship</strong></td><td>Between a child and up to two parents</td><td><code dir="auto">/platform/tree/child-and-parents-relationships/{caprid}</code></td></tr></tbody></table>
+<p>This is a critical design choice. Rather than having dozens of relationship types, they use a minimal set with <strong>facts/qualifiers</strong> to express nuance.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="13-person-entity-structure">1.3 Person Entity Structure</h3><a class="sl-anchor-link" href="#13-person-entity-structure"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “1.3 Person Entity Structure”</span></a></div>
+<p>A Person in FamilySearch includes:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Component</th><th>Description</th></tr></thead><tbody><tr><td><strong>ID</strong></td><td>Unique identifier (e.g., <code dir="auto">KWQV-BGF</code>)</td></tr><tr><td><strong>Names</strong></td><td>Multiple names with types (birth, married, AKA)</td></tr><tr><td><strong>Gender</strong></td><td>Male, Female, Unknown</td></tr><tr><td><strong>Facts</strong></td><td>Birth, death, and other life events</td></tr><tr><td><strong>Relationships</strong></td><td>Links to couple and parent-child relationships</td></tr><tr><td><strong>Sources</strong></td><td>Evidence supporting conclusions</td></tr><tr><td><strong>Discussions</strong></td><td>Community research notes</td></tr><tr><td><strong>Memories</strong></td><td>Photos, documents, audio</td></tr><tr><td><strong>Change History</strong></td><td>Audit trail of modifications</td></tr></tbody></table>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="2-relationship-types-in-detail">2. Relationship Types in Detail</h2><a class="sl-anchor-link" href="#2-relationship-types-in-detail"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “2. Relationship Types in Detail”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="21-couple-relationship">2.1 Couple Relationship</h3><a class="sl-anchor-link" href="#21-couple-relationship"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “2.1 Couple Relationship”</span></a></div>
+<p>The Couple Relationship connects two persons as partners/spouses.</p>
+<p><strong>Structure:</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"id"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"relationship-id"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"person1"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"resourceId"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"PERSON-1-ID"</span><span style="--0:#F0F3F6;--1:#000000"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"person2"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"resourceId"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"PERSON-2-ID"</span><span style="--0:#F0F3F6;--1:#000000"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"facts"</span><span style="--0:#F0F3F6;--1:#000000">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"http://gedcomx.org/Marriage"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"date"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"original"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"12 June 1950"</span><span style="--0:#F0F3F6;--1:#000000"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"place"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"original"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Salt Lake City, Utah"</span><span style="--0:#F0F3F6;--1:#000000"> }</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;id&#x22;: &#x22;relationship-id&#x22;,  &#x22;person1&#x22;: { &#x22;resourceId&#x22;: &#x22;PERSON-1-ID&#x22; },  &#x22;person2&#x22;: { &#x22;resourceId&#x22;: &#x22;PERSON-2-ID&#x22; },  &#x22;facts&#x22;: [    {      &#x22;type&#x22;: &#x22;http://gedcomx.org/Marriage&#x22;,      &#x22;date&#x22;: { &#x22;original&#x22;: &#x22;12 June 1950&#x22; },      &#x22;place&#x22;: { &#x22;original&#x22;: &#x22;Salt Lake City, Utah&#x22; }    }  ]}"><div></div></button></div></figure></div>
+<p><strong>Supported Facts on Couple Relationships:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Fact Type URI</th><th>Description</th></tr></thead><tbody><tr><td><code dir="auto">http://gedcomx.org/Marriage</code></td><td>Legal or ceremonial marriage</td></tr><tr><td><code dir="auto">http://gedcomx.org/CommonLawMarriage</code></td><td>Common law marriage</td></tr><tr><td><code dir="auto">http://gedcomx.org/Divorce</code></td><td>Legal divorce</td></tr><tr><td><code dir="auto">http://gedcomx.org/Annulment</code></td><td>Marriage annulment</td></tr><tr><td><code dir="auto">http://familysearch.org/v1/LivedTogether</code></td><td>Cohabitation without marriage</td></tr><tr><td><code dir="auto">http://familysearch.org/v1/CoupleNeverHadChildren</code></td><td>Childless couple marker</td></tr></tbody></table>
+<p><strong>Note on Gender:</strong> FamilySearch now supports same-sex couples. The API uses generic <code dir="auto">person1</code>/<code dir="auto">person2</code> (not husband/wife) to accommodate all relationships.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="22-child-and-parents-relationship">2.2 Child-and-Parents Relationship</h3><a class="sl-anchor-link" href="#22-child-and-parents-relationship"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “2.2 Child-and-Parents Relationship”</span></a></div>
+<p>The Child-and-Parents Relationship connects a child to their parents.</p>
+<p><strong>Structure:</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"id"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"relationship-id"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"child"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"resourceId"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"CHILD-ID"</span><span style="--0:#F0F3F6;--1:#000000"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"parent1"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"resourceId"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"PARENT-1-ID"</span><span style="--0:#F0F3F6;--1:#000000"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"parent2"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"resourceId"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"PARENT-2-ID"</span><span style="--0:#F0F3F6;--1:#000000"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"parent1Facts"</span><span style="--0:#F0F3F6;--1:#000000">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">{ </span><span style="--0:#72F088;--1:#0451A5">"type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"http://gedcomx.org/BiologicalParent"</span><span style="--0:#F0F3F6;--1:#000000"> }</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">],</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"parent2Facts"</span><span style="--0:#F0F3F6;--1:#000000">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">{ </span><span style="--0:#72F088;--1:#0451A5">"type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"http://gedcomx.org/BiologicalParent"</span><span style="--0:#F0F3F6;--1:#000000"> }</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;id&#x22;: &#x22;relationship-id&#x22;,  &#x22;child&#x22;: { &#x22;resourceId&#x22;: &#x22;CHILD-ID&#x22; },  &#x22;parent1&#x22;: { &#x22;resourceId&#x22;: &#x22;PARENT-1-ID&#x22; },  &#x22;parent2&#x22;: { &#x22;resourceId&#x22;: &#x22;PARENT-2-ID&#x22; },  &#x22;parent1Facts&#x22;: [    { &#x22;type&#x22;: &#x22;http://gedcomx.org/BiologicalParent&#x22; }  ],  &#x22;parent2Facts&#x22;: [    { &#x22;type&#x22;: &#x22;http://gedcomx.org/BiologicalParent&#x22; }  ]}"><div></div></button></div></figure></div>
+<p><strong>Lineage Types (Parent-Child Fact Types):</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Fact Type URI</th><th>Description</th></tr></thead><tbody><tr><td><code dir="auto">http://gedcomx.org/BiologicalParent</code></td><td>Genetic/birth parent</td></tr><tr><td><code dir="auto">http://gedcomx.org/AdoptiveParent</code></td><td>Legally adopted</td></tr><tr><td><code dir="auto">http://gedcomx.org/FosterParent</code></td><td>Foster care relationship</td></tr><tr><td><code dir="auto">http://gedcomx.org/GuardianParent</code></td><td>Legal guardianship</td></tr><tr><td><code dir="auto">http://gedcomx.org/StepParent</code></td><td>Step-parent through marriage</td></tr></tbody></table>
+<p><strong>Key Design Decisions:</strong></p>
+<ol>
+<li><strong>Each parent has separate lineage type</strong> — Parent 1 could be biological while Parent 2 is adoptive</li>
+<li><strong>A child can have multiple parent sets</strong> — Biological parents AND adoptive parents each get their own relationship</li>
+<li><strong>One parent can be unspecified</strong> — Single parent situations are supported</li>
+<li><strong>No sibling relationship type</strong> — Siblings are derived from shared parents</li>
+</ol>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="3-gedcom-standards">3. GEDCOM Standards</h2><a class="sl-anchor-link" href="#3-gedcom-standards"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “3. GEDCOM Standards”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="31-gedcom-7-familysearch-gedcom">3.1 GEDCOM 7 (FamilySearch GEDCOM)</h3><a class="sl-anchor-link" href="#31-gedcom-7-familysearch-gedcom"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “3.1 GEDCOM 7 (FamilySearch GEDCOM)”</span></a></div>
+<p>GEDCOM 7 (released 2021, current version 7.0.16) is the file interchange format. It uses a hierarchical line-based structure.</p>
+<p><strong>Family (FAM) Record Structure:</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="gedcom"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">0 @F1@ FAM</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 HUSB @I1@</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 WIFE @I2@</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 CHIL @I3@</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 CHIL @I4@</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 MARR</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 DATE 15 JUN 1952</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 PLAC Salt Lake City, Utah</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 DIV</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 DATE 1 MAR 1970</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="0 @F1@ FAM1 HUSB @I1@1 WIFE @I2@1 CHIL @I3@1 CHIL @I4@1 MARR2 DATE 15 JUN 19522 PLAC Salt Lake City, Utah1 DIV2 DATE 1 MAR 1970"><div></div></button></div></figure></div>
+<p><strong>Individual (INDI) Record Structure:</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="gedcom"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">0 @I1@ INDI</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 NAME John /Smith/</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 GIVN John</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 SURN Smith</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 SEX M</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 BIRT</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 DATE 1 JAN 1930</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 PLAC Boston, Massachusetts</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 FAMC @F0@</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 FAMS @F1@</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="0 @I1@ INDI1 NAME John /Smith/2 GIVN John2 SURN Smith1 SEX M1 BIRT2 DATE 1 JAN 19302 PLAC Boston, Massachusetts1 FAMC @F0@1 FAMS @F1@"><div></div></button></div></figure></div>
+<p><strong>GEDCOM 7 Relationship Links:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Tag</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">FAMC</code></td><td>Family as child (links INDI to FAM where they are a child)</td></tr><tr><td><code dir="auto">FAMS</code></td><td>Family as spouse (links INDI to FAM where they are a partner)</td></tr><tr><td><code dir="auto">HUSB</code></td><td>Husband/Partner 1 in family</td></tr><tr><td><code dir="auto">WIFE</code></td><td>Wife/Partner 2 in family</td></tr><tr><td><code dir="auto">CHIL</code></td><td>Child in family</td></tr></tbody></table>
+<p><strong>Pedigree (PEDI) Values in GEDCOM 7:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Value</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">ADOPTED</code></td><td>Adoptive parents</td></tr><tr><td><code dir="auto">BIRTH</code></td><td>Family structure at time of birth</td></tr><tr><td><code dir="auto">FOSTER</code></td><td>Foster or guardian family</td></tr><tr><td><code dir="auto">SEALING</code></td><td>LDS temple sealing (not birth parents)</td></tr><tr><td><code dir="auto">OTHER</code></td><td>Other relationship type (use PHRASE)</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="32-gedcom-x">3.2 GEDCOM X</h3><a class="sl-anchor-link" href="#32-gedcom-x"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “3.2 GEDCOM X”</span></a></div>
+<p>GEDCOM X is a modern JSON/XML data model, separate from GEDCOM 7. It’s used by FamilySearch’s API.</p>
+<p><strong>Key GEDCOM X Specifications:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Specification</th><th>Purpose</th></tr></thead><tbody><tr><td>Conceptual Model</td><td>Core data types (Person, Relationship, Source)</td></tr><tr><td>Fact Types</td><td>Enumerated facts for persons and relationships</td></tr><tr><td>Event Types</td><td>Birth, death, marriage, etc.</td></tr><tr><td>Date Format</td><td>Flexible date representation</td></tr><tr><td>JSON Format</td><td>JSON serialization</td></tr><tr><td>XML Format</td><td>XML serialization</td></tr></tbody></table>
+<p><strong>GEDCOM X Relationship Types:</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">http://gedcomx.org/Couple</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">http://gedcomx.org/ParentChild</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="http://gedcomx.org/Couplehttp://gedcomx.org/ParentChild"><div></div></button></div></figure></div>
+<p>That’s it. Just two. All complexity comes from facts attached to these relationships.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="33-gedcom-x-vs-gedcom-7">3.3 GEDCOM X vs GEDCOM 7</h3><a class="sl-anchor-link" href="#33-gedcom-x-vs-gedcom-7"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “3.3 GEDCOM X vs GEDCOM 7”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Aspect</th><th>GEDCOM 7</th><th>GEDCOM X</th></tr></thead><tbody><tr><td>Format</td><td>Line-based text</td><td>JSON/XML</td></tr><tr><td>Purpose</td><td>File interchange</td><td>API data model</td></tr><tr><td>Family Unit</td><td>FAM record groups family</td><td>No family entity; just relationships</td></tr><tr><td>Maintenance</td><td>FamilySearch</td><td>FamilySearch</td></tr><tr><td>Current Version</td><td>7.0.16 (March 2025)</td><td>Stable</td></tr></tbody></table>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="4-handling-complex-cases">4. Handling Complex Cases</h2><a class="sl-anchor-link" href="#4-handling-complex-cases"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “4. Handling Complex Cases”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="41-multiple-parents-adoption-foster-step">4.1 Multiple Parents (Adoption, Foster, Step)</h3><a class="sl-anchor-link" href="#41-multiple-parents-adoption-foster-step"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “4.1 Multiple Parents (Adoption, Foster, Step)”</span></a></div>
+<p><strong>Scenario:</strong> A child has biological parents AND adoptive parents.</p>
+<p><strong>Solution:</strong> Create multiple Child-and-Parents relationships, each with its own lineage type facts.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">Child-and-Parents Relationship 1:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">- Child: John</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">- Parent1: BiologicalMother (BiologicalParent fact)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">- Parent2: BiologicalFather (BiologicalParent fact)</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">Child-and-Parents Relationship 2:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">- Child: John</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">- Parent1: AdoptiveMother (AdoptiveParent fact)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">- Parent2: AdoptiveFather (AdoptiveParent fact)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Child-and-Parents Relationship 1:  - Child: John  - Parent1: BiologicalMother (BiologicalParent fact)  - Parent2: BiologicalFather (BiologicalParent fact)Child-and-Parents Relationship 2:  - Child: John  - Parent1: AdoptiveMother (AdoptiveParent fact)  - Parent2: AdoptiveFather (AdoptiveParent fact)"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="42-step-parents">4.2 Step-Parents</h3><a class="sl-anchor-link" href="#42-step-parents"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “4.2 Step-Parents”</span></a></div>
+<p><strong>Scenario:</strong> Mother remarries; child gains step-father.</p>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Original Child-and-Parents relationship with biological parents</li>
+<li>New Child-and-Parents relationship with mother (BiologicalParent) and step-father (StepParent)</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="43-multiple-marriages">4.3 Multiple Marriages</h3><a class="sl-anchor-link" href="#43-multiple-marriages"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “4.3 Multiple Marriages”</span></a></div>
+<p><strong>Scenario:</strong> Person has been married three times.</p>
+<p><strong>Solution:</strong> Three separate Couple Relationships, each with their own marriage/divorce facts and dates.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="44-same-sex-parents">4.4 Same-Sex Parents</h3><a class="sl-anchor-link" href="#44-same-sex-parents"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “4.4 Same-Sex Parents”</span></a></div>
+<p><strong>Scenario:</strong> Child has two mothers.</p>
+<p><strong>Solution:</strong> FamilySearch’s “Generic Relationships” update (2019) removed gender constraints. Use person1/person2 for couple relationships; both can have any gender.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="45-uncertaindisputed-relationships">4.5 Uncertain/Disputed Relationships</h3><a class="sl-anchor-link" href="#45-uncertaindisputed-relationships"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “4.5 Uncertain/Disputed Relationships”</span></a></div>
+<p>FamilySearch handles this through:</p>
+<ol>
+<li><strong>Confidence indicators</strong> on the relationship itself</li>
+<li><strong>Multiple competing assertions</strong> from different contributors</li>
+<li><strong>Discussion threads</strong> attached to relationships</li>
+<li><strong>Source references</strong> with quality assessments</li>
+</ol>
+<p>In GEDCOM 7, the <code dir="auto">FAMC.STAT</code> (status) enumeration handles this:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Value</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">CHALLENGED</code></td><td>Linkage is suspect but not proven/disproven</td></tr><tr><td><code dir="auto">DISPROVEN</code></td><td>Linkage has been disproven</td></tr><tr><td><code dir="auto">PROVEN</code></td><td>Linkage has been proven</td></tr></tbody></table>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="5-relationship-metadata">5. Relationship Metadata</h2><a class="sl-anchor-link" href="#5-relationship-metadata"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “5. Relationship Metadata”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="51-dates">5.1 Dates</h3><a class="sl-anchor-link" href="#51-dates"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “5.1 Dates”</span></a></div>
+<p>Relationships support date ranges:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"http://gedcomx.org/Marriage"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"date"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"original"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"about 1952"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"formal"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"+1952"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;type&#x22;: &#x22;http://gedcomx.org/Marriage&#x22;,  &#x22;date&#x22;: {    &#x22;original&#x22;: &#x22;about 1952&#x22;,    &#x22;formal&#x22;: &#x22;+1952&#x22;  }}"><div></div></button></div></figure></div>
+<p><strong>Date modifiers in GEDCOM 7:</strong></p>
+<ul>
+<li><code dir="auto">ABT</code> - About (approximate)</li>
+<li><code dir="auto">CAL</code> - Calculated from other data</li>
+<li><code dir="auto">EST</code> - Estimated</li>
+<li><code dir="auto">BEF</code> - Before</li>
+<li><code dir="auto">AFT</code> - After</li>
+<li><code dir="auto">BET...AND</code> - Between dates</li>
+<li><code dir="auto">FROM...TO</code> - Date period</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="52-source-citations">5.2 Source Citations</h3><a class="sl-anchor-link" href="#52-source-citations"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “5.2 Source Citations”</span></a></div>
+<p>Every fact and relationship should have sources:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"sources"</span><span style="--0:#F0F3F6;--1:#000000">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"description"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://familysearch.org/ark:/..."</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"attribution"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#72F088;--1:#0451A5">"contributor"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"resourceId"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"contributor-id"</span><span style="--0:#F0F3F6;--1:#000000"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#72F088;--1:#0451A5">"modified"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"2023-01-15T10:30:00Z"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">      </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;sources&#x22;: [    {      &#x22;description&#x22;: &#x22;https://familysearch.org/ark:/...&#x22;,      &#x22;attribution&#x22;: {        &#x22;contributor&#x22;: { &#x22;resourceId&#x22;: &#x22;contributor-id&#x22; },        &#x22;modified&#x22;: &#x22;2023-01-15T10:30:00Z&#x22;      }    }  ]}"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="53-confidencequality">5.3 Confidence/Quality</h3><a class="sl-anchor-link" href="#53-confidencequality"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “5.3 Confidence/Quality”</span></a></div>
+<p>GEDCOM 7 includes a <code dir="auto">QUAY</code> (Quality of data) tag with enumerated values:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Value</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">0</code></td><td>Unreliable evidence or estimated data</td></tr><tr><td><code dir="auto">1</code></td><td>Questionable reliability (interviews, census, oral)</td></tr><tr><td><code dir="auto">2</code></td><td>Secondary evidence, recorded after event</td></tr><tr><td><code dir="auto">3</code></td><td>Direct and primary evidence</td></tr></tbody></table>
+<p>FamilySearch’s collaborative model uses voting/consensus rather than individual confidence scores.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="6-familysearch-api-summary">6. FamilySearch API Summary</h2><a class="sl-anchor-link" href="#6-familysearch-api-summary"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “6. FamilySearch API Summary”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="61-authentication">6.1 Authentication</h3><a class="sl-anchor-link" href="#61-authentication"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “6.1 Authentication”</span></a></div>
+<ul>
+<li>OAuth 2.0 authentication required</li>
+<li>Requires API key from developer program</li>
+<li>Free for non-commercial genealogy use</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="62-key-endpoints">6.2 Key Endpoints</h3><a class="sl-anchor-link" href="#62-key-endpoints"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “6.2 Key Endpoints”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Endpoint</th><th>Purpose</th></tr></thead><tbody><tr><td><code dir="auto">/platform/tree/persons/{pid}</code></td><td>Read/write person</td></tr><tr><td><code dir="auto">/platform/tree/couple-relationships/{crid}</code></td><td>Read/write couple relationship</td></tr><tr><td><code dir="auto">/platform/tree/child-and-parents-relationships/{caprid}</code></td><td>Read/write parent-child relationship</td></tr><tr><td><code dir="auto">/platform/tree/ancestry</code></td><td>Get pedigree/ancestry</td></tr><tr><td><code dir="auto">/platform/tree/descendancy</code></td><td>Get descendants</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="63-response-formats">6.3 Response Formats</h3><a class="sl-anchor-link" href="#63-response-formats"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “6.3 Response Formats”</span></a></div>
+<ul>
+<li><code dir="auto">application/json</code> (standard JSON)</li>
+<li><code dir="auto">application/x-gedcomx-v1+json</code> (GEDCOM X JSON)</li>
+<li><code dir="auto">application/x-fs-v1+json</code> (FamilySearch extensions)</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="7-comparison-with-other-platforms">7. Comparison with Other Platforms</h2><a class="sl-anchor-link" href="#7-comparison-with-other-platforms"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “7. Comparison with Other Platforms”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="71-ancestrycom">7.1 Ancestry.com</h3><a class="sl-anchor-link" href="#71-ancestrycom"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “7.1 Ancestry.com”</span></a></div>
+<ul>
+<li>Uses GEDCOM for export but proprietary internal model</li>
+<li>No public API for tree data (only DNA)</li>
+<li>Likely similar two-relationship model internally</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="72-myheritage">7.2 MyHeritage</h3><a class="sl-anchor-link" href="#72-myheritage"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “7.2 MyHeritage”</span></a></div>
+<ul>
+<li>Family Graph API (REST, JSON)</li>
+<li>Similar graph-based approach</li>
+<li>“Theory of Family Relativity” for automatic relationship detection</li>
+<li>Read-only API initially; limited write access</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="73-graph-databases-for-genealogy">7.3 Graph Databases for Genealogy</h3><a class="sl-anchor-link" href="#73-graph-databases-for-genealogy"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “7.3 Graph Databases for Genealogy”</span></a></div>
+<p>Neo4j is popular for genealogy because:</p>
+<ul>
+<li>Relationships are first-class citizens</li>
+<li>Avoids complex joins</li>
+<li>Natural query patterns: “Find all descendants of X”</li>
+</ul>
+<p>Common approaches:</p>
+<ol>
+<li><strong>Simple model:</strong> <code dir="auto">married</code>, <code dir="auto">child_of</code> relationships</li>
+<li><strong>Bipartite model:</strong> Person nodes + Family nodes</li>
+<li><strong>All-person model:</strong> Direct person-to-person relationships</li>
+</ol>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="8-recommendations-for-our-schema">8. Recommendations for Our Schema</h2><a class="sl-anchor-link" href="#8-recommendations-for-our-schema"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “8. Recommendations for Our Schema”</span></a></div>
+<p>Based on this research, here are recommendations for our knowledge graph:</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="81-core-family-relationship-types">8.1 Core Family Relationship Types</h3><a class="sl-anchor-link" href="#81-core-family-relationship-types"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “8.1 Core Family Relationship Types”</span></a></div>
+<p><strong>Recommended approach: Two base types with qualifiers</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="yaml"><code><div class="ec-line"><div class="code"><span style="--0:#BDC4CC;--1:#007A00"># Couple/Partner relationship</span></div></div><div class="ec-line"><div class="code"><span style="--0:#72F088;--1:#800000">spouse_of</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">from</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">person</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">to</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">person</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">properties</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">- </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">enum [marriage, civil_union, domestic_partnership, cohabitation]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">- </span><span style="--0:#72F088;--1:#800000">started</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">date</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">- </span><span style="--0:#72F088;--1:#800000">ended</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">date</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">- </span><span style="--0:#72F088;--1:#800000">end_reason</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">enum [divorce, annulment, death, separation]</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#BDC4CC;--1:#007A00"># Parent-Child relationship</span></div></div><div class="ec-line"><div class="code"><span style="--0:#72F088;--1:#800000">parent_of</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">from</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">person</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">to</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">person</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">properties</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">- </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">enum [biological, adoptive, foster, step, guardian]</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">- </span><span style="--0:#72F088;--1:#800000">started</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">date</span><span style="--0:#F0F3F6;--1:#000000">  </span><span style="--0:#BDC4CC;--1:#007A00"># adoption date, etc.</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">- </span><span style="--0:#72F088;--1:#800000">ended</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">date</span><span style="--0:#F0F3F6;--1:#000000">    </span><span style="--0:#BDC4CC;--1:#007A00"># guardianship ended, etc.</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="# Couple/Partner relationshipspouse_of:  from: person  to: person  properties:    - type: enum [marriage, civil_union, domestic_partnership, cohabitation]    - started: date    - ended: date    - end_reason: enum [divorce, annulment, death, separation]# Parent-Child relationshipparent_of:  from: person  to: person  properties:    - type: enum [biological, adoptive, foster, step, guardian]    - started: date  # adoption date, etc.    - ended: date    # guardianship ended, etc."><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="82-derived-relationships-computed-not-stored">8.2 Derived Relationships (Computed, Not Stored)</h3><a class="sl-anchor-link" href="#82-derived-relationships-computed-not-stored"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “8.2 Derived Relationships (Computed, Not Stored)”</span></a></div>
+<p>These should be computed from the base relationships, not stored:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Derived Relationship</th><th>How to Compute</th></tr></thead><tbody><tr><td><code dir="auto">sibling_of</code></td><td>Share at least one parent</td></tr><tr><td><code dir="auto">half_sibling_of</code></td><td>Share exactly one parent</td></tr><tr><td><code dir="auto">step_sibling_of</code></td><td>Parents are spouses but children share no parents</td></tr><tr><td><code dir="auto">grandparent_of</code></td><td>Parent of parent</td></tr><tr><td><code dir="auto">grandchild_of</code></td><td>Child of child</td></tr><tr><td><code dir="auto">uncle_of</code> / <code dir="auto">aunt_of</code></td><td>Sibling of parent</td></tr><tr><td><code dir="auto">cousin_of</code></td><td>Child of parent’s sibling</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="83-relationship-metadata-pattern">8.3 Relationship Metadata Pattern</h3><a class="sl-anchor-link" href="#83-relationship-metadata-pattern"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “8.3 Relationship Metadata Pattern”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="yaml"><code><div class="ec-line"><div class="code"><span style="--0:#72F088;--1:#800000">relationship</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">id</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">nanoid</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">from_entity</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">entity_id</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">to_entity</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">entity_id</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">relationship_type</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">data</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">subtype</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">string</span><span style="--0:#F0F3F6;--1:#000000">           </span><span style="--0:#BDC4CC;--1:#007A00"># biological, adoptive, etc.</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">started_at</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">datetime</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">ended_at</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">datetime</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">confidence</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">float</span><span style="--0:#F0F3F6;--1:#000000">         </span><span style="--0:#BDC4CC;--1:#007A00"># 0.0 to 1.0</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">status</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">enum</span><span style="--0:#F0F3F6;--1:#000000">              </span><span style="--0:#BDC4CC;--1:#007A00"># proven, challenged, disproven</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">sources</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">source_citation[]</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="relationship:  id: nanoid  from_entity: entity_id  to_entity: entity_id  type: relationship_type  data:    subtype: string           # biological, adoptive, etc.    started_at: datetime    ended_at: datetime    confidence: float         # 0.0 to 1.0    status: enum              # proven, challenged, disproven  sources: source_citation[]"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="84-multiple-parent-sets">8.4 Multiple Parent Sets</h3><a class="sl-anchor-link" href="#84-multiple-parent-sets"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “8.4 Multiple Parent Sets”</span></a></div>
+<p>Allow the same child to have multiple <code dir="auto">parent_of</code> relationships with different parent pairs and types:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">Person: John</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">← parent_of (type: biological) ← BiologicalMother</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">← parent_of (type: biological) ← BiologicalFather</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">← parent_of (type: adoptive) ← AdoptiveMother</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">← parent_of (type: adoptive) ← AdoptiveFather</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Person: John  ← parent_of (type: biological) ← BiologicalMother  ← parent_of (type: biological) ← BiologicalFather  ← parent_of (type: adoptive) ← AdoptiveMother  ← parent_of (type: adoptive) ← AdoptiveFather"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="85-same-sex-parents">8.5 Same-Sex Parents</h3><a class="sl-anchor-link" href="#85-same-sex-parents"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “8.5 Same-Sex Parents”</span></a></div>
+<p>Use neutral terminology (<code dir="auto">person1</code>/<code dir="auto">person2</code> or just <code dir="auto">from</code>/<code dir="auto">to</code>) rather than gendered terms. The schema already supports this with <code dir="auto">spouse_of</code> and <code dir="auto">parent_of</code>.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="86-bidirectional-vs-unidirectional">8.6 Bidirectional vs Unidirectional</h3><a class="sl-anchor-link" href="#86-bidirectional-vs-unidirectional"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “8.6 Bidirectional vs Unidirectional”</span></a></div>
+<p><strong>Recommendation: Store as unidirectional, compute inverses</strong></p>
+<ul>
+<li>Store <code dir="auto">parent_of</code> (parent → child)</li>
+<li>Compute <code dir="auto">child_of</code> (child → parent) as inverse</li>
+<li>Store <code dir="auto">spouse_of</code> once (person1 → person2)</li>
+<li>Treat as bidirectional in queries</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="9-sources-consulted">9. Sources Consulted</h2><a class="sl-anchor-link" href="#9-sources-consulted"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “9. Sources Consulted”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="official-documentation">Official Documentation</h3><a class="sl-anchor-link" href="#official-documentation"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Official Documentation”</span></a></div>
+<ol>
+<li>
+<p><strong>FamilySearch Developer Documentation</strong></p>
+<ul>
+<li><a href="https://developers.familysearch.org/main/docs/the-family-tree-data-model">https://developers.familysearch.org/main/docs/the-family-tree-data-model</a></li>
+<li><a href="https://www.familysearch.org/developers/docs/guides/facts">https://www.familysearch.org/developers/docs/guides/facts</a></li>
+<li><a href="https://www.familysearch.org/developers/docs/api/tree/Child-and-Parents_Relationship_resource">https://www.familysearch.org/developers/docs/api/tree/Child-and-Parents_Relationship_resource</a></li>
+<li><a href="https://www.familysearch.org/developers/docs/api/tree/Couple_Relationship_resource">https://www.familysearch.org/developers/docs/api/tree/Couple_Relationship_resource</a></li>
+</ul>
+</li>
+<li>
+<p><strong>GEDCOM 7 Specification</strong></p>
+<ul>
+<li><a href="https://gedcom.io/specifications/FamilySearchGEDCOMv7.html">https://gedcom.io/specifications/FamilySearchGEDCOMv7.html</a></li>
+<li><a href="https://gedcom.io/specs/">https://gedcom.io/specs/</a></li>
+</ul>
+</li>
+<li>
+<p><strong>GEDCOM X Specifications</strong></p>
+<ul>
+<li><a href="https://gedcomx.org/Specifications.html">https://gedcomx.org/Specifications.html</a></li>
+<li><a href="https://github.com/FamilySearch/gedcomx/blob/master/specifications/conceptual-model-specification.md">https://github.com/FamilySearch/gedcomx/blob/master/specifications/conceptual-model-specification.md</a></li>
+<li><a href="https://github.com/FamilySearch/gedcomx/blob/master/specifications/fact-types-specification.md">https://github.com/FamilySearch/gedcomx/blob/master/specifications/fact-types-specification.md</a></li>
+<li><a href="https://github.com/FamilySearch/gedcomx/blob/master/specifications/relationship-types-specification.md">https://github.com/FamilySearch/gedcomx/blob/master/specifications/relationship-types-specification.md</a></li>
+</ul>
+</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="help-articles">Help Articles</h3><a class="sl-anchor-link" href="#help-articles"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Help Articles”</span></a></div>
+<ol start="4">
+<li>
+<p><strong>FamilySearch Help Center</strong></p>
+<ul>
+<li><a href="https://www.familysearch.org/en/help/helpcenter/article/how-do-i-specify-biological-step-adopted-and-foster-relationships-in-family-tree">https://www.familysearch.org/en/help/helpcenter/article/how-do-i-specify-biological-step-adopted-and-foster-relationships-in-family-tree</a></li>
+<li><a href="https://www.familysearch.org/en/help/helpcenter/article/how-do-i-add-step-adopted-and-foster-parents-to-a-child-in-family-tree">https://www.familysearch.org/en/help/helpcenter/article/how-do-i-add-step-adopted-and-foster-parents-to-a-child-in-family-tree</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Same-Sex Relationship Support</strong></p>
+<ul>
+<li><a href="https://www.familytree.com/blog/familysearch-to-allow-same-sex-relationships-on-family-trees/">https://www.familytree.com/blog/familysearch-to-allow-same-sex-relationships-on-family-trees/</a></li>
+<li><a href="https://www.familysearch.org/developers/docs/guides/generic-relationships-update">https://www.familysearch.org/developers/docs/guides/generic-relationships-update</a></li>
+</ul>
+</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="other-platforms">Other Platforms</h3><a class="sl-anchor-link" href="#other-platforms"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Other Platforms”</span></a></div>
+<ol start="6">
+<li>
+<p><strong>MyHeritage</strong></p>
+<ul>
+<li><a href="https://github.com/myheritage/familygraph-php">https://github.com/myheritage/familygraph-php</a></li>
+<li><a href="https://www.myheritage.com/wiki/Theory_of_Family_Relativity">https://www.myheritage.com/wiki/Theory_of_Family_Relativity</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Neo4j Genealogy</strong></p>
+<ul>
+<li><a href="https://neo4j.com/blog/developer/discover-auradb-free-importing-gedcom-files-and-exploring-genealogy-ancestry-data-as-a-graph">https://neo4j.com/blog/developer/discover-auradb-free-importing-gedcom-files-and-exploring-genealogy-ancestry-data-as-a-graph</a></li>
+</ul>
+</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="academiccommunity">Academic/Community</h3><a class="sl-anchor-link" href="#academiccommunity"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Academic/Community”</span></a></div>
+<ol start="8">
+<li><strong>Genealogical Proof Standard</strong>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Genealogical_Proof_Standard">https://en.wikipedia.org/wiki/Genealogical_Proof_Standard</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="10-key-takeaways">10. Key Takeaways</h2><a class="sl-anchor-link" href="#10-key-takeaways"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “10. Key Takeaways”</span></a></div>
+<ol>
+<li>
+<p><strong>Simplicity wins:</strong> FamilySearch uses only TWO relationship types (Couple, Parent-Child) with qualifiers, not dozens of specific types.</p>
+</li>
+<li>
+<p><strong>Facts modify relationships:</strong> The richness comes from facts/qualifiers attached to relationships, not from relationship type proliferation.</p>
+</li>
+<li>
+<p><strong>Multiple parents are first-class:</strong> A child can have multiple parent-child relationships with different lineage types.</p>
+</li>
+<li>
+<p><strong>Siblings are derived:</strong> No explicit sibling relationship — compute from shared parents.</p>
+</li>
+<li>
+<p><strong>Source everything:</strong> Every conclusion needs source citations with quality/confidence indicators.</p>
+</li>
+<li>
+<p><strong>Status for uncertainty:</strong> Use status fields (proven, challenged, disproven) rather than avoiding uncertain data.</p>
+</li>
+<li>
+<p><strong>Gender-neutral design:</strong> Modern systems use generic terms to support all family structures.</p>
+</li>
+</ol> </div> <footer class="sl-flex astro-bmlnrcen"> <div class="meta sl-flex astro-bmlnrcen">   </div> <div class="pagination-links print:hidden astro-sjqzzol4" dir="ltr"> <a href="../../../research/platforms/facebook-graph/index.html" rel="prev" class="astro-sjqzzol4"> <svg aria-hidden="true" class="astro-sjqzzol4 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg> <span class="astro-sjqzzol4"> Previous <br class="astro-sjqzzol4"> <span class="link-title astro-sjqzzol4">Facebook Entity Graph Research</span> </span> </a> <a href="../../../research/platforms/google-takeout/index.html" rel="next" class="astro-sjqzzol4"> <svg aria-hidden="true" class="astro-sjqzzol4 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg> <span class="astro-sjqzzol4"> Next <br class="astro-sjqzzol4"> <span class="link-title astro-sjqzzol4">Google Takeout Entity Research</span> </span> </a> </div>  </footer> </div> </div>  </main> </div> </div> </div> </div> </body></html>

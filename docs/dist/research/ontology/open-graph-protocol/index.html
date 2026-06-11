@@ -1,0 +1,930 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-wwc3bqpt"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Open Graph Protocol Research | AgentOS Docs</title><link rel="canonical" href="https://agentos.to/research/ontology/open-graph-protocol/"/><link rel="sitemap" href="../../../sitemap-index.xml"/><script type="module">
+						import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+						// Starlight renders code fences through Expressive Code, which wraps
+						// content in .expressive-code > pre > code.language-mermaid and applies
+						// syntax-highlight styles. Unwrap those to plain <pre class="mermaid">text</pre>
+						// so mermaid can run on the raw source.
+						const render = () => {
+							const blocks = document.querySelectorAll('code.language-mermaid');
+							if (!blocks.length) return;
+							blocks.forEach((code) => {
+								const wrapper = code.closest('.expressive-code') || code.closest('pre');
+								if (!wrapper || wrapper.dataset.mermaidMounted === '1') return;
+								const pre = document.createElement('pre');
+								pre.className = 'mermaid';
+								pre.textContent = code.textContent;
+								wrapper.replaceWith(pre);
+								pre.dataset.mermaidMounted = '1';
+							});
+							const isDark = document.documentElement.dataset.theme !== 'light';
+							mermaid.initialize({
+								startOnLoad: false,
+								theme: isDark ? 'dark' : 'default',
+								securityLevel: 'loose',
+								themeVariables: isDark ? {
+									background: '#0b0b0f',
+									primaryColor: '#1a1a24',
+									primaryTextColor: '#e8e8ee',
+									primaryBorderColor: '#3d3d4d',
+									lineColor: '#8b8b98',
+									secondaryColor: '#141420',
+									tertiaryColor: '#101018',
+								} : {},
+							});
+							mermaid.run({ querySelector: 'pre.mermaid:not([data-processed])' });
+						};
+
+						if (document.readyState === 'loading') {
+							document.addEventListener('DOMContentLoaded', render);
+						} else {
+							render();
+						}
+
+						// Re-run on Astro view transitions
+						document.addEventListener('astro:after-swap', render);
+					</script><link rel="shortcut icon" href="../../../favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v6.1.5"/><meta name="generator" content="Starlight v0.38.3"/><meta property="og:title" content="Open Graph Protocol Research"/><meta property="og:type" content="article"/><meta property="og:url" content="https://agentos.to/research/ontology/open-graph-protocol/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Facebook's protocol that turns any webpage into a &#34;rich object&#34; in a social graph."/><meta property="og:site_name" content="AgentOS Docs"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Facebook's protocol that turns any webpage into a &#34;rich object&#34; in a social graph."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="../../../_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="../../../_astro/common.D4duwXY4.css">
+<link rel="stylesheet" href="../../../_astro/Code.DQp0_qN-.css"><script type="module" src="../../../_astro/page.BIhdncjw.js"></script></head> <body class="astro-wwc3bqpt"> <a href="#_top" class="astro-3x7q7msw">Skip to content</a> <div class="page sl-flex astro-axwskc5k"> <header class="header astro-axwskc5k"><div class="header astro-3ef6ksr2"> <div class="title-wrapper sl-flex astro-3ef6ksr2"> <a href="../../../index.html" class="site-title sl-flex astro-c5jbctzu">  <span class="astro-c5jbctzu" translate="no"> AgentOS Docs </span> </a> </div> <nav class="topic-tabs astro-3ef6ksr2" aria-label="Sections"> <ul class="astro-3ef6ksr2"> <li class="astro-3ef6ksr2"> <a href="../../../introduction/what-is-agentos/index.html" class="astro-3ef6ksr2">Learn</a> </li><li class="astro-3ef6ksr2"> <a href="../../../introduction/how-we-build/index.html" class="astro-3ef6ksr2">Build</a> </li><li class="astro-3ef6ksr2"> <a href="../../../shapes/overview/index.html" class="astro-3ef6ksr2">Shapes</a> </li><li class="astro-3ef6ksr2"> <a href="../../../research/ontology/relationship-modeling/index.html" aria-current="page" class="astro-3ef6ksr2">Research</a> </li> </ul> </nav> <div class="sl-flex print:hidden search-wrap astro-3ef6ksr2"> <site-search class="astro-3ef6ksr2 astro-tijk2zt5" data-translations="{&#34;placeholder&#34;:&#34;Search&#34;}"> <button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-tijk2zt5"> <svg aria-hidden="true" class="astro-tijk2zt5 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg> <span class="sl-hidden md:sl-block astro-tijk2zt5" aria-hidden="true">Search</span> <kbd class="sl-hidden md:sl-flex astro-tijk2zt5" style="display: none;"> <kbd class="astro-tijk2zt5">Ctrl</kbd><kbd class="astro-tijk2zt5">K</kbd> </kbd> </button> <dialog style="padding:0" aria-label="Search" class="astro-tijk2zt5"> <div class="dialog-frame sl-flex astro-tijk2zt5">  <button data-close-modal class="sl-flex md:sl-hidden astro-tijk2zt5"> Cancel </button> <div class="search-container astro-tijk2zt5"> <div id="starlight__search" class="astro-tijk2zt5"></div> </div> </div> </dialog> </site-search>  <script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script> <script type="module" src="../../../_astro/Search.astro_astro_type_script_index_0_lang.Rw77DzG6.js"></script>  </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-3ef6ksr2"> <div class="sl-flex social-icons astro-3ef6ksr2">  </div> <script type="module">class s extends HTMLElement{constructor(){super();const t=typeof localStorage<"u"&&localStorage.getItem("starlight-theme")||(window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");document.documentElement.dataset.theme=t==="light"?"light":"dark",this.handleMouseDown=this.handleMouseDown.bind(this),this.updateMaskPosition(t)}connectedCallback(){this.addEventListener("click",this.handleMouseDown)}disconnectedCallback(){this.removeEventListener("click",this.handleMouseDown)}updateMaskPosition(e){const t=this.querySelector("#moon-mask circle:last-child");t&&t.setAttribute("cx",e==="dark"?"17":"24")}handleMouseDown(){const e=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=e,localStorage.setItem("starlight-theme",e),this.updateMaskPosition(e)}}customElements.define("theme-toggle",s);</script><theme-toggle class="astro-dwm5f72o"> <button type="button" class="astro-h5tvx5sw">  <svg aria-hidden="true" height="20" viewBox="0 0 24 24" width="20" class="astro-dwm5f72o"> <mask class="moon astro-dwm5f72o" id="moon-mask"> <rect x="0" y="0" width="100%" height="100%" fill="white" class="astro-dwm5f72o"></rect> <circle cx="24" cy="10" r="6" fill="black" class="astro-dwm5f72o"></circle> </mask> <circle class="sun astro-dwm5f72o" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor"></circle> <g class="sun-beams astro-dwm5f72o" stroke="currentColor"> <line x1="12" y1="1" x2="12" y2="3" class="astro-dwm5f72o"></line> <line x1="12" y1="21" x2="12" y2="23" class="astro-dwm5f72o"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" class="astro-dwm5f72o"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" class="astro-dwm5f72o"></line> <line x1="1" y1="12" x2="3" y2="12" class="astro-dwm5f72o"></line> <line x1="21" y1="12" x2="23" y2="12" class="astro-dwm5f72o"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" class="astro-dwm5f72o"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" class="astro-dwm5f72o"></line> </g> </svg>  </button>  </theme-toggle> <script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div> <div class="progress-scroll-container astro-mu7un3ux" aria-hidden="true"> <div id="progress-scroll" class="astro-mu7un3ux"></div> </div> <script type="module">window.addEventListener("scroll",function(){if(document){const e=document.getElementById("progress-scroll");if(e){var o=window.scrollY||document.documentElement.scrollTop,n=document.documentElement.scrollHeight-window.innerHeight,t=o/n*100;e.style.width=t+"%"}}});</script></header> <nav class="sidebar print:hidden astro-axwskc5k" aria-label="Main"> <starlight-menu-button class="print:hidden astro-4nzlrr7f"> <button aria-expanded="false" aria-label="Menu" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-4nzlrr7f"> <svg aria-hidden="true" class="open-menu astro-4nzlrr7f astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg> <svg aria-hidden="true" class="close-menu astro-4nzlrr7f astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg> </button> </starlight-menu-button> <script type="module">class s extends HTMLElement{constructor(){super(),this.btn=this.querySelector("button"),this.btn.addEventListener("click",()=>this.toggleExpanded());const t=this.closest("nav");t&&t.addEventListener("keyup",e=>this.closeOnEscape(e))}setExpanded(t){this.setAttribute("aria-expanded",String(t)),document.body.toggleAttribute("data-mobile-menu-expanded",t)}toggleExpanded(){this.setExpanded(this.getAttribute("aria-expanded")!=="true")}closeOnEscape(t){t.code==="Escape"&&(this.setExpanded(!1),this.btn.focus())}}customElements.define("starlight-menu-button",s);</script>  <div id="starlight__sidebar" class="sidebar-pane astro-axwskc5k"> <div class="sidebar-content sl-flex astro-axwskc5k"> <ul class="starlight-sidebar-topics astro-gu6alnkl"> <li class="astro-gu6alnkl"> <a href="../../../introduction/what-is-agentos/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.17 2.06A13.1 13.1 0 0 0 19 1.87a12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2 13.1 13.1 0 0 0-2.17.19 1 1 0 0 0-.83 1v12a1 1 0 0 0 1.17 1 10.9 10.9 0 0 1 8.25 1.91l.12.07h.11a.91.91 0 0 0 .7 0h.11l.12-.07A10.899 10.899 0 0 1 20.83 16 1 1 0 0 0 22 15V3a1 1 0 0 0-.83-.94ZM11 15.35a12.87 12.87 0 0 0-6-1.48H4v-10c.333-.02.667-.02 1 0a10.86 10.86 0 0 1 6 1.8v9.68Zm9-1.44h-1a12.87 12.87 0 0 0-6 1.48V5.67a10.86 10.86 0 0 1 6-1.8c.333-.02.667-.02 1 0v10.04Zm1.17 4.15a13.098 13.098 0 0 0-2.17-.19 12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2.05c-.727.003-1.453.066-2.17.19A1 1 0 0 0 2 19.21a1 1 0 0 0 1.17.79 10.9 10.9 0 0 1 8.25 1.91 1 1 0 0 0 1.16 0A10.9 10.9 0 0 1 20.83 20a1 1 0 0 0 1.17-.79 1 1 0 0 0-.83-1.15Z"/></svg> </div> <div class="astro-gu6alnkl"> Learn  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../introduction/how-we-build/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 22H5a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3h1a4 4 0 0 1 7.3-2.18c.448.64.692 1.4.7 2.18h3a1 1 0 0 1 1 1v3a4 4 0 0 1 2.18 7.3A3.86 3.86 0 0 1 18 18v3a1 1 0 0 1-1 1ZM5 8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11v-3.18a1 1 0 0 1 1.33-.95 1.77 1.77 0 0 0 1.74-.23 2 2 0 0 0 .93-1.37 2 2 0 0 0-.48-1.59 1.89 1.89 0 0 0-2.17-.55 1 1 0 0 1-1.33-.95V8h-3.2a1 1 0 0 1-1-1.33 1.77 1.77 0 0 0-.23-1.74 1.939 1.939 0 0 0-3-.43A2 2 0 0 0 8 6c.002.23.046.456.13.67A1 1 0 0 1 7.18 8H5Z"/></svg> </div> <div class="astro-gu6alnkl"> Build  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../shapes/overview/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17.084 3.165L12.000 0.220L6.916 3.165L1.801 6.110L1.801 17.890L12.000 23.780L22.199 17.890L22.199 6.110L17.084 3.165ZM12.000 11.938L9.334 16.557L6.668 11.938L4.002 7.319L14.666 7.319L12.000 11.938Z"/></svg> </div> <div class="astro-gu6alnkl"> Shapes  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../research/ontology/relationship-modeling/index.html" class="starlight-sidebar-topics-current astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M9 10h1a1 1 0 1 0 0-2H9a1 1 0 0 0 0 2Zm0 2a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2H9Zm11-3.06a1.3 1.3 0 0 0-.06-.27v-.09c-.05-.1-.11-.2-.19-.28l-6-6a1.07 1.07 0 0 0-.28-.19h-.09a.88.88 0 0 0-.33-.11H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8.94Zm-6-3.53L16.59 8H15a1 1 0 0 1-1-1V5.41ZM18 19a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5v3a3 3 0 0 0 3 3h3v9Zm-3-3H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2Z"/></svg> </div> <div class="astro-gu6alnkl"> Research  </div> </a> </li> </ul> <sl-sidebar-state-persist data-hash="10ohntw" class="astro-7su4sbaf"> <script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script>  <ul class="top-level astro-bctztgix"> <li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Ontology</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="0"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/ontology/genealogical-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Genealogical Relationships Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/google-structured-data/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Google Structured Data &amp; Knowledge Graph Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/no-orphans-constraint/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">&quot;No Orphans&quot; Constraint: Research Summary</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/ogp-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Open Graph Protocol: Relationship Modeling</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/open-graph-protocol/index.html" aria-current="page" class="astro-bctztgix"> <span class="astro-bctztgix">Open Graph Protocol Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/outcome-entity/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">The Outcome Entity: A Universal Systems Primitive</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/relationship-modeling/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Relationship Modeling Patterns in Knowledge Graphs</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-entities/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Entity Schema</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-org-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Schema.org Relationship Modeling Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Relationship Schema</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Platforms</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="1"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/platforms/facebook-graph/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Facebook Entity Graph Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/platforms/familysearch/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">FamilySearch Genealogical Data Model</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/platforms/google-takeout/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Google Takeout Entity Research</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Identity &amp; spaces</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="2"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/account-platform-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Account-Platform Relationship Ontology</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/digital-spaces-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Digital Spaces in Ontology Standards</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/platform-identity-standards/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Platform Identity and Normalization Standards</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/platform-space-models/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">How Major Platforms Model Their Own Spaces</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Relationships &amp; events</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="3"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/causal-chains-entity-graphs/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Blog Ideas: Causal Chains, Development Frameworks, and Entity Graphs</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/claims-relationship-model/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Identity Verification Across Platforms: 2025-2026 Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/event-vs-work-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Should &quot;Event&quot; Be a Subtype of &quot;Work&quot;? An Ontological Analysis</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/speech-acts-entity-primitives/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Speech Act Theory Maps to Entity Primitives</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Context &amp; ecosystem</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="4"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/context/ai-text-editing/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">AI Text &amp; Code Editing UX Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/markdown-ecosystem/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Markdown Ecosystem Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/pkm-community/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">PKM Community Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/semantic-file-systems/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Semantic File Systems Research</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">DX patterns</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="5"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/dx-patterns/sdk-dx-patterns/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">SDK &amp; Plugin Platform DX Patterns — Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/dx-patterns/simplification-passes-accreted-cruft/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Simplification Passes &amp; Accreted Cruft — Cross-Domain Briefing</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Interfaces</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="6"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/interfaces/overview/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Interfaces surface (research)</span>  </a> </li> </ul> </details> </li> </ul>  <script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script> </sl-sidebar-state-persist> <div class="md:sl-hidden"> <div class="mobile-preferences sl-flex astro-3e5tv76g"> <div class="social-icons astro-3e5tv76g">  </div> <theme-toggle class="astro-dwm5f72o"> <button type="button" class="astro-h5tvx5sw">  <svg aria-hidden="true" height="20" viewBox="0 0 24 24" width="20" class="astro-dwm5f72o"> <mask class="moon astro-dwm5f72o" id="moon-mask"> <rect x="0" y="0" width="100%" height="100%" fill="white" class="astro-dwm5f72o"></rect> <circle cx="24" cy="10" r="6" fill="black" class="astro-dwm5f72o"></circle> </mask> <circle class="sun astro-dwm5f72o" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor"></circle> <g class="sun-beams astro-dwm5f72o" stroke="currentColor"> <line x1="12" y1="1" x2="12" y2="3" class="astro-dwm5f72o"></line> <line x1="12" y1="21" x2="12" y2="23" class="astro-dwm5f72o"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" class="astro-dwm5f72o"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" class="astro-dwm5f72o"></line> <line x1="1" y1="12" x2="3" y2="12" class="astro-dwm5f72o"></line> <line x1="21" y1="12" x2="23" y2="12" class="astro-dwm5f72o"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" class="astro-dwm5f72o"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" class="astro-dwm5f72o"></line> </g> </svg>  </button>  </theme-toggle>  </div> </div> </div> </div> </nav> <div class="main-frame astro-axwskc5k">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-bqhhi3bs"> <aside class="right-sidebar-container print:hidden astro-bqhhi3bs"> <div class="right-sidebar astro-bqhhi3bs"> <div class="lg:sl-hidden astro-o32dv7js"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-4kdwwhqw"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-4kdwwhqw"><details id="starlight__mobile-toc" class="astro-4kdwwhqw"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-4kdwwhqw"><span class="toggle sl-flex astro-4kdwwhqw">On this page<svg aria-hidden="true" class="caret astro-4kdwwhqw astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-4kdwwhqw"></span></summary><div class="dropdown astro-4kdwwhqw"><ul class="isMobile astro-uwnltsxm" style="--depth: 0;"> <li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#_top" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#why-this-matters" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Why This Matters</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#findings" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">FINDINGS</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#history--origins" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">History &amp; Origins</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#influences" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Influences</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#evolution-timeline" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Evolution Timeline</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#key-people" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">KEY PEOPLE</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#complete-type-hierarchy" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">COMPLETE TYPE HIERARCHY</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#required-properties-all-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Required Properties (All Types)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#optional-properties-all-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Optional Properties (All Types)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#structured-media-properties" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Structured Media Properties</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#object-types-ogtype-values" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">OBJECT TYPES (og:type values)</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#no-vertical-global-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">No Vertical (Global Types)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#music-vertical" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Music Vertical</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#video-vertical" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Video Vertical</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#business-vertical-added-2013" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Business Vertical (Added 2013)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#product-type-e-commerce" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Product Type (E-commerce)</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#data-types" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">DATA TYPES</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#deprecated-properties" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">DEPRECATED PROPERTIES</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#extension-mechanism" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">EXTENSION MECHANISM</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#custom-namespaces" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Custom Namespaces</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#facebook-specific-extensions" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Facebook-Specific Extensions</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#relationship-to-other-standards" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">RELATIONSHIP TO OTHER STANDARDS</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#vs-schemaorg" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">vs Schema.org</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#vs-twitter-cards" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">vs Twitter Cards</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#platform-support" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Platform Support</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#implementation-best-practices" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">IMPLEMENTATION BEST PRACTICES</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#required-tags" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Required Tags</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#image-requirements" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Image Requirements</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#common-mistakes" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Common Mistakes</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#validation-tools" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Validation Tools</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#urls" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">URLS</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#official" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Official</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#historical" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Historical</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#news-coverage-f8-2010" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">News Coverage (F8 2010)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#comparisons" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Comparisons</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#entity-type-observations" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">ENTITY TYPE OBSERVATIONS</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-ogp-got-right" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What OGP Got Right</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#type-system-design-lessons" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Type System Design Lessons</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#types-we-might-adopt" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Types We Might Adopt</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#relationship-patterns" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Relationship Patterns</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#ogp-10-complete-type-list-39-types" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">OGP 1.0 Complete Type List (39 Types)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#key-gaps-analysis" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Key Gaps Analysis</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#session-log" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Session Log</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2025-01-24-initial-setup" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2025-01-24: Initial setup</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2026-01-24-phase-1-web-research-complete" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2026-01-24: Phase 1 Web Research Complete</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2026-01-24-deep-dive-on-eventplaceorganization" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2026-01-24: Deep-dive on Event/Place/Organization</span> </a>  </li> </ul> </li> </ul></div></details></nav></mobile-starlight-toc><script type="module" src="../../../_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.hwBsy0Mo.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-o32dv7js"><div class="sl-container astro-o32dv7js"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-uwnltsxm" style="--depth: 0;"> <li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#_top" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#why-this-matters" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Why This Matters</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#findings" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">FINDINGS</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#history--origins" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">History &amp; Origins</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#influences" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Influences</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#evolution-timeline" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Evolution Timeline</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#key-people" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">KEY PEOPLE</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#complete-type-hierarchy" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">COMPLETE TYPE HIERARCHY</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#required-properties-all-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Required Properties (All Types)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#optional-properties-all-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Optional Properties (All Types)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#structured-media-properties" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Structured Media Properties</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#object-types-ogtype-values" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">OBJECT TYPES (og:type values)</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#no-vertical-global-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">No Vertical (Global Types)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#music-vertical" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Music Vertical</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#video-vertical" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Video Vertical</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#business-vertical-added-2013" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Business Vertical (Added 2013)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#product-type-e-commerce" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Product Type (E-commerce)</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#data-types" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">DATA TYPES</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#deprecated-properties" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">DEPRECATED PROPERTIES</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#extension-mechanism" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">EXTENSION MECHANISM</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#custom-namespaces" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Custom Namespaces</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#facebook-specific-extensions" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Facebook-Specific Extensions</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#relationship-to-other-standards" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">RELATIONSHIP TO OTHER STANDARDS</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#vs-schemaorg" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">vs Schema.org</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#vs-twitter-cards" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">vs Twitter Cards</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#platform-support" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Platform Support</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#implementation-best-practices" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">IMPLEMENTATION BEST PRACTICES</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#required-tags" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Required Tags</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#image-requirements" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Image Requirements</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#common-mistakes" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Common Mistakes</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#validation-tools" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Validation Tools</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#urls" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">URLS</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#official" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Official</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#historical" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Historical</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#news-coverage-f8-2010" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">News Coverage (F8 2010)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#comparisons" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Comparisons</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#entity-type-observations" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">ENTITY TYPE OBSERVATIONS</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-ogp-got-right" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What OGP Got Right</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#type-system-design-lessons" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Type System Design Lessons</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#types-we-might-adopt" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Types We Might Adopt</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#relationship-patterns" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Relationship Patterns</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#ogp-10-complete-type-list-39-types" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">OGP 1.0 Complete Type List (39 Types)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#key-gaps-analysis" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Key Gaps Analysis</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#session-log" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Session Log</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2025-01-24-initial-setup" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2025-01-24: Initial setup</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2026-01-24-phase-1-web-research-complete" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2026-01-24: Phase 1 Web Research Complete</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2026-01-24-deep-dive-on-eventplaceorganization" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2026-01-24: Deep-dive on Event/Place/Organization</span> </a>  </li> </ul> </li> </ul></nav></starlight-toc><script type="module" src="../../../_astro/TableOfContents.astro_astro_type_script_index_0_lang.FuRcXuRY.js"></script></div></div> </div> </aside> <div class="main-pane astro-bqhhi3bs">  <main data-pagefind-body class="astro-wwc3bqpt" lang="en" dir="ltr">    <div class="content-panel astro-wjgruomq"> <div class="sl-container astro-wjgruomq"> <h1 id="_top" class="astro-wj2r53xi">Open Graph Protocol Research</h1> </div> </div> <div class="content-panel astro-wjgruomq"> <div class="sl-container astro-wjgruomq"> <div class="sl-markdown-content"> <div class="sl-heading-wrapper level-h2"><h2 id="why-this-matters">Why This Matters</h2><a class="sl-anchor-link" href="#why-this-matters"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Why This Matters”</span></a></div>
+<p>The Open Graph Protocol (OGP) is arguably the most successful entity schema ever deployed. <strong>69.8% of all websites use Open Graph</strong> (W3Techs, Jan 2026), making it the dominant structured data format on the web. Every <code dir="auto">og:type</code>, <code dir="auto">og:title</code>, <code dir="auto">og:image</code> tag follows this spec. It defines how arbitrary web content becomes typed objects with properties and relationships.</p>
+<p><strong>Key insight:</strong> OGP solved the “how do you type everything on the web?” problem with radical simplicity. We can learn from their type hierarchy and design philosophy.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="findings">FINDINGS</h2><a class="sl-anchor-link" href="#findings"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “FINDINGS”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="history--origins">History &#x26; Origins</h3><a class="sl-anchor-link" href="#history--origins"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “History &#x26; Origins”</span></a></div>
+<p><strong>April 21, 2010</strong> — Mark Zuckerberg announced the Open Graph Protocol at Facebook’s F8 developer conference, calling it “the most transformative thing we’ve ever done for the Web.”</p>
+<p>The initiative launched with three components:</p>
+<ol>
+<li><strong>Social Plugins</strong> (Like button) — Simple HTML embeds, one line of code</li>
+<li><strong>Open Graph Protocol</strong> — Metadata standard to turn web pages into graph objects</li>
+<li><strong>Graph API</strong> — New developer platform</li>
+</ol>
+<p><strong>Design Goal:</strong> Developer simplicity. The protocol was designed so publishers could “copy and paste” meta tags.</p>
+<p><strong>Within 7 days of launch:</strong> Hosting services, libraries, and a WordPress plugin had been created.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="influences">Influences</h3><a class="sl-anchor-link" href="#influences"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Influences”</span></a></div>
+<p>OGP was inspired by and builds on:</p>
+<ul>
+<li><strong>Dublin Core</strong> — Foundational web metadata vocabulary</li>
+<li><strong>RDFa</strong> — Embedding structured data in HTML (OGP is RDFa-based)</li>
+<li><strong>Microformats</strong> — Lightweight semantic markup</li>
+<li><strong>link-rel canonical</strong> — URL canonicalization</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="evolution-timeline">Evolution Timeline</h3><a class="sl-anchor-link" href="#evolution-timeline"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Evolution Timeline”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Date</th><th>Event</th></tr></thead><tbody><tr><td><strong>April 2010</strong></td><td>OGP announced at F8 with Like button</td></tr><tr><td><strong>October 2009</strong></td><td>Open Graph API concept first unveiled</td></tr><tr><td><strong>January 2012</strong></td><td>OGP 1.1 released, reduced types from 39 to 12</td></tr><tr><td><strong>October 2012</strong></td><td>Custom Open Graph actions deprecated (auto-posting)</td></tr><tr><td><strong>May 2019</strong></td><td>Open Graph Stories deprecated (render as plain links)</td></tr><tr><td><strong>August 2018</strong></td><td><code dir="auto">publish_actions</code> permission removed from Facebook Login</td></tr></tbody></table>
+<p><strong>Notable:</strong> OGP 1.0 defined <strong>39 object types</strong>. OGP 1.1 simplified to <strong>12 global types</strong>. Types like “band” and “musician” were consolidated into “profile”.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="key-people">KEY PEOPLE</h2><a class="sl-anchor-link" href="#key-people"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “KEY PEOPLE”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Person</th><th>Role</th><th>Organization</th><th>Era</th></tr></thead><tbody><tr><td><strong>Mark Zuckerberg</strong></td><td>Announced OGP at F8</td><td>Facebook</td><td>2010</td></tr><tr><td><strong>Bret Taylor</strong></td><td>Director of Platform Products, led Open Graph development</td><td>Facebook</td><td>2009-2013</td></tr><tr><td><strong>David Recordon</strong></td><td>Senior Open Programs Manager, presented OGP design decisions</td><td>Facebook</td><td>2009-2012</td></tr><tr><td><strong>Mike Schroepfer</strong></td><td>Head of Engineering</td><td>Facebook</td><td>2010</td></tr><tr><td><strong>Chris Messina</strong></td><td>Critic/analyst, inventor of hashtag</td><td>Independent</td><td>2010</td></tr><tr><td><strong>Niall Kennedy</strong></td><td>Created PHP validator, documented OGP 1.1</td><td>Independent</td><td>2011-2012</td></tr></tbody></table>
+<p><strong>Bret Taylor</strong> was the key technical leader. He joined Facebook when they acquired FriendFeed in 2009, led the Platform team, demonstrated OGP at F8 2010, and was promoted to CTO in June 2010.</p>
+<p><strong>David Recordon</strong> presented “The Open Graph Protocol Design Decisions” at W3C’s Linked Data Camp at WWW 2010 (April 29, 2010). He defended OGP’s “openness” — it’s licensed under Open Web Foundation Agreement, increases semantic web data, and isn’t proprietary to Facebook.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="complete-type-hierarchy">COMPLETE TYPE HIERARCHY</h2><a class="sl-anchor-link" href="#complete-type-hierarchy"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “COMPLETE TYPE HIERARCHY”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="required-properties-all-types">Required Properties (All Types)</h3><a class="sl-anchor-link" href="#required-properties-all-types"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Required Properties (All Types)”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code dir="auto">og:title</code></td><td>string</td><td>Title as it should appear in the graph</td></tr><tr><td><code dir="auto">og:type</code></td><td>string</td><td>Object type (see below)</td></tr><tr><td><code dir="auto">og:image</code></td><td>url</td><td>Image URL representing the object</td></tr><tr><td><code dir="auto">og:url</code></td><td>url</td><td>Canonical URL (permanent ID in the graph)</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="optional-properties-all-types">Optional Properties (All Types)</h3><a class="sl-anchor-link" href="#optional-properties-all-types"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Optional Properties (All Types)”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code dir="auto">og:audio</code></td><td>url</td><td>Audio file URL</td></tr><tr><td><code dir="auto">og:description</code></td><td>string</td><td>1-2 sentence description</td></tr><tr><td><code dir="auto">og:determiner</code></td><td>enum</td><td>Article before title: “a”, “an”, “the”, "", “auto”</td></tr><tr><td><code dir="auto">og:locale</code></td><td>string</td><td>Locale in <code dir="auto">language_TERRITORY</code> format (default: <code dir="auto">en_US</code>)</td></tr><tr><td><code dir="auto">og:locale:alternate</code></td><td>string[]</td><td>Array of alternate locales</td></tr><tr><td><code dir="auto">og:site_name</code></td><td>string</td><td>Parent website name (e.g., “IMDb”)</td></tr><tr><td><code dir="auto">og:video</code></td><td>url</td><td>Video file URL</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="structured-media-properties">Structured Media Properties</h3><a class="sl-anchor-link" href="#structured-media-properties"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Structured Media Properties”</span></a></div>
+<p><strong>og:image</strong> sub-properties:</p>
+<ul>
+<li><code dir="auto">og:image:url</code> — Same as og:image</li>
+<li><code dir="auto">og:image:secure_url</code> — HTTPS version</li>
+<li><code dir="auto">og:image:type</code> — MIME type</li>
+<li><code dir="auto">og:image:width</code> — Pixel width</li>
+<li><code dir="auto">og:image:height</code> — Pixel height</li>
+<li><code dir="auto">og:image:alt</code> — Alt text description</li>
+</ul>
+<p><strong>og:video</strong> — Same sub-properties as og:image</p>
+<p><strong>og:audio</strong> — Has :url, :secure_url, :type (no dimensions)</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="object-types-ogtype-values">OBJECT TYPES (og:type values)</h2><a class="sl-anchor-link" href="#object-types-ogtype-values"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “OBJECT TYPES (og:type values)”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="no-vertical-global-types">No Vertical (Global Types)</h3><a class="sl-anchor-link" href="#no-vertical-global-types"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “No Vertical (Global Types)”</span></a></div>
+<div class="sl-heading-wrapper level-h4"><h4 id="website"><code dir="auto">website</code></h4><a class="sl-anchor-link" href="#website"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “website”</span></a></div>
+<ul>
+<li><strong>Namespace:</strong> <code dir="auto">https://ogp.me/ns/website#</code></li>
+<li><strong>Properties:</strong> None beyond basic metadata</li>
+<li><strong>Note:</strong> Default type. Any non-marked up page is treated as <code dir="auto">website</code></li>
+</ul>
+<div class="sl-heading-wrapper level-h4"><h4 id="article"><code dir="auto">article</code></h4><a class="sl-anchor-link" href="#article"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “article”</span></a></div>
+<ul>
+<li><strong>Namespace:</strong> <code dir="auto">https://ogp.me/ns/article#</code></li>
+<li><strong>Properties:</strong>
+<ul>
+<li><code dir="auto">article:published_time</code> (datetime) — First published</li>
+<li><code dir="auto">article:modified_time</code> (datetime) — Last changed</li>
+<li><code dir="auto">article:expiration_time</code> (datetime) — Expiry date</li>
+<li><code dir="auto">article:author</code> (profile[]) — Writers</li>
+<li><code dir="auto">article:section</code> (string) — High-level section (e.g., “Technology”)</li>
+<li><code dir="auto">article:tag</code> (string[]) — Tag words</li>
+</ul>
+</li>
+</ul>
+<div class="sl-heading-wrapper level-h4"><h4 id="book"><code dir="auto">book</code></h4><a class="sl-anchor-link" href="#book"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “book”</span></a></div>
+<ul>
+<li><strong>Namespace:</strong> <code dir="auto">https://ogp.me/ns/book#</code></li>
+<li><strong>Properties:</strong>
+<ul>
+<li><code dir="auto">book:author</code> (profile[]) — Authors</li>
+<li><code dir="auto">book:isbn</code> (string) — ISBN</li>
+<li><code dir="auto">book:release_date</code> (datetime) — Release date</li>
+<li><code dir="auto">book:tag</code> (string[]) — Tags</li>
+</ul>
+</li>
+</ul>
+<div class="sl-heading-wrapper level-h4"><h4 id="profile"><code dir="auto">profile</code></h4><a class="sl-anchor-link" href="#profile"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “profile”</span></a></div>
+<ul>
+<li><strong>Namespace:</strong> <code dir="auto">https://ogp.me/ns/profile#</code></li>
+<li><strong>Properties:</strong>
+<ul>
+<li><code dir="auto">profile:first_name</code> (string)</li>
+<li><code dir="auto">profile:last_name</code> (string)</li>
+<li><code dir="auto">profile:username</code> (string)</li>
+<li><code dir="auto">profile:gender</code> (enum: male, female)</li>
+</ul>
+</li>
+</ul>
+<div class="sl-heading-wrapper level-h4"><h4 id="paymentlink-beta"><code dir="auto">payment.link</code> (Beta)</h4><a class="sl-anchor-link" href="#paymentlink-beta"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “payment.link (Beta)”</span></a></div>
+<ul>
+<li><strong>Namespace:</strong> <code dir="auto">https://ogp.me/ns/payment#</code></li>
+<li><strong>Properties:</strong>
+<ul>
+<li><code dir="auto">payment:description</code> (string)</li>
+<li><code dir="auto">payment:currency</code> (string) — ISO 4217 code</li>
+<li><code dir="auto">payment:amount</code> (float)</li>
+<li><code dir="auto">payment:expires_at</code> (datetime)</li>
+<li><code dir="auto">payment:status</code> (enum: PENDING, PAID, FAILED, EXPIRED)</li>
+<li><code dir="auto">payment:id</code> (string)</li>
+<li><code dir="auto">payment:success_url</code> (url)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h3"><h3 id="music-vertical">Music Vertical</h3><a class="sl-anchor-link" href="#music-vertical"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Music Vertical”</span></a></div>
+<p><strong>Namespace:</strong> <code dir="auto">https://ogp.me/ns/music#</code></p>
+<div class="sl-heading-wrapper level-h4"><h4 id="musicsong"><code dir="auto">music.song</code></h4><a class="sl-anchor-link" href="#musicsong"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “music.song”</span></a></div>
+<ul>
+<li><code dir="auto">music:duration</code> (integer ≥1) — Length in seconds</li>
+<li><code dir="auto">music:album</code> (music.album[]) — Albums containing this song</li>
+<li><code dir="auto">music:album:disc</code> (integer ≥1) — Disc number</li>
+<li><code dir="auto">music:album:track</code> (integer ≥1) — Track number</li>
+<li><code dir="auto">music:musician</code> (profile[]) — Artists</li>
+</ul>
+<div class="sl-heading-wrapper level-h4"><h4 id="musicalbum"><code dir="auto">music.album</code></h4><a class="sl-anchor-link" href="#musicalbum"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “music.album”</span></a></div>
+<ul>
+<li><code dir="auto">music:song</code> (music.song) — Songs on album</li>
+<li><code dir="auto">music:song:disc</code> (integer ≥1)</li>
+<li><code dir="auto">music:song:track</code> (integer ≥1)</li>
+<li><code dir="auto">music:musician</code> (profile) — Artist</li>
+<li><code dir="auto">music:release_date</code> (datetime)</li>
+</ul>
+<div class="sl-heading-wrapper level-h4"><h4 id="musicplaylist"><code dir="auto">music.playlist</code></h4><a class="sl-anchor-link" href="#musicplaylist"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “music.playlist”</span></a></div>
+<ul>
+<li><code dir="auto">music:song</code> — Same structure as album</li>
+<li><code dir="auto">music:song:disc</code></li>
+<li><code dir="auto">music:song:track</code></li>
+<li><code dir="auto">music:creator</code> (profile) — Playlist creator</li>
+</ul>
+<div class="sl-heading-wrapper level-h4"><h4 id="musicradio_station"><code dir="auto">music.radio_station</code></h4><a class="sl-anchor-link" href="#musicradio_station"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “music.radio_station”</span></a></div>
+<ul>
+<li><code dir="auto">music:creator</code> (profile) — Station creator</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h3"><h3 id="video-vertical">Video Vertical</h3><a class="sl-anchor-link" href="#video-vertical"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Video Vertical”</span></a></div>
+<p><strong>Namespace:</strong> <code dir="auto">https://ogp.me/ns/video#</code></p>
+<div class="sl-heading-wrapper level-h4"><h4 id="videomovie"><code dir="auto">video.movie</code></h4><a class="sl-anchor-link" href="#videomovie"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “video.movie”</span></a></div>
+<ul>
+<li><code dir="auto">video:actor</code> (profile[]) — Actors</li>
+<li><code dir="auto">video:actor:role</code> (string) — Role played</li>
+<li><code dir="auto">video:director</code> (profile[]) — Directors</li>
+<li><code dir="auto">video:writer</code> (profile[]) — Writers</li>
+<li><code dir="auto">video:duration</code> (integer ≥1) — Length in seconds</li>
+<li><code dir="auto">video:release_date</code> (datetime)</li>
+<li><code dir="auto">video:tag</code> (string[])</li>
+</ul>
+<div class="sl-heading-wrapper level-h4"><h4 id="videoepisode"><code dir="auto">video.episode</code></h4><a class="sl-anchor-link" href="#videoepisode"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “video.episode”</span></a></div>
+<ul>
+<li>All properties from video.movie, plus:</li>
+<li><code dir="auto">video:series</code> (video.tv_show) — Parent series</li>
+</ul>
+<div class="sl-heading-wrapper level-h4"><h4 id="videotv_show"><code dir="auto">video.tv_show</code></h4><a class="sl-anchor-link" href="#videotv_show"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “video.tv_show”</span></a></div>
+<ul>
+<li>Same properties as video.movie</li>
+</ul>
+<div class="sl-heading-wrapper level-h4"><h4 id="videoother"><code dir="auto">video.other</code></h4><a class="sl-anchor-link" href="#videoother"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “video.other”</span></a></div>
+<ul>
+<li>Same properties as video.movie</li>
+<li>For videos not fitting other categories</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h3"><h3 id="business-vertical-added-2013">Business Vertical (Added 2013)</h3><a class="sl-anchor-link" href="#business-vertical-added-2013"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Business Vertical (Added 2013)”</span></a></div>
+<p><strong>Namespace:</strong> <code dir="auto">https://ogp.me/ns/business#</code></p>
+<div class="sl-heading-wrapper level-h4"><h4 id="businessbusiness"><code dir="auto">business.business</code></h4><a class="sl-anchor-link" href="#businessbusiness"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “business.business”</span></a></div>
+<p>Required:</p>
+<ul>
+<li><code dir="auto">place:location:latitude</code></li>
+<li><code dir="auto">place:location:longitude</code></li>
+<li><code dir="auto">business:contact_data:street_address</code></li>
+<li><code dir="auto">business:contact_data:locality</code></li>
+<li><code dir="auto">business:contact_data:country</code></li>
+<li><code dir="auto">business:contact_data:postal_code</code></li>
+</ul>
+<p>Optional:</p>
+<ul>
+<li><code dir="auto">business:contact_data:region</code></li>
+<li><code dir="auto">business:contact_data:email</code></li>
+<li><code dir="auto">business:contact_data:phone_number</code></li>
+<li><code dir="auto">business:contact_data:fax_number</code></li>
+<li><code dir="auto">business:contact_data:website</code></li>
+<li><code dir="auto">business:hours:day</code>, <code dir="auto">business:hours:start</code>, <code dir="auto">business:hours:end</code></li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h3"><h3 id="product-type-e-commerce">Product Type (E-commerce)</h3><a class="sl-anchor-link" href="#product-type-e-commerce"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Product Type (E-commerce)”</span></a></div>
+<div class="sl-heading-wrapper level-h4"><h4 id="product"><code dir="auto">product</code></h4><a class="sl-anchor-link" href="#product"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “product”</span></a></div>
+<ul>
+<li><code dir="auto">og:price:amount</code> — Price</li>
+<li><code dir="auto">og:price:currency</code> — Currency code (USD, EUR, etc.)</li>
+<li><code dir="auto">product:availability</code> — Stock status</li>
+<li><code dir="auto">product:condition</code> — Item condition (new, used, etc.)</li>
+<li><code dir="auto">product:brand</code> — Brand name</li>
+<li><code dir="auto">product:retailer_item_id</code> — Product ID</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="data-types">DATA TYPES</h2><a class="sl-anchor-link" href="#data-types"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “DATA TYPES”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Type</th><th>Description</th><th>Example Values</th></tr></thead><tbody><tr><td>Boolean</td><td>true/false</td><td><code dir="auto">true</code>, <code dir="auto">false</code>, <code dir="auto">1</code>, <code dir="auto">0</code></td></tr><tr><td>DateTime</td><td>ISO 8601 date/time</td><td><code dir="auto">2024-01-15T10:30:00Z</code></td></tr><tr><td>Enum</td><td>Bounded set of strings</td><td><code dir="auto">male</code>, <code dir="auto">female</code></td></tr><tr><td>Float</td><td>64-bit signed floating point</td><td><code dir="auto">1.234</code>, <code dir="auto">-1.2e3</code></td></tr><tr><td>Integer</td><td>32-bit signed integer</td><td><code dir="auto">1234</code>, <code dir="auto">-123</code></td></tr><tr><td>String</td><td>Unicode characters</td><td>Any text</td></tr><tr><td>URL</td><td>http/https URL</td><td><code dir="auto">https://example.com</code></td></tr></tbody></table>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="deprecated-properties">DEPRECATED PROPERTIES</h2><a class="sl-anchor-link" href="#deprecated-properties"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “DEPRECATED PROPERTIES”</span></a></div>
+<p>From the RDF schema, these are explicitly deprecated:</p>
+<ul>
+<li><code dir="auto">og:audio:title</code>, <code dir="auto">og:audio:artist</code>, <code dir="auto">og:audio:album</code></li>
+<li><code dir="auto">og:latitude</code>, <code dir="auto">og:longitude</code> (use place:location instead)</li>
+<li><code dir="auto">og:street-address</code>, <code dir="auto">og:locality</code>, <code dir="auto">og:region</code>, <code dir="auto">og:postal-code</code>, <code dir="auto">og:country-name</code></li>
+<li><code dir="auto">og:email</code>, <code dir="auto">og:phone_number</code>, <code dir="auto">og:fax_number</code></li>
+<li><code dir="auto">og:isbn</code> (use book:isbn)</li>
+<li><code dir="auto">og:upc</code></li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="extension-mechanism">EXTENSION MECHANISM</h2><a class="sl-anchor-link" href="#extension-mechanism"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “EXTENSION MECHANISM”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="custom-namespaces">Custom Namespaces</h3><a class="sl-anchor-link" href="#custom-namespaces"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Custom Namespaces”</span></a></div>
+<p>OGP allows custom types using CURIEs (Compact URIs):</p>
+<div class="expressive-code"><link rel="stylesheet" href="../../../_astro/ec.3svgr.css"><script type="module" src="../../../_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="html"><code><div class="ec-line"><div class="code"><span style="--1:#800000"><span style="--0:#F0F3F6">&#x3C;</span><span style="--0:#72F088">html</span></span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#91CBFF;--1:#D30000">prefix</span><span style="--0:#F0F3F6;--1:#000000">=</span><span style="--0:#ADDCFF;--1:#0000FF">"my_namespace: https://example.com/ns#"</span><span style="--0:#F0F3F6;--1:#800000">></span></div></div><div class="ec-line"><div class="code"><span style="--1:#800000"><span style="--0:#F0F3F6">&#x3C;</span><span style="--0:#72F088">head</span><span style="--0:#F0F3F6">></span></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6">  </span></span><span style="--1:#800000"><span style="--0:#F0F3F6">&#x3C;</span><span style="--0:#72F088">meta</span></span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#91CBFF;--1:#D30000">property</span><span style="--0:#F0F3F6;--1:#000000">=</span><span style="--0:#ADDCFF;--1:#0000FF">"og:type"</span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#91CBFF;--1:#D30000">content</span><span style="--0:#F0F3F6;--1:#000000">=</span><span style="--0:#ADDCFF;--1:#0000FF">"my_namespace:my_type"</span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#F0F3F6;--1:#800000">/></span></div></div><div class="ec-line"><div class="code"><span style="--1:#800000"><span style="--0:#F0F3F6">&#x3C;/</span><span style="--0:#72F088">head</span><span style="--0:#F0F3F6">></span></span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="<html prefix=&#x22;my_namespace: https://example.com/ns#&#x22;><head>  <meta property=&#x22;og:type&#x22; content=&#x22;my_namespace:my_type&#x22; /></head>"><div></div></button></div></figure></div>
+<p><strong>Key distinction:</strong></p>
+<ul>
+<li>Global types use dot notation: <code dir="auto">video.movie</code>, <code dir="auto">music.song</code></li>
+<li>Custom types use colon notation: <code dir="auto">my_namespace:my_type</code></li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="facebook-specific-extensions">Facebook-Specific Extensions</h3><a class="sl-anchor-link" href="#facebook-specific-extensions"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Facebook-Specific Extensions”</span></a></div>
+<p>Developers could create custom actions scoped to their Facebook application, though this was largely deprecated in 2012. Approved core actions remaining:</p>
+<ul>
+<li>Like (any object)</li>
+<li>Follow (profile)</li>
+<li>Listen (song)</li>
+<li>Read (article)</li>
+<li>Watch (video/movie/TV show)</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="relationship-to-other-standards">RELATIONSHIP TO OTHER STANDARDS</h2><a class="sl-anchor-link" href="#relationship-to-other-standards"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “RELATIONSHIP TO OTHER STANDARDS”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="vs-schemaorg">vs Schema.org</h3><a class="sl-anchor-link" href="#vs-schemaorg"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “vs Schema.org”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Aspect</th><th>Open Graph</th><th>Schema.org</th></tr></thead><tbody><tr><td><strong>Purpose</strong></td><td>Social media sharing</td><td>Search engine SEO</td></tr><tr><td><strong>Created by</strong></td><td>Facebook (2010)</td><td>Google, Microsoft, Yahoo, Yandex (2011)</td></tr><tr><td><strong>Adoption</strong></td><td>69.8% of web</td><td>52.6% (JSON-LD)</td></tr><tr><td><strong>Complexity</strong></td><td>Simple, ~12 types</td><td>Complex, 800+ types</td></tr><tr><td><strong>Implementation</strong></td><td>Meta tags in <code dir="auto">&#x3C;head></code></td><td>JSON-LD, microdata, RDFa</td></tr><tr><td><strong>Relationship modeling</strong></td><td>Minimal</td><td>Rich</td></tr></tbody></table>
+<p><strong>Key insight:</strong> OGP optimizes for the “link preview” use case. Schema.org optimizes for the “understand everything about this page” use case. <strong>Use both.</strong></p>
+<div class="sl-heading-wrapper level-h3"><h3 id="vs-twitter-cards">vs Twitter Cards</h3><a class="sl-anchor-link" href="#vs-twitter-cards"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “vs Twitter Cards”</span></a></div>
+<p>Twitter Cards are based on Open Graph conventions. Twitter’s parser:</p>
+<ol>
+<li>Checks for Twitter-specific tags (<code dir="auto">twitter:card</code>, <code dir="auto">twitter:title</code>, etc.)</li>
+<li>Falls back to Open Graph tags if Twitter tags missing</li>
+</ol>
+<p><strong>Twitter Card Types:</strong></p>
+<ul>
+<li><code dir="auto">summary</code> — Default card with thumbnail</li>
+<li><code dir="auto">summary_large_image</code> — Large image card</li>
+<li><code dir="auto">player</code> — Video/audio player</li>
+<li><code dir="auto">app</code> — App download card</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="platform-support">Platform Support</h3><a class="sl-anchor-link" href="#platform-support"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Platform Support”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Platform</th><th>OGP Support</th><th>Notes</th></tr></thead><tbody><tr><td>Facebook</td><td>Full</td><td>Creator of OGP</td></tr><tr><td>LinkedIn</td><td>Full</td><td>Uses OGP for link previews</td></tr><tr><td>Twitter/X</td><td>Partial</td><td>Prefers Twitter Cards, OGP fallback</td></tr><tr><td>Pinterest</td><td>Partial</td><td>Prefers Schema.org for Rich Pins</td></tr><tr><td>Slack</td><td>Full</td><td>Uses OGP for “unfurling”</td></tr><tr><td>Discord</td><td>Full</td><td>Uses OGP for embeds</td></tr><tr><td>WhatsApp</td><td>Full</td><td>Uses OGP for link previews</td></tr><tr><td>iMessage</td><td>Full</td><td>Uses OGP for rich links</td></tr></tbody></table>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="implementation-best-practices">IMPLEMENTATION BEST PRACTICES</h2><a class="sl-anchor-link" href="#implementation-best-practices"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “IMPLEMENTATION BEST PRACTICES”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="required-tags">Required Tags</h3><a class="sl-anchor-link" href="#required-tags"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Required Tags”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="html"><code><div class="ec-line"><div class="code"><span style="--1:#800000"><span style="--0:#F0F3F6">&#x3C;</span><span style="--0:#72F088">html</span></span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#91CBFF;--1:#D30000">prefix</span><span style="--0:#F0F3F6;--1:#000000">=</span><span style="--0:#ADDCFF;--1:#0000FF">"og: https://ogp.me/ns#"</span><span style="--0:#F0F3F6;--1:#800000">></span></div></div><div class="ec-line"><div class="code"><span style="--1:#800000"><span style="--0:#F0F3F6">&#x3C;</span><span style="--0:#72F088">head</span><span style="--0:#F0F3F6">></span></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6">  </span></span><span style="--1:#800000"><span style="--0:#F0F3F6">&#x3C;</span><span style="--0:#72F088">meta</span></span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#91CBFF;--1:#D30000">property</span><span style="--0:#F0F3F6;--1:#000000">=</span><span style="--0:#ADDCFF;--1:#0000FF">"og:title"</span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#91CBFF;--1:#D30000">content</span><span style="--0:#F0F3F6;--1:#000000">=</span><span style="--0:#ADDCFF;--1:#0000FF">"Page Title"</span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#F0F3F6;--1:#800000">/></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6">  </span></span><span style="--1:#800000"><span style="--0:#F0F3F6">&#x3C;</span><span style="--0:#72F088">meta</span></span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#91CBFF;--1:#D30000">property</span><span style="--0:#F0F3F6;--1:#000000">=</span><span style="--0:#ADDCFF;--1:#0000FF">"og:type"</span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#91CBFF;--1:#D30000">content</span><span style="--0:#F0F3F6;--1:#000000">=</span><span style="--0:#ADDCFF;--1:#0000FF">"website"</span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#F0F3F6;--1:#800000">/></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6">  </span></span><span style="--1:#800000"><span style="--0:#F0F3F6">&#x3C;</span><span style="--0:#72F088">meta</span></span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#91CBFF;--1:#D30000">property</span><span style="--0:#F0F3F6;--1:#000000">=</span><span style="--0:#ADDCFF;--1:#0000FF">"og:image"</span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#91CBFF;--1:#D30000">content</span><span style="--0:#F0F3F6;--1:#000000">=</span><span style="--0:#ADDCFF;--1:#0000FF">"https://example.com/image.jpg"</span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#F0F3F6;--1:#800000">/></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6">  </span></span><span style="--1:#800000"><span style="--0:#F0F3F6">&#x3C;</span><span style="--0:#72F088">meta</span></span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#91CBFF;--1:#D30000">property</span><span style="--0:#F0F3F6;--1:#000000">=</span><span style="--0:#ADDCFF;--1:#0000FF">"og:url"</span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#91CBFF;--1:#D30000">content</span><span style="--0:#F0F3F6;--1:#000000">=</span><span style="--0:#ADDCFF;--1:#0000FF">"https://example.com/page"</span><span style="--0:#F0F3F6;--1:#000000"> </span><span style="--0:#F0F3F6;--1:#800000">/></span></div></div><div class="ec-line"><div class="code"><span style="--1:#800000"><span style="--0:#F0F3F6">&#x3C;/</span><span style="--0:#72F088">head</span><span style="--0:#F0F3F6">></span></span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="<html prefix=&#x22;og: https://ogp.me/ns#&#x22;><head>  <meta property=&#x22;og:title&#x22; content=&#x22;Page Title&#x22; />  <meta property=&#x22;og:type&#x22; content=&#x22;website&#x22; />  <meta property=&#x22;og:image&#x22; content=&#x22;https://example.com/image.jpg&#x22; />  <meta property=&#x22;og:url&#x22; content=&#x22;https://example.com/page&#x22; /></head>"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="image-requirements">Image Requirements</h3><a class="sl-anchor-link" href="#image-requirements"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Image Requirements”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Platform</th><th>Recommended Size</th><th>Min Size</th><th>Max File Size</th></tr></thead><tbody><tr><td>Facebook</td><td>1200×630px</td><td>600×315px</td><td>8MB</td></tr><tr><td>LinkedIn</td><td>1200×627px</td><td>401px wide</td><td>5MB</td></tr><tr><td>Twitter</td><td>1200×628px</td><td>120×120px</td><td>5MB</td></tr><tr><td>General</td><td>1200×630px (1.91:1)</td><td>200×200px</td><td>5MB</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="common-mistakes">Common Mistakes</h3><a class="sl-anchor-link" href="#common-mistakes"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Common Mistakes”</span></a></div>
+<ol>
+<li><strong>Missing og:image</strong> — Results in no preview image</li>
+<li><strong>Relative URLs</strong> — Must use absolute URLs</li>
+<li><strong>Images too small</strong> — Won’t display or will show as tiny thumbnail</li>
+<li><strong>Description too long</strong> — Keep under 160 characters</li>
+<li><strong>Not pre-caching</strong> — First share may not show image</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="validation-tools">Validation Tools</h3><a class="sl-anchor-link" href="#validation-tools"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Validation Tools”</span></a></div>
+<ul>
+<li><strong>Facebook Sharing Debugger</strong>: <code dir="auto">https://developers.facebook.com/tools/debug/</code></li>
+<li><strong>LinkedIn Post Inspector</strong>: <code dir="auto">https://www.linkedin.com/post-inspector/</code></li>
+<li><strong>Twitter Card Validator</strong>: <code dir="auto">https://cards-dev.twitter.com/validator</code></li>
+<li><strong>Open Graph Debugger</strong>: <code dir="auto">https://ogdebugger.com/</code></li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="urls">URLS</h2><a class="sl-anchor-link" href="#urls"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “URLS”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="official">Official</h3><a class="sl-anchor-link" href="#official"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Official”</span></a></div>
+<ul>
+<li><a href="https://ogp.me/">https://ogp.me/</a> — Official specification</li>
+<li><a href="https://ogp.me/ns/ogp.me.ttl">https://ogp.me/ns/ogp.me.ttl</a> — RDF schema (Turtle format)</li>
+<li><a href="https://github.com/facebook/open-graph-protocol">https://github.com/facebook/open-graph-protocol</a> — GitHub repo</li>
+<li><a href="https://developers.facebook.com/docs/sharing/webmasters">https://developers.facebook.com/docs/sharing/webmasters</a> — Facebook implementation guide</li>
+<li><a href="https://developers.facebook.com/tools/debug/">https://developers.facebook.com/tools/debug/</a> — Sharing Debugger</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="historical">Historical</h3><a class="sl-anchor-link" href="#historical"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Historical”</span></a></div>
+<ul>
+<li><a href="https://www.scribd.com/doc/30715288/The-Open-Graph-Protocol-Design-Decisions">https://www.scribd.com/doc/30715288/The-Open-Graph-Protocol-Design-Decisions</a> — David Recordon’s WWW 2010 presentation</li>
+<li><a href="https://www.niallkennedy.com/blog/2012/01/open-graph-protocol.html">https://www.niallkennedy.com/blog/2012/01/open-graph-protocol.html</a> — OGP 1.1 deep dive</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="news-coverage-f8-2010">News Coverage (F8 2010)</h3><a class="sl-anchor-link" href="#news-coverage-f8-2010"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “News Coverage (F8 2010)”</span></a></div>
+<ul>
+<li><a href="https://www.cnet.com/culture/facebook-f8-one-graph-to-rule-them-all/">https://www.cnet.com/culture/facebook-f8-one-graph-to-rule-them-all/</a></li>
+<li><a href="https://www.wired.com/2010/04/facebook-shows-off-new-tools-to-socialize-the-entire-web/">https://www.wired.com/2010/04/facebook-shows-off-new-tools-to-socialize-the-entire-web/</a></li>
+<li><a href="https://techcrunch.com/2010/04/21/facebook/">https://techcrunch.com/2010/04/21/facebook/</a></li>
+<li><a href="https://techcrunch.com/2010/04/23/facebook-open-graph/">https://techcrunch.com/2010/04/23/facebook-open-graph/</a></li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="comparisons">Comparisons</h3><a class="sl-anchor-link" href="#comparisons"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Comparisons”</span></a></div>
+<ul>
+<li><a href="https://yext.com/blog/2017/07/schema-vs-open-graph">https://yext.com/blog/2017/07/schema-vs-open-graph</a> — Schema.org vs OGP</li>
+<li><a href="https://w3techs.com/technologies/details/da-opengraph">https://w3techs.com/technologies/details/da-opengraph</a> — Usage statistics</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="entity-type-observations">ENTITY TYPE OBSERVATIONS</h2><a class="sl-anchor-link" href="#entity-type-observations"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “ENTITY TYPE OBSERVATIONS”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="what-ogp-got-right">What OGP Got Right</h3><a class="sl-anchor-link" href="#what-ogp-got-right"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “What OGP Got Right”</span></a></div>
+<ol>
+<li>
+<p><strong>Radical simplicity</strong> — Only 4 required properties. Anyone can implement.</p>
+</li>
+<li>
+<p><strong>Pragmatic type system</strong> — 12 core types cover 90% of web content. Not trying to model everything.</p>
+</li>
+<li>
+<p><strong>Flat inheritance</strong> — Types don’t deeply inherit. <code dir="auto">video.movie</code> isn’t a subtype of <code dir="auto">video</code> that’s a subtype of <code dir="auto">media</code>. Each type stands alone.</p>
+</li>
+<li>
+<p><strong>Verticals as namespaces</strong> — <code dir="auto">music.*</code>, <code dir="auto">video.*</code> group related types without inheritance complexity.</p>
+</li>
+<li>
+<p><strong>References over embeddings</strong> — <code dir="auto">article:author</code> references a <code dir="auto">profile</code> by URL, doesn’t embed the data. Follows graph principles.</p>
+</li>
+<li>
+<p><strong>Arrays for multiplicity</strong> — Multiple images, authors, tags handled by repeating the same property.</p>
+</li>
+<li>
+<p><strong>Structured properties</strong> — <code dir="auto">og:image</code> has sub-properties like <code dir="auto">og:image:width</code>. Clean way to add metadata without new top-level properties.</p>
+</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="type-system-design-lessons">Type System Design Lessons</h3><a class="sl-anchor-link" href="#type-system-design-lessons"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Type System Design Lessons”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>OGP Pattern</th><th>Our Application</th></tr></thead><tbody><tr><td>4 required + many optional</td><td>Core entity properties: id, type, title, created</td></tr><tr><td>Vertical namespaces</td><td>Category-based type grouping</td></tr><tr><td>URL-based references</td><td>Entity relationships by ID</td></tr><tr><td>Structured sub-properties</td><td>Nested metadata</td></tr><tr><td>Enum constraints</td><td>Status fields, type restrictions</td></tr><tr><td>DateTime for temporality</td><td>created, modified, published</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="types-we-might-adopt">Types We Might Adopt</h3><a class="sl-anchor-link" href="#types-we-might-adopt"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Types We Might Adopt”</span></a></div>
+<p>From OGP’s proven types:</p>
+<ul>
+<li><strong>article</strong> → Note, Document</li>
+<li><strong>book</strong> → Reference</li>
+<li><strong>profile</strong> → Person, Contact</li>
+<li><strong>video.movie</strong>, <strong>video.episode</strong> → Media items</li>
+<li><strong>music.song</strong>, <strong>music.album</strong> → Media with relationships</li>
+<li><strong>product</strong> → Item with price/availability</li>
+<li><strong>business.business</strong> → Place with contact info</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="relationship-patterns">Relationship Patterns</h3><a class="sl-anchor-link" href="#relationship-patterns"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Relationship Patterns”</span></a></div>
+<p>OGP models relationships through:</p>
+<ol>
+<li><strong>Type references</strong> — <code dir="auto">video:series</code> points to a <code dir="auto">video.tv_show</code></li>
+<li><strong>Profile arrays</strong> — <code dir="auto">article:author</code> is an array of <code dir="auto">profile</code> references</li>
+<li><strong>Nested metadata</strong> — <code dir="auto">music:album:track</code> gives position within container</li>
+</ol>
+<p>This is <strong>reference-based</strong>, not <strong>join-table-based</strong>. The relationship lives on the referring object.</p>
+<hr>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="ogp-10-complete-type-list-39-types">OGP 1.0 Complete Type List (39 Types)</h2><a class="sl-anchor-link" href="#ogp-10-complete-type-list-39-types"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “OGP 1.0 Complete Type List (39 Types)”</span></a></div>
+<p><strong>Original types from May 2010 (via Wayback Machine):</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Category</th><th>Types</th></tr></thead><tbody><tr><td><strong>Activities</strong></td><td><code dir="auto">activity</code>, <code dir="auto">sport</code></td></tr><tr><td><strong>Businesses</strong></td><td><code dir="auto">bar</code>, <code dir="auto">company</code>, <code dir="auto">cafe</code>, <code dir="auto">hotel</code>, <code dir="auto">restaurant</code></td></tr><tr><td><strong>Groups</strong></td><td><code dir="auto">cause</code>, <code dir="auto">sports_league</code>, <code dir="auto">sports_team</code></td></tr><tr><td><strong>Organizations</strong></td><td><code dir="auto">band</code>, <code dir="auto">government</code>, <code dir="auto">non_profit</code>, <code dir="auto">school</code>, <code dir="auto">university</code></td></tr><tr><td><strong>People</strong></td><td><code dir="auto">actor</code>, <code dir="auto">athlete</code>, <code dir="auto">author</code>, <code dir="auto">director</code>, <code dir="auto">musician</code>, <code dir="auto">politician</code>, <code dir="auto">public_figure</code></td></tr><tr><td><strong>Places</strong></td><td><code dir="auto">city</code>, <code dir="auto">country</code>, <code dir="auto">landmark</code>, <code dir="auto">state_province</code></td></tr><tr><td><strong>Products/Entertainment</strong></td><td><code dir="auto">album</code>, <code dir="auto">book</code>, <code dir="auto">drink</code>, <code dir="auto">food</code>, <code dir="auto">game</code>, <code dir="auto">product</code>, <code dir="auto">song</code>, <code dir="auto">movie</code>, <code dir="auto">tv_show</code></td></tr><tr><td><strong>Websites</strong></td><td><code dir="auto">blog</code>, <code dir="auto">website</code>, <code dir="auto">article</code></td></tr></tbody></table>
+<p><strong>Note:</strong> OGP 1.0 DID have organization types (band, company, government, non_profit, school, university) and place types (city, country, landmark). These were consolidated/deprecated in OGP 1.1 (2012).</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="key-gaps-analysis">Key Gaps Analysis</h2><a class="sl-anchor-link" href="#key-gaps-analysis"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Key Gaps Analysis”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Type</th><th>OGP 1.0</th><th>OGP Current</th><th>Status</th></tr></thead><tbody><tr><td><strong>Event</strong></td><td>❌ Never existed</td><td>❌ None</td><td>Facebook Events are Graph API objects, not OGP</td></tr><tr><td><strong>Place</strong></td><td>✅ city, country, landmark, state_province</td><td>❌ Deprecated</td><td>Properties deprecated in RDF schema</td></tr><tr><td><strong>Organization</strong></td><td>✅ band, government, non_profit, school, university, company</td><td>⚠️ Only <code dir="auto">business.business</code></td><td>Consolidated</td></tr></tbody></table>
+<p><strong>Why no Event type?</strong> Facebook Events exist in the Graph API (proprietary), but external event websites just use <code dir="auto">og:type="website"</code>. The OGP philosophy is “link preview metadata” not “comprehensive entity typing.”</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="session-log">Session Log</h2><a class="sl-anchor-link" href="#session-log"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Session Log”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="2025-01-24-initial-setup">2025-01-24: Initial setup</h3><a class="sl-anchor-link" href="#2025-01-24-initial-setup"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “2025-01-24: Initial setup”</span></a></div>
+<ul>
+<li>Created research doc</li>
+<li>Outlined research tasks</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="2026-01-24-phase-1-web-research-complete">2026-01-24: Phase 1 Web Research Complete</h3><a class="sl-anchor-link" href="#2026-01-24-phase-1-web-research-complete"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “2026-01-24: Phase 1 Web Research Complete”</span></a></div>
+<ul>
+<li>Fetched and documented full ogp.me specification</li>
+<li>Retrieved RDF schema with all properties and deprecated items</li>
+<li>Documented complete type hierarchy with all properties per type</li>
+<li>Found key people: Bret Taylor, David Recordon, Mark Zuckerberg</li>
+<li>Documented OGP history: April 21, 2010 F8 announcement</li>
+<li>Tracked evolution: OGP 1.0 (39 types) → OGP 1.1 (12 types)</li>
+<li>Compared to Schema.org, Twitter Cards</li>
+<li>Found adoption statistics: 69.8% of web uses OGP</li>
+<li>Documented extension mechanism (custom namespaces)</li>
+<li>Listed all deprecated properties from RDF schema</li>
+<li>Compiled implementation best practices</li>
+<li>Identified lessons for entity type design</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="2026-01-24-deep-dive-on-eventplaceorganization">2026-01-24: Deep-dive on Event/Place/Organization</h3><a class="sl-anchor-link" href="#2026-01-24-deep-dive-on-eventplaceorganization"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “2026-01-24: Deep-dive on Event/Place/Organization”</span></a></div>
+<ul>
+<li>Confirmed: OGP NEVER had event type</li>
+<li>Confirmed: OGP 1.0 HAD place types (city, country, landmark) — now deprecated</li>
+<li>Confirmed: OGP 1.0 HAD organization types (band, company, government, etc.) — now consolidated into business.business</li>
+<li>Decision: Use OGP as foundation, add event/place/organization ourselves</li>
+</ul> </div> <footer class="sl-flex astro-bmlnrcen"> <div class="meta sl-flex astro-bmlnrcen">   </div> <div class="pagination-links print:hidden astro-sjqzzol4" dir="ltr"> <a href="../../../research/ontology/ogp-relationships/index.html" rel="prev" class="astro-sjqzzol4"> <svg aria-hidden="true" class="astro-sjqzzol4 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg> <span class="astro-sjqzzol4"> Previous <br class="astro-sjqzzol4"> <span class="link-title astro-sjqzzol4">Open Graph Protocol: Relationship Modeling</span> </span> </a> <a href="../../../research/ontology/outcome-entity/index.html" rel="next" class="astro-sjqzzol4"> <svg aria-hidden="true" class="astro-sjqzzol4 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg> <span class="astro-sjqzzol4"> Next <br class="astro-sjqzzol4"> <span class="link-title astro-sjqzzol4">The Outcome Entity: A Universal Systems Primitive</span> </span> </a> </div>  </footer> </div> </div>  </main> </div> </div> </div> </div> </body></html>

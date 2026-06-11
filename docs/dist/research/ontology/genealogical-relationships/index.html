@@ -1,0 +1,699 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-wwc3bqpt"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Genealogical Relationships Research | AgentOS Docs</title><link rel="canonical" href="https://agentos.to/research/ontology/genealogical-relationships/"/><link rel="sitemap" href="../../../sitemap-index.xml"/><script type="module">
+						import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+						// Starlight renders code fences through Expressive Code, which wraps
+						// content in .expressive-code > pre > code.language-mermaid and applies
+						// syntax-highlight styles. Unwrap those to plain <pre class="mermaid">text</pre>
+						// so mermaid can run on the raw source.
+						const render = () => {
+							const blocks = document.querySelectorAll('code.language-mermaid');
+							if (!blocks.length) return;
+							blocks.forEach((code) => {
+								const wrapper = code.closest('.expressive-code') || code.closest('pre');
+								if (!wrapper || wrapper.dataset.mermaidMounted === '1') return;
+								const pre = document.createElement('pre');
+								pre.className = 'mermaid';
+								pre.textContent = code.textContent;
+								wrapper.replaceWith(pre);
+								pre.dataset.mermaidMounted = '1';
+							});
+							const isDark = document.documentElement.dataset.theme !== 'light';
+							mermaid.initialize({
+								startOnLoad: false,
+								theme: isDark ? 'dark' : 'default',
+								securityLevel: 'loose',
+								themeVariables: isDark ? {
+									background: '#0b0b0f',
+									primaryColor: '#1a1a24',
+									primaryTextColor: '#e8e8ee',
+									primaryBorderColor: '#3d3d4d',
+									lineColor: '#8b8b98',
+									secondaryColor: '#141420',
+									tertiaryColor: '#101018',
+								} : {},
+							});
+							mermaid.run({ querySelector: 'pre.mermaid:not([data-processed])' });
+						};
+
+						if (document.readyState === 'loading') {
+							document.addEventListener('DOMContentLoaded', render);
+						} else {
+							render();
+						}
+
+						// Re-run on Astro view transitions
+						document.addEventListener('astro:after-swap', render);
+					</script><link rel="shortcut icon" href="../../../favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v6.1.5"/><meta name="generator" content="Starlight v0.38.3"/><meta property="og:title" content="Genealogical Relationships Research"/><meta property="og:type" content="article"/><meta property="og:url" content="https://agentos.to/research/ontology/genealogical-relationships/"/><meta property="og:locale" content="en"/><meta property="og:description" content="FamilySearch and GEDCOM represent the gold standard for modeling family relationships. What can we learn from their approach to relationships, evidence, and complex family structures?"/><meta property="og:site_name" content="AgentOS Docs"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="FamilySearch and GEDCOM represent the gold standard for modeling family relationships. What can we learn from their approach to relationships, evidence, and complex family structures?"/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="../../../_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="../../../_astro/common.D4duwXY4.css">
+<link rel="stylesheet" href="../../../_astro/Code.DQp0_qN-.css"><script type="module" src="../../../_astro/page.BIhdncjw.js"></script></head> <body class="astro-wwc3bqpt"> <a href="#_top" class="astro-3x7q7msw">Skip to content</a> <div class="page sl-flex astro-axwskc5k"> <header class="header astro-axwskc5k"><div class="header astro-3ef6ksr2"> <div class="title-wrapper sl-flex astro-3ef6ksr2"> <a href="../../../index.html" class="site-title sl-flex astro-c5jbctzu">  <span class="astro-c5jbctzu" translate="no"> AgentOS Docs </span> </a> </div> <nav class="topic-tabs astro-3ef6ksr2" aria-label="Sections"> <ul class="astro-3ef6ksr2"> <li class="astro-3ef6ksr2"> <a href="../../../introduction/what-is-agentos/index.html" class="astro-3ef6ksr2">Learn</a> </li><li class="astro-3ef6ksr2"> <a href="../../../introduction/how-we-build/index.html" class="astro-3ef6ksr2">Build</a> </li><li class="astro-3ef6ksr2"> <a href="../../../shapes/overview/index.html" class="astro-3ef6ksr2">Shapes</a> </li><li class="astro-3ef6ksr2"> <a href="../../../research/ontology/relationship-modeling/index.html" aria-current="page" class="astro-3ef6ksr2">Research</a> </li> </ul> </nav> <div class="sl-flex print:hidden search-wrap astro-3ef6ksr2"> <site-search class="astro-3ef6ksr2 astro-tijk2zt5" data-translations="{&#34;placeholder&#34;:&#34;Search&#34;}"> <button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-tijk2zt5"> <svg aria-hidden="true" class="astro-tijk2zt5 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg> <span class="sl-hidden md:sl-block astro-tijk2zt5" aria-hidden="true">Search</span> <kbd class="sl-hidden md:sl-flex astro-tijk2zt5" style="display: none;"> <kbd class="astro-tijk2zt5">Ctrl</kbd><kbd class="astro-tijk2zt5">K</kbd> </kbd> </button> <dialog style="padding:0" aria-label="Search" class="astro-tijk2zt5"> <div class="dialog-frame sl-flex astro-tijk2zt5">  <button data-close-modal class="sl-flex md:sl-hidden astro-tijk2zt5"> Cancel </button> <div class="search-container astro-tijk2zt5"> <div id="starlight__search" class="astro-tijk2zt5"></div> </div> </div> </dialog> </site-search>  <script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script> <script type="module" src="../../../_astro/Search.astro_astro_type_script_index_0_lang.Rw77DzG6.js"></script>  </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-3ef6ksr2"> <div class="sl-flex social-icons astro-3ef6ksr2">  </div> <script type="module">class s extends HTMLElement{constructor(){super();const t=typeof localStorage<"u"&&localStorage.getItem("starlight-theme")||(window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");document.documentElement.dataset.theme=t==="light"?"light":"dark",this.handleMouseDown=this.handleMouseDown.bind(this),this.updateMaskPosition(t)}connectedCallback(){this.addEventListener("click",this.handleMouseDown)}disconnectedCallback(){this.removeEventListener("click",this.handleMouseDown)}updateMaskPosition(e){const t=this.querySelector("#moon-mask circle:last-child");t&&t.setAttribute("cx",e==="dark"?"17":"24")}handleMouseDown(){const e=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=e,localStorage.setItem("starlight-theme",e),this.updateMaskPosition(e)}}customElements.define("theme-toggle",s);</script><theme-toggle class="astro-dwm5f72o"> <button type="button" class="astro-h5tvx5sw">  <svg aria-hidden="true" height="20" viewBox="0 0 24 24" width="20" class="astro-dwm5f72o"> <mask class="moon astro-dwm5f72o" id="moon-mask"> <rect x="0" y="0" width="100%" height="100%" fill="white" class="astro-dwm5f72o"></rect> <circle cx="24" cy="10" r="6" fill="black" class="astro-dwm5f72o"></circle> </mask> <circle class="sun astro-dwm5f72o" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor"></circle> <g class="sun-beams astro-dwm5f72o" stroke="currentColor"> <line x1="12" y1="1" x2="12" y2="3" class="astro-dwm5f72o"></line> <line x1="12" y1="21" x2="12" y2="23" class="astro-dwm5f72o"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" class="astro-dwm5f72o"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" class="astro-dwm5f72o"></line> <line x1="1" y1="12" x2="3" y2="12" class="astro-dwm5f72o"></line> <line x1="21" y1="12" x2="23" y2="12" class="astro-dwm5f72o"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" class="astro-dwm5f72o"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" class="astro-dwm5f72o"></line> </g> </svg>  </button>  </theme-toggle> <script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div> <div class="progress-scroll-container astro-mu7un3ux" aria-hidden="true"> <div id="progress-scroll" class="astro-mu7un3ux"></div> </div> <script type="module">window.addEventListener("scroll",function(){if(document){const e=document.getElementById("progress-scroll");if(e){var o=window.scrollY||document.documentElement.scrollTop,n=document.documentElement.scrollHeight-window.innerHeight,t=o/n*100;e.style.width=t+"%"}}});</script></header> <nav class="sidebar print:hidden astro-axwskc5k" aria-label="Main"> <starlight-menu-button class="print:hidden astro-4nzlrr7f"> <button aria-expanded="false" aria-label="Menu" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-4nzlrr7f"> <svg aria-hidden="true" class="open-menu astro-4nzlrr7f astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg> <svg aria-hidden="true" class="close-menu astro-4nzlrr7f astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg> </button> </starlight-menu-button> <script type="module">class s extends HTMLElement{constructor(){super(),this.btn=this.querySelector("button"),this.btn.addEventListener("click",()=>this.toggleExpanded());const t=this.closest("nav");t&&t.addEventListener("keyup",e=>this.closeOnEscape(e))}setExpanded(t){this.setAttribute("aria-expanded",String(t)),document.body.toggleAttribute("data-mobile-menu-expanded",t)}toggleExpanded(){this.setExpanded(this.getAttribute("aria-expanded")!=="true")}closeOnEscape(t){t.code==="Escape"&&(this.setExpanded(!1),this.btn.focus())}}customElements.define("starlight-menu-button",s);</script>  <div id="starlight__sidebar" class="sidebar-pane astro-axwskc5k"> <div class="sidebar-content sl-flex astro-axwskc5k"> <ul class="starlight-sidebar-topics astro-gu6alnkl"> <li class="astro-gu6alnkl"> <a href="../../../introduction/what-is-agentos/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.17 2.06A13.1 13.1 0 0 0 19 1.87a12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2 13.1 13.1 0 0 0-2.17.19 1 1 0 0 0-.83 1v12a1 1 0 0 0 1.17 1 10.9 10.9 0 0 1 8.25 1.91l.12.07h.11a.91.91 0 0 0 .7 0h.11l.12-.07A10.899 10.899 0 0 1 20.83 16 1 1 0 0 0 22 15V3a1 1 0 0 0-.83-.94ZM11 15.35a12.87 12.87 0 0 0-6-1.48H4v-10c.333-.02.667-.02 1 0a10.86 10.86 0 0 1 6 1.8v9.68Zm9-1.44h-1a12.87 12.87 0 0 0-6 1.48V5.67a10.86 10.86 0 0 1 6-1.8c.333-.02.667-.02 1 0v10.04Zm1.17 4.15a13.098 13.098 0 0 0-2.17-.19 12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2.05c-.727.003-1.453.066-2.17.19A1 1 0 0 0 2 19.21a1 1 0 0 0 1.17.79 10.9 10.9 0 0 1 8.25 1.91 1 1 0 0 0 1.16 0A10.9 10.9 0 0 1 20.83 20a1 1 0 0 0 1.17-.79 1 1 0 0 0-.83-1.15Z"/></svg> </div> <div class="astro-gu6alnkl"> Learn  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../introduction/how-we-build/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 22H5a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3h1a4 4 0 0 1 7.3-2.18c.448.64.692 1.4.7 2.18h3a1 1 0 0 1 1 1v3a4 4 0 0 1 2.18 7.3A3.86 3.86 0 0 1 18 18v3a1 1 0 0 1-1 1ZM5 8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11v-3.18a1 1 0 0 1 1.33-.95 1.77 1.77 0 0 0 1.74-.23 2 2 0 0 0 .93-1.37 2 2 0 0 0-.48-1.59 1.89 1.89 0 0 0-2.17-.55 1 1 0 0 1-1.33-.95V8h-3.2a1 1 0 0 1-1-1.33 1.77 1.77 0 0 0-.23-1.74 1.939 1.939 0 0 0-3-.43A2 2 0 0 0 8 6c.002.23.046.456.13.67A1 1 0 0 1 7.18 8H5Z"/></svg> </div> <div class="astro-gu6alnkl"> Build  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../shapes/overview/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17.084 3.165L12.000 0.220L6.916 3.165L1.801 6.110L1.801 17.890L12.000 23.780L22.199 17.890L22.199 6.110L17.084 3.165ZM12.000 11.938L9.334 16.557L6.668 11.938L4.002 7.319L14.666 7.319L12.000 11.938Z"/></svg> </div> <div class="astro-gu6alnkl"> Shapes  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../research/ontology/relationship-modeling/index.html" class="starlight-sidebar-topics-current astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M9 10h1a1 1 0 1 0 0-2H9a1 1 0 0 0 0 2Zm0 2a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2H9Zm11-3.06a1.3 1.3 0 0 0-.06-.27v-.09c-.05-.1-.11-.2-.19-.28l-6-6a1.07 1.07 0 0 0-.28-.19h-.09a.88.88 0 0 0-.33-.11H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8.94Zm-6-3.53L16.59 8H15a1 1 0 0 1-1-1V5.41ZM18 19a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5v3a3 3 0 0 0 3 3h3v9Zm-3-3H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2Z"/></svg> </div> <div class="astro-gu6alnkl"> Research  </div> </a> </li> </ul> <sl-sidebar-state-persist data-hash="10ohntw" class="astro-7su4sbaf"> <script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script>  <ul class="top-level astro-bctztgix"> <li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Ontology</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="0"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/ontology/genealogical-relationships/index.html" aria-current="page" class="astro-bctztgix"> <span class="astro-bctztgix">Genealogical Relationships Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/google-structured-data/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Google Structured Data &amp; Knowledge Graph Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/no-orphans-constraint/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">&quot;No Orphans&quot; Constraint: Research Summary</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/ogp-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Open Graph Protocol: Relationship Modeling</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/open-graph-protocol/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Open Graph Protocol Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/outcome-entity/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">The Outcome Entity: A Universal Systems Primitive</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/relationship-modeling/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Relationship Modeling Patterns in Knowledge Graphs</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-entities/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Entity Schema</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-org-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Schema.org Relationship Modeling Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Relationship Schema</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Platforms</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="1"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/platforms/facebook-graph/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Facebook Entity Graph Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/platforms/familysearch/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">FamilySearch Genealogical Data Model</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/platforms/google-takeout/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Google Takeout Entity Research</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Identity &amp; spaces</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="2"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/account-platform-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Account-Platform Relationship Ontology</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/digital-spaces-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Digital Spaces in Ontology Standards</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/platform-identity-standards/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Platform Identity and Normalization Standards</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/platform-space-models/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">How Major Platforms Model Their Own Spaces</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Relationships &amp; events</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="3"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/causal-chains-entity-graphs/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Blog Ideas: Causal Chains, Development Frameworks, and Entity Graphs</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/claims-relationship-model/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Identity Verification Across Platforms: 2025-2026 Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/event-vs-work-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Should &quot;Event&quot; Be a Subtype of &quot;Work&quot;? An Ontological Analysis</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/speech-acts-entity-primitives/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Speech Act Theory Maps to Entity Primitives</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Context &amp; ecosystem</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="4"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/context/ai-text-editing/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">AI Text &amp; Code Editing UX Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/markdown-ecosystem/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Markdown Ecosystem Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/pkm-community/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">PKM Community Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/semantic-file-systems/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Semantic File Systems Research</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">DX patterns</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="5"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/dx-patterns/sdk-dx-patterns/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">SDK &amp; Plugin Platform DX Patterns — Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/dx-patterns/simplification-passes-accreted-cruft/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Simplification Passes &amp; Accreted Cruft — Cross-Domain Briefing</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Interfaces</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="6"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/interfaces/overview/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Interfaces surface (research)</span>  </a> </li> </ul> </details> </li> </ul>  <script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script> </sl-sidebar-state-persist> <div class="md:sl-hidden"> <div class="mobile-preferences sl-flex astro-3e5tv76g"> <div class="social-icons astro-3e5tv76g">  </div> <theme-toggle class="astro-dwm5f72o"> <button type="button" class="astro-h5tvx5sw">  <svg aria-hidden="true" height="20" viewBox="0 0 24 24" width="20" class="astro-dwm5f72o"> <mask class="moon astro-dwm5f72o" id="moon-mask"> <rect x="0" y="0" width="100%" height="100%" fill="white" class="astro-dwm5f72o"></rect> <circle cx="24" cy="10" r="6" fill="black" class="astro-dwm5f72o"></circle> </mask> <circle class="sun astro-dwm5f72o" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor"></circle> <g class="sun-beams astro-dwm5f72o" stroke="currentColor"> <line x1="12" y1="1" x2="12" y2="3" class="astro-dwm5f72o"></line> <line x1="12" y1="21" x2="12" y2="23" class="astro-dwm5f72o"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" class="astro-dwm5f72o"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" class="astro-dwm5f72o"></line> <line x1="1" y1="12" x2="3" y2="12" class="astro-dwm5f72o"></line> <line x1="21" y1="12" x2="23" y2="12" class="astro-dwm5f72o"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" class="astro-dwm5f72o"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" class="astro-dwm5f72o"></line> </g> </svg>  </button>  </theme-toggle>  </div> </div> </div> </div> </nav> <div class="main-frame astro-axwskc5k">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-bqhhi3bs"> <aside class="right-sidebar-container print:hidden astro-bqhhi3bs"> <div class="right-sidebar astro-bqhhi3bs"> <div class="lg:sl-hidden astro-o32dv7js"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-4kdwwhqw"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-4kdwwhqw"><details id="starlight__mobile-toc" class="astro-4kdwwhqw"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-4kdwwhqw"><span class="toggle sl-flex astro-4kdwwhqw">On this page<svg aria-hidden="true" class="caret astro-4kdwwhqw astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-4kdwwhqw"></span></summary><div class="dropdown astro-4kdwwhqw"><ul class="isMobile astro-uwnltsxm" style="--depth: 0;"> <li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#_top" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#why-this-matters" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Why This Matters</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#key-standards" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Key Standards</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#core-relationship-model" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Core Relationship Model</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#familysearchs-two-relationship-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">FamilySearch’s Two Relationship Types</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcoms-family-centric-model" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM’s Family-Centric Model</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#key-insight-sibling-relationships-are-implied" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Key Insight: Sibling Relationships Are Implied</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#parent-child-relationship-types" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Parent-Child Relationship Types</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#familysearch-parent-child-facts" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">FamilySearch Parent-Child Facts</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-pedi-pedigree-tag" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM PEDI (Pedigree) Tag</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#multiple-parents" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Multiple Parents</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#couple-relationship-facts" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Couple Relationship Facts</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#supported-couple-events" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Supported Couple Events</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#temporal-relationship-handling" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Temporal Relationship Handling</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#evidence-and-confidence" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Evidence and Confidence</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-x-conclusion-model" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM X Conclusion Model</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#genealogical-proof-standard-gps" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Genealogical Proof Standard (GPS)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#evidence-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Evidence Types</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#source-classification" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Source Classification</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#gedcom-x-vs-gedcom-55" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">GEDCOM X vs GEDCOM 5.5</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#fundamental-philosophy-shift" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Fundamental Philosophy Shift</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-gedcom-x-added" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What GEDCOM X Added</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#evolution-timeline" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Evolution Timeline</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#complex-family-situations" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Complex Family Situations</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#adoption-modeling" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Adoption Modeling</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#step-parent-families" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Step-Parent Families</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#blended-families-patchwork-families" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Blended Families (“Patchwork Families”)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#same-sex-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Same-Sex Relationships</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#limitations-and-criticisms" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Limitations and Criticisms</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-55-problems" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM 5.5 Problems</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#the-compliance-paradox" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">The Compliance Paradox</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#family-centric-model-limitations" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Family-Centric Model Limitations</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#evidence-model-adoption" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Evidence Model Adoption</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#data-structures-reference" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Data Structures Reference</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-551-individual-record" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM 5.5.1 Individual Record</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-551-family-record" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM 5.5.1 Family Record</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-x-relationship-json" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM X Relationship (JSON)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-x-parent-child-relationship-json" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM X Parent-Child Relationship (JSON)</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#lessons-for-entity-graphs" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Lessons for Entity Graphs</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#1-two-relationship-types-are-enough" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">1. Two Relationship Types Are Enough</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2-relationships-are-entities-not-links" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2. Relationships Are Entities, Not Links</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#3-evidence-matters" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">3. Evidence Matters</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#4-temporal-relationships-need-events" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4. Temporal Relationships Need Events</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#5-multiple-relationship-instances" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">5. Multiple Relationship Instances</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#6-types-are-extensible" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">6. Types Are Extensible</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#key-resources" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Key Resources</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#specifications" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Specifications</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#developer-documentation" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Developer Documentation</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#research-standards" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Research Standards</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#community-resources" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Community Resources</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#open-questions" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Open Questions</span> </a>  </li> </ul></div></details></nav></mobile-starlight-toc><script type="module" src="../../../_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.hwBsy0Mo.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-o32dv7js"><div class="sl-container astro-o32dv7js"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-uwnltsxm" style="--depth: 0;"> <li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#_top" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#why-this-matters" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Why This Matters</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#key-standards" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Key Standards</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#core-relationship-model" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Core Relationship Model</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#familysearchs-two-relationship-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">FamilySearch’s Two Relationship Types</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcoms-family-centric-model" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM’s Family-Centric Model</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#key-insight-sibling-relationships-are-implied" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Key Insight: Sibling Relationships Are Implied</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#parent-child-relationship-types" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Parent-Child Relationship Types</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#familysearch-parent-child-facts" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">FamilySearch Parent-Child Facts</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-pedi-pedigree-tag" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM PEDI (Pedigree) Tag</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#multiple-parents" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Multiple Parents</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#couple-relationship-facts" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Couple Relationship Facts</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#supported-couple-events" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Supported Couple Events</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#temporal-relationship-handling" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Temporal Relationship Handling</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#evidence-and-confidence" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Evidence and Confidence</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-x-conclusion-model" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM X Conclusion Model</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#genealogical-proof-standard-gps" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Genealogical Proof Standard (GPS)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#evidence-types" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Evidence Types</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#source-classification" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Source Classification</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#gedcom-x-vs-gedcom-55" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">GEDCOM X vs GEDCOM 5.5</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#fundamental-philosophy-shift" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Fundamental Philosophy Shift</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-gedcom-x-added" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What GEDCOM X Added</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#evolution-timeline" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Evolution Timeline</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#complex-family-situations" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Complex Family Situations</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#adoption-modeling" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Adoption Modeling</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#step-parent-families" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Step-Parent Families</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#blended-families-patchwork-families" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Blended Families (“Patchwork Families”)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#same-sex-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Same-Sex Relationships</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#limitations-and-criticisms" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Limitations and Criticisms</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-55-problems" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM 5.5 Problems</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#the-compliance-paradox" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">The Compliance Paradox</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#family-centric-model-limitations" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Family-Centric Model Limitations</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#evidence-model-adoption" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Evidence Model Adoption</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#data-structures-reference" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Data Structures Reference</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-551-individual-record" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM 5.5.1 Individual Record</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-551-family-record" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM 5.5.1 Family Record</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-x-relationship-json" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM X Relationship (JSON)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#gedcom-x-parent-child-relationship-json" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">GEDCOM X Parent-Child Relationship (JSON)</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#lessons-for-entity-graphs" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Lessons for Entity Graphs</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#1-two-relationship-types-are-enough" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">1. Two Relationship Types Are Enough</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2-relationships-are-entities-not-links" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2. Relationships Are Entities, Not Links</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#3-evidence-matters" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">3. Evidence Matters</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#4-temporal-relationships-need-events" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">4. Temporal Relationships Need Events</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#5-multiple-relationship-instances" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">5. Multiple Relationship Instances</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#6-types-are-extensible" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">6. Types Are Extensible</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#key-resources" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Key Resources</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#specifications" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Specifications</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#developer-documentation" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Developer Documentation</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#research-standards" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Research Standards</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#community-resources" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Community Resources</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#open-questions" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Open Questions</span> </a>  </li> </ul></nav></starlight-toc><script type="module" src="../../../_astro/TableOfContents.astro_astro_type_script_index_0_lang.FuRcXuRY.js"></script></div></div> </div> </aside> <div class="main-pane astro-bqhhi3bs">  <main data-pagefind-body class="astro-wwc3bqpt" lang="en" dir="ltr">    <div class="content-panel astro-wjgruomq"> <div class="sl-container astro-wjgruomq"> <h1 id="_top" class="astro-wj2r53xi">Genealogical Relationships Research</h1> </div> </div> <div class="content-panel astro-wjgruomq"> <div class="sl-container astro-wjgruomq"> <div class="sl-markdown-content"> <div class="sl-heading-wrapper level-h2"><h2 id="why-this-matters">Why This Matters</h2><a class="sl-anchor-link" href="#why-this-matters"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Why This Matters”</span></a></div>
+<p>Genealogical systems have decades of experience modeling:</p>
+<ul>
+<li><strong>Billions</strong> of person records (FamilySearch has 1.5+ billion)</li>
+<li><strong>Complex relationships</strong>: biological, adoptive, step, foster, guardianship</li>
+<li><strong>Temporal relationships</strong>: marriages, divorces, remarriages</li>
+<li><strong>Evidence and certainty</strong>: confidence levels, source citations, proof standards</li>
+<li><strong>Non-traditional families</strong>: same-sex couples, blended families</li>
+</ul>
+<p>They’ve solved hard problems in relationship modeling that apply to any entity graph.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="key-standards">Key Standards</h2><a class="sl-anchor-link" href="#key-standards"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Key Standards”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Standard</th><th>Era</th><th>Status</th><th>Purpose</th></tr></thead><tbody><tr><td>GEDCOM 5.5</td><td>1995</td><td>Legacy (widely used)</td><td>Text-based file format for family tree exchange</td></tr><tr><td>GEDCOM 5.5.1</td><td>1999</td><td>Industry standard</td><td>Minor update, still dominant</td></tr><tr><td>GEDCOM X</td><td>2012</td><td>Active</td><td>Modern data model for evidence-based genealogy</td></tr><tr><td>FamilySearch GEDCOM 7.0</td><td>2021</td><td>Current</td><td>Updated file format building on GEDCOM X concepts</td></tr></tbody></table>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="core-relationship-model">Core Relationship Model</h2><a class="sl-anchor-link" href="#core-relationship-model"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Core Relationship Model”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="familysearchs-two-relationship-types">FamilySearch’s Two Relationship Types</h3><a class="sl-anchor-link" href="#familysearchs-two-relationship-types"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “FamilySearch’s Two Relationship Types”</span></a></div>
+<p>FamilySearch’s Family Tree API supports exactly <strong>two</strong> relationship types:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Relationship Type</th><th>Description</th><th>Structure</th></tr></thead><tbody><tr><td><strong>Couple Relationship</strong></td><td>A relationship between two people (spouses/partners)</td><td>Links two <code dir="auto">Person</code> records</td></tr><tr><td><strong>Child-and-Parents Relationship</strong></td><td>A relationship between a child and their parents</td><td>Links child to up to two parents</td></tr></tbody></table>
+<p>This is remarkably simple. All family structures emerge from just these two primitives.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="gedcoms-family-centric-model">GEDCOM’s Family-Centric Model</h3><a class="sl-anchor-link" href="#gedcoms-family-centric-model"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “GEDCOM’s Family-Centric Model”</span></a></div>
+<p>Traditional GEDCOM uses a <strong>FAM (Family) record</strong> as the linking structure:</p>
+<div class="expressive-code"><link rel="stylesheet" href="../../../_astro/ec.3svgr.css"><script type="module" src="../../../_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">0 @F1@ FAM</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 HUSB @I1@        (husband/partner 1)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 WIFE @I2@        (wife/partner 2)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 CHIL @I3@        (child)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 CHIL @I4@        (another child)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 MARR</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 DATE 15 JUN 1985</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 PLAC Chicago, Illinois</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="0 @F1@ FAM1 HUSB @I1@        (husband/partner 1)1 WIFE @I2@        (wife/partner 2)1 CHIL @I3@        (child)1 CHIL @I4@        (another child)1 MARR2 DATE 15 JUN 19852 PLAC Chicago, Illinois"><div></div></button></div></figure></div>
+<p>The FAM record is the <strong>only</strong> source of links between individuals. This is similar to a join table in relational databases.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="key-insight-sibling-relationships-are-implied">Key Insight: Sibling Relationships Are Implied</h3><a class="sl-anchor-link" href="#key-insight-sibling-relationships-are-implied"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Key Insight: Sibling Relationships Are Implied”</span></a></div>
+<p>Neither GEDCOM nor FamilySearch explicitly models sibling relationships. Instead:</p>
+<ul>
+<li>Siblings are <strong>inferred</strong> from shared parents</li>
+<li>Half-siblings share exactly one parent</li>
+<li>Step-siblings share no biological parents but have parents in a couple relationship</li>
+</ul>
+<p>This avoids redundancy and keeps the model simple.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="parent-child-relationship-types">Parent-Child Relationship Types</h2><a class="sl-anchor-link" href="#parent-child-relationship-types"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Parent-Child Relationship Types”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="familysearch-parent-child-facts">FamilySearch Parent-Child Facts</h3><a class="sl-anchor-link" href="#familysearch-parent-child-facts"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “FamilySearch Parent-Child Facts”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Type URI</th><th>Description</th></tr></thead><tbody><tr><td><code dir="auto">http://gedcomx.org/BiologicalParent</code></td><td>Birth parent</td></tr><tr><td><code dir="auto">http://gedcomx.org/AdoptiveParent</code></td><td>Legally adopted the child</td></tr><tr><td><code dir="auto">http://gedcomx.org/StepParent</code></td><td>Married to biological parent</td></tr><tr><td><code dir="auto">http://gedcomx.org/FosterParent</code></td><td>Temporary guardian</td></tr><tr><td><code dir="auto">http://gedcomx.org/GuardianParent</code></td><td>Legal guardian</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="gedcom-pedi-pedigree-tag">GEDCOM PEDI (Pedigree) Tag</h3><a class="sl-anchor-link" href="#gedcom-pedi-pedigree-tag"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “GEDCOM PEDI (Pedigree) Tag”</span></a></div>
+<p>GEDCOM 5.5.1 uses the <code dir="auto">PEDI</code> tag to specify parent-child relationship type:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">0 @I1@ INDI</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 NAME Child /Name/</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 FAMC @F1@</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 PEDI birth          (biological)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 FAMC @F2@</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 PEDI adopted        (adoptive parents)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="0 @I1@ INDI1 NAME Child /Name/1 FAMC @F1@2 PEDI birth          (biological)1 FAMC @F2@2 PEDI adopted        (adoptive parents)"><div></div></button></div></figure></div>
+<p><strong>PEDI values:</strong></p>
+<ul>
+<li><code dir="auto">birth</code> — biological relationship</li>
+<li><code dir="auto">adopted</code> — legal adoption</li>
+<li><code dir="auto">foster</code> — foster care</li>
+<li><code dir="auto">sealing</code> — LDS temple sealing (FamilySearch-specific)</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="multiple-parents">Multiple Parents</h3><a class="sl-anchor-link" href="#multiple-parents"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Multiple Parents”</span></a></div>
+<p>A person can have <strong>multiple sets of parents</strong>:</p>
+<ul>
+<li>Biological parents</li>
+<li>Adoptive parents</li>
+<li>Step-parents</li>
+<li>Foster parents</li>
+</ul>
+<p>Each is a separate <code dir="auto">Child-and-Parents</code> relationship with its own type qualifier.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="couple-relationship-facts">Couple Relationship Facts</h2><a class="sl-anchor-link" href="#couple-relationship-facts"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Couple Relationship Facts”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="supported-couple-events">Supported Couple Events</h3><a class="sl-anchor-link" href="#supported-couple-events"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Supported Couple Events”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Type URI</th><th>Description</th><th>Date</th><th>Place</th><th>Multiple</th></tr></thead><tbody><tr><td><code dir="auto">http://gedcomx.org/Marriage</code></td><td>Legal marriage</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td><code dir="auto">http://gedcomx.org/Divorce</code></td><td>Legal divorce</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td><code dir="auto">http://gedcomx.org/Annulment</code></td><td>Marriage annulment</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td><code dir="auto">http://gedcomx.org/CommonLawMarriage</code></td><td>Common law union</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td><code dir="auto">http://familysearch.org/v1/LivedTogether</code></td><td>Cohabitation</td><td>No</td><td>No</td><td>No</td></tr><tr><td><code dir="auto">http://familysearch.org/v1/CoupleNeverHadChildren</code></td><td>Flag for childless couple</td><td>No</td><td>No</td><td>No</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="temporal-relationship-handling">Temporal Relationship Handling</h3><a class="sl-anchor-link" href="#temporal-relationship-handling"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Temporal Relationship Handling”</span></a></div>
+<p><strong>Marriage as an Event:</strong>
+Marriage in GEDCOM is an <strong>event</strong> with date and place, not a boolean status. The <code dir="auto">MARR</code> record documents when/where the marriage occurred.</p>
+<p><strong>Multiple Marriages:</strong>
+When couples marry, divorce, and remarry (even to the same person), best practice is:</p>
+<ul>
+<li>Create a <strong>new FAM record</strong> for each marriage</li>
+<li>Don’t combine multiple MARR/DIV events in one record</li>
+<li>This maintains chronological clarity and allows other relationships in between</li>
+</ul>
+<p><strong>Divorce Without Marriage Record:</strong>
+GEDCOM allows a <code dir="auto">DIV</code> (divorce) record without a corresponding <code dir="auto">MARR</code> if the marriage date is unknown but divorce is documented.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="evidence-and-confidence">Evidence and Confidence</h2><a class="sl-anchor-link" href="#evidence-and-confidence"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Evidence and Confidence”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="gedcom-x-conclusion-model">GEDCOM X Conclusion Model</h3><a class="sl-anchor-link" href="#gedcom-x-conclusion-model"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “GEDCOM X Conclusion Model”</span></a></div>
+<p>GEDCOM X models genealogical data as <strong>conclusions</strong> that can have:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Property</th><th>Type</th><th>Purpose</th></tr></thead><tbody><tr><td><code dir="auto">confidence</code></td><td>ConfidenceLevel</td><td>How certain is this data?</td></tr><tr><td><code dir="auto">source</code></td><td>SourceReference[]</td><td>What sources support this?</td></tr><tr><td><code dir="auto">attribution</code></td><td>Attribution</td><td>Who contributed this? When?</td></tr><tr><td><code dir="auto">analysis</code></td><td>Document reference</td><td>Written reasoning/proof</td></tr><tr><td><code dir="auto">note</code></td><td>Note[]</td><td>Additional context</td></tr></tbody></table>
+<p>Every fact, relationship, and person in GEDCOM X is a “conclusion” that can carry this metadata.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="genealogical-proof-standard-gps">Genealogical Proof Standard (GPS)</h3><a class="sl-anchor-link" href="#genealogical-proof-standard-gps"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Genealogical Proof Standard (GPS)”</span></a></div>
+<p>The GPS is the established framework for genealogical certainty:</p>
+<ol>
+<li><strong>Reasonably exhaustive research</strong> in reliable sources</li>
+<li><strong>Complete and accurate source citations</strong> for all facts</li>
+<li><strong>Analysis and correlation</strong> of collected information</li>
+<li><strong>Resolution of conflicting evidence</strong></li>
+<li><strong>Soundly reasoned, coherently written conclusion</strong></li>
+</ol>
+<p>Meeting GPS doesn’t mean “beyond doubt” — it’s closer to legal “clear and convincing” standard. Conclusions can be revisited when new evidence emerges.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="evidence-types">Evidence Types</h3><a class="sl-anchor-link" href="#evidence-types"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Evidence Types”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Type</th><th>Definition</th><th>Example</th></tr></thead><tbody><tr><td><strong>Direct Evidence</strong></td><td>Directly answers the question</td><td>Birth certificate listing parents</td></tr><tr><td><strong>Indirect Evidence</strong></td><td>Requires interpretation/correlation</td><td>Census showing household composition</td></tr><tr><td><strong>Negative Evidence</strong></td><td>Absence suggests something</td><td>Person not in death records = likely alive</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="source-classification">Source Classification</h3><a class="sl-anchor-link" href="#source-classification"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Source Classification”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Source Type</th><th>Definition</th><th>Reliability</th></tr></thead><tbody><tr><td><strong>Original</strong></td><td>Created at/near time of event by firsthand observer</td><td>Higher</td></tr><tr><td><strong>Derivative</strong></td><td>Copied, transcribed, or abstracted from original</td><td>Lower</td></tr><tr><td><strong>Authored</strong></td><td>Created after the fact (family histories, biographies)</td><td>Varies</td></tr></tbody></table>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="gedcom-x-vs-gedcom-55">GEDCOM X vs GEDCOM 5.5</h2><a class="sl-anchor-link" href="#gedcom-x-vs-gedcom-55"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “GEDCOM X vs GEDCOM 5.5”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="fundamental-philosophy-shift">Fundamental Philosophy Shift</h3><a class="sl-anchor-link" href="#fundamental-philosophy-shift"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Fundamental Philosophy Shift”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Aspect</th><th>GEDCOM 5.5</th><th>GEDCOM X</th></tr></thead><tbody><tr><td><strong>Focus</strong></td><td>Conclusions only (the family tree)</td><td>Evidence + conclusions (the research process)</td></tr><tr><td><strong>Sources</strong></td><td>Optional attachments</td><td>First-class citizens</td></tr><tr><td><strong>Confidence</strong></td><td>Not supported</td><td>Built into conclusion model</td></tr><tr><td><strong>Format</strong></td><td>Text-based, single format</td><td>JSON/XML, multiple serializations</td></tr><tr><td><strong>License</strong></td><td>Proprietary (LDS)</td><td>Open source (Apache 2.0)</td></tr><tr><td><strong>Media</strong></td><td>External links only</td><td>Bundled in file format</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="what-gedcom-x-added">What GEDCOM X Added</h3><a class="sl-anchor-link" href="#what-gedcom-x-added"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “What GEDCOM X Added”</span></a></div>
+<ol>
+<li><strong>Source Descriptions</strong> — Rich metadata about sources</li>
+<li><strong>Source References</strong> — Link conclusions to supporting sources</li>
+<li><strong>Evidence References</strong> — Explicitly model evidence chains</li>
+<li><strong>Contributor Attribution</strong> — Track who added what and when</li>
+<li><strong>Analysis Documents</strong> — Written reasoning and proof arguments</li>
+<li><strong>Confidence Levels</strong> — Express certainty about conclusions</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="evolution-timeline">Evolution Timeline</h3><a class="sl-anchor-link" href="#evolution-timeline"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Evolution Timeline”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1984: GEDCOM created by LDS Church</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1995: GEDCOM 5.5 released</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1999: GEDCOM 5.5.1 (minor update)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2012: GEDCOM X introduced (evidence-based model)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2021: FamilySearch GEDCOM 7.0 (modernized file format)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="1984: GEDCOM created by LDS Church1995: GEDCOM 5.5 released1999: GEDCOM 5.5.1 (minor update)2012: GEDCOM X introduced (evidence-based model)2021: FamilySearch GEDCOM 7.0 (modernized file format)"><div></div></button></div></figure></div>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="complex-family-situations">Complex Family Situations</h2><a class="sl-anchor-link" href="#complex-family-situations"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Complex Family Situations”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="adoption-modeling">Adoption Modeling</h3><a class="sl-anchor-link" href="#adoption-modeling"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Adoption Modeling”</span></a></div>
+<p><strong>GEDCOM approach:</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">0 @I1@ INDI</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 NAME Adopted /Child/</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 FAMC @F1@           (biological family)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 PEDI birth</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 FAMC @F2@           (adoptive family)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 PEDI adopted</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 ADOP                (adoption event)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 DATE 11 JAN 1990</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 FAMC @F2@           (which family adopted)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">3 ADOP BOTH           (both parents adopted)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="0 @I1@ INDI1 NAME Adopted /Child/1 FAMC @F1@           (biological family)2 PEDI birth1 FAMC @F2@           (adoptive family)2 PEDI adopted1 ADOP                (adoption event)2 DATE 11 JAN 19902 FAMC @F2@           (which family adopted)3 ADOP BOTH           (both parents adopted)"><div></div></button></div></figure></div>
+<p><strong>FamilySearch approach:</strong></p>
+<ul>
+<li>Create <code dir="auto">Child-and-Parents</code> relationship to biological parents with <code dir="auto">BiologicalParent</code> fact</li>
+<li>Create separate <code dir="auto">Child-and-Parents</code> relationship to adoptive parents with <code dir="auto">AdoptiveParent</code> fact</li>
+<li>Both relationships coexist</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="step-parent-families">Step-Parent Families</h3><a class="sl-anchor-link" href="#step-parent-families"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Step-Parent Families”</span></a></div>
+<p>When a biological parent remarries:</p>
+<ol>
+<li>Child has <code dir="auto">BiologicalParent</code> relationship to birth parents</li>
+<li>Child can have <code dir="auto">StepParent</code> relationship to parent’s new spouse</li>
+<li>No need to modify biological relationships</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="blended-families-patchwork-families">Blended Families (“Patchwork Families”)</h3><a class="sl-anchor-link" href="#blended-families-patchwork-families"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Blended Families (“Patchwork Families”)”</span></a></div>
+<p>Multiple FAMC (family child) links handle complex blended families:</p>
+<ul>
+<li>Each child links to their biological parents</li>
+<li>Additional links for step/adoptive relationships</li>
+<li>Couple relationships tie adults together</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="same-sex-relationships">Same-Sex Relationships</h3><a class="sl-anchor-link" href="#same-sex-relationships"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Same-Sex Relationships”</span></a></div>
+<p><strong>FamilySearch (as of recent update):</strong></p>
+<ul>
+<li>Allows documenting same-sex marriages and adoptions</li>
+<li>Spouse selection no longer restricted by sex</li>
+<li>Photos, stories, documents accepted for same-sex relationships</li>
+<li>Required significant technical redesign of tree search systems</li>
+</ul>
+<p><strong>Limitations:</strong></p>
+<ul>
+<li>FamilySearch is operated by LDS Church</li>
+<li>Same-sex couples cannot be sealed in temple</li>
+<li>Children cannot be sealed to same-sex parents</li>
+<li>This is genealogical documentation, not religious endorsement</li>
+</ul>
+<p><strong>GEDCOM 7.0:</strong></p>
+<ul>
+<li>Updated to allow same-sex partnerships</li>
+<li>HUSB/WIFE terminology being reconsidered for neutrality</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="limitations-and-criticisms">Limitations and Criticisms</h2><a class="sl-anchor-link" href="#limitations-and-criticisms"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Limitations and Criticisms”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="gedcom-55-problems">GEDCOM 5.5 Problems</h3><a class="sl-anchor-link" href="#gedcom-55-problems"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “GEDCOM 5.5 Problems”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Issue</th><th>Description</th></tr></thead><tbody><tr><td><strong>Nuclear family assumption</strong></td><td>Original design assumed husband/wife/children model</td></tr><tr><td><strong>No embedded media</strong></td><td>Only links to external files</td></tr><tr><td><strong>Inconsistent implementations</strong></td><td>Software interprets spec differently</td></tr><tr><td><strong>Proprietary extensions</strong></td><td>Vendors add non-standard tags</td></tr><tr><td><strong>Slow evolution</strong></td><td>26 years between 5.5.1 and 7.0</td></tr><tr><td><strong>Contradictions in spec</strong></td><td>Some requirements are internally inconsistent</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="the-compliance-paradox">The Compliance Paradox</h3><a class="sl-anchor-link" href="#the-compliance-paradox"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “The Compliance Paradox”</span></a></div>
+<p>Developers face a dilemma:</p>
+<ul>
+<li><strong>Comply strictly</strong> with GEDCOM spec → incompatible with common software</li>
+<li><strong>Match common practice</strong> → deviate from official standard</li>
+</ul>
+<p>Many genealogy programs don’t fully implement the standard, creating an ecosystem of partial compatibility.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="family-centric-model-limitations">Family-Centric Model Limitations</h3><a class="sl-anchor-link" href="#family-centric-model-limitations"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Family-Centric Model Limitations”</span></a></div>
+<p>The FAM record assumes:</p>
+<ul>
+<li>Exactly 0-2 adults (HUSB/WIFE)</li>
+<li>Any number of children</li>
+<li>Adults are in a “couple” relationship</li>
+</ul>
+<p>This struggles with:</p>
+<ul>
+<li>Polyamorous relationships</li>
+<li>Communal child-rearing</li>
+<li>Cultures with different family structures</li>
+<li>Situations where “family” has different meaning</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="evidence-model-adoption">Evidence Model Adoption</h3><a class="sl-anchor-link" href="#evidence-model-adoption"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Evidence Model Adoption”</span></a></div>
+<p>While GEDCOM X has excellent evidence modeling, many users:</p>
+<ul>
+<li>Don’t use confidence levels</li>
+<li>Skip source citations</li>
+<li>Treat it like GEDCOM 5.5 (conclusions only)</li>
+</ul>
+<p>The tools support sophisticated research; user behavior lags.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="data-structures-reference">Data Structures Reference</h2><a class="sl-anchor-link" href="#data-structures-reference"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Data Structures Reference”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="gedcom-551-individual-record">GEDCOM 5.5.1 Individual Record</h3><a class="sl-anchor-link" href="#gedcom-551-individual-record"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “GEDCOM 5.5.1 Individual Record”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">0 @I1@ INDI</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 NAME John /Smith/</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 SEX M</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 BIRT</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 DATE 1 JAN 1900</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 PLAC New York, New York</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 DEAT</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 DATE 15 MAR 1975</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 PLAC Los Angeles, California</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 FAMC @F1@           (family as child)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 PEDI birth</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 FAMS @F2@           (family as spouse)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="0 @I1@ INDI1 NAME John /Smith/1 SEX M1 BIRT2 DATE 1 JAN 19002 PLAC New York, New York1 DEAT2 DATE 15 MAR 19752 PLAC Los Angeles, California1 FAMC @F1@           (family as child)2 PEDI birth1 FAMS @F2@           (family as spouse)"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="gedcom-551-family-record">GEDCOM 5.5.1 Family Record</h3><a class="sl-anchor-link" href="#gedcom-551-family-record"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “GEDCOM 5.5.1 Family Record”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">0 @F1@ FAM</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 HUSB @I2@</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 WIFE @I3@</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 CHIL @I1@</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 MARR</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 DATE 15 JUN 1985</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 PLAC Chicago, Illinois</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">1 DIV</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">2 DATE 3 MAR 1995</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="0 @F1@ FAM1 HUSB @I2@1 WIFE @I3@1 CHIL @I1@1 MARR2 DATE 15 JUN 19852 PLAC Chicago, Illinois1 DIV2 DATE 3 MAR 1995"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="gedcom-x-relationship-json">GEDCOM X Relationship (JSON)</h3><a class="sl-anchor-link" href="#gedcom-x-relationship-json"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “GEDCOM X Relationship (JSON)”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"id"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"R1"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"http://gedcomx.org/Couple"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"person1"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"resource"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"#P1"</span><span style="--0:#F0F3F6;--1:#000000"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"person2"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"resource"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"#P2"</span><span style="--0:#F0F3F6;--1:#000000"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"facts"</span><span style="--0:#F0F3F6;--1:#000000">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"http://gedcomx.org/Marriage"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"date"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"original"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"15 June 1985"</span><span style="--0:#F0F3F6;--1:#000000"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"place"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"original"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Chicago, Illinois"</span><span style="--0:#F0F3F6;--1:#000000"> },</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"confidence"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"http://gedcomx.org/High"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">],</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"sources"</span><span style="--0:#F0F3F6;--1:#000000">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">{ </span><span style="--0:#72F088;--1:#0451A5">"description"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"#S1"</span><span style="--0:#F0F3F6;--1:#000000"> }</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;id&#x22;: &#x22;R1&#x22;,  &#x22;type&#x22;: &#x22;http://gedcomx.org/Couple&#x22;,  &#x22;person1&#x22;: { &#x22;resource&#x22;: &#x22;#P1&#x22; },  &#x22;person2&#x22;: { &#x22;resource&#x22;: &#x22;#P2&#x22; },  &#x22;facts&#x22;: [    {      &#x22;type&#x22;: &#x22;http://gedcomx.org/Marriage&#x22;,      &#x22;date&#x22;: { &#x22;original&#x22;: &#x22;15 June 1985&#x22; },      &#x22;place&#x22;: { &#x22;original&#x22;: &#x22;Chicago, Illinois&#x22; },      &#x22;confidence&#x22;: &#x22;http://gedcomx.org/High&#x22;    }  ],  &#x22;sources&#x22;: [    { &#x22;description&#x22;: &#x22;#S1&#x22; }  ]}"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="gedcom-x-parent-child-relationship-json">GEDCOM X Parent-Child Relationship (JSON)</h3><a class="sl-anchor-link" href="#gedcom-x-parent-child-relationship-json"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “GEDCOM X Parent-Child Relationship (JSON)”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"id"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"R2"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"http://gedcomx.org/ParentChild"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"person1"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"resource"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"#P1"</span><span style="--0:#F0F3F6;--1:#000000"> },  </span><span style="--0:#BDC4CC;--1:#007A00">// parent</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"person2"</span><span style="--0:#F0F3F6;--1:#000000">: { </span><span style="--0:#72F088;--1:#0451A5">"resource"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"#P3"</span><span style="--0:#F0F3F6;--1:#000000"> },  </span><span style="--0:#BDC4CC;--1:#007A00">// child</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"facts"</span><span style="--0:#F0F3F6;--1:#000000">: [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"http://gedcomx.org/BiologicalParent"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;id&#x22;: &#x22;R2&#x22;,  &#x22;type&#x22;: &#x22;http://gedcomx.org/ParentChild&#x22;,  &#x22;person1&#x22;: { &#x22;resource&#x22;: &#x22;#P1&#x22; },  // parent  &#x22;person2&#x22;: { &#x22;resource&#x22;: &#x22;#P3&#x22; },  // child  &#x22;facts&#x22;: [    {      &#x22;type&#x22;: &#x22;http://gedcomx.org/BiologicalParent&#x22;    }  ]}"><div></div></button></div></figure></div>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="lessons-for-entity-graphs">Lessons for Entity Graphs</h2><a class="sl-anchor-link" href="#lessons-for-entity-graphs"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Lessons for Entity Graphs”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="1-two-relationship-types-are-enough">1. Two Relationship Types Are Enough</h3><a class="sl-anchor-link" href="#1-two-relationship-types-are-enough"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “1. Two Relationship Types Are Enough”</span></a></div>
+<p>FamilySearch models all family structures with just:</p>
+<ul>
+<li>Couple relationships</li>
+<li>Parent-child relationships</li>
+</ul>
+<p>Sibling, grandparent, cousin, etc. are <strong>computed</strong>, not stored.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="2-relationships-are-entities-not-links">2. Relationships Are Entities, Not Links</h3><a class="sl-anchor-link" href="#2-relationships-are-entities-not-links"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “2. Relationships Are Entities, Not Links”</span></a></div>
+<p>Relationships in GEDCOM X have:</p>
+<ul>
+<li>Their own IDs</li>
+<li>Facts/events attached</li>
+<li>Source citations</li>
+<li>Confidence levels</li>
+<li>Temporal data</li>
+</ul>
+<p>They’re full entities, not just foreign keys.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="3-evidence-matters">3. Evidence Matters</h3><a class="sl-anchor-link" href="#3-evidence-matters"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “3. Evidence Matters”</span></a></div>
+<p>Sophisticated systems separate:</p>
+<ul>
+<li><strong>Information</strong> — raw data from sources</li>
+<li><strong>Evidence</strong> — information that answers a question</li>
+<li><strong>Conclusion</strong> — accepted answer with supporting evidence</li>
+</ul>
+<p>This three-layer model enables proper reasoning and revision.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="4-temporal-relationships-need-events">4. Temporal Relationships Need Events</h3><a class="sl-anchor-link" href="#4-temporal-relationships-need-events"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “4. Temporal Relationships Need Events”</span></a></div>
+<p>Don’t model “married: true/false”. Model:</p>
+<ul>
+<li>Marriage event (date, place)</li>
+<li>Divorce event (date, place)</li>
+<li>Remarriage event (date, place)</li>
+</ul>
+<p>The current status is computed from event history.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="5-multiple-relationship-instances">5. Multiple Relationship Instances</h3><a class="sl-anchor-link" href="#5-multiple-relationship-instances"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “5. Multiple Relationship Instances”</span></a></div>
+<p>A person can have multiple:</p>
+<ul>
+<li>Parent relationships (biological + adoptive + step)</li>
+<li>Spouse relationships (sequential marriages)</li>
+<li>The same two people can have multiple relationships (married, divorced, remarried)</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="6-types-are-extensible">6. Types Are Extensible</h3><a class="sl-anchor-link" href="#6-types-are-extensible"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “6. Types Are Extensible”</span></a></div>
+<p>Both GEDCOM and GEDCOM X support:</p>
+<ul>
+<li>Standard relationship types</li>
+<li>Custom types via data URIs</li>
+<li>Extension mechanisms for domain-specific needs</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="key-resources">Key Resources</h2><a class="sl-anchor-link" href="#key-resources"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Key Resources”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="specifications">Specifications</h3><a class="sl-anchor-link" href="#specifications"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Specifications”</span></a></div>
+<ul>
+<li><a href="https://gedcom.io/specifications/FamilySearchGEDCOMv7.html">FamilySearch GEDCOM 7.0</a></li>
+<li><a href="https://gedcomx.org/Specifications.html">GEDCOM X Specifications</a></li>
+<li><a href="https://github.com/FamilySearch/gedcomx/blob/master/specifications/conceptual-model-specification.md">GEDCOM X Conceptual Model</a></li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="developer-documentation">Developer Documentation</h3><a class="sl-anchor-link" href="#developer-documentation"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Developer Documentation”</span></a></div>
+<ul>
+<li><a href="https://developers.familysearch.org/main/docs/the-family-tree-data-model">FamilySearch Family Tree Data Model</a></li>
+<li><a href="https://www.familysearch.org/developers/docs/guides/facts">FamilySearch Facts Guide</a></li>
+<li><a href="https://www.familysearch.org/developers/docs/api/tree/Child-and-Parents_Relationship_resource">Child-and-Parents Relationship API</a></li>
+<li><a href="https://www.familysearch.org/developers/docs/api/tree/Couple_Relationship_resource">Couple Relationship API</a></li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="research-standards">Research Standards</h3><a class="sl-anchor-link" href="#research-standards"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Research Standards”</span></a></div>
+<ul>
+<li><a href="https://www.familysearch.org/en/wiki/Genealogical_Proof_Standard">Genealogical Proof Standard</a></li>
+<li><em>Evidence Explained</em> by Elizabeth Shown Mills</li>
+<li><em>Mastering Genealogical Proof</em> by Thomas W. Jones</li>
+<li><em>Genealogy Standards</em> from Board for Certification of Genealogists</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="community-resources">Community Resources</h3><a class="sl-anchor-link" href="#community-resources"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Community Resources”</span></a></div>
+<ul>
+<li><a href="https://gedcom.io/">GEDCOM.io</a> — Official GEDCOM specification site</li>
+<li><a href="https://gedcomx.org/">GEDCOM X</a> — GEDCOM X documentation</li>
+<li><a href="https://www.tamurajones.net/">Tamura Jones GEDCOM Articles</a> — Excellent technical analysis</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="open-questions">Open Questions</h2><a class="sl-anchor-link" href="#open-questions"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Open Questions”</span></a></div>
+<ol>
+<li>
+<p><strong>How do other cultures model family?</strong> — GEDCOM assumes Western nuclear family. What about extended family structures, clan systems, or cultures with different kinship terminology?</p>
+</li>
+<li>
+<p><strong>What’s the right abstraction level?</strong> — FamilySearch’s two-relationship model is elegant but requires computation for common queries (siblings, grandparents). Is this the right trade-off?</p>
+</li>
+<li>
+<p><strong>How should confidence propagate?</strong> — If a parent-child relationship has low confidence, how does that affect inferred relationships (siblings, grandparents)?</p>
+</li>
+<li>
+<p><strong>Relationship vs. Role?</strong> — Is “biological parent” a relationship type or a role within a parent-child relationship? GEDCOM X uses “facts” on relationships, which is role-like.</p>
+</li>
+<li>
+<p><strong>Time modeling</strong> — Relationships have beginnings (marriage) and endings (divorce, death). How granular should temporal modeling be?</p>
+</li>
+</ol> </div> <footer class="sl-flex astro-bmlnrcen"> <div class="meta sl-flex astro-bmlnrcen">   </div> <div class="pagination-links print:hidden astro-sjqzzol4" dir="ltr">  <a href="../../../research/ontology/google-structured-data/index.html" rel="next" class="astro-sjqzzol4"> <svg aria-hidden="true" class="astro-sjqzzol4 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg> <span class="astro-sjqzzol4"> Next <br class="astro-sjqzzol4"> <span class="link-title astro-sjqzzol4">Google Structured Data &amp; Knowledge Graph Research</span> </span> </a> </div>  </footer> </div> </div>  </main> </div> </div> </div> </div> </body></html>

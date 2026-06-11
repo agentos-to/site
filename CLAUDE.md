@@ -7,9 +7,9 @@
 > relation, and link in `ontology/`. They are the contract. Not optional.
 
 Platform is the AgentOS contract: the ontology (`ontology/`), the one
-codegen (`codegen/`), the generated SDKs (`sdk/`), the docs site
-(`docs/`). The README has the layout, the codegen flow, and the modeling
-rules.
+codegen (`codegen/`), the generated SDKs (`sdk/`). Narrative docs live
+on the engine's system volume (`core/system-docs/`). The README has the
+layout, the codegen flow, and the modeling rules.
 
 ## Working here
 

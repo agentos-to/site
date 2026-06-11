@@ -1,0 +1,976 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-wwc3bqpt"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Google Structured Data & Knowledge Graph Research | AgentOS Docs</title><link rel="canonical" href="https://agentos.to/research/ontology/google-structured-data/"/><link rel="sitemap" href="../../../sitemap-index.xml"/><script type="module">
+						import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+						// Starlight renders code fences through Expressive Code, which wraps
+						// content in .expressive-code > pre > code.language-mermaid and applies
+						// syntax-highlight styles. Unwrap those to plain <pre class="mermaid">text</pre>
+						// so mermaid can run on the raw source.
+						const render = () => {
+							const blocks = document.querySelectorAll('code.language-mermaid');
+							if (!blocks.length) return;
+							blocks.forEach((code) => {
+								const wrapper = code.closest('.expressive-code') || code.closest('pre');
+								if (!wrapper || wrapper.dataset.mermaidMounted === '1') return;
+								const pre = document.createElement('pre');
+								pre.className = 'mermaid';
+								pre.textContent = code.textContent;
+								wrapper.replaceWith(pre);
+								pre.dataset.mermaidMounted = '1';
+							});
+							const isDark = document.documentElement.dataset.theme !== 'light';
+							mermaid.initialize({
+								startOnLoad: false,
+								theme: isDark ? 'dark' : 'default',
+								securityLevel: 'loose',
+								themeVariables: isDark ? {
+									background: '#0b0b0f',
+									primaryColor: '#1a1a24',
+									primaryTextColor: '#e8e8ee',
+									primaryBorderColor: '#3d3d4d',
+									lineColor: '#8b8b98',
+									secondaryColor: '#141420',
+									tertiaryColor: '#101018',
+								} : {},
+							});
+							mermaid.run({ querySelector: 'pre.mermaid:not([data-processed])' });
+						};
+
+						if (document.readyState === 'loading') {
+							document.addEventListener('DOMContentLoaded', render);
+						} else {
+							render();
+						}
+
+						// Re-run on Astro view transitions
+						document.addEventListener('astro:after-swap', render);
+					</script><link rel="shortcut icon" href="../../../favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v6.1.5"/><meta name="generator" content="Starlight v0.38.3"/><meta property="og:title" content="Google Structured Data &#38; Knowledge Graph Research"/><meta property="og:type" content="article"/><meta property="og:url" content="https://agentos.to/research/ontology/google-structured-data/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Google's entity-based approach to search, from the Knowledge Graph to modern structured data."/><meta property="og:site_name" content="AgentOS Docs"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Google's entity-based approach to search, from the Knowledge Graph to modern structured data."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="../../../_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="../../../_astro/common.D4duwXY4.css">
+<link rel="stylesheet" href="../../../_astro/Code.DQp0_qN-.css"><script type="module" src="../../../_astro/page.BIhdncjw.js"></script></head> <body class="astro-wwc3bqpt"> <a href="#_top" class="astro-3x7q7msw">Skip to content</a> <div class="page sl-flex astro-axwskc5k"> <header class="header astro-axwskc5k"><div class="header astro-3ef6ksr2"> <div class="title-wrapper sl-flex astro-3ef6ksr2"> <a href="../../../index.html" class="site-title sl-flex astro-c5jbctzu">  <span class="astro-c5jbctzu" translate="no"> AgentOS Docs </span> </a> </div> <nav class="topic-tabs astro-3ef6ksr2" aria-label="Sections"> <ul class="astro-3ef6ksr2"> <li class="astro-3ef6ksr2"> <a href="../../../introduction/what-is-agentos/index.html" class="astro-3ef6ksr2">Learn</a> </li><li class="astro-3ef6ksr2"> <a href="../../../introduction/how-we-build/index.html" class="astro-3ef6ksr2">Build</a> </li><li class="astro-3ef6ksr2"> <a href="../../../shapes/overview/index.html" class="astro-3ef6ksr2">Shapes</a> </li><li class="astro-3ef6ksr2"> <a href="../../../research/ontology/relationship-modeling/index.html" aria-current="page" class="astro-3ef6ksr2">Research</a> </li> </ul> </nav> <div class="sl-flex print:hidden search-wrap astro-3ef6ksr2"> <site-search class="astro-3ef6ksr2 astro-tijk2zt5" data-translations="{&#34;placeholder&#34;:&#34;Search&#34;}"> <button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-tijk2zt5"> <svg aria-hidden="true" class="astro-tijk2zt5 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg> <span class="sl-hidden md:sl-block astro-tijk2zt5" aria-hidden="true">Search</span> <kbd class="sl-hidden md:sl-flex astro-tijk2zt5" style="display: none;"> <kbd class="astro-tijk2zt5">Ctrl</kbd><kbd class="astro-tijk2zt5">K</kbd> </kbd> </button> <dialog style="padding:0" aria-label="Search" class="astro-tijk2zt5"> <div class="dialog-frame sl-flex astro-tijk2zt5">  <button data-close-modal class="sl-flex md:sl-hidden astro-tijk2zt5"> Cancel </button> <div class="search-container astro-tijk2zt5"> <div id="starlight__search" class="astro-tijk2zt5"></div> </div> </div> </dialog> </site-search>  <script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script> <script type="module" src="../../../_astro/Search.astro_astro_type_script_index_0_lang.Rw77DzG6.js"></script>  </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-3ef6ksr2"> <div class="sl-flex social-icons astro-3ef6ksr2">  </div> <script type="module">class s extends HTMLElement{constructor(){super();const t=typeof localStorage<"u"&&localStorage.getItem("starlight-theme")||(window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");document.documentElement.dataset.theme=t==="light"?"light":"dark",this.handleMouseDown=this.handleMouseDown.bind(this),this.updateMaskPosition(t)}connectedCallback(){this.addEventListener("click",this.handleMouseDown)}disconnectedCallback(){this.removeEventListener("click",this.handleMouseDown)}updateMaskPosition(e){const t=this.querySelector("#moon-mask circle:last-child");t&&t.setAttribute("cx",e==="dark"?"17":"24")}handleMouseDown(){const e=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=e,localStorage.setItem("starlight-theme",e),this.updateMaskPosition(e)}}customElements.define("theme-toggle",s);</script><theme-toggle class="astro-dwm5f72o"> <button type="button" class="astro-h5tvx5sw">  <svg aria-hidden="true" height="20" viewBox="0 0 24 24" width="20" class="astro-dwm5f72o"> <mask class="moon astro-dwm5f72o" id="moon-mask"> <rect x="0" y="0" width="100%" height="100%" fill="white" class="astro-dwm5f72o"></rect> <circle cx="24" cy="10" r="6" fill="black" class="astro-dwm5f72o"></circle> </mask> <circle class="sun astro-dwm5f72o" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor"></circle> <g class="sun-beams astro-dwm5f72o" stroke="currentColor"> <line x1="12" y1="1" x2="12" y2="3" class="astro-dwm5f72o"></line> <line x1="12" y1="21" x2="12" y2="23" class="astro-dwm5f72o"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" class="astro-dwm5f72o"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" class="astro-dwm5f72o"></line> <line x1="1" y1="12" x2="3" y2="12" class="astro-dwm5f72o"></line> <line x1="21" y1="12" x2="23" y2="12" class="astro-dwm5f72o"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" class="astro-dwm5f72o"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" class="astro-dwm5f72o"></line> </g> </svg>  </button>  </theme-toggle> <script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div> <div class="progress-scroll-container astro-mu7un3ux" aria-hidden="true"> <div id="progress-scroll" class="astro-mu7un3ux"></div> </div> <script type="module">window.addEventListener("scroll",function(){if(document){const e=document.getElementById("progress-scroll");if(e){var o=window.scrollY||document.documentElement.scrollTop,n=document.documentElement.scrollHeight-window.innerHeight,t=o/n*100;e.style.width=t+"%"}}});</script></header> <nav class="sidebar print:hidden astro-axwskc5k" aria-label="Main"> <starlight-menu-button class="print:hidden astro-4nzlrr7f"> <button aria-expanded="false" aria-label="Menu" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-4nzlrr7f"> <svg aria-hidden="true" class="open-menu astro-4nzlrr7f astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg> <svg aria-hidden="true" class="close-menu astro-4nzlrr7f astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg> </button> </starlight-menu-button> <script type="module">class s extends HTMLElement{constructor(){super(),this.btn=this.querySelector("button"),this.btn.addEventListener("click",()=>this.toggleExpanded());const t=this.closest("nav");t&&t.addEventListener("keyup",e=>this.closeOnEscape(e))}setExpanded(t){this.setAttribute("aria-expanded",String(t)),document.body.toggleAttribute("data-mobile-menu-expanded",t)}toggleExpanded(){this.setExpanded(this.getAttribute("aria-expanded")!=="true")}closeOnEscape(t){t.code==="Escape"&&(this.setExpanded(!1),this.btn.focus())}}customElements.define("starlight-menu-button",s);</script>  <div id="starlight__sidebar" class="sidebar-pane astro-axwskc5k"> <div class="sidebar-content sl-flex astro-axwskc5k"> <ul class="starlight-sidebar-topics astro-gu6alnkl"> <li class="astro-gu6alnkl"> <a href="../../../introduction/what-is-agentos/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.17 2.06A13.1 13.1 0 0 0 19 1.87a12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2 13.1 13.1 0 0 0-2.17.19 1 1 0 0 0-.83 1v12a1 1 0 0 0 1.17 1 10.9 10.9 0 0 1 8.25 1.91l.12.07h.11a.91.91 0 0 0 .7 0h.11l.12-.07A10.899 10.899 0 0 1 20.83 16 1 1 0 0 0 22 15V3a1 1 0 0 0-.83-.94ZM11 15.35a12.87 12.87 0 0 0-6-1.48H4v-10c.333-.02.667-.02 1 0a10.86 10.86 0 0 1 6 1.8v9.68Zm9-1.44h-1a12.87 12.87 0 0 0-6 1.48V5.67a10.86 10.86 0 0 1 6-1.8c.333-.02.667-.02 1 0v10.04Zm1.17 4.15a13.098 13.098 0 0 0-2.17-.19 12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2.05c-.727.003-1.453.066-2.17.19A1 1 0 0 0 2 19.21a1 1 0 0 0 1.17.79 10.9 10.9 0 0 1 8.25 1.91 1 1 0 0 0 1.16 0A10.9 10.9 0 0 1 20.83 20a1 1 0 0 0 1.17-.79 1 1 0 0 0-.83-1.15Z"/></svg> </div> <div class="astro-gu6alnkl"> Learn  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../introduction/how-we-build/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 22H5a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3h1a4 4 0 0 1 7.3-2.18c.448.64.692 1.4.7 2.18h3a1 1 0 0 1 1 1v3a4 4 0 0 1 2.18 7.3A3.86 3.86 0 0 1 18 18v3a1 1 0 0 1-1 1ZM5 8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11v-3.18a1 1 0 0 1 1.33-.95 1.77 1.77 0 0 0 1.74-.23 2 2 0 0 0 .93-1.37 2 2 0 0 0-.48-1.59 1.89 1.89 0 0 0-2.17-.55 1 1 0 0 1-1.33-.95V8h-3.2a1 1 0 0 1-1-1.33 1.77 1.77 0 0 0-.23-1.74 1.939 1.939 0 0 0-3-.43A2 2 0 0 0 8 6c.002.23.046.456.13.67A1 1 0 0 1 7.18 8H5Z"/></svg> </div> <div class="astro-gu6alnkl"> Build  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../shapes/overview/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17.084 3.165L12.000 0.220L6.916 3.165L1.801 6.110L1.801 17.890L12.000 23.780L22.199 17.890L22.199 6.110L17.084 3.165ZM12.000 11.938L9.334 16.557L6.668 11.938L4.002 7.319L14.666 7.319L12.000 11.938Z"/></svg> </div> <div class="astro-gu6alnkl"> Shapes  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../research/ontology/relationship-modeling/index.html" class="starlight-sidebar-topics-current astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M9 10h1a1 1 0 1 0 0-2H9a1 1 0 0 0 0 2Zm0 2a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2H9Zm11-3.06a1.3 1.3 0 0 0-.06-.27v-.09c-.05-.1-.11-.2-.19-.28l-6-6a1.07 1.07 0 0 0-.28-.19h-.09a.88.88 0 0 0-.33-.11H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8.94Zm-6-3.53L16.59 8H15a1 1 0 0 1-1-1V5.41ZM18 19a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5v3a3 3 0 0 0 3 3h3v9Zm-3-3H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2Z"/></svg> </div> <div class="astro-gu6alnkl"> Research  </div> </a> </li> </ul> <sl-sidebar-state-persist data-hash="10ohntw" class="astro-7su4sbaf"> <script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script>  <ul class="top-level astro-bctztgix"> <li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Ontology</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="0"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/ontology/genealogical-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Genealogical Relationships Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/google-structured-data/index.html" aria-current="page" class="astro-bctztgix"> <span class="astro-bctztgix">Google Structured Data &amp; Knowledge Graph Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/no-orphans-constraint/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">&quot;No Orphans&quot; Constraint: Research Summary</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/ogp-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Open Graph Protocol: Relationship Modeling</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/open-graph-protocol/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Open Graph Protocol Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/outcome-entity/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">The Outcome Entity: A Universal Systems Primitive</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/relationship-modeling/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Relationship Modeling Patterns in Knowledge Graphs</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-entities/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Entity Schema</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-org-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Schema.org Relationship Modeling Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Relationship Schema</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Platforms</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="1"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/platforms/facebook-graph/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Facebook Entity Graph Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/platforms/familysearch/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">FamilySearch Genealogical Data Model</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/platforms/google-takeout/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Google Takeout Entity Research</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Identity &amp; spaces</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="2"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/account-platform-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Account-Platform Relationship Ontology</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/digital-spaces-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Digital Spaces in Ontology Standards</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/platform-identity-standards/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Platform Identity and Normalization Standards</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/platform-space-models/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">How Major Platforms Model Their Own Spaces</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Relationships &amp; events</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="3"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/causal-chains-entity-graphs/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Blog Ideas: Causal Chains, Development Frameworks, and Entity Graphs</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/claims-relationship-model/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Identity Verification Across Platforms: 2025-2026 Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/event-vs-work-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Should &quot;Event&quot; Be a Subtype of &quot;Work&quot;? An Ontological Analysis</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/speech-acts-entity-primitives/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Speech Act Theory Maps to Entity Primitives</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Context &amp; ecosystem</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="4"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/context/ai-text-editing/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">AI Text &amp; Code Editing UX Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/markdown-ecosystem/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Markdown Ecosystem Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/pkm-community/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">PKM Community Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/semantic-file-systems/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Semantic File Systems Research</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">DX patterns</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="5"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/dx-patterns/sdk-dx-patterns/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">SDK &amp; Plugin Platform DX Patterns — Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/dx-patterns/simplification-passes-accreted-cruft/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Simplification Passes &amp; Accreted Cruft — Cross-Domain Briefing</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Interfaces</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="6"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/interfaces/overview/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Interfaces surface (research)</span>  </a> </li> </ul> </details> </li> </ul>  <script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script> </sl-sidebar-state-persist> <div class="md:sl-hidden"> <div class="mobile-preferences sl-flex astro-3e5tv76g"> <div class="social-icons astro-3e5tv76g">  </div> <theme-toggle class="astro-dwm5f72o"> <button type="button" class="astro-h5tvx5sw">  <svg aria-hidden="true" height="20" viewBox="0 0 24 24" width="20" class="astro-dwm5f72o"> <mask class="moon astro-dwm5f72o" id="moon-mask"> <rect x="0" y="0" width="100%" height="100%" fill="white" class="astro-dwm5f72o"></rect> <circle cx="24" cy="10" r="6" fill="black" class="astro-dwm5f72o"></circle> </mask> <circle class="sun astro-dwm5f72o" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor"></circle> <g class="sun-beams astro-dwm5f72o" stroke="currentColor"> <line x1="12" y1="1" x2="12" y2="3" class="astro-dwm5f72o"></line> <line x1="12" y1="21" x2="12" y2="23" class="astro-dwm5f72o"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" class="astro-dwm5f72o"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" class="astro-dwm5f72o"></line> <line x1="1" y1="12" x2="3" y2="12" class="astro-dwm5f72o"></line> <line x1="21" y1="12" x2="23" y2="12" class="astro-dwm5f72o"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" class="astro-dwm5f72o"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" class="astro-dwm5f72o"></line> </g> </svg>  </button>  </theme-toggle>  </div> </div> </div> </div> </nav> <div class="main-frame astro-axwskc5k">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-bqhhi3bs"> <aside class="right-sidebar-container print:hidden astro-bqhhi3bs"> <div class="right-sidebar astro-bqhhi3bs"> <div class="lg:sl-hidden astro-o32dv7js"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-4kdwwhqw"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-4kdwwhqw"><details id="starlight__mobile-toc" class="astro-4kdwwhqw"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-4kdwwhqw"><span class="toggle sl-flex astro-4kdwwhqw">On this page<svg aria-hidden="true" class="caret astro-4kdwwhqw astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-4kdwwhqw"></span></summary><div class="dropdown astro-4kdwwhqw"><ul class="isMobile astro-uwnltsxm" style="--depth: 0;"> <li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#_top" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#why-this-matters" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Why This Matters</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#research-tasks" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Research Tasks</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#knowledge-graph" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Knowledge Graph</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#schemaorg" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Schema.org</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#structured-data" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Structured Data</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#entity-based-search-2024-2025" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Entity-Based Search (2024-2025)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#wikidata-integration" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Wikidata Integration</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#people" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">People</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#key-people" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Key People</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#rv-guha--the-semantic-web-pioneer" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">R.V. Guha — The Semantic Web Pioneer</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#john-giannandrea--from-freebase-to-knowledge-graph" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">John Giannandrea — From Freebase to Knowledge Graph</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#findings" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Findings</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#knowledge-graph-architecture" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Knowledge Graph Architecture</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#schemaorg-type-hierarchy" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Schema.org Type Hierarchy</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#json-ld-patterns" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">JSON-LD Patterns</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#entity-based-search-evolution" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Entity-Based Search Evolution</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#freebase--wikidata-migration" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Freebase → Wikidata Migration</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#schemaorg-governance" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Schema.org Governance</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#academic-research-on-entity-disambiguation" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Academic Research on Entity Disambiguation</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#adoption-statistics-2024" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Adoption Statistics (2024)</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#entity-type-implications" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Entity Type Implications</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-we-can-learn-from-schemaorg" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What We Can Learn from Schema.org</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#relationship-implications" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Relationship Implications</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#how-schemaorg-models-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">How Schema.org Models Relationships</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#entity-identity-observations" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Entity Identity Observations</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#how-google-resolves-same-entity" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">How Google Resolves “Same Entity”</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#sources" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Sources</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#primary-sources" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Primary Sources</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#research--analysis" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Research &amp; Analysis</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#tools" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Tools</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#session-log" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Session Log</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2025-01-24-initial-setup" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2025-01-24: Initial setup</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2025-01-24-phase-1-web-research-complete" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2025-01-24: Phase 1 Web Research Complete</span> </a>  </li> </ul> </li> </ul></div></details></nav></mobile-starlight-toc><script type="module" src="../../../_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.hwBsy0Mo.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-o32dv7js"><div class="sl-container astro-o32dv7js"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-uwnltsxm" style="--depth: 0;"> <li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#_top" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#why-this-matters" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Why This Matters</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#research-tasks" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Research Tasks</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#knowledge-graph" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Knowledge Graph</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#schemaorg" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Schema.org</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#structured-data" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Structured Data</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#entity-based-search-2024-2025" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Entity-Based Search (2024-2025)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#wikidata-integration" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Wikidata Integration</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#people" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">People</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#key-people" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Key People</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#rv-guha--the-semantic-web-pioneer" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">R.V. Guha — The Semantic Web Pioneer</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#john-giannandrea--from-freebase-to-knowledge-graph" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">John Giannandrea — From Freebase to Knowledge Graph</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#findings" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Findings</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#knowledge-graph-architecture" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Knowledge Graph Architecture</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#schemaorg-type-hierarchy" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Schema.org Type Hierarchy</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#json-ld-patterns" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">JSON-LD Patterns</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#entity-based-search-evolution" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Entity-Based Search Evolution</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#freebase--wikidata-migration" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Freebase → Wikidata Migration</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#schemaorg-governance" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Schema.org Governance</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#academic-research-on-entity-disambiguation" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Academic Research on Entity Disambiguation</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#adoption-statistics-2024" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Adoption Statistics (2024)</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#entity-type-implications" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Entity Type Implications</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-we-can-learn-from-schemaorg" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What We Can Learn from Schema.org</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#relationship-implications" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Relationship Implications</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#how-schemaorg-models-relationships" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">How Schema.org Models Relationships</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#entity-identity-observations" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Entity Identity Observations</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#how-google-resolves-same-entity" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">How Google Resolves “Same Entity”</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#sources" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Sources</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#primary-sources" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Primary Sources</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#research--analysis" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Research &amp; Analysis</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#tools" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Tools</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#session-log" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Session Log</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2025-01-24-initial-setup" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2025-01-24: Initial setup</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#2025-01-24-phase-1-web-research-complete" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">2025-01-24: Phase 1 Web Research Complete</span> </a>  </li> </ul> </li> </ul></nav></starlight-toc><script type="module" src="../../../_astro/TableOfContents.astro_astro_type_script_index_0_lang.FuRcXuRY.js"></script></div></div> </div> </aside> <div class="main-pane astro-bqhhi3bs">  <main data-pagefind-body class="astro-wwc3bqpt" lang="en" dir="ltr">    <div class="content-panel astro-wjgruomq"> <div class="sl-container astro-wjgruomq"> <h1 id="_top" class="astro-wj2r53xi">Google Structured Data &amp; Knowledge Graph Research</h1> </div> </div> <div class="content-panel astro-wjgruomq"> <div class="sl-container astro-wjgruomq"> <div class="sl-markdown-content"> <div class="sl-heading-wrapper level-h2"><h2 id="why-this-matters">Why This Matters</h2><a class="sl-anchor-link" href="#why-this-matters"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Why This Matters”</span></a></div>
+<p>Google is moving from keyword-based search to <strong>entity-based understanding</strong>. They said “things, not strings” back in 2012. This has massive implications:</p>
+<ol>
+<li><strong>Knowledge Graph</strong> — Google’s database of 500+ billion facts about entities</li>
+<li><strong>Schema.org</strong> — Google co-created the vocabulary standard</li>
+<li><strong>Structured Data</strong> — JSON-LD, microdata that websites use to describe entities</li>
+<li><strong>Entity-first SEO</strong> — The future of search is entity recognition</li>
+</ol>
+<p>If Google is betting on entities, we should understand how they model them.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="research-tasks">Research Tasks</h2><a class="sl-anchor-link" href="#research-tasks"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Research Tasks”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="knowledge-graph">Knowledge Graph</h3><a class="sl-anchor-link" href="#knowledge-graph"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Knowledge Graph”</span></a></div>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> When did Google launch Knowledge Graph? (May 16, 2012)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> How many entities does it contain? (5 billion entities, 500 billion facts as of 2020)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> What entity types exist in Knowledge Graph?</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> How do they resolve entity identity? (Machine IDs / MIDs)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> How do they handle relationships? (Graph structure with links as relationships)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Who built it? Key engineers/researchers?</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="schemaorg">Schema.org</h3><a class="sl-anchor-link" href="#schemaorg"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Schema.org”</span></a></div>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Google’s role in creating Schema.org (co-founded with Microsoft, Yahoo, Yandex in 2011)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> What types does Schema.org define? (827 Types, 1,528 Properties)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> How does the type hierarchy work? (Multiple inheritance from Thing)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Most important types for search (Person, Organization, Product, etc.)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> How has it evolved? (Community-driven via W3C Community Group)</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="structured-data">Structured Data</h3><a class="sl-anchor-link" href="#structured-data"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Structured Data”</span></a></div>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> JSON-LD format deep dive</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Required vs recommended properties</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> How Google uses structured data for rich results</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Common patterns: Article, LocalBusiness, Product, Event, FAQ</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Validation: Rich Results Test</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="entity-based-search-2024-2025">Entity-Based Search (2024-2025)</h3><a class="sl-anchor-link" href="#entity-based-search-2024-2025"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Entity-Based Search (2024-2025)”</span></a></div>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Recent announcements about entity-first search</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> How AI/LLMs are changing entity recognition (Gemini integration)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Implications for SEO</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> What new entity types are emerging?</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="wikidata-integration">Wikidata Integration</h3><a class="sl-anchor-link" href="#wikidata-integration"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Wikidata Integration”</span></a></div>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> How does Google use Wikidata?</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Knowledge Graph vs Wikidata relationship</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Entity reconciliation across sources</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="people">People</h3><a class="sl-anchor-link" href="#people"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “People”</span></a></div>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Who led Knowledge Graph development?</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Key researchers at Google on entity recognition</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Schema.org founders/maintainers</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="key-people">Key People</h2><a class="sl-anchor-link" href="#key-people"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Key People”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Person</th><th>Role</th><th>Organization</th><th>Era</th></tr></thead><tbody><tr><td><strong>Amit Singhal</strong></td><td>SVP Engineering, Search</td><td>Google</td><td>2000-2016</td></tr><tr><td><strong>John Giannandrea</strong></td><td>Director of Engineering (KG), later SVP Search</td><td>Google → Apple</td><td>2010-2018</td></tr><tr><td><strong>R.V. Guha</strong></td><td>Google Fellow, Schema.org founder/chair</td><td>Google → OpenAI → Microsoft</td><td>2005-present</td></tr><tr><td><strong>Dan Brickley</strong></td><td>Schema.org daily operations, W3C Community Group chair</td><td>Google</td><td>2011-present</td></tr><tr><td><strong>Steve Macbeth</strong></td><td>Microsoft Schema.org co-founder</td><td>Microsoft</td><td>2009-2020</td></tr><tr><td><strong>Peter Mika</strong></td><td>Yahoo Schema.org lead, semantic search</td><td>Yahoo</td><td>2011-2016</td></tr><tr><td><strong>Danny Hillis</strong></td><td>Metaweb/Freebase co-founder</td><td>Metaweb</td><td>2005-2010</td></tr><tr><td><strong>Robert Cook</strong></td><td>Metaweb/Freebase co-founder</td><td>Metaweb</td><td>2005-2010</td></tr><tr><td><strong>Jack Menzel</strong></td><td>Product Management, Google Search</td><td>Google</td><td>2010s</td></tr><tr><td><strong>Johanna Wright</strong></td><td>Product Manager, Google Search</td><td>Google</td><td>2010s</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="rv-guha--the-semantic-web-pioneer">R.V. Guha — The Semantic Web Pioneer</h3><a class="sl-anchor-link" href="#rv-guha--the-semantic-web-pioneer"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “R.V. Guha — The Semantic Web Pioneer”</span></a></div>
+<p><strong>Full career arc:</strong></p>
+<ul>
+<li><strong>1987-1994</strong>: Co-leader of Cyc Project at MCC. Designed CycL (representation language), upper ontological layers, NLU components</li>
+<li><strong>1995-1997</strong>: Apple Computer’s Advanced Technology Group. Created Meta Content Framework (MCF), FlyThru visualization</li>
+<li><strong>1997-1999</strong>: Principal Engineer at Netscape. Created RSS and RDF (with W3C/Tim Bray), helped establish Open Directory Project</li>
+<li><strong>1999-2000</strong>: Co-founded Epinions (Web of Trust concept)</li>
+<li><strong>2000-2002</strong>: Founded Alpiri, created TAP (semantic web application)</li>
+<li><strong>2002-2005</strong>: IBM Almaden Theory group</li>
+<li><strong>2005-2024</strong>: Google Fellow. Started Google Custom Search, <strong>Schema.org</strong>, and Data Commons</li>
+<li><strong>Aug 2024</strong>: Moved to OpenAI as Technical Advisor to CEO</li>
+<li><strong>May 2025</strong>: Joined Microsoft as Technical Fellow working on NLWeb</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="john-giannandrea--from-freebase-to-knowledge-graph">John Giannandrea — From Freebase to Knowledge Graph</h3><a class="sl-anchor-link" href="#john-giannandrea--from-freebase-to-knowledge-graph"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “John Giannandrea — From Freebase to Knowledge Graph”</span></a></div>
+<ul>
+<li>CTO of Netscape (related browsing technology)</li>
+<li>Co-founded Metaweb, helped build Freebase</li>
+<li>Joined Google in 2010 when Google acquired Metaweb</li>
+<li><strong>Led the creation of Google Knowledge Graph</strong> (launched May 2012)</li>
+<li>Appointed Google search chief in 2016, replacing Amit Singhal</li>
+<li>Left Google in 2018 to join Apple as SVP of Machine Learning and AI Strategy</li>
+<li>Announced retirement December 2025</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="findings">Findings</h2><a class="sl-anchor-link" href="#findings"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Findings”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="knowledge-graph-architecture">Knowledge Graph Architecture</h3><a class="sl-anchor-link" href="#knowledge-graph-architecture"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Knowledge Graph Architecture”</span></a></div>
+<p><strong>Launch &#x26; Scale:</strong></p>
+<ul>
+<li>Launched <strong>May 16, 2012</strong> with 500 million entities, 3.5 billion facts</li>
+<li>By 2020: <strong>5 billion entities</strong>, <strong>500 billion facts</strong></li>
+<li>Tripled in size within 7 months of launch (570M entities, 18B facts)</li>
+</ul>
+<p><strong>Philosophy:</strong></p>
+<blockquote>
+<p>“Things, not strings” — Google’s fundamental shift from keyword matching to entity understanding</p>
+</blockquote>
+<p><strong>Data Sources:</strong></p>
+<ul>
+<li>Freebase (acquired 2010 from Metaweb)</li>
+<li>Wikipedia</li>
+<li>CIA World Factbook</li>
+<li>Google Books</li>
+<li>Online event listings</li>
+<li>Web crawl data</li>
+<li>Commercial datasets (undisclosed)</li>
+<li>Wikidata (after Freebase sunset)</li>
+</ul>
+<p><strong>Primary Entity Categories:</strong></p>
+<ul>
+<li><strong>People</strong> — individuals, historical figures, fictional characters</li>
+<li><strong>Places</strong> — locations, landmarks, cities, geographical features</li>
+<li><strong>Things</strong> — products, objects, concepts</li>
+<li><strong>Organizations</strong> — companies, institutions, groups</li>
+<li><strong>Events</strong> — occurrences at specific times/locations</li>
+<li><strong>Creative Works</strong> — books, movies, music, articles</li>
+</ul>
+<p><strong>Entity Identity Resolution:</strong></p>
+<ul>
+<li>Uses <strong>Machine IDs (MIDs)</strong> — globally unique identifiers</li>
+<li>Format examples: <code dir="auto">/m/0dl567</code> (Taylor Swift in original KG), <code dir="auto">c-024dcv3mk</code> (Cloud KG)</li>
+<li>MID namespaces: <code dir="auto">c</code> (Cloud KG), <code dir="auto">r</code> (reconciliation candidate), <code dir="auto">e</code> (reconciled master)</li>
+<li>Entity Reconciliation API handles deduplication across sources</li>
+<li>Creates master entity with new MID when merging</li>
+</ul>
+<p><strong>Graph Structure:</strong></p>
+<ul>
+<li>Non-hierarchical graph: nodes (topics/entities) connected by links (relationships)</li>
+<li>Each entity can have multiple types assigned</li>
+<li>Relationships are typed and can carry attributes</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h3"><h3 id="schemaorg-type-hierarchy">Schema.org Type Hierarchy</h3><a class="sl-anchor-link" href="#schemaorg-type-hierarchy"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Schema.org Type Hierarchy”</span></a></div>
+<p><strong>Current Scale (as of 2024):</strong></p>
+<ul>
+<li><strong>827 Types</strong> (classes)</li>
+<li><strong>1,528 Properties</strong></li>
+<li><strong>14 Datatypes</strong></li>
+<li><strong>94 Enumerations</strong> with 522 enumeration members</li>
+<li>Used on <strong>45+ million web domains</strong></li>
+<li>Over <strong>450 billion Schema.org objects</strong> marked up</li>
+</ul>
+<p><strong>Founding (2011):</strong></p>
+<ul>
+<li>Co-created by <strong>Google, Microsoft (Bing), Yahoo, and Yandex</strong></li>
+<li>Key founders: R.V. Guha (Google), Steve Macbeth (Microsoft), Peter Mika (Yahoo), Alex Shubin (Yandex)</li>
+<li>Based on RDF Schema (derived from CycL)</li>
+<li>Pragmatic design over academic purity</li>
+</ul>
+<p><strong>Hierarchy Design:</strong></p>
+<ul>
+<li><strong>Thing</strong> is the root type — all other types inherit from it</li>
+<li><strong>Multiple inheritance</strong> — types can have multiple parent types</li>
+<li>Properties can have multiple domains and ranges</li>
+<li>Avoids creating artificial types</li>
+</ul>
+<p><strong>Core Type Branches (direct children of Thing):</strong></p>
+<div class="expressive-code"><link rel="stylesheet" href="../../../_astro/ec.3svgr.css"><script type="module" src="../../../_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">Thing</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">├── Action (performed by agent on object)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── AchieveAction, AssessAction, ConsumeAction</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── CreateAction, InteractAction, MoveAction</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── OrganizeAction, PlayAction, SearchAction</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── TradeAction, TransferAction, UpdateAction</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   └── ... (100+ action subtypes)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">├── BioChemEntity</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   └── Gene, Protein, MolecularEntity, ChemicalSubstance</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">├── CreativeWork</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── Article → NewsArticle, BlogPosting, ScholarlyArticle</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── Book → Audiobook</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── Dataset, SoftwareApplication, WebPage</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── Movie, MusicRecording, Photograph</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   └── ... (100+ subtypes)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">├── Event</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── BusinessEvent, MusicEvent, SportsEvent</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── ConferenceEvent, Festival, Hackathon</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   └── ... (30+ event types)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">├── Intangible (utility class)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── Brand, Language, Occupation, Service</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── Offer, Order, Invoice, Reservation</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── Rating, Role, Schedule</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   └── ... (200+ intangible types)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">├── MedicalEntity</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   └── AnatomicalStructure, Drug, MedicalCondition...</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">├── Organization</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── Corporation, EducationalOrganization</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── GovernmentOrganization, LocalBusiness</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── MedicalOrganization, PerformingGroup</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   └── ... (150+ org subtypes)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">├── Person (alive, dead, undead, or fictional)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">├── Place</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── Accommodation, AdministrativeArea, CivicStructure</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── Landform, LocalBusiness (also under Organization)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   └── ... (100+ place types)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">├── Product</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   ├── IndividualProduct, ProductGroup, Vehicle</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">│   └── Drug, DietarySupplement</span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">└── Taxon (biological taxonomy)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Thing├── Action (performed by agent on object)│   ├── AchieveAction, AssessAction, ConsumeAction│   ├── CreateAction, InteractAction, MoveAction│   ├── OrganizeAction, PlayAction, SearchAction│   ├── TradeAction, TransferAction, UpdateAction│   └── ... (100+ action subtypes)├── BioChemEntity│   └── Gene, Protein, MolecularEntity, ChemicalSubstance├── CreativeWork│   ├── Article → NewsArticle, BlogPosting, ScholarlyArticle│   ├── Book → Audiobook│   ├── Dataset, SoftwareApplication, WebPage│   ├── Movie, MusicRecording, Photograph│   └── ... (100+ subtypes)├── Event│   ├── BusinessEvent, MusicEvent, SportsEvent│   ├── ConferenceEvent, Festival, Hackathon│   └── ... (30+ event types)├── Intangible (utility class)│   ├── Brand, Language, Occupation, Service│   ├── Offer, Order, Invoice, Reservation│   ├── Rating, Role, Schedule│   └── ... (200+ intangible types)├── MedicalEntity│   └── AnatomicalStructure, Drug, MedicalCondition...├── Organization│   ├── Corporation, EducationalOrganization│   ├── GovernmentOrganization, LocalBusiness│   ├── MedicalOrganization, PerformingGroup│   └── ... (150+ org subtypes)├── Person (alive, dead, undead, or fictional)├── Place│   ├── Accommodation, AdministrativeArea, CivicStructure│   ├── Landform, LocalBusiness (also under Organization)│   └── ... (100+ place types)├── Product│   ├── IndividualProduct, ProductGroup, Vehicle│   └── Drug, DietarySupplement└── Taxon (biological taxonomy)"><div></div></button></div></figure></div>
+<p><strong>Key Property Categories:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Type</th><th>Key Properties</th></tr></thead><tbody><tr><td><strong>Person</strong></td><td>name, birthDate, birthPlace, affiliation, jobTitle, email, alumniOf, colleague, children</td></tr><tr><td><strong>Organization</strong></td><td>name, address, contactPoint, founder, employee, numberOfEmployees, areaServed</td></tr><tr><td><strong>CreativeWork</strong></td><td>name, author, datePublished, about, publisher, copyrightHolder</td></tr><tr><td><strong>Event</strong></td><td>name, startDate, endDate, location, organizer, performer, offers</td></tr><tr><td><strong>Place</strong></td><td>name, address, geo (coordinates), containedInPlace, openingHours</td></tr><tr><td><strong>Product</strong></td><td>name, brand, offers, sku, gtin, manufacturer, productID</td></tr></tbody></table>
+<p><strong>Multi-Typed Entities (MTEs):</strong></p>
+<ul>
+<li>Single entity can be marked as multiple types simultaneously</li>
+<li>Example: A Book that is also a Product (when it has an Offer)</li>
+<li>Extends multiple inheritance at the instance level</li>
+</ul>
+<p><strong>Extensions:</strong></p>
+<ul>
+<li><strong>health-lifesci.schema.org</strong> — Medical/healthcare vocabulary (moved from core in 2016)</li>
+<li><strong>pending section</strong> — 825 work-in-progress terms</li>
+<li><strong>auto extension</strong> — Vehicle-specific types</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h3"><h3 id="json-ld-patterns">JSON-LD Patterns</h3><a class="sl-anchor-link" href="#json-ld-patterns"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “JSON-LD Patterns”</span></a></div>
+<p><strong>What is JSON-LD?</strong></p>
+<ul>
+<li>JavaScript Object Notation for Linked Data</li>
+<li><strong>Google’s recommended format</strong> (used in 83.2% of implementations)</li>
+<li>Placed in <code dir="auto">&#x3C;script type="application/ld+json"></code> tags</li>
+<li>Can appear anywhere in HTML document</li>
+</ul>
+<p><strong>Basic Structure:</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@context"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Person"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"John Doe"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"jobTitle"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Software Engineer"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"email"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"john@example.com"</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;@context&#x22;: &#x22;https://schema.org&#x22;,  &#x22;@type&#x22;: &#x22;Person&#x22;,  &#x22;name&#x22;: &#x22;John Doe&#x22;,  &#x22;jobTitle&#x22;: &#x22;Software Engineer&#x22;,  &#x22;email&#x22;: &#x22;john@example.com&#x22;}"><div></div></button></div></figure></div>
+<p><strong>Common Patterns:</strong></p>
+<p><strong>Article/BlogPosting:</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@context"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Article"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"headline"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Article Title"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"author"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Person"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Author Name"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">},</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"datePublished"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"2024-01-15"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"publisher"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Organization"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Publisher Name"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"logo"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"ImageObject"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"url"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://example.com/logo.png"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;@context&#x22;: &#x22;https://schema.org&#x22;,  &#x22;@type&#x22;: &#x22;Article&#x22;,  &#x22;headline&#x22;: &#x22;Article Title&#x22;,  &#x22;author&#x22;: {    &#x22;@type&#x22;: &#x22;Person&#x22;,    &#x22;name&#x22;: &#x22;Author Name&#x22;  },  &#x22;datePublished&#x22;: &#x22;2024-01-15&#x22;,  &#x22;publisher&#x22;: {    &#x22;@type&#x22;: &#x22;Organization&#x22;,    &#x22;name&#x22;: &#x22;Publisher Name&#x22;,    &#x22;logo&#x22;: {      &#x22;@type&#x22;: &#x22;ImageObject&#x22;,      &#x22;url&#x22;: &#x22;https://example.com/logo.png&#x22;    }  }}"><div></div></button></div></figure></div>
+<p><strong>LocalBusiness:</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@context"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Restaurant"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Restaurant Name"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"address"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"PostalAddress"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"streetAddress"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"123 Main St"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"addressLocality"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"City"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"addressRegion"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"State"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">},</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"openingHours"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Mo-Sa 11:00-22:00"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"priceRange"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"$$"</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;@context&#x22;: &#x22;https://schema.org&#x22;,  &#x22;@type&#x22;: &#x22;Restaurant&#x22;,  &#x22;name&#x22;: &#x22;Restaurant Name&#x22;,  &#x22;address&#x22;: {    &#x22;@type&#x22;: &#x22;PostalAddress&#x22;,    &#x22;streetAddress&#x22;: &#x22;123 Main St&#x22;,    &#x22;addressLocality&#x22;: &#x22;City&#x22;,    &#x22;addressRegion&#x22;: &#x22;State&#x22;  },  &#x22;openingHours&#x22;: &#x22;Mo-Sa 11:00-22:00&#x22;,  &#x22;priceRange&#x22;: &#x22;$$&#x22;}"><div></div></button></div></figure></div>
+<p><strong>Product with Offer:</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@context"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Product"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Product Name"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"offers"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Offer"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"price"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"99.99"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"priceCurrency"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"USD"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"availability"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org/InStock"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;@context&#x22;: &#x22;https://schema.org&#x22;,  &#x22;@type&#x22;: &#x22;Product&#x22;,  &#x22;name&#x22;: &#x22;Product Name&#x22;,  &#x22;offers&#x22;: {    &#x22;@type&#x22;: &#x22;Offer&#x22;,    &#x22;price&#x22;: &#x22;99.99&#x22;,    &#x22;priceCurrency&#x22;: &#x22;USD&#x22;,    &#x22;availability&#x22;: &#x22;https://schema.org/InStock&#x22;  }}"><div></div></button></div></figure></div>
+<p><strong>FAQPage:</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="json"><code><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@context"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://schema.org"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"FAQPage"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#0451A5">"mainEntity"</span><span style="--0:#F0F3F6;--1:#000000">: [{</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Question"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"name"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"What is the question?"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#0451A5">"acceptedAnswer"</span><span style="--0:#F0F3F6;--1:#000000">: {</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"@type"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"Answer"</span><span style="--0:#F0F3F6;--1:#000000">,</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#0451A5">"text"</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"The answer text."</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">  </span></span><span style="--0:#F0F3F6;--1:#000000">}]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#F0F3F6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;@context&#x22;: &#x22;https://schema.org&#x22;,  &#x22;@type&#x22;: &#x22;FAQPage&#x22;,  &#x22;mainEntity&#x22;: [{    &#x22;@type&#x22;: &#x22;Question&#x22;,    &#x22;name&#x22;: &#x22;What is the question?&#x22;,    &#x22;acceptedAnswer&#x22;: {      &#x22;@type&#x22;: &#x22;Answer&#x22;,      &#x22;text&#x22;: &#x22;The answer text.&#x22;    }  }]}"><div></div></button></div></figure></div>
+<p><strong>Validation Tools:</strong></p>
+<ul>
+<li><strong>Rich Results Test</strong> — Google’s official validator</li>
+<li><strong>Schema Markup Validator</strong> — General Schema.org validation</li>
+<li><strong>Google Search Console</strong> — Rich results performance reporting</li>
+</ul>
+<p><strong>Format Comparison:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Format</th><th>Recommendation</th><th>Notes</th></tr></thead><tbody><tr><td>JSON-LD</td><td><strong>Preferred</strong></td><td>Separate from HTML, easy to manage</td></tr><tr><td>Microdata</td><td>Supported</td><td>Embedded in HTML elements</td></tr><tr><td>RDFa</td><td>Supported</td><td>Part of broader RDF ecosystem</td></tr></tbody></table>
+<hr>
+<div class="sl-heading-wrapper level-h3"><h3 id="entity-based-search-evolution">Entity-Based Search Evolution</h3><a class="sl-anchor-link" href="#entity-based-search-evolution"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Entity-Based Search Evolution”</span></a></div>
+<p><strong>2012: “Things, Not Strings”</strong></p>
+<ul>
+<li>Knowledge Graph launch marked shift from keyword matching to entity understanding</li>
+<li>Enabled disambiguation (Taj Mahal: monument vs. musician vs. casino)</li>
+<li>Information panels appear alongside search results</li>
+</ul>
+<p><strong>2016: AI Transition</strong></p>
+<ul>
+<li>Amit Singhal (search traditionalist) replaced by John Giannandrea (AI/ML head)</li>
+<li>Signaled Google’s move toward machine learning-driven search</li>
+</ul>
+<p><strong>2024: AI Overviews</strong></p>
+<ul>
+<li>May 2024: Introduced AI Overviews powered by custom Gemini model</li>
+<li>Multi-step reasoning beyond simple entity retrieval</li>
+<li>Synthesized answers, not just entity cards</li>
+</ul>
+<p><strong>2025: Gemini 3 Integration</strong></p>
+<ul>
+<li>November 2025: Gemini 3 brought directly into Search</li>
+<li>“State-of-the-art reasoning, deep multimodal understanding, powerful agentic capabilities”</li>
+<li>Enhanced “query fan-out” for discovering relevant content</li>
+<li>Dynamic visual layouts and interactive tools</li>
+<li>AI Mode for sophisticated research</li>
+</ul>
+<p><strong>Evolution Pattern:</strong></p>
+<ol>
+<li><strong>2012</strong>: Entity recognition (what is this thing?)</li>
+<li><strong>2016</strong>: ML-enhanced entity understanding (context, relationships)</li>
+<li><strong>2024</strong>: Entity reasoning (synthesize knowledge about entities)</li>
+<li><strong>2025</strong>: Agentic entity interaction (take actions, research deeply)</li>
+</ol>
+<hr>
+<div class="sl-heading-wrapper level-h3"><h3 id="freebase--wikidata-migration">Freebase → Wikidata Migration</h3><a class="sl-anchor-link" href="#freebase--wikidata-migration"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Freebase → Wikidata Migration”</span></a></div>
+<p><strong>Freebase History:</strong></p>
+<ul>
+<li>Created by Metaweb Technologies (founded 2005 by Danny Hillis, Robert Cook, John Giannandrea)</li>
+<li>Collaborative knowledge base with 39+ million topics</li>
+<li>Google acquired Metaweb in July 2010</li>
+<li>Used MQL (Metaweb Query Language) via graphd triplestore</li>
+<li>Had 23,000-40,000 types organized into domains</li>
+</ul>
+<p><strong>Shutdown &#x26; Migration:</strong></p>
+<ul>
+<li>December 2014: Google announced Freebase closure</li>
+<li>Data transferred to Wikidata community</li>
+<li>Initial import covered 10%+ of Freebase collection</li>
+<li>Google released Primary Sources Tool for migration</li>
+<li>Final data dump: 1.9 billion RDF triples</li>
+</ul>
+<p><strong>Entity Reconciliation Challenges:</strong></p>
+<ul>
+<li>Freebase used domains/types structure</li>
+<li>Wikidata uses properties like “instance of” (P31) instead of formal types</li>
+<li>4.4 million relations mapped</li>
+<li>Conflicts resolved by preferring Wikidata mappings (6,000 cases)</li>
+</ul>
+<p><strong>Wikidata Entity Model:</strong></p>
+<ul>
+<li><strong>Q numbers</strong> — Entity identifiers (Q80 = Tim Berners-Lee)</li>
+<li><strong>P numbers</strong> — Property identifiers (P108 = employer)</li>
+<li><strong>L numbers</strong> — Lexeme identifiers (linguistics)</li>
+<li>Statements: Subject (Q) — Predicate (P) — Object (Q or value)</li>
+<li>Qualifiers add context to statements</li>
+<li>Example: Tim Berners-Lee (Q80) — employer (P108) — CERN (Q42944)</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h3"><h3 id="schemaorg-governance">Schema.org Governance</h3><a class="sl-anchor-link" href="#schemaorg-governance"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Schema.org Governance”</span></a></div>
+<p><strong>Structure:</strong></p>
+<ul>
+<li>Independent project with its own steering group (chaired by R.V. Guha)</li>
+<li>W3C Schema.org Community Group handles public discussion</li>
+<li>Dan Brickley chairs Community Group and runs daily operations</li>
+</ul>
+<p><strong>Decision Process:</strong></p>
+<ol>
+<li>Proposals discussed via GitHub and public mailing list</li>
+<li>Webmaster maintains staging site reflecting discussions</li>
+<li>Release candidates submitted to steering group</li>
+<li>10 business day review period</li>
+<li>Official release every few weeks</li>
+</ol>
+<p><strong>Community Scale:</strong></p>
+<ul>
+<li>Open participation via W3C Community Group</li>
+<li>Public mailing lists and GitHub issues</li>
+<li>“Early Access Fixes” fast-track for simple changes</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h3"><h3 id="academic-research-on-entity-disambiguation">Academic Research on Entity Disambiguation</h3><a class="sl-anchor-link" href="#academic-research-on-entity-disambiguation"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Academic Research on Entity Disambiguation”</span></a></div>
+<p><strong>Key Approaches:</strong></p>
+<ol>
+<li>
+<p><strong>Freebase-based Disambiguation</strong> (Google Research)</p>
+<ul>
+<li>Used Freebase’s 22M entities (more than Wikipedia)</li>
+<li>Leveraged naturally disambiguated aliases and rich taxonomy</li>
+<li>Achieved 90% accuracy without labeled training data</li>
+</ul>
+</li>
+<li>
+<p><strong>GEEK (Graphical Entity Extraction Kit)</strong></p>
+<ul>
+<li>Graph-based entity linking</li>
+<li>Considers entity commonness, relatedness, contextual similarity</li>
+<li>Integrates Knowledge Graph and Wikipedia APIs</li>
+</ul>
+</li>
+<li>
+<p><strong>Plato</strong> (Google)</p>
+<ul>
+<li>Probabilistic model for entity resolution</li>
+<li>Handles noisy features</li>
+<li>Scales to 10^7+ entities</li>
+<li>Combines Wikipedia training with unlabeled text</li>
+</ul>
+</li>
+<li>
+<p><strong>SMAPH</strong></p>
+<ul>
+<li>Entity recognition in search queries</li>
+<li>Uses SVM classifiers for disambiguation</li>
+<li>Handles query brevity and noisy language</li>
+</ul>
+</li>
+</ol>
+<hr>
+<div class="sl-heading-wrapper level-h3"><h3 id="adoption-statistics-2024">Adoption Statistics (2024)</h3><a class="sl-anchor-link" href="#adoption-statistics-2024"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Adoption Statistics (2024)”</span></a></div>
+<ul>
+<li><strong>44% of websites</strong> use schema markup globally</li>
+<li><strong>10+ million websites</strong> implement Schema.org</li>
+<li><strong>83.2% use JSON-LD</strong> as format</li>
+</ul>
+<p><strong>Most Popular Schema Types (Top 1M sites):</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Type</th><th>Adoption</th></tr></thead><tbody><tr><td>Organization</td><td>22.26% (222,550 sites)</td></tr><tr><td>Person</td><td>14.37% (143,694 sites)</td></tr><tr><td>Product</td><td>6.97% (69,747 sites)</td></tr><tr><td>Offer</td><td>6.54% (65,396 sites)</td></tr><tr><td>PostalAddress</td><td>6.2% (61,966 sites)</td></tr><tr><td>AggregateRating</td><td>4.28% (42,752 sites)</td></tr></tbody></table>
+<p><strong>SEO Impact:</strong></p>
+<ul>
+<li>Rich results appear in <strong>33%+ of Google searches</strong></li>
+<li><strong>88% of featured snippets</strong> pull from schema-enhanced pages</li>
+<li>Case studies show <strong>25-82% increases</strong> in click-through rates</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="entity-type-implications">Entity Type Implications</h2><a class="sl-anchor-link" href="#entity-type-implications"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Entity Type Implications”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="what-we-can-learn-from-schemaorg">What We Can Learn from Schema.org</h3><a class="sl-anchor-link" href="#what-we-can-learn-from-schemaorg"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “What We Can Learn from Schema.org”</span></a></div>
+<p><strong>1. “Thing” as Universal Base</strong></p>
+<ul>
+<li>Every entity inherits from <code dir="auto">Thing</code></li>
+<li>Thing has universal properties: <code dir="auto">name</code>, <code dir="auto">description</code>, <code dir="auto">url</code>, <code dir="auto">image</code>, <code dir="auto">identifier</code></li>
+<li>This provides a consistent baseline for all entities</li>
+</ul>
+<p><strong>2. Multiple Inheritance is Practical</strong></p>
+<ul>
+<li>Schema.org uses multiple inheritance (type can have multiple parents)</li>
+<li>More flexible than strict single-inheritance hierarchies</li>
+<li>Example: <code dir="auto">LocalBusiness</code> appears under both <code dir="auto">Organization</code> and <code dir="auto">Place</code></li>
+<li>Reflects real-world messiness</li>
+</ul>
+<p><strong>3. Multi-Typed Entities (MTEs)</strong></p>
+<ul>
+<li>Single instance can have multiple types</li>
+<li>A <code dir="auto">Book</code> can also be a <code dir="auto">Product</code> (when being sold)</li>
+<li>This is instance-level, not class-level</li>
+<li><strong>Implication</strong>: Our entities should support multiple type assignments</li>
+</ul>
+<p><strong>4. Properties vs Types</strong></p>
+<ul>
+<li>Schema.org has 1,528 properties vs 827 types</li>
+<li>Properties carry more information than types</li>
+<li>Relationships are expressed as properties, not separate link types</li>
+<li><strong>Implication</strong>: Rich properties may matter more than type granularity</li>
+</ul>
+<p><strong>5. Pragmatic Over Pure</strong></p>
+<ul>
+<li>Properties accept text even when specific types expected</li>
+<li>Multiple domains/ranges on properties</li>
+<li>Avoiding “artificial types” for technical reasons</li>
+<li><strong>Implication</strong>: Usability > ontological purity</li>
+</ul>
+<p><strong>6. Core Types Are Few</strong></p>
+<ul>
+<li>Despite 827 types, the core everyday types are limited:
+<ul>
+<li>Person, Organization, Place, Event, CreativeWork, Product</li>
+</ul>
+</li>
+<li>Most sites use just Organization, Person, Product</li>
+<li><strong>Implication</strong>: Start with 6-10 core types, extend later</li>
+</ul>
+<p><strong>7. Action Types Exist</strong></p>
+<ul>
+<li>Schema.org has 100+ Action subtypes (CreateAction, UpdateAction, BuyAction…)</li>
+<li>Actions are first-class entities, not just events</li>
+<li><strong>Implication</strong>: Consider modeling actions/activities as entities</li>
+</ul>
+<p><strong>8. Extensions Are Layered</strong></p>
+<ul>
+<li>Core vocabulary + pending + extensions (health, auto)</li>
+<li>Domain-specific vocabulary separated from core</li>
+<li><strong>Implication</strong>: Design for extensibility from day one</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="relationship-implications">Relationship Implications</h2><a class="sl-anchor-link" href="#relationship-implications"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Relationship Implications”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="how-schemaorg-models-relationships">How Schema.org Models Relationships</h3><a class="sl-anchor-link" href="#how-schemaorg-models-relationships"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “How Schema.org Models Relationships”</span></a></div>
+<p><strong>1. Relationships Are Properties</strong></p>
+<ul>
+<li>No separate “link” or “relationship” type</li>
+<li>Relationships are properties on entities</li>
+<li><code dir="auto">author</code>, <code dir="auto">creator</code>, <code dir="auto">memberOf</code>, <code dir="auto">worksFor</code> — all properties</li>
+</ul>
+<p><strong>2. Key Relationship Properties:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Property</th><th>Domain</th><th>Range</th><th>Notes</th></tr></thead><tbody><tr><td><code dir="auto">author</code></td><td>CreativeWork</td><td>Person, Organization</td><td>Who created it</td></tr><tr><td><code dir="auto">creator</code></td><td>CreativeWork</td><td>Person, Organization</td><td>Broader than author</td></tr><tr><td><code dir="auto">publisher</code></td><td>CreativeWork</td><td>Organization, Person</td><td>Who published it</td></tr><tr><td><code dir="auto">memberOf</code></td><td>Person, Organization</td><td>Organization</td><td>Membership</td></tr><tr><td><code dir="auto">worksFor</code></td><td>Person</td><td>Organization</td><td>Employment</td></tr><tr><td><code dir="auto">affiliation</code></td><td>Person</td><td>Organization</td><td>Any affiliation</td></tr><tr><td><code dir="auto">alumniOf</code></td><td>Person</td><td>EducationalOrganization</td><td>Alumni relationship</td></tr><tr><td><code dir="auto">parent</code> / <code dir="auto">children</code></td><td>Person</td><td>Person</td><td>Family relationships</td></tr><tr><td><code dir="auto">spouse</code></td><td>Person</td><td>Person</td><td>Marriage</td></tr><tr><td><code dir="auto">colleague</code></td><td>Person</td><td>Person</td><td>Professional relationship</td></tr><tr><td><code dir="auto">knows</code></td><td>Person</td><td>Person</td><td>Knows another person</td></tr><tr><td><code dir="auto">isPartOf</code></td><td>CreativeWork</td><td>CreativeWork</td><td>Part/whole</td></tr><tr><td><code dir="auto">hasPart</code></td><td>CreativeWork</td><td>CreativeWork</td><td>Contains parts</td></tr><tr><td><code dir="auto">subOrganization</code></td><td>Organization</td><td>Organization</td><td>Org hierarchy</td></tr><tr><td><code dir="auto">parentOrganization</code></td><td>Organization</td><td>Organization</td><td>Parent org</td></tr><tr><td><code dir="auto">location</code></td><td>Event, Organization</td><td>Place</td><td>Where something is</td></tr><tr><td><code dir="auto">containedInPlace</code></td><td>Place</td><td>Place</td><td>Geographic containment</td></tr><tr><td><code dir="auto">sameAs</code></td><td>Thing</td><td>URL</td><td>Identity across sources</td></tr></tbody></table>
+<p><strong>3. Inverse Properties</strong></p>
+<ul>
+<li><code dir="auto">hasPart</code> ↔ <code dir="auto">isPartOf</code></li>
+<li><code dir="auto">parentOrganization</code> ↔ <code dir="auto">subOrganization</code></li>
+<li>Explicitly defined inverses aid traversal</li>
+</ul>
+<p><strong>4. Role-Based Relationships</strong></p>
+<ul>
+<li>Schema.org has <code dir="auto">Role</code> type for qualified relationships</li>
+<li><code dir="auto">OrganizationRole</code>, <code dir="auto">PerformanceRole</code>, <code dir="auto">EmployeeRole</code></li>
+<li>Allows adding metadata to relationships (start date, end date)</li>
+<li><strong>Implication</strong>: Consider role/reification for relationship metadata</li>
+</ul>
+<p><strong>5. <code dir="auto">sameAs</code> for Identity</strong></p>
+<ul>
+<li>Links to equivalent entities on other sites</li>
+<li>Key for entity reconciliation</li>
+<li>Points to authoritative sources (Wikipedia, Wikidata)</li>
+</ul>
+<p><strong>6. Relationship Cardinality</strong></p>
+<ul>
+<li>Properties are multi-value by default</li>
+<li>Can have multiple authors, multiple locations</li>
+<li><strong>Implication</strong>: Design for multi-valued relationships</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="entity-identity-observations">Entity Identity Observations</h2><a class="sl-anchor-link" href="#entity-identity-observations"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Entity Identity Observations”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="how-google-resolves-same-entity">How Google Resolves “Same Entity”</h3><a class="sl-anchor-link" href="#how-google-resolves-same-entity"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “How Google Resolves “Same Entity””</span></a></div>
+<p><strong>1. Machine IDs (MIDs)</strong></p>
+<ul>
+<li>Globally unique identifiers per entity</li>
+<li>Different namespaces for different sources</li>
+<li>Master entity created when merging</li>
+</ul>
+<p><strong>2. Reconciliation Approach:</strong></p>
+<ul>
+<li>Fuzzy text matching on names/aliases</li>
+<li>Common relationships as signals</li>
+<li>Entity types and attributes</li>
+<li>Semantic clustering</li>
+</ul>
+<p><strong>3. Cross-Source Linking:</strong></p>
+<ul>
+<li><code dir="auto">sameAs</code> property for web identity</li>
+<li>MID mappings between systems</li>
+<li>Prefer established mappings, resolve conflicts</li>
+</ul>
+<p><strong>4. Multi-Source Truth:</strong></p>
+<ul>
+<li>No single source of truth</li>
+<li>Entities assembled from multiple sources</li>
+<li>Wikipedia, Wikidata, web crawl, commercial data</li>
+</ul>
+<p><strong>Implications for Our Knowledge Graph:</strong></p>
+<ul>
+<li>Need stable entity identifiers</li>
+<li>Support for aliases and alternative names</li>
+<li>Explicit cross-reference properties</li>
+<li>Can merge entities from different sources</li>
+<li>Confidence/source tracking per fact</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="sources">Sources</h2><a class="sl-anchor-link" href="#sources"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Sources”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="primary-sources">Primary Sources</h3><a class="sl-anchor-link" href="#primary-sources"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Primary Sources”</span></a></div>
+<p><strong>Google Official:</strong></p>
+<ul>
+<li><a href="https://blog.google/products/search/introducing-knowledge-graph-things-not">https://blog.google/products/search/introducing-knowledge-graph-things-not</a> — Original “Things, Not Strings” announcement (May 2012)</li>
+<li><a href="https://developers.google.com/knowledge-graph">https://developers.google.com/knowledge-graph</a> — Knowledge Graph Search API documentation</li>
+<li><a href="https://developers.google.com/knowledge-graph/reference/rest/v1">https://developers.google.com/knowledge-graph/reference/rest/v1</a> — API Reference (entities.search)</li>
+<li><a href="https://cloud.google.com/enterprise-knowledge-graph/docs/overview">https://cloud.google.com/enterprise-knowledge-graph/docs/overview</a> — Enterprise Knowledge Graph overview</li>
+<li><a href="https://cloud.google.com/enterprise-knowledge-graph/docs/mid">https://cloud.google.com/enterprise-knowledge-graph/docs/mid</a> — Machine ID (MID) documentation</li>
+<li><a href="https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data">https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data</a> — Structured data intro</li>
+<li><a href="https://support.google.com/knowledgepanel/answer/9787176">https://support.google.com/knowledgepanel/answer/9787176</a> — How Knowledge Graph works</li>
+<li><a href="https://blog.google/products/search/about-knowledge-graph-and-knowledge-panels">https://blog.google/products/search/about-knowledge-graph-and-knowledge-panels</a> — KG and Knowledge Panels reintroduction</li>
+<li><a href="https://developers.google.com/freebase">https://developers.google.com/freebase</a> — Freebase data dumps (historical)</li>
+</ul>
+<p><strong>Schema.org:</strong></p>
+<ul>
+<li><a href="https://schema.org/">https://schema.org/</a> — Main Schema.org site</li>
+<li><a href="https://schema.org/docs/full.html">https://schema.org/docs/full.html</a> — Full type hierarchy</li>
+<li><a href="https://schema.org/docs/datamodel.html">https://schema.org/docs/datamodel.html</a> — Data model explanation</li>
+<li><a href="https://schema.org/docs/about.html">https://schema.org/docs/about.html</a> — About Schema.org (founders, governance)</li>
+<li><a href="https://schema.org/docs/howwework.html">https://schema.org/docs/howwework.html</a> — How Schema.org works</li>
+<li><a href="https://schema.org/docs/extension.html">https://schema.org/docs/extension.html</a> — Extension mechanism</li>
+<li><a href="https://schema.org/docs/pending.home.html">https://schema.org/docs/pending.home.html</a> — Pending terms</li>
+<li><a href="https://www.w3.org/community/schemaorg/">https://www.w3.org/community/schemaorg/</a> — W3C Community Group</li>
+<li><a href="https://www.w3.org/community/schemaorg/how-we-work/">https://www.w3.org/community/schemaorg/how-we-work/</a> — Community Group process</li>
+</ul>
+<p><strong>Wikidata:</strong></p>
+<ul>
+<li><a href="https://www.wikidata.org/wiki/Wikidata:WikiProject_Freebase">https://www.wikidata.org/wiki/Wikidata:WikiProject_Freebase</a> — Freebase migration project</li>
+<li><a href="https://www.wikidata.org/wiki/Help:FAQ/Freebase">https://www.wikidata.org/wiki/Help:FAQ/Freebase</a> — Freebase FAQ</li>
+<li><a href="https://www.wikidata.org/wiki/Wikidata:Data_model">https://www.wikidata.org/wiki/Wikidata:Data_model</a> — Wikidata data model</li>
+<li><a href="https://www.wikidata.org/wiki/Wikidata:Identifiers">https://www.wikidata.org/wiki/Wikidata:Identifiers</a> — Q/P number system</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="research--analysis">Research &#x26; Analysis</h3><a class="sl-anchor-link" href="#research--analysis"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Research &#x26; Analysis”</span></a></div>
+<p><strong>Academic Papers:</strong></p>
+<ul>
+<li><a href="https://research.google/pubs/entity-disambiguation-with-freebase/">https://research.google/pubs/entity-disambiguation-with-freebase/</a> — Entity Disambiguation with Freebase</li>
+<li><a href="https://research.google/pubs/plato-a-selective-context-model-for-entity-resolution/">https://research.google/pubs/plato-a-selective-context-model-for-entity-resolution/</a> — Plato entity resolution</li>
+<li><a href="https://research.google/pubs/from-freebase-to-wikidata-the-great-migration/">https://research.google/pubs/from-freebase-to-wikidata-the-great-migration/</a> — Freebase to Wikidata migration</li>
+<li><a href="https://queue.acm.org/detail.cfm?id=2857276">https://queue.acm.org/detail.cfm?id=2857276</a> — “Schema.org: Evolution of Structured Data on the Web” (ACM Queue)</li>
+</ul>
+<p><strong>Technical Deep Dives:</strong></p>
+<ul>
+<li><a href="https://arstechnica.com/information-technology/2012/06/inside-the-architecture-of-googles-knowledge-graph-and-microsofts-satori/">https://arstechnica.com/information-technology/2012/06/inside-the-architecture-of-googles-knowledge-graph-and-microsofts-satori/</a> — KG architecture analysis</li>
+<li><a href="https://www.theverge.com/2012/6/8/3071190/google-knowledge-graph-star-trek-computer-john-giannandrea-interview">https://www.theverge.com/2012/6/8/3071190/google-knowledge-graph-star-trek-computer-john-giannandrea-interview</a> — Giannandrea interview on KG</li>
+<li><a href="https://www.theguardian.com/technology/2013/jan/19/google-search-knowledge-graph-singhal-interview">https://www.theguardian.com/technology/2013/jan/19/google-search-knowledge-graph-singhal-interview</a> — Amit Singhal interview</li>
+</ul>
+<p><strong>Industry Analysis:</strong></p>
+<ul>
+<li><a href="https://techcrunch.com/2012/05/16/google-just-got-a-whole-lot-smarter-launches-its-knowledge-graph/">https://techcrunch.com/2012/05/16/google-just-got-a-whole-lot-smarter-launches-its-knowledge-graph/</a> — KG launch coverage</li>
+<li><a href="https://techcrunch.com/2010/07/16/google-acquires-metaweb-to-make-search-smarter/">https://techcrunch.com/2010/07/16/google-acquires-metaweb-to-make-search-smarter/</a> — Metaweb acquisition</li>
+<li><a href="https://almanac.httparchive.org/en/2024/structured-data">https://almanac.httparchive.org/en/2024/structured-data</a> — HTTP Archive structured data analysis</li>
+<li><a href="https://trends.builtwith.com/framework/schema">https://trends.builtwith.com/framework/schema</a> — Schema usage statistics</li>
+<li><a href="https://www.searchenginejournal.com/structured-data-in-2024/532846/">https://www.searchenginejournal.com/structured-data-in-2024/532846/</a> — Structured data patterns study</li>
+</ul>
+<p><strong>People Profiles:</strong></p>
+<ul>
+<li><a href="https://guha.com/cv.html">https://guha.com/cv.html</a> — R.V. Guha CV</li>
+<li><a href="https://en.wikipedia.org/wiki/Ramanathan_V._Guha">https://en.wikipedia.org/wiki/Ramanathan_V._Guha</a> — R.V. Guha Wikipedia</li>
+<li><a href="https://en.wikipedia.org/wiki/John_Giannandrea">https://en.wikipedia.org/wiki/John_Giannandrea</a> — John Giannandrea Wikipedia</li>
+<li><a href="https://www.w3.org/People/DanBri/">https://www.w3.org/People/DanBri/</a> — Dan Brickley at W3C</li>
+<li><a href="https://en.wikipedia.org/wiki/Knowledge_Graph_(Google)">https://en.wikipedia.org/wiki/Knowledge_Graph_(Google)</a> — Knowledge Graph Wikipedia</li>
+</ul>
+<p><strong>Videos:</strong></p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=yp8AjMBG87g">https://www.youtube.com/watch?v=yp8AjMBG87g</a> — Google I/O 2013: From Structured Data to Knowledge Graph</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="tools">Tools</h3><a class="sl-anchor-link" href="#tools"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Tools”</span></a></div>
+<ul>
+<li><a href="https://search.google.com/test/rich-results">https://search.google.com/test/rich-results</a> — Rich Results Test</li>
+<li><a href="https://validator.schema.org">https://validator.schema.org</a> — Schema.org Validator</li>
+<li><a href="https://www.jsonld-examples.com/">https://www.jsonld-examples.com/</a> — JSON-LD examples</li>
+<li><a href="https://jsonld.com/">https://jsonld.com/</a> — JSON-LD code snippets</li>
+<li><a href="https://github.com/google/freebase-wikidata-converter">https://github.com/google/freebase-wikidata-converter</a> — Freebase to Wikidata converter</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="session-log">Session Log</h2><a class="sl-anchor-link" href="#session-log"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Session Log”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="2025-01-24-initial-setup">2025-01-24: Initial setup</h3><a class="sl-anchor-link" href="#2025-01-24-initial-setup"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “2025-01-24: Initial setup”</span></a></div>
+<ul>
+<li>Created research doc</li>
+<li>Outlined research tasks</li>
+<li>Next: Subagent deep-dives on Schema.org and Knowledge Graph</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="2025-01-24-phase-1-web-research-complete">2025-01-24: Phase 1 Web Research Complete</h3><a class="sl-anchor-link" href="#2025-01-24-phase-1-web-research-complete"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “2025-01-24: Phase 1 Web Research Complete”</span></a></div>
+<ul>
+<li>Extensive web research completed on all research areas</li>
+<li><strong>Knowledge Graph</strong>: Launch date, scale (5B entities, 500B facts), architecture, MID system, entity reconciliation</li>
+<li><strong>Schema.org</strong>: Complete type hierarchy (827 types, 1528 properties), founding story, governance</li>
+<li><strong>Key People</strong>: Documented 10 key figures including Guha, Giannandrea, Singhal, Brickley, Macbeth, Mika</li>
+<li><strong>JSON-LD</strong>: Patterns for Article, LocalBusiness, Product, FAQ, etc.</li>
+<li><strong>Entity Evolution</strong>: 2012 → 2016 (AI transition) → 2024 (Gemini) → 2025 (agentic)</li>
+<li><strong>Freebase/Wikidata</strong>: Migration history, entity reconciliation approaches</li>
+<li><strong>Adoption</strong>: 44% of sites, 83% use JSON-LD, Organization most popular type</li>
+</ul>
+<p><strong>Key Insights for Our Project:</strong></p>
+<ol>
+<li>Start with ~6 core types (Person, Org, Place, Event, CreativeWork, Product)</li>
+<li>Use multiple inheritance and multi-typed entities</li>
+<li>Properties matter more than type granularity</li>
+<li>Stable identifiers (like MIDs) are critical</li>
+<li>Support <code dir="auto">sameAs</code> for cross-source identity</li>
+<li>Design for extensibility from day one</li>
+</ol>
+<p><strong>Next Steps:</strong></p>
+<ul>
+<li>Phase 2: Synthesize findings into entity model recommendations</li>
+<li>Compare with Wikidata research</li>
+<li>Draft initial type hierarchy for our knowledge graph</li>
+</ul> </div> <footer class="sl-flex astro-bmlnrcen"> <div class="meta sl-flex astro-bmlnrcen">   </div> <div class="pagination-links print:hidden astro-sjqzzol4" dir="ltr"> <a href="../../../research/ontology/genealogical-relationships/index.html" rel="prev" class="astro-sjqzzol4"> <svg aria-hidden="true" class="astro-sjqzzol4 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg> <span class="astro-sjqzzol4"> Previous <br class="astro-sjqzzol4"> <span class="link-title astro-sjqzzol4">Genealogical Relationships Research</span> </span> </a> <a href="../../../research/ontology/no-orphans-constraint/index.html" rel="next" class="astro-sjqzzol4"> <svg aria-hidden="true" class="astro-sjqzzol4 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg> <span class="astro-sjqzzol4"> Next <br class="astro-sjqzzol4"> <span class="link-title astro-sjqzzol4">&quot;No Orphans&quot; Constraint: Research Summary</span> </span> </a> </div>  </footer> </div> </div>  </main> </div> </div> </div> </div> </body></html>

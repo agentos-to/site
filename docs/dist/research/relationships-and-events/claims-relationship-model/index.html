@@ -1,0 +1,1051 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-wwc3bqpt"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Identity Verification Across Platforms: 2025-2026 Research | AgentOS Docs</title><link rel="canonical" href="https://agentos.to/research/relationships-and-events/claims-relationship-model/"/><link rel="sitemap" href="../../../sitemap-index.xml"/><script type="module">
+						import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+						// Starlight renders code fences through Expressive Code, which wraps
+						// content in .expressive-code > pre > code.language-mermaid and applies
+						// syntax-highlight styles. Unwrap those to plain <pre class="mermaid">text</pre>
+						// so mermaid can run on the raw source.
+						const render = () => {
+							const blocks = document.querySelectorAll('code.language-mermaid');
+							if (!blocks.length) return;
+							blocks.forEach((code) => {
+								const wrapper = code.closest('.expressive-code') || code.closest('pre');
+								if (!wrapper || wrapper.dataset.mermaidMounted === '1') return;
+								const pre = document.createElement('pre');
+								pre.className = 'mermaid';
+								pre.textContent = code.textContent;
+								wrapper.replaceWith(pre);
+								pre.dataset.mermaidMounted = '1';
+							});
+							const isDark = document.documentElement.dataset.theme !== 'light';
+							mermaid.initialize({
+								startOnLoad: false,
+								theme: isDark ? 'dark' : 'default',
+								securityLevel: 'loose',
+								themeVariables: isDark ? {
+									background: '#0b0b0f',
+									primaryColor: '#1a1a24',
+									primaryTextColor: '#e8e8ee',
+									primaryBorderColor: '#3d3d4d',
+									lineColor: '#8b8b98',
+									secondaryColor: '#141420',
+									tertiaryColor: '#101018',
+								} : {},
+							});
+							mermaid.run({ querySelector: 'pre.mermaid:not([data-processed])' });
+						};
+
+						if (document.readyState === 'loading') {
+							document.addEventListener('DOMContentLoaded', render);
+						} else {
+							render();
+						}
+
+						// Re-run on Astro view transitions
+						document.addEventListener('astro:after-swap', render);
+					</script><link rel="shortcut icon" href="../../../favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v6.1.5"/><meta name="generator" content="Starlight v0.38.3"/><meta property="og:title" content="Identity Verification Across Platforms: 2025-2026 Research"/><meta property="og:type" content="article"/><meta property="og:url" content="https://agentos.to/research/relationships-and-events/claims-relationship-model/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Research for the AgentOS `claims` relationship model — how Person entities link to Account entities with epistemic provenance."/><meta property="og:site_name" content="AgentOS Docs"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Research for the AgentOS `claims` relationship model — how Person entities link to Account entities with epistemic provenance."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="../../../_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="../../../_astro/common.D4duwXY4.css">
+<link rel="stylesheet" href="../../../_astro/Code.DQp0_qN-.css"><script type="module" src="../../../_astro/page.BIhdncjw.js"></script></head> <body class="astro-wwc3bqpt"> <a href="#_top" class="astro-3x7q7msw">Skip to content</a> <div class="page sl-flex astro-axwskc5k"> <header class="header astro-axwskc5k"><div class="header astro-3ef6ksr2"> <div class="title-wrapper sl-flex astro-3ef6ksr2"> <a href="../../../index.html" class="site-title sl-flex astro-c5jbctzu">  <span class="astro-c5jbctzu" translate="no"> AgentOS Docs </span> </a> </div> <nav class="topic-tabs astro-3ef6ksr2" aria-label="Sections"> <ul class="astro-3ef6ksr2"> <li class="astro-3ef6ksr2"> <a href="../../../introduction/what-is-agentos/index.html" class="astro-3ef6ksr2">Learn</a> </li><li class="astro-3ef6ksr2"> <a href="../../../introduction/how-we-build/index.html" class="astro-3ef6ksr2">Build</a> </li><li class="astro-3ef6ksr2"> <a href="../../../shapes/overview/index.html" class="astro-3ef6ksr2">Shapes</a> </li><li class="astro-3ef6ksr2"> <a href="../../../research/ontology/relationship-modeling/index.html" aria-current="page" class="astro-3ef6ksr2">Research</a> </li> </ul> </nav> <div class="sl-flex print:hidden search-wrap astro-3ef6ksr2"> <site-search class="astro-3ef6ksr2 astro-tijk2zt5" data-translations="{&#34;placeholder&#34;:&#34;Search&#34;}"> <button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-tijk2zt5"> <svg aria-hidden="true" class="astro-tijk2zt5 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg> <span class="sl-hidden md:sl-block astro-tijk2zt5" aria-hidden="true">Search</span> <kbd class="sl-hidden md:sl-flex astro-tijk2zt5" style="display: none;"> <kbd class="astro-tijk2zt5">Ctrl</kbd><kbd class="astro-tijk2zt5">K</kbd> </kbd> </button> <dialog style="padding:0" aria-label="Search" class="astro-tijk2zt5"> <div class="dialog-frame sl-flex astro-tijk2zt5">  <button data-close-modal class="sl-flex md:sl-hidden astro-tijk2zt5"> Cancel </button> <div class="search-container astro-tijk2zt5"> <div id="starlight__search" class="astro-tijk2zt5"></div> </div> </div> </dialog> </site-search>  <script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script> <script type="module" src="../../../_astro/Search.astro_astro_type_script_index_0_lang.Rw77DzG6.js"></script>  </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-3ef6ksr2"> <div class="sl-flex social-icons astro-3ef6ksr2">  </div> <script type="module">class s extends HTMLElement{constructor(){super();const t=typeof localStorage<"u"&&localStorage.getItem("starlight-theme")||(window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");document.documentElement.dataset.theme=t==="light"?"light":"dark",this.handleMouseDown=this.handleMouseDown.bind(this),this.updateMaskPosition(t)}connectedCallback(){this.addEventListener("click",this.handleMouseDown)}disconnectedCallback(){this.removeEventListener("click",this.handleMouseDown)}updateMaskPosition(e){const t=this.querySelector("#moon-mask circle:last-child");t&&t.setAttribute("cx",e==="dark"?"17":"24")}handleMouseDown(){const e=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=e,localStorage.setItem("starlight-theme",e),this.updateMaskPosition(e)}}customElements.define("theme-toggle",s);</script><theme-toggle class="astro-dwm5f72o"> <button type="button" class="astro-h5tvx5sw">  <svg aria-hidden="true" height="20" viewBox="0 0 24 24" width="20" class="astro-dwm5f72o"> <mask class="moon astro-dwm5f72o" id="moon-mask"> <rect x="0" y="0" width="100%" height="100%" fill="white" class="astro-dwm5f72o"></rect> <circle cx="24" cy="10" r="6" fill="black" class="astro-dwm5f72o"></circle> </mask> <circle class="sun astro-dwm5f72o" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor"></circle> <g class="sun-beams astro-dwm5f72o" stroke="currentColor"> <line x1="12" y1="1" x2="12" y2="3" class="astro-dwm5f72o"></line> <line x1="12" y1="21" x2="12" y2="23" class="astro-dwm5f72o"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" class="astro-dwm5f72o"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" class="astro-dwm5f72o"></line> <line x1="1" y1="12" x2="3" y2="12" class="astro-dwm5f72o"></line> <line x1="21" y1="12" x2="23" y2="12" class="astro-dwm5f72o"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" class="astro-dwm5f72o"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" class="astro-dwm5f72o"></line> </g> </svg>  </button>  </theme-toggle> <script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div> <div class="progress-scroll-container astro-mu7un3ux" aria-hidden="true"> <div id="progress-scroll" class="astro-mu7un3ux"></div> </div> <script type="module">window.addEventListener("scroll",function(){if(document){const e=document.getElementById("progress-scroll");if(e){var o=window.scrollY||document.documentElement.scrollTop,n=document.documentElement.scrollHeight-window.innerHeight,t=o/n*100;e.style.width=t+"%"}}});</script></header> <nav class="sidebar print:hidden astro-axwskc5k" aria-label="Main"> <starlight-menu-button class="print:hidden astro-4nzlrr7f"> <button aria-expanded="false" aria-label="Menu" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-4nzlrr7f"> <svg aria-hidden="true" class="open-menu astro-4nzlrr7f astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg> <svg aria-hidden="true" class="close-menu astro-4nzlrr7f astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg> </button> </starlight-menu-button> <script type="module">class s extends HTMLElement{constructor(){super(),this.btn=this.querySelector("button"),this.btn.addEventListener("click",()=>this.toggleExpanded());const t=this.closest("nav");t&&t.addEventListener("keyup",e=>this.closeOnEscape(e))}setExpanded(t){this.setAttribute("aria-expanded",String(t)),document.body.toggleAttribute("data-mobile-menu-expanded",t)}toggleExpanded(){this.setExpanded(this.getAttribute("aria-expanded")!=="true")}closeOnEscape(t){t.code==="Escape"&&(this.setExpanded(!1),this.btn.focus())}}customElements.define("starlight-menu-button",s);</script>  <div id="starlight__sidebar" class="sidebar-pane astro-axwskc5k"> <div class="sidebar-content sl-flex astro-axwskc5k"> <ul class="starlight-sidebar-topics astro-gu6alnkl"> <li class="astro-gu6alnkl"> <a href="../../../introduction/what-is-agentos/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.17 2.06A13.1 13.1 0 0 0 19 1.87a12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2 13.1 13.1 0 0 0-2.17.19 1 1 0 0 0-.83 1v12a1 1 0 0 0 1.17 1 10.9 10.9 0 0 1 8.25 1.91l.12.07h.11a.91.91 0 0 0 .7 0h.11l.12-.07A10.899 10.899 0 0 1 20.83 16 1 1 0 0 0 22 15V3a1 1 0 0 0-.83-.94ZM11 15.35a12.87 12.87 0 0 0-6-1.48H4v-10c.333-.02.667-.02 1 0a10.86 10.86 0 0 1 6 1.8v9.68Zm9-1.44h-1a12.87 12.87 0 0 0-6 1.48V5.67a10.86 10.86 0 0 1 6-1.8c.333-.02.667-.02 1 0v10.04Zm1.17 4.15a13.098 13.098 0 0 0-2.17-.19 12.94 12.94 0 0 0-7 2.05 12.94 12.94 0 0 0-7-2.05c-.727.003-1.453.066-2.17.19A1 1 0 0 0 2 19.21a1 1 0 0 0 1.17.79 10.9 10.9 0 0 1 8.25 1.91 1 1 0 0 0 1.16 0A10.9 10.9 0 0 1 20.83 20a1 1 0 0 0 1.17-.79 1 1 0 0 0-.83-1.15Z"/></svg> </div> <div class="astro-gu6alnkl"> Learn  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../introduction/how-we-build/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 22H5a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3h1a4 4 0 0 1 7.3-2.18c.448.64.692 1.4.7 2.18h3a1 1 0 0 1 1 1v3a4 4 0 0 1 2.18 7.3A3.86 3.86 0 0 1 18 18v3a1 1 0 0 1-1 1ZM5 8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11v-3.18a1 1 0 0 1 1.33-.95 1.77 1.77 0 0 0 1.74-.23 2 2 0 0 0 .93-1.37 2 2 0 0 0-.48-1.59 1.89 1.89 0 0 0-2.17-.55 1 1 0 0 1-1.33-.95V8h-3.2a1 1 0 0 1-1-1.33 1.77 1.77 0 0 0-.23-1.74 1.939 1.939 0 0 0-3-.43A2 2 0 0 0 8 6c.002.23.046.456.13.67A1 1 0 0 1 7.18 8H5Z"/></svg> </div> <div class="astro-gu6alnkl"> Build  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../shapes/overview/index.html" class="astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17.084 3.165L12.000 0.220L6.916 3.165L1.801 6.110L1.801 17.890L12.000 23.780L22.199 17.890L22.199 6.110L17.084 3.165ZM12.000 11.938L9.334 16.557L6.668 11.938L4.002 7.319L14.666 7.319L12.000 11.938Z"/></svg> </div> <div class="astro-gu6alnkl"> Shapes  </div> </a> </li><li class="astro-gu6alnkl"> <a href="../../../research/ontology/relationship-modeling/index.html" class="starlight-sidebar-topics-current astro-gu6alnkl"> <div class="starlight-sidebar-topics-icon astro-gu6alnkl"> <svg aria-hidden="true" class="astro-gu6alnkl astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M9 10h1a1 1 0 1 0 0-2H9a1 1 0 0 0 0 2Zm0 2a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2H9Zm11-3.06a1.3 1.3 0 0 0-.06-.27v-.09c-.05-.1-.11-.2-.19-.28l-6-6a1.07 1.07 0 0 0-.28-.19h-.09a.88.88 0 0 0-.33-.11H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8.94Zm-6-3.53L16.59 8H15a1 1 0 0 1-1-1V5.41ZM18 19a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5v3a3 3 0 0 0 3 3h3v9Zm-3-3H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2Z"/></svg> </div> <div class="astro-gu6alnkl"> Research  </div> </a> </li> </ul> <sl-sidebar-state-persist data-hash="10ohntw" class="astro-7su4sbaf"> <script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script>  <ul class="top-level astro-bctztgix"> <li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Ontology</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="0"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/ontology/genealogical-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Genealogical Relationships Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/google-structured-data/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Google Structured Data &amp; Knowledge Graph Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/no-orphans-constraint/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">&quot;No Orphans&quot; Constraint: Research Summary</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/ogp-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Open Graph Protocol: Relationship Modeling</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/open-graph-protocol/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Open Graph Protocol Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/outcome-entity/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">The Outcome Entity: A Universal Systems Primitive</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/relationship-modeling/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Relationship Modeling Patterns in Knowledge Graphs</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-entities/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Entity Schema</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-org-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Schema.org Relationship Modeling Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/ontology/schema-relationships/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Relationship Schema</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Platforms</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="1"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/platforms/facebook-graph/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Facebook Entity Graph Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/platforms/familysearch/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">FamilySearch Genealogical Data Model</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/platforms/google-takeout/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Google Takeout Entity Research</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Identity &amp; spaces</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="2"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/account-platform-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Account-Platform Relationship Ontology</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/digital-spaces-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Digital Spaces in Ontology Standards</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/platform-identity-standards/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Platform Identity and Normalization Standards</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/identity-and-spaces/platform-space-models/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">How Major Platforms Model Their Own Spaces</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Relationships &amp; events</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="3"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/causal-chains-entity-graphs/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Blog Ideas: Causal Chains, Development Frameworks, and Entity Graphs</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/claims-relationship-model/index.html" aria-current="page" class="astro-bctztgix"> <span class="astro-bctztgix">Identity Verification Across Platforms: 2025-2026 Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/event-vs-work-ontology/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Should &quot;Event&quot; Be a Subtype of &quot;Work&quot;? An Ontological Analysis</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/relationships-and-events/speech-acts-entity-primitives/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Speech Act Theory Maps to Entity Primitives</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Context &amp; ecosystem</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="4"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/context/ai-text-editing/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">AI Text &amp; Code Editing UX Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/markdown-ecosystem/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Markdown Ecosystem Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/pkm-community/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">PKM Community Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/context/semantic-file-systems/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Semantic File Systems Research</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">DX patterns</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="5"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/dx-patterns/sdk-dx-patterns/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">SDK &amp; Plugin Platform DX Patterns — Research</span>  </a> </li><li class="astro-bctztgix"> <a href="../../../research/dx-patterns/simplification-passes-accreted-cruft/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Simplification Passes &amp; Accreted Cruft — Cross-Domain Briefing</span>  </a> </li> </ul> </details> </li><li class="astro-bctztgix"> <details open class="astro-bctztgix"> <summary class="astro-bctztgix"> <span class="group-label astro-bctztgix"> <span class="large astro-bctztgix">Interfaces</span>  </span> <svg aria-hidden="true" class="caret astro-bctztgix astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="6"></sl-sidebar-restore> <ul class="astro-bctztgix"> <li class="astro-bctztgix"> <a href="../../../research/interfaces/overview/index.html" class="astro-bctztgix"> <span class="astro-bctztgix">Interfaces surface (research)</span>  </a> </li> </ul> </details> </li> </ul>  <script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script> </sl-sidebar-state-persist> <div class="md:sl-hidden"> <div class="mobile-preferences sl-flex astro-3e5tv76g"> <div class="social-icons astro-3e5tv76g">  </div> <theme-toggle class="astro-dwm5f72o"> <button type="button" class="astro-h5tvx5sw">  <svg aria-hidden="true" height="20" viewBox="0 0 24 24" width="20" class="astro-dwm5f72o"> <mask class="moon astro-dwm5f72o" id="moon-mask"> <rect x="0" y="0" width="100%" height="100%" fill="white" class="astro-dwm5f72o"></rect> <circle cx="24" cy="10" r="6" fill="black" class="astro-dwm5f72o"></circle> </mask> <circle class="sun astro-dwm5f72o" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor"></circle> <g class="sun-beams astro-dwm5f72o" stroke="currentColor"> <line x1="12" y1="1" x2="12" y2="3" class="astro-dwm5f72o"></line> <line x1="12" y1="21" x2="12" y2="23" class="astro-dwm5f72o"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" class="astro-dwm5f72o"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" class="astro-dwm5f72o"></line> <line x1="1" y1="12" x2="3" y2="12" class="astro-dwm5f72o"></line> <line x1="21" y1="12" x2="23" y2="12" class="astro-dwm5f72o"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" class="astro-dwm5f72o"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" class="astro-dwm5f72o"></line> </g> </svg>  </button>  </theme-toggle>  </div> </div> </div> </div> </nav> <div class="main-frame astro-axwskc5k">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-bqhhi3bs"> <aside class="right-sidebar-container print:hidden astro-bqhhi3bs"> <div class="right-sidebar astro-bqhhi3bs"> <div class="lg:sl-hidden astro-o32dv7js"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-4kdwwhqw"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-4kdwwhqw"><details id="starlight__mobile-toc" class="astro-4kdwwhqw"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-4kdwwhqw"><span class="toggle sl-flex astro-4kdwwhqw">On this page<svg aria-hidden="true" class="caret astro-4kdwwhqw astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-4kdwwhqw"></span></summary><div class="dropdown astro-4kdwwhqw"><ul class="isMobile astro-uwnltsxm" style="--depth: 0;"> <li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#_top" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#table-of-contents" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Table of Contents</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#1-taxonomy-of-verification-methods" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">1. Taxonomy of Verification Methods</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#2-grassroots--community-verification" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">2. Grassroots &amp; Community Verification</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#crypto-community-patterns" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Crypto Community Patterns</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#proof-of-personhood-systems" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Proof of Personhood Systems</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#patterns-that-emerged-organically" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Patterns That Emerged Organically</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#3-decentralized-identity-standards" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">3. Decentralized Identity Standards</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#w3c-did-decentralized-identifiers" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">W3C DID (Decentralized Identifiers)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#w3c-verifiable-credentials-vc-20" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">W3C Verifiable Credentials (VC 2.0)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#indieweb-rel-me" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">IndieWeb rel-me</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#keybase-proofs-model" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Keybase Proofs Model</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#keyoxide-modern-replacement" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Keyoxide (Modern Replacement)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#bluesky--at-protocol" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Bluesky / AT Protocol</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#farcaster" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Farcaster</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#ens-ethereum-name-service" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">ENS (Ethereum Name Service)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#lens-protocol" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Lens Protocol</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#4-platform-level-verification" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">4. Platform-Level Verification</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#signal-safety-numbers" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Signal Safety Numbers</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#matrix-emoji-verification-cross-signing" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Matrix Emoji Verification (Cross-Signing)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#platform-verification-badges" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Platform Verification Badges</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#oauthoidc" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">OAuth/OIDC</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#5-web-of-trust-models" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">5. Web of Trust Models</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#pgp-web-of-trust-what-worked-and-what-failed" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">PGP Web of Trust: What Worked and What Failed</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#modern-takes-keyoxide-and-keysopenpgporg" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Modern Takes: Keyoxide and keys.openpgp.org</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#social-vouching-patterns" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Social Vouching Patterns</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#trust-propagation-algorithms" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Trust Propagation Algorithms</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#6-ai-era-challenges" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">6. AI-Era Challenges</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#deepfake-detection-current-state" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Deepfake Detection: Current State</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#account-takeover-patterns" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Account Takeover Patterns</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#ai-generated-personas" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">AI-Generated Personas</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#content-provenance-c2pa" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Content Provenance (C2PA)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-defenses-are-ai-resistant" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What Defenses Are AI-Resistant?</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#7-practical-patterns-for-a-local-knowledge-graph" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">7. Practical Patterns for a Local Knowledge Graph</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-a-local-first-app-can-actually-verify" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What a Local-First App Can Actually Verify</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#strongest-signals-with-least-friction" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Strongest Signals with Least Friction</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#confidence-decay-model" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Confidence Decay Model</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-evidence-to-store" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What Evidence to Store</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#8-recommendations-for-the-claims-relationship" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">8. Recommendations for the Claims Relationship</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#design-decisions" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Design Decisions</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#proposed-claims-relationship-schema" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Proposed Claims Relationship Schema</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#key-standards-worth-adopting" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Key Standards Worth Adopting</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#interesting-patterns-we-might-not-have-thought-of" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Interesting Patterns We Might Not Have Thought Of</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#9-key-references" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">9. Key References</span> </a> <ul class="isMobile astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#standards-and-specifications" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Standards and Specifications</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#protocols-and-implementations" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Protocols and Implementations</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#proof-of-personhood" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Proof of Personhood</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#identity-systems" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Identity Systems</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#research" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Research</span> </a>  </li> </ul> </li> </ul></div></details></nav></mobile-starlight-toc><script type="module" src="../../../_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.hwBsy0Mo.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-o32dv7js"><div class="sl-container astro-o32dv7js"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-uwnltsxm" style="--depth: 0;"> <li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#_top" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#table-of-contents" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">Table of Contents</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#1-taxonomy-of-verification-methods" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">1. Taxonomy of Verification Methods</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#2-grassroots--community-verification" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">2. Grassroots &amp; Community Verification</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#crypto-community-patterns" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Crypto Community Patterns</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#proof-of-personhood-systems" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Proof of Personhood Systems</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#patterns-that-emerged-organically" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Patterns That Emerged Organically</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#3-decentralized-identity-standards" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">3. Decentralized Identity Standards</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#w3c-did-decentralized-identifiers" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">W3C DID (Decentralized Identifiers)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#w3c-verifiable-credentials-vc-20" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">W3C Verifiable Credentials (VC 2.0)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#indieweb-rel-me" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">IndieWeb rel-me</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#keybase-proofs-model" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Keybase Proofs Model</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#keyoxide-modern-replacement" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Keyoxide (Modern Replacement)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#bluesky--at-protocol" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Bluesky / AT Protocol</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#farcaster" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Farcaster</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#ens-ethereum-name-service" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">ENS (Ethereum Name Service)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#lens-protocol" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Lens Protocol</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#4-platform-level-verification" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">4. Platform-Level Verification</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#signal-safety-numbers" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Signal Safety Numbers</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#matrix-emoji-verification-cross-signing" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Matrix Emoji Verification (Cross-Signing)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#platform-verification-badges" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Platform Verification Badges</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#oauthoidc" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">OAuth/OIDC</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#5-web-of-trust-models" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">5. Web of Trust Models</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#pgp-web-of-trust-what-worked-and-what-failed" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">PGP Web of Trust: What Worked and What Failed</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#modern-takes-keyoxide-and-keysopenpgporg" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Modern Takes: Keyoxide and keys.openpgp.org</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#social-vouching-patterns" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Social Vouching Patterns</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#trust-propagation-algorithms" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Trust Propagation Algorithms</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#6-ai-era-challenges" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">6. AI-Era Challenges</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#deepfake-detection-current-state" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Deepfake Detection: Current State</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#account-takeover-patterns" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Account Takeover Patterns</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#ai-generated-personas" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">AI-Generated Personas</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#content-provenance-c2pa" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Content Provenance (C2PA)</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-defenses-are-ai-resistant" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What Defenses Are AI-Resistant?</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#7-practical-patterns-for-a-local-knowledge-graph" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">7. Practical Patterns for a Local Knowledge Graph</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-a-local-first-app-can-actually-verify" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What a Local-First App Can Actually Verify</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#strongest-signals-with-least-friction" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Strongest Signals with Least Friction</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#confidence-decay-model" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Confidence Decay Model</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#what-evidence-to-store" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">What Evidence to Store</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#8-recommendations-for-the-claims-relationship" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">8. Recommendations for the Claims Relationship</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#design-decisions" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Design Decisions</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#proposed-claims-relationship-schema" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Proposed Claims Relationship Schema</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#key-standards-worth-adopting" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Key Standards Worth Adopting</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#interesting-patterns-we-might-not-have-thought-of" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Interesting Patterns We Might Not Have Thought Of</span> </a>  </li> </ul> </li><li class="astro-uwnltsxm" style="--depth: 0;"> <a href="#9-key-references" class="astro-uwnltsxm" style="--depth: 0;"> <span class="astro-uwnltsxm" style="--depth: 0;">9. Key References</span> </a> <ul class="astro-uwnltsxm" style="--depth: 1;"> <li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#standards-and-specifications" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Standards and Specifications</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#protocols-and-implementations" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Protocols and Implementations</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#proof-of-personhood" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Proof of Personhood</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#identity-systems" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Identity Systems</span> </a>  </li><li class="astro-uwnltsxm" style="--depth: 1;"> <a href="#research" class="astro-uwnltsxm" style="--depth: 1;"> <span class="astro-uwnltsxm" style="--depth: 1;">Research</span> </a>  </li> </ul> </li> </ul></nav></starlight-toc><script type="module" src="../../../_astro/TableOfContents.astro_astro_type_script_index_0_lang.FuRcXuRY.js"></script></div></div> </div> </aside> <div class="main-pane astro-bqhhi3bs">  <main data-pagefind-body class="astro-wwc3bqpt" lang="en" dir="ltr">    <div class="content-panel astro-wjgruomq"> <div class="sl-container astro-wjgruomq"> <h1 id="_top" class="astro-wj2r53xi">Identity Verification Across Platforms: 2025-2026 Research</h1> </div> </div> <div class="content-panel astro-wjgruomq"> <div class="sl-container astro-wjgruomq"> <div class="sl-markdown-content"> <div class="sl-heading-wrapper level-h2"><h2 id="table-of-contents">Table of Contents</h2><a class="sl-anchor-link" href="#table-of-contents"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Table of Contents”</span></a></div>
+<ol>
+<li><a href="#1-taxonomy-of-verification-methods">Taxonomy of Verification Methods</a></li>
+<li><a href="#2-grassroots--community-verification">Grassroots &#x26; Community Verification</a></li>
+<li><a href="#3-decentralized-identity-standards">Decentralized Identity Standards</a></li>
+<li><a href="#4-platform-level-verification">Platform-Level Verification</a></li>
+<li><a href="#5-web-of-trust-models">Web of Trust Models</a></li>
+<li><a href="#6-ai-era-challenges">AI-Era Challenges</a></li>
+<li><a href="#7-practical-patterns-for-a-local-knowledge-graph">Practical Patterns for a Local Knowledge Graph</a></li>
+<li><a href="#8-recommendations-for-the-claims-relationship">Recommendations for the Claims Relationship</a></li>
+<li><a href="#9-key-references">Key References</a></li>
+</ol>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="1-taxonomy-of-verification-methods">1. Taxonomy of Verification Methods</h2><a class="sl-anchor-link" href="#1-taxonomy-of-verification-methods"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “1. Taxonomy of Verification Methods”</span></a></div>
+<p>Ranked by confidence level, highest to lowest. Each method produces different evidence and has different requirements.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Tier</th><th>Method</th><th>Confidence</th><th>Evidence Produced</th><th>Requires</th><th>Decay Rate</th></tr></thead><tbody><tr><td><strong>S</strong></td><td>Cryptographic key proof</td><td>0.95-0.99</td><td>Signed statement linking identities</td><td>Private key access</td><td>Low (key compromise)</td></tr><tr><td><strong>S</strong></td><td>Biometric + liveness (Worldcoin Orb)</td><td>0.95</td><td>Iris hash, zero-knowledge proof</td><td>Physical hardware</td><td>Very low</td></tr><tr><td><strong>A</strong></td><td>In-person verification</td><td>0.90-0.95</td><td>Witness attestation, key signing</td><td>Physical co-presence</td><td>Medium (people change)</td></tr><tr><td><strong>A</strong></td><td>Bidirectional link (rel-me)</td><td>0.85-0.90</td><td>Two URLs linking to each other</td><td>Write access to both platforms</td><td>Medium (links can break)</td></tr><tr><td><strong>A</strong></td><td>DNS TXT record proof (Bluesky, Keyoxide)</td><td>0.85-0.90</td><td>DNS record content</td><td>Domain control</td><td>Medium (domain can lapse)</td></tr><tr><td><strong>B</strong></td><td>OAuth/OIDC login</td><td>0.80-0.85</td><td>Access token, ID token with subject claim</td><td>Account session on provider</td><td>High (sessions expire)</td></tr><tr><td><strong>B</strong></td><td>Platform API confirmation</td><td>0.80-0.85</td><td>API response with account details</td><td>API access, auth</td><td>High (tokens expire)</td></tr><tr><td><strong>B</strong></td><td>Social graph verification (BrightID)</td><td>0.75-0.85</td><td>Connection graph, group membership</td><td>Real social connections</td><td>Medium</td></tr><tr><td><strong>B</strong></td><td>Platform badge (blue check, etc.)</td><td>0.70-0.80*</td><td>Badge status via API or scraping</td><td>Platform grants it</td><td>Medium (policies change)</td></tr><tr><td><strong>C</strong></td><td>Self-claimed (user told us)</td><td>0.65-0.75</td><td>User assertion + timestamp</td><td>User input</td><td>Low (unless revoked)</td></tr><tr><td><strong>C</strong></td><td>Bio/profile cross-reference</td><td>0.50-0.65</td><td>Link found in bio text</td><td>One-directional link</td><td>High (bios change)</td></tr><tr><td><strong>C</strong></td><td>Same handle heuristic</td><td>0.30-0.50</td><td>Username match</td><td>Nothing</td><td>Low (but low confidence)</td></tr><tr><td><strong>D</strong></td><td>AI extraction/inference</td><td>0.20-0.40</td><td>Model output, source text</td><td>NLP pipeline</td><td>High</td></tr><tr><td><strong>D</strong></td><td>Third-party assertion</td><td>0.15-0.35</td><td>Someone else’s claim</td><td>Another person’s credibility</td><td>Depends on asserter</td></tr></tbody></table>
+<p><em>Platform badges dropped in confidence since 2023 — Twitter/X blue checks are now purchasable ($8/mo) and no longer imply identity verification. Meta Verified requires government ID (higher confidence). YouTube verification requires 100K subscribers (social proof, not identity).</em></p>
+<p><strong>Key insight:</strong> No single method is conclusive. The strongest signal comes from <strong>combining multiple methods</strong> (Gitcoin Passport’s model). A self-claimed link + bidirectional rel-me + same handle across platforms = much higher combined confidence than any single method.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="2-grassroots--community-verification">2. Grassroots &#x26; Community Verification</h2><a class="sl-anchor-link" href="#2-grassroots--community-verification"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “2. Grassroots &#x26; Community Verification”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="crypto-community-patterns">Crypto Community Patterns</h3><a class="sl-anchor-link" href="#crypto-community-patterns"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Crypto Community Patterns”</span></a></div>
+<p><strong>Selfie verification on Telegram/Signal:</strong>
+Crypto communities use ad-hoc KYC in group chats. Common pattern: new member must post a selfie holding a handwritten note with the group name and date. Moderators visually confirm. Evidence: photo saved in chat history. Weakness: deepfakes are making this less reliable; works best in small high-trust groups where members know faces.</p>
+<p><strong>Telegram KYC bots:</strong>
+Automated bots (<code dir="auto">@IDCheckBot</code>, <code dir="auto">@PersonaKYCbot</code>) can require government ID + live selfie matching before granting group access. This is essentially centralized KYC outsourced to a bot service — higher confidence but requires trusting the bot operator with your ID.</p>
+<p><strong>Key signing parties (PGP tradition):</strong>
+In-person events where participants exchange PGP key fingerprints and verify government IDs. Each participant signs the others’ public keys, creating web-of-trust links. Still practiced in some FOSS communities. The format: exchange fingerprints on paper, verify ID in person, sign keys later at home. Evidence: cross-signatures on public keys.</p>
+<p><strong>What works:</strong> Small group, high-stakes contexts where members have existing social connections. Verification is a social ritual, not a technical protocol. The social pressure of “everyone in this group vouched for you” is itself a trust mechanism.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="proof-of-personhood-systems">Proof of Personhood Systems</h3><a class="sl-anchor-link" href="#proof-of-personhood-systems"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Proof of Personhood Systems”</span></a></div>
+<p><strong>Worldcoin / World ID:</strong></p>
+<ul>
+<li>Uses custom biometric hardware (the “Orb”) for iris scanning</li>
+<li>Creates a privacy-preserving proof via zero-knowledge proofs — you can prove you’re a unique human without revealing which human</li>
+<li>Verification levels: Orb (strong biometric), Orb+ (adds ongoing authentication), Secure Document</li>
+<li>~7M verified users as of late 2025</li>
+<li>Controversy: collecting biometric data, hardware centralization, privacy concerns</li>
+<li><strong>For our model:</strong> Worldcoin proof = very high confidence that an account is operated by a unique human, but doesn’t link to a specific known person. It’s proof of personhood, not proof of identity.</li>
+</ul>
+<p><strong>BrightID:</strong></p>
+<ul>
+<li>Social graph-based: you connect with people who know you, the graph structure reveals duplicates</li>
+<li>“Meets” verification: join a video call with a designated “Seed” host, show your face, respond to questions. ~73K people verified this way.</li>
+<li>Connection levels: “already known,” “just met,” “suspicious”</li>
+<li>Avoids biometrics entirely — relies on human recognition over AI</li>
+<li>Groups must have minimum 3 people; groups verify each other</li>
+<li><strong>For our model:</strong> BrightID verification = moderate-high confidence of unique personhood, evidence is the social graph itself + connection timestamps.</li>
+</ul>
+<p><strong>Gitcoin Passport:</strong></p>
+<ul>
+<li>Aggregator model: collect “stamps” from multiple verification providers</li>
+<li>Each stamp has a weight; combined score determines credibility</li>
+<li>Stamp sources include: BrightID, Proof of Humanity, ENS, GitHub activity, Google account, Facebook, Twitter, LinkedIn, Discord</li>
+<li>Threshold: score of 20+ out of 100 required for Gitcoin donation matching</li>
+<li><strong>For our model:</strong> This IS the pattern we should learn from. Multiple weak signals combined = strong composite signal. The scoring/weighting approach maps directly to confidence levels on claims.</li>
+</ul>
+<p><strong>Proof of Humanity (now Humanity Protocol):</strong></p>
+<ul>
+<li>Video submission + vouching from existing verified members</li>
+<li>Creates a Sybil-resistant registry of unique humans</li>
+<li>On-chain, uses Kleros for dispute resolution</li>
+<li><strong>For our model:</strong> Evidence is the video submission + voucher chain.</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="patterns-that-emerged-organically">Patterns That Emerged Organically</h3><a class="sl-anchor-link" href="#patterns-that-emerged-organically"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Patterns That Emerged Organically”</span></a></div>
+<ol>
+<li>
+<p><strong>Layered verification:</strong> Communities naturally develop tiers — new members get limited access, prove themselves over time through participation, eventually get vouched for full access. Time + activity + social vouching = graduated trust.</p>
+</li>
+<li>
+<p><strong>Reputation portability:</strong> Active GitHub profile → trust in developer communities. Stack Overflow karma → credibility. These aren’t formal verification — they’re social proof through sustained activity.</p>
+</li>
+<li>
+<p><strong>The “introduction” pattern:</strong> In high-trust groups (invite-only Discords, private Telegram groups), new members need an existing member to introduce them. The introducer’s reputation is at stake. This is the oldest verification mechanism: “I know this person.”</p>
+</li>
+</ol>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="3-decentralized-identity-standards">3. Decentralized Identity Standards</h2><a class="sl-anchor-link" href="#3-decentralized-identity-standards"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “3. Decentralized Identity Standards”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="w3c-did-decentralized-identifiers">W3C DID (Decentralized Identifiers)</h3><a class="sl-anchor-link" href="#w3c-did-decentralized-identifiers"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “W3C DID (Decentralized Identifiers)”</span></a></div>
+<p><strong>Status:</strong> DID v1.1 is in Working Draft (January 2026). DID v1.0 reached W3C Recommendation in 2022.</p>
+<p><strong>How it works:</strong></p>
+<ul>
+<li>A DID is a URI like <code dir="auto">did:web:example.com</code> or <code dir="auto">did:plc:abc123</code></li>
+<li>Resolves to a DID Document containing public keys, service endpoints, authentication methods</li>
+<li>The DID method (the part after <code dir="auto">did:</code>) determines how resolution works</li>
+<li>Multiple DID methods exist for different trust models</li>
+</ul>
+<p><strong>Key DID methods for our model:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Method</th><th>Resolution</th><th>Trust Model</th><th>Used By</th></tr></thead><tbody><tr><td><code dir="auto">did:web</code></td><td>HTTPS fetch of <code dir="auto">/.well-known/did.json</code></td><td>DNS/TLS (web PKI)</td><td>General purpose</td></tr><tr><td><code dir="auto">did:key</code></td><td>Self-contained in the identifier</td><td>Cryptographic (key IS the identity)</td><td>Ephemeral, local</td></tr><tr><td><code dir="auto">did:plc</code></td><td>Public Ledger of Credentials</td><td>Auditable operation log</td><td>Bluesky/AT Protocol</td></tr><tr><td><code dir="auto">did:pkh</code></td><td>Blockchain address</td><td>Blockchain consensus</td><td>Ethereum/crypto wallets</td></tr><tr><td><code dir="auto">did:ion</code></td><td>Bitcoin-anchored (Sidetree)</td><td>Bitcoin blockchain</td><td>Microsoft ION</td></tr></tbody></table>
+<p><strong>For our model:</strong> DIDs are the emerging standard for persistent, cryptographically verifiable identifiers. <code dir="auto">did:key</code> is interesting for local-first — the identifier IS the public key, no resolution infrastructure needed. We could generate <code dir="auto">did:key</code> identifiers for local person entities.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="w3c-verifiable-credentials-vc-20">W3C Verifiable Credentials (VC 2.0)</h3><a class="sl-anchor-link" href="#w3c-verifiable-credentials-vc-20"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “W3C Verifiable Credentials (VC 2.0)”</span></a></div>
+<p><strong>Status:</strong> Reached W3C Recommendation in May 2025 — this is now a full standard.</p>
+<p><strong>The three-party model:</strong></p>
+<div class="expressive-code"><link rel="stylesheet" href="../../../_astro/ec.3svgr.css"><script type="module" src="../../../_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">Issuer  ───issues───→  Credential  ───held by───→  Holder</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">                                                      </span></span><span style="--0:#f0f3f6;--1:#000000">│</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">                                                   </span></span><span style="--0:#f0f3f6;--1:#000000">presents</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">                                                      </span></span><span style="--0:#f0f3f6;--1:#000000">│</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">                                                      </span></span><span style="--0:#f0f3f6;--1:#000000">▼</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">                                                   </span></span><span style="--0:#f0f3f6;--1:#000000">Verifier</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Issuer  ───issues───→  Credential  ───held by───→  Holder                                                      │                                                   presents                                                      │                                                      ▼                                                   Verifier"><div></div></button></div></figure></div>
+<p><strong>Credential structure:</strong></p>
+<ul>
+<li><strong>Subject:</strong> Who the credential is about</li>
+<li><strong>Issuer:</strong> Who made the claim (with cryptographic signature)</li>
+<li><strong>Claims:</strong> The actual assertions (name, age, membership, etc.)</li>
+<li><strong>Evidence:</strong> How the issuer determined the claims are true</li>
+<li><strong>Validity period:</strong> When the credential expires</li>
+<li><strong>Status:</strong> Revocation information (Bitstring Status List v1.0)</li>
+<li><strong>Proof:</strong> Cryptographic signature (EdDSA, ECDSA, or JOSE/COSE)</li>
+</ul>
+<p><strong>Key features:</strong></p>
+<ul>
+<li>Selective disclosure — holder can present only some claims</li>
+<li>Zero-knowledge proofs — prove properties without revealing values (“I’m over 21” without revealing birthdate)</li>
+<li>Multiple encoding formats: JSON-LD, SD-JWT</li>
+<li>Crypto-agile: designed to accommodate post-quantum cryptography</li>
+</ul>
+<p><strong>For our model:</strong> The VC claim structure maps beautifully to our <code dir="auto">claims</code> relationship. A claim has an issuer (who asserted it), evidence (how they know), confidence (how sure), and a timestamp. We don’t need to implement the full VC stack, but the conceptual model is exactly right.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="indieweb-rel-me">IndieWeb rel-me</h3><a class="sl-anchor-link" href="#indieweb-rel-me"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “IndieWeb rel-me”</span></a></div>
+<p><strong>How it works:</strong></p>
+<ol>
+<li>Your website has <code dir="auto">&#x3C;a rel="me" href="https://twitter.com/yourname"></code></li>
+<li>Your Twitter profile links back to your website</li>
+<li>Any verifier can check both links exist → bidirectional proof of control</li>
+</ol>
+<p><strong>Real-world adoption:</strong></p>
+<ul>
+<li>Mastodon displays green checkmarks for verified rel-me links on profiles</li>
+<li>No central authority, no documents to submit, works for everyone</li>
+<li>Privacy-friendly: verification is public links, not private data</li>
+<li>Tools: Indiewebify.me, verify-me browser extension</li>
+</ul>
+<p><strong>Strengths:</strong> Dead simple, privacy-respecting, decentralized, already deployed at scale (Mastodon). <strong>Weaknesses:</strong> Only works for entities with web presence (websites, profiles with link fields). Doesn’t prove the person behind the keyboard — proves the same entity controls both pages.</p>
+<p><strong>For our model:</strong> rel-me checking is one of the best verification methods we can actually perform locally. Given a person’s website and their social profiles, we can check for bidirectional links. Evidence: the two URLs + timestamp of check. Confidence: 0.85-0.90.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="keybase-proofs-model">Keybase Proofs Model</h3><a class="sl-anchor-link" href="#keybase-proofs-model"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Keybase Proofs Model”</span></a></div>
+<p><strong>How it worked (the gold standard for cross-platform identity):</strong></p>
+<ol>
+<li>User has a Keybase account with a cryptographic key pair</li>
+<li>User “announces” their key on Twitter by posting a signed message</li>
+<li>User does the same on GitHub (signed gist), Reddit (signed post), their website (signed file), etc.</li>
+<li>Keybase client verifies: the message on each platform is (a) signed by the user’s key and (b) posted from the claimed account</li>
+<li>Result: cryptographically provable chain — Keybase ↔ Twitter ↔ GitHub ↔ Reddit ↔ website</li>
+</ol>
+<p><strong>The Proof Verification Language (PVL):</strong></p>
+<ul>
+<li>JSON-based DSL for describing how to validate proofs on each platform</li>
+<li>Server-updatable without client updates (critical for mobile)</li>
+<li>PVL instructions hashed into Merkle tree for auditability</li>
+<li>Handles platform format changes gracefully</li>
+</ul>
+<p><strong>Device evolution:</strong></p>
+<ul>
+<li>Originally single PGP key (fragile — moving keys between devices was painful)</li>
+<li>Evolved to per-device NaCl keys connected through a “sigchain” (chain of authority)</li>
+<li>New devices provisioned via peer-to-peer auth with existing devices</li>
+<li>Key lesson: multi-device key management is the hard UX problem</li>
+</ul>
+<p><strong>What happened after Zoom acquisition (2020):</strong></p>
+<ul>
+<li>Development effectively ceased</li>
+<li>Blog went silent</li>
+<li>Integrations broke (Mastodon removed Keybase support)</li>
+<li>Service still technically running but unmaintained</li>
+<li>No new platform proof types added</li>
+<li>Community trust eroded — single point of failure realized</li>
+</ul>
+<p><strong>Lessons for our model:</strong></p>
+<ol>
+<li>The proof model was brilliant — the implementation dying because it depended on one company is the lesson</li>
+<li>Store proofs locally, not on a central service</li>
+<li>The PVL concept (declarative proof verification rules) is worth adopting — rules for how to verify each platform’s proofs</li>
+<li>Per-device keys > single key</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="keyoxide-modern-replacement">Keyoxide (Modern Replacement)</h3><a class="sl-anchor-link" href="#keyoxide-modern-replacement"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Keyoxide (Modern Replacement)”</span></a></div>
+<p><strong>What it is:</strong> Fully decentralized Keybase replacement based on the Ariadne Identity Specification.</p>
+<p><strong>How it works:</strong></p>
+<ul>
+<li>Identity proofs embedded directly in OpenPGP keys as notations: <code dir="auto">proof@ariadne.id=https://twitter.com/username</code></li>
+<li>No central service required — proofs live in the key itself</li>
+<li>Verification: fetch the key, read the proof notations, check each proof URL</li>
+<li>Supports: Mastodon, Reddit, Bluesky, Twitter, GitHub, Telegram, DNS records, more</li>
+<li>Community-driven spec (Ariadne Ratification Committee)</li>
+</ul>
+<p><strong>For our model:</strong> Keyoxide’s approach — proofs embedded in keys, verification performed locally — is exactly the local-first pattern we need. No central server, no dependency on a service surviving.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="bluesky--at-protocol">Bluesky / AT Protocol</h3><a class="sl-anchor-link" href="#bluesky--at-protocol"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Bluesky / AT Protocol”</span></a></div>
+<p><strong>Identity model:</strong></p>
+<ul>
+<li>Every user has a DID (typically <code dir="auto">did:plc:...</code>) — the persistent identity</li>
+<li>Human-readable handles (<code dir="auto">@user.bsky.social</code> or <code dir="auto">@yourdomain.com</code>) are separate from DIDs</li>
+<li>Handle resolution via DNS TXT record (<code dir="auto">_atproto</code> record) or HTTPS well-known endpoint</li>
+<li>DID documents contain signing keys and service endpoints</li>
+<li><strong>Custom domain as verification:</strong> Using your own domain as your handle (e.g., <code dir="auto">@jay.bsky.team</code>) proves domain control — like rel-me but built into the protocol</li>
+</ul>
+<p><strong>Public Ledger of Credentials (PLC):</strong></p>
+<ul>
+<li>Operation log for each DID — all key rotations, handle changes, service endpoint updates</li>
+<li>Auditable history of identity changes</li>
+<li>Currently operated by Bluesky PBC (centralization concern), but protocol allows alternatives</li>
+</ul>
+<p><strong>For our model:</strong> The handle-as-domain-verification pattern is elegant. If someone’s Bluesky handle is their own domain, that’s strong evidence of domain control (confidence: 0.85-0.90). PLC operation logs show identity history — useful for understanding when an identity was established and how it’s changed.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="farcaster">Farcaster</h3><a class="sl-anchor-link" href="#farcaster"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Farcaster”</span></a></div>
+<p><strong>Identity model:</strong></p>
+<ul>
+<li>Numeric Farcaster ID (fid) assigned on-chain via IdGateway contract on Ethereum</li>
+<li>Human-readable usernames (Fnames) optional, associated with fids</li>
+<li>EdDSA key pairs for message signing</li>
+<li>Apps can request delegated signing keys</li>
+<li>Recovery address for key loss</li>
+</ul>
+<p><strong>Key design decisions:</strong></p>
+<ul>
+<li>Separating numeric ID from namespace prevents squatting/impersonation</li>
+<li>On-chain registration means identity creation has a cost (gas) — Sybil resistance through economics</li>
+<li>Key registry is a smart contract — transparent, auditable</li>
+</ul>
+<p><strong>For our model:</strong> Farcaster proof = high confidence (on-chain identity, economic cost to create). Evidence: Ethereum transaction hash, fid, associated keys. The separation of persistent ID (fid) from human-readable name is a good pattern.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="ens-ethereum-name-service">ENS (Ethereum Name Service)</h3><a class="sl-anchor-link" href="#ens-ethereum-name-service"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “ENS (Ethereum Name Service)”</span></a></div>
+<ul>
+<li><code dir="auto">.eth</code> names as decentralized identifiers (e.g., <code dir="auto">vitalik.eth</code>)</li>
+<li>Text records can store social links, avatars, email — essentially a decentralized profile</li>
+<li>Sign In With Ethereum (SIWE) for authentication</li>
+<li>ENSv2 coming with L2 support</li>
+<li><strong>For our model:</strong> ENS ownership = proof of Ethereum wallet control. If someone’s ENS resolves to social profiles, that’s a cross-reference. Confidence: 0.80-0.85 (depends on ENS record accuracy, which is self-asserted).</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="lens-protocol">Lens Protocol</h3><a class="sl-anchor-link" href="#lens-protocol"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Lens Protocol”</span></a></div>
+<ul>
+<li>Social identity as on-chain primitives (profiles, follows, posts)</li>
+<li>Username system under customizable namespaces</li>
+<li>Built on zkSync L2 — fast, cheap transactions</li>
+<li>Gasless/signless UX for mainstream adoption</li>
+<li><strong>For our model:</strong> Lens profile ownership = on-chain proof. Lower adoption than ENS/Farcaster, but same pattern.</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="4-platform-level-verification">4. Platform-Level Verification</h2><a class="sl-anchor-link" href="#4-platform-level-verification"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “4. Platform-Level Verification”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="signal-safety-numbers">Signal Safety Numbers</h3><a class="sl-anchor-link" href="#signal-safety-numbers"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Signal Safety Numbers”</span></a></div>
+<p><strong>How it works:</strong></p>
+<ul>
+<li>Each 1:1 chat has a unique “safety number” derived from both parties’ public keys</li>
+<li>Displayed as 12 groups of 5 digits (e.g., <code dir="auto">12345 67890 12345 ...</code>)</li>
+<li>Verification: scan QR code in person, or compare numbers verbally/visually</li>
+<li>If a key changes (new device, reinstall), the safety number changes and both parties are alerted</li>
+<li>Verified contacts show a checkmark</li>
+</ul>
+<p><strong>What it proves:</strong> That you’re communicating with the same cryptographic identity as before. NOT that the identity belongs to a specific person — that requires out-of-band verification (meeting in person, calling by phone).</p>
+<p><strong>For our model:</strong> Safety number verification between two people = high confidence that future messages come from the same device/key. Evidence: verified safety number + timestamp. But this proves continuity of identity, not initial identity binding.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="matrix-emoji-verification-cross-signing">Matrix Emoji Verification (Cross-Signing)</h3><a class="sl-anchor-link" href="#matrix-emoji-verification-cross-signing"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Matrix Emoji Verification (Cross-Signing)”</span></a></div>
+<p><strong>How it works:</strong></p>
+<ol>
+<li>Two devices initiate verification (either via in-room message or direct)</li>
+<li>Both devices display the same set of emojis (Short Authentication String)</li>
+<li>Users compare emojis out-of-band (in person, via call)</li>
+<li>If match → devices are cross-signed</li>
+<li>Once your devices are cross-signed, verifying a person once verifies all their devices</li>
+</ol>
+<p><strong>Key improvement over PGP:</strong> Verify the person once, not every device separately. Cross-signing creates a trust chain from your master key → your device keys → their master key → their device keys.</p>
+<p><strong>For our model:</strong> Emoji verification = high confidence (0.90+). Evidence: cross-signing record, timestamp, method. The cross-signing pattern (verify person, not device) is relevant for how we think about multi-account verification.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="platform-verification-badges">Platform Verification Badges</h3><a class="sl-anchor-link" href="#platform-verification-badges"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Platform Verification Badges”</span></a></div>
+<p><strong>Twitter/X (2025):</strong></p>
+<ul>
+<li>Blue check: $8-16/mo subscription. Account must be 30+ days old, have profile photo, active posting. Government ID optional in some regions.</li>
+<li>Gold check: $1,000/mo for organizations</li>
+<li>Gray check: Government officials</li>
+<li><strong>Confidence:</strong> Low (0.40-0.60) for blue checks — they prove willingness to pay, not identity. Higher for gold/gray.</li>
+</ul>
+<p><strong>Meta Verified:</strong></p>
+<ul>
+<li>Requires government-issued photo ID</li>
+<li>Available for Facebook and Instagram</li>
+<li>Monthly subscription ($12-15/mo)</li>
+<li><strong>Confidence:</strong> Moderate-high (0.75-0.85) — government ID verification is real, but the ID is verified by Meta, not by us.</li>
+</ul>
+<p><strong>YouTube Verification:</strong></p>
+<ul>
+<li>Requires 100K+ subscribers</li>
+<li>YouTube verifies the channel represents the real creator/brand</li>
+<li><strong>Confidence:</strong> Moderate (0.65-0.75) — proves the channel is notable and verified by YouTube, but social proof ≠ identity proof.</li>
+</ul>
+<p><strong>For our model:</strong> Platform badge status is a property of the Account entity (<code dir="auto">verified: boolean</code>), not evidence of the Person→Account claim. It’s useful context but shouldn’t be the primary confidence signal.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="oauthoidc">OAuth/OIDC</h3><a class="sl-anchor-link" href="#oauthoidc"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “OAuth/OIDC”</span></a></div>
+<p><strong>How it works for identity:</strong></p>
+<ol>
+<li>User clicks “Sign in with Google/GitHub/etc.”</li>
+<li>Redirected to provider, authenticates</li>
+<li>Provider returns an ID Token containing: subject identifier (sub), issuer, email, name, authentication time</li>
+<li>The ID Token cryptographically proves: “this person has an active session with this provider, and the provider identifies them as subject X”</li>
+</ol>
+<p><strong>OpenID Connect for Identity Assurance (eKYC):</strong></p>
+<ul>
+<li>Extension for high-assurance contexts</li>
+<li>Provider can include verification evidence in the token (e.g., “identity verified via government ID on 2025-03-15”)</li>
+<li>Assurance levels: self-asserted → email-verified → document-verified → biometric-verified</li>
+</ul>
+<p><strong>For our model:</strong> OAuth is powerful because it proves real-time account access without us storing credentials. If a person can OAuth with their GitHub account, we know they control that account <em>right now</em>. Evidence: ID token claims + timestamp. Confidence: 0.80-0.85. But it requires a server (redirect URL) — not ideal for local-first. However, we could store evidence of past OAuth verifications.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="5-web-of-trust-models">5. Web of Trust Models</h2><a class="sl-anchor-link" href="#5-web-of-trust-models"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “5. Web of Trust Models”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="pgp-web-of-trust-what-worked-and-what-failed">PGP Web of Trust: What Worked and What Failed</h3><a class="sl-anchor-link" href="#pgp-web-of-trust-what-worked-and-what-failed"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “PGP Web of Trust: What Worked and What Failed”</span></a></div>
+<p><strong>The model:</strong> Users sign each other’s public keys after in-person identity verification. Trust propagates: if I trust Alice and Alice signed Bob’s key, I can trust Bob’s key (at a configurable depth).</p>
+<p><strong>What worked:</strong></p>
+<ul>
+<li>Strong cryptographic foundation</li>
+<li>Decentralized — no certificate authority</li>
+<li>In-person key signing parties created genuine community trust</li>
+</ul>
+<p><strong>What failed:</strong></p>
+<ul>
+<li><strong>UX was terrible.</strong> Users had to understand public key cryptography, manage keyrings, make explicit trust decisions. Adoption never went mainstream.</li>
+<li><strong>The “ultimate responsibility” problem.</strong> Users must decide trust roots from scratch — most people can’t or won’t do this.</li>
+<li><strong>Key management.</strong> Keys get lost, compromised, or forgotten. Revocation is “imperfect, not fully understood, and not as widely implemented as it could be” (OpenPGP spec authors’ own assessment).</li>
+<li><strong>sks-keyservers.net shutdown (2021).</strong> The decentralized keyserver network collapsed — poisoned keys, spam, abuse.</li>
+<li><strong>No temporal dimension.</strong> A key signed in 2010 might belong to someone who’s changed names, died, or had their key compromised. Signatures didn’t expire by default.</li>
+<li><strong>Privacy.</strong> The web of trust is public — everyone can see who signed whose key, revealing social connections.</li>
+</ul>
+<p><strong>Lessons for our model:</strong></p>
+<ol>
+<li>Don’t make users think about cryptography. Ever. It should be invisible.</li>
+<li>Trust decisions must have temporal bounds — signatures should decay or require refresh.</li>
+<li>Privacy of the trust graph matters — who you vouch for reveals social connections.</li>
+<li>Key management must be transparent to the user (Keybase’s device-based model was the right direction).</li>
+<li>The social graph IS the trust infrastructure — the math just makes it verifiable.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="modern-takes-keyoxide-and-keysopenpgporg">Modern Takes: Keyoxide and keys.openpgp.org</h3><a class="sl-anchor-link" href="#modern-takes-keyoxide-and-keysopenpgporg"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Modern Takes: Keyoxide and keys.openpgp.org”</span></a></div>
+<p><strong>Keyoxide:</strong> Already covered above. The key innovation: proofs in the key itself, not in a central database.</p>
+<p><strong>keys.openpgp.org:</strong> Modern keyserver that only distributes keys after email verification. Addresses the spam/abuse problems of old keyservers. But centralized (single operator).</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="social-vouching-patterns">Social Vouching Patterns</h3><a class="sl-anchor-link" href="#social-vouching-patterns"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Social Vouching Patterns”</span></a></div>
+<p><strong>Coordinape (Web3 contributor circles):</strong></p>
+<ul>
+<li>Circle members vote to invite new contributors</li>
+<li>Vouches require ETH address and name</li>
+<li>Configurable threshold: 1 vouch to unanimous required</li>
+<li>Consequence: voucher’s reputation is at stake</li>
+</ul>
+<p><strong>Stamp Network:</strong></p>
+<ul>
+<li>Users verify each other through “stamps” (attestations)</li>
+<li>Stamps are revocable</li>
+<li>When you collect enough stamps, a “passport” is emitted based on community-defined thresholds</li>
+<li>Trust graph emerges from stamp relationships</li>
+</ul>
+<p><strong>Ethos Network:</strong></p>
+<ul>
+<li>On-chain reputation scores from reviews, vouches, and “slashes” (negative attestations)</li>
+<li>Invite-only with shared responsibility — your invitees’ behavior affects you</li>
+<li>XP rewards for honest, active participation</li>
+</ul>
+<p><strong>For our model:</strong> The vouching pattern maps to: Person A claims “Person B controls Account X” — a third-party assertion with the asserter’s identity as evidence. The interesting wrinkle is <strong>stake</strong>: if the voucher’s reputation is at risk, the assertion is more trustworthy.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="trust-propagation-algorithms">Trust Propagation Algorithms</h3><a class="sl-anchor-link" href="#trust-propagation-algorithms"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Trust Propagation Algorithms”</span></a></div>
+<p><strong>EigenTrust:</strong></p>
+<ul>
+<li>Peer-to-peer reputation algorithm</li>
+<li>Your reputation = weighted sum of others’ opinions of you, weighted by their reputation</li>
+<li>Converges to principal eigenvector of the trust matrix (same math as PageRank)</li>
+<li>Starts with “seed peers” (pre-trusted nodes) to bootstrap</li>
+<li><strong>Key insight:</strong> Trust is transitive but attenuated. You trust your friends’ opinions, but less than your own.</li>
+</ul>
+<p><strong>TrustGraph protocol:</strong></p>
+<ul>
+<li>Open protocol for decentralized reputation</li>
+<li>Agent-centric: each person has their own view of the trust graph</li>
+<li><strong>TrustAtom format:</strong>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">{</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">source: &#x3C;hash of rater's public key>,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">target: &#x3C;hash or URL of entity being rated>,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">value: &#x3C;numeric, 0 to 1>,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">content: &#x3C;description/tags>,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#f0f3f6;--1:#000000">  </span></span><span style="--0:#f0f3f6;--1:#000000">timestamp: &#x3C;datetime></span></div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  source: <hash of rater&#x27;s public key>,  target: <hash or URL of entity being rated>,  value: <numeric, 0 to 1>,  content: <description/tags>,  timestamp: <datetime>}"><div></div></button></div></figure></div>
+</li>
+<li>Trust cascades: trusting someone incorporates their TrustGraph into your view</li>
+<li>Built on Holochain (peer-to-peer, agent-centric framework)</li>
+</ul>
+<p><strong>For our model:</strong> The TrustAtom format is remarkably similar to what we need for claims. A claim is essentially: source (who asserts), target (what account), value (confidence), content (method/evidence), timestamp. The agent-centric view is exactly right for local-first — YOUR trust graph, on YOUR machine.</p>
+<p><strong>KGTrust (Knowledge-Enhanced):</strong></p>
+<ul>
+<li>Combines knowledge graphs with graph neural networks</li>
+<li>Uses semantic knowledge from behavior + external data</li>
+<li>Captures heterogeneous trust relationships</li>
+<li><strong>For our model:</strong> Long-term, we could compute trust scores from graph structure (how many independent paths confirm a person-account link?).</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="6-ai-era-challenges">6. AI-Era Challenges</h2><a class="sl-anchor-link" href="#6-ai-era-challenges"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “6. AI-Era Challenges”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="deepfake-detection-current-state">Deepfake Detection: Current State</h3><a class="sl-anchor-link" href="#deepfake-detection-current-state"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Deepfake Detection: Current State”</span></a></div>
+<p><strong>The uncomfortable reality (2025):</strong></p>
+<ul>
+<li>Fewer than half of tested deepfake detectors achieve AUC > 60%</li>
+<li>Basic image processing (JPEG compression) degrades detector performance significantly</li>
+<li>Detectors trained on lab datasets fail against real-world deepfakes</li>
+<li>Adversarial perturbations can defeat most detectors</li>
+<li><strong>Bottom line:</strong> Deepfake detection is not reliable enough to be a verification method. It’s a cat-and-mouse game where the cats are winning.</li>
+</ul>
+<p><strong>Implications for identity:</strong></p>
+<ul>
+<li>Video/selfie verification is becoming less trustworthy</li>
+<li>“Proof of life” (live video challenges) still works but for how long?</li>
+<li>BrightID’s decision to use human recognition over AI recognition is looking prescient</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="account-takeover-patterns">Account Takeover Patterns</h3><a class="sl-anchor-link" href="#account-takeover-patterns"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Account Takeover Patterns”</span></a></div>
+<p><strong>Scale of the problem (2025):</strong></p>
+<ul>
+<li>83% of organizations experienced at least one ATO incident</li>
+<li>$17 billion in projected losses</li>
+<li>Primary vectors: credential stuffing, phishing, infostealer malware</li>
+</ul>
+<p><strong>Detection signals (relevant for our confidence model):</strong></p>
+<ul>
+<li>New/unfamiliar device login</li>
+<li>Impossible travel (login from two distant locations within impossible timeframe)</li>
+<li>Behavioral changes (typing patterns, navigation, access times)</li>
+<li>Sudden changes to security settings (email, phone, 2FA)</li>
+<li>Multiple failed login attempts followed by success</li>
+</ul>
+<p><strong>For our model:</strong> Account takeover means a previously valid person→account claim may no longer be true. This is why <strong>temporal confidence decay</strong> matters. Evidence of ATO (public suspension, security incident reports) should reduce confidence.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="ai-generated-personas">AI-Generated Personas</h3><a class="sl-anchor-link" href="#ai-generated-personas"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “AI-Generated Personas”</span></a></div>
+<p><strong>Current prevalence:</strong></p>
+<ul>
+<li>~0.02-0.04% of active Twitter/X accounts use GAN-generated profile photos (~10K daily active synthetic accounts)</li>
+<li>Used for: scams, spam, coordinated manipulation, astroturfing</li>
+<li>Detection: GAN-generated faces have consistent eye placement patterns (detectable), but newer generators may not</li>
+</ul>
+<p><strong>The deeper problem:</strong></p>
+<ul>
+<li>AI can generate consistent personas across platforms — matching bios, posting history, interaction patterns</li>
+<li>LLMs can maintain conversational consistency that passes casual inspection</li>
+<li>The cost of creating convincing fake identities is dropping exponentially</li>
+<li>Traditional heuristics (account age, post frequency, follower ratios) are being gamed</li>
+</ul>
+<p><strong>For our model:</strong> This reinforces that <strong>behavioral signals alone are insufficient</strong>. Cryptographic proofs (key-based), social graph structure (BrightID-style), and bidirectional verification (rel-me) are more AI-resistant than behavioral heuristics.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="content-provenance-c2pa">Content Provenance (C2PA)</h3><a class="sl-anchor-link" href="#content-provenance-c2pa"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Content Provenance (C2PA)”</span></a></div>
+<p><strong>What it is:</strong> Open standard for cryptographically signing content with metadata about its creation and editing history. “Nutrition labels for digital media.”</p>
+<p><strong>How it works:</strong></p>
+<ul>
+<li>Content Credentials are cryptographically bound to media files (images, video, audio, documents)</li>
+<li>Record: who created it, what tools were used, what edits were made, whether AI was involved</li>
+<li>Use X.509 certificates, CBOR, JUMBF for tamper-evident signatures</li>
+<li>Backed by Adobe, BBC, Google, Meta, Microsoft, OpenAI, Sony</li>
+<li>Spec version 2.3 current</li>
+</ul>
+<p><strong>For our model:</strong> C2PA is relevant for verifying evidence attached to claims. If someone submits a screenshot as proof of account ownership, C2PA credentials on the screenshot could verify it wasn’t fabricated. Long-term play, but worth tracking.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="what-defenses-are-ai-resistant">What Defenses Are AI-Resistant?</h3><a class="sl-anchor-link" href="#what-defenses-are-ai-resistant"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “What Defenses Are AI-Resistant?”</span></a></div>
+<p>Ranked by resistance to AI-powered attacks:</p>
+<ol>
+<li><strong>Cryptographic proofs</strong> — AI can’t forge private keys. Still the gold standard.</li>
+<li><strong>Bidirectional verification</strong> — Requires write access to two independent systems simultaneously. Hard to fake at scale.</li>
+<li><strong>Social graph structure</strong> — Creating a convincing social graph with real, verified humans vouching for you requires real social connections.</li>
+<li><strong>Economic cost</strong> — On-chain identity (Farcaster, ENS) costs real money. Raises the cost of Sybil attacks.</li>
+<li><strong>Temporal consistency</strong> — Maintaining a consistent identity over years with real activity is expensive for attackers.</li>
+<li><strong>Behavioral biometrics</strong> — Typing patterns, navigation habits. Being actively researched but not yet reliable.</li>
+<li><strong>Visual/audio verification</strong> — Rapidly losing effectiveness against deepfakes.</li>
+</ol>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="7-practical-patterns-for-a-local-knowledge-graph">7. Practical Patterns for a Local Knowledge Graph</h2><a class="sl-anchor-link" href="#7-practical-patterns-for-a-local-knowledge-graph"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “7. Practical Patterns for a Local Knowledge Graph”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="what-a-local-first-app-can-actually-verify">What a Local-First App Can Actually Verify</h3><a class="sl-anchor-link" href="#what-a-local-first-app-can-actually-verify"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “What a Local-First App Can Actually Verify”</span></a></div>
+<p><strong>Can do locally (no server needed):</strong></p>
+<ul>
+<li>Check rel-me bidirectional links (HTTP fetch both URLs, check for <code dir="auto">rel="me"</code>)</li>
+<li>Verify DNS TXT records (DNS lookup)</li>
+<li>Verify Keyoxide/Ariadne proofs (fetch OpenPGP key, check notations, verify proof URLs)</li>
+<li>Check if social profile bios mention each other (HTTP fetch + text search)</li>
+<li>Compare handles across platforms (string matching)</li>
+<li>Verify cryptographic signatures on locally-stored proofs</li>
+<li>Check C2PA content credentials on media files</li>
+<li>Resolve Bluesky DIDs (fetch from plc.directory)</li>
+<li>Read ENS text records (Ethereum RPC call)</li>
+</ul>
+<p><strong>Can do with user interaction:</strong></p>
+<ul>
+<li>OAuth verification (needs user to authenticate, but we can store the evidence)</li>
+<li>Request user to post a verification message on a platform (“post this code to your Twitter”)</li>
+<li>QR code exchange for in-person verification</li>
+<li>Safety number comparison (Signal, Matrix)</li>
+</ul>
+<p><strong>Cannot do locally:</strong></p>
+<ul>
+<li>Biometric verification (needs hardware like Worldcoin Orb)</li>
+<li>Platform API calls requiring platform-specific OAuth tokens (but we CAN store results from adapters that do have access)</li>
+<li>Real-time account status checking without API access</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="strongest-signals-with-least-friction">Strongest Signals with Least Friction</h3><a class="sl-anchor-link" href="#strongest-signals-with-least-friction"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Strongest Signals with Least Friction”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Method</th><th>Friction</th><th>Confidence</th><th>Local-First?</th></tr></thead><tbody><tr><td>Same handle check</td><td>None (automated)</td><td>0.30-0.50</td><td>Yes</td></tr><tr><td>Bio cross-reference</td><td>None (automated)</td><td>0.50-0.65</td><td>Yes</td></tr><tr><td>rel-me check</td><td>None (automated, if links exist)</td><td>0.85-0.90</td><td>Yes</td></tr><tr><td>DNS proof check</td><td>None (automated)</td><td>0.85-0.90</td><td>Yes</td></tr><tr><td>Self-claimed by user</td><td>Low (user types it)</td><td>0.65-0.75</td><td>Yes</td></tr><tr><td>OAuth proof</td><td>Medium (redirect flow)</td><td>0.80-0.85</td><td>Partial</td></tr><tr><td>Post verification code</td><td>Medium (user posts publicly)</td><td>0.85-0.90</td><td>Yes (verification is)</td></tr><tr><td>In-person QR exchange</td><td>High (physical meeting)</td><td>0.90-0.95</td><td>Yes</td></tr></tbody></table>
+<p><strong>Recommendation:</strong> Start with automated checks (rel-me, bio, same handle), layer user-initiated verification on top. The Gitcoin Passport model of combining multiple stamps is the right UX — “you’ve verified 3 of 7 possible methods, confidence: 0.82.”</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="confidence-decay-model">Confidence Decay Model</h3><a class="sl-anchor-link" href="#confidence-decay-model"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Confidence Decay Model”</span></a></div>
+<p>Verification freshness matters. A rel-me link verified today is more trustworthy than one verified two years ago (links break, accounts get hacked, domains lapse).</p>
+<p><strong>Proposed decay function:</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">effective_confidence = base_confidence × decay_factor(age)</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#f0f3f6;--1:#000000">where decay_factor(age) = max(min_floor, e^(-λ × age_in_days))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="effective_confidence = base_confidence × decay_factor(age)where decay_factor(age) = max(min_floor, e^(-λ × age_in_days))"><div></div></button></div></figure></div>
+<p><strong>Suggested parameters by method:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Method</th><th>λ (decay rate)</th><th>Min Floor</th><th>Half-Life</th><th>Rationale</th></tr></thead><tbody><tr><td>Cryptographic proof</td><td>0.0001</td><td>0.70</td><td>~19 years</td><td>Keys rarely compromised if well-managed</td></tr><tr><td>In-person verification</td><td>0.0003</td><td>0.50</td><td>~6 years</td><td>People don’t change that fast</td></tr><tr><td>rel-me / DNS proof</td><td>0.001</td><td>0.40</td><td>~2 years</td><td>Links break, domains lapse</td></tr><tr><td>OAuth proof</td><td>0.005</td><td>0.30</td><td>~5 months</td><td>Sessions and tokens expire</td></tr><tr><td>Bio cross-reference</td><td>0.003</td><td>0.20</td><td>~8 months</td><td>Bios change frequently</td></tr><tr><td>Same handle heuristic</td><td>0.0005</td><td>0.20</td><td>~4 years</td><td>Handles are fairly stable</td></tr><tr><td>Self-claimed</td><td>0.0002</td><td>0.50</td><td>~10 years</td><td>User’s own assertion, stable unless revoked</td></tr><tr><td>AI inference</td><td>0.01</td><td>0.10</td><td>~2 months</td><td>Models improve, context changes</td></tr></tbody></table>
+<p><strong>Re-verification triggers (reset decay):</strong></p>
+<ul>
+<li>User explicitly re-confirms a claim</li>
+<li>Automated check re-verifies (e.g., rel-me still valid)</li>
+<li>New evidence for the same claim arrives from a different source</li>
+</ul>
+<p><strong>Confidence collapse triggers (immediate drop):</strong></p>
+<ul>
+<li>Account reported as compromised/hacked</li>
+<li>Account suspended or deleted by platform</li>
+<li>Contradictory evidence (someone else claims the same account with higher confidence)</li>
+<li>User explicitly revokes a claim</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="what-evidence-to-store">What Evidence to Store</h3><a class="sl-anchor-link" href="#what-evidence-to-store"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “What Evidence to Store”</span></a></div>
+<p>For each claim (Person → claims → Account), store:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="yaml"><code><div class="ec-line"><div class="code"><span style="--0:#72F088;--1:#800000">claim</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BDC4CC;--1:#007A00"># The assertion itself</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">person_id</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"person:joe"</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">account_id</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"account:twitter:jcontini"</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BDC4CC;--1:#007A00"># Confidence</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">confidence</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#91CBFF;--1:#08774E">0.87</span><span style="--0:#F0F3F6;--1:#000000">          </span><span style="--0:#BDC4CC;--1:#007A00"># Computed from method + age + corroboration</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">base_confidence</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#91CBFF;--1:#08774E">0.90</span><span style="--0:#F0F3F6;--1:#000000">     </span><span style="--0:#BDC4CC;--1:#007A00"># Confidence at time of verification</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BDC4CC;--1:#007A00"># Method and evidence</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">method</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"rel_me"</span><span style="--0:#F0F3F6;--1:#000000">           </span><span style="--0:#BDC4CC;--1:#007A00"># How this was verified</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">evidence</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">- </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"bidirectional_link"</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#800000">source_url</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://joe.com"</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#800000">target_url</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"https://twitter.com/jcontini"</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#800000">source_contains_target</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#91CBFF;--1:#0000FF">true</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#800000">target_contains_source</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#91CBFF;--1:#0000FF">true</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#800000">checked_at</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"2026-02-09T14:30:00Z"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">- </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"same_handle"</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#800000">platforms</span><span style="--0:#F0F3F6;--1:#000000">: [</span><span style="--0:#ADDCFF;--1:#A31515">"twitter"</span><span style="--0:#F0F3F6;--1:#000000">, </span><span style="--0:#ADDCFF;--1:#A31515">"github"</span><span style="--0:#F0F3F6;--1:#000000">, </span><span style="--0:#ADDCFF;--1:#A31515">"mastodon"</span><span style="--0:#F0F3F6;--1:#000000">]</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#800000">handle</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"jcontini"</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#800000">checked_at</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"2026-02-09T14:30:00Z"</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BDC4CC;--1:#007A00"># Provenance</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">asserted_by</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"self"</span><span style="--0:#F0F3F6;--1:#000000">        </span><span style="--0:#BDC4CC;--1:#007A00"># Who made this claim (self, system, person:alice)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">asserted_at</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"2026-02-09T14:30:00Z"</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">verified_at</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"2026-02-09T14:30:00Z"</span><span style="--0:#F0F3F6;--1:#000000">  </span><span style="--0:#BDC4CC;--1:#007A00"># Last verification time</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BDC4CC;--1:#007A00"># For decay calculation</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">verification_count</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#91CBFF;--1:#08774E">3</span><span style="--0:#F0F3F6;--1:#000000">      </span><span style="--0:#BDC4CC;--1:#007A00"># How many times independently verified</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">last_checked</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"2026-02-09T14:30:00Z"</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BDC4CC;--1:#007A00"># Corroboration (other evidence pointing the same way)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">corroborating_claims</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">- </span><span style="--0:#72F088;--1:#800000">method</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"same_handle"</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#800000">confidence</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#91CBFF;--1:#08774E">0.45</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#F0F3F6;--1:#000000">    </span></span><span style="--0:#F0F3F6;--1:#000000">- </span><span style="--0:#72F088;--1:#800000">method</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#A31515">"bio_extraction"</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#800000">confidence</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#91CBFF;--1:#08774E">0.55</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="claim:  # The assertion itself  person_id: &#x22;person:joe&#x22;  account_id: &#x22;account:twitter:jcontini&#x22;  # Confidence  confidence: 0.87          # Computed from method + age + corroboration  base_confidence: 0.90     # Confidence at time of verification  # Method and evidence  method: &#x22;rel_me&#x22;           # How this was verified  evidence:    - type: &#x22;bidirectional_link&#x22;      source_url: &#x22;https://joe.com&#x22;      target_url: &#x22;https://twitter.com/jcontini&#x22;      source_contains_target: true      target_contains_source: true      checked_at: &#x22;2026-02-09T14:30:00Z&#x22;    - type: &#x22;same_handle&#x22;      platforms: [&#x22;twitter&#x22;, &#x22;github&#x22;, &#x22;mastodon&#x22;]      handle: &#x22;jcontini&#x22;      checked_at: &#x22;2026-02-09T14:30:00Z&#x22;  # Provenance  asserted_by: &#x22;self&#x22;        # Who made this claim (self, system, person:alice)  asserted_at: &#x22;2026-02-09T14:30:00Z&#x22;  verified_at: &#x22;2026-02-09T14:30:00Z&#x22;  # Last verification time  # For decay calculation  verification_count: 3      # How many times independently verified  last_checked: &#x22;2026-02-09T14:30:00Z&#x22;  # Corroboration (other evidence pointing the same way)  corroborating_claims:    - method: &#x22;same_handle&#x22;      confidence: 0.45    - method: &#x22;bio_extraction&#x22;      confidence: 0.55"><div></div></button></div></figure></div>
+<p><strong>Types of evidence to capture:</strong></p>
+<ul>
+<li><strong>URL evidence:</strong> Source URL, target URL, content at time of check, HTTP headers</li>
+<li><strong>Cryptographic evidence:</strong> Signed messages, key fingerprints, signature timestamps</li>
+<li><strong>Screenshot evidence:</strong> Image + timestamp + C2PA credentials if available (note: screenshots are weak evidence due to easy fabrication)</li>
+<li><strong>Social graph evidence:</strong> Who vouched, their trust level, vouching timestamp</li>
+<li><strong>Behavioral evidence:</strong> Account age, posting frequency, follower count at time of check</li>
+<li><strong>Platform evidence:</strong> Verification badge status, API-confirmed account details</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="8-recommendations-for-the-claims-relationship">8. Recommendations for the Claims Relationship</h2><a class="sl-anchor-link" href="#8-recommendations-for-the-claims-relationship"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “8. Recommendations for the Claims Relationship”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="design-decisions">Design Decisions</h3><a class="sl-anchor-link" href="#design-decisions"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Design Decisions”</span></a></div>
+<p><strong>1. <code dir="auto">claims</code> should be a first-class relationship type (not a <code dir="auto">references</code> role).</strong></p>
+<p>The epistemic provenance (confidence, method, evidence, decay) is core to this relationship — it’s not metadata on a generic link. Every query about person↔account links will want to filter/sort by confidence. This is important enough to be its own type.</p>
+<p><strong>2. Support multiple evidence sources per claim.</strong></p>
+<p>A single person→account link might have evidence from rel-me, same handle, AND self-claim. These should stack, not replace each other. Combined confidence > any individual method.</p>
+<p><strong>3. Claims are event-sourced.</strong></p>
+<p>Each verification event is a timestamped record. Current confidence is computed from the full history. This gives you an audit trail and enables re-computation if decay parameters change.</p>
+<p><strong>4. Claims are directional: Person → claims → Account.</strong></p>
+<p>But also allow: Person A → asserts → (Person B → claims → Account X). Third-party assertions are weaker but still valuable data.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="proposed-claims-relationship-schema">Proposed Claims Relationship Schema</h3><a class="sl-anchor-link" href="#proposed-claims-relationship-schema"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Proposed Claims Relationship Schema”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="yaml"><code><div class="ec-line"><div class="code"><span style="--0:#72F088;--1:#800000">id</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">claims</span></div></div><div class="ec-line"><div class="code"><span style="--0:#72F088;--1:#800000">name</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">Claims</span></div></div><div class="ec-line"><div class="code"><span style="--0:#72F088;--1:#800000">inverse_name</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">Claimed by</span></div></div><div class="ec-line"><div class="code"><span style="--0:#72F088;--1:#800000">description</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">Assertion that a person controls or is associated with an account</span></div></div><div class="ec-line"><div class="code"><span style="--0:#72F088;--1:#800000">is_relationship</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#91CBFF;--1:#0000FF">true</span></div></div><div class="ec-line"><div class="code"><span style="--0:#72F088;--1:#800000">from_type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">person</span></div></div><div class="ec-line"><div class="code"><span style="--0:#72F088;--1:#800000">to_type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">account</span></div></div><div class="ec-line"><div class="code"><span style="--0:#72F088;--1:#800000">temporal_nature</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">snapshot</span><span style="--0:#F0F3F6;--1:#000000">  </span><span style="--0:#BDC4CC;--1:#007A00"># Event-sourced: multiple verifications over time</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#72F088;--1:#800000">properties</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BDC4CC;--1:#007A00"># Core confidence</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">confidence</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">number</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">min</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#91CBFF;--1:#08774E">0</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">max</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#91CBFF;--1:#08774E">1</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">description</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#FF9492;--1:#AC00D8">|</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">Current effective confidence in this claim, computed from:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">base_confidence × decay_factor × corroboration_boost</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">0.90-1.0  = Cryptographically proven or in-person verified</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">0.75-0.90 = Strong evidence (rel-me, OAuth, DNS proof)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">0.50-0.75 = Moderate evidence (self-claimed, bio reference)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">0.25-0.50 = Weak evidence (same handle, AI inference)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">0.00-0.25 = Speculative (third-party rumor, very old evidence)</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BDC4CC;--1:#007A00"># How we know</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">method</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">string</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">description</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#FF9492;--1:#AC00D8">|</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">Primary verification method. One of:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- cryptographic_proof: Signed statement linking identities</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- in_person: Verified face-to-face (key signing, QR exchange)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- rel_me: Bidirectional link verification</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- dns_proof: DNS TXT record verification</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- oauth: OAuth/OIDC authentication proof</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- platform_api: Confirmed via platform API</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- post_verification: User posted a verification code</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- social_graph: BrightID or similar social verification</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- self_claimed: User asserted this directly</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- bio_extraction: Found link in profile bio</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- same_handle: Same username across platforms</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- third_party: Someone else asserted this</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- inferred: System heuristic or AI extraction</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BDC4CC;--1:#007A00"># Provenance</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">asserted_by</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">string</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">description</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#FF9492;--1:#AC00D8">|</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">Who made this claim. One of:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- "self" (the person themselves)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- "system" (automated verification)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ADDCFF;--1:#0000FF">      </span></span><span style="--0:#ADDCFF;--1:#0000FF">- person:&#x3C;id> (a third party)</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BDC4CC;--1:#007A00"># Evidence (stored as JSON array for flexibility)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">evidence</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">array</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">description</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">Evidence supporting this claim</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">items</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">object</span></div></div><div class="ec-line"><div class="code"><span class="indent">      </span><span style="--0:#72F088;--1:#800000">properties</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">          </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">string</span></div></div><div class="ec-line"><div class="code"><span class="indent">          </span><span style="--0:#72F088;--1:#800000">description</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">Evidence type (url_check, signature, screenshot, voucher, api_response)</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#72F088;--1:#800000">data</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">          </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">object</span></div></div><div class="ec-line"><div class="code"><span class="indent">          </span><span style="--0:#72F088;--1:#800000">description</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">Type-specific evidence data</span></div></div><div class="ec-line"><div class="code"><span class="indent">        </span><span style="--0:#72F088;--1:#800000">captured_at</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">          </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">datetime</span></div></div><div class="ec-line"><div class="code"><span class="indent">          </span><span style="--0:#72F088;--1:#800000">description</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">When this evidence was captured</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#BDC4CC;--1:#007A00"># For re-verification</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">verified_at</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">datetime</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">description</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">When this claim was last verified</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#72F088;--1:#800000">verification_count</span><span style="--0:#F0F3F6;--1:#000000">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">type</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">integer</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#72F088;--1:#800000">description</span><span style="--0:#F0F3F6;--1:#000000">: </span><span style="--0:#ADDCFF;--1:#0000FF">How many times independently verified</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="id: claimsname: Claimsinverse_name: Claimed bydescription: Assertion that a person controls or is associated with an accountis_relationship: truefrom_type: personto_type: accounttemporal_nature: snapshot  # Event-sourced: multiple verifications over timeproperties:  # Core confidence  confidence:    type: number    min: 0    max: 1    description: |      Current effective confidence in this claim, computed from:      base_confidence × decay_factor × corroboration_boost      0.90-1.0  = Cryptographically proven or in-person verified      0.75-0.90 = Strong evidence (rel-me, OAuth, DNS proof)      0.50-0.75 = Moderate evidence (self-claimed, bio reference)      0.25-0.50 = Weak evidence (same handle, AI inference)      0.00-0.25 = Speculative (third-party rumor, very old evidence)  # How we know  method:    type: string    description: |      Primary verification method. One of:      - cryptographic_proof: Signed statement linking identities      - in_person: Verified face-to-face (key signing, QR exchange)      - rel_me: Bidirectional link verification      - dns_proof: DNS TXT record verification      - oauth: OAuth/OIDC authentication proof      - platform_api: Confirmed via platform API      - post_verification: User posted a verification code      - social_graph: BrightID or similar social verification      - self_claimed: User asserted this directly      - bio_extraction: Found link in profile bio      - same_handle: Same username across platforms      - third_party: Someone else asserted this      - inferred: System heuristic or AI extraction  # Provenance  asserted_by:    type: string    description: |      Who made this claim. One of:      - &#x22;self&#x22; (the person themselves)      - &#x22;system&#x22; (automated verification)      - person:<id> (a third party)  # Evidence (stored as JSON array for flexibility)  evidence:    type: array    description: Evidence supporting this claim    items:      type: object      properties:        type:          type: string          description: Evidence type (url_check, signature, screenshot, voucher, api_response)        data:          type: object          description: Type-specific evidence data        captured_at:          type: datetime          description: When this evidence was captured  # For re-verification  verified_at:    type: datetime    description: When this claim was last verified  verification_count:    type: integer    description: How many times independently verified"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="key-standards-worth-adopting">Key Standards Worth Adopting</h3><a class="sl-anchor-link" href="#key-standards-worth-adopting"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Key Standards Worth Adopting”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Standard</th><th>What to Take</th><th>How</th></tr></thead><tbody><tr><td><strong>W3C Verifiable Credentials</strong></td><td>Claim structure (issuer, subject, evidence, validity)</td><td>Inform our schema, not implement the full stack</td></tr><tr><td><strong>IndieWeb rel-me</strong></td><td>Bidirectional link verification</td><td>Implement as a verification method</td></tr><tr><td><strong>Ariadne/Keyoxide</strong></td><td>Proofs embedded in keys, local verification</td><td>Reference for how to store/check proofs</td></tr><tr><td><strong>Bluesky DID:PLC</strong></td><td>DID resolution, handle-as-domain</td><td>Resolve Bluesky identities natively</td></tr><tr><td><strong>TrustGraph TrustAtom</strong></td><td>Agent-centric trust, signed claims with value + content + timestamp</td><td>Our claims model IS this pattern</td></tr><tr><td><strong>Gitcoin Passport</strong></td><td>Multiple stamps composing into a score</td><td>UX model for showing combined confidence</td></tr><tr><td><strong>EigenTrust</strong></td><td>Trust propagation through graph</td><td>Long-term: compute trust from graph structure</td></tr><tr><td><strong>C2PA</strong></td><td>Content provenance on evidence media</td><td>Verify evidence authenticity</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="interesting-patterns-we-might-not-have-thought-of">Interesting Patterns We Might Not Have Thought Of</h3><a class="sl-anchor-link" href="#interesting-patterns-we-might-not-have-thought-of"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Interesting Patterns We Might Not Have Thought Of”</span></a></div>
+<p><strong>1. Negative claims (distrust signals).</strong>
+Not just “I believe person X controls account Y” but also “I believe person X does NOT control account Y.” Contradictory evidence is as valuable as confirming evidence. The TrustGraph model supports negative values (-1 to +1). Account takeover = negative claim against the old person→account link.</p>
+<p><strong>2. Claim inheritance through social graph.</strong>
+If I verify that Alice is @alice on Twitter, and Alice tells me Bob is @bob on GitHub, that’s a transitive claim with attenuated confidence. The graph should support this: claim confidence flows through trust links, decaying at each hop. (EigenTrust math applies here.)</p>
+<p><strong>3. Verification challenges (Keybase-style).</strong>
+Instead of just checking existing links, we could generate a unique challenge string and ask the user to post it on their claimed account. This is how Keybase proofs worked — post a signed message. Evidence: the challenge string + the platform post containing it. Higher confidence than passive checking.</p>
+<p><strong>4. “Proof of continued control” as a background process.</strong>
+Periodically re-check rel-me links, DNS records, bio mentions. If a previously verified link is gone, flag it (don’t delete the claim, but reduce confidence and mark as “unverifiable since [date]”).</p>
+<p><strong>5. The Mastodon pattern: domain-as-identity.</strong>
+If someone uses their own domain as their Mastodon handle or Bluesky handle, that domain IS their identity. Every account linked from that domain gets higher confidence automatically. This is the IndieWeb vision: your domain is your identity hub.</p>
+<p><strong>6. Collective identity resolution.</strong>
+Multiple adapters might independently discover the same person→account link (WhatsApp adapter sees phone number matching a contact, Reddit adapter sees same handle, YouTube adapter sees same display name). Each is weak evidence individually. The graph should automatically combine them.</p>
+<p><strong>7. Semantic types of “claims.”</strong>
+Not all person→account relationships are the same:</p>
+<ul>
+<li><strong>“controls”</strong> — this person has login access to this account (strongest)</li>
+<li><strong>“represents”</strong> — this account is a public identity of this person (brand/org accounts)</li>
+<li><strong>“operated_by”</strong> — multiple people operate this account (team accounts)</li>
+<li><strong>“formerly_controlled”</strong> — historical ownership (account sold, transferred)</li>
+</ul>
+<p>These could be roles on the claims relationship, similar to <code dir="auto">references</code> roles.</p>
+<p><strong>8. Privacy layers on claims.</strong>
+Some claims should be private (I know my friend’s Reddit handle but they don’t want it linked publicly). Local-first makes this easier — the claim lives on YOUR machine — but if we ever sync or share graphs, privacy levels matter.</p>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="9-key-references">9. Key References</h2><a class="sl-anchor-link" href="#9-key-references"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “9. Key References”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="standards-and-specifications">Standards and Specifications</h3><a class="sl-anchor-link" href="#standards-and-specifications"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Standards and Specifications”</span></a></div>
+<ul>
+<li><a href="https://www.w3.org/TR/vc-data-model/">W3C Verifiable Credentials 2.0</a> — Now a W3C Recommendation (May 2025)</li>
+<li><a href="https://w3.org/TR/did-1.1">W3C Decentralized Identifiers v1.1</a> — Working Draft (Jan 2026)</li>
+<li><a href="https://www.w3.org/blog/2025/w3c-digital-credentials-api-publication/">W3C Digital Credentials API</a> — Browser integration</li>
+<li><a href="https://ariadne.id/">Ariadne Identity Specification</a> — Decentralized identity proofs</li>
+<li><a href="https://c2pa.org/">C2PA Content Credentials</a> — Content provenance standard (v2.3)</li>
+<li><a href="https://indieweb.org/rel-me">IndieWeb rel-me</a> — Bidirectional link verification</li>
+<li><a href="https://docs.bsky.app/docs/advanced-guides/resolving-identities">AT Protocol Identity</a> — Bluesky identity resolution</li>
+<li><a href="https://openid.net/specs/openid-connect-core-1_0-final.html">OpenID Connect Core</a> — OAuth identity layer</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="protocols-and-implementations">Protocols and Implementations</h3><a class="sl-anchor-link" href="#protocols-and-implementations"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Protocols and Implementations”</span></a></div>
+<ul>
+<li><a href="https://docs.keyoxide.org/">Keyoxide</a> — Decentralized identity verification</li>
+<li><a href="https://github.com/keybase/proofs">Keybase Proofs</a> — Cross-platform proof system (archived)</li>
+<li><a href="https://keybase.io/docs/client/pvl_spec">Keybase Proof Verification Language</a> — Declarative proof validation</li>
+<li><a href="https://trustgraph.net/">TrustGraph</a> — Decentralized reputation protocol</li>
+<li><a href="https://docs.openrank.com/reputation-algorithms/eigentrust">EigenTrust (OpenRank)</a> — Trust propagation algorithm</li>
+<li><a href="https://docs.stamp.network/use-cases/web-of-trust-for-communities">Stamp Network Web of Trust</a> — Stamp-based verification</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="proof-of-personhood">Proof of Personhood</h3><a class="sl-anchor-link" href="#proof-of-personhood"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Proof of Personhood”</span></a></div>
+<ul>
+<li><a href="https://docs.worldcoin.org/world-id">Worldcoin/World ID</a> — Biometric proof of personhood</li>
+<li><a href="https://brightid.gitbook.io/brightid">BrightID</a> — Social graph verification</li>
+<li><a href="https://support.passport.xyz/passport-knowledge-base">Gitcoin Passport</a> — Multi-stamp identity scoring</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="identity-systems">Identity Systems</h3><a class="sl-anchor-link" href="#identity-systems"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Identity Systems”</span></a></div>
+<ul>
+<li><a href="https://github.com/farcasterxyz/protocol/blob/main/docs/OVERVIEW.md">Farcaster Protocol</a> — On-chain social identity</li>
+<li><a href="https://docs.ens.domains/">ENS Documentation</a> — Ethereum Name Service</li>
+<li><a href="https://joinmastodon.org/verification">Mastodon Verification</a> — rel-me in practice</li>
+<li><a href="https://getvouchsafe.org/">Vouchsafe</a> — Offline-first self-verifying identity</li>
+<li><a href="https://github.com/local-first-web/auth">local-first/auth</a> — Decentralized auth for local-first apps</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="research">Research</h3><a class="sl-anchor-link" href="#research"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Research”</span></a></div>
+<ul>
+<li><a href="https://arrow.tudublin.ie/cgi/viewcontent.cgi?article=1368&#x26;context=scschcomcon">Temporal Factors in Virtual Identity Trustworthiness</a></li>
+<li><a href="https://tsjournal.org/index.php/jots/article/download/197/83">AI-Generated Fake Social Media Profiles</a></li>
+<li><a href="https://sift.com/index-reports-account-takeover-fraud-q3-2025/">Account Takeover in the Era of Agentic AI (Sift Q3 2025)</a></li>
+<li><a href="https://soatok.blog/2024/11/15/what-to-use-instead-of-pgp/">PGP Web of Trust Failures</a></li>
+<li><a href="https://eyalkalderon.com/blog/moving-from-keybase-to-keyoxide/">Moving from Keybase to Keyoxide</a></li>
+</ul>
+<hr>
+<p><em>This research informs the <code dir="auto">claims</code> relationship design in AgentOS. The model is local-first, epistemic (confidence + evidence, not binary truth), and designed to compose multiple weak signals into strong identity assertions.</em></p> </div> <footer class="sl-flex astro-bmlnrcen"> <div class="meta sl-flex astro-bmlnrcen">   </div> <div class="pagination-links print:hidden astro-sjqzzol4" dir="ltr"> <a href="../../../research/relationships-and-events/causal-chains-entity-graphs/index.html" rel="prev" class="astro-sjqzzol4"> <svg aria-hidden="true" class="astro-sjqzzol4 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg> <span class="astro-sjqzzol4"> Previous <br class="astro-sjqzzol4"> <span class="link-title astro-sjqzzol4">Blog Ideas: Causal Chains, Development Frameworks, and Entity Graphs</span> </span> </a> <a href="../../../research/relationships-and-events/event-vs-work-ontology/index.html" rel="next" class="astro-sjqzzol4"> <svg aria-hidden="true" class="astro-sjqzzol4 astro-moefespv" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg> <span class="astro-sjqzzol4"> Next <br class="astro-sjqzzol4"> <span class="link-title astro-sjqzzol4">Should &quot;Event&quot; Be a Subtype of &quot;Work&quot;? An Ontological Analysis</span> </span> </a> </div>  </footer> </div> </div>  </main> </div> </div> </div> </div> </body></html>
