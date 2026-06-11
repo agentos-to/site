@@ -47,6 +47,7 @@ From [`list`](/shapes/reference/list/) · [`event`](/shapes/reference/event/):
 | Field | Type |
 |---|---|
 | `allDay` | `boolean` |
+| `arrangement` | `string` |
 | `currentUrl` | `string` |
 | `dateUpdated` | `datetime` |
 | `default_view` | `string` |

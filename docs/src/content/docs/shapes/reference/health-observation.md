@@ -67,6 +67,7 @@ From [`result`](/shapes/reference/result/) · [`event`](/shapes/reference/event/
 | `distinctId` | `string` |
 | `endDate` | `datetime` |
 | `externalUrl` | `url` |
+| `favicon` | `url` |
 | `icalUid` | `string` |
 | `indexedAt` | `datetime` |
 | `postId` | `string` |

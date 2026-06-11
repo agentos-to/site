@@ -21,6 +21,7 @@ and as a generic container when reading arbitrary URLs.
 | `visitCount` | `integer` |
 | `lastVisitUnix` | `integer` |
 | `contentType` | `string` |
+| `favicon` | `url` |
 | `error` | `string` |
 
 ## Prior art

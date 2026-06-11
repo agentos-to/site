@@ -54,6 +54,7 @@ Nothing in the engine branches on listType either; it is a render hint.
 | `isDefault` | `boolean` |
 | `isPublic` | `boolean` |
 | `itemCount` | `integer` |
+| `arrangement` | `string` |
 | `default_view` | `string` |
 | `icon_size` | `integer` |
 | `sort_by` | `string` |

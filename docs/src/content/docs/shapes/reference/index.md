@@ -117,6 +117,6 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`user`](/shapes/reference/user/) — also `actor` — An AgentOS user — the seat at this machine. Carries the user's
 - [`user_identity`](/shapes/reference/user_identity/) — An identity claim — "the engine-level user X identifies as person:Y
 - [`video`](/shapes/reference/video/) — also `creative_work`, `file` — A video file — the media artifact, not the social context around it
-- [`volume`](/shapes/reference/volume/) — A mounted Volume — a `.db` memex file the engine has attached to the
+- [`volume`](/shapes/reference/volume/) — A mounted Volume — any named source of typed nodes the engine has
 - [`webpage`](/shapes/reference/webpage/) — A web page. Base type for search result. Also used for browser history
 - [`website`](/shapes/reference/website/) — A published website (not a single page — see webpage for that)

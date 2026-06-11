@@ -1,18 +1,20 @@
 ---
 title: volume
-description: "A mounted Volume — a .db memex file the engine has attached to the"
+description: "A mounted Volume — any named source of typed nodes the engine has"
 sidebar:
   label: volume
 ---
 
-A mounted Volume — a `.db` memex file the engine has attached to the
-Registry. The home graph is the always-mounted writeable Volume; it
-is the hardcoded constant and is NOT represented by a `volume` node.
-Every OTHER mounted memex IS — one row per mount, persisted in home
-so the mount survives engine restart (`auto_mount: true`).
+A mounted Volume — any named source of typed nodes the engine has
+attached to the Registry: a `.db` memex file, a YAML text volume, or a
+transport volume served live by a skill (the host filesystem, a USB
+stick, a browser's data). The home graph is the always-mounted
+writeable Volume; it is the hardcoded constant. Every OTHER mount IS a
+`volume` node — one row per mount, persisted so the mount survives
+engine restart (`auto_mount: true`).
 
 Mount lifecycle is six steps; this shape captures the persisted state
-of step 5. See `core/_roadmap/p1/volumes/plan.md` "Mount lifecycle".
+of step 5. See `core/_roadmap/p2/realms-transports/plan.md`.
 
 | Metadata | Value |
 |---|---|
@@ -26,7 +28,12 @@ of step 5. See `core/_roadmap/p1/volumes/plan.md` "Mount lifecycle".
 | `volume_id` | `string` |
 | `kind` | `string` |
 | `address` | `string` |
+| `provider` | `string` |
 | `auto_mount` | `boolean` |
+| `readOnly` | `boolean` |
+| `removable` | `boolean` |
+| `totalBytes` | `integer` |
+| `freeBytes` | `integer` |
 | `scope` | `string` |
 | `icon` | `string` |
 | `default_view` | `string` |

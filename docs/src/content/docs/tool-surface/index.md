@@ -9,8 +9,9 @@ See [`_roadmap/p1/unified-surface/unified-surface.md`](https://github.com/agento
 
 ## Namespaces
 
-- [`data`](/tool-surface/data/) (11 ops) — Query and mutate graph entities
-- [`skills`](/tool-surface/skills/) (2 ops) — Skill introspection and direct dispatch
+- [`data`](/tool-surface/data/) (12 ops) — Query and mutate graph entities
+- [`skills`](/tool-surface/skills/) (6 ops) — Skill introspection and direct dispatch
 - [`system`](/tool-surface/system/) (4 ops) — Engine lifecycle
+- [`windows`](/tool-surface/windows/) (8 ops) — Query and drive the desktop shell's windows — by route and policy, not pixels
 - [`readme`](/tool-surface/readme/) (1 op) — Orient yourself
 - [`tools`](/tool-surface/tools/) *(empty)* — Dynamic capability providers contributed by installed skills

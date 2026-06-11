@@ -1,6 +1,6 @@
 """Auto-generated engine dispatch client — do not edit.
 
-Generated from 4 namespaces, 18 ops.
+Generated from 5 namespaces, 31 ops.
 Regenerate with: python3 docs/generate.py --docs
 
 Source of truth: crates/core/src/tools.rs REGISTRY (D11).
@@ -268,6 +268,18 @@ class _DataNamespace:
         """
         return self._call("data.restore", params)
 
+    def resolve(self, **params: Any) -> Any:
+        """Resolve an address (node/link id, or handle) to its target's identity — node_id, volume, shapes, listType, name, via — without reading content. The kernel resolver's public face: identity before acting.
+
+        Args:
+            address (string, required): Any address — a node/link id, or a handle. Resolved by the same kernel resolver every data op uses: literal id wins, then handle → bookmark → points_to target.
+
+        Examples:
+            resolve({ address: "desktop" })
+            resolve({ address: "abc123" })
+        """
+        return self._call("data.resolve", params)
+
     def export(self, **params: Any) -> Any:
         """Export a typed subgraph to a SQLite artifact. Writes _meta.schema_version pin for safe re-import.
 
@@ -363,7 +375,7 @@ class _SkillsNamespace:
         return self._call("skills.run", params)
 
     def load(self, **params: Any) -> Any:
-        """Load a skill manual (readme + tool list) before calling run.
+        """Load a skill manual (readme + tool list + per-connection auth state) before calling run.
 
         Args:
             skill (string, required): Skill id to load (readme + tool list).
@@ -372,6 +384,56 @@ class _SkillsNamespace:
             load({ skill: "exa" })
         """
         return self._call("skills.load", params)
+
+    def connect(self, **params: Any) -> Any:
+        """Store a credential for a skill connection (api-key connections). Encrypted vault row + account node; the secret never lands in the graph. Returns the skill's per-connection auth state.
+
+        Args:
+            skill (string, required): Skill id (e.g. "porkbun").
+            connection (string, optional): Connection name. Optional when the skill declares exactly one authenticated connection.
+            identifier (string, optional): Account identity at the service (email/handle), when known.
+            key (string, optional): The API key/secret. For multi-part keys, use the format the skill's manual states (e.g. porkbun: "apikey:secretapikey").
+            label (string, optional): Display label for the credential.
+            value (dict, optional): Alternative to key: explicit secret fields ({ field: secret, … }).
+
+        Examples:
+            connect({ skill: "firecrawl", key: "fc-..." })
+            connect({ skill: "porkbun", key: "pk1_...:sk1_..." })
+        """
+        return self._call("skills.connect", params)
+
+    def disable(self, **params: Any) -> Any:
+        """Switch a plugin off: it drops out of matchmaking, run, and readme()'s tool list. The graph node and any stored credentials stay; enable reverses it.
+
+        Args:
+            skill (string, required): Plugin (skill) id to switch off — it drops out of matchmaking, run, and readme until re-enabled.
+
+        Examples:
+            disable({ skill: "porkbun" })
+        """
+        return self._call("skills.disable", params)
+
+    def enable(self, **params: Any) -> Any:
+        """Switch a disabled plugin back on.
+
+        Args:
+            skill (string, required): Plugin (skill) id to switch back on.
+
+        Examples:
+            enable({ skill: "porkbun" })
+        """
+        return self._call("skills.enable", params)
+
+    def accounts(self, **params: Any) -> Any:
+        """Every account + every skill connection with auth kind, status, identifier, and freshness — the identity surface behind the skills.
+
+        Args:
+            view (dict, optional)
+
+        Examples:
+            accounts()
+        """
+        return self._call("skills.accounts", params)
 
 
 class _SystemNamespace:
@@ -420,6 +482,104 @@ class _SystemNamespace:
         return self._call("system.schema_diff", params)
 
 
+class _WindowsNamespace:
+    """Proxy for the `windows` namespace."""
+
+    def __init__(self, call):
+        self._call = call
+
+    def list(self, **params: Any) -> Any:
+        """Every open window: id, route, title, bounds, size policy, focused, minimized.
+
+        Examples:
+            list({})
+        """
+        return self._call("windows.list", params)
+
+    def read(self, **params: Any) -> Any:
+        """A window's content as a graph read — the window's route plus its hydrated subject node. No DOM scraping; views and apps have no subject (null).
+
+        Args:
+            id (string, required): Window id (from windows.list / windows.open).
+
+        Examples:
+            read({ id: "window-…" })
+        """
+        return self._call("windows.read", params)
+
+    def open(self, **params: Any) -> Any:
+        """Open a window at a route — the same spawn/dedup path a human launch takes. Returns the window id.
+
+        Args:
+            route (string, required): Shell route to open — `node/<id>`, `?list=<id>`, `?app=<id>`, or a view query. Same dedup as a human launch: an existing window at the route is focused, not duplicated.
+            bounds (dict, optional): Optional initial position/size. Omitted fields fall to saved position, then cascade.
+
+        Examples:
+            open({ route: "node/abc123" })
+            open({ route: "?app=display&tab=Background", bounds: { x: 200, y: 120 } })
+        """
+        return self._call("windows.open", params)
+
+    def close(self, **params: Any) -> Any:
+        """Close a window by id.
+
+        Args:
+            id (string, required): Window id (from windows.list / windows.open).
+
+        Examples:
+            close({ id: "window-…" })
+        """
+        return self._call("windows.close", params)
+
+    def focus(self, **params: Any) -> Any:
+        """Bring a window to the front (restores if minimized).
+
+        Args:
+            id (string, required): Window id (from windows.list / windows.open).
+
+        Examples:
+            focus({ id: "window-…" })
+        """
+        return self._call("windows.focus", params)
+
+    def move(self, **params: Any) -> Any:
+        """Move a window to (x, y).
+
+        Args:
+            id (string, required): Window id.
+            x (float, required)
+            y (float, required)
+
+        Examples:
+            move({ id: "window-…", x: 300, y: 160 })
+        """
+        return self._call("windows.move", params)
+
+    def resize(self, **params: Any) -> Any:
+        """Resize a free-sized window. Fit windows refuse — their size derives from content (policy is law).
+
+        Args:
+            height (float, required)
+            id (string, required): Window id. Free-sized windows only — a fit window's size derives from its content and the shell refuses to override it.
+            width (float, required)
+
+        Examples:
+            resize({ id: "window-…", width: 900, height: 640 })
+        """
+        return self._call("windows.resize", params)
+
+    def respond(self, **params: Any) -> Any:
+        """Shell-internal: the desktop delivers a command's result back to the engine. Agents never call this.
+
+        Args:
+            command (string, required): The shell_command event's command id.
+            decline (bool, optional): This shell doesn't own the targeted window — another desktop's answer settles the command.
+            error (string, optional): Why execution was refused, when it was.
+            result (Any, optional): The executed command's result.
+        """
+        return self._call("windows.respond", params)
+
+
 class _ReadmeNamespace:
     """Proxy for the `readme` namespace."""
 
@@ -458,6 +618,7 @@ class Client:
         self.data = _DataNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.skills = _SkillsNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.system = _SystemNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
+        self.windows = _WindowsNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.readme = _ReadmeNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
 
 
@@ -480,6 +641,7 @@ class AsyncClient:
         self.data = _DataNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.skills = _SkillsNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.system = _SystemNamespace(lambda op, params: _async_call(self._socket_path, op, params))
+        self.windows = _WindowsNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.readme = _ReadmeNamespace(lambda op, params: _async_call(self._socket_path, op, params))
 
     async def __aenter__(self):

@@ -19,6 +19,7 @@ From [`list`](/shapes/reference/list/):
 
 | Field | Type |
 |---|---|
+| `arrangement` | `string` |
 | `default_view` | `string` |
 | `icon_size` | `integer` |
 | `isDefault` | `boolean` |

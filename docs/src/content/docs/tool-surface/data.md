@@ -17,6 +17,7 @@ Query and mutate graph entities.
 - [`create`](#create) — Create a node (`{shape, name?, vals?, identity?}`), or a relationship (`{from, label, to}`)
 - [`delete`](#delete) — Soft-delete a node or relationship
 - [`restore`](#restore) — Restore a soft-deleted node
+- [`resolve`](#resolve) — Resolve an address (node/link id, or handle) to its target's identity — node_id, volume, shapes, listType, name, via — without reading content
 - [`export`](#export) — Export a typed subgraph to a SQLite artifact
 - [`import`](#import) — Import a previously-exported artifact, replaying any migration chain from its pin to live SCHEMA_HASH
 - [`mount`](#mount) — Mount a memex `
@@ -431,6 +432,35 @@ restore({ id: "abc123" })
 }
 ```
 
+## `resolve`
+
+Resolve an address (node/link id, or handle) to its target's identity — node_id, volume, shapes, listType, name, via — without reading content. The kernel resolver's public face: identity before acting.
+
+### Examples
+
+```js
+resolve({ address: "desktop" })
+resolve({ address: "abc123" })
+```
+
+### Input schema
+
+```json
+{
+  "additionalProperties": false,
+  "properties": {
+    "address": {
+      "description": "Any address \u2014 a node/link id, or a handle. Resolved by the same kernel resolver every data op uses: literal id wins, then handle \u2192 bookmark \u2192 points_to target.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "address"
+  ],
+  "type": "object"
+}
+```
+
 ## `export`
 
 Export a typed subgraph to a SQLite artifact. Writes _meta.schema_version pin for safe re-import.
@@ -618,7 +648,7 @@ mount({ path: "/Users/joe/dev/agentos/_joe/health.db" })
 ```json
 {
   "additionalProperties": false,
-  "description": "Mount a memex `.db` file as a read-only Volume. Verifies _meta.type='memex', derives a kebab-case volume_id, persists a `volume`-shape node in home, and emits an activity. Survives engine restart via auto_mount=true.",
+  "description": "Mount a memex `.db` file as a read-only Volume. Verifies _meta.type='memex', derives a kebab-case volume_id, persists a `volume`-shape node in the System mount registry, and emits an activity. Survives engine restart via auto_mount=true.",
   "properties": {
     "path": {
       "description": "Path to a memex `.db` file (~ expanded). Must carry _meta.type='memex'.",
