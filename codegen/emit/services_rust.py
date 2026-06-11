@@ -22,7 +22,8 @@ import services as services_loader  # noqa: E402
 
 
 def _rust_str(s: str) -> str:
-    return json.dumps(s)
+    # ensure_ascii=False: Rust string literals take raw UTF-8, not \uXXXX
+    return json.dumps(s, ensure_ascii=False)
 
 
 def emit_services_rust(services: list[services_loader.Service]) -> str:
