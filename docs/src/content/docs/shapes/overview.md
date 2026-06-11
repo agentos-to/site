@@ -473,7 +473,7 @@ agent-sdk validate --sandbox       # only the banned-import sandbox check
 python3 -m agentos validate --all
 ```
 
-Dict-literal returns get checked statically. Helper functions, dynamic construction, and composition through `_call` aren't caught here — integration testing via MCP is the catch-all. If a tool ships bad data, fix the tool and add a regression test.
+Dict-literal returns get checked statically. Helper functions and dynamic construction aren't caught here — integration testing via MCP is the catch-all. If a tool ships bad data, fix the tool and add a regression test.
 
 The engine itself does **not** validate shapes at runtime. It's a generic entity store — it accepts whatever dict shape a skill returns and stores it. Conformance is a contract between skill authors, app authors, and PR review, not a runtime check.
 
