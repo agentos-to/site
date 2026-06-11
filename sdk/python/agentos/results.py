@@ -1,10 +1,10 @@
-"""Tiny skill-result builders — pure data, no I/O.
+"""Tiny app-result builders — pure data, no I/O.
 
 Used to shape tool return values:
 
-    return skill_error("missing user_id", code="NOT_FOUND")
-    return skill_result(authenticated=True, identifier="joe@x")
-    return {"__secrets__": skill_secret("exa.ai", "joe@x", "cognito", {...})}
+    return app_error("missing user_id", code="NOT_FOUND")
+    return app_result(authenticated=True, identifier="joe@x")
+    return {"__secrets__": app_secret("exa.ai", "joe@x", "cognito", {...})}
 
 Lives here (not in ``client`` or ``decorators``) because none of these
 touch the network or the graph — they're just dict constructors that
@@ -14,8 +14,8 @@ carry the engine's reserved keys (``__result__``, ``__secrets__``).
 from __future__ import annotations
 
 
-def skill_error(message: str, **extra) -> dict:
-    """Return a structured error dict from a skill operation.
+def app_error(message: str, **extra) -> dict:
+    """Return a structured error dict from an app operation.
 
     The engine unwraps ``__result__`` into the caller's response — extra
     fields ride alongside ``error`` as context (``code``, ``hint``, …)."""
@@ -24,16 +24,16 @@ def skill_error(message: str, **extra) -> dict:
     return {"__result__": result}
 
 
-def skill_result(**fields) -> dict:
-    """Return a structured result dict from a skill operation.
+def app_result(**fields) -> dict:
+    """Return a structured result dict from an app operation.
 
-    Same unwrap semantics as ``skill_error`` — use when the skill has a
+    Same unwrap semantics as ``app_error`` — use when the app has a
     shape it wants to return and would otherwise conflict with sidecar
     keys like ``__secrets__`` / ``__cookie_delta__``."""
     return {"__result__": fields}
 
 
-def skill_secret(
+def app_secret(
     domain: str,
     identifier: str,
     item_type: str,

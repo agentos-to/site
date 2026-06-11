@@ -23,5 +23,5 @@ transcript:
     - source: Whisper JSON output
       url: https://github.com/openai/whisper
       notes: >-
-        Practical source — many transcript skills return Whisper-shaped JSON
+        Practical source — many transcript apps return Whisper-shaped JSON
         (segments with start/end/text). Direct match.

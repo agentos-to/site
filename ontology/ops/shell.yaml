@@ -15,7 +15,7 @@ shell.run:
 
     Returns:
         {exit_code, stdout, stderr}.
-  capability: shell
+  service: shell
   trace_span: true
   request:
     binary:  { type: "string",   doc: "Binary to execute (absolute path or $PATH name)." }

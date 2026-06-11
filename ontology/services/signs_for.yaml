@@ -1,0 +1,5 @@
+# Passkey / hardware-key challenge signing (reserved).
+description: >-
+  Reserved for passkey / hardware-key providers that sign challenges
+  rather than returning secret material. No resolver ships yet; the
+  name is fixed now so the interface shape is stable.

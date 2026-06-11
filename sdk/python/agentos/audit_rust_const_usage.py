@@ -7,7 +7,7 @@ shapes symbolically (`shapes::ACTIVITY`) instead of by bare string
 
   1. **Defined but never used** — generated consts that no Rust file
      references. A const with zero callsites is either (a) a shape
-     that's only used by skills (fine; the engine never sees it), or
+     that's only used by apps (fine; the engine never sees it), or
      (b) a shape that used to be used and isn't anymore, which makes
      the YAML itself a delete candidate. The audit can't tell them
      apart — that's a human judgment call — so it just reports.
@@ -251,13 +251,13 @@ def render_report(report: dict, crates_root: Path) -> str:
         )
         out.append(
             "  references the const. That is fine if the shape is "
-            "skill-only, or a"
+            "app-only, or a"
         )
         out.append(
             "  candidate for YAML deletion if nothing else uses it "
             "either. Cross-"
         )
-        out.append("  reference with skills / graph content before deleting.")
+        out.append("  reference with apps / graph content before deleting.")
         out.append("")
         for const in unused:
             out.append(f"  - shapes::{const}  (\"{const_to_value[const]}\")")

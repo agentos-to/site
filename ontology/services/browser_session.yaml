@@ -1,0 +1,7 @@
+# High-level typed browser session API on top of cdp_access.
+description: >-
+  High-level, typed session API for driving a live browser: a provider
+  exposes `session_open / navigate / evaluate / on_event / get_cookies /
+  get_storage / close`, hiding the protocol. This is what
+  reverse-engineering, scraping, and interaction-driving apps consume —
+  never `cdp_access` directly.

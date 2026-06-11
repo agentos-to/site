@@ -1,0 +1,11 @@
+# Single-form link `defaults_to` (Pattern 3). Stem = storage label.
+# Sources: service
+# Targets: app
+#
+# The user's standing answer to "which app handles this service?" —
+# XP's "Set Program Access and Defaults", as graph state. At most one
+# default per service: the write path replaces the existing link rather
+# than accumulating. Matchmaking resolves this link first; the usual
+# provider walk (freshness as tiebreak) covers services with no pick.
+from: service
+to: app

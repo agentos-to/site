@@ -17,7 +17,7 @@ from __future__ import annotations
 # shape SDK out of contract-generated into `platform/sdk/rust/`. Engine
 # crates `use agentos_sdk::shapes::VOLUME` directly. The engine binary
 # names ZERO shapes in its own source tree.
-_MODULES = ("links", "migrations", "ops", "schema_hash")
+_MODULES = ("links", "migrations", "ops", "schema_hash", "services")
 
 
 def emit_contract_root() -> str:

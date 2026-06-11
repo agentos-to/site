@@ -1,0 +1,63 @@
+# services.* ops — generic service dispatch.
+#
+# Apps never name each other. Consumers ask for a service; the engine
+# walks the apps providing it, picks one (the service node's
+# `defaults_to` app first, then the usual ranking), dispatches.
+
+services.call:
+  doc: "Match an app providing service `name` and dispatch its tool, returning the tool's result unchanged."
+  doc_full: |
+    Matchmake a provider for service `name` and dispatch `verb` on it.
+    The tool's return value is passed through unchanged — no envelope.
+
+    Used by SDK wrappers (`credentials.retrieve`, `llm.oneshot`, etc.)
+    and by apps that consume a service across app boundaries without
+    naming the provider.
+
+    Args:
+        name: service name (e.g. `"login_credentials"`, `"llm"`).
+        verb: tool to invoke on the picked provider. Defaults to the
+              provider's declared `via`.
+        params: parameters forwarded to the picked tool, unchanged.
+        app: optional app-id override; forces a specific provider.
+
+    Returns:
+        The picked tool's return value, unchanged.
+  trace_span: true
+  request:
+    name:   { type: "string",  doc: "Service name to match." }
+    verb:   { type: "string?", doc: "Tool-name override; defaults to the provider's declared via." }
+    params: { type: "json",    default: null, doc: "Parameters for the picked tool. Passed through unchanged." }
+    app:    { type: "string?", doc: "App-id override; forces a specific provider." }
+  response: { type: "json", doc: "The picked tool's return value, unchanged — no envelope." }
+  effects: []
+
+services.list_providers:
+  doc: "List every app providing service `name` with its ranking and credential state."
+  doc_full: |
+    Enumerate apps that provide service `name`. Returns the ranked
+    candidate list without dispatching any tool — useful for
+    introspection, provider selection, or iterating providers with
+    per-provider fallback logic in app code.
+
+    Args:
+        name: service name.
+        model: optional model filter for `llm` service matches.
+
+    Returns:
+        `{providers: [{app_id, via, cred_state, urls?}, ...]}`.
+  request:
+    name:  { type: "string",  doc: "Service name to enumerate providers for." }
+    model: { type: "string?", doc: "Optional model filter for llm service matches." }
+  response:
+    providers: { type: "provider[]", doc: "All apps providing `name`, ranked." }
+  effects: []
+
+# Named record types referenced by this file's ops — the "every type named"
+# rule: op req/resp carry no anonymous inline structs.
+types:
+  provider:
+    app_id:     { type: "string",    doc: "App id that provides the service." }
+    via:        { type: "string",    doc: "Tool name (via) on the app that would be invoked." }
+    cred_state: { type: "string",    doc: "Credential state: not_required, present, or missing." }
+    urls:       { type: "string[]?", doc: "Optional URL patterns declared on the provides binding." }

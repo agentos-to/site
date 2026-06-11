@@ -1,6 +1,6 @@
 """URL string helpers — pure string math, no network, no identity.
 
-Skills can't import ``urllib.parse`` directly (banned in the sandbox).
+Apps can't import ``urllib.parse`` directly (banned in the sandbox).
 These helpers cover the cases ``client.get/post`` can't do for you
 via ``params={...}``:
 
@@ -60,7 +60,7 @@ def build(base: str, params: dict | None = None) -> str:
     """Build a URL by attaching query params to a base URL.
 
     Use this when you need the URL *string itself* — storing it,
-    returning it from a skill, or logging it. For plain outbound
+    returning it from an app, or logging it. For plain outbound
     requests, pass ``params=`` directly to ``client.get/post``.
 
         u = url.build("https://www.amazon.com/s", params={"k": "coffee"})
@@ -181,7 +181,7 @@ def same_site(a: str, b: str) -> bool:
         url.same_site("aws.amazon.com", "www.amazon.com")   # → True
 
     Useful for credential-provider matching: decide whether a stored
-    login URL belongs to the same site as the one the skill is trying
+    login URL belongs to the same site as the one the app is trying
     to authenticate against.
     """
     return registrable(a) == registrable(b)

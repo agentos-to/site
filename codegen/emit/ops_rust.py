@@ -242,8 +242,8 @@ def _emit_op(op: Op) -> list[str]:
         log_block = "&[\n" + "\n".join(log) + "\n    ]"
     else:
         log_block = "&[]"
-    caps = ", ".join(_rust_str(c) for c in op.capability)
-    caps_block = f"&[{caps}]" if op.capability else "&[]"
+    caps = ", ".join(_rust_str(c) for c in op.service)
+    caps_block = f"&[{caps}]" if op.service else "&[]"
 
     out.append(f"/// `{op.name}`.")
     out.append(f"pub static {_meta_ident(op)}: OpMeta = OpMeta {{")
@@ -253,7 +253,7 @@ def _emit_op(op: Op) -> list[str]:
     out.append(f"    log_fields: {log_block},")
     out.append(f"    fire_and_forget: {'true' if op.fire_and_forget else 'false'},")
     out.append(f"    trace_span: {'true' if op.trace_span else 'false'},")
-    out.append(f"    required_capabilities: {caps_block},")
+    out.append(f"    required_services: {caps_block},")
     out.append(f"    effects: {_effects_block(op)},")
     out.append("};")
     out.append("")

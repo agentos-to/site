@@ -1,0 +1,15 @@
+# Announce + serve mountable volumes (the KIO-worker / 9P read-only core).
+description: >-
+  The providing app announces mountable volumes and serves their
+  contents to the finder/graph layer. One service, a fixed three-verb
+  interface: `list_volumes()` → volume[] (ANNOUNCE — called at boot and
+  on refresh; entries upsert as volume nodes under a realm),
+  `list_contents(id, cursor?)` → typed child nodes + nextCursor
+  (SERVE), `read_node(id)` → one node's full detail. The provides
+  binding (`via`) names `list_volumes` only — it marks the app as a
+  transport; `list_contents` / `read_node` are reached by their fixed
+  names on the announcing app (browse binds to the stamped provider,
+  never a fresh service walk). Read-only by construction: the write
+  verbs don't exist yet. Contract:
+  core/_roadmap/p2/realms-transports/plan.md "The transport contract".
+returns: volume

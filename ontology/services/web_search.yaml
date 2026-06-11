@@ -1,0 +1,9 @@
+# Search the web. Providers: Brave Search, Exa, SerpAPI, …
+description: >-
+  Search the web for a query; results land on the graph as `result`
+  rows. The baseline discovery service — most installed search apps
+  provide it.
+params:
+  query: { type: "string", doc: "The search query." }
+  count: { type: "number?", doc: "Maximum results to return." }
+returns: result

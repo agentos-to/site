@@ -93,12 +93,12 @@ def _diff_ops(base: list[dict], cur: list[dict]) -> list[Change]:
         changes += _diff_field_map(f"{p} request", bop["request"], cop["request"],
                                    request=True)
         changes += _diff_response(p, bop.get("response"), cop.get("response"))
-        bcap, ccap = set(bop.get("capability") or []), set(cop.get("capability") or [])
+        bcap, ccap = set(bop.get("service") or []), set(cop.get("service") or [])
         for added in sorted(ccap - bcap):
             changes.append(("break", p,
-                            f"new required capability {added!r} — existing skills lack it"))
+                            f"new required service {added!r} — existing apps lack it"))
         for removed in sorted(bcap - ccap):
-            changes.append(("note", p, f"capability {removed!r} no longer required"))
+            changes.append(("note", p, f"service {removed!r} no longer required"))
         if bool(bop.get("fire_and_forget")) != bool(cop.get("fire_and_forget")):
             changes.append(("break", p, "fire_and_forget changed — wire-ack behavior differs"))
         be = {(e["verb"], e["target"]) for e in bop.get("effects") or []}

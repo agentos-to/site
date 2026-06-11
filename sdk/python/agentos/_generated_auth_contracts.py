@@ -13,7 +13,7 @@ from __future__ import annotations
 from typing import Any, TypedDict
 
 class OAuthCredential(TypedDict, total=False):
-    """Return shape for `@provides(oauth_auth, ...)` skill operations. Engine consumes via crates/auth/src/types.rs (Session::to_auth_header, auth_fields) and crates/auth/src/resolve.rs (token-refresh path).
+    """Return shape for `@provides(oauth_auth, ...)` app operations. Engine consumes via crates/auth/src/types.rs (Session::to_auth_header, auth_fields) and crates/auth/src/resolve.rs (token-refresh path).
 
     All fields snake_case to match the OAuth 2.0 spec (RFC 6749 §5.1)
     and the engine resolver (crates/auth/src/types.rs). Required:
@@ -41,7 +41,7 @@ class Cookie(TypedDict, total=False):
 
 
 class CookieCredential(TypedDict, total=False):
-    """Return shape for `@provides(cookie_auth, ...)` skill operations. Top-level dict with `cookies: [Cookie, ...]`; each Cookie has a `name` + `value` and optional `expires` / `created` for freshness arbitration in crates/auth/src/source.rs."""
+    """Return shape for `@provides(cookie_auth, ...)` app operations. Top-level dict with `cookies: [Cookie, ...]`; each Cookie has a `name` + `value` and optional `expires` / `created` for freshness arbitration in crates/auth/src/source.rs."""
     domain: str
     cookies: list[Cookie]
     count: int

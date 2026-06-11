@@ -61,8 +61,8 @@ def _op_section(op: Op) -> list[str]:
     if op.doc:
         out += [op.doc, ""]
     meta_rows = []
-    if op.capability:
-        meta_rows.append(("Capability", ", ".join(f"`{c}`" for c in op.capability)))
+    if op.service:
+        meta_rows.append(("Service", ", ".join(f"`{c}`" for c in op.service)))
     flags = _flags(op)
     if flags:
         meta_rows.append(("Flags", flags))

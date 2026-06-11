@@ -29,7 +29,7 @@ schedule:
     nextFireAt:      datetime
   links:
     produces:          trip      # what each occurrence creates (transport schedules)
-    provided_by:          skill     # which skill runs this (claude, launchd, etc.)
+    provided_by:          app     # which app runs this (claude, launchd, etc.)
     operated_by:          organization  # who operates the service (airline, transit agency)
   prior_art:
     - source: RFC 5545 RRULE (iCalendar)

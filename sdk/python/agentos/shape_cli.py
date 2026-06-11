@@ -119,18 +119,18 @@ def run_shapes(name: str | None):
                 rtype_str = str(rtype) if rtype else "?"
                 print(f"    {rname:<28} → {rtype_str}")
 
-        # Find which skills use this shape
-        skills_dir = shapes_dir.parent / "skills"
-        if skills_dir.is_dir():
+        # Find which apps use this shape
+        apps_dir = shapes_dir.parent / "skills"
+        if apps_dir.is_dir():
             using = []
-            for skill_dir in sorted(skills_dir.iterdir()):
-                if not skill_dir.is_dir():
+            for app_dir in sorted(apps_dir.iterdir()):
+                if not app_dir.is_dir():
                     continue
-                for py_file in skill_dir.glob("*.py"):
+                for py_file in app_dir.glob("*.py"):
                     try:
                         content = py_file.read_text()
                         if f'@returns("{name}' in content:
-                            using.append(skill_dir.name)
+                            using.append(app_dir.name)
                             break
                     except Exception:
                         pass

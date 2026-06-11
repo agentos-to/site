@@ -1,4 +1,4 @@
-"""Skill-level checkpoint/resume for multi-phase workflows.
+"""App-level checkpoint/resume for multi-phase workflows.
 
 Save state after each completed unit of work. On restart, load the
 checkpoint to skip completed phases.
@@ -14,8 +14,8 @@ checkpoint to skip completed phases.
 
     checkpoint.clear(output)  # success — remove checkpoint
 
-Checkpoints are opt-in. Skills that don't call save() have no checkpoint
-file. The file is `.checkpoint.json` in the skill's output directory.
+Checkpoints are opt-in. Apps that don't call save() have no checkpoint
+file. The file is `.checkpoint.json` in the app's output directory.
 """
 
 import json
@@ -31,7 +31,7 @@ def save(output_dir: str, state: dict):
 
     Args:
         output_dir: Directory for the checkpoint file.
-        state: Skill-specific state dict (must be JSON-serializable).
+        state: App-specific state dict (must be JSON-serializable).
     """
     path = os.path.join(output_dir, ".checkpoint.json")
     tmp = path + ".tmp"

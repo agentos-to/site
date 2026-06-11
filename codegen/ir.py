@@ -223,7 +223,7 @@ class Op:
     action: str                     # "run"
     doc: str
     doc_full: str
-    capability: list[str] = field(default_factory=list)   # required caps; [] = none
+    service: list[str] = field(default_factory=list)    # required services; [] = none
     trace_span: bool = False
     fire_and_forget: bool = False
     request: list[OpField] = field(default_factory=list)
@@ -257,6 +257,7 @@ class Ontology:
     ops: list[Op] = field(default_factory=list)
     op_types: dict[str, OpType] = field(default_factory=dict)
     links: list = field(default_factory=list)  # list[links.Link] — Phase 1c.3
+    services: list = field(default_factory=list)  # list[services.Service]
 
     def auth(self, kind: str) -> AuthContract | None:
         for c in self.auth_contracts:
@@ -944,7 +945,7 @@ def load_ops(ops_dir: Path) -> tuple[list[Op], dict[str, OpType]]:
             else:
                 response = OpResponse(scalar=False, fields=_op_field_map(resp_spec))
 
-            cap = body.get("capability")
+            cap = body.get("service")
             if cap is None:
                 cap = []
             elif isinstance(cap, str):
@@ -967,7 +968,7 @@ def load_ops(ops_dir: Path) -> tuple[list[Op], dict[str, OpType]]:
                 action=action,
                 doc=str(body.get("doc", "")).strip(),
                 doc_full=body.get("doc_full") or body.get("doc", ""),
-                capability=cap,
+                service=cap,
                 trace_span=bool(body.get("trace_span", False)),
                 fire_and_forget=bool(body.get("fire_and_forget", False)),
                 request=_op_field_map(body.get("request")),
@@ -1022,6 +1023,7 @@ def build(
     ops: list[Op] | None = None,
     op_types: dict[str, OpType] | None = None,
     links: list | None = None,
+    services: list | None = None,
 ) -> Ontology:
     """Assemble the normalized tree from already-loaded parts."""
     return Ontology(
@@ -1030,6 +1032,7 @@ def build(
         ops=ops or [],
         op_types=op_types or {},
         links=links or [],
+        services=services or [],
     )
 
 

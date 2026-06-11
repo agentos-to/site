@@ -12,8 +12,10 @@ from ir import Op, Ontology, TypeRef, parse_type
 
 # Op groups whose entire SDK surface is generated stubs. `auth_store`, `http`,
 # and `llm` are excluded — their SDK modules are hand-written (the HTTP
-# client, the matchmaking loop), with ops called internally.
-_PURE_OP_GROUPS = {"blobs", "capability", "crypto", "plist", "secrets", "shell", "sql"}
+# client, the matchmaking loop), with ops called internally. `services` is
+# excluded because its module is emitted whole — constants + broker stubs —
+# by `emit/services_python.py`.
+_PURE_OP_GROUPS = {"blobs", "crypto", "plist", "secrets", "shell", "sql"}
 
 FILE_HEADER = (
     "# This file is AUTO-GENERATED. Do not edit.\n"

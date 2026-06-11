@@ -1,29 +1,29 @@
-"""agent-sdk CLI — guide, validate, new-skill, shapes."""
+"""agent-sdk CLI — guide, validate, new-app, shapes."""
 
 import argparse
 import sys
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="agent-sdk", description="agentOS Skill Development Kit")
+    parser = argparse.ArgumentParser(prog="agent-sdk", description="agentOS App Development Kit")
     sub = parser.add_subparsers(dest="command")
 
     # guide
-    sub.add_parser("guide", help="Print the skill development guide")
+    sub.add_parser("guide", help="Print the app development guide")
 
     # validate
-    p_val = sub.add_parser("validate", help="Validate skills (AST-based static checks)")
+    p_val = sub.add_parser("validate", help="Validate apps (AST-based static checks)")
     p_val.add_argument("target", nargs="?", default=None,
-                       help="Skill id, skill directory, or skills root (default: auto-discover)")
-    p_val.add_argument("--all", action="store_true", help="Audit every skill (default when no target)")
+                       help="App id, app directory, or apps root (default: auto-discover)")
+    p_val.add_argument("--all", action="store_true", help="Audit every app (default when no target)")
     p_val.add_argument("--sandbox", action="store_true", help="Only run the banned-import sandbox scan")
     p_val.add_argument("--fix-sources", action="store_true",
                        help="Review and clean up missing paths in settings.sources (interactive)")
     p_val.add_argument("--dry-run", action="store_true", help="(reserved — not yet implemented)")
 
-    # new-skill
-    p_new = sub.add_parser("new-skill", help="Scaffold a new skill")
-    p_new.add_argument("name", help="Skill name (e.g. my-meetup-skill)")
+    # new-app
+    p_new = sub.add_parser("new-app", help="Scaffold a new app")
+    p_new.add_argument("name", help="App name (e.g. my-meetup-app)")
     p_new.add_argument("--shape", default=None, help="Return shape (e.g. event, product)")
 
     # shapes
@@ -47,9 +47,9 @@ def main():
             dry_run=args.dry_run,
         )
         sys.exit(rc)
-    elif args.command == "new-skill":
-        from agentos.scaffold import run_new_skill
-        run_new_skill(args.name, args.shape)
+    elif args.command == "new-app":
+        from agentos.scaffold import run_new_app
+        run_new_app(args.name, args.shape)
     elif args.command == "shapes":
         from agentos.shape_cli import run_shapes
         run_shapes(args.name)

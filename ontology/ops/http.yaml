@@ -7,7 +7,7 @@ http.request:
   doc: "Stateless HTTP op. SDK callers use client.get/post/… — this op is their shared backend."
   doc_full: |
     Stateless HTTP op. Every verb-dispatched SDK method (`client.get`,
-    `client.post`, …) routes through this; skill code does not call
+    `client.post`, …) routes through this; app code does not call
     `http.request` directly. No cookie-jar state survives between calls —
     the SDK's ambient Jar serializes cookies into the request's Cookie:
     header and feeds Set-Cookie responses back into itself.
@@ -17,7 +17,7 @@ http.request:
 
     Returns:
         HttpResponse {status, body?, body_bytes?, headers, url, body_length, content_encoding}.
-  capability: http
+  service: http
   trace_span: true
   request:
     url:     { type: "string", doc: "Absolute URL." }

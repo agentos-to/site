@@ -5,7 +5,7 @@
     result = await llm.oneshot(prompt="Summarize this.", model="haiku")
     result = await llm.agent(prompt="Review this code.", model="opus", tools=["exa.search"])
 
-All functions are async. Skills must use `await` on every call.
+All functions are async. Apps must use `await` on every call.
 For parallel agents, use `asyncio.gather()`:
 
     results = await asyncio.gather(
@@ -14,9 +14,9 @@ For parallel agents, use `asyncio.gather()`:
     )
 
 Provider selection and fallback happen here, not in Rust. The engine
-only ships the generic `capability.call` + `capability.list_providers`
+only ships the generic `services.call` + `services.list_providers`
 primitives; this module stacks ranking + retry on top. Adding a new
-`@provides(llm)` skill needs zero Rust — list_providers picks it up
+`@provides(llm)` app needs zero Rust — list_providers picks it up
 from the ontology and oneshot/agent route to it like any other
 provider.
 """
@@ -24,7 +24,7 @@ provider.
 import asyncio
 import json
 
-from agentos import capability
+from agentos import services
 from agentos._bridge import dispatch
 
 
@@ -80,7 +80,7 @@ async def _call_llm(params: dict) -> dict:
     the next credentialed provider.
     """
     model = params.get("model") or "sonnet"
-    listing = await capability.list_providers("llm", model=model)
+    listing = await services.list_providers("llm", model=model)
     providers = sorted(
         listing.get("providers") or [],
         key=lambda p: _CRED_PRIORITY.get(p.get("cred_state", "missing"), 2),
@@ -93,37 +93,37 @@ async def _call_llm(params: dict) -> dict:
     tried: list[str] = []
 
     for provider in providers:
-        skill_id = provider["skill_id"]
+        app_id = provider["app_id"]
         verb = provider.get("via") or "chat"
         try:
-            result = await capability.call(
-                "llm", verb=verb, skill=skill_id, params=params,
+            result = await services.call(
+                "llm", verb=verb, app=app_id, params=params,
             )
         except Exception as e:
             err = str(e)
-            tried.append(f"{skill_id}:{verb} (invoke: {err})")
+            tried.append(f"{app_id}:{verb} (invoke: {err})")
             last_error = err
             if _is_auth_error(err):
                 continue
             # Non-auth failure — don't keep trying providers. Surface
             # the error to the caller with enough context to diagnose.
             raise RuntimeError(
-                f"LLM provider {skill_id}.{verb} failed: {err} "
+                f"LLM provider {app_id}.{verb} failed: {err} "
                 f"(tried: {', '.join(tried)})"
             ) from e
 
-        # Some providers return a skill_error envelope instead of
+        # Some providers return a app_error envelope instead of
         # raising. Treat a `_error` field as a retry signal.
         err_msg = None
         if isinstance(result, dict):
             err_msg = result.get("_error") or result.get("__error__")
         if err_msg:
-            tried.append(f"{skill_id}:{verb} ({err_msg})")
+            tried.append(f"{app_id}:{verb} ({err_msg})")
             last_error = err_msg
             if _is_auth_error(err_msg):
                 continue
             raise RuntimeError(
-                f"LLM provider {skill_id}.{verb} returned error: {err_msg} "
+                f"LLM provider {app_id}.{verb} returned error: {err_msg} "
                 f"(tried: {', '.join(tried)})"
             )
 
@@ -154,7 +154,7 @@ async def tools(refs: list[str]) -> list[dict]:
     """Resolve tool refs to LLM tool definitions.
 
     Args:
-        refs: Tool refs in "skill.operation" format (e.g., ["exa.search"])
+        refs: Tool refs in "app.operation" format (e.g., ["exa.search"])
 
     Returns:
         List of Anthropic-format tool definitions:
@@ -180,7 +180,7 @@ async def agent(*, prompt, system="", model="sonnet", tools=None,
         prompt: The task for the agent.
         system: System prompt for persona/role.
         model: Model name — "opus", "sonnet", "haiku", or provider-specific.
-        tools: Tool refs in "skill.operation" format (e.g., ["exa.search"]).
+        tools: Tool refs in "app.operation" format (e.g., ["exa.search"]).
         files: Reserved for future use (file sandbox boundary).
         max_iterations: Max LLM call iterations (default 20).
         temperature: LLM temperature (default 0).

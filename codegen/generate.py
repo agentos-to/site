@@ -40,6 +40,8 @@ from emit import (
     emit_python,
     emit_python_auth_contracts,
     emit_rust_auth_contracts,
+    emit_services_python,
+    emit_services_rust,
     emit_shape_docs,
     emit_skill_docs,
     emit_typescript,
@@ -203,7 +205,28 @@ def main():
             sys.exit(1)
         print(f"Loaded {len(typed_links)} link declarations from {links_dir}")
 
-    ontology = ir.build(shapes, auth_contracts, ops, op_types, links=typed_links)
+    # Service registry — `ontology/services/*.yaml`, one file per canonical
+    # brokered interface. Validated against shapes + auth contracts (the
+    # `returns:` contract must name one of them).
+    import services as _services
+    services_dir = platform_root / "ontology" / "services"
+    service_defs = _services.load(services_dir) if services_dir.is_dir() else []
+    if service_defs:
+        svc_errors, svc_warnings = _services.validate(
+            service_defs,
+            {s.name for s in shapes},
+            {c.kind for c in auth_contracts},
+        )
+        for w in svc_warnings:
+            print(f"  lint [warn]: {w}", file=sys.stderr)
+        for e in svc_errors:
+            print(f"  lint [error]: {e}", file=sys.stderr)
+        if svc_errors:
+            sys.exit(1)
+        print(f"Loaded {len(service_defs)} service declarations from {services_dir}")
+
+    ontology = ir.build(shapes, auth_contracts, ops, op_types,
+                        links=typed_links, services=service_defs)
 
     # Validation runs on every invocation. `warn` is advisory; `error`
     # means the ontology is structurally invalid (e.g. a malformed
@@ -325,6 +348,20 @@ def main():
             drift |= _check_or_write(
                 contract_crate / "links.rs", emit_links(typed_links),
                 "links", check=args.check,
+            )
+
+        # Service registry — `ontology/services/*.yaml` → the engine's
+        # compiled ServiceDef table (node minting + provides validation)
+        # and the SDK's one services module (constants + broker stubs).
+        if service_defs:
+            drift |= _check_or_write(
+                contract_crate / "services.rs", emit_services_rust(service_defs),
+                "services-rust", check=args.check,
+            )
+            drift |= _check_or_write(
+                platform_root / "sdk" / "python" / "agentos" / "services.py",
+                emit_services_python(service_defs, ontology),
+                "services-python", check=args.check,
             )
 
         # Migrations — `ontology/migrations/*.yaml` → typed `MIGRATIONS`

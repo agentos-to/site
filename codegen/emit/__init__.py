@@ -16,6 +16,8 @@ from .ops_rust import emit_ops_rust
 from .ops_ts import emit_ops_ts
 from .python import emit_python
 from .rust_sdk import write_rust_sdk
+from .services_python import emit_services_python
+from .services_rust import emit_services_rust
 from .typescript import emit_typescript
 
 __all__ = [
@@ -35,4 +37,6 @@ __all__ = [
     "emit_contract_root",
     "emit_links",
     "emit_migrations",
+    "emit_services_python",
+    "emit_services_rust",
 ]

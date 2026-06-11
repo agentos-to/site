@@ -1,12 +1,12 @@
 # crypto.* ops — key derivation and symmetric decryption.
 #
-# Used almost exclusively by browser skills decrypting stored cookies.
+# Used almost exclusively by browser apps decrypting stored cookies.
 # Handlers live in agentos-exec-executors.
 
 crypto.pbkdf2:
   doc: "PBKDF2-HMAC-SHA1 key derivation. Returns hex-encoded bytes."
   doc_full: |
-    PBKDF2-HMAC-SHA1 key derivation. Used by browser skills to reproduce
+    PBKDF2-HMAC-SHA1 key derivation. Used by browser apps to reproduce
     Chrome's Safe Storage key stretch.
 
     Args:
@@ -16,7 +16,7 @@ crypto.pbkdf2:
 
     Returns:
         Derived key as bytes (hex-decoded by the SDK stub).
-  capability: crypto
+  service: crypto
   request:
     password:   { type: "string", doc: "Password to stretch." }
     salt:       { type: "string", doc: "Salt (opaque bytes as a string)." }
@@ -39,7 +39,7 @@ crypto.aes:
 
     Returns:
         Plaintext bytes.
-  capability: crypto
+  service: crypto
   request:
     key:  { type: "string", doc: "Key as hex (16 bytes / 32 hex chars for AES-128)." }
     data: { type: "string", doc: "Ciphertext as hex." }

@@ -2,7 +2,7 @@
 # Extends software (which extends product). A platform has accounts,
 # produces data, and is the context for entity identity.
 #
-# Not all skills connect to platforms — some connect to plain software
+# Not all apps connect to platforms — some connect to plain software
 # or products. The "platform" tag is for services that host user data.
 platform:
   plural: platforms

@@ -3,7 +3,7 @@
 
 use super::sdk_prelude::*;
 
-/// An immutable change event — a graph mutation, skill run, search, or load.
+/// An immutable change event — a graph mutation, app run, search, or load.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", default)]
 pub struct Activity {
@@ -39,7 +39,7 @@ pub struct Activity {
 pub static ACTIVITY: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "activity".into(),
     plural: Some("activities".into()),
-    description: Some("An immutable change event — a graph mutation, skill run, search, or load.".into()),
+    description: Some("An immutable change event — a graph mutation, app run, search, or load.".into()),
     icon: Some("activity".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),

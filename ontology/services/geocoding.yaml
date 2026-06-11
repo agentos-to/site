@@ -1,0 +1,7 @@
+# Resolve place names ↔ coordinates.
+description: >-
+  Resolve a place name or address to coordinates (and back). Returns
+  typed `place` rows.
+params:
+  query: { type: "string", doc: "Place name, address, or 'lat,lng'." }
+returns: place

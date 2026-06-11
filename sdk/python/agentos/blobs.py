@@ -4,8 +4,8 @@
 """blobs.* ops — the content-addressed blob store at ~/.agentos/blobs.
 
 Engine-owned bytes on disk; graph nodes reference blobs by the returned
-path (a file-shaped node's `path` field). Skills hand the engine base64
-and the engine owns placement, hashing, and dedup — no skill ever
+path (a file-shaped node's `path` field). Apps hand the engine base64
+and the engine owns placement, hashing, and dedup — no app ever
 invents a path into the user's state dir. Handlers live in
 agentos-exec-executors."""
 

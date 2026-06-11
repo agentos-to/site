@@ -107,8 +107,8 @@ pub mod result;
 pub mod review;
 pub mod role;
 pub mod seatmap;
+pub mod service;
 pub mod shelf;
-pub mod skill;
 pub mod software;
 pub mod sound;
 pub mod source;
@@ -220,8 +220,8 @@ pub use result::{RESULT, Result};
 pub use review::{REVIEW, Review};
 pub use role::{ROLE, Role};
 pub use seatmap::{SEATMAP, Seatmap};
+pub use service::{SERVICE, Service};
 pub use shelf::{SHELF, Shelf};
-pub use skill::{SKILL, Skill};
 pub use software::{SOFTWARE, Software};
 pub use sound::{SOUND, Sound};
 pub use source::{SOURCE, Source};
@@ -339,8 +339,8 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "review" => Some(&REVIEW),
         "role" => Some(&ROLE),
         "seatmap" => Some(&SEATMAP),
+        "service" => Some(&SERVICE),
         "shelf" => Some(&SHELF),
-        "skill" => Some(&SKILL),
         "software" => Some(&SOFTWARE),
         "sound" => Some(&SOUND),
         "source" => Some(&SOURCE),
@@ -453,7 +453,7 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
     }),
     ("app", Display {
         title: None,
-        subtitle: Some("name"),
+        subtitle: Some("description"),
         image: None,
         highlights: &[],
         body: None,
@@ -1180,6 +1180,15 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &[],
     }),
+    ("service", Display {
+        title: None,
+        subtitle: Some("description"),
+        image: None,
+        highlights: &[],
+        body: None,
+        preview: &[],
+        also: &[],
+    }),
     ("shelf", Display {
         title: None,
         subtitle: Some("isExclusive"),
@@ -1188,15 +1197,6 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         body: None,
         preview: &[],
         also: &["list"],
-    }),
-    ("skill", Display {
-        title: None,
-        subtitle: Some("description"),
-        image: None,
-        highlights: &[],
-        body: None,
-        preview: &[],
-        also: &[],
     }),
     ("software", Display {
         title: None,
@@ -1422,7 +1422,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("aircraft", &["model", "variant", "seatCapacity", "rangeKm", "iataCode", "icaoCode", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("airline", &["iataCode", "icaoCode", "callsign", "country", "alliance", "industry", "actorType"]),
     ("airport", &["iataCode", "icaoCode", "city", "country", "countryCode", "timezone", "elevationFt", "terminalCount"]),
-    ("app", &["id", "name", "iconRole", "route", "defaultView", "isSystem", "handles"]),
+    ("app", &["id", "name", "description", "color", "status", "error", "iconRole", "route", "defaultView", "isSystem", "handles"]),
     ("birth", &["givenName", "additionalName", "familyName", "honorificPrefix", "honorificSuffix", "legalName", "maidenName", "sortAs", "nameOrder", "phoneticGivenName", "phoneticFamilyName", "gender", "nickname", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("book", &["isbn", "isbn13", "pages", "genres", "series", "format", "language", "originalTitle", "places", "characters", "awardsWon", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "coverage", "tags", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("booking_offer", &["cartId", "referenceNumber", "status", "preparedAt", "presentedAt", "approvedAt", "expiresAt", "currency", "baseAmount", "taxAmount", "feesAmount", "totalAmount", "itineraryHash", "signature", "signatureAlg", "signedBy", "checkoutUrl", "confirmEndpoint", "isRefundable", "isChangeable", "hasVoidWindow", "voidWindowEndsAt", "conditions", "blob", "review", "contactEmail", "contactPhone", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
@@ -1503,14 +1503,14 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("review", &["rating", "ratingMax", "tags", "isVerified", "externalUrl", "postType", "score", "commentCount", "community"]),
     ("role", &["title", "department", "roleType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("seatmap", &["flightNumber", "origin", "destination", "fareBasisCode", "classOfService", "aircraftCode", "totalSeats", "availableSeats", "cabins", "tiers", "hasExitRow", "hasFreeSeats", "hasPaidSeats", "basicEconomyLocked"]),
+    ("service", &["id", "description", "params", "returns"]),
     ("shelf", &["isExclusive", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path"]),
-    ("skill", &["skillId", "description", "color", "status", "error"]),
     ("software", &["version", "applicationCategory", "runtimePlatform", "codename", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("sound", &["durationMs", "channels", "sampleRate", "bitDepth", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("source", &["sourceId", "address", "scanner", "enabled", "description", "lastSynced"]),
     ("spec", &["problem", "successCriteria", "remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("step", &["position", "detail", "status"]),
-    ("subscription", &["skill", "op", "target"]),
+    ("subscription", &["app", "op", "target"]),
     ("symbol", &["urn", "kind", "lang", "signature", "summary", "sourcePath", "sourceLine"]),
     ("tag", &["color", "tagType", "annotated", "hash"]),
     ("task", &["remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
@@ -1626,8 +1626,8 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("review", "reviews"),
     ("role", "roles"),
     ("seatmap", "seatmaps"),
+    ("service", "services"),
     ("shelf", "shelves"),
-    ("skill", "skills"),
     ("software", "software"),
     ("sound", "sounds"),
     ("source", "sources"),

@@ -1,0 +1,6 @@
+# List files under a path.
+description: >-
+  List the entries under a filesystem path, as typed `file` rows.
+params:
+  path: { type: "string", doc: "Directory to list." }
+returns: file

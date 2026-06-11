@@ -12,7 +12,7 @@ attributes mirror Chromium ``net::CookieMonster`` / stdlib
 ``http.cookiejar`` / aiohttp. Deletions (``Max-Age=0`` or a past
 ``Expires``) are represented as the cookie being absent from ``_live``.
 
-Skills never touch this module. ``client.get/post`` reads the
+Apps never touch this module. ``client.get/post`` reads the
 ``_current_client`` ContextVar, pulls the Cookie: header from
 ``Client.jar.cookie_header_for(url)``, and feeds response ``Set-Cookie``
 back in via ``Client.jar.ingest(url, …)``. The ContextVar is reset in
@@ -367,7 +367,7 @@ class Client:
     jar: Jar | None = None
 
 
-# Public accessor — skills call ``client.current()``, not this name.
+# Public accessor — apps call ``client.current()``, not this name.
 _current_client: ContextVar[Client | None] = ContextVar(
     "agentos_current_client", default=None
 )

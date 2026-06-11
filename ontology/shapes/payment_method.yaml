@@ -77,7 +77,7 @@ payment_method:
     isSelected:          boolean   # transient UI state from last provider fetch
     status:              string    # active | expired | revoked | pending_verification
     providerTokens:      json      # { persistentToken, accountNumberToken, key, deviceAccountNumber, ... } — opaque, round-trip only
-    metadata:            json      # skill-namespaced freeform
+    metadata:            json      # app-namespaced freeform
   links:
     at_namespace:                  actor              # namespace that holds the saved reference. Required for identity.
     saved_under:             account            # login this instrument is saved under

@@ -746,7 +746,7 @@
       },
       "identity": [],
       "identity_any": [],
-      "leading_comment": "An immutable change event — a graph mutation, skill run, search, or load.\nFields for what happened, relations for who/what/where.",
+      "leading_comment": "An immutable change event — a graph mutation, app run, search, or load.\nFields for what happened, relations for who/what/where.",
       "own_fields": [
         {
           "name": "action",
@@ -1929,8 +1929,29 @@
           "target": null
         },
         {
+          "name": "color",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "defaultView",
           "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "error",
+          "type": "text",
           "is_relation": false,
           "is_array": false,
           "target": null
@@ -1962,14 +1983,49 @@
           "is_relation": false,
           "is_array": false,
           "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "online_at",
+          "type": "website",
+          "is_relation": true,
+          "is_array": false,
+          "target": "website"
+        },
+        {
+          "name": "privacy_at",
+          "type": "webpage",
+          "is_relation": true,
+          "is_array": false,
+          "target": "webpage"
+        },
+        {
+          "name": "provides",
+          "type": "service",
+          "is_relation": true,
+          "is_array": false,
+          "target": "service"
+        },
+        {
+          "name": "terms_at",
+          "type": "webpage",
+          "is_relation": true,
+          "is_array": false,
+          "target": "webpage"
         }
       ],
       "also": [],
       "plural": "apps",
-      "subtitle": "name",
+      "subtitle": "description",
       "display": {
         "title": null,
-        "subtitle": "name",
+        "subtitle": "description",
         "image": null,
         "highlights": [],
         "body": null,
@@ -1979,7 +2035,7 @@
         "id"
       ],
       "identity_any": [],
-      "leading_comment": "An application — something the shell can spawn as a window. Includes\nsystem apps (Finder, Settings, eventually Recycle Bin — engine-resident,\ncode-only, seeded by `seed_system_apps()` in identity.rs) and\nuser-installed apps (any skill returning an app-shape dict). The shape\nis identical either way; only the seeding path differs.\n\nThemes never reference app ids by string literal. They reference\nrole-based list ids ('primary-launcher', 'tray', 'desktop') and render\nwhatever bookmarks those lists contain. Per-theme renames happen via\nthe theme bundle's `appOverrides[appId] = { name?, icon? }` map — the\ntheme owns presentation, not identity.",
+      "leading_comment": "An application — the one installable, launchable unit. System apps\n(Finder, Settings — engine-resident, code-only, seeded by\n`seed_system_apps()` in identity.rs) and installed apps (Python\nconnectors discovered from source directories) are the same shape;\n`isSystem` and the seeding path are the only differences. Installed\napps additionally carry connection lifecycle (`status` / `error`)\nbecause they adapt external platforms.\n\nWhat an app OFFERS the rest of the system is a `service` — see\nshapes/agentos/service.yaml. Apps link to services with `provides`\nedges (minted by the engine from the app's own declarations, never\nauthored). An app may provide zero services or several.\n\nThemes never reference app ids by string literal. They reference\nrole-based list ids ('primary-launcher', 'tray', 'desktop') and render\nwhatever bookmarks those lists contain. Per-theme renames happen via\nthe theme bundle's `appOverrides[appId] = { name?, icon? }` map — the\ntheme owns presentation, not identity.",
       "own_fields": [
         {
           "name": "id",
@@ -1996,6 +2052,34 @@
           "target": null
         },
         {
+          "name": "description",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "error",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "iconRole",
           "type": "string",
           "is_relation": false,
@@ -2031,7 +2115,36 @@
           "target": null
         }
       ],
-      "own_relations": [],
+      "own_relations": [
+        {
+          "name": "provides",
+          "type": "service",
+          "is_relation": true,
+          "is_array": false,
+          "target": "service"
+        },
+        {
+          "name": "online_at",
+          "type": "website",
+          "is_relation": true,
+          "is_array": false,
+          "target": "website"
+        },
+        {
+          "name": "privacy_at",
+          "type": "webpage",
+          "is_relation": true,
+          "is_array": false,
+          "target": "webpage"
+        },
+        {
+          "name": "terms_at",
+          "type": "webpage",
+          "is_relation": true,
+          "is_array": false,
+          "target": "webpage"
+        }
+      ],
       "prior_art": [
         {
           "source": "macOS .app bundle (Info.plist)",
@@ -2047,14 +2160,28 @@
           "source": "Windows AppUserModelID",
           "url": "https://learn.microsoft.com/en-us/windows/win32/shell/appids",
           "notes": "Stable per-app identity decoupled from the executable on disk. Our `id` plays the same role — themes and bookmarks reference it, the binary is an implementation detail of seed_system_apps()."
+        },
+        {
+          "source": "Model Context Protocol (MCP) — Server",
+          "url": "https://modelcontextprotocol.io/specification",
+          "notes": "An installed app = an MCP-registerable provider. id ≈ MCP server name; status tracks connection lifecycle."
+        },
+        {
+          "source": "OpenAPI 3.1 (Info + Servers)",
+          "url": "https://spec.openapis.org/oas/v3.1.0",
+          "notes": "Our description/online_at/privacy_at/terms_at ≈ OpenAPI info.description/info.termsOfService/contact."
         }
       ],
       "source_path": "app.yaml",
-      "raw_body": "plural: apps\nidentity:\n- id\ndisplay:\n  subtitle: name\nfields:\n  id: string\n  name: string\n  iconRole: string\n  route: string\n  defaultView: string\n  isSystem: boolean\n  handles: string[]\nprior_art:\n- source: macOS .app bundle (Info.plist)\n  url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html\n  notes: \"CFBundleIdentifier \\u2248 id; CFBundleName \\u2248 name; CFBundleIconFile\\\n    \\ \\u2248 iconRole (we use a role rather than a file path so themes can override).\"\n- source: freedesktop .desktop entry\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: \"Name, Icon, Exec \\u2014 the Linux/XDG peer. We model the launchable surface,\\\n    \\ not the executable (the engine knows how to spawn).\"\n- source: Windows AppUserModelID\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/appids\n  notes: \"Stable per-app identity decoupled from the executable on disk. Our `id`\\\n    \\ plays the same role \\u2014 themes and bookmarks reference it, the binary is\\\n    \\ an implementation detail of seed_system_apps().\"\n",
+      "raw_body": "plural: apps\nidentity:\n- id\ndisplay:\n  subtitle: description\nfields:\n  id: string\n  name: string\n  description: text\n  color: string\n  status: string\n  error: text\n  iconRole: string\n  route: string\n  defaultView: string\n  isSystem: boolean\n  handles: string[]\nlinks:\n  provides: service\n  online_at: website\n  privacy_at: webpage\n  terms_at: webpage\nprior_art:\n- source: macOS .app bundle (Info.plist)\n  url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html\n  notes: \"CFBundleIdentifier \\u2248 id; CFBundleName \\u2248 name; CFBundleIconFile\\\n    \\ \\u2248 iconRole (we use a role rather than a file path so themes can override).\"\n- source: freedesktop .desktop entry\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: \"Name, Icon, Exec \\u2014 the Linux/XDG peer. We model the launchable surface,\\\n    \\ not the executable (the engine knows how to spawn).\"\n- source: Windows AppUserModelID\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/appids\n  notes: \"Stable per-app identity decoupled from the executable on disk. Our `id`\\\n    \\ plays the same role \\u2014 themes and bookmarks reference it, the binary is\\\n    \\ an implementation detail of seed_system_apps().\"\n- source: \"Model Context Protocol (MCP) \\u2014 Server\"\n  url: https://modelcontextprotocol.io/specification\n  notes: \"An installed app = an MCP-registerable provider. id \\u2248 MCP server name;\\\n    \\ status tracks connection lifecycle.\"\n- source: OpenAPI 3.1 (Info + Servers)\n  url: https://spec.openapis.org/oas/v3.1.0\n  notes: \"Our description/online_at/privacy_at/terms_at \\u2248 OpenAPI info.description/info.termsOfService/contact.\"\n",
       "ancestors": [],
       "field_order": [
         "id",
         "name",
+        "description",
+        "color",
+        "status",
+        "error",
         "iconRole",
         "route",
         "defaultView",
@@ -4505,7 +4632,7 @@
         "url"
       ],
       "identity_any": [],
-      "leading_comment": "A consumer brand — a named, visual, commercial identity. Often (but not\nalways) coincident with an organization: United Airlines IS a brand, the\ncompany IS the brand, they share a wordmark. When renderers need to show\na brand on screen (badges, headers on itinerary PDFs, tiles in a trip\nlist), this is where the visual identity lives.\n\nBrand is a mixin. `airline` says `also: [organization, brand]` so an\nairline node carries both operational metadata (iataCode, alliance) and\nvisual metadata (primaryColor, logo). Hotels, rental agencies, and\nrestaurants should do the same.\n\nColor fields use the same hex-with-hash format used elsewhere in the\nworkspace (`#002244`), matching skill-frontmatter color and CSS hex.\nWikidata's P465 \"hex color code\" uses the same format without the hash,\nbut we keep the hash for parity with CSS and the skill-frontmatter\nconvention; renderers can strip it if they need raw hex.",
+      "leading_comment": "A consumer brand — a named, visual, commercial identity. Often (but not\nalways) coincident with an organization: United Airlines IS a brand, the\ncompany IS the brand, they share a wordmark. When renderers need to show\na brand on screen (badges, headers on itinerary PDFs, tiles in a trip\nlist), this is where the visual identity lives.\n\nBrand is a mixin. `airline` says `also: [organization, brand]` so an\nairline node carries both operational metadata (iataCode, alliance) and\nvisual metadata (primaryColor, logo). Hotels, rental agencies, and\nrestaurants should do the same.\n\nColor fields use the same hex-with-hash format used elsewhere in the\nworkspace (`#002244`), matching app-frontmatter color and CSS hex.\nWikidata's P465 \"hex color code\" uses the same format without the hash,\nbut we keep the hash for parity with CSS and the app-frontmatter\nconvention; renderers can strip it if they need raw hex.",
       "own_fields": [
         {
           "name": "tagline",
@@ -4568,7 +4695,7 @@
         {
           "source": "Wikidata (Brand, Q431289)",
           "url": "https://www.wikidata.org/wiki/Q431289",
-          "notes": "Cross-reference identity for dedupe. country maps to P17 (country); founded to P571 (inception); ownedBy to P127 (owned by); primaryColor ≈ P465 \"hex color code\" (Wikidata stores without the \"#\" prefix — we include it to match CSS and our skill-frontmatter convention)."
+          "notes": "Cross-reference identity for dedupe. country maps to P17 (country); founded to P571 (inception); ownedBy to P127 (owned by); primaryColor ≈ P465 \"hex color code\" (Wikidata stores without the \"#\" prefix — we include it to match CSS and our app-frontmatter convention)."
         },
         {
           "source": "Apple PassKit pkpass",
@@ -4582,7 +4709,7 @@
         }
       ],
       "source_path": "brand.yaml",
-      "raw_body": "plural: brands\nidentity: url\ndisplay:\n  subtitle: tagline\nfields:\n  tagline: string\n  country: string\n  primaryColor: string\n  textColor: string\nlinks:\n  owned_by: organization\n  online_at: website\n  depicted_by: image\nprior_art:\n- source: schema.org/Brand\n  url: https://schema.org/Brand\n  notes: \"Our tagline \\u2248 slogan; founded = foundingDate; ownedBy \\u2248 parentOrganization\\\n    \\ (on the owning Organization); logo = logo. schema.org doesn't model color on\\\n    \\ Brand; that's a Wikidata extension.\"\n- source: Wikidata (Brand, Q431289)\n  url: https://www.wikidata.org/wiki/Q431289\n  notes: \"Cross-reference identity for dedupe. country maps to P17 (country); founded\\\n    \\ to P571 (inception); ownedBy to P127 (owned by); primaryColor \\u2248 P465 \\\"\\\n    hex color code\\\" (Wikidata stores without the \\\"#\\\" prefix \\u2014 we include it\\\n    \\ to match CSS and our skill-frontmatter convention).\"\n- source: Apple PassKit pkpass\n  url: https://developer.apple.com/documentation/walletpasses\n  notes: \"Wallet passes carry backgroundColor / foregroundColor / labelColor \\u2014\\\n    \\ three-color palette aligned with our primaryColor / textColor. We ship two here\\\n    \\ (pairing primary with its paired text color) and defer the third until a renderer\\\n    \\ needs it. An itinerary PDF can derive a \\\"label\\\" color from a lighter tint\\\n    \\ of textColor at render time if needed, rather than fixing it at the data layer.\"\n- source: \"Material Design 3 \\u2014 dynamic color roles\"\n  url: https://m3.material.io/styles/color/roles\n  notes: Material's palette has paired slots (`primary` / `onPrimary`; `secondary`\n    / `onSecondary`; `surface` / `onSurface`). Our primaryColor/textColor follows\n    the primary/onPrimary pairing. Secondary tiers are deferred until renderers actually\n    need them.\n",
+      "raw_body": "plural: brands\nidentity: url\ndisplay:\n  subtitle: tagline\nfields:\n  tagline: string\n  country: string\n  primaryColor: string\n  textColor: string\nlinks:\n  owned_by: organization\n  online_at: website\n  depicted_by: image\nprior_art:\n- source: schema.org/Brand\n  url: https://schema.org/Brand\n  notes: \"Our tagline \\u2248 slogan; founded = foundingDate; ownedBy \\u2248 parentOrganization\\\n    \\ (on the owning Organization); logo = logo. schema.org doesn't model color on\\\n    \\ Brand; that's a Wikidata extension.\"\n- source: Wikidata (Brand, Q431289)\n  url: https://www.wikidata.org/wiki/Q431289\n  notes: \"Cross-reference identity for dedupe. country maps to P17 (country); founded\\\n    \\ to P571 (inception); ownedBy to P127 (owned by); primaryColor \\u2248 P465 \\\"\\\n    hex color code\\\" (Wikidata stores without the \\\"#\\\" prefix \\u2014 we include it\\\n    \\ to match CSS and our app-frontmatter convention).\"\n- source: Apple PassKit pkpass\n  url: https://developer.apple.com/documentation/walletpasses\n  notes: \"Wallet passes carry backgroundColor / foregroundColor / labelColor \\u2014\\\n    \\ three-color palette aligned with our primaryColor / textColor. We ship two here\\\n    \\ (pairing primary with its paired text color) and defer the third until a renderer\\\n    \\ needs it. An itinerary PDF can derive a \\\"label\\\" color from a lighter tint\\\n    \\ of textColor at render time if needed, rather than fixing it at the data layer.\"\n- source: \"Material Design 3 \\u2014 dynamic color roles\"\n  url: https://m3.material.io/styles/color/roles\n  notes: Material's palette has paired slots (`primary` / `onPrimary`; `secondary`\n    / `onSecondary`; `surface` / `onSurface`). Our primaryColor/textColor follows\n    the primary/onPrimary pairing. Secondary tiers are deferred until renderers actually\n    need them.\n",
       "ancestors": [],
       "field_order": [
         "tagline",
@@ -6861,10 +6988,10 @@
         },
         {
           "name": "written_by",
-          "type": "skill",
+          "type": "app",
           "is_relation": true,
           "is_array": false,
-          "target": "skill"
+          "target": "app"
         }
       ],
       "also": [],
@@ -6884,7 +7011,7 @@
         "itemType"
       ],
       "identity_any": [],
-      "leading_comment": "A credential held by AgentOS — the graph descriptor that mirrors one\nencrypted row in the vault (~/.agentos/data/agentos.db, credentials table).\n\nEvery vault row also exists as a node of this shape. The *value* stays\nencrypted in the credentials table, addressed by `storeRowId`. This\nnode carries only metadata — domain, identifier, itemType, timestamps,\nprovenance links — and nothing secret. Descriptor reads are cheap\n(graph traversal), decryption is on demand (SDK's `auth_store.read`\nby identifier, after the vault system skill returns the descriptor).\n\nIdentity is `(domain, identifier, itemType)` — one node per\ndistinct credential, matching the unique-row constraint on the\ncredentials SQLite table (minus `source`, which is provenance, not\nidentity: two providers writing the same domain/identifier/itemType\npair describe the same credential; whichever writes last wins).",
+      "leading_comment": "A credential held by AgentOS — the graph descriptor that mirrors one\nencrypted row in the vault (~/.agentos/data/agentos.db, credentials table).\n\nEvery vault row also exists as a node of this shape. The *value* stays\nencrypted in the credentials table, addressed by `storeRowId`. This\nnode carries only metadata — domain, identifier, itemType, timestamps,\nprovenance links — and nothing secret. Descriptor reads are cheap\n(graph traversal), decryption is on demand (SDK's `auth_store.read`\nby identifier, after the vault system app returns the descriptor).\n\nIdentity is `(domain, identifier, itemType)` — one node per\ndistinct credential, matching the unique-row constraint on the\ncredentials SQLite table (minus `source`, which is provenance, not\nidentity: two providers writing the same domain/identifier/itemType\npair describe the same credential; whichever writes last wins).",
       "own_fields": [
         {
           "name": "domain",
@@ -6953,10 +7080,10 @@
         },
         {
           "name": "written_by",
-          "type": "skill",
+          "type": "app",
           "is_relation": true,
           "is_array": false,
-          "target": "skill"
+          "target": "app"
         }
       ],
       "prior_art": [
@@ -6982,7 +7109,7 @@
         }
       ],
       "source_path": "credential.yaml",
-      "raw_body": "plural: credentials\nidentity:\n- domain\n- identifier\n- itemType\ndisplay:\n  subtitle: source\nfields:\n  domain: string\n  identifier: string\n  itemType: string\n  source: string\n  obtainedAt: datetime\n  lastVerified: datetime\n  refreshable: boolean\n  storeRowId: integer\nlinks:\n  at_namespace: organization\n  written_by: skill\nprior_art:\n- source: OAuth 2.0 Token Introspection (RFC 7662)\n  url: https://datatracker.ietf.org/doc/html/rfc7662\n  notes: 'RFC 7662 describes token metadata as a separate addressable resource from\n    the token itself (active, exp, iss, sub, scope). Same split here: descriptor is\n    queryable graph metadata, encrypted value is retrieved by a separate call (`auth_store.read`\n    by identifier). Our obtainedAt/expiresAt/lastVerified mirror iat/exp/auth_time.'\n- source: FIDO Metadata Service (MDS3)\n  url: https://fidoalliance.org/metadata/\n  notes: \"FIDO separates authenticator metadata from the authenticator itself \\u2014\\\n    \\ metadata is queryable, the cryptographic material is not. Mirrors our descriptor/vault\\\n    \\ split.\"\n- source: macOS Keychain SecItem attributes\n  url: https://developer.apple.com/documentation/security/keychain_services/keychain_items/item_attribute_keys_and_values\n  notes: \"Keychain separates `kSecAttr*` (metadata \\u2014 server, account, creation/modification\\\n    \\ dates) from `kSecValueData` (the secret). Attributes are queryable without decrypting\\\n    \\ the value. Our fields map: kSecAttrServer \\u2192 domain, kSecAttrAccount \\u2192\\\n    \\ identifier, kSecAttrCreationDate \\u2192 obtainedAt, kSecAttrModificationDate\\\n    \\ \\u2192 lastVerified.\"\n- source: schema.org/DigitalDocument (WebAuthn credentials stored as)\n  url: https://schema.org/DigitalDocument\n  notes: \"Weak alignment \\u2014 schema.org has no native credential type. Cited only\\\n    \\ to note that existing web ontologies deliberately stop short of secret material;\\\n    \\ descriptor-only is the established pattern.\"\n",
+      "raw_body": "plural: credentials\nidentity:\n- domain\n- identifier\n- itemType\ndisplay:\n  subtitle: source\nfields:\n  domain: string\n  identifier: string\n  itemType: string\n  source: string\n  obtainedAt: datetime\n  lastVerified: datetime\n  refreshable: boolean\n  storeRowId: integer\nlinks:\n  at_namespace: organization\n  written_by: app\nprior_art:\n- source: OAuth 2.0 Token Introspection (RFC 7662)\n  url: https://datatracker.ietf.org/doc/html/rfc7662\n  notes: 'RFC 7662 describes token metadata as a separate addressable resource from\n    the token itself (active, exp, iss, sub, scope). Same split here: descriptor is\n    queryable graph metadata, encrypted value is retrieved by a separate call (`auth_store.read`\n    by identifier). Our obtainedAt/expiresAt/lastVerified mirror iat/exp/auth_time.'\n- source: FIDO Metadata Service (MDS3)\n  url: https://fidoalliance.org/metadata/\n  notes: \"FIDO separates authenticator metadata from the authenticator itself \\u2014\\\n    \\ metadata is queryable, the cryptographic material is not. Mirrors our descriptor/vault\\\n    \\ split.\"\n- source: macOS Keychain SecItem attributes\n  url: https://developer.apple.com/documentation/security/keychain_services/keychain_items/item_attribute_keys_and_values\n  notes: \"Keychain separates `kSecAttr*` (metadata \\u2014 server, account, creation/modification\\\n    \\ dates) from `kSecValueData` (the secret). Attributes are queryable without decrypting\\\n    \\ the value. Our fields map: kSecAttrServer \\u2192 domain, kSecAttrAccount \\u2192\\\n    \\ identifier, kSecAttrCreationDate \\u2192 obtainedAt, kSecAttrModificationDate\\\n    \\ \\u2192 lastVerified.\"\n- source: schema.org/DigitalDocument (WebAuthn credentials stored as)\n  url: https://schema.org/DigitalDocument\n  notes: \"Weak alignment \\u2014 schema.org has no native credential type. Cited only\\\n    \\ to note that existing web ontologies deliberately stop short of secret material;\\\n    \\ descriptor-only is the established pattern.\"\n",
       "ancestors": [],
       "field_order": [
         "domain",
@@ -16651,7 +16778,7 @@
         "id"
       ],
       "identity_any": [],
-      "leading_comment": "An invitation to join something — an organization, a workspace, a team, a\ncalendar event. The universal \"you're invited\" primitive.\n\nInvitations have a lifecycle: pending → accepted / declined / revoked / expired.\nThey cross platforms: Greptile org invites, GitHub org invites, Slack workspace\ninvites, Google Calendar event invites, Linear team invites — all the same shape.\n\nIdentity: [platform, id] — one node per platform+invite combo. The id is\ntypically the invite token or a platform-specific invite id.\n\ninvitationType is an open vocabulary — skills set whatever makes sense:\n\"organization\", \"workspace\", \"team\", \"repository\", \"event\", \"channel\", etc.\n\nStandard fields (inherited): id, name, url, image, published, content\npublished = when the invitation was created/sent.",
+      "leading_comment": "An invitation to join something — an organization, a workspace, a team, a\ncalendar event. The universal \"you're invited\" primitive.\n\nInvitations have a lifecycle: pending → accepted / declined / revoked / expired.\nThey cross platforms: Greptile org invites, GitHub org invites, Slack workspace\ninvites, Google Calendar event invites, Linear team invites — all the same shape.\n\nIdentity: [platform, id] — one node per platform+invite combo. The id is\ntypically the invite token or a platform-specific invite id.\n\ninvitationType is an open vocabulary — apps set whatever makes sense:\n\"organization\", \"workspace\", \"team\", \"repository\", \"event\", \"channel\", etc.\n\nStandard fields (inherited): id, name, url, image, published, content\npublished = when the invitation was created/sent.",
       "own_fields": [
         {
           "name": "invitationType",
@@ -17165,11 +17292,11 @@
         {
           "source": "SpaceX r/SpaceX API v4",
           "url": "https://github.com/r-spacex/SpaceX-API",
-          "notes": "Original source of these fields. The fly-by-night-launch.com skill maps the v4 launches endpoint onto this shape; the per-booster landing outcomes JSON mirrors that API's `cores` sub-document."
+          "notes": "Original source of these fields. The fly-by-night-launch.com app maps the v4 launches endpoint onto this shape; the per-booster landing outcomes JSON mirrors that API's `cores` sub-document."
         }
       ],
       "source_path": "launch.yaml",
-      "raw_body": "plural: launches\nalso:\n- event\ndisplay:\n  subtitle: rocketId\n  highlights:\n  - startDate\n  - rocketId\n  - launchpadId\nfields:\n  flightNumber: integer\n  rocketId: string\n  launchpadId: string\n  crewIds: string[]\n  reusedBoosters: string[]\n  landingOutcomes: json\n  articleUrl: url\n  webcastUrl: url\n  wikipediaUrl: url\n  patchImage: url\nprior_art:\n- source: SpaceX r/SpaceX API v4\n  url: https://github.com/r-spacex/SpaceX-API\n  notes: Original source of these fields. The fly-by-night-launch.com skill maps the\n    v4 launches endpoint onto this shape; the per-booster landing outcomes JSON mirrors\n    that API's `cores` sub-document.\n",
+      "raw_body": "plural: launches\nalso:\n- event\ndisplay:\n  subtitle: rocketId\n  highlights:\n  - startDate\n  - rocketId\n  - launchpadId\nfields:\n  flightNumber: integer\n  rocketId: string\n  launchpadId: string\n  crewIds: string[]\n  reusedBoosters: string[]\n  landingOutcomes: json\n  articleUrl: url\n  webcastUrl: url\n  wikipediaUrl: url\n  patchImage: url\nprior_art:\n- source: SpaceX r/SpaceX API v4\n  url: https://github.com/r-spacex/SpaceX-API\n  notes: Original source of these fields. The fly-by-night-launch.com app maps the\n    v4 launches endpoint onto this shape; the per-booster landing outcomes JSON mirrors\n    that API's `cores` sub-document.\n",
       "ancestors": [
         "event"
       ],
@@ -26415,7 +26542,7 @@
       "identity_any": [
         "url"
       ],
-      "leading_comment": "A purchasable item OR an identifiable product released into the world.\nBase type for book, aircraft, hardware, software.\nCross-skill: Amazon products, Uber Eats grocery items, any retail catalog,\noperating systems (Windows XP, Mac OS 9), aircraft types (Boeing 737),\nbooks (any ISBN), cited code libraries (XP.css, 98.css).\n\nLifecycle fields (released, discontinued) are context-dependent:\n- software:        released = first public release; discontinued = end of support\n(Windows XP: released 2001-10-25, discontinued 2014-04-08)\n- hardware:        released = launch date; discontinued = retirement / EOL\n(iPhone 4: released 2010-06-24, discontinued 2013-09-10)\n- aircraft:        released = type certification; discontinued = production end\n(Boeing 707: released 1958-10-26, discontinued 1979-01-01)\n- book:            released = publication date; discontinued = \"out of print\"\n- retail product:  released = first sold; discontinued = stopped selling\nA single field family captures all of these. Skills/apps can interpret\ndiscontinued meaning per product-type via the product's `also:` shape membership.",
+      "leading_comment": "A purchasable item OR an identifiable product released into the world.\nBase type for book, aircraft, hardware, software.\nCross-app: Amazon products, Uber Eats grocery items, any retail catalog,\noperating systems (Windows XP, Mac OS 9), aircraft types (Boeing 737),\nbooks (any ISBN), cited code libraries (XP.css, 98.css).\n\nLifecycle fields (released, discontinued) are context-dependent:\n- software:        released = first public release; discontinued = end of support\n(Windows XP: released 2001-10-25, discontinued 2014-04-08)\n- hardware:        released = launch date; discontinued = retirement / EOL\n(iPhone 4: released 2010-06-24, discontinued 2013-09-10)\n- aircraft:        released = type certification; discontinued = production end\n(Boeing 707: released 1958-10-26, discontinued 1979-01-01)\n- book:            released = publication date; discontinued = \"out of print\"\n- retail product:  released = first sold; discontinued = stopped selling\nA single field family captures all of these. Apps/apps can interpret\ndiscontinued meaning per product-type via the product's `also:` shape membership.",
       "own_fields": [
         {
           "name": "category",
@@ -29595,7 +29722,7 @@
         "id"
       ],
       "identity_any": [],
-      "leading_comment": "A seat map for a specific flight + cabin, returned by an airline skill.\n\nA seatmap is the RENDERABLE STATE of a cabin at a moment in time:\nwhich seats exist, which are available, their prices, and the\nphysical structure (aisles, exits, galleys, wings). It's bound to a\nspecific flight + fare because availability + prices depend on both.\n\nDistinct from `aircraft` — aircraft describes the airplane TYPE\n(model, variant, manufacturer); seatmap describes the cabin INSTANCE\nat booking time (with occupancy, live pricing, per-fare eligibility).\nThe same 737-800 has different seatmaps for different flights (and\nfor different fare classes on the same flight, since Basic Economy\ntypically can't pick seats at all).\n\nDistinct from a `pass.seatAssignment` — the assignment is the single\nseat a passenger occupies; the seatmap is the whole cabin they\nchose from.\n\nNot itself a commerce primitive — the *selection* of a seat is a\npurchase decision that lands on a `pass`. The seatmap is the catalog\nthat decision ranges over.\n\nPrior art:\n- IATA PADIS Seat Map Response (ATAMSM). Our schema mirrors the\ncabin > row > seat hierarchy; flags like isExit / isBulkhead /\nisBlocked map to PADIS characteristic codes.\n- IATA AIRIMP codes for seat characteristics (e.g. \"1A\" = window,\n\"8\" = no recline) — captured in iataAttributes when available.\n- Duffel seat_maps endpoint. Their cabin > deck > rows > seats tree\nflattens to our cabins[] > rows[] > seats[].\n- schema.org has no seat-map primitive; closest is Event/Place/Ticket\nbut none fit cabin-with-aisles. Airlines universally use the IATA\nshape; we follow.\n\nIdentity: the tuple (flight, fareBasisCode) — a seatmap is scoped to\none flight AND one fare (different fares yield different eligibility).\nid is a synthetic string the skill composes.",
+      "leading_comment": "A seat map for a specific flight + cabin, returned by an airline app.\n\nA seatmap is the RENDERABLE STATE of a cabin at a moment in time:\nwhich seats exist, which are available, their prices, and the\nphysical structure (aisles, exits, galleys, wings). It's bound to a\nspecific flight + fare because availability + prices depend on both.\n\nDistinct from `aircraft` — aircraft describes the airplane TYPE\n(model, variant, manufacturer); seatmap describes the cabin INSTANCE\nat booking time (with occupancy, live pricing, per-fare eligibility).\nThe same 737-800 has different seatmaps for different flights (and\nfor different fare classes on the same flight, since Basic Economy\ntypically can't pick seats at all).\n\nDistinct from a `pass.seatAssignment` — the assignment is the single\nseat a passenger occupies; the seatmap is the whole cabin they\nchose from.\n\nNot itself a commerce primitive — the *selection* of a seat is a\npurchase decision that lands on a `pass`. The seatmap is the catalog\nthat decision ranges over.\n\nPrior art:\n- IATA PADIS Seat Map Response (ATAMSM). Our schema mirrors the\ncabin > row > seat hierarchy; flags like isExit / isBulkhead /\nisBlocked map to PADIS characteristic codes.\n- IATA AIRIMP codes for seat characteristics (e.g. \"1A\" = window,\n\"8\" = no recline) — captured in iataAttributes when available.\n- Duffel seat_maps endpoint. Their cabin > deck > rows > seats tree\nflattens to our cabins[] > rows[] > seats[].\n- schema.org has no seat-map primitive; closest is Event/Place/Ticket\nbut none fit cabin-with-aisles. Airlines universally use the IATA\nshape; we follow.\n\nIdentity: the tuple (flight, fareBasisCode) — a seatmap is scoped to\none flight AND one fare (different fares yield different eligibility).\nid is a synthetic string the app composes.",
       "own_fields": [
         {
           "name": "flightNumber",
@@ -29745,6 +29872,180 @@
         "hasFreeSeats",
         "hasPaidSeats",
         "basicEconomyLocked"
+      ],
+      "derived": {},
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "service",
+      "class_name": "Service",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "params",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "returns",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "defaults_to",
+          "type": "app",
+          "is_relation": true,
+          "is_array": false,
+          "target": "app"
+        }
+      ],
+      "also": [],
+      "plural": "services",
+      "subtitle": "description",
+      "display": {
+        "title": null,
+        "subtitle": "description",
+        "image": null,
+        "highlights": [],
+        "body": null,
+        "preview": {}
+      },
+      "identity": [
+        "id"
+      ],
+      "identity_any": [],
+      "leading_comment": "A service — a named interface the engine brokers between strangers.\nThe caller names the interface (web_search, web_read, llm), never the\napp; the engine matchmakes a provider and dispatches. Rendering is NOT\na service — which app opens/renders a shape or mime is the app shape's\n`handles` field, a shell association, not a brokered call.\n\nThe registry of canonical services is authored in\n`platform/ontology/services/*.yaml` (one file per service; id = file\nstem) and projected by codegen into the SDK constants and the engine's\ncompiled registry. Service NODES on the graph are minted by the engine\nfrom that registry — never authored by hand. Apps point at them with\n`provides` edges (link_vals: {via: the bound tool}); the user's\nstanding pick is a `defaults_to` link from the service node to an app\n(XP's \"Set Program Access and Defaults\").\n\nKeep the registry small and verb-shaped. If a candidate interface has\nno second potential provider, it probably isn't a service yet.",
+      "own_fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "params",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "returns",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [
+        {
+          "name": "defaults_to",
+          "type": "app",
+          "is_relation": true,
+          "is_array": false,
+          "target": "app"
+        }
+      ],
+      "prior_art": [
+        {
+          "source": "Debian alternatives system (update-alternatives)",
+          "url": "https://wiki.debian.org/DebianAlternatives",
+          "notes": "A generic name (editor) resolves to one of several registered providers via a per-name symlink the admin can repoint. Our service id ≈ the generic name; defaults_to ≈ the symlink."
+        },
+        {
+          "source": "Windows XP — Set Program Access and Defaults",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/shell/default-programs",
+          "notes": "The OS-level \"which program answers this kind of request\" surface. Our defaults_to link is that choice as graph state."
+        },
+        {
+          "source": "Android Intents (action + default app)",
+          "url": "https://developer.android.com/guide/components/intents-filters",
+          "notes": "Apps declare which actions they answer; the user picks a default per action. provides ≈ intent-filter; defaults_to ≈ the user's \"always\" choice."
+        }
+      ],
+      "source_path": "agentos/service.yaml",
+      "raw_body": "plural: services\nidentity:\n- id\ndisplay:\n  subtitle: description\nfields:\n  id: string\n  description: text\n  params: json\n  returns: string\nlinks:\n  defaults_to: app\nprior_art:\n- source: Debian alternatives system (update-alternatives)\n  url: https://wiki.debian.org/DebianAlternatives\n  notes: \"A generic name (editor) resolves to one of several registered providers\\\n    \\ via a per-name symlink the admin can repoint. Our service id \\u2248 the generic\\\n    \\ name; defaults_to \\u2248 the symlink.\"\n- source: \"Windows XP \\u2014 Set Program Access and Defaults\"\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/default-programs\n  notes: The OS-level \"which program answers this kind of request\" surface. Our defaults_to\n    link is that choice as graph state.\n- source: Android Intents (action + default app)\n  url: https://developer.android.com/guide/components/intents-filters\n  notes: \"Apps declare which actions they answer; the user picks a default per action.\\\n    \\ provides \\u2248 intent-filter; defaults_to \\u2248 the user's \\\"always\\\" choice.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "id",
+        "description",
+        "params",
+        "returns"
       ],
       "derived": {},
       "shortcuts": {},
@@ -30004,228 +30305,6 @@
         "icon_size",
         "sort_by",
         "path"
-      ],
-      "derived": {},
-      "shortcuts": {},
-      "prefs_schemas": {}
-    },
-    {
-      "name": "skill",
-      "class_name": "Skill",
-      "fields": [
-        {
-          "name": "id",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "text",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "url",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "image",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "author",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "datePublished",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "content",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "color",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "description",
-          "type": "text",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "error",
-          "type": "text",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "skillId",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "online_at",
-          "type": "website",
-          "is_relation": true,
-          "is_array": false,
-          "target": "website"
-        },
-        {
-          "name": "privacy_at",
-          "type": "webpage",
-          "is_relation": true,
-          "is_array": false,
-          "target": "webpage"
-        },
-        {
-          "name": "terms_at",
-          "type": "webpage",
-          "is_relation": true,
-          "is_array": false,
-          "target": "webpage"
-        }
-      ],
-      "also": [],
-      "plural": "skills",
-      "subtitle": "description",
-      "display": {
-        "title": null,
-        "subtitle": "description",
-        "image": null,
-        "highlights": [],
-        "body": null,
-        "preview": {}
-      },
-      "identity": [],
-      "identity_any": [],
-      "leading_comment": "A connected service/integration in agentOS. Each skill provides tools\nand adapts external data into graph entities.",
-      "own_fields": [
-        {
-          "name": "skillId",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "description",
-          "type": "text",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "color",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "error",
-          "type": "text",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        }
-      ],
-      "own_relations": [
-        {
-          "name": "online_at",
-          "type": "website",
-          "is_relation": true,
-          "is_array": false,
-          "target": "website"
-        },
-        {
-          "name": "privacy_at",
-          "type": "webpage",
-          "is_relation": true,
-          "is_array": false,
-          "target": "webpage"
-        },
-        {
-          "name": "terms_at",
-          "type": "webpage",
-          "is_relation": true,
-          "is_array": false,
-          "target": "webpage"
-        }
-      ],
-      "prior_art": [
-        {
-          "source": "Model Context Protocol (MCP) — Server",
-          "url": "https://modelcontextprotocol.io/specification",
-          "notes": "Our skill = an MCP-registerable capability provider. skillId ≈ MCP server name; status tracks connection lifecycle."
-        },
-        {
-          "source": "OpenAPI 3.1 (Info + Servers)",
-          "url": "https://spec.openapis.org/oas/v3.1.0",
-          "notes": "Our description/website/privacyPolicy/termsOfService ≈ OpenAPI info.description/info.termsOfService/info.license/contact."
-        },
-        {
-          "source": "Anthropic Tool Use (skills-as-tools)",
-          "url": "https://docs.anthropic.com/en/docs/build-with-claude/tool-use",
-          "notes": "Each AgentOS skill publishes tools consumed via MCP/Tool-Use. status/error surface tool-call health back to the agent."
-        }
-      ],
-      "source_path": "agentos/skill.yaml",
-      "raw_body": "plural: skills\ndisplay:\n  subtitle: description\nfields:\n  skillId: string\n  description: text\n  color: string\n  status: string\n  error: text\nlinks:\n  online_at: website\n  privacy_at: webpage\n  terms_at: webpage\nprior_art:\n- source: \"Model Context Protocol (MCP) \\u2014 Server\"\n  url: https://modelcontextprotocol.io/specification\n  notes: \"Our skill = an MCP-registerable capability provider. skillId \\u2248 MCP\\\n    \\ server name; status tracks connection lifecycle.\"\n- source: OpenAPI 3.1 (Info + Servers)\n  url: https://spec.openapis.org/oas/v3.1.0\n  notes: \"Our description/website/privacyPolicy/termsOfService \\u2248 OpenAPI info.description/info.termsOfService/info.license/contact.\"\n- source: Anthropic Tool Use (skills-as-tools)\n  url: https://docs.anthropic.com/en/docs/build-with-claude/tool-use\n  notes: Each AgentOS skill publishes tools consumed via MCP/Tool-Use. status/error\n    surface tool-call health back to the agent.\n",
-      "ancestors": [],
-      "field_order": [
-        "skillId",
-        "description",
-        "color",
-        "status",
-        "error"
       ],
       "derived": {},
       "shortcuts": {},
@@ -31125,7 +31204,7 @@
         "address"
       ],
       "identity_any": [],
-      "leading_comment": "A content source — where skills, themes, shapes, and wallpapers live.\nSources are like Cydia repos, Homebrew taps, or APT sources.\n\nIdentity: address — the canonical location (filesystem path, git URL, or HTTP URL).\nTwo entries pointing to the same address are the same source.\n\nScanner tells the engine how to scan this source:\n- \"agentos\" scans for skills/, themes/, apps/, shapes/, wallpapers/ subdirs\n- Future: homebrew, apt, synology, etc.\n\nRenamed from `platform` to `scanner` to free `platform` from this overload —\n`platform` now means \"the namespace an account exists within\" (see account.at).",
+      "leading_comment": "A content source — where apps, themes, shapes, and wallpapers live.\nSources are like Cydia repos, Homebrew taps, or APT sources.\n\nIdentity: address — the canonical location (filesystem path, git URL, or HTTP URL).\nTwo entries pointing to the same address are the same source.\n\nScanner tells the engine how to scan this source:\n- \"agentos\" scans for apps/, themes/, apps/, shapes/, wallpapers/ subdirs\n- Future: homebrew, apt, synology, etc.\n\nRenamed from `platform` to `scanner` to free `platform` from this overload —\n`platform` now means \"the namespace an account exists within\" (see account.at).",
       "own_fields": [
         {
           "name": "sourceId",
@@ -32004,14 +32083,14 @@
           "target": null
         },
         {
-          "name": "op",
+          "name": "app",
           "type": "string",
           "is_relation": false,
           "is_array": false,
           "target": null
         },
         {
-          "name": "skill",
+          "name": "op",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -32037,14 +32116,14 @@
         "preview": {}
       },
       "identity": [
-        "skill",
+        "app",
         "op"
       ],
       "identity_any": [],
-      "leading_comment": "A standing subscription — a durable intent to stream live entities, re-armed on every engine boot.\nThe node stores WHICH skill op arms the stream, never the artifact it\nproduces (hook JS regenerates fresh on every re-arm, so it can't go\nstale on the graph). Engine boot reads these nodes and re-dispatches\neach as a normal skills.run call.\n\nOne node per (skill, op): subscribe upserts, close deletes, boot\nreads-and-dispatches. The node row's own updated_at IS the armed-at\ntimestamp — no field duplicates it.",
+      "leading_comment": "A standing subscription — a durable intent to stream live entities, re-armed on every engine boot.\nThe node stores WHICH app op arms the stream, never the artifact it\nproduces (hook JS regenerates fresh on every re-arm, so it can't go\nstale on the graph). Engine boot reads these nodes and re-dispatches\neach as a normal apps.run call.\n\nOne node per (app, op): subscribe upserts, close deletes, boot\nreads-and-dispatches. The node row's own updated_at IS the armed-at\ntimestamp — no field duplicates it.",
       "own_fields": [
         {
-          "name": "skill",
+          "name": "app",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -32070,7 +32149,7 @@
         {
           "source": "W3C WebSub subscriptions",
           "url": "https://www.w3.org/TR/websub/",
-          "notes": "A subscription is a stored intent (topic + callback) the hub re-delivers against — content never lives on the subscription. Our skill/op ≈ topic/callback."
+          "notes": "A subscription is a stored intent (topic + callback) the hub re-delivers against — content never lives on the subscription. Our app/op ≈ topic/callback."
         },
         {
           "source": "MQTT persistent sessions",
@@ -32084,10 +32163,10 @@
         }
       ],
       "source_path": "agentos/subscription.yaml",
-      "raw_body": "plural: subscriptions\nidentity:\n- skill\n- op\ndisplay:\n  subtitle: target\nicon: rss\nfields:\n  skill: string\n  op: string\n  target: string\nprior_art:\n- source: W3C WebSub subscriptions\n  url: https://www.w3.org/TR/websub/\n  notes: \"A subscription is a stored intent (topic + callback) the hub re-delivers\\\n    \\ against \\u2014 content never lives on the subscription. Our skill/op \\u2248\\\n    \\ topic/callback.\"\n- source: MQTT persistent sessions\n  url: https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html\n  notes: Subscriptions survive connection loss and re-attach on reconnect. Our engine-boot\n    re-arm parallels session resumption.\n- source: systemd unit enablement (systemctl enable)\n  url: https://www.freedesktop.org/software/systemd/man/systemctl.html\n  notes: \"Enablement is a durable on-disk fact distinct from the running process;\\\n    \\ boot re-creates the runtime state from it. Our node \\u2248 the wants/ symlink,\\\n    \\ the live CDP hook \\u2248 the running unit.\"\n",
+      "raw_body": "plural: subscriptions\nidentity:\n- app\n- op\ndisplay:\n  subtitle: target\nicon: rss\nfields:\n  app: string\n  op: string\n  target: string\nprior_art:\n- source: W3C WebSub subscriptions\n  url: https://www.w3.org/TR/websub/\n  notes: \"A subscription is a stored intent (topic + callback) the hub re-delivers\\\n    \\ against \\u2014 content never lives on the subscription. Our app/op \\u2248 topic/callback.\"\n- source: MQTT persistent sessions\n  url: https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html\n  notes: Subscriptions survive connection loss and re-attach on reconnect. Our engine-boot\n    re-arm parallels session resumption.\n- source: systemd unit enablement (systemctl enable)\n  url: https://www.freedesktop.org/software/systemd/man/systemctl.html\n  notes: \"Enablement is a durable on-disk fact distinct from the running process;\\\n    \\ boot re-creates the runtime state from it. Our node \\u2248 the wants/ symlink,\\\n    \\ the live CDP hook \\u2248 the running unit.\"\n",
       "ancestors": [],
       "field_order": [
-        "skill",
+        "app",
         "op",
         "target"
       ],
@@ -32488,7 +32567,7 @@
         "name"
       ],
       "identity_any": [],
-      "leading_comment": "A tag or label — Gmail label, Todoist label, GitHub label, git tag,\nuniversal user tagging (Phase 7 of the bookmarks plan), etc.\nCross-skill: anything can carry tags. An email has labels, a task has tags,\na PR has labels, a git commit has tags. Two tags with the same `name`\nresolve to the same node — `identity: name` dedups so users see a\nsingle `#urgent` regardless of how many surfaces apply it.",
+      "leading_comment": "A tag or label — Gmail label, Todoist label, GitHub label, git tag,\nuniversal user tagging (Phase 7 of the bookmarks plan), etc.\nCross-app: anything can carry tags. An email has labels, a task has tags,\na PR has labels, a git commit has tags. Two tags with the same `name`\nresolve to the same node — `identity: name` dedups so users see a\nsingle `#urgent` regardless of how many surfaces apply it.",
       "own_fields": [
         {
           "name": "color",
@@ -34532,11 +34611,11 @@
         {
           "source": "Whisper JSON output",
           "url": "https://github.com/openai/whisper",
-          "notes": "Practical source — many transcript skills return Whisper-shaped JSON (segments with start/end/text). Direct match."
+          "notes": "Practical source — many transcript apps return Whisper-shaped JSON (segments with start/end/text). Direct match."
         }
       ],
       "source_path": "transcript.yaml",
-      "raw_body": "plural: transcripts\ndisplay:\n  subtitle: language\nfields:\n  language: string\n  sourceType: string\n  contentRole: string\n  durationMs: integer\n  segmentCount: integer\n  segments: json\nprior_art:\n- source: WebVTT (W3C)\n  url: https://www.w3.org/TR/webvtt1/\n  notes: Our segments are WebVTT cues (start/end/text). language follows WebVTT's\n    LANGUAGE header.\n- source: SRT SubRip Subtitles\n  url: https://matroska.org/technical/subtitles.html#srt-subtitles\n  notes: Practical alternative cue format. Same segment shape.\n- source: Whisper JSON output\n  url: https://github.com/openai/whisper\n  notes: \"Practical source \\u2014 many transcript skills return Whisper-shaped JSON\\\n    \\ (segments with start/end/text). Direct match.\"\n",
+      "raw_body": "plural: transcripts\ndisplay:\n  subtitle: language\nfields:\n  language: string\n  sourceType: string\n  contentRole: string\n  durationMs: integer\n  segmentCount: integer\n  segments: json\nprior_art:\n- source: WebVTT (W3C)\n  url: https://www.w3.org/TR/webvtt1/\n  notes: Our segments are WebVTT cues (start/end/text). language follows WebVTT's\n    LANGUAGE header.\n- source: SRT SubRip Subtitles\n  url: https://matroska.org/technical/subtitles.html#srt-subtitles\n  notes: Practical alternative cue format. Same segment shape.\n- source: Whisper JSON output\n  url: https://github.com/openai/whisper\n  notes: \"Practical source \\u2014 many transcript apps return Whisper-shaped JSON\\\n    \\ (segments with start/end/text). Direct match.\"\n",
       "ancestors": [],
       "field_order": [
         "language",
@@ -37157,7 +37236,7 @@
       },
       "identity": [],
       "identity_any": [],
-      "leading_comment": "A mounted Volume — any named source of typed nodes the engine has\nattached to the Registry: a `.db` memex file, a YAML text volume, or a\ntransport volume served live by a skill (the host filesystem, a USB\nstick, a browser's data). The home graph is the always-mounted\nwriteable Volume; it is the hardcoded constant. Every OTHER mount IS a\n`volume` node — one row per mount, persisted so the mount survives\nengine restart (`auto_mount: true`).\n\nMount lifecycle is six steps; this shape captures the persisted state\nof step 5. See `core/_roadmap/p2/realms-transports/plan.md`.",
+      "leading_comment": "A mounted Volume — any named source of typed nodes the engine has\nattached to the Registry: a `.db` memex file, a YAML text volume, or a\ntransport volume served live by an app (the host filesystem, a USB\nstick, a browser's data). The home graph is the always-mounted\nwriteable Volume; it is the hardcoded constant. Every OTHER mount IS a\n`volume` node — one row per mount, persisted so the mount survives\nengine restart (`auto_mount: true`).\n\nMount lifecycle is six steps; this shape captures the persisted state\nof step 5. See `core/_roadmap/p2/realms-transports/plan.md`.",
       "own_fields": [
         {
           "name": "volume_id",
@@ -37589,7 +37668,7 @@
         "url"
       ],
       "identity_any": [],
-      "leading_comment": "A published website (not a single page — see webpage for that).\nWebsites are created/managed by the here.now publishing skill.",
+      "leading_comment": "A published website (not a single page — see webpage for that).\nWebsites are created/managed by the here.now publishing app.",
       "own_fields": [
         {
           "name": "status",
@@ -37678,7 +37757,7 @@
   "auth_contracts": [
     {
       "kind": "cookie",
-      "description": "Return shape for `@provides(cookie_auth, ...)` skill operations. Top-level dict with `cookies: [Cookie, ...]`; each Cookie has a `name` + `value` and optional `expires` / `created` for freshness arbitration in crates/auth/src/source.rs.",
+      "description": "Return shape for `@provides(cookie_auth, ...)` app operations. Top-level dict with `cookies: [Cookie, ...]`; each Cookie has a `name` + `value` and optional `expires` / `created` for freshness arbitration in crates/auth/src/source.rs.",
       "groups": [
         {
           "role": "envelope",
@@ -37698,7 +37777,7 @@
             {
               "name": "count",
               "type": "integer",
-              "description": "Length of `cookies` — purely informational, the engine recomputes from `cookies.len()`. Useful for skill-side assertions and trace summaries."
+              "description": "Length of `cookies` — purely informational, the engine recomputes from `cookies.len()`. Useful for app-side assertions and trace summaries."
             },
             {
               "name": "source",
@@ -37765,7 +37844,7 @@
     },
     {
       "kind": "oauth",
-      "description": "Return shape for `@provides(oauth_auth, ...)` skill operations. Engine consumes via crates/auth/src/types.rs (Session::to_auth_header, auth_fields) and crates/auth/src/resolve.rs (token-refresh path).",
+      "description": "Return shape for `@provides(oauth_auth, ...)` app operations. Engine consumes via crates/auth/src/types.rs (Session::to_auth_header, auth_fields) and crates/auth/src/resolve.rs (token-refresh path).",
       "groups": [
         {
           "role": "credential",
@@ -37795,12 +37874,12 @@
             {
               "name": "client_id",
               "type": "string",
-              "description": "OAuth client ID — required for the engine to perform token refresh on its own (without re-invoking the provider). If omitted, refresh requires re-running the provider skill."
+              "description": "OAuth client ID — required for the engine to perform token refresh on its own (without re-invoking the provider). If omitted, refresh requires re-running the provider app."
             },
             {
               "name": "token_url",
               "type": "string",
-              "description": "OAuth token endpoint URL — same as client_id, required for engine-driven token refresh. If omitted, refresh round-trips through the provider skill."
+              "description": "OAuth token endpoint URL — same as client_id, required for engine-driven token refresh. If omitted, refresh round-trips through the provider app."
             }
           ]
         }
@@ -37822,7 +37901,7 @@
       "action": "read",
       "doc": "Read the best-scored decrypted credential row for a (domain, item_type, account?) tuple.",
       "doc_full": "Read one row from the encrypted credentials store. Returns the\ndecrypted JSON `value` plus identifier / source / last_verified.\nDomain-normalization happens on the caller side — pass the\ncanonical credential-store form (e.g. `\".approach.app\"`).\n\nArgs:\n    domain: Canonical credential-store domain.\n    item_type: Credential kind (`\"login_credentials\"`, `\"cookie\"`, ...).\n    account: Optional identifier disambiguator.\n\nReturns:\n    `{found, identifier?, value?, source?, last_verified?}`. On\n    no-match, `found` is `false` and every other field is absent.\n",
-      "capability": [],
+      "service": [],
       "trace_span": false,
       "fire_and_forget": false,
       "request": [
@@ -37920,7 +37999,7 @@
       "action": "put",
       "doc": "Store base64 bytes content-addressed under ~/.agentos/blobs; returns path, sha256, size.",
       "doc_full": "Store bytes in the engine's content-addressed blob store:\n`~/.agentos/blobs/<sha256[0:2]>/<sha256>.<ext>`. Identical bytes land\non the same path, so re-storing is a free no-op — dedup by\nconstruction. The returned absolute path is what a file-shaped graph\nnode carries in its `path` field.\n\nArgs:\n    data: base64-encoded bytes.\n    ext: filename extension (no dot); names the stored file.\n\nReturns:\n    path, sha256, size of the stored blob.\n",
-      "capability": [
+      "service": [
         "blobs"
       ],
       "trace_span": false,
@@ -37977,116 +38056,15 @@
       },
       "log_fields": [],
       "effects": [],
-      "leading_comment": "blobs.* ops — the content-addressed blob store at ~/.agentos/blobs.\n\nEngine-owned bytes on disk; graph nodes reference blobs by the returned\npath (a file-shaped node's `path` field). Skills hand the engine base64\nand the engine owns placement, hashing, and dedup — no skill ever\ninvents a path into the user's state dir. Handlers live in\nagentos-exec-executors."
-    },
-    {
-      "name": "capability.call",
-      "group": "capability",
-      "action": "call",
-      "doc": "Match a @provides(X) skill and dispatch its tool, returning the tool's result unchanged.",
-      "doc_full": "Matchmake a provider for capability `name` and dispatch `verb` on it.\nThe tool's return value is passed through unchanged — no envelope.\n\nUsed by SDK wrappers (`credentials.retrieve`, `llm.oneshot`, etc.)\nand by skills that consume a capability across skill boundaries\nwithout naming the provider.\n\nArgs:\n    name: capability name (e.g. `\"login_credentials\"`, `\"llm\"`).\n    verb: tool to invoke on the picked provider. Defaults to the\n          provider's declared `via`.\n    params: parameters forwarded to the picked tool, unchanged.\n    skill: optional skill-id override; forces a specific provider.\n\nReturns:\n    The picked tool's return value, unchanged.\n",
-      "capability": [],
-      "trace_span": true,
-      "fire_and_forget": false,
-      "request": [
-        {
-          "name": "name",
-          "type": "string",
-          "optional": false,
-          "has_default": false,
-          "default": null,
-          "doc": "Capability name to match."
-        },
-        {
-          "name": "verb",
-          "type": "string",
-          "optional": true,
-          "has_default": false,
-          "default": null,
-          "doc": "Tool-name override; defaults to the provider's declared via."
-        },
-        {
-          "name": "params",
-          "type": "json",
-          "optional": false,
-          "has_default": true,
-          "default": null,
-          "doc": "Parameters for the picked tool. Passed through unchanged."
-        },
-        {
-          "name": "skill",
-          "type": "string",
-          "optional": true,
-          "has_default": false,
-          "default": null,
-          "doc": "Skill-id override; forces a specific provider."
-        }
-      ],
-      "response": {
-        "scalar": true,
-        "type": "json",
-        "type_optional": false,
-        "doc": "The picked tool's return value, unchanged — no envelope.",
-        "fields": []
-      },
-      "log_fields": [],
-      "effects": [],
-      "leading_comment": "capability.* ops — generic capability dispatch.\n\nApps and skills never name each other. Consumers ask for a capability;\nthe engine walks @provides(X) skills, picks one, dispatches."
-    },
-    {
-      "name": "capability.list_providers",
-      "group": "capability",
-      "action": "list_providers",
-      "doc": "List every @provides(name) provider with its ranking and credential state.",
-      "doc_full": "Enumerate skills that declared `@provides(name, ...)`. Returns the\nranked candidate list without dispatching any tool — useful for\nintrospection, provider selection, or iterating providers with\nper-provider fallback logic in skill code.\n\nArgs:\n    name: capability name.\n    model: optional model filter for `llm` capability matches.\n\nReturns:\n    `{providers: [{skill_id, via, cred_state, urls?}, ...]}`.\n",
-      "capability": [],
-      "trace_span": false,
-      "fire_and_forget": false,
-      "request": [
-        {
-          "name": "name",
-          "type": "string",
-          "optional": false,
-          "has_default": false,
-          "default": null,
-          "doc": "Capability name to enumerate providers for."
-        },
-        {
-          "name": "model",
-          "type": "string",
-          "optional": true,
-          "has_default": false,
-          "default": null,
-          "doc": "Optional model filter for llm capability matches."
-        }
-      ],
-      "response": {
-        "scalar": false,
-        "type": "",
-        "type_optional": false,
-        "doc": "",
-        "fields": [
-          {
-            "name": "providers",
-            "type": "provider[]",
-            "optional": false,
-            "has_default": false,
-            "default": null,
-            "doc": "All @provides(name) providers, ranked."
-          }
-        ]
-      },
-      "log_fields": [],
-      "effects": [],
-      "leading_comment": "capability.* ops — generic capability dispatch.\n\nApps and skills never name each other. Consumers ask for a capability;\nthe engine walks @provides(X) skills, picks one, dispatches."
+      "leading_comment": "blobs.* ops — the content-addressed blob store at ~/.agentos/blobs.\n\nEngine-owned bytes on disk; graph nodes reference blobs by the returned\npath (a file-shaped node's `path` field). Apps hand the engine base64\nand the engine owns placement, hashing, and dedup — no app ever\ninvents a path into the user's state dir. Handlers live in\nagentos-exec-executors."
     },
     {
       "name": "crypto.pbkdf2",
       "group": "crypto",
       "action": "pbkdf2",
       "doc": "PBKDF2-HMAC-SHA1 key derivation. Returns hex-encoded bytes.",
-      "doc_full": "PBKDF2-HMAC-SHA1 key derivation. Used by browser skills to reproduce\nChrome's Safe Storage key stretch.\n\nArgs:\n    password, salt: opaque strings.\n    iterations: default 1.\n    length: output byte length (default 16).\n\nReturns:\n    Derived key as bytes (hex-decoded by the SDK stub).\n",
-      "capability": [
+      "doc_full": "PBKDF2-HMAC-SHA1 key derivation. Used by browser apps to reproduce\nChrome's Safe Storage key stretch.\n\nArgs:\n    password, salt: opaque strings.\n    iterations: default 1.\n    length: output byte length (default 16).\n\nReturns:\n    Derived key as bytes (hex-decoded by the SDK stub).\n",
+      "service": [
         "crypto"
       ],
       "trace_span": false,
@@ -38134,7 +38112,7 @@
       },
       "log_fields": [],
       "effects": [],
-      "leading_comment": "crypto.* ops — key derivation and symmetric decryption.\n\nUsed almost exclusively by browser skills decrypting stored cookies.\nHandlers live in agentos-exec-executors."
+      "leading_comment": "crypto.* ops — key derivation and symmetric decryption.\n\nUsed almost exclusively by browser apps decrypting stored cookies.\nHandlers live in agentos-exec-executors."
     },
     {
       "name": "crypto.aes",
@@ -38142,7 +38120,7 @@
       "action": "aes",
       "doc": "AES-128-CBC decrypt. Key/data/iv are hex. Returns hex plaintext.",
       "doc_full": "AES-128-CBC decrypt. Key, ciphertext, and IV are all hex-encoded.\nThe returned plaintext is hex-encoded on the wire and decoded to\nbytes by the SDK stub.\n\nArgs:\n    key: hex (16 bytes = 32 hex chars for AES-128).\n    data: ciphertext, hex.\n    iv: hex. Default: 32 zero chars (Chrome convention).\n\nReturns:\n    Plaintext bytes.\n",
-      "capability": [
+      "service": [
         "crypto"
       ],
       "trace_span": false,
@@ -38182,15 +38160,15 @@
       },
       "log_fields": [],
       "effects": [],
-      "leading_comment": "crypto.* ops — key derivation and symmetric decryption.\n\nUsed almost exclusively by browser skills decrypting stored cookies.\nHandlers live in agentos-exec-executors."
+      "leading_comment": "crypto.* ops — key derivation and symmetric decryption.\n\nUsed almost exclusively by browser apps decrypting stored cookies.\nHandlers live in agentos-exec-executors."
     },
     {
       "name": "http.request",
       "group": "http",
       "action": "request",
       "doc": "Stateless HTTP op. SDK callers use client.get/post/… — this op is their shared backend.",
-      "doc_full": "Stateless HTTP op. Every verb-dispatched SDK method (`client.get`,\n`client.post`, …) routes through this; skill code does not call\n`http.request` directly. No cookie-jar state survives between calls —\nthe SDK's ambient Jar serializes cookies into the request's Cookie:\nheader and feeds Set-Cookie responses back into itself.\n\nArgs:\n    url, method, headers, params, body, http2, timeout.\n\nReturns:\n    HttpResponse {status, body?, body_bytes?, headers, url, body_length, content_encoding}.\n",
-      "capability": [
+      "doc_full": "Stateless HTTP op. Every verb-dispatched SDK method (`client.get`,\n`client.post`, …) routes through this; app code does not call\n`http.request` directly. No cookie-jar state survives between calls —\nthe SDK's ambient Jar serializes cookies into the request's Cookie:\nheader and feeds Set-Cookie responses back into itself.\n\nArgs:\n    url, method, headers, params, body, http2, timeout.\n\nReturns:\n    HttpResponse {status, body?, body_bytes?, headers, url, body_length, content_encoding}.\n",
+      "service": [
         "http"
       ],
       "trace_span": true,
@@ -38341,9 +38319,9 @@
       "name": "llm.resolve_tools",
       "group": "llm",
       "action": "resolve_tools",
-      "doc": "Resolve skill-scoped tool refs (\"skill.operation\") to provider-native tool defs.",
-      "doc_full": "Resolve a list of skill-scoped tool refs (`\"skill.operation\"`) into\nprovider-native tool definitions. Used by llm.agent loops that need\nto pass the router's tool list into a chat call.\n\nArgs:\n    tools: list of `\"skill.operation\"` strings.\n\nReturns:\n    {tools: [tool_def, …]}.\n",
-      "capability": [
+      "doc": "Resolve app-scoped tool refs (\"app.operation\") to provider-native tool defs.",
+      "doc_full": "Resolve a list of app-scoped tool refs (`\"app.operation\"`) into\nprovider-native tool definitions. Used by llm.agent loops that need\nto pass the router's tool list into a chat call.\n\nArgs:\n    tools: list of `\"app.operation\"` strings.\n\nReturns:\n    {tools: [tool_def, …]}.\n",
+      "service": [
         "llm"
       ],
       "trace_span": false,
@@ -38355,7 +38333,7 @@
           "optional": false,
           "has_default": false,
           "default": null,
-          "doc": "Tool references (skill.operation)."
+          "doc": "Tool references (app.operation)."
         }
       ],
       "response": {
@@ -38376,7 +38354,7 @@
       },
       "log_fields": [],
       "effects": [],
-      "leading_comment": "llm.* ops — schema resolution.\n\nllm.resolve_tools walks skills' `provides` entries to build provider-format\ntool definitions. Handler lives in agentos-core."
+      "leading_comment": "llm.* ops — schema resolution.\n\nllm.resolve_tools walks apps' `provides` entries to build provider-format\ntool definitions. Handler lives in agentos-core."
     },
     {
       "name": "plist.parse",
@@ -38384,7 +38362,7 @@
       "action": "parse",
       "doc": "Parse a hex-encoded NSKeyedArchiver binary plist.",
       "doc_full": "Parse a hex-encoded NSKeyedArchiver binary plist and extract specific\nobject indices.\n\nArgs:\n    hex_data: The plist as hex.\n    extract: Mapping of {field_name: object_index} in the archived graph.\n\nReturns:\n    Dict of {field_name: value}.\n",
-      "capability": [
+      "service": [
         "plist"
       ],
       "trace_span": false,
@@ -38416,7 +38394,7 @@
       },
       "log_fields": [],
       "effects": [],
-      "leading_comment": "plist.* ops — NSKeyedArchiver binary plist parsing.\n\nUsed by browser skills to parse keychain-stored NSKeyedArchiver blobs.\nHandlers live in agentos-exec-executors."
+      "leading_comment": "plist.* ops — NSKeyedArchiver binary plist parsing.\n\nUsed by browser apps to parse keychain-stored NSKeyedArchiver blobs.\nHandlers live in agentos-exec-executors."
     },
     {
       "name": "secrets.read",
@@ -38424,7 +38402,7 @@
       "action": "read",
       "doc": "Read a UTF-8 secret from the OS-level secret store.",
       "doc_full": "Read a UTF-8 secret from the platform secret store.\n\nArgs:\n    service: Keychain service name (e.g. \"Chrome Safe Storage\").\n    account: Account name. Defaults to the current $USER.\n\nReturns:\n    The secret as a UTF-8 string.\n",
-      "capability": [
+      "service": [
         "secrets"
       ],
       "trace_span": false,
@@ -38464,7 +38442,7 @@
       "action": "read_binary",
       "doc": "Read a binary secret. Bytes are hex-encoded on the wire.",
       "doc_full": "Read a binary secret from the platform secret store. Used for\nNSKeyedArchiver blobs (Chrome Safe Storage binary entries, etc.).\n\nBytes travel hex-encoded; the generated SDK stub decodes to bytes.\n\nArgs:\n    service: Keychain service name.\n    account: Account name. Defaults to the current $USER.\n\nReturns:\n    The secret value as bytes (decoded from hex by the SDK stub).\n",
-      "capability": [
+      "service": [
         "secrets"
       ],
       "trace_span": false,
@@ -38499,12 +38477,113 @@
       "leading_comment": "secrets.* ops — OS-level secret store reads.\n\nPlatform secret store (macOS keychain / Windows Credential Manager /\nLinux Secret Service), chosen at compile time in agentos-secrets."
     },
     {
+      "name": "services.call",
+      "group": "services",
+      "action": "call",
+      "doc": "Match an app providing service `name` and dispatch its tool, returning the tool's result unchanged.",
+      "doc_full": "Matchmake a provider for service `name` and dispatch `verb` on it.\nThe tool's return value is passed through unchanged — no envelope.\n\nUsed by SDK wrappers (`credentials.retrieve`, `llm.oneshot`, etc.)\nand by apps that consume a service across app boundaries without\nnaming the provider.\n\nArgs:\n    name: service name (e.g. `\"login_credentials\"`, `\"llm\"`).\n    verb: tool to invoke on the picked provider. Defaults to the\n          provider's declared `via`.\n    params: parameters forwarded to the picked tool, unchanged.\n    app: optional app-id override; forces a specific provider.\n\nReturns:\n    The picked tool's return value, unchanged.\n",
+      "service": [],
+      "trace_span": true,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Service name to match."
+        },
+        {
+          "name": "verb",
+          "type": "string",
+          "optional": true,
+          "has_default": false,
+          "default": null,
+          "doc": "Tool-name override; defaults to the provider's declared via."
+        },
+        {
+          "name": "params",
+          "type": "json",
+          "optional": false,
+          "has_default": true,
+          "default": null,
+          "doc": "Parameters for the picked tool. Passed through unchanged."
+        },
+        {
+          "name": "app",
+          "type": "string",
+          "optional": true,
+          "has_default": false,
+          "default": null,
+          "doc": "App-id override; forces a specific provider."
+        }
+      ],
+      "response": {
+        "scalar": true,
+        "type": "json",
+        "type_optional": false,
+        "doc": "The picked tool's return value, unchanged — no envelope.",
+        "fields": []
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "services.* ops — generic service dispatch.\n\nApps never name each other. Consumers ask for a service; the engine\nwalks the apps providing it, picks one (the service node's\n`defaults_to` app first, then the usual ranking), dispatches."
+    },
+    {
+      "name": "services.list_providers",
+      "group": "services",
+      "action": "list_providers",
+      "doc": "List every app providing service `name` with its ranking and credential state.",
+      "doc_full": "Enumerate apps that provide service `name`. Returns the ranked\ncandidate list without dispatching any tool — useful for\nintrospection, provider selection, or iterating providers with\nper-provider fallback logic in app code.\n\nArgs:\n    name: service name.\n    model: optional model filter for `llm` service matches.\n\nReturns:\n    `{providers: [{app_id, via, cred_state, urls?}, ...]}`.\n",
+      "service": [],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Service name to enumerate providers for."
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "optional": true,
+          "has_default": false,
+          "default": null,
+          "doc": "Optional model filter for llm service matches."
+        }
+      ],
+      "response": {
+        "scalar": false,
+        "type": "",
+        "type_optional": false,
+        "doc": "",
+        "fields": [
+          {
+            "name": "providers",
+            "type": "provider[]",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "All apps providing `name`, ranked."
+          }
+        ]
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "services.* ops — generic service dispatch.\n\nApps never name each other. Consumers ask for a service; the engine\nwalks the apps providing it, picks one (the service node's\n`defaults_to` app first, then the usual ranking), dispatches."
+    },
+    {
       "name": "shell.run",
       "group": "shell",
       "action": "run",
       "doc": "Run a binary with controlled arguments. Shell interpreters are blocked.",
       "doc_full": "Execute a binary with controlled argv. The invocation is NOT shell-parsed,\nand shell interpreters (sh, bash, zsh, fish, etc.) are rejected to prevent\ncommand-injection shortcuts.\n\nArgs:\n    binary, args, timeout, cwd, input.\n\nReturns:\n    {exit_code, stdout, stderr}.\n",
-      "capability": [
+      "service": [
         "shell"
       ],
       "trace_span": true,
@@ -38599,7 +38678,7 @@
       "action": "query",
       "doc": "Run a read-only SQL query against a named SQLite file.",
       "doc_full": "Run a read-only SQL query against a named SQLite file.\n\nArgs:\n    sql: Parameterized SQL text. Use `:name` placeholders.\n    db: Path to the SQLite file (`~` expands to $HOME).\n    params: Named bind parameters (optional).\n    attach: Alias → path map for ATTACH DATABASE (optional).\n\nReturns:\n    List of row dicts keyed by column name.\n",
-      "capability": [
+      "service": [
         "sql"
       ],
       "trace_span": true,
@@ -38655,7 +38734,7 @@
       "action": "execute",
       "doc": "Run a writing SQL statement against a named SQLite file.",
       "doc_full": "Run a writing SQL statement (INSERT/UPDATE/DELETE/DDL).\n\nArgs:\n    sql: SQL text to execute.\n    db: Path to the SQLite file.\n\nReturns:\n    {rows_affected, last_insert_rowid?}.\n",
-      "capability": [
+      "service": [
         "sql"
       ],
       "trace_span": true,
@@ -38712,12 +38791,12 @@
       "name": "provider",
       "fields": [
         {
-          "name": "skill_id",
+          "name": "app_id",
           "type": "string",
           "optional": false,
           "has_default": false,
           "default": null,
-          "doc": "Skill id that declared @provides(name, ...)."
+          "doc": "App id that provides the service."
         },
         {
           "name": "via",
@@ -38725,7 +38804,7 @@
           "optional": false,
           "has_default": false,
           "default": null,
-          "doc": "Operation name (via) on the skill that would be invoked."
+          "doc": "Tool name (via) on the app that would be invoked."
         },
         {
           "name": "cred_state",
@@ -38741,7 +38820,7 @@
           "optional": true,
           "has_default": false,
           "default": null,
-          "doc": "Optional URL patterns declared on the @provides entry."
+          "doc": "Optional URL patterns declared on the provides binding."
         }
       ]
     }
@@ -39248,6 +39327,18 @@
       "inverse_of": null,
       "reverse_name": null,
       "group_file": "created_by.yaml",
+      "verb_root": null,
+      "preposition_root": null
+    },
+    {
+      "name": "defaults_to",
+      "from_kind": "service",
+      "to_kind": "app",
+      "cardinality": "many_to_many",
+      "link_vals": {},
+      "inverse_of": null,
+      "reverse_name": null,
+      "group_file": "defaults_to.yaml",
       "verb_root": null,
       "preposition_root": null
     },
@@ -40144,13 +40235,27 @@
     },
     {
       "name": "privacy_at",
-      "from_kind": "skill",
+      "from_kind": "app",
       "to_kind": "webpage",
       "cardinality": "many_to_many",
       "link_vals": {},
       "inverse_of": null,
       "reverse_name": null,
       "group_file": "privacy_at.yaml",
+      "verb_root": null,
+      "preposition_root": null
+    },
+    {
+      "name": "provides",
+      "from_kind": "app",
+      "to_kind": "service",
+      "cardinality": "many_to_many",
+      "link_vals": {
+        "via": "string"
+      },
+      "inverse_of": null,
+      "reverse_name": null,
+      "group_file": "provides.yaml",
       "verb_root": null,
       "preposition_root": null
     },
@@ -40492,7 +40597,7 @@
     },
     {
       "name": "terms_at",
-      "from_kind": "skill",
+      "from_kind": "app",
       "to_kind": "webpage",
       "cardinality": "many_to_many",
       "link_vals": {},
@@ -40613,6 +40718,235 @@
       "group_file": "written_by.yaml",
       "verb_root": null,
       "preposition_root": null
+    }
+  ],
+  "services": [
+    {
+      "name": "api_key",
+      "description": "Credential provision — an API key for a platform. Same matchmaking path as login_credentials; secret material never transits the LLM.",
+      "params": {
+        "platform": {
+          "type": "string",
+          "doc": "The platform the key is for."
+        }
+      },
+      "returns": null,
+      "leading_comment": "An API key for a platform (credential provision)."
+    },
+    {
+      "name": "browser_session",
+      "description": "High-level, typed session API for driving a live browser: a provider exposes `session_open / navigate / evaluate / on_event / get_cookies / get_storage / close`, hiding the protocol. This is what reverse-engineering, scraping, and interaction-driving apps consume — never `cdp_access` directly.",
+      "params": {},
+      "returns": null,
+      "leading_comment": "High-level typed browser session API on top of cdp_access."
+    },
+    {
+      "name": "cdp_access",
+      "description": "Raw, protocol-level browser access. A provider returns a CDP WebSocket URL + target descriptor for a debug-attachable Chromium browser. Tiny surface: one `cdp_connect` tool. Brave is today's provider; Chrome/Arc could join. Consumers should almost always use `browser_session` instead — this is the layer underneath it.",
+      "params": {},
+      "returns": null,
+      "leading_comment": "Raw protocol-level access to a debug-attachable Chromium browser."
+    },
+    {
+      "name": "cookie_auth",
+      "description": "Auth provision — return fresh cookies for a domain from a live browser profile. Consumed by the engine's auth resolution, never called ad hoc; freshness arbitration picks the newest cookie per domain across providers.",
+      "params": {
+        "domain": {
+          "type": "string",
+          "doc": "Domain to provide cookies for."
+        }
+      },
+      "returns": "cookie",
+      "leading_comment": "Provide fresh browser cookies for a domain (auth provision)."
+    },
+    {
+      "name": "email_lookup",
+      "description": "Look up a person's email address from identity signals (name, organization, domain).",
+      "params": {
+        "name": {
+          "type": "string?",
+          "doc": "Person's name."
+        },
+        "domain": {
+          "type": "string?",
+          "doc": "Organization domain to search within."
+        }
+      },
+      "returns": null,
+      "leading_comment": "Find a person's email address from name/domain signals."
+    },
+    {
+      "name": "file_info",
+      "description": "Return one file's metadata (size, kind, timestamps) without reading its contents.",
+      "params": {
+        "path": {
+          "type": "string",
+          "doc": "File to stat."
+        }
+      },
+      "returns": "file",
+      "leading_comment": "Stat one file — size, kind, timestamps."
+    },
+    {
+      "name": "file_list",
+      "description": "List the entries under a filesystem path, as typed `file` rows.",
+      "params": {
+        "path": {
+          "type": "string",
+          "doc": "Directory to list."
+        }
+      },
+      "returns": "file",
+      "leading_comment": "List files under a path."
+    },
+    {
+      "name": "file_read",
+      "description": "Read a file's contents by path.",
+      "params": {
+        "path": {
+          "type": "string",
+          "doc": "File to read."
+        }
+      },
+      "returns": "file",
+      "leading_comment": "Read one file's contents."
+    },
+    {
+      "name": "flight_search",
+      "description": "Search for flights — origin, destination, dates — returning typed flight/fare results.",
+      "params": {
+        "origin": {
+          "type": "string",
+          "doc": "Origin airport / city code."
+        },
+        "destination": {
+          "type": "string",
+          "doc": "Destination airport / city code."
+        },
+        "date": {
+          "type": "string",
+          "doc": "Departure date (ISO 8601)."
+        }
+      },
+      "returns": null,
+      "leading_comment": "Search flights between airports on a date."
+    },
+    {
+      "name": "geocoding",
+      "description": "Resolve a place name or address to coordinates (and back). Returns typed `place` rows.",
+      "params": {
+        "query": {
+          "type": "string",
+          "doc": "Place name, address, or 'lat,lng'."
+        }
+      },
+      "returns": "place",
+      "leading_comment": "Resolve place names ↔ coordinates."
+    },
+    {
+      "name": "llm",
+      "description": "LLM inference. Providers declare which models they serve; the SDK's matchmaking (`agentos.llm`) ranks providers per model. There is no \"LLM\" category in the engine — it's just another service.",
+      "params": {
+        "model": {
+          "type": "string?",
+          "doc": "Model id filter / request."
+        }
+      },
+      "returns": null,
+      "leading_comment": "LLM inference — completions/chat from a model provider."
+    },
+    {
+      "name": "login_credentials",
+      "description": "Credential provision — an `{email|handle, password}` tuple for a domain, from a password manager, keychain, or vault. Wired through the engine's `credentials.retrieve` matchmaking, so login tools resolve their inputs without the LLM ever seeing raw secret values.",
+      "params": {
+        "domain": {
+          "type": "string",
+          "doc": "Domain the login is for."
+        }
+      },
+      "returns": null,
+      "leading_comment": "{email|handle, password} tuple for a domain (credential provision)."
+    },
+    {
+      "name": "map_tiles",
+      "description": "Serve map tiles / static map imagery for coordinates and zoom level. Declared ahead of a shipping provider so the interface name is fixed.",
+      "params": {
+        "lat": {
+          "type": "number",
+          "doc": "Latitude of the viewport center."
+        },
+        "lng": {
+          "type": "number",
+          "doc": "Longitude of the viewport center."
+        },
+        "zoom": {
+          "type": "number?",
+          "doc": "Tile zoom level."
+        }
+      },
+      "returns": null,
+      "leading_comment": "Serve map tile imagery for a viewport."
+    },
+    {
+      "name": "oauth_auth",
+      "description": "Auth provision — return an OAuth credential (access token + refresh metadata) for a platform. Consumed by the engine's auth resolution; the token-refresh path re-dispatches the provider when expiry nears.",
+      "params": {},
+      "returns": "oauth",
+      "leading_comment": "Provide OAuth credentials for a platform (auth provision)."
+    },
+    {
+      "name": "password",
+      "description": "Credential provision — a password for a caller-supplied identifier. Same matchmaking path as login_credentials; secret material never transits the LLM.",
+      "params": {
+        "identifier": {
+          "type": "string",
+          "doc": "The account/identifier the password belongs to."
+        }
+      },
+      "returns": null,
+      "leading_comment": "A password for a caller-supplied identifier (credential provision)."
+    },
+    {
+      "name": "signs_for",
+      "description": "Reserved for passkey / hardware-key providers that sign challenges rather than returning secret material. No resolver ships yet; the name is fixed now so the interface shape is stable.",
+      "params": {},
+      "returns": null,
+      "leading_comment": "Passkey / hardware-key challenge signing (reserved)."
+    },
+    {
+      "name": "volume_transport",
+      "description": "The providing app announces mountable volumes and serves their contents to the finder/graph layer. One service, a fixed three-verb interface: `list_volumes()` → volume[] (ANNOUNCE — called at boot and on refresh; entries upsert as volume nodes under a realm), `list_contents(id, cursor?)` → typed child nodes + nextCursor (SERVE), `read_node(id)` → one node's full detail. The provides binding (`via`) names `list_volumes` only — it marks the app as a transport; `list_contents` / `read_node` are reached by their fixed names on the announcing app (browse binds to the stamped provider, never a fresh service walk). Read-only by construction: the write verbs don't exist yet. Contract: core/_roadmap/p2/realms-transports/plan.md \"The transport contract\".",
+      "params": {},
+      "returns": "volume",
+      "leading_comment": "Announce + serve mountable volumes (the KIO-worker / 9P read-only core)."
+    },
+    {
+      "name": "web_read",
+      "description": "Fetch a URL and return the page as a `webpage` node with a content row — readable text, not raw bytes. Plain HTTP fetch is the baseline technique; JS-rendering providers (CDP-backed) and extraction APIs (Firecrawl, Exa) compete on quality, not interface.",
+      "params": {
+        "url": {
+          "type": "string",
+          "doc": "The URL to fetch."
+        }
+      },
+      "returns": "webpage",
+      "leading_comment": "Fetch one URL and return it as a webpage with content."
+    },
+    {
+      "name": "web_search",
+      "description": "Search the web for a query; results land on the graph as `result` rows. The baseline discovery service — most installed search apps provide it.",
+      "params": {
+        "query": {
+          "type": "string",
+          "doc": "The search query."
+        },
+        "count": {
+          "type": "number?",
+          "doc": "Maximum results to return."
+        }
+      },
+      "returns": "result",
+      "leading_comment": "Search the web. Providers: Brave Search, Exa, SerpAPI, …"
     }
   ]
 }

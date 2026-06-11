@@ -1,4 +1,4 @@
-"""Engine dispatch bridge — invisible to skill authors.
+"""Engine dispatch bridge — invisible to app authors.
 
 The engine's Python worker injects `_dispatch_to_engine` into `_dispatch`
 at boot. SDK modules call `await dispatch(op, params)` which forwards
@@ -10,7 +10,7 @@ Wire protocol (§8.1 / §8.3 of the runtime-core proposal):
       {"__type__": "dispatch",
        "__id__": "<request_id>",
        "__dispatch_id__": "d-N",
-       "__caps__": [...skill capabilities...],
+       "__caps__": [...app services...],
        "__dispatch__": {"op": "<dotted.op>", "params": {...}}}
 
   Engine → Python (success)
@@ -25,11 +25,11 @@ Wire protocol (§8.1 / §8.3 of the runtime-core proposal):
 
 `dispatch()` unwraps the envelope so SDK wrappers see only the handler's
 payload. On failure it raises `RuntimeError(f"engine dispatch {op} failed:
-{msg}")`. Skill authors never import this module — they use
+{msg}")`. App authors never import this module — they use
 `from agentos import http, sql, secrets, crypto, …`.
 
-All SDK modules are async. Skills must be `async def` and `await` every
-SDK call. The worker runs an asyncio event loop so multiple skill
+All SDK modules are async. Apps must be `async def` and `await` every
+SDK call. The worker runs an asyncio event loop so multiple app
 operations run concurrently; each sideband dispatch yields the loop
 while the engine does the real work.
 """
@@ -70,7 +70,7 @@ async def dispatch(op: str, params: dict):
     if _dispatch is None:
         raise RuntimeError(
             "agentos SDK called outside of engine context. "
-            "SDK modules can only be used inside skill functions "
+            "SDK modules can only be used inside app functions "
             "executed by the engine."
         )
 

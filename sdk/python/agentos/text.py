@@ -1,4 +1,4 @@
-"""Text cleaning and parsing utilities for skills.
+"""Text cleaning and parsing utilities for apps.
 
 Primary entry points:
   clean(value)          — smart clean: HTML strip + normalize + sentinel → None

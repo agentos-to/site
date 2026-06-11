@@ -3,7 +3,7 @@
 
 use super::sdk_prelude::*;
 
-/// A content source — where skills, themes, shapes, and wallpapers live.
+/// A content source — where apps, themes, shapes, and wallpapers live.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", default)]
 pub struct Source {
@@ -25,7 +25,7 @@ pub struct Source {
 pub static SOURCE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "source".into(),
     plural: Some("sources".into()),
-    description: Some("A content source — where skills, themes, shapes, and wallpapers live.".into()),
+    description: Some("A content source — where apps, themes, shapes, and wallpapers live.".into()),
     icon: Some("📦".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),

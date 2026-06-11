@@ -3,7 +3,7 @@
 
 use super::sdk_prelude::*;
 
-/// A seat map for a specific flight + cabin, returned by an airline skill.
+/// A seat map for a specific flight + cabin, returned by an airline app.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", default)]
 pub struct Seatmap {
@@ -33,7 +33,7 @@ pub struct Seatmap {
 pub static SEATMAP: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "seatmap".into(),
     plural: Some("seatmaps".into()),
-    description: Some("A seat map for a specific flight + cabin, returned by an airline skill.".into()),
+    description: Some("A seat map for a specific flight + cabin, returned by an airline app.".into()),
     fields: vec![
         FieldDef::required("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

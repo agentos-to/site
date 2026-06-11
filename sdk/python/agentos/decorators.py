@@ -1,7 +1,7 @@
 """Operation decorators — read by the engine via AST, no-ops at runtime.
 
 The Rust engine parses Python files at boot time to discover operations.
-These decorators exist so skills can import and use them without runtime errors.
+These decorators exist so apps can import and use them without runtime errors.
 The engine reads their arguments from the AST — it never executes Python.
 
 Usage:
@@ -43,7 +43,7 @@ def returns(shape):
 
 
 def provides(tool, **kwargs):
-    """Declare that this function provides a standard tool capability.
+    """Declare that this function provides a standard tool service.
 
     Args:
         tool: Tool constant (e.g., web_search, web_read, email_lookup).
@@ -77,7 +77,7 @@ def connection(name, **kwargs):
             (module-level form only).
         base_url: Base URL for ``client="http"`` connections
             (module-level form only).
-        needs: Conjunctive list of credential/capability constructors
+        needs: Conjunctive list of credential/service constructors
             (module-level form only).
         label: Display label for ``agentos call accounts``
             (module-level form only).
@@ -110,11 +110,11 @@ def timeout(seconds):
 
 
 class _Test:
-    """Declare that an operation is exercised by the skill test sweep.
+    """Declare that an operation is exercised by the app test sweep.
 
     Engine/validator/runner read `_agentos_test` off the decorated function
     via AST (Rust) or the `ast` module (Python). Runtime is a pure no-op —
-    this class exists so skill code can import the name without the sandbox
+    this class exists so app code can import the name without the sandbox
     (banned-imports) rejecting anything.
 
     Three forms, all attach the same shape:

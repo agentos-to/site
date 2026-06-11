@@ -1,9 +1,9 @@
 # OAuth provider contract.
 #
-# The single source of truth for what a skill decorated
+# The single source of truth for what an app decorated
 # `@provides(oauth_auth, ...)` must return. Read by `docs/generate.py`
 # and codegen'd into:
-#   - Python: sdk-skills/agentos/_generated_auth_contracts.py
+#   - Python: sdk-apps/agentos/_generated_auth_contracts.py
 #     (OAuthCredential TypedDict + REQUIRED_FIELDS for agent-sdk validate)
 #   - Rust: core/crates/auth/src/_generated_contracts.rs
 #     (constants used by Session::to_auth_header + token-refresh path)
@@ -12,7 +12,7 @@
 # (camelCase) for ages; the engine resolver looked up `access_token`
 # (snake_case); credential landed in store; reads returned None;
 # every gmail/calendar/contacts call silently 401'd. The contract
-# was implicit (Rust string literals + skill-author intuition + zero
+# was implicit (Rust string literals + app-author intuition + zero
 # docs). This YAML makes it explicit, codegen propagates it, and
 # agent-sdk validate enforces it at commit time.
 #
@@ -23,7 +23,7 @@
 
 oauth:
   description: >-
-    Return shape for `@provides(oauth_auth, ...)` skill operations.
+    Return shape for `@provides(oauth_auth, ...)` app operations.
     Engine consumes via crates/auth/src/types.rs (Session::to_auth_header,
     auth_fields) and crates/auth/src/resolve.rs (token-refresh path).
 
@@ -64,14 +64,14 @@ oauth:
       description: >-
         OAuth client ID — required for the engine to perform token
         refresh on its own (without re-invoking the provider). If
-        omitted, refresh requires re-running the provider skill.
+        omitted, refresh requires re-running the provider app.
 
     token_url:
       type: string
       description: >-
         OAuth token endpoint URL — same as client_id, required for
         engine-driven token refresh. If omitted, refresh round-trips
-        through the provider skill.
+        through the provider app.
 
   forbidden_camel_case:
     # Common camelCase typos for the snake_case fields above. agent-sdk

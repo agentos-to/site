@@ -186,11 +186,19 @@ export interface App {
     author?: string;
     datePublished?: string;
     content?: string;
+    color?: string;
     defaultView?: string;
+    description?: string;
+    error?: string;
     handles?: string[];
     iconRole?: string;
     isSystem?: boolean;
     route?: string;
+    status?: string;
+    onlineAt?: Website;
+    privacyAt?: Webpage;
+    provides?: Service;
+    termsAt?: Webpage;
 }
 
 export interface Birth {
@@ -630,7 +638,7 @@ export interface Credential {
     source?: string;
     storeRowId?: number;
     atNamespace?: Organization;
-    writtenBy?: Skill;
+    writtenBy?: App;
 }
 
 export interface Dimension {
@@ -2632,6 +2640,21 @@ export interface Seatmap {
     under?: Reservation;
 }
 
+export interface Service {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
+    image?: string;
+    author?: string;
+    datePublished?: string;
+    content?: string;
+    description?: string;
+    params?: unknown;
+    returns?: string;
+    defaultsTo?: App;
+}
+
 export interface Shelf {
     id?: string;
     name?: string;
@@ -2659,25 +2682,6 @@ export interface Shelf {
     backedBy?: Image;
     belongsTo?: Account;
     contains?: Book[];
-}
-
-export interface Skill {
-    id?: string;
-    name?: string;
-    text?: string;
-    url?: string;
-    image?: string;
-    author?: string;
-    datePublished?: string;
-    content?: string;
-    color?: string;
-    description?: string;
-    error?: string;
-    skillId?: string;
-    status?: string;
-    onlineAt?: Website;
-    privacyAt?: Webpage;
-    termsAt?: Webpage;
 }
 
 export interface Software {
@@ -2867,8 +2871,8 @@ export interface Subscription {
     author?: string;
     datePublished?: string;
     content?: string;
+    app?: string;
     op?: string;
-    skill?: string;
     target?: string;
 }
 
@@ -3371,7 +3375,7 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "aircraft": {"subtitle": "model", "also": ["product"]},
     "airline": {"subtitle": "iataCode", "image": "image", "highlights": ["headquarters"], "also": ["organization", "actor"]},
     "airport": {"subtitle": "iataCode", "also": []},
-    "app": {"subtitle": "name", "also": []},
+    "app": {"subtitle": "description", "also": []},
     "birth": {"subtitle": "location", "highlights": ["startDate", "location"], "also": ["event"]},
     "book": {"subtitle": "written_by", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work", "product"]},
     "booking_offer": {"subtitle": "totalAmount", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
@@ -3452,8 +3456,8 @@ export const SHAPE_DISPLAY: Record<string, Display> = {
     "review": {"subtitle": "author", "also": ["post"]},
     "role": {"subtitle": "name", "highlights": ["startDate", "endDate", "location"], "also": ["event"]},
     "seatmap": {"title": "flightNumber", "also": []},
+    "service": {"subtitle": "description", "also": []},
     "shelf": {"subtitle": "isExclusive", "also": ["list"]},
-    "skill": {"subtitle": "description", "also": []},
     "software": {"subtitle": "applicationCategory", "highlights": ["version", "runtimePlatform"], "also": ["product"]},
     "sound": {"subtitle": "purpose", "image": "image", "highlights": ["datePublished", "published_by"], "body": "description", "also": ["creative_work", "file"]},
     "source": {"subtitle": "sourceId", "also": []},
@@ -3490,7 +3494,7 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "aircraft": ["model", "variant", "seatCapacity", "rangeKm", "iataCode", "icaoCode", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
     "airline": ["iataCode", "icaoCode", "callsign", "country", "alliance", "industry", "actorType"],
     "airport": ["iataCode", "icaoCode", "city", "country", "countryCode", "timezone", "elevationFt", "terminalCount"],
-    "app": ["id", "name", "iconRole", "route", "defaultView", "isSystem", "handles"],
+    "app": ["id", "name", "description", "color", "status", "error", "iconRole", "route", "defaultView", "isSystem", "handles"],
     "birth": ["givenName", "additionalName", "familyName", "honorificPrefix", "honorificSuffix", "legalName", "maidenName", "sortAs", "nameOrder", "phoneticGivenName", "phoneticFamilyName", "gender", "nickname", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "book": ["isbn", "isbn13", "pages", "genres", "series", "format", "language", "originalTitle", "places", "characters", "awardsWon", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "coverage", "tags", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
     "booking_offer": ["cartId", "referenceNumber", "status", "preparedAt", "presentedAt", "approvedAt", "expiresAt", "currency", "baseAmount", "taxAmount", "feesAmount", "totalAmount", "itineraryHash", "signature", "signatureAlg", "signedBy", "checkoutUrl", "confirmEndpoint", "isRefundable", "isChangeable", "hasVoidWindow", "voidWindowEndsAt", "conditions", "blob", "review", "contactEmail", "contactPhone", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
@@ -3571,14 +3575,14 @@ export const SHAPE_FIELD_ORDER: Record<string, readonly string[]> = {
     "review": ["rating", "ratingMax", "tags", "isVerified", "externalUrl", "postType", "score", "commentCount", "community"],
     "role": ["title", "department", "roleType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],
     "seatmap": ["flightNumber", "origin", "destination", "fareBasisCode", "classOfService", "aircraftCode", "totalSeats", "availableSeats", "cabins", "tiers", "hasExitRow", "hasFreeSeats", "hasPaidSeats", "basicEconomyLocked"],
+    "service": ["id", "description", "params", "returns"],
     "shelf": ["isExclusive", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path"],
-    "skill": ["skillId", "description", "color", "status", "error"],
     "software": ["version", "applicationCategory", "runtimePlatform", "codename", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"],
     "sound": ["durationMs", "channels", "sampleRate", "bitDepth", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
     "source": ["sourceId", "address", "scanner", "enabled", "description", "lastSynced"],
     "spec": ["problem", "successCriteria", "remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"],
     "step": ["position", "detail", "status"],
-    "subscription": ["skill", "op", "target"],
+    "subscription": ["app", "op", "target"],
     "symbol": ["urn", "kind", "lang", "signature", "summary", "sourcePath", "sourceLine"],
     "tag": ["color", "tagType", "annotated", "hash"],
     "task": ["remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"],

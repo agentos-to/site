@@ -1,4 +1,4 @@
-# A seat map for a specific flight + cabin, returned by an airline skill.
+# A seat map for a specific flight + cabin, returned by an airline app.
 #
 # A seatmap is the RENDERABLE STATE of a cabin at a moment in time:
 # which seats exist, which are available, their prices, and the
@@ -34,7 +34,7 @@
 #
 # Identity: the tuple (flight, fareBasisCode) — a seatmap is scoped to
 # one flight AND one fare (different fares yield different eligibility).
-# id is a synthetic string the skill composes.
+# id is a synthetic string the app composes.
 seatmap:
   plural: seatmaps
   identity: [id]

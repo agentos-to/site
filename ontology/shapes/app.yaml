@@ -1,8 +1,15 @@
-# An application — something the shell can spawn as a window. Includes
-# system apps (Finder, Settings, eventually Recycle Bin — engine-resident,
-# code-only, seeded by `seed_system_apps()` in identity.rs) and
-# user-installed apps (any skill returning an app-shape dict). The shape
-# is identical either way; only the seeding path differs.
+# An application — the one installable, launchable unit. System apps
+# (Finder, Settings — engine-resident, code-only, seeded by
+# `seed_system_apps()` in identity.rs) and installed apps (Python
+# connectors discovered from source directories) are the same shape;
+# `isSystem` and the seeding path are the only differences. Installed
+# apps additionally carry connection lifecycle (`status` / `error`)
+# because they adapt external platforms.
+#
+# What an app OFFERS the rest of the system is a `service` — see
+# shapes/agentos/service.yaml. Apps link to services with `provides`
+# edges (minted by the engine from the app's own declarations, never
+# authored). An app may provide zero services or several.
 #
 # Themes never reference app ids by string literal. They reference
 # role-based list ids ('primary-launcher', 'tray', 'desktop') and render
@@ -13,10 +20,14 @@ app:
   plural: apps
   identity: [id]
   display:
-    subtitle: name
+    subtitle: description
   fields:
-    id:                string    # 'finder' / 'settings' / 'graph' / ...
+    id:                string    # 'finder' / 'settings' / 'gmail' / 'exa' / ...
     name:              string    # display name (theme may override via appOverrides)
+    description:       text
+    color:             string    # hex color for UI display (frontmatter color)
+    status:            string    # connected, disconnected, error
+    error:             text      # error message if status is "error"
     iconRole:          string    # 'my-computer' / 'control-panel' / 'graph' / ...
                                   # resolves through the theme's icon registry
     route:             string    # for route-based apps (e.g. 'settings')
@@ -24,9 +35,18 @@ app:
     isSystem:         boolean   # true → engine-resident, never uninstallable
     handles:          string[]  # shape names this app can render (e.g. Finder
                                   # declares ['*']); shells use this for the
-                                  # "open this entity in…" picker. Stored as a
-                                  # field, not a relation — entries are shape
-                                  # names (strings), not graph references.
+                                  # "open this entity in…" picker. A shell
+                                  # association, NOT a brokered service call.
+                                  # Stored as a field, not a relation — entries
+                                  # are shape names (strings), not graph
+                                  # references.
+  links:
+    provides:            service   # interfaces this app offers — minted from
+                                    # the app's own declarations at load, never
+                                    # authored. link_vals: {via: the bound tool}
+    online_at:           website   # the platform's homepage
+    privacy_at:    webpage   # privacy policy page
+    terms_at:  webpage   # terms of service page
   prior_art:
     - source: macOS .app bundle (Info.plist)
       url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html
@@ -45,3 +65,13 @@ app:
         Stable per-app identity decoupled from the executable on disk.
         Our `id` plays the same role — themes and bookmarks reference it,
         the binary is an implementation detail of seed_system_apps().
+    - source: Model Context Protocol (MCP) — Server
+      url: https://modelcontextprotocol.io/specification
+      notes: >-
+        An installed app = an MCP-registerable provider. id ≈ MCP server
+        name; status tracks connection lifecycle.
+    - source: OpenAPI 3.1 (Info + Servers)
+      url: https://spec.openapis.org/oas/v3.1.0
+      notes: >-
+        Our description/online_at/privacy_at/terms_at ≈ OpenAPI
+        info.description/info.termsOfService/contact.

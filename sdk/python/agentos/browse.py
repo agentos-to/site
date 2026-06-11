@@ -2,7 +2,7 @@
 
 **Authoring-time only.** Use this to walk through a service's login
 or any multi-step flow once, capture the real HTTP sequence, then
-replay it in your skill with ``agentos.client``. The shipped skill
+replay it in your app with ``agentos.client``. The shipped app
 must never import ``agentos.browse`` — at runtime, all I/O goes
 through ``agentos.client``.
 

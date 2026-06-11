@@ -2,7 +2,7 @@
 
 The actual implementation is the platform-abstract `agentos.secrets` module,
 which on macOS talks to the login keychain via the `security` CLI. This
-module exists so existing skills can `from agentos.macos import keychain`
+module exists so existing apps can `from agentos.macos import keychain`
 during the runtime-core cutover; new code should import `secrets` directly.
 
     from agentos import secrets

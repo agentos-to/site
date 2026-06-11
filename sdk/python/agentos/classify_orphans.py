@@ -2,7 +2,7 @@
 
 A single shape can be many things at once:
 
-  - produced by one or more **skills** (`@returns("foo")` in Python)
+  - produced by one or more **apps** (`@returns("foo")` in Python)
   - produced by one or more **engine** callsites (`ensure_tag("foo")` etc. in Rust)
   - a **relation target** — pointed to by another shape's `relations:` block
   - **embedded** — used as a nested field type inside another shape
@@ -17,7 +17,7 @@ This module is the single source of truth for "who uses this shape";
 Importable API:
     classify(
         shapes_dir: Path,
-        skills_roots: Iterable[Path] | None = None,
+        apps_roots: Iterable[Path] | None = None,
         crates_roots: Iterable[Path] | None = None,
     ) -> dict[str, ShapeClassification]
 
@@ -55,7 +55,7 @@ except ImportError:
 # Types
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Skill decorators that mark a function as a tool. Mirrors validate.py.
+# App decorators that mark a function as a tool. Mirrors validate.py.
 _TOOL_MARKERS = {"run", "returns", "setup", "on_event", "provides"}
 
 # Strings that appear in `@returns(...)` but are not shape names.
@@ -66,10 +66,10 @@ _NON_SHAPE_RETURNS = {
 
 
 @dataclass
-class SkillProducer:
-    """One `@returns("shape")` callsite in a skill."""
-    skill_id: str        # directory name of the skill root
-    file_rel: str        # path relative to skill root, e.g. "operations.py"
+class AppProducer:
+    """One `@returns("shape")` callsite in an app."""
+    app_id: str        # directory name of the app root
+    file_rel: str        # path relative to app root, e.g. "operations.py"
     function: str        # function name
     line: int
 
@@ -86,7 +86,7 @@ class EngineProducer:
 class ShapeClassification:
     """Per-shape union of every place the name appears."""
     name: str
-    skill_producers: list[SkillProducer] = field(default_factory=list)
+    app_producers: list[AppProducer] = field(default_factory=list)
     engine_producers: list[EngineProducer] = field(default_factory=list)
     relation_sources: list[str] = field(default_factory=list)   # "host.field"
     embedded_in: list[tuple[str, str]] = field(default_factory=list)  # (host, field)
@@ -95,7 +95,7 @@ class ShapeClassification:
     @property
     def is_orphan(self) -> bool:
         return not (
-            self.skill_producers
+            self.app_producers
             or self.engine_producers
             or self.relation_sources
             or self.embedded_in
@@ -104,7 +104,7 @@ class ShapeClassification:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Skill producer scan (AST over `@returns("...")`)
+# App producer scan (AST over `@returns("...")`)
 # ─────────────────────────────────────────────────────────────────────────────
 
 def _decorator_name(dec: ast.expr) -> str | None:
@@ -147,19 +147,19 @@ def _is_tool(node: ast.AST) -> bool:
     return False
 
 
-def _discover_skill_roots(skills_dir: Path) -> list[Path]:
+def _discover_app_roots(apps_dir: Path) -> list[Path]:
     """Every directory with a readme.md; skip `_`-prefixed trees."""
     roots: list[Path] = []
-    for root, dirs, files in os.walk(skills_dir):
+    for root, dirs, files in os.walk(apps_dir):
         dirs[:] = [d for d in dirs if not d.startswith("_")]
         if "readme.md" in files:
             roots.append(Path(root))
     return sorted(roots)
 
 
-def _iter_skill_py(skill_dir: Path):
-    for py in sorted(glob.glob(os.path.join(str(skill_dir), "**", "*.py"), recursive=True)):
-        rel = os.path.relpath(py, skill_dir)
+def _iter_app_py(app_dir: Path):
+    for py in sorted(glob.glob(os.path.join(str(app_dir), "**", "*.py"), recursive=True)):
+        rel = os.path.relpath(py, app_dir)
         if rel.startswith("_") or "/_" in rel or "/vendor/" in rel:
             continue
         try:
@@ -171,17 +171,17 @@ def _iter_skill_py(skill_dir: Path):
         yield rel, tree
 
 
-def scan_skill_producers(
-    skills_roots: Iterable[Path],
-) -> dict[str, list[SkillProducer]]:
-    """Return {shape_name: [SkillProducer, ...]}."""
-    out: dict[str, list[SkillProducer]] = {}
-    for root in skills_roots:
+def scan_app_producers(
+    apps_roots: Iterable[Path],
+) -> dict[str, list[AppProducer]]:
+    """Return {shape_name: [AppProducer, ...]}."""
+    out: dict[str, list[AppProducer]] = {}
+    for root in apps_roots:
         if not root or not Path(root).is_dir():
             continue
-        for skill_dir in _discover_skill_roots(Path(root)):
-            skill_id = skill_dir.name
-            for rel, tree in _iter_skill_py(skill_dir):
+        for app_dir in _discover_app_roots(Path(root)):
+            app_id = app_dir.name
+            for rel, tree in _iter_app_py(app_dir):
                 for node in tree.body:
                     if not _is_tool(node):
                         continue
@@ -189,15 +189,15 @@ def scan_skill_producers(
                     if not shape:
                         continue
                     out.setdefault(shape, []).append(
-                        SkillProducer(
-                            skill_id=skill_id,
+                        AppProducer(
+                            app_id=app_id,
                             file_rel=rel,
                             function=node.name,
                             line=node.lineno,
                         )
                     )
     for shape in out:
-        out[shape].sort(key=lambda p: (p.skill_id, p.file_rel, p.line))
+        out[shape].sort(key=lambda p: (p.app_id, p.file_rel, p.line))
     return out
 
 
@@ -221,7 +221,7 @@ def _default_shapes_dir() -> Path | None:
     return (root / "site" / "docs" / "shapes") if root else None
 
 
-def _default_skills_roots() -> list[Path]:
+def _default_apps_roots() -> list[Path]:
     root = _find_workspace_root()
     if not root:
         return []
@@ -312,22 +312,22 @@ def _read_description(shapes_dir: Path, shape: str) -> str:
 
 def classify(
     shapes_dir: Path,
-    skills_roots: Iterable[Path] | None = None,
+    apps_roots: Iterable[Path] | None = None,
     crates_roots: Iterable[Path] | None = None,
 ) -> dict[str, ShapeClassification]:
     """Build a per-shape classification record.
 
     Every shape defined in `shapes_dir` gets a record. Producer lists are
-    populated from every `skills_roots` tree (Python AST) and every
+    populated from every `apps_roots` tree (Python AST) and every
     `crates_roots` tree (Rust scanner). Relation/embedded/inheritance
     come from the shape YAMLs themselves.
     """
-    skills = list(skills_roots) if skills_roots is not None else _default_skills_roots()
+    apps = list(apps_roots) if apps_roots is not None else _default_apps_roots()
     crates = list(crates_roots) if crates_roots is not None else _default_crates_roots()
 
     all_shapes = _all_shape_names(shapes_dir)
 
-    skill_map = scan_skill_producers(skills)
+    app_map = scan_app_producers(apps)
     engine_map: dict[str, list[EngineProducer]] = {}
     for crates_root in crates:
         crates_root = Path(crates_root)
@@ -379,7 +379,7 @@ def classify(
     out: dict[str, ShapeClassification] = {}
     for shape in sorted(all_shapes):
         rec = ShapeClassification(name=shape)
-        rec.skill_producers = skill_map.get(shape, [])
+        rec.app_producers = app_map.get(shape, [])
         rec.engine_producers = engine_map.get(shape, [])
 
         # Split relation sources: `.also` entries are inheritance, not
@@ -404,18 +404,18 @@ def classify(
 
 def _render(records: dict[str, ShapeClassification], shapes_dir: Path) -> None:
     orphans = [r for r in records.values() if r.is_orphan]
-    produced_by_skill = [r for r in records.values() if r.skill_producers]
+    produced_by_app = [r for r in records.values() if r.app_producers]
     produced_by_engine = [r for r in records.values() if r.engine_producers]
     schema_only = [
         r for r in records.values()
-        if not r.skill_producers
+        if not r.app_producers
         and not r.engine_producers
         and (r.relation_sources or r.embedded_in or r.inherited_via)
     ]
 
     print(f"Classified {len(records)} shapes in {shapes_dir}")
     print(
-        f"  skill-produced={len(produced_by_skill)}  "
+        f"  app-produced={len(produced_by_app)}  "
         f"engine-produced={len(produced_by_engine)}  "
         f"schema-only={len(schema_only)}  "
         f"orphan={len(orphans)}"
@@ -442,9 +442,9 @@ def _print_detail(records: dict[str, ShapeClassification], shapes_dir: Path) -> 
     for shape in sorted(records):
         rec = records[shape]
         bits: list[str] = []
-        if rec.skill_producers:
-            ids = sorted({p.skill_id for p in rec.skill_producers})
-            bits.append(f"skills: {', '.join(ids)}")
+        if rec.app_producers:
+            ids = sorted({p.app_id for p in rec.app_producers})
+            bits.append(f"apps: {', '.join(ids)}")
         if rec.engine_producers:
             bits.append(f"engine: {len(rec.engine_producers)} callsites")
         if rec.relation_sources:

@@ -1,0 +1,7 @@
+# Raw protocol-level access to a debug-attachable Chromium browser.
+description: >-
+  Raw, protocol-level browser access. A provider returns a CDP
+  WebSocket URL + target descriptor for a debug-attachable Chromium
+  browser. Tiny surface: one `cdp_connect` tool. Brave is today's
+  provider; Chrome/Arc could join. Consumers should almost always use
+  `browser_session` instead — this is the layer underneath it.

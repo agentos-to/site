@@ -2,7 +2,7 @@
 
 Each connection is a client. There are three kinds: a browser, a fetch,
 and an API client. The connection picks the kind via ``client="…"``;
-skills write ``await client.get("/path")`` and everything else — the
+apps write ``await client.get("/path")`` and everything else — the
 ambient cookie jar, the matching header bundle, the base URL — is
 supplied by the ``Client`` the worker built from ``__call__.connection``
 at tool entry.
@@ -15,7 +15,7 @@ defaults:
     await client.get(url, incognito=True)     # bypass jar seed + writeback
     await client.get(url, headers={...})      # merge on top of bundle
 
-``client.current()`` is the one debug/RE introspection hook. Skills
+``client.current()`` is the one debug/RE introspection hook. Apps
 never import ``_current_client``.
 """
 
@@ -277,7 +277,7 @@ async def head(url: str, **kwargs) -> dict:
 def current() -> _jar.Client | None:
     """Return the currently-ambient ``Client``, or ``None`` if called
     outside a tool invocation. Used for debug and reverse-engineering
-    only — skill logic shouldn't branch on this."""
+    only — app logic shouldn't branch on this."""
     return _jar._current_client.get()
 
 
@@ -286,7 +286,7 @@ def cookie(name: str) -> str | None:
 
     Returns ``None`` if no cookie with that name is set, or if called
     outside a tool invocation, or on an ``api``-kind connection (no
-    jar). Intended for the rare case where skill logic needs to read
+    jar). Intended for the rare case where app logic needs to read
     a specific cookie (e.g. NextAuth's ``lastActiveOrg`` hint) — the
     Cookie: header rides automatically on ``client.get/post``.
 

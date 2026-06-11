@@ -79,18 +79,18 @@
     "value": [ { "id": 1, "name": "a" }, { "id": 2, "name": "b" } ]
   },
   {
-    "op": "capability.list_providers", "kind": "request", "case": "by-name",
+    "op": "services.list_providers", "kind": "request", "case": "by-name",
     "value": { "name": "llm", "model": "claude-opus-4-7" }
   },
   {
-    "op": "capability.list_providers", "kind": "response", "case": "ranked",
+    "op": "services.list_providers", "kind": "response", "case": "ranked",
     "value": {
       "providers": [
         {
-          "skill_id": "gmail", "via": "login", "cred_state": "present",
+          "app_id": "gmail", "via": "login", "cred_state": "present",
           "urls": ["https://mail.google.com/*"]
         },
-        { "skill_id": "local-llm", "via": "chat", "cred_state": "not_required" }
+        { "app_id": "local-llm", "via": "chat", "cred_state": "not_required" }
       ]
     }
   }

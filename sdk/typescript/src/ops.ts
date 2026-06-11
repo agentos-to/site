@@ -7,13 +7,13 @@
 // Named record types — referenced by op req/resp.
 
 export interface Provider {
-    /** Skill id that declared @provides(name, ...). */
-    skill_id: string;
-    /** Operation name (via) on the skill that would be invoked. */
+    /** App id that provides the service. */
+    app_id: string;
+    /** Tool name (via) on the app that would be invoked. */
     via: string;
     /** Credential state: not_required, present, or missing. */
     cred_state: string;
-    /** Optional URL patterns declared on the @provides entry. */
+    /** Optional URL patterns declared on the provides binding. */
     urls?: string[];
 }
 
@@ -53,31 +53,6 @@ export interface BlobsPutResponse {
     sha256: string;
     /** Byte length of the decoded payload. */
     size: number;
-}
-
-export interface CapabilityCallRequest {
-    /** Capability name to match. */
-    name: string;
-    /** Tool-name override; defaults to the provider's declared via. */
-    verb?: string;
-    /** Parameters for the picked tool. Passed through unchanged. */
-    params?: unknown;
-    /** Skill-id override; forces a specific provider. */
-    skill?: string;
-}
-
-export type CapabilityCallResponse = unknown;  // The picked tool's return value, unchanged — no envelope.
-
-export interface CapabilityListProvidersRequest {
-    /** Capability name to enumerate providers for. */
-    name: string;
-    /** Optional model filter for llm capability matches. */
-    model?: string;
-}
-
-export interface CapabilityListProvidersResponse {
-    /** All @provides(name) providers, ranked. */
-    providers: Provider[];
 }
 
 export interface CryptoPbkdf2Request {
@@ -139,7 +114,7 @@ export interface HttpRequestResponse {
 }
 
 export interface LlmResolveToolsRequest {
-    /** Tool references (skill.operation). */
+    /** Tool references (app.operation). */
     tools: string[];
 }
 
@@ -174,6 +149,31 @@ export interface SecretsReadBinaryRequest {
 }
 
 export type SecretsReadBinaryResponse = string;  // Binary secret value.
+
+export interface ServicesCallRequest {
+    /** Service name to match. */
+    name: string;
+    /** Tool-name override; defaults to the provider's declared via. */
+    verb?: string;
+    /** Parameters for the picked tool. Passed through unchanged. */
+    params?: unknown;
+    /** App-id override; forces a specific provider. */
+    app?: string;
+}
+
+export type ServicesCallResponse = unknown;  // The picked tool's return value, unchanged — no envelope.
+
+export interface ServicesListProvidersRequest {
+    /** Service name to enumerate providers for. */
+    name: string;
+    /** Optional model filter for llm service matches. */
+    model?: string;
+}
+
+export interface ServicesListProvidersResponse {
+    /** All apps providing `name`, ranked. */
+    providers: Provider[];
+}
 
 export interface ShellRunRequest {
     /** Binary to execute (absolute path or $PATH name). */
@@ -228,8 +228,6 @@ export interface SqlExecuteResponse {
 export interface OpContracts {
     "auth_store.read": { request: AuthStoreReadRequest; response: AuthStoreReadResponse };
     "blobs.put": { request: BlobsPutRequest; response: BlobsPutResponse };
-    "capability.call": { request: CapabilityCallRequest; response: CapabilityCallResponse };
-    "capability.list_providers": { request: CapabilityListProvidersRequest; response: CapabilityListProvidersResponse };
     "crypto.pbkdf2": { request: CryptoPbkdf2Request; response: CryptoPbkdf2Response };
     "crypto.aes": { request: CryptoAesRequest; response: CryptoAesResponse };
     "http.request": { request: HttpRequestRequest; response: HttpRequestResponse };
@@ -237,10 +235,12 @@ export interface OpContracts {
     "plist.parse": { request: PlistParseRequest; response: PlistParseResponse };
     "secrets.read": { request: SecretsReadRequest; response: SecretsReadResponse };
     "secrets.read_binary": { request: SecretsReadBinaryRequest; response: SecretsReadBinaryResponse };
+    "services.call": { request: ServicesCallRequest; response: ServicesCallResponse };
+    "services.list_providers": { request: ServicesListProvidersRequest; response: ServicesListProvidersResponse };
     "shell.run": { request: ShellRunRequest; response: ShellRunResponse };
     "sql.query": { request: SqlQueryRequest; response: SqlQueryResponse };
     "sql.execute": { request: SqlExecuteRequest; response: SqlExecuteResponse };
 }
 
 /** Op wire names. */
-export type OpName = "auth_store.read" | "blobs.put" | "capability.call" | "capability.list_providers" | "crypto.pbkdf2" | "crypto.aes" | "http.request" | "llm.resolve_tools" | "plist.parse" | "secrets.read" | "secrets.read_binary" | "shell.run" | "sql.query" | "sql.execute";
+export type OpName = "auth_store.read" | "blobs.put" | "crypto.pbkdf2" | "crypto.aes" | "http.request" | "llm.resolve_tools" | "plist.parse" | "secrets.read" | "secrets.read_binary" | "services.call" | "services.list_providers" | "shell.run" | "sql.query" | "sql.execute";

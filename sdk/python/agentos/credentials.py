@@ -1,16 +1,16 @@
 """Agent-driven credential resolution.
 
 `credentials.retrieve(domain, required)` matchmakes every installed
-`@provides(login_credentials)` skill (1Password, Keychain, etc.) and
+`@provides(login_credentials)` app (1Password, Keychain, etc.) and
 returns the resolved field values from the first one that answers.
-Skills call this from their `login` tools when the caller didn't pass
+Apps call this from their `login` tools when the caller didn't pass
 credentials explicitly.
 
 Shape of the flow:
-    1. `capability.list_providers("login_credentials")` enumerates every
-       `@provides(login_credentials)` skill. Providers with creds present
+    1. `services.list_providers("login_credentials")` enumerates every
+       `@provides(login_credentials)` app. Providers with creds present
        (or no creds required) are tried first.
-    2. For each, `capability.call(..., skill=p["skill_id"])` forces the
+    2. For each, `services.call(..., app=p["app_id"])` forces the
        picked provider. The provider's `__secrets__` envelope persists
        the decrypted fields into `~/.agentos/data/agentos.db` before the
        call returns. The call result is `{provided, identifier}`.
@@ -28,7 +28,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from agentos import capability
+from agentos import services
 from agentos._bridge import dispatch
 
 
@@ -38,7 +38,7 @@ _CRED_PRIORITY = {"not_required": 0, "present": 1, "missing": 2}
 # asking any other provider first when the answer is sitting in the vault
 # is architecturally backwards (vault is the user's durable state, not
 # a cache). Everything else sorts by cred_state + insertion order.
-_VAULT_SKILL_ID = "vault"
+_VAULT_APP_ID = "vault"
 
 
 async def retrieve(
@@ -60,20 +60,20 @@ async def retrieve(
     """
     req_fields = required or []
 
-    listing = await capability.list_providers("login_credentials")
+    listing = await services.list_providers("login_credentials")
     providers = sorted(
         listing.get("providers") or [],
         key=lambda p: (
             _CRED_PRIORITY.get(p.get("cred_state", "missing"), 2),
-            0 if p.get("skill_id") == _VAULT_SKILL_ID else 1,
+            0 if p.get("app_id") == _VAULT_APP_ID else 1,
         ),
     )
 
     for provider in providers:
-        provider_result = await capability.call(
+        provider_result = await services.call(
             "login_credentials",
             verb=provider.get("via") or "get_credentials",
-            skill=provider["skill_id"],
+            app=provider["app_id"],
             params={
                 "domain": domain,
                 "account": account,
@@ -112,7 +112,7 @@ async def retrieve(
             "found": True,
             "identifier": row.get("identifier") or identifier,
             "value": value,
-            "source": row.get("source") or provider["skill_id"],
+            "source": row.get("source") or provider["app_id"],
         }
 
     return {"found": False}

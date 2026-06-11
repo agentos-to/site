@@ -1,0 +1,7 @@
+# LLM inference — completions/chat from a model provider.
+description: >-
+  LLM inference. Providers declare which models they serve; the SDK's
+  matchmaking (`agentos.llm`) ranks providers per model. There is no
+  "LLM" category in the engine — it's just another service.
+params:
+  model: { type: "string?", doc: "Model id filter / request." }

@@ -1,12 +1,12 @@
-"""agent-sdk new-skill — scaffold a working skill directory."""
+"""agent-sdk new-app — scaffold a working app directory."""
 
 import re
 from pathlib import Path
 
 
 _README_TEMPLATE = """---
-id: {skill_id}
-name: {skill_name}
+id: {app_id}
+name: {app_name}
 description: "TODO: one-line description"
 color: "#4A90D9"
 website: https://example.com
@@ -15,15 +15,15 @@ test:
   {first_op}: {{ params: {{ query: "test" }} }}
 ---
 
-# {skill_name}
+# {app_name}
 
-TODO: Describe what this skill connects to, what data it provides,
+TODO: Describe what this app connects to, what data it provides,
 and any setup instructions.
 """
 
 _README_WITH_API_KEY = """---
-id: {skill_id}
-name: {skill_name}
+id: {app_id}
+name: {app_name}
 description: "TODO: one-line description"
 color: "#4A90D9"
 website: https://example.com
@@ -42,9 +42,9 @@ test:
   {first_op}: {{ params: {{ query: "test" }} }}
 ---
 
-# {skill_name}
+# {app_name}
 
-TODO: Describe what this skill connects to, what data it provides,
+TODO: Describe what this app connects to, what data it provides,
 and any setup instructions.
 
 ## Setup
@@ -53,7 +53,7 @@ and any setup instructions.
 2. Add credential in AgentOS Settings
 """
 
-_PY_TEMPLATE = '''"""{skill_name} — TODO: describe what this connects to."""
+_PY_TEMPLATE = '''"""{app_name} — TODO: describe what this connects to."""
 
 from agentos import client, returns
 
@@ -110,21 +110,21 @@ _SHAPE_EXTRAS = {
 }
 
 
-def _to_module_name(skill_id: str) -> str:
-    """Convert skill-id to python_module name."""
-    return skill_id.replace("-", "_")
+def _to_module_name(app_id: str) -> str:
+    """Convert app-id to python_module name."""
+    return app_id.replace("-", "_")
 
 
-def _to_display_name(skill_id: str) -> str:
-    """Convert skill-id to Display Name."""
-    return " ".join(w.capitalize() for w in skill_id.split("-"))
+def _to_display_name(app_id: str) -> str:
+    """Convert app-id to Display Name."""
+    return " ".join(w.capitalize() for w in app_id.split("-"))
 
 
-def run_new_skill(name: str, shape: str | None):
-    """Scaffold a new skill directory."""
-    skill_id = name.lower().strip()
-    module_name = _to_module_name(skill_id)
-    display_name = _to_display_name(skill_id)
+def run_new_app(name: str, shape: str | None):
+    """Scaffold a new app directory."""
+    app_id = name.lower().strip()
+    module_name = _to_module_name(app_id)
+    display_name = _to_display_name(app_id)
     shape = shape or "result"
     shape_plural = shape + "s" if not shape.endswith("s") else shape
     shape_title = shape.capitalize()
@@ -140,31 +140,31 @@ def run_new_skill(name: str, shape: str | None):
         "content": "Example content",""")
 
     # Target directory
-    target = Path.cwd() / skill_id
+    target = Path.cwd() / app_id
     if target.exists():
-        print(f"  Error: directory '{skill_id}/' already exists")
+        print(f"  Error: directory '{app_id}/' already exists")
         return
 
     target.mkdir()
 
     # Write readme.md
     readme_content = _README_TEMPLATE.format(
-        skill_id=skill_id, skill_name=display_name, first_op=first_op)
+        app_id=app_id, app_name=display_name, first_op=first_op)
     (target / "readme.md").write_text(readme_content.lstrip())
 
     # Write Python module
     py_content = _PY_TEMPLATE.format(
-        skill_name=display_name, shape=shape, shape_plural=shape_plural,
+        app_name=display_name, shape=shape, shape_plural=shape_plural,
         shape_title=shape_title, list_op=list_op, get_op=get_op,
         extra_fields=extra_fields)
     (target / f"{module_name}.py").write_text(py_content.lstrip())
 
     print(f"""
-  Created {skill_id}/
+  Created {app_id}/
     readme.md        — manifest (frontmatter) + agent instructions
     {module_name}.py     — Python module with stub returning {shape} shape
 
   Next:
-    agent-sdk validate {skill_id}   # check structure
-    agentos test {skill_id}       # run + validate shape conformance
+    agent-sdk validate {app_id}   # check structure
+    agentos test {app_id}       # run + validate shape conformance
 """)

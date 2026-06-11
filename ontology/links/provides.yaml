@@ -1,0 +1,12 @@
+# Single-form link `provides` (Pattern 3). Stem = storage label.
+# Sources: app
+# Targets: service
+#
+# Minted by the engine at app load from the app's own declarations
+# (`@provides("web_search", via="search")`) — derived, never authored.
+# `via` names the bound tool on the providing app: the service IS a
+# shortcut to one of the app's own tools, plus a contract.
+from: app
+to: service
+link_vals:
+  via: string

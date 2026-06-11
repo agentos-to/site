@@ -3,7 +3,7 @@
 
 """plist.* ops — NSKeyedArchiver binary plist parsing.
 
-Used by browser skills to parse keychain-stored NSKeyedArchiver blobs.
+Used by browser apps to parse keychain-stored NSKeyedArchiver blobs.
 Handlers live in agentos-exec-executors."""
 
 from __future__ import annotations

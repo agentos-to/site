@@ -1,21 +1,21 @@
 # A standing subscription — a durable intent to stream live entities, re-armed on every engine boot.
-# The node stores WHICH skill op arms the stream, never the artifact it
+# The node stores WHICH app op arms the stream, never the artifact it
 # produces (hook JS regenerates fresh on every re-arm, so it can't go
 # stale on the graph). Engine boot reads these nodes and re-dispatches
-# each as a normal skills.run call.
+# each as a normal apps.run call.
 #
-# One node per (skill, op): subscribe upserts, close deletes, boot
+# One node per (app, op): subscribe upserts, close deletes, boot
 # reads-and-dispatches. The node row's own updated_at IS the armed-at
 # timestamp — no field duplicates it.
 subscription:
   plural: subscriptions
-  identity: [skill, op]
+  identity: [app, op]
   display:
     subtitle: target
   icon: rss
   fields:
-    skill:           string    # skill id the re-arm dispatches: "whatsapp"
-    op:              string    # the skill op that arms the stream: "watch"
+    app:           string    # app id the re-arm dispatches: "whatsapp"
+    op:              string    # the app op that arms the stream: "watch"
     target:          string    # what is watched: "web.whatsapp.com" — display, and the key `close` deletes by
   prior_art:
     - source: W3C WebSub subscriptions
@@ -23,7 +23,7 @@ subscription:
       notes: >-
         A subscription is a stored intent (topic + callback) the hub
         re-delivers against — content never lives on the subscription.
-        Our skill/op ≈ topic/callback.
+        Our app/op ≈ topic/callback.
     - source: MQTT persistent sessions
       url: https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html
       notes: >-

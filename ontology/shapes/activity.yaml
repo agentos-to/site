@@ -1,4 +1,4 @@
-# An immutable change event — a graph mutation, skill run, search, or load.
+# An immutable change event — a graph mutation, app run, search, or load.
 # Fields for what happened, relations for who/what/where.
 activity:
   plural: activities
@@ -11,9 +11,9 @@ activity:
                                     # When the activity happened lives on event.startDate
                                     # (inherited via `also: [event]`), per rule 1.
     changedKeys:      string[]    # which fields changed (for updates)
-    toolName:         string      # for skill runs: which operation
-    duration:         number      # for skill runs: execution time in ms
-    success:          boolean     # for skill runs: did it succeed
+    toolName:         string      # for app runs: which operation
+    duration:         number      # for app runs: execution time in ms
+    success:          boolean     # for app runs: did it succeed
   links:
     # target is any graph node — no shape constraint. Stored as target_id field
     # until the activity ontology spec redesigns this as a proper typed relation.

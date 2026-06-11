@@ -1,5 +1,5 @@
 # Single-form link `online_at` (Pattern 3). Stem = storage label.
-# Sources: brand, organization, person, skill
+# Sources: brand, organization, person, app
 # Targets: website
 from: node
 to: website

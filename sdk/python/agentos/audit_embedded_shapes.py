@@ -12,7 +12,7 @@ Example (hypothetical):
         sequence:         integer
 
 Here `airport` is embedded as a nested field type, not a top-level
-relation. Even if no skill returns `airport` standalone, it's clearly
+relation. Even if no app returns `airport` standalone, it's clearly
 part of the live schema.
 
 In the current corpus every field uses a primitive type (string,

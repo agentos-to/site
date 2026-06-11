@@ -10,8 +10,9 @@ leading comments.
 What's hashed (Phase 1a):
   - Shapes: name, fields (name/type/is_relation/is_array/target),
             identity, identity_any, also
-  - Ops:    name, group, action, capability, request, response,
+  - Ops:    name, group, action, service, request, response,
             log_fields, effects
+  - Services: name, params, returns (the brokered-interface registry)
   - OpTypes: name, fields
   - AuthContracts: kind, groups
 
@@ -101,7 +102,7 @@ def _op_view(op) -> dict[str, Any]:
         "name": op.name,
         "group": op.group,
         "action": op.action,
-        "capability": sorted(op.capability),
+        "service": sorted(op.service),
         "request": sorted(
             [_op_field_view(f) for f in op.request],
             key=lambda f: f["name"],
@@ -174,6 +175,16 @@ def _link_view(link) -> dict[str, Any]:
     }
 
 
+def _service_view(s) -> dict[str, Any]:
+    """One service's structural surface: id, params, returns. Description
+    and leading comments are docs — excluded, like everywhere else."""
+    return {
+        "name": s.name,
+        "params": json.loads(json.dumps(s.params, sort_keys=True)),
+        "returns": s.returns,
+    }
+
+
 def schema_view(ontology) -> dict[str, Any]:
     """The schema-relevant projection of the ontology, deterministic order."""
     return {
@@ -197,6 +208,10 @@ def schema_view(ontology) -> dict[str, Any]:
         "auth_contracts": sorted(
             [_auth_contract_view(c) for c in ontology.auth_contracts],
             key=lambda c: c["kind"],
+        ),
+        "services": sorted(
+            [_service_view(s) for s in (ontology.services or [])],
+            key=lambda s: s["name"],
         ),
     }
 

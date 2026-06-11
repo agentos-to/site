@@ -3,7 +3,7 @@
 Walks every `*.yaml` under a shapes directory and builds a reverse index
 from *target* shape → list of *source* shapes (and the field/mechanism
 that points to it). Answers the question: "which shapes are graph
-targets pointed to by another shape, even if no skill directly produces
+targets pointed to by another shape, even if no app directly produces
 them?"
 
 Two kinds of references are captured:
@@ -63,7 +63,7 @@ def _default_shapes_dir() -> Path | None:
         candidate = ancestor / "site" / "docs" / "shapes"
         if candidate.is_dir():
             return candidate
-        # Sibling workspace layout: ~/dev/agentos/skills/... →
+        # Sibling workspace layout: ~/dev/agentos/apps/... →
         # ~/dev/agentos/site/docs/shapes
         sibling = ancestor.parent / "site" / "docs" / "shapes"
         if sibling.is_dir():

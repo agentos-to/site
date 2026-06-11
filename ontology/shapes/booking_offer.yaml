@@ -84,7 +84,7 @@ booking_offer:
     hasVoidWindow:        boolean   # US 24hr rule, EU free-cancel, etc.
     voidWindowEndsAt:     datetime
     conditions:           json      # raw policy blob — same shape as reservation.conditions
-    # --- presentation output (skill-emitted, not provider-sourced) ---
+    # --- presentation output (app-emitted, not provider-sourced) ---
     blob:                 string    # base64-encoded signed payload — what the caller passes to confirm_booking
     review:               string    # human-readable multiline summary of what's about to be committed (prints the itinerary, tax breakdown, card-to-charge, TTL, and confirm command)
     # Contact info — denormalized scalars (not relations) because providers

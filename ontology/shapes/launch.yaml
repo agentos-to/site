@@ -28,6 +28,6 @@ launch:
       url: https://github.com/r-spacex/SpaceX-API
       notes: >-
         Original source of these fields. The fly-by-night-launch.com
-        skill maps the v4 launches endpoint onto this shape; the
+        app maps the v4 launches endpoint onto this shape; the
         per-booster landing outcomes JSON mirrors that API's `cores`
         sub-document.

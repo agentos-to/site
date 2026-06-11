@@ -8,7 +8,7 @@
 #   analysis    — systematic breakdown of a specific artifact or dataset
 #   comparison  — side-by-side evaluation of multiple options
 #   audit       — compliance or quality check against known criteria
-#   review      — qualitative assessment (code review, skill review, etc.)
+#   review      — qualitative assessment (code review, app review, etc.)
 report:
   plural: reports
   subtitle: reportType

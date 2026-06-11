@@ -1,0 +1,51 @@
+# A service — a named interface the engine brokers between strangers.
+# The caller names the interface (web_search, web_read, llm), never the
+# app; the engine matchmakes a provider and dispatches. Rendering is NOT
+# a service — which app opens/renders a shape or mime is the app shape's
+# `handles` field, a shell association, not a brokered call.
+#
+# The registry of canonical services is authored in
+# `platform/ontology/services/*.yaml` (one file per service; id = file
+# stem) and projected by codegen into the SDK constants and the engine's
+# compiled registry. Service NODES on the graph are minted by the engine
+# from that registry — never authored by hand. Apps point at them with
+# `provides` edges (link_vals: {via: the bound tool}); the user's
+# standing pick is a `defaults_to` link from the service node to an app
+# (XP's "Set Program Access and Defaults").
+#
+# Keep the registry small and verb-shaped. If a candidate interface has
+# no second potential provider, it probably isn't a service yet.
+service:
+  plural: services
+  identity: [id]
+  display:
+    subtitle: description
+  fields:
+    id:                string    # the verb: 'web_search' / 'web_read' / 'llm' / ...
+    description:       text
+    params:            json      # the params a caller passes — JSON-schema-ish
+                                  # map, projected from the registry YAML
+    returns:           string    # the shape (or auth-contract) a provider's
+                                  # bound tool must produce — the typed contract
+  links:
+    defaults_to:         app       # the user's standing pick — at most one
+                                    # default app per service; the write path
+                                    # replaces rather than accumulates
+  prior_art:
+    - source: Debian alternatives system (update-alternatives)
+      url: https://wiki.debian.org/DebianAlternatives
+      notes: >-
+        A generic name (editor) resolves to one of several registered
+        providers via a per-name symlink the admin can repoint. Our
+        service id ≈ the generic name; defaults_to ≈ the symlink.
+    - source: Windows XP — Set Program Access and Defaults
+      url: https://learn.microsoft.com/en-us/windows/win32/shell/default-programs
+      notes: >-
+        The OS-level "which program answers this kind of request"
+        surface. Our defaults_to link is that choice as graph state.
+    - source: Android Intents (action + default app)
+      url: https://developer.android.com/guide/components/intents-filters
+      notes: >-
+        Apps declare which actions they answer; the user picks a
+        default per action. provides ≈ intent-filter; defaults_to ≈
+        the user's "always" choice.

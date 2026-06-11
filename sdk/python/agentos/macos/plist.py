@@ -1,7 +1,7 @@
 """macOS NSKeyedArchiver binary plist parsing — facade over `agentos.plist`.
 
 The cross-platform implementation lives in `agentos.plist`. This module
-exists so existing skills can continue to `from agentos.macos import plist`
+exists so existing apps can continue to `from agentos.macos import plist`
 during the runtime-core cutover; new code should import `plist` directly.
 
     from agentos import plist

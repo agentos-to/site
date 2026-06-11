@@ -7,7 +7,7 @@ have to collide on freshness-compare; stripping casing and punycoding
 the domain at the SDK layer is how we make that happen, without any
 engine-side normalization logic.
 
-The engine trusts what skills return. These helpers are the contract.
+The engine trusts what apps return. These helpers are the contract.
 
 Conventions per `_roadmap/p1/fix-auth/credential-providers-and-identity.md`
 Decision 8:
@@ -18,7 +18,7 @@ Decision 8:
   them to join identities because `identifier`, `email`, and `userId`
   are independent fields.
 - **Phone**: E.164 via `phonenumbers`. Input must carry a country code
-  or the skill must supply a `default_region`. Ambiguous input raises.
+  or the app must supply a `default_region`. Ambiguous input raises.
 - **Handle**: NFKC normalization + casefold. Covers Unicode
   homoglyphs and mixed-case username collisions.
 """

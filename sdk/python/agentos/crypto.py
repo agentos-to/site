@@ -3,7 +3,7 @@
 
 """crypto.* ops — key derivation and symmetric decryption.
 
-Used almost exclusively by browser skills decrypting stored cookies.
+Used almost exclusively by browser apps decrypting stored cookies.
 Handlers live in agentos-exec-executors."""
 
 from __future__ import annotations
@@ -38,7 +38,7 @@ async def aes(key: str, data: str, *, iv: str | None = None) -> bytes:
 
 async def pbkdf2(password: str, salt: str, *, iterations: int | None = None, length: int | None = None) -> bytes:
     """
-    PBKDF2-HMAC-SHA1 key derivation. Used by browser skills to reproduce
+    PBKDF2-HMAC-SHA1 key derivation. Used by browser apps to reproduce
     Chrome's Safe Storage key stretch.
 
     Args:

@@ -10,9 +10,9 @@
 # restaurants should do the same.
 #
 # Color fields use the same hex-with-hash format used elsewhere in the
-# workspace (`#002244`), matching skill-frontmatter color and CSS hex.
+# workspace (`#002244`), matching app-frontmatter color and CSS hex.
 # Wikidata's P465 "hex color code" uses the same format without the hash,
-# but we keep the hash for parity with CSS and the skill-frontmatter
+# but we keep the hash for parity with CSS and the app-frontmatter
 # convention; renderers can strip it if they need raw hex.
 brand:
   plural: brands
@@ -46,7 +46,7 @@ brand:
         Cross-reference identity for dedupe. country maps to P17 (country);
         founded to P571 (inception); ownedBy to P127 (owned by); primaryColor
         ≈ P465 "hex color code" (Wikidata stores without the "#" prefix —
-        we include it to match CSS and our skill-frontmatter convention).
+        we include it to match CSS and our app-frontmatter convention).
     - source: Apple PassKit pkpass
       url: https://developer.apple.com/documentation/walletpasses
       notes: >-

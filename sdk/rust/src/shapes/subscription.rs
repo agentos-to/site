@@ -14,8 +14,8 @@ pub struct Subscription {
     pub author: Option<String>,
     pub date_published: Option<String>,
     pub content: Option<String>,
+    pub app: String,
     pub op: String,
-    pub skill: String,
     pub target: Option<String>,
 }
 
@@ -33,11 +33,11 @@ pub static SUBSCRIPTION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("author", FieldType::String),
         FieldDef::optional("datePublished", FieldType::String),
         FieldDef::optional("content", FieldType::String),
+        FieldDef::required("app", FieldType::String),
         FieldDef::required("op", FieldType::String),
-        FieldDef::required("skill", FieldType::String),
         FieldDef::optional("target", FieldType::String),
     ],
-    identity: vec!["skill".into(), "op".into()],
+    identity: vec!["app".into(), "op".into()],
     display: Some(DisplaySpec {
         subtitle: Some("target".into()),
         ..DisplaySpec::default()

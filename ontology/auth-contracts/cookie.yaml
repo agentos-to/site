@@ -1,9 +1,9 @@
 # Cookie provider contract.
 #
-# The single source of truth for what a skill decorated
+# The single source of truth for what an app decorated
 # `@provides(cookie_auth, ...)` must return. Read by `docs/generate.py`
 # and codegen'd into:
-#   - Python: sdk-skills/agentos/_generated_auth_contracts.py
+#   - Python: sdk-apps/agentos/_generated_auth_contracts.py
 #     (CookieCredential / Cookie TypedDicts + REQUIRED_FIELDS)
 #   - Rust: core/crates/auth/src/_generated_contracts.rs
 #
@@ -15,7 +15,7 @@
 
 cookie:
   description: >-
-    Return shape for `@provides(cookie_auth, ...)` skill operations.
+    Return shape for `@provides(cookie_auth, ...)` app operations.
     Top-level dict with `cookies: [Cookie, ...]`; each Cookie has a
     `name` + `value` and optional `expires` / `created` for freshness
     arbitration in crates/auth/src/source.rs.
@@ -39,7 +39,7 @@ cookie:
         type: integer
         description: >-
           Length of `cookies` — purely informational, the engine
-          recomputes from `cookies.len()`. Useful for skill-side
+          recomputes from `cookies.len()`. Useful for app-side
           assertions and trace summaries.
       source:
         type: string
