@@ -40,6 +40,14 @@ app:
                                   # Stored as a field, not a relation — entries
                                   # are shape names (strings), not graph
                                   # references.
+    composition:      json      # which chrome rows a Navigator window wearing
+                                  # this app composes. The typed owner is the
+                                  # web Navigator's `Composition` interface
+                                  # (core/web/src/navigator/composition.ts).
+                                  # Absent → all-off (bare body under the
+                                  # titlebar); an app with tools derives the
+                                  # app face instead. The shell resolves,
+                                  # never enumerates apps.
   links:
     provides:            service   # interfaces this app offers — minted from
                                     # the app's own declarations at load, never

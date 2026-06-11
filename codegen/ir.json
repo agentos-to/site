@@ -1936,6 +1936,13 @@
           "target": null
         },
         {
+          "name": "composition",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "defaultView",
           "type": "string",
           "is_relation": false,
@@ -2113,6 +2120,13 @@
           "is_relation": false,
           "is_array": true,
           "target": null
+        },
+        {
+          "name": "composition",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
         }
       ],
       "own_relations": [
@@ -2173,7 +2187,7 @@
         }
       ],
       "source_path": "app.yaml",
-      "raw_body": "plural: apps\nidentity:\n- id\ndisplay:\n  subtitle: description\nfields:\n  id: string\n  name: string\n  description: text\n  color: string\n  status: string\n  error: text\n  iconRole: string\n  route: string\n  defaultView: string\n  isSystem: boolean\n  handles: string[]\nlinks:\n  provides: service\n  online_at: website\n  privacy_at: webpage\n  terms_at: webpage\nprior_art:\n- source: macOS .app bundle (Info.plist)\n  url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html\n  notes: \"CFBundleIdentifier \\u2248 id; CFBundleName \\u2248 name; CFBundleIconFile\\\n    \\ \\u2248 iconRole (we use a role rather than a file path so themes can override).\"\n- source: freedesktop .desktop entry\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: \"Name, Icon, Exec \\u2014 the Linux/XDG peer. We model the launchable surface,\\\n    \\ not the executable (the engine knows how to spawn).\"\n- source: Windows AppUserModelID\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/appids\n  notes: \"Stable per-app identity decoupled from the executable on disk. Our `id`\\\n    \\ plays the same role \\u2014 themes and bookmarks reference it, the binary is\\\n    \\ an implementation detail of seed_system_apps().\"\n- source: \"Model Context Protocol (MCP) \\u2014 Server\"\n  url: https://modelcontextprotocol.io/specification\n  notes: \"An installed app = an MCP-registerable provider. id \\u2248 MCP server name;\\\n    \\ status tracks connection lifecycle.\"\n- source: OpenAPI 3.1 (Info + Servers)\n  url: https://spec.openapis.org/oas/v3.1.0\n  notes: \"Our description/online_at/privacy_at/terms_at \\u2248 OpenAPI info.description/info.termsOfService/contact.\"\n",
+      "raw_body": "plural: apps\nidentity:\n- id\ndisplay:\n  subtitle: description\nfields:\n  id: string\n  name: string\n  description: text\n  color: string\n  status: string\n  error: text\n  iconRole: string\n  route: string\n  defaultView: string\n  isSystem: boolean\n  handles: string[]\n  composition: json\nlinks:\n  provides: service\n  online_at: website\n  privacy_at: webpage\n  terms_at: webpage\nprior_art:\n- source: macOS .app bundle (Info.plist)\n  url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html\n  notes: \"CFBundleIdentifier \\u2248 id; CFBundleName \\u2248 name; CFBundleIconFile\\\n    \\ \\u2248 iconRole (we use a role rather than a file path so themes can override).\"\n- source: freedesktop .desktop entry\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: \"Name, Icon, Exec \\u2014 the Linux/XDG peer. We model the launchable surface,\\\n    \\ not the executable (the engine knows how to spawn).\"\n- source: Windows AppUserModelID\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/appids\n  notes: \"Stable per-app identity decoupled from the executable on disk. Our `id`\\\n    \\ plays the same role \\u2014 themes and bookmarks reference it, the binary is\\\n    \\ an implementation detail of seed_system_apps().\"\n- source: \"Model Context Protocol (MCP) \\u2014 Server\"\n  url: https://modelcontextprotocol.io/specification\n  notes: \"An installed app = an MCP-registerable provider. id \\u2248 MCP server name;\\\n    \\ status tracks connection lifecycle.\"\n- source: OpenAPI 3.1 (Info + Servers)\n  url: https://spec.openapis.org/oas/v3.1.0\n  notes: \"Our description/online_at/privacy_at/terms_at \\u2248 OpenAPI info.description/info.termsOfService/contact.\"\n",
       "ancestors": [],
       "field_order": [
         "id",
@@ -2186,7 +2200,8 @@
         "route",
         "defaultView",
         "isSystem",
-        "handles"
+        "handles",
+        "composition"
       ],
       "derived": {},
       "shortcuts": {},
