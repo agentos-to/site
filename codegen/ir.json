@@ -20189,353 +20189,6 @@
       "prefs_schemas": {}
     },
     {
-      "name": "milestone",
-      "class_name": "Milestone",
-      "fields": [
-        {
-          "name": "id",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "text",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "url",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "image",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "author",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "datePublished",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "content",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "allDay",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "criterion",
-          "type": "text",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "currentUrl",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "dateUpdated",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "distinctId",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "endDate",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "icalUid",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "properties",
-          "type": "json",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "reachedAt",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "recurrence",
-          "type": "string[]",
-          "is_relation": false,
-          "is_array": true,
-          "target": null
-        },
-        {
-          "name": "showAs",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sourceTitle",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sourceUrl",
-          "type": "url",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "startDate",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "timezone",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "visibility",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "at_namespace",
-          "type": "actor",
-          "is_relation": true,
-          "is_array": false,
-          "target": "actor"
-        },
-        {
-          "name": "blocked_by",
-          "type": "milestone[]",
-          "is_relation": true,
-          "is_array": true,
-          "target": "milestone"
-        },
-        {
-          "name": "completes",
-          "type": "node[]",
-          "is_relation": true,
-          "is_array": true,
-          "target": "node"
-        },
-        {
-          "name": "concerns",
-          "type": "person",
-          "is_relation": true,
-          "is_array": false,
-          "target": "person"
-        },
-        {
-          "name": "created_by",
-          "type": "person",
-          "is_relation": true,
-          "is_array": false,
-          "target": "person"
-        },
-        {
-          "name": "held_at",
-          "type": "place",
-          "is_relation": true,
-          "is_array": false,
-          "target": "place"
-        },
-        {
-          "name": "involves",
-          "type": "person[]",
-          "is_relation": true,
-          "is_array": true,
-          "target": "person"
-        },
-        {
-          "name": "organized_by",
-          "type": "person",
-          "is_relation": true,
-          "is_array": false,
-          "target": "person"
-        },
-        {
-          "name": "part_of",
-          "type": "node",
-          "is_relation": true,
-          "is_array": false,
-          "target": "node"
-        }
-      ],
-      "also": [
-        "event"
-      ],
-      "plural": "milestones",
-      "subtitle": "status",
-      "display": {
-        "title": null,
-        "subtitle": "status",
-        "image": null,
-        "highlights": [
-          "status",
-          "reachedAt"
-        ],
-        "body": "criterion",
-        "mono": null,
-        "preview": {}
-      },
-      "identity": [],
-      "identity_any": [],
-      "leading_comment": "A point-in-time checkpoint — a significant, zero-duration moment in a\nlarger effort: \"Phase 1 approved\", \"1000 users\", \"manuscript delivered\".\nA milestone IS-A event (it has a when), so it inherits the event timeline:\nevent.startDate is the planned point; event.status carries the lifecycle\n(use values upcoming | reached | missed | cancelled). It adds only the\ncheckpoint specifics — when it was actually reached, and what counts as done.",
-      "own_fields": [
-        {
-          "name": "reachedAt",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "criterion",
-          "type": "text",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        }
-      ],
-      "own_relations": [
-        {
-          "name": "part_of",
-          "type": "node",
-          "is_relation": true,
-          "is_array": false,
-          "target": "node"
-        },
-        {
-          "name": "blocked_by",
-          "type": "milestone[]",
-          "is_relation": true,
-          "is_array": true,
-          "target": "milestone"
-        },
-        {
-          "name": "completes",
-          "type": "node[]",
-          "is_relation": true,
-          "is_array": true,
-          "target": "node"
-        }
-      ],
-      "prior_art": [
-        {
-          "source": "PMBOK Guide (PMI) — milestone",
-          "url": "https://www.wrike.com/project-management-guide/faq/what-is-a-milestone-in-project-management/",
-          "notes": "\"A significant point or event,\" zero duration → no span, just the planned point (event.startDate) + reachedAt; justifies also:[event]."
-        },
-        {
-          "source": "schema.org/Event (eventStatus, superEvent)",
-          "url": "https://schema.org/Event",
-          "notes": "Inherits point-in-time + status + nesting; superEvent → part_of, eventStatus → the inherited status field."
-        },
-        {
-          "source": "GitHub Milestones",
-          "url": "https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones",
-          "notes": "Real-world milestone-as-aggregator with a due date bundling work items → the completes edge."
-        }
-      ],
-      "source_path": "milestone.yaml",
-      "raw_body": "plural: milestones\nalso:\n- event\ndisplay:\n  subtitle: status\n  body: criterion\n  highlights:\n  - status\n  - reachedAt\nicon: flag\nfields:\n  reachedAt: datetime\n  criterion: text\nlinks:\n  part_of: node\n  blocked_by: milestone[]\n  completes: node[]\nprior_art:\n- source: \"PMBOK Guide (PMI) \\u2014 milestone\"\n  url: https://www.wrike.com/project-management-guide/faq/what-is-a-milestone-in-project-management/\n  notes: \"\\\"A significant point or event,\\\" zero duration \\u2192 no span, just the\\\n    \\ planned point (event.startDate) + reachedAt; justifies also:[event].\"\n- source: schema.org/Event (eventStatus, superEvent)\n  url: https://schema.org/Event\n  notes: \"Inherits point-in-time + status + nesting; superEvent \\u2192 part_of, eventStatus\\\n    \\ \\u2192 the inherited status field.\"\n- source: GitHub Milestones\n  url: https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones\n  notes: \"Real-world milestone-as-aggregator with a due date bundling work items \\u2192\\\n    \\ the completes edge.\"\n",
-      "ancestors": [
-        "event"
-      ],
-      "field_order": [
-        "reachedAt",
-        "criterion",
-        "startDate",
-        "endDate",
-        "timezone",
-        "allDay",
-        "recurrence",
-        "status",
-        "visibility",
-        "showAs",
-        "dateUpdated",
-        "sourceUrl",
-        "sourceTitle",
-        "icalUid",
-        "distinctId",
-        "currentUrl",
-        "properties"
-      ],
-      "derived": {},
-      "shortcuts": {},
-      "prefs_schemas": {}
-    },
-    {
       "name": "model",
       "class_name": "Model",
       "fields": [
@@ -22754,6 +22407,13 @@
           "target": null
         },
         {
+          "name": "priority",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "statement",
           "type": "text",
           "is_relation": false,
@@ -22773,13 +22433,6 @@
           "is_relation": false,
           "is_array": false,
           "target": null
-        },
-        {
-          "name": "advances",
-          "type": "milestone",
-          "is_relation": true,
-          "is_array": false,
-          "target": "milestone"
         },
         {
           "name": "depends_on",
@@ -22817,7 +22470,10 @@
         "title": null,
         "subtitle": "status",
         "image": null,
-        "highlights": [],
+        "highlights": [
+          "status",
+          "priority"
+        ],
         "body": "statement",
         "mono": null,
         "preview": {}
@@ -22836,6 +22492,13 @@
         {
           "name": "status",
           "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "priority",
+          "type": "integer",
           "is_relation": false,
           "is_array": false,
           "target": null
@@ -22885,13 +22548,6 @@
           "target": "outcome"
         },
         {
-          "name": "advances",
-          "type": "milestone",
-          "is_relation": true,
-          "is_array": false,
-          "target": "milestone"
-        },
-        {
           "name": "upholds",
           "type": "principle[]",
           "is_relation": true,
@@ -22931,11 +22587,12 @@
         }
       ],
       "source_path": "outcome.yaml",
-      "raw_body": "plural: outcomes\ndisplay:\n  subtitle: status\n  body: statement\nicon: target\nfields:\n  statement: text\n  status: string\n  archived: boolean\n  metric: string\n  baseline: string\n  current: string\n  target: string\nlinks:\n  depends_on: outcome[]\n  advances: milestone\n  upholds: principle[]\n  serves: node[]\n  owns: node[]\nprior_art:\n- source: John Doerr, \"Measure What Matters\" (OKR)\n  url: https://www.whatmatters.com/faqs/okr-meaning-definition-example\n  notes: \"Objective \\u2192 statement; Key Result \\u2192 the metric/baseline/current/target\\\n    \\ quad (\\\"I will X as measured by Y\\\").\"\n- source: W.K. Kellogg Foundation Logic Model Development Guide\n  url: https://www.nj.gov/state/assets/pdf/ofbi/kellogg-foundation-logic-model-development-guide.pdf\n  notes: \"Outcomes as short/intermediate/long-term changes in a causal chain \\u2192\\\n    \\ the depends_on / advances edges.\"\n- source: schema.org/AchieveAction + result\n  url: https://schema.org/AchieveAction\n  notes: \"Closest schema.org neighbor, but `result` models what an action produced,\\\n    \\ not a tracked target-state \\u2014 so outcome is its own type.\"\n",
+      "raw_body": "plural: outcomes\ndisplay:\n  subtitle: status\n  body: statement\n  highlights:\n  - status\n  - priority\nicon: target\nfields:\n  statement: text\n  status: string\n  priority: integer\n  archived: boolean\n  metric: string\n  baseline: string\n  current: string\n  target: string\nlinks:\n  depends_on: outcome[]\n  upholds: principle[]\n  serves: node[]\n  owns: node[]\nprior_art:\n- source: John Doerr, \"Measure What Matters\" (OKR)\n  url: https://www.whatmatters.com/faqs/okr-meaning-definition-example\n  notes: \"Objective \\u2192 statement; Key Result \\u2192 the metric/baseline/current/target\\\n    \\ quad (\\\"I will X as measured by Y\\\").\"\n- source: W.K. Kellogg Foundation Logic Model Development Guide\n  url: https://www.nj.gov/state/assets/pdf/ofbi/kellogg-foundation-logic-model-development-guide.pdf\n  notes: \"Outcomes as short/intermediate/long-term changes in a causal chain \\u2192\\\n    \\ the depends_on / advances edges.\"\n- source: schema.org/AchieveAction + result\n  url: https://schema.org/AchieveAction\n  notes: \"Closest schema.org neighbor, but `result` models what an action produced,\\\n    \\ not a tracked target-state \\u2014 so outcome is its own type.\"\n",
       "ancestors": [],
       "field_order": [
         "statement",
         "status",
+        "priority",
         "archived",
         "metric",
         "baseline",

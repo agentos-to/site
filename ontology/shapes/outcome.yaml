@@ -8,10 +8,12 @@ outcome:
   display:
     subtitle: status
     body: statement
+    highlights: [status, priority]
   icon: target
   fields:
     statement:  text     # the change being sought, one sentence ("agents pick up the roadmap cold")
     status:     string   # not-started | active | at-risk | achieved | missed
+    priority:   integer  # 1 = focus, 2 = queued, 3 = backlog — sortable in roadmap views
     archived:   boolean  # closed/shelved without every part built — drops off the active frontier
     # optional OKR metric — most outcomes are qualitative; leave unset:
     metric:     string   # what's measured ("30-day readmission rate")
@@ -20,7 +22,6 @@ outcome:
     target:     string   # the value that counts as success
   links:
     depends_on:  outcome[]    # upstream outcomes that must move first
-    advances:    milestone    # the checkpoint this outcome drives toward
     upholds:     principle[]  # the bright-lines this outcome must honor
     serves:      node[]       # who it's for — a persona (archetype), or a real person / organization
     owns:        node[]       # the flows / requirements / changes that compose it

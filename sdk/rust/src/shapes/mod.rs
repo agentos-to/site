@@ -78,7 +78,6 @@ pub mod mcp_session;
 pub mod meeting;
 pub mod membership;
 pub mod message;
-pub mod milestone;
 pub mod model;
 pub mod module;
 pub mod note;
@@ -192,7 +191,6 @@ pub use mcp_session::{MCP_SESSION, McpSession};
 pub use meeting::{MEETING, Meeting};
 pub use membership::{MEMBERSHIP, Membership};
 pub use message::{MESSAGE, Message};
-pub use milestone::{MILESTONE, Milestone};
 pub use model::{MODEL, Model};
 pub use module::{MODULE, Module};
 pub use note::{NOTE, Note};
@@ -312,7 +310,6 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "meeting" => Some(&MEETING),
         "membership" => Some(&MEMBERSHIP),
         "message" => Some(&MESSAGE),
-        "milestone" => Some(&MILESTONE),
         "model" => Some(&MODEL),
         "module" => Some(&MODULE),
         "note" => Some(&NOTE),
@@ -981,16 +978,6 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &[],
     }),
-    ("milestone", Display {
-        title: None,
-        subtitle: Some("status"),
-        image: None,
-        highlights: &["status", "reachedAt"],
-        body: Some("criterion"),
-        mono: None,
-        preview: &[],
-        also: &["event"],
-    }),
     ("model", Display {
         title: None,
         subtitle: Some("name"),
@@ -1055,7 +1042,7 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         title: None,
         subtitle: Some("status"),
         image: None,
-        highlights: &[],
+        highlights: &["status", "priority"],
         body: Some("statement"),
         mono: None,
         preview: &[],
@@ -1600,14 +1587,13 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("meeting", &["calendarLink", "isVirtual", "meetingUrl", "conferenceProvider", "phoneDialIn", "meetingType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("membership", &["status", "tier", "autoRenew", "price", "currency", "billingType", "useCount", "guestPassQuantity", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("message", &["isOutgoing", "isStarred", "conversationId"]),
-    ("milestone", &["reachedAt", "criterion", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("model", &["contextLength", "contextWindow", "maxOutput", "pricingInput", "pricingOutput", "modality", "modelType", "quantization", "quantizationLevel", "size", "parameterSize", "format", "family", "digest"]),
     ("module", &["name", "role", "path", "version", "status", "planned"]),
     ("note", &["noteType", "isPinned"]),
     ("offer", &["price", "currency", "offerType", "availability", "bookingToken", "departureToken", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("order", &["orderId", "orderDate", "total", "totalAmount", "originalTotal", "originalTotalAmount", "savings", "currency", "status", "deliveryDate", "eta", "subtotal", "tipAmount", "deliveryFee", "taxes", "summary", "fareBreakdown", "deliveryInstructions", "interactionType", "orderUuid", "body", "head", "messages", "timeline", "itemStates", "latestArrival", "progress", "progressTotal", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("organization", &["industry", "actorType"]),
-    ("outcome", &["statement", "status", "archived", "metric", "baseline", "current", "target"]),
+    ("outcome", &["statement", "status", "priority", "archived", "metric", "baseline", "current", "target"]),
     ("pass", &["status", "quantity", "purchasedQuantity", "useCount", "isAllDayPass", "price", "currency", "ticketNumber", "nameOnTicket", "seatAssignment", "boardingGroup", "ticketClass", "gate", "terminal", "checkinStatus", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("payment_method", &["identifier", "type", "subtype", "brand", "displayName", "customDescription", "holderName", "last4", "binRange", "expMonth", "expYear", "expirationDate", "currency", "balance", "fingerprint", "isDefault", "isPrimary", "isExpired", "isSelected", "status", "providerTokens", "metadata"]),
     ("person", &["url", "notes", "about", "actorType"]),
@@ -1724,7 +1710,6 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("meeting", "meetings"),
     ("membership", "memberships"),
     ("message", "messages"),
-    ("milestone", "milestones"),
     ("model", "models"),
     ("module", "modules"),
     ("note", "notes"),
@@ -1818,7 +1803,6 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
     ("loaded_model", &["event"]),
     ("meeting", &["event"]),
     ("membership", &["event"]),
-    ("milestone", &["event"]),
     ("offer", &["event"]),
     ("order", &["event"]),
     ("organization", &["actor"]),
@@ -1844,7 +1828,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
 // Event types — shapes whose `also:` chain includes `event`
 // ===========================================================
 
-pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer", "class", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-observation", "health-panel", "health-procedure", "health-reference-range", "invitation", "launch", "leg", "loaded_model", "meeting", "membership", "milestone", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "transition", "trip"];
+pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer", "class", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-observation", "health-panel", "health-procedure", "health-reference-range", "invitation", "launch", "leg", "loaded_model", "meeting", "membership", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "transition", "trip"];
 
 // ===========================================================
 // Derived bindings — per-shape `derived:` block as JSON
