@@ -14,6 +14,7 @@ pub struct Bookmark {
     pub author: Option<String>,
     pub date_published: Option<String>,
     pub content: Option<String>,
+    pub address: Option<String>,
     pub handle: Option<String>,
 }
 
@@ -31,6 +32,7 @@ pub static BOOKMARK: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("author", FieldType::String),
         FieldDef::optional("datePublished", FieldType::String),
         FieldDef::optional("content", FieldType::String),
+        FieldDef::optional("address", FieldType::String),
         FieldDef::optional("handle", FieldType::String),
     ],
     out: vec![

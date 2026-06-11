@@ -4438,6 +4438,13 @@
           "target": null
         },
         {
+          "name": "address",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "handle",
           "type": "string",
           "is_relation": false,
@@ -4468,7 +4475,7 @@
         "points_to"
       ],
       "identity_any": [],
-      "leading_comment": "A pointer into the graph — the universal shortcut. A bookmark is a\nname + a target; the target is the contract. Bookmarks are wrapped\nby `list --contains--> bookmark` links so the SAME bookmark can live\nin three lists (the desktop, the primary launcher, a user's pinned\nitems) at three different positions with three different name\noverrides — the per-list metadata lives on the contains-link, not\non the bookmark.\n\nIdentity is `[target]`: one bookmark per addressable target. List\nmembership comes from the --contains--> link, not from bookmark\nuniqueness. The bookmark's own icon comes from its target; per-list\noverrides ride on the contains-link as icon_override.\n\n`handle` makes a bookmark a resolvable symlink: `read({id: handle})`\nfinds no literal node, derefs the handle → this bookmark → points_to\ntarget (across the mount boundary when points_to carries to_volume).\nA literal node id always wins (Unix collision rule); the handle only\nresolves a miss. One bookmark per target → at most one handle per node.",
+      "leading_comment": "A pointer into the graph — the universal shortcut. A bookmark is a\nname + a target; the target is the contract. Bookmarks are wrapped\nby `list --contains--> bookmark` links so the SAME bookmark can live\nin three lists (the desktop, the primary launcher, a user's pinned\nitems) at three different positions with three different name\noverrides — the per-list metadata lives on the contains-link, not\non the bookmark.\n\nIdentity is `[target]`: one bookmark per addressable target. List\nmembership comes from the --contains--> link, not from bookmark\nuniqueness. The bookmark's own icon comes from its target; per-list\noverrides ride on the contains-link as icon_override.\n\n`handle` makes a bookmark a resolvable symlink: `read({id: handle})`\nfinds no literal node, derefs the handle → this bookmark → points_to\ntarget (across the mount boundary when points_to carries to_volume).\nA literal node id always wins (Unix collision rule); the handle only\nresolves a miss. One bookmark per target → at most one handle per node.\n\nA bookmark names a node (`points_to`) XOR a saved address (`address`)\n— never both, never neither. An address bookmark is a BeOS saved\nquery: the payload is a serialized view route (`?q=raptor&…`), there\nis no node to point at, and opening it re-runs the query live —\n`read({id: handle})` binds the address to `data.list`, the shell\nnavigates to it. The engine refuses a bookmark carrying both.",
       "own_fields": [
         {
           "name": "name",
@@ -4479,6 +4486,13 @@
         },
         {
           "name": "handle",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "address",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -4512,11 +4526,12 @@
         }
       ],
       "source_path": "bookmark.yaml",
-      "raw_body": "plural: bookmarks\nidentity:\n- points_to\ndisplay:\n  subtitle: name\nicon: \"\\U0001F516\"\nfields:\n  name: string\n  handle: string\nlinks:\n  points_to: node\nprior_art:\n- source: Browser bookmarks (Mosaic / Netscape Navigator hotlist)\n  url: https://en.wikipedia.org/wiki/Bookmark_(digital)\n  notes: Direct precedent. A bookmark is a name + a target; the target is the contract;\n    the surface doesn't care what's behind it. We replace HTTP URLs with graph node\n    references; everything else maps 1:1.\n- source: macOS alias / Windows .lnk file\n  url: https://en.wikipedia.org/wiki/Alias_(Mac_OS)\n  notes: \"OS-level shortcut primitive. Same shape: name + target. Per- instance position\\\n    \\ is handled by the parent folder/desktop in both \\u2014 for us that lives on\\\n    \\ the contains-link.\"\n- source: Finder sidebar / Windows Explorer Quick Access\n  url: https://support.apple.com/guide/mac-help/customize-the-finder-sidebar-mchlp3014/mac\n  notes: \"OS file managers use a bookmark sidebar as their universal navigation primitive\\\n    \\ (My Computer, Documents, Network). We treat every shape the same way \\u2014\\\n    \\ bookmark to any graph node, no FS bias.\"\n",
+      "raw_body": "plural: bookmarks\nidentity:\n- points_to\ndisplay:\n  subtitle: name\nicon: \"\\U0001F516\"\nfields:\n  name: string\n  handle: string\n  address: string\nlinks:\n  points_to: node\nprior_art:\n- source: Browser bookmarks (Mosaic / Netscape Navigator hotlist)\n  url: https://en.wikipedia.org/wiki/Bookmark_(digital)\n  notes: Direct precedent. A bookmark is a name + a target; the target is the contract;\n    the surface doesn't care what's behind it. We replace HTTP URLs with graph node\n    references; everything else maps 1:1.\n- source: macOS alias / Windows .lnk file\n  url: https://en.wikipedia.org/wiki/Alias_(Mac_OS)\n  notes: \"OS-level shortcut primitive. Same shape: name + target. Per- instance position\\\n    \\ is handled by the parent folder/desktop in both \\u2014 for us that lives on\\\n    \\ the contains-link.\"\n- source: Finder sidebar / Windows Explorer Quick Access\n  url: https://support.apple.com/guide/mac-help/customize-the-finder-sidebar-mchlp3014/mac\n  notes: \"OS file managers use a bookmark sidebar as their universal navigation primitive\\\n    \\ (My Computer, Documents, Network). We treat every shape the same way \\u2014\\\n    \\ bookmark to any graph node, no FS bias.\"\n",
       "ancestors": [],
       "field_order": [
         "name",
-        "handle"
+        "handle",
+        "address"
       ],
       "derived": {},
       "shortcuts": {},

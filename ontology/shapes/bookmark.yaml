@@ -16,6 +16,13 @@
 # target (across the mount boundary when points_to carries to_volume).
 # A literal node id always wins (Unix collision rule); the handle only
 # resolves a miss. One bookmark per target → at most one handle per node.
+#
+# A bookmark names a node (`points_to`) XOR a saved address (`address`)
+# — never both, never neither. An address bookmark is a BeOS saved
+# query: the payload is a serialized view route (`?q=raptor&…`), there
+# is no node to point at, and opening it re-runs the query live —
+# `read({id: handle})` binds the address to `data.list`, the shell
+# navigates to it. The engine refuses a bookmark carrying both.
 bookmark:
   plural: bookmarks
   identity: [points_to]
@@ -28,10 +35,15 @@ bookmark:
                                   # is the underlying thing).
     handle:            string    # optional address — a short, stable slug you
                                   # `read({id: handle})` by. The symlink name.
+    address:           string    # saved-view payload — a serialized route
+                                  # (`?group=facet:shape&q=raptor`). Mutually
+                                  # exclusive with points_to: an address IS the
+                                  # target, re-run live on every open.
   links:
     points_to:            node      # ANY addressable shape — app, query, file,
                                   # url node, list, image, person. Single
-                                  # relation, identity-keyed.
+                                  # relation, identity-keyed. Absent on an
+                                  # address bookmark (see `address`).
   prior_art:
     - source: Browser bookmarks (Mosaic / Netscape Navigator hotlist)
       url: https://en.wikipedia.org/wiki/Bookmark_(digital)
