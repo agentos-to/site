@@ -3,13 +3,12 @@ title: Skills index
 description: "Every skill in the AgentOS catalog. Browse all or filter by category."
 ---
 
-The AgentOS skill catalog — **47** skills across **15** categories. Each skill is a Python adapter that connects to a service or provides a pure agent capability.
+The AgentOS skill catalog — **46** skills across **15** categories. Each skill is a Python adapter that connects to a service or provides a pure agent capability.
 
 See [Skills → Overview](/skills/overview/) for how to build one.
 
 ## [agents](/skills/reference/agents/)
 
-- [**Code Review**](/skills/reference/agents/code-review/) — Evaluate code changes against project principles, refactoring specs, and architectural direction
 - [**Itineraries**](/skills/reference/agents/itineraries/) — Render travel itineraries (flights, lodging, rentals, dining) from graph `reservation` nodes — PDF, markdown, text
 - [**reverse-engineering**](/skills/reference/agents/reverse-engineering/) — Systematically analyze and document how software systems work internally. Use when you need to understand closed-source systems, third-party integrations, or undocumented APIs
 

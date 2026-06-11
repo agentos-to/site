@@ -39,4 +39,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 - [claude](/skills/reference/ai/claude/) — `import_conversation`
 - [imessage](/skills/reference/comms/imessage/) — `list_messages`, `search_messages`, `get_message`
-- [whatsapp](/skills/reference/comms/whatsapp/) — `list_messages`, `search_messages`, `get_message`
+- [whatsapp](/skills/reference/comms/whatsapp/) — `list_messages`, `search_messages`, `get_message`, `send_message`

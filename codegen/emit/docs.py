@@ -199,7 +199,7 @@ def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, 
 # Skill docs — discovered from the skills/ tree
 # =============================================================================
 
-_SKILL_IGNORE_DIRS = {"_sdk", "_prototype", "_code-reviews", "agent-sdk", "bin", "node_modules", "__pycache__"}
+_SKILL_IGNORE_DIRS = {"_sdk", "_prototype", "agent-sdk", "bin", "node_modules", "__pycache__"}
 
 
 def _parse_readme_frontmatter(text: str) -> tuple[dict, str]:
