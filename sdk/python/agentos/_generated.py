@@ -1,6 +1,6 @@
 """Auto-generated TypedDict classes from shape YAML — do not edit.
 
-Generated from 111 shapes.
+Generated from 112 shapes.
 Regenerate with: python generate.py --lang python
 """
 
@@ -2377,6 +2377,20 @@ class Step(TypedDict, total=False):
     status: str
 
 
+class Subscription(TypedDict, total=False):
+    id: str
+    name: str
+    text: str
+    url: str
+    image: str
+    author: str
+    datePublished: str
+    content: str
+    op: str
+    skill: str
+    target: str
+
+
 class Symbol(TypedDict, total=False):
     id: str
     name: str
@@ -2880,6 +2894,7 @@ SHAPE_DEFS: dict[str, dict] = {
     'source': {'name': 'source', 'plural': 'sources', 'description': 'A content source — where skills, themes, shapes, and wallpapers live.', 'icon': '"\\U0001F4E6"', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'address', 'ty': 'string', 'required': True}, {'name': 'description', 'ty': 'text'}, {'name': 'enabled', 'ty': 'boolean'}, {'name': 'lastSynced', 'ty': 'datetime'}, {'name': 'scanner', 'ty': 'string'}, {'name': 'sourceId', 'ty': 'string'}], 'identity': ['address'], 'display': {'subtitle': 'sourceId'}},
     'spec': {'name': 'spec', 'plural': 'specs', 'description': 'A spec — a design document describing work to be done.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'encoding', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'filename', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'labels', 'ty': 'stringlist'}, {'name': 'lineCount', 'ty': 'integer'}, {'name': 'mimeType', 'ty': 'string'}, {'name': 'parentId', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'priority', 'ty': 'integer'}, {'name': 'problem', 'ty': 'text'}, {'name': 'projectId', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'remoteId', 'ty': 'string'}, {'name': 'sha', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'size', 'ty': 'integer'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'state', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}, {'name': 'successCriteria', 'ty': 'text'}, {'name': 'target', 'ty': 'json'}, {'name': 'targetDate', 'ty': 'datetime'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['task', 'file'], 'display': {'subtitle': 'state', 'highlights': ['startDate', 'endDate', 'location']}},
     'step': {'name': 'step', 'plural': 'steps', 'description': 'One ordered act within a flow. A first-class node, not an array slot:', 'icon': 'list-ordered', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'detail', 'ty': 'text'}, {'name': 'position', 'ty': 'integer'}, {'name': 'status', 'ty': 'string'}], 'display': {'subtitle': 'status', 'body': 'detail', 'highlights': ['position', 'status']}},
+    'subscription': {'name': 'subscription', 'plural': 'subscriptions', 'description': 'A standing subscription — a durable intent to stream live entities, re-armed on every engine boot.', 'icon': 'rss', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'op', 'ty': 'string', 'required': True}, {'name': 'skill', 'ty': 'string', 'required': True}, {'name': 'target', 'ty': 'string'}], 'identity': ['skill', 'op'], 'display': {'subtitle': 'target'}},
     'symbol': {'name': 'symbol', 'plural': 'symbols', 'description': 'A code symbol — one named thing in a source surface: an MCP tool/op, a', 'icon': 'code', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'lang', 'ty': 'string'}, {'name': 'signature', 'ty': 'text'}, {'name': 'sourceLine', 'ty': 'integer'}, {'name': 'sourcePath', 'ty': 'string'}, {'name': 'summary', 'ty': 'text'}, {'name': 'urn', 'ty': 'string'}], 'display': {'subtitle': 'signature', 'body': 'summary', 'highlights': ['kind', 'lang', 'sourcePath']}},
     'tag': {'name': 'tag', 'plural': 'tags', 'description': 'A tag or label — Gmail label, Todoist label, GitHub label, git tag,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'annotated', 'ty': 'boolean'}, {'name': 'color', 'ty': 'string'}, {'name': 'hash', 'ty': 'string'}, {'name': 'tagType', 'ty': 'string'}], 'identity': ['name'], 'display': {'title': 'name', 'subtitle': 'tagType'}},
     'task': {'name': 'task', 'plural': 'tasks', 'description': 'A work item — issue, ticket, or to-do. Supports hierarchy (parent/children)', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'labels', 'ty': 'stringlist'}, {'name': 'parentId', 'ty': 'string'}, {'name': 'priority', 'ty': 'integer'}, {'name': 'projectId', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'remoteId', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'state', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}, {'name': 'target', 'ty': 'json'}, {'name': 'targetDate', 'ty': 'datetime'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'identity': ['at', 'id'], 'display': {'subtitle': 'state', 'highlights': ['startDate', 'endDate', 'location']}},
@@ -2942,6 +2957,7 @@ SHAPE_IDENTITIES: dict[str, list[str]] = {
     'reservation': ['at', 'reservationId'],
     'seatmap': ['id'],
     'source': ['address'],
+    'subscription': ['skill', 'op'],
     'tag': ['name'],
     'task': ['at', 'id'],
     'tax_line': ['at', 'id'],
@@ -3070,6 +3086,7 @@ SHAPE_FIELD_ORDER: dict[str, list[str]] = {
     'source': ['sourceId', 'address', 'scanner', 'enabled', 'description', 'lastSynced'],
     'spec': ['problem', 'successCriteria', 'remoteId', 'priority', 'state', 'labels', 'targetDate', 'target', 'parentId', 'projectId', 'startDate', 'endDate', 'timezone', 'allDay', 'recurrence', 'status', 'visibility', 'showAs', 'dateUpdated', 'sourceUrl', 'sourceTitle', 'icalUid', 'distinctId', 'currentUrl', 'properties', 'filename', 'mimeType', 'size', 'path', 'format', 'encoding', 'lineCount', 'kind', 'sha'],
     'step': ['position', 'detail', 'status'],
+    'subscription': ['skill', 'op', 'target'],
     'symbol': ['urn', 'kind', 'lang', 'signature', 'summary', 'sourcePath', 'sourceLine'],
     'tag': ['color', 'tagType', 'annotated', 'hash'],
     'task': ['remoteId', 'priority', 'state', 'labels', 'targetDate', 'target', 'parentId', 'projectId', 'startDate', 'endDate', 'timezone', 'allDay', 'recurrence', 'status', 'visibility', 'showAs', 'dateUpdated', 'sourceUrl', 'sourceTitle', 'icalUid', 'distinctId', 'currentUrl', 'properties'],

@@ -114,6 +114,7 @@ pub mod sound;
 pub mod source;
 pub mod spec;
 pub mod step;
+pub mod subscription;
 pub mod symbol;
 pub mod tag;
 pub mod task;
@@ -226,6 +227,7 @@ pub use sound::{SOUND, Sound};
 pub use source::{SOURCE, Source};
 pub use spec::{SPEC, Spec};
 pub use step::{STEP, Step};
+pub use subscription::{SUBSCRIPTION, Subscription};
 pub use symbol::{SYMBOL, Symbol};
 pub use tag::{TAG, Tag};
 pub use task::{TASK, Task};
@@ -1119,6 +1121,15 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &[],
     }),
+    ("subscription", Display {
+        title: None,
+        subtitle: Some("target"),
+        image: None,
+        highlights: &[],
+        body: None,
+        preview: &[],
+        also: &[],
+    }),
     ("symbol", Display {
         title: None,
         subtitle: Some("signature"),
@@ -1377,6 +1388,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("source", &["sourceId", "address", "scanner", "enabled", "description", "lastSynced"]),
     ("spec", &["problem", "successCriteria", "remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("step", &["position", "detail", "status"]),
+    ("subscription", &["skill", "op", "target"]),
     ("symbol", &["urn", "kind", "lang", "signature", "summary", "sourcePath", "sourceLine"]),
     ("tag", &["color", "tagType", "annotated", "hash"]),
     ("task", &["remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
@@ -1499,6 +1511,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("source", "sources"),
     ("spec", "specs"),
     ("step", "steps"),
+    ("subscription", "subscriptions"),
     ("symbol", "symbols"),
     ("tag", "tags"),
     ("task", "tasks"),

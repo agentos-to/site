@@ -26577,6 +26577,158 @@
       "prefs_schemas": {}
     },
     {
+      "name": "subscription",
+      "class_name": "Subscription",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "op",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "skill",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "plural": "subscriptions",
+      "subtitle": "target",
+      "display": {
+        "title": null,
+        "subtitle": "target",
+        "image": null,
+        "highlights": [],
+        "body": null,
+        "preview": {}
+      },
+      "identity": [
+        "skill",
+        "op"
+      ],
+      "identity_any": [],
+      "leading_comment": "A standing subscription — a durable intent to stream live entities, re-armed on every engine boot.\nThe node stores WHICH skill op arms the stream, never the artifact it\nproduces (hook JS regenerates fresh on every re-arm, so it can't go\nstale on the graph). Engine boot reads these nodes and re-dispatches\neach as a normal skills.run call.\n\nOne node per (skill, op): subscribe upserts, close deletes, boot\nreads-and-dispatches. The node row's own updated_at IS the armed-at\ntimestamp — no field duplicates it.",
+      "own_fields": [
+        {
+          "name": "skill",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "op",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "W3C WebSub subscriptions",
+          "url": "https://www.w3.org/TR/websub/",
+          "notes": "A subscription is a stored intent (topic + callback) the hub re-delivers against — content never lives on the subscription. Our skill/op ≈ topic/callback."
+        },
+        {
+          "source": "MQTT persistent sessions",
+          "url": "https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html",
+          "notes": "Subscriptions survive connection loss and re-attach on reconnect. Our engine-boot re-arm parallels session resumption."
+        },
+        {
+          "source": "systemd unit enablement (systemctl enable)",
+          "url": "https://www.freedesktop.org/software/systemd/man/systemctl.html",
+          "notes": "Enablement is a durable on-disk fact distinct from the running process; boot re-creates the runtime state from it. Our node ≈ the wants/ symlink, the live CDP hook ≈ the running unit."
+        }
+      ],
+      "source_path": "agentos/subscription.yaml",
+      "raw_body": "plural: subscriptions\nidentity:\n- skill\n- op\ndisplay:\n  subtitle: target\nicon: rss\nfields:\n  skill: string\n  op: string\n  target: string\nprior_art:\n- source: W3C WebSub subscriptions\n  url: https://www.w3.org/TR/websub/\n  notes: \"A subscription is a stored intent (topic + callback) the hub re-delivers\\\n    \\ against \\u2014 content never lives on the subscription. Our skill/op \\u2248\\\n    \\ topic/callback.\"\n- source: MQTT persistent sessions\n  url: https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html\n  notes: Subscriptions survive connection loss and re-attach on reconnect. Our engine-boot\n    re-arm parallels session resumption.\n- source: systemd unit enablement (systemctl enable)\n  url: https://www.freedesktop.org/software/systemd/man/systemctl.html\n  notes: \"Enablement is a durable on-disk fact distinct from the running process;\\\n    \\ boot re-creates the runtime state from it. Our node \\u2248 the wants/ symlink,\\\n    \\ the live CDP hook \\u2248 the running unit.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "skill",
+        "op",
+        "target"
+      ],
+      "derived": {},
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
       "name": "symbol",
       "class_name": "Symbol",
       "fields": [
