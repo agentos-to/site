@@ -238,6 +238,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -742,6 +743,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -920,6 +922,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -1267,6 +1270,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -1537,6 +1541,7 @@
           "headquarters"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -1753,6 +1758,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -1929,6 +1935,13 @@
           "target": null
         },
         {
+          "name": "account",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "color",
           "type": "string",
           "is_relation": false,
@@ -2029,6 +2042,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -2120,6 +2134,13 @@
           "is_relation": false,
           "is_array": false,
           "target": null
+        },
+        {
+          "name": "account",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
         }
       ],
       "own_relations": [
@@ -2173,7 +2194,7 @@
         }
       ],
       "source_path": "app.yaml",
-      "raw_body": "plural: apps\nidentity:\n- id\ndisplay:\n  subtitle: description\nfields:\n  id: string\n  name: string\n  description: text\n  color: string\n  status: string\n  error: text\n  iconRole: string\n  route: string\n  defaultView: string\n  isSystem: boolean\n  handles: string[]\n  composition: json\nlinks:\n  online_at: website\n  privacy_at: webpage\n  terms_at: webpage\nprior_art:\n- source: macOS .app bundle (Info.plist)\n  url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html\n  notes: \"CFBundleIdentifier \\u2248 id; CFBundleName \\u2248 name; CFBundleIconFile\\\n    \\ \\u2248 iconRole (we use a role rather than a file path so themes can override).\"\n- source: freedesktop .desktop entry\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: \"Name, Icon, Exec \\u2014 the Linux/XDG peer. We model the launchable surface,\\\n    \\ not the executable (the engine knows how to spawn).\"\n- source: Windows AppUserModelID\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/appids\n  notes: \"Stable per-app identity decoupled from the executable on disk. Our `id`\\\n    \\ plays the same role \\u2014 themes and bookmarks reference it, the binary is\\\n    \\ an implementation detail of seed_system_apps().\"\n- source: \"Model Context Protocol (MCP) \\u2014 Server\"\n  url: https://modelcontextprotocol.io/specification\n  notes: \"An installed app = an MCP-registerable provider. id \\u2248 MCP server name;\\\n    \\ status tracks connection lifecycle.\"\n- source: OpenAPI 3.1 (Info + Servers)\n  url: https://spec.openapis.org/oas/v3.1.0\n  notes: \"Our description/online_at/privacy_at/terms_at \\u2248 OpenAPI info.description/info.termsOfService/contact.\"\n",
+      "raw_body": "plural: apps\nidentity:\n- id\ndisplay:\n  subtitle: description\nfields:\n  id: string\n  name: string\n  description: text\n  color: string\n  status: string\n  error: text\n  iconRole: string\n  route: string\n  defaultView: string\n  isSystem: boolean\n  handles: string[]\n  composition: json\n  account: json\nlinks:\n  online_at: website\n  privacy_at: webpage\n  terms_at: webpage\nprior_art:\n- source: macOS .app bundle (Info.plist)\n  url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html\n  notes: \"CFBundleIdentifier \\u2248 id; CFBundleName \\u2248 name; CFBundleIconFile\\\n    \\ \\u2248 iconRole (we use a role rather than a file path so themes can override).\"\n- source: freedesktop .desktop entry\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: \"Name, Icon, Exec \\u2014 the Linux/XDG peer. We model the launchable surface,\\\n    \\ not the executable (the engine knows how to spawn).\"\n- source: Windows AppUserModelID\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/appids\n  notes: \"Stable per-app identity decoupled from the executable on disk. Our `id`\\\n    \\ plays the same role \\u2014 themes and bookmarks reference it, the binary is\\\n    \\ an implementation detail of seed_system_apps().\"\n- source: \"Model Context Protocol (MCP) \\u2014 Server\"\n  url: https://modelcontextprotocol.io/specification\n  notes: \"An installed app = an MCP-registerable provider. id \\u2248 MCP server name;\\\n    \\ status tracks connection lifecycle.\"\n- source: OpenAPI 3.1 (Info + Servers)\n  url: https://spec.openapis.org/oas/v3.1.0\n  notes: \"Our description/online_at/privacy_at/terms_at \\u2248 OpenAPI info.description/info.termsOfService/contact.\"\n",
       "ancestors": [],
       "field_order": [
         "id",
@@ -2187,7 +2208,8 @@
         "defaultView",
         "isSystem",
         "handles",
-        "composition"
+        "composition",
+        "account"
       ],
       "derived": {},
       "shortcuts": {},
@@ -2305,7 +2327,10 @@
         "image": null,
         "highlights": [],
         "body": "artifact",
-        "preview": {}
+        "mono": "artifact",
+        "preview": {
+          "artifact": "full"
+        }
       },
       "identity": [],
       "identity_any": [],
@@ -2368,7 +2393,7 @@
         }
       ],
       "source_path": "auth_challenge.yaml",
-      "raw_body": "plural: auth_challenges\ndisplay:\n  subtitle: instructions\n  body: artifact\nfields:\n  kind: string\n  payload: string\n  artifact: text\n  instructions: text\n  expiresAt: datetime\n  continueWith: string\nprior_art:\n- source: OAuth 2.0 Device Authorization Grant (RFC 8628)\n  url: https://datatracker.ietf.org/doc/html/rfc8628\n  notes: \"The device flow returns the human-must-act moment as data, not as an error:\\\n    \\ user_code + verification_uri + expires_in, with the client polling the token\\\n    \\ endpoint until the human acts. Same anatomy here \\u2014 payload/artifact \\u2248\\\n    \\ user_code/verification_uri, expiresAt \\u2248 expires_in, continueWith \\u2248\\\n    \\ the polling step.\"\n- source: whatsapp-web.js + qrcode-terminal\n  url: https://github.com/pedroslopez/whatsapp-web.js\n  notes: 'The proven precedent for QR-as-text: the linked-device QR payload is re-rendered\n    as Unicode block characters in a terminal and scanned straight off the screen.\n    `artifact` generalizes that to every text surface.'\n",
+      "raw_body": "plural: auth_challenges\ndisplay:\n  subtitle: instructions\n  body: artifact\n  mono: artifact\n  preview:\n    artifact: full\nfields:\n  kind: string\n  payload: string\n  artifact: text\n  instructions: text\n  expiresAt: datetime\n  continueWith: string\nprior_art:\n- source: OAuth 2.0 Device Authorization Grant (RFC 8628)\n  url: https://datatracker.ietf.org/doc/html/rfc8628\n  notes: \"The device flow returns the human-must-act moment as data, not as an error:\\\n    \\ user_code + verification_uri + expires_in, with the client polling the token\\\n    \\ endpoint until the human acts. Same anatomy here \\u2014 payload/artifact \\u2248\\\n    \\ user_code/verification_uri, expiresAt \\u2248 expires_in, continueWith \\u2248\\\n    \\ the polling step.\"\n- source: whatsapp-web.js + qrcode-terminal\n  url: https://github.com/pedroslopez/whatsapp-web.js\n  notes: 'The proven precedent for QR-as-text: the linked-device QR payload is re-rendered\n    as Unicode block characters in a terminal and scanned straight off the screen.\n    `artifact` generalizes that to every text surface.'\n",
       "ancestors": [],
       "field_order": [
         "kind",
@@ -2695,6 +2720,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -3269,6 +3295,7 @@
           "published_by"
         ],
         "body": "description",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -3947,6 +3974,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -4433,6 +4461,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -4612,6 +4641,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -4816,6 +4846,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -5065,6 +5096,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -5326,6 +5358,7 @@
           "path"
         ],
         "body": "summary",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -5514,6 +5547,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -5833,6 +5867,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -6036,6 +6071,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -6267,6 +6303,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -6663,6 +6700,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -6910,6 +6948,7 @@
           "published_by"
         ],
         "body": "description",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -7193,6 +7232,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -7462,6 +7502,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -7712,6 +7753,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -8025,6 +8067,7 @@
           "wordCount"
         ],
         "body": "abstract",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -8237,6 +8280,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -8666,6 +8710,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -9109,6 +9154,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -9410,6 +9456,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -9834,6 +9881,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -10203,6 +10251,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -10509,6 +10558,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -11047,6 +11097,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -11299,6 +11350,7 @@
           "status"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -11615,6 +11667,7 @@
           "published_by"
         ],
         "body": "description",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -12057,6 +12110,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -12272,6 +12326,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -12432,6 +12487,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -12805,6 +12861,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -13258,6 +13315,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -13569,6 +13627,7 @@
           "headquarters"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -14008,6 +14067,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -14543,6 +14603,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -14969,6 +15030,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -15473,6 +15535,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -15848,6 +15911,7 @@
           "published_by"
         ],
         "body": "description",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -16228,6 +16292,7 @@
           "published_by"
         ],
         "body": "description",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -16515,6 +16580,7 @@
           "granted_by"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -16961,6 +17027,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -17400,6 +17467,7 @@
           "launchpadId"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -17870,6 +17938,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -18250,6 +18319,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -18696,6 +18766,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -18915,6 +18986,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -19297,6 +19369,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -19697,6 +19770,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -19986,6 +20060,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -20340,6 +20415,7 @@
           "reachedAt"
         ],
         "body": "criterion",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -20604,6 +20680,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -20890,6 +20967,7 @@
           "path"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -21099,6 +21177,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -21457,6 +21536,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -22027,6 +22107,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -22470,6 +22551,7 @@
           "headquarters"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -22707,6 +22789,7 @@
         "image": null,
         "highlights": [],
         "body": "statement",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -23196,6 +23279,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -23699,6 +23783,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -24132,6 +24217,7 @@
           "gender"
         ],
         "body": "notes",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -24631,6 +24717,7 @@
           "quote"
         ],
         "body": "who",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -25054,6 +25141,7 @@
           "rating"
         ],
         "body": "fullAddress",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -25560,6 +25648,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -25703,6 +25792,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -25917,6 +26007,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -26149,6 +26240,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -26357,6 +26449,7 @@
           "status"
         ],
         "body": "rationale",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -26726,6 +26819,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -27090,6 +27184,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -27250,6 +27345,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -27469,6 +27565,7 @@
           "granted_by"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -27698,6 +27795,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -27844,6 +27942,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -28043,6 +28142,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -28580,6 +28680,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -29000,6 +29101,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -29284,6 +29386,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -29625,6 +29728,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -29906,6 +30010,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -30172,6 +30277,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -30453,6 +30559,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -30813,6 +30920,7 @@
           "runtimePlatform"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -31179,6 +31287,7 @@
           "published_by"
         ],
         "body": "description",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -31402,6 +31511,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -31921,6 +32031,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -32144,6 +32255,7 @@
           "status"
         ],
         "body": "detail",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -32317,6 +32429,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -32536,6 +32649,7 @@
           "sourcePath"
         ],
         "body": "summary",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -32765,6 +32879,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -33161,6 +33276,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -33546,6 +33662,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -33876,6 +33993,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -34084,6 +34202,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -34490,6 +34609,7 @@
           "currency"
         ],
         "body": "notes",
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -34751,6 +34871,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -35148,6 +35269,7 @@
           "gender"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -35739,6 +35861,7 @@
           "location"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -36216,6 +36339,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -36506,6 +36630,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -36814,6 +36939,7 @@
           "active"
         ],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -37161,6 +37287,7 @@
           "published_by"
         ],
         "body": "description",
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -37436,6 +37563,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [],
@@ -37671,6 +37799,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [
@@ -37866,6 +37995,7 @@
         "image": null,
         "highlights": [],
         "body": null,
+        "mono": null,
         "preview": {}
       },
       "identity": [

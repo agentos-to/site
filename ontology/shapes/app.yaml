@@ -49,6 +49,13 @@ app:
                                   # titlebar); an app with tools derives the
                                   # app face instead. The shell resolves,
                                   # never enumerates apps.
+    account:           json      # the app's declared account ops —
+                                  # {check?, login?, logout?, profile?},
+                                  # each an op name. Stamped by the engine
+                                  # from `@account.<role>` decorators; the
+                                  # shell dispatches sign-in/out through
+                                  # this, never a literal tool name.
+                                  # Absent → the app has no account flow.
   links:
     online_at:           website   # the platform's homepage
     privacy_at:    webpage   # privacy policy page

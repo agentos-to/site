@@ -13,6 +13,9 @@ auth_challenge:
   display:
     subtitle: instructions
     body: artifact
+    mono: artifact          # keep the QR geometry: monospace, no re-wrap
+    preview:
+      artifact: full        # never clip — a clipped QR scans as nothing
   fields:
     kind:          string    # qr | code_sent | oauth_url — discriminator
     payload:       string    # raw datum — QR ref string, consent URL, masked destination

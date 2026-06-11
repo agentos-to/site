@@ -104,6 +104,8 @@ def _shape_to_wire_def(s: Shape) -> dict:
             disp["image"] = d.image
         if d.body:
             disp["body"] = d.body
+        if d.mono:
+            disp["mono"] = d.mono
         if d.highlights:
             disp["highlights"] = list(d.highlights)
         if disp:

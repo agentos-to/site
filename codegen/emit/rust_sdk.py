@@ -267,7 +267,7 @@ def _emit_shape_const(s: Shape) -> list[str]:
     if s.display:
         d = s.display
         any_set = (
-            d.title or d.subtitle or d.image or d.body or d.highlights
+            d.title or d.subtitle or d.image or d.body or d.mono or d.highlights
         )
         if any_set:
             lines.append("    display: Some(DisplaySpec {")
@@ -279,6 +279,8 @@ def _emit_shape_const(s: Shape) -> list[str]:
                 lines.append(f'        image: Some("{d.image}".into()),')
             if d.body:
                 lines.append(f'        body: Some("{d.body}".into()),')
+            if d.mono:
+                lines.append(f'        mono: Some("{d.mono}".into()),')
             if d.highlights:
                 hl = ", ".join(f'"{h}".into()' for h in d.highlights)
                 lines.append(f"        highlights: vec![{hl}],")
@@ -473,6 +475,7 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
         "    pub image: Option<&'static str>,",
         "    pub highlights: &'static [&'static str],",
         "    pub body: Option<&'static str>,",
+        "    pub mono: Option<&'static str>,",
         "    pub preview: &'static [(&'static str, PreviewPolicy)],",
         "    pub also: &'static [&'static str],",
         "}",
@@ -518,6 +521,7 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
         lines.append(f"        image: {_opt(d.image)},")
         lines.append(f"        highlights: {_str_array(list(d.highlights))},")
         lines.append(f"        body: {_opt(d.body)},")
+        lines.append(f"        mono: {_opt(d.mono)},")
         lines.append(f"        preview: {_preview(d.preview)},")
         lines.append(f"        also: {_str_array(list(s.ancestors))},")
         lines.append("    }),")

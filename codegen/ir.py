@@ -68,7 +68,7 @@ class Field:
 # optional. `title` defaults to the standard `name` field when absent;
 # everything not bound is *unpromoted* and renders at detail density in
 # YAML declaration order. See `core/_roadmap/p1/shape-display/plan.md`.
-DISPLAY_ROLES = {"title", "subtitle", "image", "highlights", "body"}
+DISPLAY_ROLES = {"title", "subtitle", "image", "highlights", "body", "mono"}
 
 
 @dataclass
@@ -78,6 +78,10 @@ class Display:
     image: str | None = None         # → a field (url) or a relation → node.image
     highlights: list[str] = field(default_factory=list)  # 0..4 fields/relations
     body: str | None = None          # detail-only: one long text field
+    mono: str | None = None          # → a preformatted text field (Unicode QR
+                                     #   block, ASCII art) — renderers must keep
+                                     #   its geometry: monospace, no re-wrap,
+                                     #   no newline-flattening
     preview: dict[str, object] = field(default_factory=dict)  # per-field content policy at preview density
 
 
@@ -528,6 +532,7 @@ def _build_shapes(
                     image=parent.image,
                     highlights=list(parent.highlights),
                     body=parent.body,
+                    mono=parent.mono,
                     preview=dict(parent.preview),
                 )
             else:
@@ -537,6 +542,7 @@ def _build_shapes(
                 if parent.subtitle is not None: merged.subtitle = parent.subtitle
                 if parent.image is not None:    merged.image = parent.image
                 if parent.body is not None:     merged.body = parent.body
+                if parent.mono is not None:     merged.mono = parent.mono
                 if parent.highlights:           merged.highlights = list(parent.highlights)
                 for k, v in parent.preview.items():
                     merged.preview[k] = v
@@ -554,6 +560,7 @@ def _build_shapes(
                     image=disp_raw.get("image"),
                     highlights=list(disp_raw.get("highlights") or []),
                     body=disp_raw.get("body"),
+                    mono=disp_raw.get("mono"),
                     preview=dict(disp_raw.get("preview") or {}),
                 )
             else:
@@ -561,6 +568,7 @@ def _build_shapes(
                 if disp_raw.get("subtitle") is not None: merged.subtitle = disp_raw["subtitle"]
                 if disp_raw.get("image") is not None:    merged.image = disp_raw["image"]
                 if disp_raw.get("body") is not None:     merged.body = disp_raw["body"]
+                if disp_raw.get("mono") is not None:     merged.mono = disp_raw["mono"]
                 if disp_raw.get("highlights"):           merged.highlights = list(disp_raw["highlights"])
                 for k, v in (disp_raw.get("preview") or {}).items():
                     merged.preview[k] = v
@@ -1127,7 +1135,7 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
                     return True
                 return binding in known
 
-            for role in ("title", "subtitle", "image", "body"):
+            for role in ("title", "subtitle", "image", "body", "mono"):
                 binding = getattr(s.display, role)
                 if binding and not _known_binding(binding):
                     warn(f"shape {s.name!r}: display.{role} binds to "

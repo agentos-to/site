@@ -45,6 +45,7 @@ pub static AUTH_CHALLENGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     display: Some(DisplaySpec {
         subtitle: Some("instructions".into()),
         body: Some("artifact".into()),
+        mono: Some("artifact".into()),
         ..DisplaySpec::default()
     }),
     ..ShapeDef::default()
