@@ -38059,6 +38059,63 @@
       "leading_comment": "blobs.* ops — the content-addressed blob store at ~/.agentos/blobs.\n\nEngine-owned bytes on disk; graph nodes reference blobs by the returned\npath (a file-shaped node's `path` field). Apps hand the engine base64\nand the engine owns placement, hashing, and dedup — no app ever\ninvents a path into the user's state dir. Handlers live in\nagentos-exec-executors."
     },
     {
+      "name": "blobs.get",
+      "group": "blobs",
+      "action": "get",
+      "doc": "Read one blob back from ~/.agentos/blobs by absolute path; returns base64 data, sha256, size.",
+      "doc_full": "Read bytes back from the engine's content-addressed blob store —\nthe read half of `blobs.put`, behind the same policy gate. The\npath must resolve inside `~/.agentos/blobs`; the engine refuses\nanything else, so an app can only ever read bytes the store\nalready owns — never an arbitrary file.\n\nArgs:\n    path: absolute blob-store path (from `blobs.put`, or the\n        `path` field of a hydrated attachment).\n\nReturns:\n    data (base64), sha256, size of the blob.\n",
+      "service": [
+        "blobs"
+      ],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "path",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Absolute path inside ~/.agentos/blobs."
+        }
+      ],
+      "response": {
+        "scalar": false,
+        "type": "",
+        "type_optional": false,
+        "doc": "",
+        "fields": [
+          {
+            "name": "data",
+            "type": "string",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "Base64-encoded bytes of the blob."
+          },
+          {
+            "name": "sha256",
+            "type": "string",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "SHA-256 of the bytes, hex."
+          },
+          {
+            "name": "size",
+            "type": "u64",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "Byte length of the blob."
+          }
+        ]
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "blobs.* ops — the content-addressed blob store at ~/.agentos/blobs.\n\nEngine-owned bytes on disk; graph nodes reference blobs by the returned\npath (a file-shaped node's `path` field). Apps hand the engine base64\nand the engine owns placement, hashing, and dedup — no app ever\ninvents a path into the user's state dir. Handlers live in\nagentos-exec-executors."
+    },
+    {
       "name": "crypto.pbkdf2",
       "group": "crypto",
       "action": "pbkdf2",

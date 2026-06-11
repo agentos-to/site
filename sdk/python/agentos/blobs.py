@@ -16,6 +16,26 @@ from typing import Any
 from agentos._bridge import dispatch
 
 
+async def get(path: str) -> dict[str, Any]:
+    """
+    Read bytes back from the engine's content-addressed blob store —
+    the read half of `blobs.put`, behind the same policy gate. The
+    path must resolve inside `~/.agentos/blobs`; the engine refuses
+    anything else, so an app can only ever read bytes the store
+    already owns — never an arbitrary file.
+
+    Args:
+        path: absolute blob-store path (from `blobs.put`, or the
+            `path` field of a hydrated attachment).
+
+    Returns:
+        data (base64), sha256, size of the blob.
+    """
+    _req: dict[str, Any] = {}
+    _req['path'] = path
+    return await dispatch('blobs.get', _req)
+
+
 async def put(data: str, *, ext: str | None = None) -> dict[str, Any]:
     """
     Store bytes in the engine's content-addressed blob store:

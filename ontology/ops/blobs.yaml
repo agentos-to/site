@@ -30,3 +30,27 @@ blobs.put:
     sha256: { type: "string", doc: "SHA-256 of the bytes, hex." }
     size:   { type: "u64",    doc: "Byte length of the decoded payload." }
   effects: []
+
+blobs.get:
+  doc: "Read one blob back from ~/.agentos/blobs by absolute path; returns base64 data, sha256, size."
+  doc_full: |
+    Read bytes back from the engine's content-addressed blob store —
+    the read half of `blobs.put`, behind the same policy gate. The
+    path must resolve inside `~/.agentos/blobs`; the engine refuses
+    anything else, so an app can only ever read bytes the store
+    already owns — never an arbitrary file.
+
+    Args:
+        path: absolute blob-store path (from `blobs.put`, or the
+            `path` field of a hydrated attachment).
+
+    Returns:
+        data (base64), sha256, size of the blob.
+  service: blobs
+  request:
+    path: { type: "string", doc: "Absolute path inside ~/.agentos/blobs." }
+  response:
+    data:   { type: "string", doc: "Base64-encoded bytes of the blob." }
+    sha256: { type: "string", doc: "SHA-256 of the bytes, hex." }
+    size:   { type: "u64",    doc: "Byte length of the blob." }
+  effects: []

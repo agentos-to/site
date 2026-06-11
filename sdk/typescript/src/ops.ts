@@ -55,6 +55,20 @@ export interface BlobsPutResponse {
     size: number;
 }
 
+export interface BlobsGetRequest {
+    /** Absolute path inside ~/.agentos/blobs. */
+    path: string;
+}
+
+export interface BlobsGetResponse {
+    /** Base64-encoded bytes of the blob. */
+    data: string;
+    /** SHA-256 of the bytes, hex. */
+    sha256: string;
+    /** Byte length of the blob. */
+    size: number;
+}
+
 export interface CryptoPbkdf2Request {
     /** Password to stretch. */
     password: string;
@@ -228,6 +242,7 @@ export interface SqlExecuteResponse {
 export interface OpContracts {
     "auth_store.read": { request: AuthStoreReadRequest; response: AuthStoreReadResponse };
     "blobs.put": { request: BlobsPutRequest; response: BlobsPutResponse };
+    "blobs.get": { request: BlobsGetRequest; response: BlobsGetResponse };
     "crypto.pbkdf2": { request: CryptoPbkdf2Request; response: CryptoPbkdf2Response };
     "crypto.aes": { request: CryptoAesRequest; response: CryptoAesResponse };
     "http.request": { request: HttpRequestRequest; response: HttpRequestResponse };
@@ -243,4 +258,4 @@ export interface OpContracts {
 }
 
 /** Op wire names. */
-export type OpName = "auth_store.read" | "blobs.put" | "crypto.pbkdf2" | "crypto.aes" | "http.request" | "llm.resolve_tools" | "plist.parse" | "secrets.read" | "secrets.read_binary" | "services.call" | "services.list_providers" | "shell.run" | "sql.query" | "sql.execute";
+export type OpName = "auth_store.read" | "blobs.put" | "blobs.get" | "crypto.pbkdf2" | "crypto.aes" | "http.request" | "llm.resolve_tools" | "plist.parse" | "secrets.read" | "secrets.read_binary" | "services.call" | "services.list_providers" | "shell.run" | "sql.query" | "sql.execute";
