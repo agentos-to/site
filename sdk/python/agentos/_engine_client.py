@@ -1,6 +1,6 @@
 """Auto-generated engine dispatch client — do not edit.
 
-Generated from 5 namespaces, 31 ops.
+Generated from 6 namespaces, 32 ops.
 Regenerate with: python3 docs/generate.py --docs
 
 Source of truth: crates/core/src/tools.rs REGISTRY (D11).
@@ -580,6 +580,25 @@ class _WindowsNamespace:
         return self._call("windows.respond", params)
 
 
+class _UiNamespace:
+    """Proxy for the `ui` namespace."""
+
+    def __init__(self, call):
+        self._call = call
+
+    def invoke(self, **params: Any) -> Any:
+        """Activate a labeled control (OK / Cancel / Apply) in a window. The real button is focused, pressed, and clicked — the human watches it happen. Minimized windows and disabled controls refuse (policy is law).
+
+        Args:
+            control (string, required): The control's visible label, case-insensitive — OK, Cancel, Apply, Browse…. A miss returns the window's labeled controls.
+            windowId (string, required): Window id (from windows.list / windows.open).
+
+        Examples:
+            invoke({ windowId: "window-…", control: "OK" })
+        """
+        return self._call("ui.invoke", params)
+
+
 class _ReadmeNamespace:
     """Proxy for the `readme` namespace."""
 
@@ -619,6 +638,7 @@ class Client:
         self.skills = _SkillsNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.system = _SystemNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.windows = _WindowsNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
+        self.ui = _UiNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.readme = _ReadmeNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
 
 
@@ -642,6 +662,7 @@ class AsyncClient:
         self.skills = _SkillsNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.system = _SystemNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.windows = _WindowsNamespace(lambda op, params: _async_call(self._socket_path, op, params))
+        self.ui = _UiNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.readme = _ReadmeNamespace(lambda op, params: _async_call(self._socket_path, op, params))
 
     async def __aenter__(self):
