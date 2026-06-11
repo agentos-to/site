@@ -182,17 +182,17 @@ class _DataNamespace:
         return self._call("data.read", params)
 
     def list(self, **params: Any) -> Any:
-        """List nodes by shape, user_tag, name match, FTS via `q`, system metadata, or skill membership.
+        """List nodes by shape, user_tag, name match, FTS via `q`, system metadata, or app membership.
 
         Args:
             about (string, optional): Engine introspection (e.g. "shapes").
+            app (string, optional): List entities (or app manifest with type="entity") for this app.
             limit (int, optional): Max rows. Defaults vary per filter.
             name (string, optional): Substring match against node names.
             q (string, optional): FTS query — folds the previous `data.search` op.
             query (string, optional): Legacy alias for q. Prefer q.
             shape (string | list[string], optional): Shape name (e.g. "task") or array of shape names (union).
-            skill (string, optional): List entities (or skill manifest with type="entity") for this skill.
-            type (string, optional): Modifier for `skill`: list entities (vs. the skill manifest).
+            type (string, optional): Modifier for `app`: list entities (vs. the app manifest).
             user_tag (string | list[string], optional): User-tag name (or array — intersection).
             view (dict, optional)
             volume (string, optional): Which Volume to list from. Defaults to "home". Mutually exclusive with `volumes`.
@@ -350,82 +350,82 @@ class _DataNamespace:
         return self._call("data.volume_stats", params)
 
 
-class _SkillsNamespace:
-    """Proxy for the `skills` namespace."""
+class _AppsNamespace:
+    """Proxy for the `apps` namespace."""
 
     def __init__(self, call):
         self._call = call
 
     def run(self, **params: Any) -> Any:
-        """Execute a skill tool directly.
+        """Execute an app tool directly.
 
         Args:
-            skill (string, required): Skill id (e.g. "exa").
-            tool (string, required): Tool name within the skill (e.g. "search").
-            account (string, optional): Force a specific credential/account when the skill has multiple.
-            execute (Any, optional): Live-execution override; consult the skill manifest for accepted shapes.
-            params (dict, optional): Op-level params forwarded to the skill.
+            app (string, required): App id (e.g. "exa").
+            tool (string, required): Tool name within the app (e.g. "search").
+            account (string, optional): Force a specific credential/account when the app has multiple.
+            execute (Any, optional): Live-execution override; consult the app manifest for accepted shapes.
+            params (dict, optional): Op-level params forwarded to the app.
             provider (string, optional): Force a cookie provider (e.g. "brave-browser").
             remember (bool, optional): Persist the live result to the graph. Default true.
             view (dict, optional)
 
         Examples:
-            run({ skill: "exa", tool: "search", params: { query: "..." } })
+            run({ app: "exa", tool: "search", params: { query: "..." } })
         """
-        return self._call("skills.run", params)
+        return self._call("apps.run", params)
 
     def load(self, **params: Any) -> Any:
-        """Load a skill manual (readme + tool list + per-connection auth state) before calling run.
+        """Load an app manual (readme + tool list + per-connection auth state) before calling run.
 
         Args:
-            skill (string, required): Skill id to load (readme + tool list).
+            app (string, required): App id to load (readme + tool list).
 
         Examples:
-            load({ skill: "exa" })
+            load({ app: "exa" })
         """
-        return self._call("skills.load", params)
+        return self._call("apps.load", params)
 
     def connect(self, **params: Any) -> Any:
-        """Store a credential for a skill connection (api-key connections). Encrypted vault row + account node; the secret never lands in the graph. Returns the skill's per-connection auth state.
+        """Store a credential for an app connection (api-key connections). Encrypted vault row + account node; the secret never lands in the graph. Returns the app's per-connection auth state.
 
         Args:
-            skill (string, required): Skill id (e.g. "porkbun").
-            connection (string, optional): Connection name. Optional when the skill declares exactly one authenticated connection.
+            app (string, required): App id (e.g. "porkbun").
+            connection (string, optional): Connection name. Optional when the app declares exactly one authenticated connection.
             identifier (string, optional): Account identity at the service (email/handle), when known.
-            key (string, optional): The API key/secret. For multi-part keys, use the format the skill's manual states (e.g. porkbun: "apikey:secretapikey").
+            key (string, optional): The API key/secret. For multi-part keys, use the format the app's manual states (e.g. porkbun: "apikey:secretapikey").
             label (string, optional): Display label for the credential.
             value (dict, optional): Alternative to key: explicit secret fields ({ field: secret, … }).
 
         Examples:
-            connect({ skill: "firecrawl", key: "fc-..." })
-            connect({ skill: "porkbun", key: "pk1_...:sk1_..." })
+            connect({ app: "firecrawl", key: "fc-..." })
+            connect({ app: "porkbun", key: "pk1_...:sk1_..." })
         """
-        return self._call("skills.connect", params)
+        return self._call("apps.connect", params)
 
     def disable(self, **params: Any) -> Any:
         """Switch a plugin off: it drops out of matchmaking, run, and readme()'s tool list. The graph node and any stored credentials stay; enable reverses it.
 
         Args:
-            skill (string, required): Plugin (skill) id to switch off — it drops out of matchmaking, run, and readme until re-enabled.
+            app (string, required): Plugin (app) id to switch off — it drops out of matchmaking, run, and readme until re-enabled.
 
         Examples:
-            disable({ skill: "porkbun" })
+            disable({ app: "porkbun" })
         """
-        return self._call("skills.disable", params)
+        return self._call("apps.disable", params)
 
     def enable(self, **params: Any) -> Any:
         """Switch a disabled plugin back on.
 
         Args:
-            skill (string, required): Plugin (skill) id to switch back on.
+            app (string, required): Plugin (app) id to switch back on.
 
         Examples:
-            enable({ skill: "porkbun" })
+            enable({ app: "porkbun" })
         """
-        return self._call("skills.enable", params)
+        return self._call("apps.enable", params)
 
     def accounts(self, **params: Any) -> Any:
-        """Every account + every skill connection with auth kind, status, identifier, and freshness — the identity surface behind the skills.
+        """Every account + every app connection with auth kind, status, identifier, and freshness — the identity surface behind the apps.
 
         Args:
             view (dict, optional)
@@ -433,7 +433,7 @@ class _SkillsNamespace:
         Examples:
             accounts()
         """
-        return self._call("skills.accounts", params)
+        return self._call("apps.accounts", params)
 
 
 class _SystemNamespace:
@@ -635,7 +635,7 @@ class Client:
             Path(socket_path) if socket_path else _default_socket_path()
         )
         self.data = _DataNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
-        self.skills = _SkillsNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
+        self.apps = _AppsNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.system = _SystemNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.windows = _WindowsNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
         self.ui = _UiNamespace(lambda op, params: _sync_call(self._socket_path, op, params))
@@ -659,7 +659,7 @@ class AsyncClient:
             Path(socket_path) if socket_path else _default_socket_path()
         )
         self.data = _DataNamespace(lambda op, params: _async_call(self._socket_path, op, params))
-        self.skills = _SkillsNamespace(lambda op, params: _async_call(self._socket_path, op, params))
+        self.apps = _AppsNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.system = _SystemNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.windows = _WindowsNamespace(lambda op, params: _async_call(self._socket_path, op, params))
         self.ui = _UiNamespace(lambda op, params: _async_call(self._socket_path, op, params))

@@ -10,7 +10,7 @@ Wire protocol (§8.1 / §8.3 of the runtime-core proposal):
       {"__type__": "dispatch",
        "__id__": "<request_id>",
        "__dispatch_id__": "d-N",
-       "__caps__": [...app services...],
+       "__services__": [...app services...],
        "__dispatch__": {"op": "<dotted.op>", "params": {...}}}
 
   Engine → Python (success)
