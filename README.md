@@ -183,11 +183,10 @@ correction must not erase the prior belief.
 | Shell contract (cross-repo) | `core/web/src/contract-generated/shapes.ts` |
 | Rust — shapes (cross-repo) | `core/crates/contract-generated/src/shapes.rs` |
 | Rust — op contract (cross-repo) | `core/crates/contract-generated/src/ops.rs` |
-| Reference docs | `docs/src/content/docs/` |
+| Symbol nodes (cross-repo) | `core/crates/core/generated/yaml-symbols.json` — shapes + SDK ops projected onto the engine's system volume |
 
 ```bash
 cd codegen && python3 generate.py            # all SDKs + the op contract
-cd codegen && python3 generate.py --docs     # MDX reference pages
 cd codegen && python3 generate.py --check    # drift check, exits 1 on stale
 ```
 
