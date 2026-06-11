@@ -13,7 +13,7 @@ Usage:
     python generate.py --check                # drift check — exit 1 if any target is stale
     python generate.py --from-api             # load shapes from the graph instead of YAML
     python generate.py --from-api --dump-yaml ./shapes  # export graph → YAML
-    python generate.py --docs                 # MDX reference pages (shapes + apps)
+    python generate.py --sdk-client           # Python engine client from the live registry
 """
 
 from __future__ import annotations
@@ -28,12 +28,9 @@ from pathlib import Path
 import ir
 import ir_diff
 from emit import (
-    build_apps_index,
-    discover_apps,
     emit_contract_root,
     emit_links,
     emit_migrations,
-    emit_op_docs,
     emit_ops_python,
     emit_ops_rust,
     emit_python,
@@ -41,15 +38,14 @@ from emit import (
     emit_rust_auth_contracts,
     emit_services_python,
     emit_services_rust,
-    emit_shape_docs,
-    emit_app_docs,
     emit_typescript,
+    emit_yaml_symbols,
     write_rust_sdk,
 )
 
-# Registry-driven codegen — submodules alongside this file (D11). Each
-# consumes the `system.schema` registry; only used on the `--docs` path.
-from tool_surface import load_tool_surface, emit_tool_surface_docs  # noqa: E402
+# Registry-driven codegen — consumes the live engine's `system.schema`
+# registry; only used on the `--sdk-client` path.
+from tool_surface import load_tool_surface  # noqa: E402
 from sdk_client import emit_sdk_client  # noqa: E402
 
 
@@ -163,9 +159,7 @@ def main():
     parser.add_argument("--from-api", action="store_true", help="Load shapes from graph via agentos CLI instead of YAML files")
     parser.add_argument("--agentos-bin", type=str, help="Path to agentos binary (default: agentos)")
     parser.add_argument("--dump-yaml", type=Path, help="With --from-api: also dump each shape as YAML to this directory (backup/export)")
-    parser.add_argument("--docs", action="store_true", help="Emit MDX reference pages for shapes + apps (Starlight)")
-    parser.add_argument("--apps-root", type=Path, help="Path to apps/ tree for --docs (default: ../apps)")
-    parser.add_argument("--docs-out", type=Path, help="Reference output root for --docs (default: src/content/docs/reference)")
+    parser.add_argument("--sdk-client", action="store_true", help="Regenerate the Python SDK engine client from the live engine's registry")
     parser.add_argument("--check", action="store_true", help="Drift check: compare rendered output to files on disk; exit 1 if different")
     parser.add_argument("--breaking-check", action="store_true", help="Breaking-change gate: diff the IR against the last release tag; exit 1 on a removal/rename/retype/tightening")
     parser.add_argument("--conformance", action="store_true", help="Cross-language conformance: prove Python + TypeScript project the fixture set identically to Rust (the Rust half runs via `./dev.sh test`)")
@@ -261,38 +255,12 @@ def main():
             [sys.executable, str(codegen_dir / "conformance" / "check.py")],
         ).returncode)
 
-    # ---- Stage 2 (docs path) -------------------------------------------------
-    if args.docs:
-        apps_root = args.apps_root or (workspace / "apps").resolve()
-        docs_out = args.docs_out or (platform_root / "docs" / "src" / "content" / "docs")
-        if not apps_root.is_dir():
-            print(f"Apps root not found: {apps_root}", file=sys.stderr)
-            sys.exit(1)
-        apps = discover_apps(apps_root)
-        print(f"Discovered {len(apps)} apps in {apps_root}")
-        known_shapes = {s.name for s in ontology.shapes}
-        apps_index = build_apps_index(apps, known_shapes)
-        emit_shape_docs(ontology.shapes, docs_out / "shapes" / "reference", apps_index)
-        print(f"  shapes: {docs_out / 'shapes' / 'reference'} ({len(ontology.shapes)} pages + index)")
-        emit_app_docs(apps, docs_out / "apps" / "reference", known_shapes)
-        print(f"  apps: {docs_out / 'apps' / 'reference'} ({len(apps)} pages + index)")
-
-        emit_op_docs(ontology.ops, ontology.op_types, docs_out / "ops" / "reference")
-        print(f"  ops: {docs_out / 'ops' / 'reference'} ({len(ontology.ops)} ops)")
-
-        # Registry-driven codegen — both outputs read the same `system.schema`
-        # dump. Opt out cleanly if the engine isn't running.
+    # ---- Stage 2 (sdk-client path) --------------------------------------------
+    # Registry-driven codegen — reads the live engine's `system.schema` dump,
+    # so it runs on demand, never on the drift-gated default path.
+    if args.sdk_client:
         agentos_bin = args.agentos_bin or _default_agentos_bin()
-        try:
-            namespaces = load_tool_surface(agentos_bin)
-        except SystemExit:
-            print(f"  tool-surface + sdk-client: skipped (engine unreachable) — run `./dev.sh restart` and retry", file=sys.stderr)
-            return
-
-        emit_tool_surface_docs(namespaces, docs_out / "tool-surface")
-        ops_total = sum(len(ns.get("ops", [])) for ns in namespaces)
-        print(f"  tool-surface: {docs_out / 'tool-surface'} ({len(namespaces)} namespaces, {ops_total} ops)")
-
+        namespaces = load_tool_surface(agentos_bin)
         sdk_out = platform_root / "sdk" / "python" / "agentos" / "_engine_client.py"
         sdk_out.write_text(emit_sdk_client(namespaces))
         print(f"  sdk-client: {sdk_out}")
@@ -344,6 +312,15 @@ def main():
         drift |= _check_or_write(
             contract_crate / "lib.rs", emit_contract_root(),
             "contract-root", check=args.check,
+        )
+
+        # System Docs symbols — shapes + ops projected into the same compact
+        # symbol records the engine's rustdoc/ts-morph extractors emit. The
+        # engine embeds the artifact via `include_str!` and replays it into
+        # the System Docs volume at boot (core/crates/core/src/code_symbols.rs).
+        drift |= _check_or_write(
+            workspace / "core" / "crates" / "core" / "generated" / "yaml-symbols.json",
+            emit_yaml_symbols(ontology), "yaml-symbols", check=args.check,
         )
 
         # SCHEMA_HASH — deterministic content hash of the ontology, pinned

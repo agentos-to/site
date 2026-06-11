@@ -7,7 +7,7 @@ This page is the algorithm behind ["freshest wins"](/architecture/security/#auth
 
 ## The problem
 
-An app says `client.get("https://github.com/...")`. The engine needs a cookie header. There could be a credential row in the store from when you set up the [GitHub app](/apps/reference/dev/github/) last week, a fresh cookie jar in Chrome from a tab you opened five minutes ago, and an in-memory session from another app call earlier this hour. Three sources, three timestamps, one issuer. "Pick the one the user configured" doesn't work — there is no configuration step, by design (see [Why this shape](#why-this-shape)). Picking the *first* one to answer doesn't work either: the store always answers fastest, but its data is usually the oldest. The engine needs a deterministic rule that doesn't require the user to think about provider priority.
+An app says `client.get("https://github.com/...")`. The engine needs a cookie header. There could be a credential row in the store from when you set up the GitHub app last week, a fresh cookie jar in Chrome from a tab you opened five minutes ago, and an in-memory session from another app call earlier this hour. Three sources, three timestamps, one issuer. "Pick the one the user configured" doesn't work — there is no configuration step, by design (see [Why this shape](#why-this-shape)). Picking the *first* one to answer doesn't work either: the store always answers fastest, but its data is usually the oldest. The engine needs a deterministic rule that doesn't require the user to think about provider priority.
 
 ## Three sources
 
@@ -17,7 +17,7 @@ An app says `client.get("https://github.com/...")`. The engine needs a cookie he
 |---|---|---|---|
 | 1 | In-memory cache (`SessionCache`) | Resolved sessions from the current engine lifetime, keyed by `(domain, identifier)` | `newest_cookie_at` carried over from the original extraction, plus per-cookie writeback timestamps stamped by `apply_cookie_delta` (`store.rs`) |
 | 2 | Credential store (SQLite) | Encrypted rows in `~/.agentos/data/agentos.db`. `value` blob holds a structured `cookies: [Cookie, …]` array + `cookie_timestamps` map (legacy `cookie_header` strings still tolerated on read) | `newest_cookie_at()` reads the max timestamp from `cookie_timestamps`; falls back to row `obtained_at` for pre-tracking rows (`store.rs`) |
-| 3 | Browser providers (apps) | Live extraction from [Brave](/apps/reference/browsers/brave-browser/) / Firefox / Chrome via CDP or each browser's on-disk cookie SQLite | Per-cookie `created` field (browsers that supply it) or "now" for CDP, which doesn't (`resolve.rs:326`) |
+| 3 | Browser providers (apps) | Live extraction from Brave / Firefox / Chrome via CDP or each browser's on-disk cookie SQLite | Per-cookie `created` field (browsers that supply it) or "now" for CDP, which doesn't (`resolve.rs:326`) |
 
 Source 3 is the most expensive — it dispatches a Python provider app, possibly attaches CDP. It's still always called when not in `skip_providers` mode, because freshness is the whole point: if Chrome has a newer cookie, the cache and store can't know that without asking. Live-session providers (Playwright tabs the user is actively using) are deliberately *skipped* unless explicitly preferred (`resolve.rs:184`) — borrowing cookies from a live tab causes session conflicts.
 

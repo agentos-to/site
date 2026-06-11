@@ -27,7 +27,7 @@ Everything that counts as *your data*:
 
 AgentOS itself makes zero outbound calls. The engine never phones home — there's no telemetry, no update check, no "anonymous usage stats."
 
-What *does* go over the network is whatever the **[apps](/apps/overview/) you installed** choose to send. The [GitHub app](/apps/reference/dev/github/) makes requests to `api.github.com`. An LLM app makes requests to Anthropic or OpenAI. That's the app's business, not the engine's — and the app's code is on your disk for you to read.
+What *does* go over the network is whatever the **[apps](/apps/overview/) you installed** choose to send. The GitHub app makes requests to `api.github.com`. An LLM app makes requests to Anthropic or OpenAI. That's the app's business, not the engine's — and the app's code is on your disk for you to read.
 
 The contract: the engine is the authority for what's *stored locally*. What an app *sends out* is what you installed it to do.
 

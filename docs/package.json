@@ -4,9 +4,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "generate:docs": "python3 generate.py --docs",
-    "dev": "python3 generate.py --docs && astro dev",
-    "build": "python3 generate.py --docs && astro build && node scripts/fix-paths.mjs",
+    "dev": "astro dev",
+    "build": "astro build && node scripts/fix-paths.mjs",
     "preview": "astro preview",
     "verify": "python3 scripts/verify.py",
     "astro": "astro"

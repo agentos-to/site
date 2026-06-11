@@ -3,44 +3,11 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightThemeGalaxy from 'starlight-theme-galaxy';
 import starlightSidebarTopics from 'starlight-sidebar-topics';
-import { readdirSync, statSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
 
-/** Read the `title` field from a markdown file's YAML frontmatter. */
-function readTitle(path) {
-	const src = readFileSync(path, 'utf8');
-	const match = src.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-	if (!match) return null;
-	const title = match[1].match(/^title:\s*(.+)$/m);
-	if (!title) return null;
-	return title[1].trim().replace(/^['"]|['"]$/g, '');
-}
-
-/** Walk a content directory and return a flat, alphabetically-sorted list of
- *  { label, slug } entries. `index.md` files are skipped; labels come from each
- *  file's frontmatter `title`, falling back to the filename. */
-function flatReference(relRoot) {
-	const root = `./src/content/docs/${relRoot}`;
-	const entries = [];
-	const walk = (dir, rel) => {
-		for (const name of readdirSync(dir)) {
-			const abs = join(dir, name);
-			const relPath = rel ? `${rel}/${name}` : name;
-			if (statSync(abs).isDirectory()) {
-				walk(abs, relPath);
-			} else if (name.endsWith('.md') && name !== 'index.md') {
-				const slug = `${relRoot}/${relPath.replace(/\.md$/, '')}`;
-				const label = readTitle(abs) || name.replace(/\.md$/, '');
-				entries.push({ label, slug });
-			}
-		}
-	};
-	walk(root, '');
-	return entries.sort((a, b) => a.label.localeCompare(b.label));
-}
-const flatAppsReference = () => flatReference('apps/reference');
-const flatShapesReference = () => flatReference('shapes/reference');
-const flatToolSurface = () => flatReference('tool-surface');
+// Reference docs (shapes, apps, ops, tool surface) are no longer pages here —
+// they live on the System Docs volume, projected from the canonical source
+// (ontology YAML, rustdoc, ts-morph, the tool registry). This site keeps
+// only the human narrative. See core/_roadmap/p2/system-volume/plan.md.
 
 // https://astro.build/config
 export default defineConfig({
@@ -102,6 +69,7 @@ export default defineConfig({
 									{ label: 'Observer bus', slug: 'architecture/observer-bus' },
 									{ label: 'Shape extraction', slug: 'architecture/shape-extraction' },
 									{ label: 'Response shaping', slug: 'architecture/response-shaping' },
+									{ label: 'View prefs', slug: 'architecture/view-prefs' },
 								],
 							},
 							{
@@ -124,6 +92,7 @@ export default defineConfig({
 									{ label: 'Auth flows', slug: 'apps/auth-flows' },
 									{ label: 'Data', slug: 'apps/data' },
 									{ label: 'LLM', slug: 'apps/llm' },
+									{ label: 'Adding login', slug: 'apps/adding-login' },
 								],
 							},
 							{
@@ -143,26 +112,6 @@ export default defineConfig({
 						],
 					},
 					{
-						id: 'apps-catalog',
-						label: 'Apps',
-						link: '/apps/reference/',
-						icon: 'information',
-						items: [
-							{ label: 'Apps index', slug: 'apps/reference' },
-							...flatAppsReference(),
-						],
-					},
-					{
-						id: 'tool-surface',
-						label: 'Tool surface',
-						link: '/tool-surface/',
-						icon: 'seti:config',
-						items: [
-							{ label: 'Overview', slug: 'tool-surface' },
-							...flatToolSurface(),
-						],
-					},
-					{
 						id: 'shapes',
 						label: 'Shapes',
 						link: '/shapes/overview/',
@@ -177,11 +126,6 @@ export default defineConfig({
 									{ label: 'Memex & the graph', slug: 'shapes/memex-and-graph' },
 									{ label: 'Identity & change', slug: 'shapes/identity-and-change' },
 								],
-							},
-							{
-								label: 'Shape reference',
-								collapsed: false,
-								items: flatShapesReference(),
 							},
 						],
 					},
@@ -201,9 +145,6 @@ export default defineConfig({
 					},
 				], {
 					topics: {
-						'apps-catalog': ['/apps/reference/*'],
-						shapes: ['/shapes/reference', '/shapes/reference/'],
-						'tool-surface': ['/tool-surface/*'],
 						build: [
 							'/apps/reverse-engineering/3-auth/*',
 							'/apps/reverse-engineering/6-desktop-apps/*',

@@ -33,7 +33,7 @@ Run it with `agentos bridge`. It auto-starts the engine if needed (via `ensure_e
 - `system.{status, schema}` — engine lifecycle + introspection.
 - `services.<name>` — brokered service verbs contributed by installed apps' `@provides` (e.g. `services.web_search`).
 
-See [`tool-surface/`](/tool-surface/) for the full op catalog (one page per namespace, generated from the registry). All ops accept `view: { format: "json" | "markdown" }` to override the per-interface default — HTTP defaults to JSON.
+The full op catalog lives on the System Docs volume, projected live from the registry — `readme()` orients an agent, `list({about:"shapes", volume:"system"})` browses it; the registry in `crates/core/src/tools.rs` is the source. All ops accept `view: { format: "json" | "markdown" }` to override the per-interface default — HTTP defaults to JSON.
 
 ### Observer (live activity)
 
@@ -77,7 +77,7 @@ Within localhost, there is no additional auth. Any process on the machine that c
 
 ## SSE contract
 
-The `/observer/stream` endpoint emits newline-delimited events in SSE format. Each event is one tool dispatch (started → completed/failed), shape documented in full at [`tool-surface/wire-shape`](/tool-surface/wire-shape/#observer-event-shape).
+The `/observer/stream` endpoint emits newline-delimited events in SSE format. Each event is one tool dispatch (started → completed/failed); the full wire shape is documented at the source, `crates/core/src/observer.rs`.
 
 ```
 event: activity
