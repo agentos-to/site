@@ -51,7 +51,6 @@ pub static APP: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("status", FieldType::String),
     ],
     out: vec![
-        EdgeDef { label: "provides".into(), to: Some("service".into()), from: None, card: Cardinality::One },
         EdgeDef { label: "online_at".into(), to: Some("website".into()), from: None, card: Cardinality::One },
         EdgeDef { label: "privacy_at".into(), to: Some("webpage".into()), from: None, card: Cardinality::One },
         EdgeDef { label: "terms_at".into(), to: Some("webpage".into()), from: None, card: Cardinality::One },

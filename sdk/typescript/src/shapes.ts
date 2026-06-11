@@ -198,7 +198,6 @@ export interface App {
     status?: string;
     onlineAt?: Website;
     privacyAt?: Webpage;
-    provides?: Service;
     termsAt?: Webpage;
 }
 
@@ -2654,6 +2653,7 @@ export interface Service {
     params?: unknown;
     returns?: string;
     defaultsTo?: App;
+    providedBy?: App;
 }
 
 export interface Shelf {

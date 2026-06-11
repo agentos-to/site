@@ -2013,13 +2013,6 @@
           "target": "webpage"
         },
         {
-          "name": "provides",
-          "type": "service",
-          "is_relation": true,
-          "is_array": false,
-          "target": "service"
-        },
-        {
           "name": "terms_at",
           "type": "webpage",
           "is_relation": true,
@@ -2042,7 +2035,7 @@
         "id"
       ],
       "identity_any": [],
-      "leading_comment": "An application — the one installable, launchable unit. System apps\n(Finder, Settings — engine-resident, code-only, seeded by\n`seed_system_apps()` in identity.rs) and installed apps (Python\nconnectors discovered from source directories) are the same shape;\n`isSystem` and the seeding path are the only differences. Installed\napps additionally carry connection lifecycle (`status` / `error`)\nbecause they adapt external platforms.\n\nWhat an app OFFERS the rest of the system is a `service` — see\nshapes/agentos/service.yaml. Apps link to services with `provides`\nedges (minted by the engine from the app's own declarations, never\nauthored). An app may provide zero services or several.\n\nThemes never reference app ids by string literal. They reference\nrole-based list ids ('primary-launcher', 'tray', 'desktop') and render\nwhatever bookmarks those lists contain. Per-theme renames happen via\nthe theme bundle's `appOverrides[appId] = { name?, icon? }` map — the\ntheme owns presentation, not identity.",
+      "leading_comment": "An application — the one installable, launchable unit. System apps\n(Finder, Settings — engine-resident, code-only, seeded by\n`seed_system_apps()` in identity.rs) and installed apps (Python\nconnectors discovered from source directories) are the same shape;\n`isSystem` and the seeding path are the only differences. Installed\napps additionally carry connection lifecycle (`status` / `error`)\nbecause they adapt external platforms.\n\nWhat an app OFFERS the rest of the system is a `service` — see\nshapes/agentos/service.yaml. The service node points at its providers\nwith `provided_by` edges (minted by the engine from each app's own\ndeclarations, never authored). An app may provide zero services or\nseveral.\n\nThemes never reference app ids by string literal. They reference\nrole-based list ids ('primary-launcher', 'tray', 'desktop') and render\nwhatever bookmarks those lists contain. Per-theme renames happen via\nthe theme bundle's `appOverrides[appId] = { name?, icon? }` map — the\ntheme owns presentation, not identity.",
       "own_fields": [
         {
           "name": "id",
@@ -2131,13 +2124,6 @@
       ],
       "own_relations": [
         {
-          "name": "provides",
-          "type": "service",
-          "is_relation": true,
-          "is_array": false,
-          "target": "service"
-        },
-        {
           "name": "online_at",
           "type": "website",
           "is_relation": true,
@@ -2187,7 +2173,7 @@
         }
       ],
       "source_path": "app.yaml",
-      "raw_body": "plural: apps\nidentity:\n- id\ndisplay:\n  subtitle: description\nfields:\n  id: string\n  name: string\n  description: text\n  color: string\n  status: string\n  error: text\n  iconRole: string\n  route: string\n  defaultView: string\n  isSystem: boolean\n  handles: string[]\n  composition: json\nlinks:\n  provides: service\n  online_at: website\n  privacy_at: webpage\n  terms_at: webpage\nprior_art:\n- source: macOS .app bundle (Info.plist)\n  url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html\n  notes: \"CFBundleIdentifier \\u2248 id; CFBundleName \\u2248 name; CFBundleIconFile\\\n    \\ \\u2248 iconRole (we use a role rather than a file path so themes can override).\"\n- source: freedesktop .desktop entry\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: \"Name, Icon, Exec \\u2014 the Linux/XDG peer. We model the launchable surface,\\\n    \\ not the executable (the engine knows how to spawn).\"\n- source: Windows AppUserModelID\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/appids\n  notes: \"Stable per-app identity decoupled from the executable on disk. Our `id`\\\n    \\ plays the same role \\u2014 themes and bookmarks reference it, the binary is\\\n    \\ an implementation detail of seed_system_apps().\"\n- source: \"Model Context Protocol (MCP) \\u2014 Server\"\n  url: https://modelcontextprotocol.io/specification\n  notes: \"An installed app = an MCP-registerable provider. id \\u2248 MCP server name;\\\n    \\ status tracks connection lifecycle.\"\n- source: OpenAPI 3.1 (Info + Servers)\n  url: https://spec.openapis.org/oas/v3.1.0\n  notes: \"Our description/online_at/privacy_at/terms_at \\u2248 OpenAPI info.description/info.termsOfService/contact.\"\n",
+      "raw_body": "plural: apps\nidentity:\n- id\ndisplay:\n  subtitle: description\nfields:\n  id: string\n  name: string\n  description: text\n  color: string\n  status: string\n  error: text\n  iconRole: string\n  route: string\n  defaultView: string\n  isSystem: boolean\n  handles: string[]\n  composition: json\nlinks:\n  online_at: website\n  privacy_at: webpage\n  terms_at: webpage\nprior_art:\n- source: macOS .app bundle (Info.plist)\n  url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html\n  notes: \"CFBundleIdentifier \\u2248 id; CFBundleName \\u2248 name; CFBundleIconFile\\\n    \\ \\u2248 iconRole (we use a role rather than a file path so themes can override).\"\n- source: freedesktop .desktop entry\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: \"Name, Icon, Exec \\u2014 the Linux/XDG peer. We model the launchable surface,\\\n    \\ not the executable (the engine knows how to spawn).\"\n- source: Windows AppUserModelID\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/appids\n  notes: \"Stable per-app identity decoupled from the executable on disk. Our `id`\\\n    \\ plays the same role \\u2014 themes and bookmarks reference it, the binary is\\\n    \\ an implementation detail of seed_system_apps().\"\n- source: \"Model Context Protocol (MCP) \\u2014 Server\"\n  url: https://modelcontextprotocol.io/specification\n  notes: \"An installed app = an MCP-registerable provider. id \\u2248 MCP server name;\\\n    \\ status tracks connection lifecycle.\"\n- source: OpenAPI 3.1 (Info + Servers)\n  url: https://spec.openapis.org/oas/v3.1.0\n  notes: \"Our description/online_at/privacy_at/terms_at \\u2248 OpenAPI info.description/info.termsOfService/contact.\"\n",
       "ancestors": [],
       "field_order": [
         "id",
@@ -29979,6 +29965,13 @@
           "is_relation": true,
           "is_array": false,
           "target": "app"
+        },
+        {
+          "name": "provided_by",
+          "type": "app",
+          "is_relation": true,
+          "is_array": false,
+          "target": "app"
         }
       ],
       "also": [],
@@ -29996,7 +29989,7 @@
         "id"
       ],
       "identity_any": [],
-      "leading_comment": "A service — a named interface the engine brokers between strangers.\nThe caller names the interface (web_search, web_read, llm), never the\napp; the engine matchmakes a provider and dispatches. Rendering is NOT\na service — which app opens/renders a shape or mime is the app shape's\n`handles` field, a shell association, not a brokered call.\n\nThe registry of canonical services is authored in\n`platform/ontology/services/*.yaml` (one file per service; id = file\nstem) and projected by codegen into the SDK constants and the engine's\ncompiled registry. Service NODES on the graph are minted by the engine\nfrom that registry — never authored by hand. Apps point at them with\n`provides` edges (link_vals: {via: the bound tool}); the user's\nstanding pick is a `defaults_to` link from the service node to an app\n(XP's \"Set Program Access and Defaults\").\n\nKeep the registry small and verb-shaped. If a candidate interface has\nno second potential provider, it probably isn't a service yet.",
+      "leading_comment": "A service — a named interface the engine brokers between strangers.\nThe caller names the interface (web_search, web_read, llm), never the\napp; the engine matchmakes a provider and dispatches. Rendering is NOT\na service — which app opens/renders a shape or mime is the app shape's\n`handles` field, a shell association, not a brokered call.\n\nThe registry of canonical services is authored in\n`platform/ontology/services/*.yaml` (one file per service; id = file\nstem) and projected by codegen into the SDK constants and the engine's\ncompiled registry. Service NODES on the graph are minted by the engine\nfrom that registry — never authored by hand. The service node carries\nits whole story: `provided_by` edges to every providing app\n(link_vals: {via: the bound tool} — derived, cleared and rebuilt each\nboot) and the user's standing pick as a `defaults_to` link (XP's \"Set\nProgram Access and Defaults\"). Both point service → app, so providers\nwhose nodes live in the read-only System volume are reachable\ncross-volume.\n\nKeep the registry small and verb-shaped. If a candidate interface has\nno second potential provider, it probably isn't a service yet.",
       "own_fields": [
         {
           "name": "id",
@@ -30029,6 +30022,13 @@
       ],
       "own_relations": [
         {
+          "name": "provided_by",
+          "type": "app",
+          "is_relation": true,
+          "is_array": false,
+          "target": "app"
+        },
+        {
           "name": "defaults_to",
           "type": "app",
           "is_relation": true,
@@ -30050,11 +30050,11 @@
         {
           "source": "Android Intents (action + default app)",
           "url": "https://developer.android.com/guide/components/intents-filters",
-          "notes": "Apps declare which actions they answer; the user picks a default per action. provides ≈ intent-filter; defaults_to ≈ the user's \"always\" choice."
+          "notes": "Apps declare which actions they answer; the user picks a default per action. provided_by ≈ intent-filter; defaults_to ≈ the user's \"always\" choice."
         }
       ],
       "source_path": "agentos/service.yaml",
-      "raw_body": "plural: services\nidentity:\n- id\ndisplay:\n  subtitle: description\nfields:\n  id: string\n  description: text\n  params: json\n  returns: string\nlinks:\n  defaults_to: app\nprior_art:\n- source: Debian alternatives system (update-alternatives)\n  url: https://wiki.debian.org/DebianAlternatives\n  notes: \"A generic name (editor) resolves to one of several registered providers\\\n    \\ via a per-name symlink the admin can repoint. Our service id \\u2248 the generic\\\n    \\ name; defaults_to \\u2248 the symlink.\"\n- source: \"Windows XP \\u2014 Set Program Access and Defaults\"\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/default-programs\n  notes: The OS-level \"which program answers this kind of request\" surface. Our defaults_to\n    link is that choice as graph state.\n- source: Android Intents (action + default app)\n  url: https://developer.android.com/guide/components/intents-filters\n  notes: \"Apps declare which actions they answer; the user picks a default per action.\\\n    \\ provides \\u2248 intent-filter; defaults_to \\u2248 the user's \\\"always\\\" choice.\"\n",
+      "raw_body": "plural: services\nidentity:\n- id\ndisplay:\n  subtitle: description\nfields:\n  id: string\n  description: text\n  params: json\n  returns: string\nlinks:\n  provided_by: app\n  defaults_to: app\nprior_art:\n- source: Debian alternatives system (update-alternatives)\n  url: https://wiki.debian.org/DebianAlternatives\n  notes: \"A generic name (editor) resolves to one of several registered providers\\\n    \\ via a per-name symlink the admin can repoint. Our service id \\u2248 the generic\\\n    \\ name; defaults_to \\u2248 the symlink.\"\n- source: \"Windows XP \\u2014 Set Program Access and Defaults\"\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/default-programs\n  notes: The OS-level \"which program answers this kind of request\" surface. Our defaults_to\n    link is that choice as graph state.\n- source: Android Intents (action + default app)\n  url: https://developer.android.com/guide/components/intents-filters\n  notes: \"Apps declare which actions they answer; the user picks a default per action.\\\n    \\ provided_by \\u2248 intent-filter; defaults_to \\u2248 the user's \\\"always\\\" choice.\"\n",
       "ancestors": [],
       "field_order": [
         "id",
@@ -40318,16 +40318,17 @@
       "preposition_root": null
     },
     {
-      "name": "provides",
-      "from_kind": "app",
-      "to_kind": "service",
+      "name": "provided_by",
+      "from_kind": "service",
+      "to_kind": "app",
       "cardinality": "many_to_many",
       "link_vals": {
-        "via": "string"
+        "via": "string",
+        "urls": "json"
       },
       "inverse_of": null,
       "reverse_name": null,
-      "group_file": "provides.yaml",
+      "group_file": "provided_by.yaml",
       "verb_root": null,
       "preposition_root": null
     },
