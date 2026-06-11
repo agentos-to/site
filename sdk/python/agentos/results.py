@@ -51,7 +51,7 @@ def app_secret(
     entry = {
         "domain": domain,
         "identifier": identifier,
-        "item_type": item_type,
+        "itemType": item_type,
         "value": value,
     }
     if source:
