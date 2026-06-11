@@ -62,11 +62,10 @@ from agentos.identity import normalize_email, normalize_handle
 connection("web",
     base_url="https://example.com",
     client="browser",
-    auth={"type": "cookies",
-          "domain": ".example.com",
-          "account": {"check": "check_session"}})
+    auth={"type": "cookies", "domain": ".example.com"})
 
 
+@account.check
 @returns("account")
 @connection("web")
 async def check_session(**params) -> dict:
@@ -414,25 +413,22 @@ session cache — runs around app dispatch as a side effect. Provider
 rows (1Password / Keychain rows that hold the password) are
 deliberately untouched. Logout forgets the session, not the password.
 
-### Declaring `logout` on the connection
+### Declaring the trio
 
-Extend the connection's `auth.account` block with a `logout` slot:
+Decorate the three ops — `@account.check` / `@account.login` /
+`@account.logout`. The connection carries no account block; the engine
+resolves the trio from the decorators, never from a tool-name match.
 
 ```python
-connection("portal",
-    base_url="https://portal.api.prod.tilefive.com",
-    domain=".approach.app",
-    client="api",
-    auth={"type": "api_key",
-          "account": {"check":  "check_session",
-                      "login":  "login",
-                      "logout": "logout"}},
-    label="ABP Portal Session")
+@account.logout
+@returns({"ok": "boolean", "message": "string"})
+@connection("portal")
+async def logout(**params): ...
 ```
 
-Same pattern for `cookies` and `oauth` auth types. All three
-slots are just operation names on the same app — the engine
-finds the op by name and runs it.
+Same for every auth type (`api_key`, `cookies`, `oauth`) — the storage
+layer is orthogonal to the trio. `@account.login` requires a sibling
+`@account.logout`; the validator errors otherwise.
 
 ### What the `logout` tool looks like
 
@@ -650,40 +646,71 @@ most of them) work correctly regardless of whether `names` is declared.
   matchmakes installed `@provides(login_credentials)` apps. The
   agent isn't in the loop.
 
-## Multi-step flows (email codes, SMS, OAuth consent)
+## Multi-step flows — `login` returns an `auth_challenge`
 
-Some logins need an input the app can't obtain from its own
-credential row — a verification code from email, an SMS code, an
-OAuth consent redirect. The app exposes the flow as separate tools
-and lets the agent orchestrate:
+Some logins need an input the app can't obtain from its own credential
+row: a verification code mailed out of band, a QR scanned with a phone,
+an OAuth consent redirect. This is not an error — `login` did its job and
+this is what came back. It returns the typed **`auth_challenge`** result
+(the `account | auth_challenge` union): `login` resolves to an `account`
+when the session is (or becomes) live, or an `auth_challenge` when a human
+(usually) must act.
 
+```python
+from agentos import account, qr
+
+@account.login
+@returns("account | auth_challenge")
+async def login(*, email: str = "", **params):
+    if await _session_live():
+        return _account()                       # already signed in → account
+    await _trigger_code(email)                  # CSRF + mail the code
+    return {
+        "kind": "code_sent",                    # qr | code_sent | oauth_url
+        "payload": email,                       # the raw datum
+        "artifact": f"6-digit code sent to {email}",  # display-ready text
+        "instructions": "Read the code via an email_lookup provider, "
+                        "then call verify_login_code(email, code).",
+        "continueWith": "verify_login_code",    # the op that finishes the flow
+    }
 ```
-Agent calls app.send_login_code({ email })
-  → agentos.client: CSRF + trigger verification email
-  → Returns: { status: "code_sent", hint: "subject 'Sign in to …'" }
 
-Agent reads email via any @provides(email_lookup) app, extracts code.
+The `auth_challenge` fields (`platform/ontology/shapes/auth_challenge.yaml`):
 
-Agent calls app.verify_login_code({ email, code })
-  → agentos.client: submit code, capture Set-Cookie / token
-  → Returns { status: "authenticated", identifier }
-  → __secrets__ lands the session row via the usual writeback path.
-```
+| field | meaning |
+|---|---|
+| `kind` | discriminator: `qr` · `code_sent` · `oauth_url` |
+| `payload` | the raw datum — QR ref string, consent URL, masked destination |
+| `artifact` | **display-ready text** — a Unicode QR block (`qr.text(ref)`), or the URL. Renders on every surface: terminal, chat, desktop act window. |
+| `instructions` | what the agent does or relays. For `code_sent`: try `email_lookup` first. |
+| `expiresAt` | rotation honesty (a WhatsApp QR ref rotates ~20s) |
+| `continueWith` | the op that advances the flow — a verify op, or the check op to poll |
 
-The `hint` field tells the agent what to search for. It never
-hard-codes "use Gmail" — any email app works because they all
-`@provides(email_lookup)`.
+The engine discriminates the arm per call from the returned dict, so one
+op carries both outcomes. The `code_sent` instructions never hard-code
+"use Gmail" — any app that `@provides(email_lookup)` works.
 
-### When to use this pattern
+### Render-ready by construction
 
-- Email verification codes (NextAuth, WorkOS, etc.).
-- SMS / TOTP verification.
-- OAuth consent that requires user approval.
+The `artifact` is **text** — one Unicode QR block renders in a terminal,
+a chat, and a desktop card with no image pipeline. The `auth_challenge`
+shape binds its display `body`+`mono` to `artifact`, so the Navigator card
+renders it monospace with intact geometry and the markdown renderer fences
+it instead of flattening newlines. Build a QR artifact with the SDK's
+`qr.text(payload)` — pure-Python Unicode half-blocks, scannable off screen.
+
+### When a challenge, when an error
+
+A challenge is a **successful return** — the human (usually) must act. An
+*error* (`NeedsCredentials`) means the agent could still supply what's
+missing. For `code_sent`, the agent may resolve it without the human at
+all: the instructions say to try `email_lookup` providers first.
 
 ### Reference implementations
 
-- [`apps/web/exa/exa.py`](https://github.com/agentos-to/apps/blob/main/web/exa/exa.py) — NextAuth email-code flow.
-- [`apps/fitness/austin-boulder-project/abp.py`](https://github.com/agentos-to/apps/blob/main/fitness/austin-boulder-project/abp.py) — Cognito password login, single tool.
+- [`apps/comms/whatsapp/whatsapp.py`](https://github.com/agentos-to/apps/blob/main/comms/whatsapp/whatsapp.py) — `login` returns a `kind: qr` challenge (linked-device QR as a Unicode block).
+- [`apps/web/exa/exa.py`](https://github.com/agentos-to/apps/blob/main/web/exa/exa.py) — NextAuth `kind: code_sent` flow, `continueWith: verify_login_code`.
+- [`apps/fitness/austin-boulder-project/abp.py`](https://github.com/agentos-to/apps/blob/main/fitness/austin-boulder-project/abp.py) — Cognito password login, `login` returns the account directly (no challenge).
 
 ## See also
 

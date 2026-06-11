@@ -14,8 +14,9 @@ you just want to copy an existing app and adapt it.
 > **Surface note.** Login / logout are dispatched as ordinary app
 > tool calls — `apps.run({app, tool: "login"})` and
 > `apps.run({app, tool: "logout"})`. There's no special accounts
-> wrapper; the engine recognises `login` / `logout` only because they
-> appear in the connection's `auth.account` block (see step 6).
+> wrapper; the engine recognises the trio because each op is decorated
+> `@account.check` / `@account.login` / `@account.logout` — one
+> declaration point, on the op itself, never a tool-name match.
 
 For the *why* behind every step, see
 [Auth flows](./auth-flows.md) — this page is the how-to; that
@@ -40,16 +41,16 @@ connection(
     "portal",
     base_url="https://api.example.com",
     client="fetch",
-    auth={"type": "cookies",
-          "domain": ".example.com",
-          "account": {"check": "check_session"}},
+    auth={"type": "cookies", "domain": ".example.com"},
     optional=True,
     label="Example Portal Session",
     help_url="https://example.com/login")
 ```
 
 Authed tools (`get_orders`, `book_thing`, etc.) go on `portal`;
-`login` and `check_session` go on `public`.
+`login` and `check_session` go on `public`. The connection carries no
+account block — the trio is declared by `@account.*` decorators on the
+ops (steps 3, 4, 6).
 
 ### 2. Reverse-engineer the login HTTP sequence
 
@@ -94,20 +95,25 @@ in step 2:
 
 ```python
 from agentos import (
-    client, connection, credentials, normalize_email,
+    account, client, connection, credentials, normalize_email,
     returns, app_error, app_secret,
 )
 
-@returns({"status": "string", "identifier": "string"})
+@account.login
+@returns("account | auth_challenge")
 @connection("public")
 async def login(*, email: str = "", password: str = "", **params) -> dict:
     """Log in to Example and persist a session for reuse.
 
-    Resolves credentials in this order:
+    Returns the `account` on success. Resolves credentials in this order:
       1. Caller passed email+password explicitly.
       2. credentials.retrieve() matchmakes an installed
          @provides(login_credentials) app (1Password, Keychain).
       3. No match → NeedsCredentials structured error.
+
+    If the platform needs an out-of-band step (mailed code, QR, OAuth
+    consent), return an `auth_challenge` instead — see
+    [Auth flows § Multi-step flows](./auth-flows.md#multi-step-flows--login-returns-an-auth_challenge).
     """
     # --- Resolve credentials ---------------------------------------
     if not email or not password:
@@ -148,8 +154,11 @@ async def login(*, email: str = "", password: str = "", **params) -> dict:
             value={"email": canonical, "password": password},
             source="example",
             metadata={"masked": {"password": "••••••••"}})],
+        # The account arm of the union — shape-native `account` fields.
         "__result__": {
-            "status": "authenticated",
+            "authenticated": True,
+            "at": {"shape": "organization", "name": "Example Inc",
+                   "url": "https://example.com"},
             "identifier": canonical,
         },
     }
@@ -157,6 +166,12 @@ async def login(*, email: str = "", password: str = "", **params) -> dict:
 
 **Key rules:**
 
+- **`@account.login`** — the engine resolves auto-relogin and the GUI
+  sign-in button through this decorator, never a literal tool name. It
+  requires a sibling `@account.logout` (step 6).
+- **`@returns("account | auth_challenge")`** — the union lets one op
+  return the account *or* a human-must-act challenge; the engine
+  discriminates per call.
 - **`@connection("public")`** — login produces credentials, so
   pin it to a connection that doesn't require any.
 - **Return an `app_error` with `code="NeedsCredentials"` when
@@ -181,6 +196,7 @@ if the current session is still alive.
 ```python
 from agentos.identity import normalize_email
 
+@account.check
 @returns("account")
 @connection("portal")
 async def check_session(**params) -> dict:
@@ -227,18 +243,19 @@ Symmetric with `login`. The platform-side revoke is the part the
 engine can't do for you; the engine handles everything else
 (delete app-written rows, invalidate cache) after your tool
 returns. See [Do I need a `logout` tool?](#do-i-need-a-logout-tool)
-for the full template. One new tool in your
-app, one new line in the connection's `AccountBlock`:
+for the full template. One new tool, one decorator:
 
 ```python
-auth={"type": "api_key",
-      "account": {"check":  "check_session",
-                  "login":  "login",
-                  "logout": "logout"}}   # ← add this
+@account.logout
+@returns({"ok": "boolean", "message": "string"})
+@connection("portal")
+async def logout(**params) -> dict:
+    ...
 ```
 
-Skipping this step leaves the validator warning live and reduces
-logout to a local-cache delete. Ship it.
+Skipping this step is a validator **error** (`@account.login` without
+`@account.logout`), not just a warning — and reduces logout to a
+local-cache delete. Ship it.
 
 ### 7. Ship it
 
@@ -394,8 +411,8 @@ Three common causes:
 **Yes — every cookie / api_key / oauth app should ship one.**
 `check_session`, `login`, and `logout` are the three legs of the
 account protocol; they belong together. The validator
-(`check_logout_presence` in `agent-sdk validate`) warns when an
-app declares `account.login` without `account.logout`.
+(`check_account_trio` in `agent-sdk validate`) **errors** when an
+app declares `@account.login` without `@account.logout`.
 
 The engine dispatches your `logout` op on
 `apps.run({app, tool:"logout"})`, passes the live session in
@@ -406,6 +423,7 @@ platform-side revoke call.
 Shape:
 
 ```python
+@account.logout
 @returns({"ok": "boolean", "message": "string"})
 @connection("portal")           # authed connection — we still have the session
 async def logout(**params) -> dict:
@@ -424,14 +442,8 @@ async def logout(**params) -> dict:
     return {"ok": False, "message": f"Revoke failed: HTTP {resp['status']}"}
 ```
 
-Wire it into the connection:
-
-```python
-auth={"type": "api_key",           # or "cookies", or "oauth"
-      "account": {"check":  "check_session",
-                  "login":  "login",
-                  "logout": "logout"}}
-```
+The `@account.logout` decorator is the whole wiring — no connection
+block to edit. The engine resolves the trio from the three decorators.
 
 Full walkthrough (why server-side revoke matters, how the engine
 runs cleanup) lives in
