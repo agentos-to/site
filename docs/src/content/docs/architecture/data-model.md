@@ -31,13 +31,13 @@ Shapes are YAML files in `docs/shapes/` that get loaded into the graph at engine
 - **Identity** — which fields uniquely identify a record of this shape.
 - **`also` chains** — shape implication. A book is *also* a product, so it inherits product's fields and can be queried as either.
 
-The engine uses the shape registry for type coercion (`"495"` → integer, `"true"` → boolean) and for validation when skills write. It does **not** use the registry to branch on entity types — coercion is a shape-level operation, not a type-level one.
+The engine uses the shape registry for type coercion (`"495"` → integer, `"true"` → boolean) and for validation when apps write. It does **not** use the registry to branch on entity types — coercion is a shape-level operation, not a type-level one.
 
 See [Shapes overview](/shapes/overview/) for the authoring format and [Identity & change](/shapes/identity-and-change/) for how identity works across time.
 
 ## Identity and deduplication
 
-Every shape declares identity. When a skill writes a record and the identity keys match an existing node, the engine **updates the existing node** instead of creating a duplicate.
+Every shape declares identity. When an app writes a record and the identity keys match an existing node, the engine **updates the existing node** instead of creating a duplicate.
 
 Two flavors:
 
@@ -46,11 +46,11 @@ Two flavors:
 
 This is how a WhatsApp contact and an iMessage contact with the same phone number become the same `person` node. It's how the same webpage read twice gets one `webpage` node with two `read` activities attached. It's how the graph stays clean without a human deduping.
 
-Identity is also how the graph survives skill churn. Uninstall the WhatsApp skill and the person's WhatsApp handle is still on that person node — links and values outlive the skill that wrote them.
+Identity is also how the graph survives app churn. Uninstall the WhatsApp app and the person's WhatsApp handle is still on that person node — links and values outlive the app that wrote them.
 
-## How skills write
+## How apps write
 
-A skill returns plain Python dicts decorated with the shape name:
+An app returns plain Python dicts decorated with the shape name:
 
 ```python
 @returns("book")
@@ -66,7 +66,7 @@ def get_book(isbn: str) -> dict:
 
 The engine receives that dict, looks up `book` in the shape registry, coerces each field to its declared type, looks up the identity keys (`isbn13, isbn`), and either creates a new node or updates the matching one. Unknown keys are logged as warnings but don't block the write — shape drift is diagnostic, not fatal.
 
-The SDK validator (`agent-sdk validate`) AST-checks return dicts against `@returns(...)` declarations at skill-authoring time. The engine validates again at write time.
+The SDK validator (`agent-sdk validate`) AST-checks return dicts against `@returns(...)` declarations at app-authoring time. The engine validates again at write time.
 
 ## Why the engine is entity-agnostic
 
@@ -74,7 +74,7 @@ The engine knows *about* shapes — field types, relations, identity keys. It do
 
 This is the principle that keeps the engine generic. If the engine ever learned that tasks have priorities and priorities are sortable, every new entity type would require a Rust change. Instead, meaning lives in:
 
-- **[Skills](/skills/overview/)** — they decide what gets extracted and how.
+- **[Apps](/apps/overview/)** — they decide what gets extracted and how.
 - **[Apps](/apps/overview/)** — they decide how to render, sort, group.
 - **Shapes** — they describe the structure everyone agrees on.
 
@@ -102,6 +102,6 @@ And link values live in `link_vals`, parallel to `node_vals`. Same story: no typ
 
 ## What you do with the graph
 
-From an app: read shape-conformant records via the web bridge (`/graph` endpoint, JSON). From a skill: write shape-conformant dicts via `@returns(...)`. From MCP: both, through the engine.
+From the shell: read shape-conformant records via the web bridge (`/graph` endpoint, JSON). From an app: write shape-conformant dicts via `@returns(...)`. From MCP: both, through the engine.
 
-Nobody queries SQL directly. The API surface is the shape registry + the capability broker. The DDL is internal.
+Nobody queries SQL directly. The API surface is the shape registry + the service broker. The DDL is internal.

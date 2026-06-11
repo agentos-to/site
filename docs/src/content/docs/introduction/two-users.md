@@ -22,7 +22,7 @@ If either factor is zero, anxiety is zero. This is the reason the human-facing l
 
 Every round-trip is a chance for errors to compound. We collapse complexity: smart defaults, self-teaching responses, schema validation, minimal round-trips. If a small local model can complete the task, we've done our job.
 
-**The customer is the smallest model.** Not Opus. Not Sonnet. The smallest model that can do tool calling — a 1B-parameter model running on a Raspberry Pi with a 4K context window. If that model can read our readme, understand the domain, and complete a task on the first try, we've succeeded. If it can't, no amount of capability in larger models compensates for the failure.
+**The customer is the smallest model.** Not Opus. Not Sonnet. The smallest model that can do tool calling — a 1B-parameter model running on a Raspberry Pi with a 4K context window. If that model can read our readme, understand the domain, and complete a task on the first try, we've succeeded. If it can't, larger models being smarter doesn't compensate for the failure.
 
 This is our accessibility standard: design for the most constrained agent, and every agent benefits.
 
@@ -32,4 +32,4 @@ These principles make the system better for humans too. A readme that a 1B model
 
 Designing for the most constrained user has always been the shortcut to designing for everyone. The accessibility movement proved this for humans. We're proving it for agents.
 
-For the full practice of designing-for-agents, see [Agent empathy](/skills/agent-empathy/).
+For the full practice of designing-for-agents, see [Agent empathy](/apps/agent-empathy/).

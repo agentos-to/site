@@ -1,8 +1,8 @@
-"""MDX emitter — shape + skill reference pages (Starlight-compatible).
+"""MDX emitter — shape + app reference pages (Starlight-compatible).
 
 Not on the byte-identical `--check` path; verified by `generate.py
---docs` running clean. Shape pages are a projection off the IR; skill
-pages are discovered from the `skills/` tree.
+--docs` running clean. Shape pages are a projection off the IR; app
+pages are discovered from the `apps/` tree.
 """
 
 from __future__ import annotations
@@ -28,11 +28,11 @@ def _shape_link(target: str) -> str:
     return f"[`{target}`](/shapes/reference/{base}/)"
 
 
-def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, list[dict]]) -> None:
+def emit_shape_docs(shapes: list[Shape], out_dir: Path, apps_index: dict[str, list[dict]]) -> None:
     """Write one MDX file per shape into `out_dir`, plus an index page.
 
-    skills_index maps shape-name → list of {skill_id, path, operations} dicts,
-    so each shape page can show 'skills that produce this shape'.
+    apps_index maps shape-name → list of {app_id, path, operations} dicts,
+    so each shape page can show 'apps that produce this shape'.
     """
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -156,16 +156,16 @@ def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, 
                 lines.append(f"- **{heading}** — {notes}" if notes else f"- **{heading}**")
             lines.append("")
 
-        # Skills that return this shape
-        producers = skills_index.get(s.name, [])
+        # Apps that return this shape
+        producers = apps_index.get(s.name, [])
         if producers:
-            lines.append("## Skills that produce this shape")
+            lines.append("## Apps that produce this shape")
             lines.append("")
             for p in producers:
-                sid = p["skill_id"]
+                sid = p["app_id"]
                 cat = p.get("category", "")
                 ops = ", ".join(f"`{op}`" for op in p["operations"])
-                url = f"/skills/reference/{cat}/{sid}/" if cat else f"/skills/reference/{sid}/"
+                url = f"/apps/reference/{cat}/{sid}/" if cat else f"/apps/reference/{sid}/"
                 lines.append(f"- [{sid}]({url}) — {ops}")
             lines.append("")
 
@@ -196,7 +196,7 @@ def emit_shape_docs(shapes: list[Shape], out_dir: Path, skills_index: dict[str, 
 
 
 # =============================================================================
-# Skill docs — discovered from the skills/ tree
+# App docs — discovered from the apps/ tree
 # =============================================================================
 
 _SKILL_IGNORE_DIRS = {"_sdk", "_prototype", "agent-sdk", "bin", "node_modules", "__pycache__"}
@@ -235,19 +235,19 @@ def _extract_returns(py_text: str) -> list[tuple[str, str]]:
     return out
 
 
-def discover_skills(skills_root: Path) -> list[dict]:
-    """Walk skills/ looking for readme.md files. Return list of skill records."""
+def discover_apps(apps_root: Path) -> list[dict]:
+    """Walk apps/ looking for readme.md files. Return list of app records."""
     records = []
-    for readme in skills_root.rglob("readme.md"):
-        rel = readme.parent.relative_to(skills_root)
+    for readme in apps_root.rglob("readme.md"):
+        rel = readme.parent.relative_to(apps_root)
         parts = rel.parts
         if any(p in _SKILL_IGNORE_DIRS or p.startswith(".") for p in parts):
             continue
-        if readme.parent == skills_root:
+        if readme.parent == apps_root:
             continue
         text = readme.read_text()
         meta, body = _parse_readme_frontmatter(text)
-        skill_id = meta.get("id") or rel.name
+        app_id = meta.get("id") or rel.name
         category = parts[0] if len(parts) > 1 else "misc"
         # Scan .py files for @returns shape names
         returns = {}  # shape → [func_name, ...]
@@ -255,7 +255,7 @@ def discover_skills(skills_root: Path) -> list[dict]:
             for fn, shape in _extract_returns(py.read_text()):
                 returns.setdefault(shape, []).append(fn)
         records.append({
-            "skill_id": skill_id,
+            "app_id": app_id,
             "rel_path": str(rel),
             "category": category,
             "meta": meta,
@@ -265,12 +265,12 @@ def discover_skills(skills_root: Path) -> list[dict]:
     return records
 
 
-def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -> None:
-    """Write one MDX file per skill under `<category>/<id>.md` + an index page.
+def emit_app_docs(apps: list[dict], out_dir: Path, known_shapes: set[str]) -> None:
+    """Write one MDX file per app under `<category>/<id>.md` + an index page.
 
-    Skills are laid out by **category** — the same taxonomy the skills/ tree
+    Apps are laid out by **category** — the same taxonomy the apps/ tree
     uses on disk (comms/, web/, finance/, …). The sidebar mirrors this,
-    giving agents a fast scan path: "where are the email skills?" → `comms/`.
+    giving agents a fast scan path: "where are the email apps?" → `comms/`.
 
     `known_shapes` is the set of shape names that have their own reference page;
     return-types outside this set (e.g. `void`) are rendered as plain code without
@@ -278,12 +278,12 @@ def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -
     """
     out_dir.mkdir(parents=True, exist_ok=True)
     # The output dir is wholly owned by this emitter — prune pages whose
-    # skill no longer exists, or a deleted skill keeps a live docs page
+    # app no longer exists, or a deleted app keeps a live docs page
     # forever.
     live: set[Path] = set()
-    for rec in skills:
+    for rec in apps:
         cat_dir = out_dir / rec["category"] if rec["category"] else out_dir
-        live.add(cat_dir / f"{rec['skill_id']}.md")
+        live.add(cat_dir / f"{rec['app_id']}.md")
         live.add(cat_dir / "index.md")
     live.add(out_dir / "index.md")
     for page in out_dir.rglob("*.md"):
@@ -292,13 +292,13 @@ def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -
     for sub in sorted(out_dir.glob("*/"), reverse=True):
         if sub.is_dir() and not any(sub.iterdir()):
             sub.rmdir()
-    # Group skills by category so we can emit per-category index pages below.
+    # Group apps by category so we can emit per-category index pages below.
     by_cat: dict[str, list[dict]] = {}
-    for rec in skills:
+    for rec in apps:
         by_cat.setdefault(rec["category"], []).append(rec)
-    for rec in skills:
+    for rec in apps:
         meta = rec["meta"]
-        sid = rec["skill_id"]
+        sid = rec["app_id"]
         name = meta.get("name", sid)
         desc = (meta.get("description") or "").replace('"', "'").strip()
         if len(desc) > 160:
@@ -307,18 +307,18 @@ def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -
         lines = [
             "---",
             f"title: {name}",
-            f'description: "{desc}"' if desc else f'description: "Skill reference for {sid}."',
+            f'description: "{desc}"' if desc else f'description: "App reference for {sid}."',
             "sidebar:",
             f"  label: {sid}",
             "---",
             "",
         ]
 
-        # Metadata table: category, capabilities, website
+        # Metadata table: category, services, website
         meta_rows = [("Category", f"`{rec['category']}`")]
-        if meta.get("capabilities"):
-            caps = ", ".join(f"`{c}`" for c in meta["capabilities"])
-            meta_rows.append(("Capabilities", caps))
+        if meta.get("services"):
+            caps = ", ".join(f"`{c}`" for c in meta["services"])
+            meta_rows.append(("Services", caps))
         if meta.get("website"):
             meta_rows.append(("Website", f"<{meta['website']}>"))
         lines.append("| Metadata | Value |")
@@ -367,26 +367,26 @@ def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -
         cat_dir.mkdir(parents=True, exist_ok=True)
         (cat_dir / f"{sid}.md").write_text("\n".join(lines).rstrip() + "\n")
 
-    # Top-level index — flat listing of all skills, grouped visually by category.
+    # Top-level index — flat listing of all apps, grouped visually by category.
     idx = [
         "---",
-        "title: Skills index",
-        'description: "Every skill in the AgentOS catalog. Browse all or filter by category."',
+        "title: Apps index",
+        'description: "Every app in the AgentOS catalog. Browse all or filter by category."',
         "---",
         "",
-        f"The AgentOS skill catalog — **{len(skills)}** skills across **{len(by_cat)}** categories. Each skill is a Python adapter that connects to a service or provides a pure agent capability.",
+        f"The AgentOS app catalog — **{len(apps)}** apps across **{len(by_cat)}** categories. Each app is a Python adapter that connects to a service or provides a pure agent tool.",
         "",
-        "See [Skills → Overview](/skills/overview/) for how to build one.",
+        "See [Apps → Overview](/apps/overview/) for how to build one.",
         "",
     ]
     for cat in sorted(by_cat.keys()):
-        idx.append(f"## [{cat}](/skills/reference/{cat}/)")
+        idx.append(f"## [{cat}](/apps/reference/{cat}/)")
         idx.append("")
-        for rec in sorted(by_cat[cat], key=lambda r: r["skill_id"]):
-            name = rec["meta"].get("name", rec["skill_id"])
+        for rec in sorted(by_cat[cat], key=lambda r: r["app_id"]):
+            name = rec["meta"].get("name", rec["app_id"])
             desc = (rec["meta"].get("description") or "").strip().rstrip(".")
             desc_part = f" — {desc}" if desc else ""
-            idx.append(f"- [**{name}**](/skills/reference/{cat}/{rec['skill_id']}/){desc_part}")
+            idx.append(f"- [**{name}**](/apps/reference/{cat}/{rec['app_id']}/){desc_part}")
         idx.append("")
     (out_dir / "index.md").write_text("\n".join(idx) + "\n")
 
@@ -395,46 +395,46 @@ def emit_skill_docs(skills: list[dict], out_dir: Path, known_shapes: set[str]) -
         cat_lines = [
             "---",
             f"title: {cat}",
-            f'description: "Skills in the {cat} category."',
+            f'description: "Apps in the {cat} category."',
             "sidebar:",
             "  label: Overview",
             "  order: -1",
             "---",
             "",
-            f"**{len(recs)}** skills in `{cat}`.",
+            f"**{len(recs)}** apps in `{cat}`.",
             "",
         ]
-        for rec in sorted(recs, key=lambda r: r["skill_id"]):
-            name = rec["meta"].get("name", rec["skill_id"])
+        for rec in sorted(recs, key=lambda r: r["app_id"]):
+            name = rec["meta"].get("name", rec["app_id"])
             desc = (rec["meta"].get("description") or "").strip().rstrip(".")
             desc_part = f" — {desc}" if desc else ""
-            cat_lines.append(f"- [**{name}**](/skills/reference/{cat}/{rec['skill_id']}/){desc_part}")
+            cat_lines.append(f"- [**{name}**](/apps/reference/{cat}/{rec['app_id']}/){desc_part}")
         (out_dir / cat / "index.md").write_text("\n".join(cat_lines).rstrip() + "\n")
 
 
-def build_skills_index(skills: list[dict], known_shapes: set[str]) -> dict[str, list[dict]]:
-    """Invert skills list into shape-name → skills that produce it (arrays stripped).
+def build_apps_index(apps: list[dict], known_shapes: set[str]) -> dict[str, list[dict]]:
+    """Invert apps list into shape-name → apps that produce it (arrays stripped).
 
     Only keeps entries for shapes that have a reference page (`known_shapes`).
-    Operations from multiple SOPs of the same skill are merged and deduped, so
-    a skill appears at most once per shape.
+    Operations from multiple SOPs of the same app are merged and deduped, so
+    a app appears at most once per shape.
     """
-    # shape -> { skill_id -> {category, operations: [ordered unique]} }
+    # shape -> { app_id -> {category, operations: [ordered unique]} }
     tmp: dict[str, dict[str, dict]] = {}
-    for rec in skills:
+    for rec in apps:
         for shape in rec["returns"]:
             bare = shape.rstrip("[]")
             if bare not in known_shapes:
                 continue
             bucket = tmp.setdefault(bare, {})
-            entry = bucket.get(rec["skill_id"])
+            entry = bucket.get(rec["app_id"])
             if entry is None:
                 entry = {
-                    "skill_id": rec["skill_id"],
+                    "app_id": rec["app_id"],
                     "category": rec["category"],
                     "operations": [],
                 }
-                bucket[rec["skill_id"]] = entry
+                bucket[rec["app_id"]] = entry
             seen = set(entry["operations"])
             for op in rec["returns"][shape]:
                 if op not in seen:
@@ -444,14 +444,14 @@ def build_skills_index(skills: list[dict], known_shapes: set[str]) -> dict[str, 
     idx: dict[str, list[dict]] = {
         shape: list(bucket.values()) for shape, bucket in tmp.items()
     }
-    # Invariant: each skill appears at most once per shape. If this trips,
+    # Invariant: each app appears at most once per shape. If this trips,
     # bucket aggregation above has regressed.
     for shape, entries in idx.items():
         seen: set[str] = set()
         for e in entries:
-            if e["skill_id"] in seen:
+            if e["app_id"] in seen:
                 raise AssertionError(
-                    f"build_skills_index: skill {e['skill_id']!r} listed twice for shape {shape!r}"
+                    f"build_apps_index: app {e['app_id']!r} listed twice for shape {shape!r}"
                 )
-            seen.add(e["skill_id"])
+            seen.add(e["app_id"])
     return idx

@@ -58,6 +58,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[schema.org/BankAccount](https://schema.org/BankAccount)** — Our accountNumber ≈ accountId; balance / available are accountMinimumInflow / accountOverdraftLimit loosely; cardType fits schema.org/CreditCard.
 - **[1Password Bank Account item](https://1password.com/)** — 1P's Bank Account category holds institution + account number + routing + type — same shape. Their Crypto Wallet and Credit Card are separate categories; we treat them as different `accountType` values on the same shape for now, splitting only if the field diversity forces it.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [copilot-money](/skills/reference/finance/copilot-money/) — `load_accounts`
+- [copilot-money](/apps/reference/finance/copilot-money/) — `load_accounts`

@@ -1,47 +1,47 @@
 ---
 title: Security
-description: Security by architecture, not by permissions check. Skills and apps never name each other. Credentials live in Keychain. The engine is the sole broker.
+description: Security by architecture, not by permissions check. Apps never name each other. Credentials live in Keychain. The engine is the sole broker.
 ---
 
 Security in AgentOS is not a layer of permissions bolted onto a permissive core. It's the shape of how the pieces connect. If two components can't name each other, they can't trust each other, and the engine remains the only broker.
 
-## Capability brokering
+## Service brokering
 
-**Skills and apps never know about each other.** This is the load-bearing invariant.
+**Apps never know about each other.** This is the central invariant.
 
-A skill declares what it provides:
+An app declares what it provides:
 
 ```python
-@provides("llm")
-def chat(messages): ...
+@provides(llm)
+def chat(messages, **params): ...
 ```
 
-An app asks for a capability:
+A consumer — an agent over MCP, or another app through the SDK — asks for the service:
 
-```typescript
-await agentos.capability("llm").invoke({ messages })
+```python
+result = await llm.chat(messages=[...])
 ```
 
-Between those two calls, the engine picks the skill. Neither side learns the other's identity. Uninstalling a skill has zero runtime impact on apps as long as *some* skill still provides the capability. Uninstalling an app is invisible to skills.
+Between those two calls, the engine picks the provider — the user's default app for that service first (the `defaults_to` edge). Neither side learns the other's identity. Uninstalling a provider has zero runtime impact on consumers as long as *some* app still provides the service.
 
-This isn't a policy check. It's a name-resolution architecture. There is no API an app could call that would let it invoke a specific skill by name — the engine's dispatch layer only takes capabilities.
+This isn't a policy check. It's a name-resolution architecture. There is no API a consumer could call that would let it invoke a specific provider by name — the engine's brokered dispatch layer only takes services.
 
 ## Connections are sandboxed identities
 
-Every time a skill reaches an external service, it does so through a
+Every time an app reaches an external platform, it does so through a
 **connection** — a module-level `connection("name", ...)` declaration
-in the skill's `.py` file. Each connection is a sandboxed identity
+in the app's `.py` file. Each connection is a sandboxed identity
 profile with its own cookies, its own auth, and its own mode. Tools
 on different connections never share state.
 
 Isolation is by construction, not by policy check:
 
 - **Connections key into the vault on `(domain,
-  identifier)`, not `(skill, connection_name)`.** The connection's
+  identifier)`, not `(app, connection_name)`.** The connection's
   `base_url` derives the domain (`api.exa.ai` →  `exa.ai`). Two
-  skills that both declare a connection named `portal` don't
+  apps that both declare a connection named `portal` don't
   collide — they resolve to different domains because their
-  `base_url`s point at different services.
+  `base_url`s point at different platforms.
 - **Cookies live in two jars.** The **vault** is the persistent
   safe — encrypted at rest, keyed on `(domain, identifier)`, in
   the `credentials` table of `~/.agentos/data/agentos.db`. The
@@ -49,13 +49,13 @@ Isolation is by construction, not by policy check:
   one tool call — seeded from the vault on entry, diffed back on
   exit. Plaintext cookies exist only in the Python worker's
   memory, only while the tool body runs.
-- **A compromised skill cannot reach across identities.** Its
+- **A compromised app cannot reach across identities.** Its
   resolved connection maps to exactly one credential row. It has
   no way to enumerate rows, open a jar for a different domain, or
   read another connection's cookies.
-- **Skill rename / reorganize is safe.** Move `amazon.py`, rename
+- **App rename / reorganize is safe.** Move `amazon.py`, rename
   its `web` connection to `account` — cookies stay put because
-  they're keyed on `amazon.com`, not on the skill's directory.
+  they're keyed on `amazon.com`, not on the app's directory.
 
 See [Connections as browsers](/architecture/connections-as-browsers/)
 for the full model, including the three modes (`browser`, `fetch`,
@@ -64,7 +64,7 @@ keeps rotating session tokens current across engine restarts.
 
 ## Auth resolution — freshest wins
 
-When a skill needs a session (cookie, bearer token, OAuth pair), it asks the engine via the SDK. The engine looks in three places:
+When an app needs a session (cookie, bearer token, OAuth pair), it asks the engine via the SDK. The engine looks in three places:
 
 1. **In-memory cache** — resolved sessions from the current engine lifetime.
 2. **Vault** — encrypted entries in `~/.agentos/data/agentos.db` (`credentials` table).
@@ -72,7 +72,7 @@ When a skill needs a session (cookie, bearer token, OAuth pair), it asks the eng
 
 Each candidate carries a per-cookie timestamp. **The freshest candidate wins.** There is no fixed priority, no provider ranking. A recently-extracted browser session beats an older vault entry, even if the vault row was "configured" first.
 
-The engine then runs the skill's own `account.check` on the resolved session to validate identity. If check fails, the engine falls through to the next candidate. Skills see only the resolved session — never the raw vault, never another source's entry.
+The engine then runs the app's own `account.check` on the resolved session to validate identity. If check fails, the engine falls through to the next candidate. Apps see only the resolved session — never the raw vault, never another source's entry.
 
 ## Vault encryption at rest
 
@@ -82,7 +82,7 @@ Credential values in the vault are encrypted with **AES-256-GCM**. The 32-byte k
 - **Nonce** — 12-byte random nonce per encryption, standard for GCM.
 - **Key never on disk** — the vault contains ciphertext + nonce + auth tag; the key only ever lives in the Keychain and process memory.
 
-If Keychain is unreachable (non-macOS, locked), the vault currently falls back to unencrypted with a warning. That fallback is a known rough link, not a design goal.
+If Keychain is unreachable (non-macOS, locked), the vault currently falls back to unencrypted with a warning. That fallback is a known rough spot, not a design goal.
 
 ## What the engine refuses to do
 
@@ -95,7 +95,7 @@ Things the engine will not do:
 - Sort, group, partition, or render based on entity type.
 - Call out to a bespoke fetcher for a specific kind of record.
 
-Violations are architecture bugs, caught at code review. The reason is structural: if the engine grows an opinion about what a "task" is, then skills and apps can no longer define new entity types without modifying the Rust binary. The ontology lives in [shapes](/shapes/overview/), not in the engine.
+Violations are architecture bugs, caught at code review. The reason is structural: if the engine grows an opinion about what a "task" is, then apps can no longer define new entity types without modifying the Rust binary. The ontology lives in [shapes](/shapes/overview/), not in the engine.
 
 ## Boundaries and trust
 
@@ -105,16 +105,16 @@ Each of the [four boundaries](/architecture/overview/#the-four-boundaries) is a 
 |---|---|
 | MCP STDIO → `agentos-mcp` | Local-only; MCP client is trusted to act on the user's behalf. |
 | `agentos-mcp` → engine socket | Unix socket, filesystem-permission-gated. |
-| Engine → Python subprocess | Skill runs user-space; SDK dispatches back for any side-effect. |
+| Engine → Python worker | App code runs user-space; SDK dispatches back for any side-effect. |
 | Engine → web bridge (HTTP) | Localhost only (`127.0.0.1:3456`). Read-only DB handle; writes go through the engine socket. |
 
-A compromised skill can't touch the vault directly — it has to dispatch a `secrets.get(...)` back to the engine, which applies the auth-resolution policy above. A compromised app can't write to the graph directly — its HTTP reads are served from a read-only connection; writes require a capability call.
+A compromised app can't touch the vault directly — it has to dispatch a `secrets.get(...)` back to the engine, which applies the auth-resolution policy above. The shell can't write to the graph directly either — the web bridge serves reads from a read-only connection; writes go through the engine socket.
 
 ## Honest caveats
 
 A few things that CLAUDE.md and the principles assert but the code does not fully enforce:
 
-- **Decoupling is SDK-layer, not engine-layer.** Nothing in the engine binary stops a rogue skill from hardcoding an app name in a dispatch. The isolation is convention + decorator patterns, enforced at skill validation and code review.
+- **Decoupling is SDK-layer, not engine-layer.** Nothing in the engine binary stops a rogue app from hardcoding another app's name in a dispatch. The isolation is convention + decorator patterns, enforced at app validation and code review.
 - **Multi-device is not implemented.** The graph is portable (one file, copy it), but there is no sync daemon, conflict resolution, or merge layer. If two machines edit the same graph file, last-writer-wins via filesystem timestamps.
 - **Keychain fallback is unencrypted.** On systems without Keychain, the vault currently emits a warning and stores values in plaintext.
 

@@ -2,7 +2,7 @@
 Rust constants.
 
 `ontology/auth-contracts/{oauth,cookie}.yaml` is the single source of
-truth for what skills decorated `@provides(oauth_auth, ...)` /
+truth for what apps decorated `@provides(oauth_auth, ...)` /
 `@provides(cookie_auth, ...)` must return. Both emitters are dumb
 projections off the `AuthContract` IR — they never traverse raw YAML.
 
@@ -36,8 +36,8 @@ def emit_python_auth_contracts(onto: Ontology) -> str:
         "",
         "Regen: python3 platform/codegen/generate.py",
         "",
-        "Skills decorated `@provides(oauth_auth, ...)` should return a dict",
-        "matching `OAuthCredential`. Skills decorated `@provides(cookie_auth, ...)`",
+        "Apps decorated `@provides(oauth_auth, ...)` should return a dict",
+        "matching `OAuthCredential`. Apps decorated `@provides(cookie_auth, ...)`",
         "return `CookieCredential`. agent-sdk validate enforces this at commit",
         "time using the AUTH_CONTRACTS dict at the bottom of this file.",
         '"""',

@@ -31,7 +31,10 @@ from agentos import llm
 from agentos import checkpoint
 
 # --- Operation decorators (read by engine via AST, no-ops at runtime) ---
-from agentos.decorators import returns, provides, connection, timeout, claims, test
+from agentos.decorators import returns, provides, connection, timeout, claims, test, account
+
+# --- Challenge artifacts (account protocol) ---
+from agentos import qr
 
 # --- Standard service constants (for @provides declarations) ---
 # NOTE: the `llm` service constant is NOT imported here — `agentos.llm` is
@@ -78,7 +81,9 @@ __all__ = [
     # Identity helpers
     "identity", "normalize_email", "normalize_phone", "normalize_handle",
     # Operation decorators
-    "returns", "provides", "connection", "timeout", "claims", "test",
+    "returns", "provides", "connection", "timeout", "claims", "test", "account",
+    # Challenge artifacts
+    "qr",
     # Standard services
     "web_search", "web_read", "email_lookup", "flight_search",
     "geocoding", "map_tiles", "file_list", "file_read", "file_info",

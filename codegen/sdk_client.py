@@ -1,7 +1,7 @@
 """Python SDK Client codegen — registry → _engine_client.py.
 
 Reads the registry from a running engine (via `agentos call --json
-schema`) and emits `sdk-skills/agentos/_engine_client.py` with `Client`
+schema`) and emits `sdk/python/agentos/_engine_client.py` with `Client`
 + `AsyncClient` classes. Each namespace becomes a `_<name>Namespace`
 proxy; each op becomes a method on that proxy.
 
@@ -290,7 +290,7 @@ def _emit_client(namespaces: list[dict], *, async_: bool) -> list[str]:
         "",
         "        client.data.read(id=\"abc\")",
         "        client.system.status()",
-        "        client.skills.run(skill=\"exa\", tool=\"search\", params={...})",
+        "        client.apps.run(app=\"exa\", tool=\"search\", params={...})",
         '    """',
         "",
         '    def __init__(self, socket_path: Path | str | None = None):',

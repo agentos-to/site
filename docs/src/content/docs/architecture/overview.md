@@ -1,9 +1,9 @@
 ---
 title: Overview
-description: How AgentOS is built — a Rust engine, Python skill workers, optional apps, and a generic graph. Four boundaries, three primitives.
+description: How AgentOS is built — a Rust engine, a Python app worker, a generated desktop shell, and a generic graph. Four boundaries, three primitives.
 ---
 
-AgentOS is a **Rust engine** that brokers between **Python [skills](/skills/overview/)** (that write to the graph) and **[apps](/apps/overview/)** (that read from it). The engine is the matchmaker: apps ask for capabilities, the engine picks a skill that provides them, and neither side learns the other's name.
+AgentOS is a **Rust engine** that runs **[apps](/apps/overview/)** — Python connectors that bring outside data onto the graph — and renders each of them as a generated window in the desktop shell. The engine is the matchmaker: callers ask for **services**, the engine picks an app that provides them, and neither side learns the other's name.
 
 The entire system is built from a small number of primitives. Learn these and the rest of the docs fall into place.
 
@@ -31,15 +31,13 @@ AI clients (Cursor, Claude Code, Claude Desktop) speak Model Context Protocol ov
 
 The engine daemon is a single Rust binary. One engine per machine, enforced by a flock on `~/.agentos/engine.lock`. The socket accepts JSON-RPC from MCP, from the `agentos` [CLI](/interfaces/cli/), and from the web bridge. Everything funnels through here.
 
-### 3. Python subprocess dispatch
+### 3. Python worker dispatch
 
-Skills are Python. When a skill is called, the engine spawns a fresh Python subprocess, loads the skill module, and runs the SOP. The SDK in the worker (`from agentos import http, secrets, sql`) forwards requests *back* to the engine over a wire protocol — every outbound HTTP call, every credential lookup, every graph write returns to the engine for brokering.
-
-Per-call subprocess, not a long-lived daemon. Clean exit, no shared state between skill runs.
+Apps are Python. The engine holds one long-lived async Python worker; app tool calls multiplex onto its asyncio event loop. The SDK in the worker (`from agentos import http, secrets, sql`) forwards requests *back* to the engine over a wire protocol — every outbound HTTP call, every credential lookup, every graph write returns to the engine for brokering. See [App dispatch](/architecture/app-dispatch/) for the close-up.
 
 ### 4. Web bridge HTTP (`127.0.0.1:3456`)
 
-Optional. For apps that want a browser UI, the web bridge serves `/graph`, `/observer/stream` (SSE), `/user`, and `/shapes` from a read-only SQLite connection. The engine retains write monopoly.
+The web bridge serves the desktop shell — `/graph`, `/observer/stream` (SSE), `/user`, and `/shapes` — from a read-only SQLite connection. The engine retains write monopoly. Every installed app renders in the shell as a **generated window** (`core/web/src/views/AppWindow.tsx`), built from the app's contract: its `@returns` shapes and JSON-Schema input schemas. There is no hand-written per-app UI.
 
 ## What runs where
 
@@ -47,40 +45,34 @@ Optional. For apps that want a browser UI, the web bridge serves `/graph`, `/obs
 flowchart LR
     AI["AI client<br/>(Cursor, etc)"] -->|STDIO| MCP["agentos-mcp<br/>(proxy)"]
     MCP -->|JSON-RPC<br/>Unix sock| ENG["Engine daemon<br/>(Rust, Tokio)"]
-    ENG -->|subprocess| PY["Python skill worker<br/>(reads, writes, http, auth)"]
+    ENG -->|long-lived worker| PY["Python app worker<br/>(reads, writes, http, auth)"]
     ENG -->|SQLite pool| DB["~/.agentos/data/agentos.db<br/>(graph + encrypted creds)"]
     ENG -->|HTTP :3456| BR["Web bridge"]
-    BR --> APPS["apps (React, TS)"]
+    BR --> SHELL["Desktop shell<br/>(generated app windows)"]
 ```
 
-## The capability broker
+## The service broker
 
-Skills never name apps. Apps never name skills. They meet through capabilities.
+Apps never name each other. Callers never name apps. They meet through services.
 
-A skill declares what it offers with a decorator:
+An app declares what it offers with a decorator:
 
 ```python
-@provides("llm")
-def chat(messages): ...
+@provides(web_search)
+def search(query: str, **params): ...
 ```
 
-An app asks for a capability by name:
+A caller — an agent over MCP, or another app through the SDK — asks for the service by name (`services.web_search`, or `await llm.chat(...)` in Python). The engine picks the app: the user's default app for that service first (the `defaults_to` edge), then by preference and freshness — no hardcoded provider order. If an app is uninstalled, callers keep working as long as *some* app provides the service.
 
-```typescript
-await agentos.capability("llm").invoke({ messages })
-```
+This is the decoupling law. Apps never import each other; the engine is the sole broker.
 
-The engine picks the skill. If you install five LLM skills, the engine resolves by user preference and freshness — no hardcoded provider order. If a skill is uninstalled, dependent apps keep working as long as *some* skill provides the capability.
+### Two kinds of apps: installed and system
 
-This is the decoupling law. Installing or uninstalling an app has zero impact on skills, and vice versa. The engine is the sole broker.
+Most apps are **installed** — Python modules under `apps/<category>/<name>/`, sandboxed, user-space, installable and removable. They're how AgentOS integrates with external platforms (Gmail, 1Password, Linear, ABP).
 
-### Two kinds of skills: installed and system
+A smaller set are **system apps** — engine-native `@provides(X)` implementations compiled into the Rust binary under `crates/system-apps/`. They participate in matchmaking identically to installed apps (same `services.list_providers` / brokered `services.*` path, same `@provides` walk) but the tool body runs in Rust and the code can't be forked or modified by app authors. System apps exist for **system-level primitives**: vault access, URL parsing, hashing, DNS, things that should be present on any engine and that benefit from being co-located with the key material or syscalls they touch.
 
-Most skills are **installed** — Python modules under `skills/<category>/<name>/`, sandboxed, user-space, installable and removable. They're how AgentOS integrates with services (Gmail, 1Password, Linear, ABP).
-
-A smaller set are **system skills** — engine-native `@provides(X)` implementations compiled into the Rust binary under `crates/capabilities/`. They participate in matchmaking identically to installed skills (same `capability.list_providers` / `capability.call` path, same `@provides` walk) but the tool body runs in Rust and the code can't be forked or modified by skill authors. System skills exist for **system-level primitives**: vault access, URL parsing, hashing, DNS, things that should be present on any engine and that benefit from being co-located with the key material or syscalls they touch.
-
-The first system skill is `vault` — `@provides(login_credentials)` over the local encrypted credential vault. When a skill calls `credentials.retrieve(domain, required=[...])`, the matchmaker tries vault first (local, ~ms, no prompt), then falls through to installed providers (1Password, macOS Keychain) on a miss. External providers' successful matches write back to the vault, so the next call is served locally.
+The first system app is `vault` — `@provides(login_credentials)` over the local encrypted credential vault. When an app calls `credentials.retrieve(domain, required=[...])`, the matchmaker tries vault first (local, ~ms, no prompt), then falls through to installed providers (1Password, macOS Keychain) on a miss. External providers' successful matches write back to the vault, so the next call is served locally.
 
 [Security](/architecture/security/) explains why this matters for trust and auth.
 

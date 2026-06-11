@@ -32,8 +32,8 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[HTTP semantics (RFC 9110)](https://datatracker.ietf.org/doc/html/rfc9110)** — Our contentType is the Content-Type response header; error ≈ non-2xx status text.
 - **[Chrome history / WebExtensions History API](https://developer.chrome.com/docs/extensions/reference/api/history)** — Practical source. Our visitCount/lastVisitUnix lift from the history API's VisitItem structure.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [brave-browser](/skills/reference/browsers/brave-browser/) — `list_webpages`, `search_webpages`
-- [firecrawl](/skills/reference/web/firecrawl/) — `read_webpage`
-- [exa](/skills/reference/web/exa/) — `read_webpage`
+- [brave-browser](/apps/reference/browsers/brave-browser/) — `list_webpages`, `search_webpages`
+- [firecrawl](/apps/reference/web/firecrawl/) — `read_webpage`
+- [exa](/apps/reference/web/exa/) — `read_webpage`

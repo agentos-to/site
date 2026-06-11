@@ -78,9 +78,9 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[W3C i18n — Personal names around the world](https://www.w3.org/International/questions/qa-personal-names)** — Canonical reference for why "first/last" is a Western bias. CJK names put family first. Spanish uses two surnames. Icelandic uses patronymics without family names. The birth event's `nameOrder` field captures the rendering rule; structured fields stay neutral.
 - **[FOAF (Friend of a Friend)](http://xmlns.com/foaf/spec/)** — Original social-graph vocabulary. Largely superseded by schema.org but still a reference for account-centric modeling.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [goodreads](/skills/reference/media/goodreads/) — `get_author`, `get_person`, `search_people`, `list_friends`, `resolve_email`, `list_following`, `list_followers`
-- [google-contacts](/skills/reference/productivity/google-contacts/) — `list_contacts`, `search_contacts`, `get_contact`, `create_contact`, `update_contact`
-- [united](/skills/reference/logistics/united/) — `get_profile`
-- [whatsapp](/skills/reference/comms/whatsapp/) — `list_persons`
+- [goodreads](/apps/reference/media/goodreads/) — `get_author`, `get_person`, `search_people`, `list_friends`, `resolve_email`, `list_following`, `list_followers`
+- [google-contacts](/apps/reference/productivity/google-contacts/) — `list_contacts`, `search_contacts`, `get_contact`, `create_contact`, `update_contact`
+- [united](/apps/reference/logistics/united/) — `get_profile`
+- [whatsapp](/apps/reference/comms/whatsapp/) — `list_persons`

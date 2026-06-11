@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "agent-sdk"
 version = "0.1.0"
-description = "agentOS Skill Development Kit"
+description = "agentOS App SDK"
 requires-python = ">=3.10"
 dependencies = [
   "pyyaml>=6.0",
@@ -13,7 +13,7 @@ dependencies = [
   "phonenumbers>=8",
   "fpdf2>=2.8",
   "qrcode[pil]>=7",
-  # Skill quality standards (core/CLAUDE.md): HTML parsing is lxml +
+  # App quality standards (core/CLAUDE.md): HTML parsing is lxml +
   # cssselect, price parsing is price-parser. Part of the runtime contract.
   "lxml>=5",
   "cssselect>=1.2",

@@ -187,7 +187,7 @@ def _diff_auth(base: list[dict], cur: list[dict]) -> list[Change]:
             for fn in creq:
                 if fn not in breq:
                     changes.append(("break", f"auth {kind}.{role}.{fn}",
-                                    "new required field — skills must now return it"))
+                                    "new required field — apps must now return it"))
     for kind in ci:
         if kind not in bi:
             changes.append(("note", f"auth {kind}", "contract added"))

@@ -3,15 +3,15 @@ title: Overview
 description: Shapes are AgentOS's ontology. A shape declares what a record looks like — field names, types, relations to other records, display rules.
 ---
 
-Shapes are agentOS's ontology. A shape declares what a record looks like — field names, types, relations to other records, display rules. Think of shapes as **ISO standards**: skills that *write* to the graph and apps that *read* from it agree on the shape of a `message`, a `product`, a `person`. The engine itself is shape-agnostic — it's a generic entity store.
+Shapes are AgentOS's ontology. A shape declares what a record looks like — field names, types, relations to other records, display rules. Think of shapes as **ISO standards**: the apps that *write* to the graph and every surface that *reads* from it agree on the shape of a `message`, a `product`, a `person`. The engine itself is shape-agnostic — it's a generic entity store.
 
 Shapes live in `shapes/*.yaml`. They exist to:
 
-1. **Document the ontology** — so skill authors and app authors agree on field names, types, and relations.
-2. **Drive codegen** — `generate.py` turns YAML into typed classes in `skills-sdk/agentos/_generated.py` (Python `TypedDict`) and `apps-sdk/src/shapes.ts` (TypeScript interfaces).
+1. **Document the ontology** — so app authors and the shell agree on field names, types, and relations.
+2. **Drive codegen** — `generate.py` turns YAML into typed surfaces: `sdk/python/agentos/_generated.py` (Python `TypedDict`), the engine's Rust contract (`core/crates/contract-generated/`), and the shell's typed contract (`core/web/src/contract-generated/shapes.ts`).
 3. **Stay human-reviewable** — PR review catches bad field design before it ships.
 
-The engine doesn't load shape YAML. Skills return conformant dicts; apps read whatever is in the graph. If no skill has ever returned a `post`, there is no `post` anywhere — the YAML is the standard, the graph is the data.
+The engine doesn't load shape YAML. Apps return conformant dicts; readers see whatever is in the graph. If no app has ever returned a `post`, there is no `post` anywhere — the YAML is the standard, the graph is the data.
 
 ## Authoring a shape
 
@@ -20,8 +20,8 @@ The engine doesn't load shape YAML. Skills return conformant dicts; apps read wh
    ```bash
    python generate.py             # Python + TypeScript
    ```
-3. **Use it in a skill** — `@returns("your_shape")` + return a conformant dict.
-4. **That's it.** No engine restart, no graph seeding, no "push shape to graph" step. The YAML is the standard; skills comply; the engine moves data through.
+3. **Use it in an app** — `@returns("your_shape")` + return a conformant dict.
+4. **That's it.** No engine restart, no graph seeding, no "push shape to graph" step. The YAML is the standard; apps comply; the engine moves data through.
 
 To update a shape, edit the YAML and re-run codegen. Renaming or removing fields is a breaking change — update consumers at the same time.
 
@@ -91,13 +91,13 @@ These are available on every record without declaring them in a shape:
 
 Relations declare connections to other records. Keys are link labels, values are target shapes (`shape` or `shape[]` for arrays).
 
-When a skill returns a nested dict under a relation key, the engine extracts it as a child node and creates an link from parent to child. See [Typed references](#typed-references-entity-relationships) below.
+When an app returns a nested dict under a relation key, the engine extracts it as a child node and creates an link from parent to child. See [Typed references](#typed-references-entity-relationships) below.
 
 **The relation label is the link label, not the child's shape.** A `flight` shape declaring `departsFrom: airport` produces a `--departsFrom-->` link to a node tagged with shape `airport` — never with shape `departsFrom`. Sub-extracted children always take the *target type* declared in the parent's YAML; if you want a polymorphic relation (e.g. an `actor` slot pointing at a `person` vs an `organization`), the child object can override with `shape:` or `_tag:`.
 
 ### Identity
 
-`identity` declares the keys used to dedupe records. When two different skill calls return the same identity tuple, the engine upserts instead of creating duplicates.
+`identity` declares the keys used to dedupe records. When two different app calls return the same identity tuple, the engine upserts instead of creating duplicates.
 
 ```yaml
 message:
@@ -119,11 +119,11 @@ account:
                    # (organization, product, software, or protocol node)
 ```
 
-This is identity-via-relation: the dedupe tuple is `(node_id_of_at_target, identifier_string)`. Two skills returning `at: <github.com product node>, identifier: octocat` resolve to the same account, regardless of how each skill *named* github.com.
+This is identity-via-relation: the dedupe tuple is `(node_id_of_at_target, identifier_string)`. Two apps returning `at: <github.com product node>, identifier: octocat` resolve to the same account, regardless of how each app *named* github.com.
 
-**Why not strings?** A string-keyed identity (e.g. `[platform, id]` where `platform: "github.com"`) fragments the graph the moment two skills disagree on naming (`github.com` vs `git`/`github` vs `vcs/git`), and silently merges different entities when handles get reused. Companies rebrand (Twitter → X), banks merge (First Republic → Chase), instances move — the *node* persists across these events; a string doesn't. Identity-via-relation makes "what bank operates this account today" a graph traversal (`account → at → mergedInto`), which is impossible with strings.
+**Why not strings?** A string-keyed identity (e.g. `[platform, id]` where `platform: "github.com"`) fragments the graph the moment two apps disagree on naming (`github.com` vs `git`/`github` vs `vcs/git`), and silently merges different entities when handles get reused. Companies rebrand (Twitter → X), banks merge (First Republic → Chase), instances move — the *node* persists across these events; a string doesn't. Identity-via-relation makes "what bank operates this account today" a graph traversal (`account → at → mergedInto`), which is impossible with strings.
 
-Skills declare relation-keyed identity inline by passing a node descriptor where a string would otherwise go:
+Apps declare relation-keyed identity inline by passing a node descriptor where a string would otherwise go:
 
 ```python
 # inline upsert: the engine resolves the at target node first, then keys identity off it
@@ -135,7 +135,7 @@ return {
 
 Multi-shape inline targets pass `shape: ["product", "software"]` (e.g. github.com is both a product and software).
 
-**Required nodes for identity targets.** A skill's `at` target node must be resolvable — either pre-existing (seeded) or upsertable inline. The engine resolves nested upserts in dependency order.
+**Required nodes for identity targets.** An app's `at` target node must be resolvable — either pre-existing (seeded) or upsertable inline. The engine resolves nested upserts in dependency order.
 
 ### Subtitle, plural, icon
 
@@ -238,7 +238,7 @@ When a field represents something with an international standard, use the standa
 - **Currencies** — ISO 4217 codes (`USD`, `EUR`, `JPY`). Use `currency` field.
 - **Timezones** — IANA timezone names (`America/New_York`, `Europe/London`).
 
-Don't enforce via enum (too many values). Document the convention and let `agentos test` flag non-compliant values. Run `agent-sdk validate` to check skill return dicts against their declared shape.
+Don't enforce via enum (too many values). Document the convention and let the quality sweep flag non-compliant values. Run `agent-sdk validate` to check app return dicts against their declared shape.
 
 ### 11. Separate content from context (NEPOMUK principle)
 
@@ -280,14 +280,14 @@ Same pattern: `has_attachments` (derive from `attachment: file[]`), `has_unread`
 
 ### 16. Source data doesn't dictate shape
 
-A skill's source (API, database, scrape) returns whatever it returns. That doesn't constrain the shape. The Python function is the transformation boundary — it takes raw source data and returns shape-native dicts.
+An app's source (API, database, scrape) returns whatever it returns. That doesn't constrain the shape. The Python function is the transformation boundary — it takes raw source data and returns shape-native dicts.
 
-Apple Contacts gives flat strings: `Organization: Anthropic`, `Title: Engineer`. That doesn't mean person gets `organization: string`. It means the skill transforms those strings into a `roles: role[]` typed ref.
+Apple Contacts gives flat strings: `Organization: Anthropic`, `Title: Engineer`. That doesn't mean person gets `organization: string`. It means the app transforms those strings into a `roles: role[]` typed ref.
 
 **Bad:** "The API returns `platform: string`, so the shape needs a `platform` field"
-**Good:** "What kind of thing is this? Model it correctly. The skill transforms source data to fit."
+**Good:** "What kind of thing is this? Model it correctly. The app transforms source data to fit."
 
-Design shapes for the domain, not for the source. Every skill file is a template — other agents copy the patterns they see.
+Design shapes for the domain, not for the source. Every app file is a template — other agents copy the patterns they see.
 
 ### 17. Model life like LinkedIn, not like a spreadsheet
 
@@ -379,7 +379,7 @@ The Python code does the field mapping — it transforms raw API responses into 
 
 ### Canonical fields
 
-The renderer resolves entity display from standard fields. Every Python return should populate as many of these as the source data supports — they drive consistent previews, detail views, and search results across all skills.
+The renderer resolves entity display from standard fields. Every Python return should populate as many of these as the source data supports — they drive consistent previews, detail views, and search results across all apps.
 
 | Field           | Purpose                                          |
 |-----------------|--------------------------------------------------|
@@ -457,16 +457,16 @@ Shape conformance is checked statically, pre-commit.
 `agent-sdk validate` parses Python return dict literals via AST and warns if keys don't match the declared shape. It:
 
 - Loads shape YAML from [`shapes/`](https://github.com/agentos-to/site/tree/main/docs/shapes)
-- Walks each skill's `*.py` files looking for `@returns("shape")`-decorated functions
+- Walks each app's `*.py` files looking for `@returns("shape")`-decorated functions
 - Checks every dict literal the tool returns against the shape's declared fields + relations
 - Flags unknown keys, missing identity fields (`id` / `name`), and scalar-fields-that-should-be-relations
 
 Runs automatically on every commit via pre-commit hook. Run manually:
 
 ```bash
-agent-sdk validate                 # audit every skill under cwd
-agent-sdk validate claude          # single skill by id or directory
-agent-sdk validate --all           # walk the whole skills/ tree
+agent-sdk validate                 # audit every app under cwd
+agent-sdk validate claude          # single app by id or directory
+agent-sdk validate --all           # walk the whole apps/ tree
 agent-sdk validate --sandbox       # only the banned-import sandbox check
 
 # Or without install:
@@ -475,7 +475,7 @@ python3 -m agentos validate --all
 
 Dict-literal returns get checked statically. Helper functions and dynamic construction aren't caught here — integration testing via MCP is the catch-all. If a tool ships bad data, fix the tool and add a regression test.
 
-The engine itself does **not** validate shapes at runtime. It's a generic entity store — it accepts whatever dict shape a skill returns and stores it. Conformance is a contract between skill authors, app authors, and PR review, not a runtime check.
+The engine itself does **not** validate shapes at runtime. It's a generic entity store — it accepts whatever dict shape an app returns and stores it. Conformance is a contract between app authors and PR review, not a runtime check.
 
 ---
 

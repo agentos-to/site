@@ -157,6 +157,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[CoinGate Invoice (short-TTL priced blob)](https://developer.coingate.com/reference/order-statuses)** — Validates the short-TTL pattern outside airlines. CoinGate invoices carry id, price locked ~20 min, and status (new, pending, paid, expired, canceled). Our status enum matches — pre-commit objects need expiry as a first-class terminal.
 - **[schema.org/Order + schema.org/Invoice](https://schema.org/Order)** — schema.org models Offer -> Order -> Invoice. booking_offer sits between Offer and Order — a priced, itemized, signed proposal awaiting explicit human commit. Our baseAmount + taxAmount + totalAmount align with UBL 2.1 LegalMonetaryTotal.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [united](/skills/reference/logistics/united/) — `prepare_booking`
+- [united](/apps/reference/logistics/united/) — `prepare_booking`

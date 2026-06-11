@@ -70,6 +70,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[schema.org/Event — location.VirtualLocation](https://schema.org/VirtualLocation)** — Our isVirtual triggers VirtualLocation; meetingUrl ≈ VirtualLocation.url.
 - **[Google Calendar Event conferenceData](https://developers.google.com/calendar/api/v3/reference/events)** — Practical API mirror. Our conferenceProvider ≈ conferenceData.conferenceSolution.name; meetingUrl = entryPoints[uri].
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [granola](/skills/reference/productivity/granola/) — `list_meetings`, `get_meeting`
+- [granola](/apps/reference/productivity/granola/) — `list_meetings`, `get_meeting`

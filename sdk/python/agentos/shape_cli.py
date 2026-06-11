@@ -20,7 +20,7 @@ def _find_shapes_dir() -> Path | None:
         candidate = parent / "shapes"
         if candidate.is_dir() and (candidate / "event.yaml").exists():
             return candidate
-        # agentos-sdk/shapes/ sibling (when cwd is in agentos or agentos-community)
+        # workspace shapes/ sibling
         candidate = parent / "agentos-sdk" / "shapes"
         if candidate.is_dir() and (candidate / "event.yaml").exists():
             return candidate
@@ -120,7 +120,7 @@ def run_shapes(name: str | None):
                 print(f"    {rname:<28} → {rtype_str}")
 
         # Find which apps use this shape
-        apps_dir = shapes_dir.parent / "skills"
+        apps_dir = shapes_dir.parent / "apps"
         if apps_dir.is_dir():
             using = []
             for app_dir in sorted(apps_dir.iterdir()):

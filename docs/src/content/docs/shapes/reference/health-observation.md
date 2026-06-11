@@ -110,6 +110,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[LOINC](https://loinc.org/)** — The observation itself is not LOINC-coded — its `biomarker` is. The `measures` link carries the LOINC identity.
 - **[UCUM — Unified Code for Units of Measure](https://ucum.org/)** — The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM — the unit system FHIR mandates for Observation.valueQuantity, so observations round-trip into FHIR cleanly.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [health](/skills/reference/misc/health/) — `import_lab_report`
+- [health](/apps/reference/misc/health/) — `import_lab_report`

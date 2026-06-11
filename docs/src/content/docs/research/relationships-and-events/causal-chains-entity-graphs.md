@@ -195,7 +195,7 @@ This is `depends_on` by another name. Same pattern in Linear's "blocked_by".
 
 5. **Units need a store**
    - Health has tons: mg/dL, mcg/dL, nmol/L
-   - Each skill could pre-seed its units
+   - Each app could pre-seed its units
    - Ask Joe about biomarker work for patterns
 
 **The unified model:**

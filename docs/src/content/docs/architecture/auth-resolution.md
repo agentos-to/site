@@ -7,7 +7,7 @@ This page is the algorithm behind ["freshest wins"](/architecture/security/#auth
 
 ## The problem
 
-A skill says `client.get("https://github.com/...")`. The engine needs a cookie header. There could be a credential row in the store from when you set up the [GitHub skill](/skills/reference/dev/github/) last week, a fresh cookie jar in Chrome from a tab you opened five minutes ago, and an in-memory session from another skill call earlier this hour. Three sources, three timestamps, one issuer. "Pick the one the user configured" doesn't work — there is no configuration step, by design (see [Why this shape](#why-this-shape)). Picking the *first* one to answer doesn't work either: the store always answers fastest, but its data is usually the oldest. The engine needs a deterministic rule that doesn't require the user to think about provider priority.
+An app says `client.get("https://github.com/...")`. The engine needs a cookie header. There could be a credential row in the store from when you set up the [GitHub app](/apps/reference/dev/github/) last week, a fresh cookie jar in Chrome from a tab you opened five minutes ago, and an in-memory session from another app call earlier this hour. Three sources, three timestamps, one issuer. "Pick the one the user configured" doesn't work — there is no configuration step, by design (see [Why this shape](#why-this-shape)). Picking the *first* one to answer doesn't work either: the store always answers fastest, but its data is usually the oldest. The engine needs a deterministic rule that doesn't require the user to think about provider priority.
 
 ## Three sources
 
@@ -17,9 +17,9 @@ A skill says `client.get("https://github.com/...")`. The engine needs a cookie h
 |---|---|---|---|
 | 1 | In-memory cache (`SessionCache`) | Resolved sessions from the current engine lifetime, keyed by `(domain, identifier)` | `newest_cookie_at` carried over from the original extraction, plus per-cookie writeback timestamps stamped by `apply_cookie_delta` (`store.rs`) |
 | 2 | Credential store (SQLite) | Encrypted rows in `~/.agentos/data/agentos.db`. `value` blob holds a structured `cookies: [Cookie, …]` array + `cookie_timestamps` map (legacy `cookie_header` strings still tolerated on read) | `newest_cookie_at()` reads the max timestamp from `cookie_timestamps`; falls back to row `obtained_at` for pre-tracking rows (`store.rs`) |
-| 3 | Browser providers (skills) | Live extraction from [Brave](/skills/reference/browsers/brave-browser/) / Firefox / Chrome via CDP or each browser's on-disk cookie SQLite | Per-cookie `created` field (browsers that supply it) or "now" for CDP, which doesn't (`resolve.rs:326`) |
+| 3 | Browser providers (apps) | Live extraction from [Brave](/apps/reference/browsers/brave-browser/) / Firefox / Chrome via CDP or each browser's on-disk cookie SQLite | Per-cookie `created` field (browsers that supply it) or "now" for CDP, which doesn't (`resolve.rs:326`) |
 
-Source 3 is the most expensive — it spawns a Python skill subprocess, possibly attaches CDP. It's still always called when not in `skip_providers` mode, because freshness is the whole point: if Chrome has a newer cookie, the cache and store can't know that without asking. Live-session providers (Playwright tabs the user is actively using) are deliberately *skipped* unless explicitly preferred (`resolve.rs:184`) — borrowing cookies from a live tab causes session conflicts.
+Source 3 is the most expensive — it dispatches a Python provider app, possibly attaches CDP. It's still always called when not in `skip_providers` mode, because freshness is the whole point: if Chrome has a newer cookie, the cache and store can't know that without asking. Live-session providers (Playwright tabs the user is actively using) are deliberately *skipped* unless explicitly preferred (`resolve.rs:184`) — borrowing cookies from a live tab causes session conflicts.
 
 ## Scoring
 
@@ -39,7 +39,7 @@ fn consider(best: &mut Option<...>, candidate: ScoredResult, ...) -> bool {
 
 Why `newest_cookie_at` and not something else?
 
-- **Not `created_at` of the row.** A credential row written six months ago can have a `session` cookie that the browser refreshed last hour. Per-cookie creation time tracks the actual session, not the time you first set up the skill.
+- **Not `created_at` of the row.** A credential row written six months ago can have a `session` cookie that the browser refreshed last hour. Per-cookie creation time tracks the actual session, not the time you first set up the app.
 - **Not `expires_at`.** Long expirations don't mean fresh — a cookie set yesterday with a one-year expiry is older than a cookie set this morning that expires in 24 hours. Expiration is filtered (expired cookies dropped at `source.rs:43`) but does not rank.
 - **Not `last_verified`.** That's "did our auth check pass" — orthogonal to "is this the cookie the browser most recently issued."
 - **`f64`, not `i64`.** Browser cookie databases store sub-second precision in the `created` field. Truncating to integer seconds would make the cache always tie with the browser on the same-second case, and the cache would always win the tiebreak — biasing toward stale data (`resolve.rs:319-321`).
@@ -60,7 +60,7 @@ All timestamps are Unix epoch seconds. Treat "now" as `1_744_675_200` (April 14,
 
 ### Example 1 — Fresh Chrome cookie beats stored credential
 
-You configured the GitHub skill last week. This morning you logged into github.com in Chrome.
+You configured the GitHub app last week. This morning you logged into github.com in Chrome.
 
 | Source | `newest_cookie_at` | Notes |
 |---|---|---|
@@ -94,13 +94,13 @@ Brave is closed. CDP refuses to connect. Firefox isn't installed.
 | `brave-browser` | `Failed: connection refused` | (no candidate produced) |
 | `firefox-browser` | `Failed: profile not found` | (no candidate produced) |
 
-Each provider failure is recorded as an `Attempt` with `outcome: Failed` (`resolve.rs:235`) but does not abort resolution. The store's candidate is the only one in `best`, so it wins. The provenance the skill receives lists every attempted provider with its failure reason — useful when triaging "why did it use the stale cookie?"
+Each provider failure is recorded as an `Attempt` with `outcome: Failed` (`resolve.rs:235`) but does not abort resolution. The store's candidate is the only one in `best`, so it wins. The provenance the app receives lists every attempted provider with its failure reason — useful when triaging "why did it use the stale cookie?"
 
 If the store had also missed, `best` would be `None` and `resolve_cookies` would return `AuthError::NoProvider` with the joined `tried` summary (`resolve.rs:246`).
 
 ## Retry and escalation
 
-The cookie that wins resolution may still fail at the wire — the server returns 401, or the skill's own response parser throws `SESSION_EXPIRED`. The `ExecutionContext` (`crates/core/src/execution/engine.rs`) carries the last resolved session on `ctx.last_session`; the retry path in `crates/core/src/skills/executor.rs` reads from there.
+The cookie that wins resolution may still fail at the wire — the server returns 401, or the app's own response parser throws `SESSION_EXPIRED`. The `ExecutionContext` (`crates/core/src/execution/engine.rs`) carries the last resolved session on `ctx.last_session`; the retry path in `crates/core/src/apps/executor.rs` reads from there.
 
 When the operation fails and `err.is_auth_failure()` returns true, the retry path:
 
@@ -112,4 +112,4 @@ Cookie writeback during a tool call rides the `__cookie_delta__` sidecar on the 
 
 ## Why this shape
 
-Timestamp-based resolution trades a UX feature (the user can't pin a "primary" credential) for a structural property (zero per-service config). Every alternative — provider priority lists, per-domain default sources, "primary credential" flags — requires the user to make a decision that the engine can answer correctly from data already in hand. The freshest candidate is empirically the right answer for the overwhelming majority of cases (you logged in most recently with whichever browser you actually use), and when it isn't, `preferred_provider` on the request gives the skill a single explicit override (`resolve.rs:195`). The honest cost is that "I want this one" requires writing code, not clicking a checkbox — which is fine for a system whose primary user is an agent.
+Timestamp-based resolution trades a UX feature (the user can't pin a "primary" credential) for a structural property (zero per-domain config). Every alternative — provider priority lists, per-domain default sources, "primary credential" flags — requires the user to make a decision that the engine can answer correctly from data already in hand. The freshest candidate is empirically the right answer for the overwhelming majority of cases (you logged in most recently with whichever browser you actually use), and when it isn't, `preferred_provider` on the request gives the app a single explicit override (`resolve.rs:195`). The honest cost is that "I want this one" requires writing code, not clicking a checkbox — which is fine for a system whose primary user is an agent.

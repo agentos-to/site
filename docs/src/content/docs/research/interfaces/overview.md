@@ -18,7 +18,7 @@ When an MCP host (e.g., Cursor) starts an agent session, it spawns `agentos mcp`
 - Bridges newline-delimited JSON-RPC from stdin to `~/.agentos/engine.sock`
 - Replays saved `initialize` request + `notifications/initialized` on engine reconnect with jittered backoff
 
-The proxy itself **does not parse** MCP messages—it's a byte bridge. All tool dispatch, skill execution, and graph access live in the engine process. Wire traffic is logged to `~/.agentos/logs/mcp.log` (timestamps, `←` / `→` markers).
+The proxy itself **does not parse** MCP messages—it's a byte bridge. All tool dispatch, app execution, and graph access live in the engine process. Wire traffic is logged to `~/.agentos/logs/mcp.log` (timestamps, `←` / `→` markers).
 
 ### 2. CLI (Command-line interface)
 
@@ -32,15 +32,15 @@ The same fat binary (`agentos`) that runs the engine also provides three main co
 - **`agentos engine [--daemon]`** — runs the engine process. Uses `flock` to ensure only one daemon per machine; subsequent invocations just connect to the running instance.
 - **`agentos bridge [--port 3456]`** — runs the local web server. Also uses `flock` to ensure singleton behavior.
 - **`agentos browse [request|cookies|auth]`** — introspect authenticated HTTP requests, trace auth resolution, view cookies and timestamps.
-- **`agentos test-skill [skill] [--op op-name] [--graph]`** — test a skill's operations against declared shapes and graph integration.
+- **`agentos sources [list|add|remove]`** — manage the source directories where apps live on disk.
 
 The CLI is transport-thin: it marshals args to JSON, sends to the engine socket, and formats the response. All logic lives in the engine.
 
 ### 3. HTTP Web Bridge
 
 **Transport:** Localhost HTTP/SSE at `127.0.0.1:3456` (agentos-web-bridge crate)  
-**Clients:** Browser-based React apps in `~/dev/agentos/apps/`  
-**Wire format:** JSON (POST `/graph`) and SSE (GET `/observer/stream`)
+**Clients:** The desktop shell (`core/web/`)  
+**Wire format:** JSON (POST `/call`) and SSE (GET `/observer/stream`)
 
 The bridge is a read-heavy HTTP/1.1 server serving several routes:
 
@@ -49,24 +49,23 @@ The bridge is a read-heavy HTTP/1.1 server serving several routes:
 | GET | `/healthz` | Liveness check — can reach observer socket? |
 | GET | `/observer/history` | One-shot tool-activity history (queryable by session/client) |
 | GET | `/observer/stream` | SSE stream of live observer events |
-| POST | `/graph` | Graph read API: `{ "tool": "tags"\|"read"\|"search"\|"delete"\|"run", "params": {...} }` |
-| GET | `/graph/shapes` | All shape definitions (fields, relations, display) for the frontend |
-| GET | `/apps` | Installed + bundled app definitions |
+| POST | `/call` | The single front door: `{ "op": "<namespace>.<op>", "params": {...} }` |
+| GET | `/apps` | Installed app definitions |
 | GET | `/user` | Unified user profile (person prefs + desktop prefs + theme metadata) |
-| PUT | `/user/pref` | Update person-level preference values |
-| GET `/ui/*`, `/files/*` | Static assets: themes, wallpapers, app icons, file previews |
+| GET | `/readme` | The engine's live readme |
+| GET | `/ui/wallpapers/*`, `/content/:id`, `/docs/*` | Static assets and content |
 
-The bridge owns a **read-only SQLite connection** via `agentos_core::database`. The engine still owns all writes and skill execution. Observer events stream via a separate Unix socket (`~/.agentos/observer.sock`).
+The bridge owns a **read-only SQLite connection** via `agentos_core::database`. The engine still owns all writes and app execution. Observer events stream via a separate Unix socket (`~/.agentos/observer.sock`).
 
-### 4. GUI Apps (Optional layer)
+### 4. GUI (the desktop shell)
 
-**Location:** `~/dev/agentos/apps/` (sibling repo)  
+**Location:** `core/web/` (engine repo)  
 **Clients:** End users  
-**Tech:** TypeScript/React, shipped as bundles
+**Tech:** The shell is TypeScript/React; every installed app renders as a **generated window** (`core/web/src/views/AppWindow.tsx`) built from its contract — no hand-written per-app UI
 
-Apps are a completely **optional, detachable layer**. The engine and web bridge work fully without them. Apps speak to the bridge, never directly to the engine. The bridge's `/graph` and `/observer/stream` endpoints are the contract.
+The shell is a completely **optional, detachable layer**. The engine and web bridge work fully without it. The shell speaks to the bridge, never directly to the engine. The bridge's `/call` and `/observer/stream` endpoints are the contract.
 
-**Isolation principle:** Apps and skills must never know about each other. Installing or removing an app has zero impact on skills, and vice versa. The engine is the only matchmaker—apps ask "give me an LLM", the engine picks a skill that `@provides(llm)`, and neither side knows the other's name. This is **security by architecture**.
+**Isolation principle:** Apps never know about each other. The engine is the only matchmaker—a consumer asks "give me an LLM", the engine picks an app that `@provides(llm)`, and neither side knows the other's name. This is **security by architecture**.
 
 ---
 
@@ -75,9 +74,9 @@ Apps are a completely **optional, detachable layer**. The engine and web bridge 
 All four interfaces have been verified to exist as described:
 
 - **`crates/mcp/`** — Confirmed stdio proxy with `UnixStream` connection, wire logging, and reconnect with handshake replay. Exact match to description.
-- **`crates/cli/`** — Fat binary with `agentos call`, `agentos engine`, `agentos bridge`, `agentos browse`, and `agentos test-skill` subcommands. Dispatch to transport crates is thin; logic lives in agentos-core.
-- **`crates/web-bridge/`** — Axum HTTP server on `:3456` serving `/healthz`, `/observer/history`, `/observer/stream`, `/graph`, `/graph/shapes`, `/apps`, `/user`, theme/wallpaper/icon routes, and file previews. Read-mostly SQLite connection separate from engine.
-- **`~/dev/agentos/apps/`** — TypeScript/React apps (accounts, messages, settings, store) with shared `_components/`. Apps consume `@agentos/sdk` from the `sdk-apps/` sibling and speak only to the web bridge.
+- **`crates/cli/`** — Fat binary with `agentos call`, `agentos engine`, `agentos bridge`, `agentos browse`, and `agentos sources` subcommands. Dispatch to transport crates is thin; logic lives in agentos-core.
+- **`crates/web-bridge/`** — Axum HTTP server on `:3456` serving `/healthz`, `/observer/history`, `/observer/stream`, `/call`, `/apps`, `/user`, `/readme`, wallpaper/content/docs routes. Read-mostly SQLite connection separate from engine.
+- **`core/web/`** — The desktop shell. Apps themselves are Python connectors in the `apps` repo (`~/dev/agentos/apps/`); the shell renders each as a generated window from its contract and speaks only to the web bridge.
 
 **No corrections needed.** The four-interface model is accurate.
 
@@ -192,19 +191,18 @@ Interfaces (top-level section)
 │   ├── Examples (common operations)
 │   └── Output formats (markdown, JSON)
 ├── HTTP Web Bridge
-│   ├── API reference (/graph, /observer/stream, /user)
+│   ├── API reference (/call, /observer/stream, /user)
 │   ├── Running locally (bootstrap, port config)
-│   └── Building browser apps
-└── Apps & GUI
+│   └── How apps get a UI (generated windows)
+└── GUI (desktop shell)
     ├── Architecture (why optional, how it's isolated)
-    ├── Building a new app (React template)
-    ├── The app SDK
-    └── Examples (accounts, messages, settings)
+    ├── Generated app windows (AppWindow.tsx, contract-driven)
+    └── Examples (Finder, Settings, installed apps)
 ```
 
 This structure ensures:
 - **New users get oriented quickly** on all available modes
 - **Each interface has its own deep-dive docs** without cross-contamination
-- **The "apps are optional" principle is explicit**
+- **The "shell is optional" principle is explicit**
 - **No duplication**—an operation documented in one interface doesn't need to be re-taught in another (use cross-references instead)
 

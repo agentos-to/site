@@ -34,7 +34,6 @@ from typing import Iterable
 
 HERE = Path(__file__).resolve().parent
 DOCS_ROOT = HERE.parent / "src" / "content" / "docs"
-SHAPES_ROOT = HERE.parent / "shapes"
 
 # --- Rules --------------------------------------------------------------
 
@@ -51,12 +50,12 @@ BACKTICK_PATH_RE = re.compile(
 # `AgentOS-*` caps-prefix: capital A in "AgentOS" followed by hyphen-word is
 # never a real filesystem path — it's always broken link-talk.
 SENTINEL_PATTERNS = [
-    (re.compile(r"agentos-sdk\b", re.IGNORECASE), "agentos-sdk/ was replaced by docs/shapes/ (ontology) or sdk-skills/ (Python SDK)"),
+    (re.compile(r"agentos-sdk\b", re.IGNORECASE), "agentos-sdk/ was replaced by platform/ontology/ (shapes) or platform/sdk/python/ (App SDK)"),
     (re.compile(r"AgentOS-[A-Z][a-zA-Z]+"), "AgentOS-* PascalCase refs are typically broken — link to real location"),
     (re.compile(r"_roadmap/_research/"), "_roadmap/_research/ moved → src/content/docs/research/"),
     (re.compile(r"core/vision\.md\b"), "core/vision.md sections moved → introduction/ + principles/"),
     (re.compile(r"core/principles\.md\b"), "core/principles.md → principles/architectural-laws.md"),
-    (re.compile(r"docs/reverse-engineering/"), "docs/reverse-engineering/ → contributing/skills/reverse-engineering/"),
+    (re.compile(r"docs/reverse-engineering/"), "docs/reverse-engineering/ → apps/reverse-engineering/"),
 ]
 
 # PII — intentionally conservative. We want zero false negatives on real PII,
@@ -108,7 +107,12 @@ class Hit:
 # Auto-generated from upstream by generate.py. Fixes must go to the source,
 # not the generated output — anything we edit here is overwritten on next
 # regen. Audit skips these trees entirely.
-AUTOGEN_PREFIXES = ("skills/reference/", "shapes/reference/")
+AUTOGEN_PREFIXES = (
+    "apps/reference/",
+    "shapes/reference/",
+    "ops/reference/",
+    "tool-surface/",
+)
 
 
 def _iter_md_files(root: Path) -> Iterable[Path]:
@@ -164,7 +168,7 @@ def audit_file(path: Path) -> list[Hit]:
         if not tok:
             continue
         # Allowlist: code examples reference real internal paths constantly
-        # (skills/foo/readme.md, shapes/bar.yaml). These exist in the repo and
+        # (apps/foo/readme.md, shapes/bar.yaml). These exist in the repo and
         # are not broken links per se — but the user's rule says *prefer*
         # real Markdown links. Warn, don't fail.
         line, col = _lc(text, m.start())

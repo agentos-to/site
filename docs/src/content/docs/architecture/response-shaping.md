@@ -1,6 +1,6 @@
 ---
 title: Response shaping (view.detail & view.format)
-description: How skill responses are shaped for different audiences — structured JSON for machines, markdown for chat UIs, verbatim text for monospace artifacts.
+description: How app responses are shaped for different audiences — structured JSON for machines, markdown for chat UIs, verbatim text for monospace artifacts.
 ---
 
 Every `run()` call takes an optional `view:` block that shapes the
@@ -35,7 +35,7 @@ JSON and pick what they need.
 
 Use when:
 - Another tool is chaining off this result.
-- You're debugging and want to see everything the skill returned.
+- You're debugging and want to see everything the app returned.
 - Building UI from the structured data rather than rendering markdown.
 
 ### `text` — monospace visual artifacts
@@ -44,7 +44,7 @@ Pre-rendered output where **whitespace is load-bearing**: ASCII diagrams,
 tree printers, box-drawing tables, seat maps, flame graphs, dumped
 spreadsheets.
 
-When a skill returns a pre-rendered block (typically in an `ascii`,
+When an app returns a pre-rendered block (typically in an `ascii`,
 `diagram`, `output`, or `text` field on the response dict), the engine:
 
 1. Pulls that string off the response.
@@ -81,7 +81,7 @@ image. For universal reach across terminals (no Kitty/Sixel/iTerm2 graphics
 assumption), chat UIs (no image rendering guarantees), and token-relay
 paths (LLM can't emit PNGs), `view.format=text` is the right primitive.
 
-## Writing skills that support `view.format=text`
+## Writing apps that support `view.format=text`
 
 The contract is tiny: **put the pre-rendered block under a key named
 `ascii`, `diagram`, `output`, or `text` on your response dict.** The
@@ -103,7 +103,7 @@ Caller:
 
 ```bash
 agentos call run '{
-  "skill": "united",
+  "app": "united",
   "tool": "render_seatmap",
   "params": {...},
   "view": {"format": "text"}
@@ -160,6 +160,6 @@ Short forms are accepted for `view.format`:
 
 When `view.format` is omitted, the format defaults to `markdown` for the
 `run` tool (and most others). This is a deliberate choice — markdown is
-the right format for the median response. Skills that produce visual
+the right format for the median response. Apps that produce visual
 artifacts should document in their readme that callers should pass
 `view.format=text`.

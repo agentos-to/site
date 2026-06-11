@@ -74,6 +74,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[ISO 20022 payments messaging](https://www.iso20022.org/)** — Modern bank-messaging. Our currency = Ccy; category ≈ purpose code; details ≈ RemittanceInformation.
 - **[Plaid Transactions API](https://plaid.com/docs/api/products/transactions/)** — Practical mirror. Our category/pending/recurring/notes match Plaid's category/pending/personal_finance_category/name fields.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [copilot-money](/skills/reference/finance/copilot-money/) — `fetch_transactions`
+- [copilot-money](/apps/reference/finance/copilot-money/) — `fetch_transactions`

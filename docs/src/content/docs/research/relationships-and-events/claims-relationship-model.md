@@ -147,7 +147,7 @@ Issuer  ───issues───→  Credential  ───held by───→  H
 - **Status:** Revocation information (Bitstring Status List v1.0)
 - **Proof:** Cryptographic signature (EdDSA, ECDSA, or JOSE/COSE)
 
-**Key capabilities:**
+**Key features:**
 - Selective disclosure — holder can present only some claims
 - Zero-knowledge proofs — prove properties without revealing values ("I'm over 21" without revealing birthdate)
 - Multiple encoding formats: JSON-LD, SD-JWT

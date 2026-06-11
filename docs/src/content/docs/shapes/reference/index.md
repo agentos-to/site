@@ -3,7 +3,7 @@ title: Shapes
 description: "Every shape in the AgentOS ontology. Browse all 81, or follow a tag chain."
 ---
 
-The AgentOS ontology — **112** shapes. Each shape defines what an entity *is* (fields, relations, display hints). Shapes can extend other shapes via `also:`, which makes that shape a **tag** on the entity — a person is also an actor; a book is also a product.
+The AgentOS ontology — **113** shapes. Each shape defines what an entity *is* (fields, relations, display hints). Shapes can extend other shapes via `also:`, which makes that shape a **tag** on the entity — a person is also an actor; a book is also a product.
 
 See [Overview](/shapes/overview/) for the tactical reference and [Shape design principles](/shapes/shape-design-principles/) for the rules.
 
@@ -16,6 +16,7 @@ See [Overview](/shapes/overview/) for the tactical reference and [Shape design p
 - [`airline`](/shapes/reference/airline/) — also `organization` — A commercial airline. Created from flight search results
 - [`airport`](/shapes/reference/airport/) — An airport. Created from flight search results and linked to flights
 - [`app`](/shapes/reference/app/) — An application — the one installable, launchable unit. System apps
+- [`auth_challenge`](/shapes/reference/auth_challenge/) — A platform demands something only a human (usually) can do — scan a QR
 - [`birth`](/shapes/reference/birth/) — also `event` — A person's birth. The canonical event recording given/family names,
 - [`book`](/shapes/reference/book/) — also `creative_work`, `product` — A book. Books are BOTH creative works (the intellectual work — its
 - [`booking_offer`](/shapes/reference/booking_offer/) — also `event` — A signed, itemized, fully-priced commitment presented to a human for

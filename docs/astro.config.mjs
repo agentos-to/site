@@ -38,7 +38,7 @@ function flatReference(relRoot) {
 	walk(root, '');
 	return entries.sort((a, b) => a.label.localeCompare(b.label));
 }
-const flatSkillsReference = () => flatReference('skills/reference');
+const flatAppsReference = () => flatReference('apps/reference');
 const flatShapesReference = () => flatReference('shapes/reference');
 const flatToolSurface = () => flatReference('tool-surface');
 
@@ -71,13 +71,6 @@ export default defineConfig({
 									{ label: 'Roadmap & proposals', slug: 'introduction/roadmap-and-proposals' },
 								],
 							},
-							{
-								label: 'Apps',
-								collapsed: false,
-								items: [
-									{ label: 'Overview', slug: 'apps/overview' },
-								],
-							},
 						],
 					},
 					{
@@ -103,7 +96,7 @@ export default defineConfig({
 									{ label: 'Security', slug: 'architecture/security' },
 									{ label: 'Local-first', slug: 'architecture/local-first' },
 									{ label: 'Data model', slug: 'architecture/data-model' },
-									{ label: 'Skill dispatch', slug: 'architecture/skill-dispatch' },
+									{ label: 'App dispatch', slug: 'architecture/app-dispatch' },
 									{ label: 'Connections as browsers', slug: 'architecture/connections-as-browsers' },
 									{ label: 'Auth resolution', slug: 'architecture/auth-resolution' },
 									{ label: 'Observer bus', slug: 'architecture/observer-bus' },
@@ -122,41 +115,41 @@ export default defineConfig({
 								],
 							},
 							{
-								label: 'Skills',
+								label: 'Apps',
 								collapsed: false,
 								items: [
-									{ label: 'Overview', slug: 'skills/overview' },
-									{ label: 'Agent empathy', slug: 'skills/agent-empathy' },
-									{ label: 'Connections', slug: 'skills/connections' },
-									{ label: 'Auth flows', slug: 'skills/auth-flows' },
-									{ label: 'Data', slug: 'skills/data' },
-									{ label: 'LLM', slug: 'skills/llm' },
+									{ label: 'Overview', slug: 'apps/overview' },
+									{ label: 'Agent empathy', slug: 'apps/agent-empathy' },
+									{ label: 'Connections', slug: 'apps/connections' },
+									{ label: 'Auth flows', slug: 'apps/auth-flows' },
+									{ label: 'Data', slug: 'apps/data' },
+									{ label: 'LLM', slug: 'apps/llm' },
 								],
 							},
 							{
 								label: 'Reverse engineering',
 								collapsed: false,
 								items: [
-									{ label: 'Overview', slug: 'skills/reverse-engineering/overview' },
-									{ label: '1. Transport', slug: 'skills/reverse-engineering/1-transport' },
-									{ label: '2. Discovery', slug: 'skills/reverse-engineering/2-discovery' },
-									{ label: '3. Auth', slug: 'skills/reverse-engineering/3-auth/overview' },
-									{ label: '4. Content', slug: 'skills/reverse-engineering/4-content' },
-									{ label: '5. Social', slug: 'skills/reverse-engineering/5-social' },
-									{ label: '6. Desktop apps', slug: 'skills/reverse-engineering/6-desktop-apps/overview' },
-									{ label: '7. MCP', slug: 'skills/reverse-engineering/7-mcp' },
+									{ label: 'Overview', slug: 'apps/reverse-engineering/overview' },
+									{ label: '1. Transport', slug: 'apps/reverse-engineering/1-transport' },
+									{ label: '2. Discovery', slug: 'apps/reverse-engineering/2-discovery' },
+									{ label: '3. Auth', slug: 'apps/reverse-engineering/3-auth/overview' },
+									{ label: '4. Content', slug: 'apps/reverse-engineering/4-content' },
+									{ label: '5. Social', slug: 'apps/reverse-engineering/5-social' },
+									{ label: '6. Desktop apps', slug: 'apps/reverse-engineering/6-desktop-apps/overview' },
+									{ label: '7. MCP', slug: 'apps/reverse-engineering/7-mcp' },
 								],
 							},
 						],
 					},
 					{
-						id: 'skills',
-						label: 'Skills',
-						link: '/skills/reference/',
+						id: 'apps-catalog',
+						label: 'Apps',
+						link: '/apps/reference/',
 						icon: 'information',
 						items: [
-							{ label: 'Skills index', slug: 'skills/reference' },
-							...flatSkillsReference(),
+							{ label: 'Apps index', slug: 'apps/reference' },
+							...flatAppsReference(),
 						],
 					},
 					{
@@ -208,12 +201,12 @@ export default defineConfig({
 					},
 				], {
 					topics: {
-						skills: ['/skills/reference/*'],
+						'apps-catalog': ['/apps/reference/*'],
 						shapes: ['/shapes/reference', '/shapes/reference/'],
 						'tool-surface': ['/tool-surface/*'],
 						build: [
-							'/skills/reverse-engineering/3-auth/*',
-							'/skills/reverse-engineering/6-desktop-apps/*',
+							'/apps/reverse-engineering/3-auth/*',
+							'/apps/reverse-engineering/6-desktop-apps/*',
 						],
 					},
 				}),

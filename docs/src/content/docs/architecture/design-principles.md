@@ -1,6 +1,6 @@
 ---
 title: Design principles
-description: The architectural rules that make AgentOS composable. How graph, skills, and apps fit together.
+description: The architectural rules that make AgentOS composable. How the graph, apps, and the shell fit together.
 ---
 
 These are the first-principles rules that hold the system together. Every architectural decision traces back to one of them.
@@ -17,7 +17,7 @@ See [Shape design principles](/shapes/shape-design-principles/) for how this sha
 
 ## The user owns the graph
 
-[Skills](/skills/overview/) are connectors, not owners. They sync data in, but the graph is the authority. Installing a skill imports data; uninstalling it doesn't delete what was imported. "Source of truth" is the graph, always — skills are remotes you pull from, not landlords who control your data.
+[Apps](/apps/overview/) are connectors, not owners. They sync data in, but the graph is the authority. Installing an app imports data; uninstalling it doesn't delete what was imported. "Source of truth" is the graph, always — apps are remotes you pull from, not landlords who control your data.
 
 ## Changes are entities
 
@@ -31,20 +31,20 @@ The human owner, each AI agent, and the system itself — all are entities on th
 
 ## The graph bootstraps itself
 
-Entities describe data. But entities, skills, and relationships are also data. The system models itself — skills as entities, schemas as entities, the meta-layer that describes the graph. This is how the system becomes self-aware and self-documenting.
+Entities describe data. But entities, apps, and relationships are also data. The system models itself — apps as entities, schemas as entities, the meta-layer that describes the graph. This is how the system becomes self-aware and self-documenting.
 
 ## Three concerns
 
-Entities, skills, and apps are independent concerns that compose into the full experience.
+Entities, apps, and the shell are independent concerns that compose into the full experience.
 
-**Entity types** define the ontology — *what things are*. A video has a title, duration, and view count. A person has a name and relationships. You can have entities without skills (manually entered data).
+**Entity types** define the ontology — *what things are*. A video has a title, duration, and view count. A person has a name and relationships. You can have entities without apps (manually entered data).
 
-**Skills** are the capability layer — connecting to external services, providing agent instructions. A YouTube skill knows how to fetch video metadata. A Todoist skill knows how to create tasks via their API. Skills can also be pure markdown — instructions that help AI agents understand a domain, with no API bindings at all. You can have skills without apps (AI-only workflows).
+**[Apps](/apps/overview/)** are the connector layer — reaching external platforms, providing services through the engine's broker. The YouTube app knows how to fetch video metadata. The Todoist app knows how to create tasks via their API. You can run AgentOS headless — API and AI only — and apps work exactly the same.
 
-**[Apps](/apps/overview/)** are optional UI experiences for humans. The Videos app renders video entities with an embed player. The default entity viewer renders any entity with schema-driven components. A headless AgentOS — API and AI only — works perfectly without apps. You can have apps without skills (local-only data).
+**The shell** is the human surface. Every installed app renders as a **generated window** (`core/web/src/views/AppWindow.tsx`) built from its contract — `@returns` shapes plus JSON-Schema input schemas. Nobody hand-writes per-app UI; the contract is the UI.
 
 ## See also
 
 - [Architectural laws](/architecture/architectural-laws/) — the structural constraints that keep the engine generic.
-- [Agent empathy](/skills/agent-empathy/) — the practice of building for the smallest model.
+- [Agent empathy](/apps/agent-empathy/) — the practice of building for the smallest model.
 - [Shape design principles](/shapes/shape-design-principles/) — how these apply at the ontology level.

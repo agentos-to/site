@@ -57,6 +57,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[schema.org/Review](https://schema.org/Review)** — Our rating ≈ reviewRating.ratingValue; ratingMax ≈ bestRating; reviews = itemReviewed; isVerified has no direct property (extension).
 - **[schema.org/AggregateRating](https://schema.org/AggregateRating)** — For product review aggregates. Our rating/ratingMax map to ratingValue/bestRating; reviewCount is inherited when computed.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [goodreads](/skills/reference/media/goodreads/) — `list_book_reviews`, `list_reviews`
+- [goodreads](/apps/reference/media/goodreads/) — `list_book_reviews`, `list_reviews`

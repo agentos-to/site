@@ -15,10 +15,13 @@ The registry of canonical services is authored in
 `platform/ontology/services/*.yaml` (one file per service; id = file
 stem) and projected by codegen into the SDK constants and the engine's
 compiled registry. Service NODES on the graph are minted by the engine
-from that registry — never authored by hand. Apps point at them with
-`provides` edges (link_vals: {via: the bound tool}); the user's
-standing pick is a `defaults_to` link from the service node to an app
-(XP's "Set Program Access and Defaults").
+from that registry — never authored by hand. The service node carries
+its whole story: `provided_by` edges to every providing app
+(link_vals: {via: the bound tool} — derived, cleared and rebuilt each
+boot) and the user's standing pick as a `defaults_to` link (XP's "Set
+Program Access and Defaults"). Both point service → app, so providers
+whose nodes live in the read-only System volume are reachable
+cross-volume.
 
 Keep the registry small and verb-shaped. If a candidate interface has
 no second potential provider, it probably isn't a service yet.
@@ -42,6 +45,7 @@ no second potential provider, it probably isn't a service yet.
 
 | Relation | Target |
 |---|---|
+| `provided_by` | [`app`](/shapes/reference/app/) |
 | `defaults_to` | [`app`](/shapes/reference/app/) |
 
 ## Prior art
@@ -50,4 +54,4 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 - **[Debian alternatives system (update-alternatives)](https://wiki.debian.org/DebianAlternatives)** — A generic name (editor) resolves to one of several registered providers via a per-name symlink the admin can repoint. Our service id ≈ the generic name; defaults_to ≈ the symlink.
 - **[Windows XP — Set Program Access and Defaults](https://learn.microsoft.com/en-us/windows/win32/shell/default-programs)** — The OS-level "which program answers this kind of request" surface. Our defaults_to link is that choice as graph state.
-- **[Android Intents (action + default app)](https://developer.android.com/guide/components/intents-filters)** — Apps declare which actions they answer; the user picks a default per action. provides ≈ intent-filter; defaults_to ≈ the user's "always" choice.
+- **[Android Intents (action + default app)](https://developer.android.com/guide/components/intents-filters)** — Apps declare which actions they answer; the user picks a default per action. provided_by ≈ intent-filter; defaults_to ≈ the user's "always" choice.

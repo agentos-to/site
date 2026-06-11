@@ -70,6 +70,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[IANA Media Types (image/*)](https://www.iana.org/assignments/media-types/media-types.xhtml#image)** — Our format values (PNG, JPEG, WebP, SVG) align with registered image/* media types.
 - **[Exif 2.3 (JEITA CP-3451)](https://www.cipa.jp/std/documents/e/DC-008-Translation-2019-E.pdf)** — Source of most image metadata fields. width/height come from Exif PixelXDimension/PixelYDimension.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [macos-control](/skills/reference/macos/macos-control/) — `screenshot_display`, `screenshot_window`
+- [macos-control](/apps/reference/macos/macos-control/) — `screenshot_display`, `screenshot_window`

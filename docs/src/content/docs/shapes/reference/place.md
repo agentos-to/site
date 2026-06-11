@@ -72,7 +72,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[Google Places API (Place resource)](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places)** — Practical POI schema. Our googlePlaceId = id; featureType/categories ≈ types/primaryType; businessStatus, priceLevel, rating match directly.
 - **[GeoJSON (RFC 7946) + ISO 3166-1](https://datatracker.ietf.org/doc/html/rfc7946)** — Our latitude/longitude are a GeoJSON Point [lon, lat]; countryCode follows ISO 3166-1 alpha-2.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [uber](/skills/reference/logistics/uber/) — `get_store`, `search_address`, `list_addresses`, `search_stores`, `list_nearby_stores`
-- [austin-boulder-project](/skills/reference/fitness/austin-boulder-project/) — `get_locations`
+- [uber](/apps/reference/logistics/uber/) — `get_store`, `search_address`, `list_addresses`, `search_stores`, `list_nearby_stores`
+- [austin-boulder-project](/apps/reference/fitness/austin-boulder-project/) — `get_locations`

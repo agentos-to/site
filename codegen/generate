@@ -9,7 +9,7 @@
 #
 # Output goes to:
 #   generated/          — standalone files
-#   skills-sdk/agentos/ — Python TypedDicts (bundled in SDK)
+#   sdk/python/agentos/ — Python TypedDicts (bundled in SDK)
 #   apps-sdk/src/       — TypeScript interfaces (bundled in SDK)
 
 cd "$(dirname "$0")"

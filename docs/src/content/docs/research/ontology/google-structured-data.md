@@ -359,7 +359,7 @@ Thing
 - "State-of-the-art reasoning, deep multimodal understanding, powerful agentic capabilities"
 - Enhanced "query fan-out" for discovering relevant content
 - Dynamic visual layouts and interactive tools
-- AI Mode for sophisticated research capabilities
+- AI Mode for sophisticated research
 
 **Evolution Pattern:**
 1. **2012**: Entity recognition (what is this thing?)
@@ -607,7 +607,7 @@ Thing
 - Need stable entity identifiers
 - Support for aliases and alternative names
 - Explicit cross-reference properties
-- Ability to merge entities from different sources
+- Can merge entities from different sources
 - Confidence/source tracking per fact
 
 ---

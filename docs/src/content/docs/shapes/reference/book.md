@@ -95,6 +95,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[ONIX for Books 3.0](https://www.editeur.org/83/Overview/)** — Publishing-industry canonical. Our isbn/isbn13/pages/format/language/series/originalTitle align with ONIX Product Identifier, Extent, ProductForm, Language, Collection, and OriginalLanguageTitle composites.
 - **[Open Library Books API](https://openlibrary.org/developers/api)** — Practical lookup by ISBN. Our genres/characters/places/awardsWon map to subjects/subject_people/subject_places/subject_times (awards less standardized).
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [goodreads](/skills/reference/media/goodreads/) — `get_book`, `list_similar_books`, `list_series_books`, `search_books`, `list_author_books`, `list_books`, `list_shelf_books`
+- [goodreads](/apps/reference/media/goodreads/) — `get_book`, `list_similar_books`, `list_series_books`, `search_books`, `list_author_books`, `list_books`, `list_shelf_books`

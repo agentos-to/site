@@ -8,7 +8,7 @@ namespace to `docs/src/content/docs/tool-surface/<name>.mdx`. Per D11
 is one consumer of that source.
 
 Future siblings under `docs/codegen/`:
-- `sdk_client.py` — emits `sdk-skills/agentos/_engine_client.py` from
+- `sdk_client.py` — emits `sdk/python/agentos/_engine_client.py` from
   the same registry dump.
 - `mcp_bundled.py` — helper for the MCP adapter's bundled-tool
   descriptions (if we decide to hoist the MCP rendering here).
@@ -39,10 +39,16 @@ def load_tool_surface(agentos_bin: str) -> list[dict]:
     engine is unreachable — caller catches `SystemExit` to treat this
     as a soft skip.
     """
-    result = subprocess.run(
-        [agentos_bin, "call", "--json", "system.schema"],
-        capture_output=True, text=True,
-    )
+    try:
+        result = subprocess.run(
+            [agentos_bin, "call", "--json", "system.schema"],
+            capture_output=True, text=True,
+        )
+    except FileNotFoundError:
+        # No binary at all is the same condition as engine-unreachable —
+        # the caller soft-skips registry-driven targets on SystemExit.
+        print(f"Failed to load tool surface: {agentos_bin} not found", file=sys.stderr)
+        sys.exit(1)
     if result.returncode != 0:
         print(f"Failed to load tool surface: {result.stderr}", file=sys.stderr)
         sys.exit(1)

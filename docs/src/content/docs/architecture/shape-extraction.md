@@ -1,19 +1,19 @@
 ---
 title: Shape coercion & entity extraction
-description: How a skill's return dict turns into a graph node — the extraction pipeline, type coercion, identity-based upsert, and the self-identity guard that keeps your own person node from being overwritten.
+description: How an app's return dict turns into a graph node — the extraction pipeline, type coercion, identity-based upsert, and the self-identity guard that keeps your own person node from being overwritten.
 ---
 
-A skill returns a Python dict. Some milliseconds later, that dict has become one or more nodes in `~/.agentos/data/agentos.db`, with declared field types coerced, identity keys checked against existing nodes, and a provenance link back to the skill. This page is the close-up of that exchange.
+An app returns a Python dict. Some milliseconds later, that dict has become one or more nodes in `~/.agentos/data/agentos.db`, with declared field types coerced, identity keys checked against existing nodes, and a provenance link back to the app. This page is the close-up of that exchange.
 
 This page assumes the [data model](/architecture/data-model/) — the three primitives, shapes as schema, why identity-based dedup exists at all. It goes one layer down: into the Rust extraction module that turns dicts into graph mutations.
 
 ## From dict to node
 
-The pipeline is a single function — `extract_entities_from_response` (`crates/core/src/execution/extraction.rs:114`) — invoked after every successful skill operation. The `tag` argument is the shape name from the operation's `@returns("book")` decorator. Items are unwrapped (single-object responses and `_items`-wrapped arrays are both handled, lines 129-140), then each item walks through `extract_single_node` (line 572).
+The pipeline is a single function — `extract_entities_from_response` (`crates/core/src/execution/extraction.rs:114`) — invoked after every successful app operation. The `tag` argument is the shape name from the operation's `@returns("book")` decorator. Items are unwrapped (single-object responses and `_items`-wrapped arrays are both handled, lines 129-140), then each item walks through `extract_single_node` (line 572).
 
 ```mermaid
 flowchart TD
-    IN["skill returns dict<br/>@returns('book') → tag = 'book'"] --> SR["shape registry lookup<br/>(also-chain expansion)<br/>shapes::registry().get('book')<br/>also: [product] → fields merge"]
+    IN["app returns dict<br/>@returns('book') → tag = 'book'"] --> SR["shape registry lookup<br/>(also-chain expansion)<br/>shapes::registry().get('book')<br/>also: [product] → fields merge"]
     SR --> REL["shape relations stripped from field data<br/>nested dicts → recursed as child nodes<br/>(lines 590-599)"]
     REL --> TV["typed_val() per field<br/>(shape-driven coercion)<br/>'495' → ('495', 'integer')<br/>shapes/registry.rs:491"]
     TV --> IK["identity keys assembled<br/>(vals + relation links)<br/>build_identity_keys()<br/>extraction.rs:410"]
@@ -42,7 +42,7 @@ Each declared field gets a `FieldType` from the shape registry (`crates/shapes/s
 
 The dispatch lives in `coerce()` (`crates/shapes/src/registry.rs:468`) and the shape-aware entry point is `typed_val()` (line 491) — the function the extraction pipeline actually calls.
 
-**The honest summary of every "wrong type" path: coerce if you can, store-as-text-with-warning if you can't.** Nothing is dropped, nothing is rejected. A skill that returns `pages: "many"` for an `integer` field gets a `node_val` row with value `"many"` and unit `text`, plus a `debug!` line. The graph keeps moving.
+**The honest summary of every "wrong type" path: coerce if you can, store-as-text-with-warning if you can't.** Nothing is dropped, nothing is rejected. An app that returns `pages: "many"` for an `integer` field gets a `node_val` row with value `"many"` and unit `text`, plus a `debug!` line. The graph keeps moving.
 
 Fields not declared in any shape fall through to `json_val_infer` (registry.rs:511) — pure JSON-shape inference, no shape context needed. So extra keys don't break extraction; they just don't get the benefit of typed coercion.
 
@@ -92,14 +92,14 @@ Iteration order = YAML declaration order. Put your most reliable disambiguator f
 
 `upsert_by_identity_on` (`crates/graph/src/database.rs:1923`) is the single write path. It:
 
-1. Tries identity lookup. If miss, falls back to **import provenance** (`imported_from` link from the skill node with this `remote_id`) — line 1943.
+1. Tries identity lookup. If miss, falls back to **import provenance** (`imported_from` link from the app node with this `remote_id`) — line 1943.
 2. **On hit (UPDATE):** bumps `updated_at`, calls `set_vals_on` to upsert each `(key, value, unit)` triple, ensures all tags are applied, ensures every relation identity link exists. Existing vals not present in the new payload are **left in place**. (lines 1956-1987)
 3. **On miss (CREATE):** mints a new node id, stores all vals, applies tags, creates relation links, records provenance.
-4. Either way: one `imported_from` link per skill, with the skill's `remote_id` stored as an link val. Re-importing the same record updates the timestamp on that link (`record_import_on`, line 1980).
+4. Either way: one `imported_from` link per app, with the app's `remote_id` stored as an link val. Re-importing the same record updates the timestamp on that link (`record_import_on`, line 1980).
 
-Critical consequence: **fields are merged, not replaced.** If skill A writes `{name, isbn, pages}` and skill B later writes `{name, isbn, cover_url}` for the same identity, the resulting node carries `name + isbn + pages + cover_url`. The provenance links remember which skill contributed which write, but vals themselves don't carry per-field origin. Last writer wins per key.
+Critical consequence: **fields are merged, not replaced.** If app A writes `{name, isbn, pages}` and app B later writes `{name, isbn, cover_url}` for the same identity, the resulting node carries `name + isbn + pages + cover_url`. The provenance links remember which app contributed which write, but vals themselves don't carry per-field origin. Last writer wins per key.
 
-This is also how a node survives skill churn. Uninstall the WhatsApp skill, the `imported_from(whatsapp)` link stays, the vals stay. Reinstall it, identity lookup hits the same node, and updates resume on the same `id`.
+This is also how a node survives app churn. Uninstall the WhatsApp app, the `imported_from(whatsapp)` link stays, the vals stay. Reinstall it, identity lookup hits the same node, and updates resume on the same `id`.
 
 ## Collisions and self-identity
 
@@ -120,19 +120,19 @@ for (key, value) in &filtered {
 
 Returning `None` means: don't create the child node, don't create the link to it. The parent record still lands.
 
-The threat this closes: a Gmail skill returns an email with `from: { handle: "joe@gmail.com" }`. Without the guard, that nested dict becomes a fresh `account` node — identity `("email", "joe@gmail.com")` — and in the worst case, gets silently merged into the user's primary `person` via the `account` → `person` linkage (`link_account_to_primary_user`, line 360) using values the skill controls. With the guard, child extractions whose identity *is* the user are dropped before they can hijack the user's own node. The user's `person` is still authored only by the deterministic flow that runs at boot.
+The threat this closes: the Gmail app returns an email with `from: { handle: "joe@gmail.com" }`. Without the guard, that nested dict becomes a fresh `account` node — identity `("email", "joe@gmail.com")` — and in the worst case, gets silently merged into the user's primary `person` via the `account` → `person` linkage (`link_account_to_primary_user`, line 360) using values the app controls. With the guard, child extractions whose identity *is* the user are dropped before they can hijack the user's own node. The user's `person` is still authored only by the deterministic flow that runs at boot.
 
-Note the asymmetry: the guard is on *child* extraction, not the top-level item. A skill that's explicitly tagged `person` and writes the user's identity isn't blocked here — that's a different layer's job.
+Note the asymmetry: the guard is on *child* extraction, not the top-level item. An app that's explicitly tagged `person` and writes the user's identity isn't blocked here — that's a different layer's job.
 
 ## Where validation lives
 
 The engine does type coercion. It does **not** enforce required fields, semantic constraints, or `@returns` shape conformance at runtime.
 
 > *Schema validation lives elsewhere: `agent-sdk validate` (in
-> `sdk-skills/agentos/validate.py`) is the canonical static
-> check for skill YAML/Python … These structs only describe the shape — they do not validate it.*
+> `platform/sdk/python/agentos/validate.py`) is the canonical static
+> check for app YAML/Python … These structs only describe the shape — they do not validate it.*
 >
-> — `crates/core/src/skills/types.rs:5-9`
+> — `crates/core/src/apps/types.rs:5-9`
 
 In practice this means:
 

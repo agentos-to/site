@@ -72,6 +72,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 
 - **[SpaceX r/SpaceX API v4](https://github.com/r-spacex/SpaceX-API)** — Original source of these fields. The fly-by-night-launch.com app maps the v4 launches endpoint onto this shape; the per-booster landing outcomes JSON mirrors that API's `cores` sub-document.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [spacex](/skills/reference/logistics/spacex/) — `list_upcoming`, `list_past`, `get_launch`
+- [spacex](/apps/reference/logistics/spacex/) — `list_upcoming`, `list_past`, `get_launch`

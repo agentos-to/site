@@ -65,16 +65,16 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[WebFinger (RFC 7033)](https://datatracker.ietf.org/doc/html/rfc7033)** — Resolves issuer+identifier pairs to profile metadata. Our identifier aligns with WebFinger's acct: URI scheme (user@host), but the `host` part becomes a graph node (not a string).
 - **[vCard 4.0 (RFC 6350)](https://datatracker.ietf.org/doc/html/rfc6350)** — Defines displayName/email/phone/org in contact cards. We adopt vCard's contact semantics for the human-readable fields.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [goodreads](/skills/reference/media/goodreads/) — `get_profile`, `check_session`
-- [moltbook](/skills/reference/media/moltbook/) — `me_account`, `get_account`
-- [united](/skills/reference/logistics/united/) — `store_session_cookies`, `check_session`
-- [uber](/skills/reference/logistics/uber/) — `check_session`, `check_eats_session`
-- [amazon](/skills/reference/logistics/amazon/) — `check_session`
-- [austin-boulder-project](/skills/reference/fitness/austin-boulder-project/) — `check_session`
-- [linear](/skills/reference/dev/linear/) — `whoami`
-- [greptile](/skills/reference/dev/greptile/) — `check_session`, `list_members`
-- [claude](/skills/reference/ai/claude/) — `check_session`
-- [exa](/skills/reference/web/exa/) — `check_session`
-- [posthog](/skills/reference/web/posthog/) — `list_persons`, `search_persons`, `get_person`
+- [goodreads](/apps/reference/media/goodreads/) — `get_profile`, `check_session`
+- [moltbook](/apps/reference/media/moltbook/) — `me_account`, `get_account`
+- [united](/apps/reference/logistics/united/) — `store_session_cookies`, `check_session`
+- [uber](/apps/reference/logistics/uber/) — `check_session`, `check_eats_session`
+- [amazon](/apps/reference/logistics/amazon/) — `check_session`
+- [austin-boulder-project](/apps/reference/fitness/austin-boulder-project/) — `check_session`
+- [linear](/apps/reference/dev/linear/) — `whoami`
+- [greptile](/apps/reference/dev/greptile/) — `check_session`, `list_members`
+- [claude](/apps/reference/ai/claude/) — `check_session`
+- [exa](/apps/reference/web/exa/) — `check_session`
+- [posthog](/apps/reference/web/posthog/) — `list_persons`, `search_persons`, `get_person`

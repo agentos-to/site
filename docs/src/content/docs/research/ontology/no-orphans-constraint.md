@@ -60,7 +60,7 @@ Use `apoc.periodic.repeat` to periodically query and delete orphan nodes.
 **3. SHACL validation (Neosemantics module):**
 - Use W3C SHACL (Shapes Constraint Language) for validation
 - Can define constraints like "a Task node must be connected to at least one TaskOwner node through an OWNED_BY relationship"
-- Validation can run in batch mode, on selected node sets, or transactionally with rollback capability
+- Validation can run in batch mode, on selected node sets, or transactionally with rollback
 - Example: `sh:minCount` on relationship paths
 
 **Key insight:** Neo4j defers constraint validation to post-import or external validation frameworks. The import tool prioritizes performance over constraint checking.
@@ -224,7 +224,7 @@ RETURN n
 **SHACL (Shapes Constraint Language):**
 - W3C standard for validating RDF graphs
 - Can define constraints like "every Person must have at least one relationship"
-- Validation can run transactionally with rollback capability
+- Validation can run transactionally with rollback
 - Used by Neo4j Neosemantics module
 
 **Example SHACL shape:**

@@ -35,8 +35,8 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[Gmail API — Labels](https://developers.google.com/gmail/api/reference/rest/v1/users.labels)** — Practical source. Our tagType distinguishes Gmail's SYSTEM vs USER label types.
 - **[Dublin Core dc:subject](https://www.dublincore.org/specifications/dublin-core/dces/)** — Generic classification vocabulary — tags on any resource.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [todoist](/skills/reference/productivity/todoist/) — `list_tags`
-- [git](/skills/reference/dev/git/) — `list_tags`, `get_tag`
-- [gmail](/skills/reference/comms/gmail/) — `list_labels`, `create_label`, `update_label`
+- [todoist](/apps/reference/productivity/todoist/) — `list_tags`
+- [git](/apps/reference/dev/git/) — `list_tags`, `get_tag`
+- [gmail](/apps/reference/comms/gmail/) — `list_labels`, `create_label`, `update_label`

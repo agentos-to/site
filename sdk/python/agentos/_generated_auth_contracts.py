@@ -2,8 +2,8 @@
 
 Regen: python3 platform/codegen/generate.py
 
-Skills decorated `@provides(oauth_auth, ...)` should return a dict
-matching `OAuthCredential`. Skills decorated `@provides(cookie_auth, ...)`
+Apps decorated `@provides(oauth_auth, ...)` should return a dict
+matching `OAuthCredential`. Apps decorated `@provides(cookie_auth, ...)`
 return `CookieCredential`. agent-sdk validate enforces this at commit
 time using the AUTH_CONTRACTS dict at the bottom of this file.
 """

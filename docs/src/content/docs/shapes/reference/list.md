@@ -85,6 +85,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[Vannevar Bush — As We May Think (Memex trails)](https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/)** — A Memex trail is a named, ordered list of associative jumps. A `list` with ordering_mode='linear' and contains-bookmarks IS Bush's trail. Foundational precedent for the everything-is-a-list thesis.
 - **[POSIX / Single Unix Specification (directories)](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html)** — listType='folder' with optional `path` field mirrors a POSIX directory. The engine treats it as a list; the filesystem mirror is a projection, not a separate primitive.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [amazon](/skills/reference/logistics/amazon/) — `list_lists`, `get_list`
+- [amazon](/apps/reference/logistics/amazon/) — `list_lists`, `get_list`

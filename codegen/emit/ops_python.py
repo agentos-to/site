@@ -59,7 +59,7 @@ def _response_type(op: Op) -> str:
         if t.kind == "primitive" and t.name == "bytes":
             return "bytes"
         if t.kind == "primitive" and t.name == "json":
-            # A bare-`json` passthrough response (capability.call) — always an
+            # A bare-`json` passthrough response (services.call) — always an
             # object on the wire.
             return "dict[str, Any]"
         return _py_type(t)

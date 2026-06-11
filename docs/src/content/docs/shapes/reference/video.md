@@ -79,6 +79,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[IANA Media Types (video/*)](https://www.iana.org/assignments/media-types/media-types.xhtml#video)** — Our codec values map to registered video/* media types (mp4, webm, ogg).
 - **[MPEG / ITU video codec specs](https://www.itu.int/rec/T-REC-H.264)** — Canonical codec definitions. Our codec values are MPEG/ITU codec short names (h264, vp9, av1).
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [youtube](/skills/reference/media/youtube/) — `search_videos`, `search_recent_video`, `list_videos`, `get_video`, `transcript_video`
+- [youtube](/apps/reference/media/youtube/) — `search_videos`, `search_recent_video`, `list_videos`, `get_video`, `transcript_video`

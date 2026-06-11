@@ -393,9 +393,9 @@ assumptions: ["Schema is stable", "Team has capacity"]
    - Temperature: °C, °F, K
    - Business: USD, EUR, %, basis points
    - Computing: req/s, ms, MB, etc.
-3. Could each **entity/skill pre-seed its units**?
-   - Health skill seeds health units
-   - Finance skill seeds currency units
+3. Could each **entity/app pre-seed its units**?
+   - Health app seeds health units
+   - Finance app seeds currency units
    - Community-driven unit definitions
 4. Unit **conversion** - can we convert between compatible units?
 
@@ -530,13 +530,13 @@ WHERE o.achieved IS NULL  -- not yet achieved
 
 ## Next Steps
 
-1. [ ] Create `outcome` entity in skills/
+1. [ ] Create `outcome` entity in apps/
 2. [ ] Create `enables` relationship type  
-3. [ ] Build roadmap plugin using this model
+3. [ ] Build roadmap app using this model
 4. [ ] **Unit store research** - ask Joe about biomarker work
 5. [ ] Prototype system dynamics visualization
 6. [ ] Test with biological system model
-7. [ ] Explore simulation capabilities
+7. [ ] Explore simulation
 
 ---
 

@@ -36,6 +36,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[Git Internals — Branches](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell)** — A branch is a movable pointer to a commit. Our commit field is the HEAD sha; ahead/behind mirror `git rev-list --count`.
 - **[GitHub REST — branches](https://docs.github.com/en/rest/branches/branches)** — Practical API surface. Our upstream ≈ the remote tracking ref; we flatten protection/commit metadata that GitHub nests.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [git](/skills/reference/dev/git/) — `list_branches`, `get_branch`
+- [git](/apps/reference/dev/git/) — `list_branches`, `get_branch`

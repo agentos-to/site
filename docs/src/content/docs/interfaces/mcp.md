@@ -15,9 +15,9 @@ flowchart LR
 
 - **Client → proxy** — newline-delimited JSON-RPC over stdin/stdout. Standard MCP.
 - **Proxy → engine** — the proxy opens `~/.agentos/engine.sock` and forwards bytes. It does not parse MCP messages; it's a byte bridge with bookkeeping.
-- **Engine is where logic lives** — tool dispatch, skill execution, graph reads and writes.
+- **Engine is where logic lives** — tool dispatch, app execution, graph reads and writes.
 
-The proxy is tiny on purpose. If MCP evolves, the proxy is the only piece that has to change. Skills and the engine don't know MCP exists.
+The proxy is tiny on purpose. If MCP evolves, the proxy is the only piece that has to change. Apps and the engine don't know MCP exists.
 
 ## Bootstrap and resilience
 
@@ -74,17 +74,17 @@ Cursor reads MCP config from its settings. Add:
 claude mcp add agentos -- agentos mcp
 ```
 
-## The capability surface
+## The tool surface
 
-What an AI client actually gets through MCP is a set of tools. The engine registers them dynamically based on which skills are installed. Think of it as an extensible tool drawer — install a new skill, its operations become MCP tools on the next connection.
+What an AI client actually gets through MCP is a set of tools — one per populated namespace (`data`, `apps`, `system`, `services`, `readme`, `windows`, `ui`), plus brokered `services.*` verbs registered dynamically from installed apps' `@provides`. Install a new app and its services join the surface on the next connection.
 
-The tool names, parameter schemas, and return shapes are all generated from the skill's `@sop` and `@returns` decorators. Shape-conformant return dicts become shape-conformant JSON; the AI client sees typed tools with no AgentOS-specific glue.
+The tool names, parameter schemas, and return shapes are all generated from the app's decorators (`@returns`, `@provides`) and docstrings. Shape-conformant return dicts become shape-conformant JSON; the AI client sees typed tools with no AgentOS-specific glue.
 
 ## Failure modes
 
 - **Engine won't start** — check `~/.agentos/logs/engine.log`. Usually a port conflict (if the web bridge is also starting) or a corrupt SQLite file.
 - **Proxy connects but tools don't show up** — the client probably needs a restart. MCP `tools/list` is cached on the client side.
-- **Intermittent timeouts on a specific tool** — the skill's SOP is slow. Check `~/.agentos/logs/engine-io.jsonl` for the request, then test the skill directly with `agentos test-skill`.
+- **Intermittent timeouts on a specific tool** — the app's tool is slow. Check `~/.agentos/logs/engine-io.jsonl` for the request, then test the tool directly with `agentos call apps '{"op":"run",...}'`.
 
 ## Design notes
 

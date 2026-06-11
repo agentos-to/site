@@ -110,7 +110,7 @@ class Shape:
 # IR — auth contracts
 # =============================================================================
 #
-# `ontology/auth-contracts/{oauth,cookie}.yaml` declares what skills
+# `ontology/auth-contracts/{oauth,cookie}.yaml` declares what apps
 # decorated `@provides(oauth_auth, ...)` / `@provides(cookie_auth, ...)`
 # must return. The two contracts have different shapes by nature: an
 # OAuth credential is a flat dict; a cookie credential is an envelope
@@ -154,7 +154,7 @@ class AuthContract:
 # =============================================================================
 #
 # `ontology/ops/*.yaml` declares the engine's op contract — the primitives
-# skills call (`shell.run`, `http.request`, …). Each op has a typed request
+# apps call (`shell.run`, `http.request`, …). Each op has a typed request
 # and a response that is either a field-map or a bare scalar. Op field types
 # draw from a wider vocabulary than shapes (width-precise ints, `bytes`,
 # `map<K,V>`, named record types) — see `parse_type`.
@@ -1010,6 +1010,10 @@ TRANSACTION_TIME_ALLOWLIST = {
     "lastVerified", "lastActive", "lastProfileFetch", "obtainedAt",
     # execution span — "when this process ran on this machine"
     "startedAt", "endedAt", "committedAt",
+    # challenge lifecycle — when a login artifact (QR ref, mailed code)
+    # stops being usable; an intrinsic TTL on a machine-minted ephemeral,
+    # not a world-fact about another party (auth_challenge)
+    "expiresAt",
     # search-index recency
     "indexedAt",
     # account onboarding-time

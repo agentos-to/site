@@ -35,7 +35,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[GitHub Projects (v2)](https://docs.github.com/en/graphql/reference/objects#projectv2)** — Canonical open-source project-board model. state ≈ ProjectV2SingleSelectFieldOption; color is per-field metadata.
 - **[schema.org/Project](https://schema.org/Project)** — Generic project-as-effort type. Thinner than the practical APIs; mainly useful for outbound JSON-LD.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [todoist](/skills/reference/productivity/todoist/) — `list_projects`
-- [linear](/skills/reference/dev/linear/) — `list_projects`
+- [todoist](/apps/reference/productivity/todoist/) — `list_projects`
+- [linear](/apps/reference/dev/linear/) — `list_projects`

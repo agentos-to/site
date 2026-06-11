@@ -963,7 +963,7 @@ Based on Facebook's patterns, consider these relationship categories:
 
 **Meta Cross-Product Integration:**
 - Accounts Center for unified identity
-- Cross-posting capabilities (WhatsApp Status → Stories)
+- Cross-posting (WhatsApp Status → Stories)
 - Profile sync across Facebook, Instagram, Threads
 - Product-specific ID namespaces
 

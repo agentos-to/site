@@ -23,7 +23,7 @@ If you see any of these in Rust, raise it immediately — it's a bug in the arch
 |-------|---------------|--------|
 | Entity schemas | Properties, validation, display hints, sort order, operations | Shape YAMLs (`docs/shapes/`) |
 | Templates | Rendering, layout, grouping, formatting | MiniJinja markdown |
-| Skills | API mappings, field transforms | Python + YAML frontmatter |
+| Apps | API mappings, field transforms | Python + YAML frontmatter |
 
 ## 2. Templates do the work
 
@@ -37,7 +37,7 @@ The most foundational work that prevents tech debt, always. If you're choosing b
 
 ## 4. The graph is the source of truth
 
-Every entity modeled correctly, every relationship captured. Skills sync data in; the graph is the authority for reads.
+Every entity modeled correctly, every relationship captured. Apps sync data in; the graph is the authority for reads.
 
 ## 5. We have infinite time
 
@@ -45,7 +45,7 @@ No customers, no deadlines, no shortcuts. Do it right or don't do it.
 
 ## 5b. Blast radius is not a cost — stale architecture is
 
-AgentOS is pre-launch with zero users, no data to protect, no backward compatibility, no migration path. An "audacious" refactor that touches the Rust dispatch pipeline, the SDK bridge, every executor, and every skill in one shot is *not more expensive* than a one-line fix — the constraint is correctness, not disruption.
+AgentOS is pre-launch with zero users, no data to protect, no backward compatibility, no migration path. An "audacious" refactor that touches the Rust dispatch pipeline, the SDK bridge, every executor, and every app in one shot is *not more expensive* than a one-line fix — the constraint is correctness, not disruption.
 
 When you find a bug, ask: is this a leaf symptom, or is there an inconsistency in the abstraction underneath? If two code paths exist where one would do, two wire-format shapes exist where one would do, or a sync wrapper sits on top of an async call, the right fix is to delete the asymmetry at the root — even if it means rewriting the executor, the bridge, and every caller.
 
@@ -67,7 +67,7 @@ Pre-launch means zero legacy obligations. Code containing any of these signals s
 
 - `legacy`, `compat`, `backwards`, `deprecated`, `migration`, `fallback`
 - `TODO remove`, `TODO delete`, `temporary`, `one-time`, `workaround`
-- Feature flags, capability checks for removed features, commented-out code
+- Feature flags, checks for removed features, commented-out code
 - Silent-skip branches (`exit 0` on failure, empty `catch` blocks that swallow errors)
 - Fallback chains ("try X, if that fails try Y") where only one path is correct
 - URL redirects preserving old paths — move pages, update links, delete the old URL. No redirects.

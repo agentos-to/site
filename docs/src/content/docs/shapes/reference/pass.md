@@ -110,7 +110,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[Mindbody Services (pricing options)](https://developers.mindbodyonline.com/PublicDocumentation/V6)** — Gym-industry reference. Our quantity/purchasedQuantity/ useCount/depletedDate are lifted from Mindbody's ClientService.Remaining / Count / DateCompleted.
 - **[GTFS fare rules / IATA fare basis](https://gtfs.org/documentation/schedule/reference/#fare_productstxt)** — Transit-pass vocabulary: single-ride, day-pass, period-pass all fit `isAllDayPass` + `startEffectiveDate` + `endEffectiveDate`.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [united](/skills/reference/logistics/united/) — `register_seats`
-- [austin-boulder-project](/skills/reference/fitness/austin-boulder-project/) — `get_my_passes`
+- [united](/apps/reference/logistics/united/) — `register_seats`
+- [austin-boulder-project](/apps/reference/fitness/austin-boulder-project/) — `get_my_passes`

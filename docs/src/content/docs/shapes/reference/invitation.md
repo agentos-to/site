@@ -87,6 +87,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[iCalendar ATTENDEE + PARTSTAT (RFC 5545)](https://datatracker.ietf.org/doc/html/rfc5545)** — Calendar-style invitations. Our status maps to PARTSTAT (NEEDS-ACTION/ACCEPTED/DECLINED/DELEGATED).
 - **[SCIM 2.0 (RFC 7644) — user provisioning](https://datatracker.ietf.org/doc/html/rfc7644)** — Enterprise invitation/provisioning. Our email/role/organization align with SCIM User resource's email + entitlements + group membership.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [greptile](/skills/reference/dev/greptile/) — `list_invites`, `send_invite`
+- [greptile](/apps/reference/dev/greptile/) — `list_invites`, `send_invite`

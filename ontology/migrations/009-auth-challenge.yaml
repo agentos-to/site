@@ -1,0 +1,12 @@
+# The account protocol — `auth_challenge` joins the ontology.
+#
+# A typed "human must act" login result: a Unicode-QR / consent-URL /
+# mailed-code challenge that renders as text on every agent surface.
+# Purely additive — one new shape, no instances yet anywhere.
+
+from: sha256:feccf4af84836d6f479a7a85a1d5ca62d9f76ac571ffe77b3dff578c46a1ddfd
+to:   sha256:c036635f2c2788f4a1b2a1a677e05032dc966fd3ffaca4d6996f334ba208b548
+doc:  "Account protocol — add the auth_challenge result shape."
+
+ops:
+  - add_node_type: {name: auth_challenge}

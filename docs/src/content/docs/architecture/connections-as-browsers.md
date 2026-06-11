@@ -1,17 +1,17 @@
 ---
 title: "Each connection is a client — a browser, a fetch, or an API"
-description: Each skill connection is a sandboxed identity profile with its own cookie jar, its own auth, and its own kind of client. Tools on different connections never share state; tools on the same connection always do. The vault is the safe; the per-call jar is a briefly-opened wallet.
+description: Each app connection is a sandboxed identity profile with its own cookie jar, its own auth, and its own kind of client. Tools on different connections never share state; tools on the same connection always do. The vault is the safe; the per-call jar is a briefly-opened wallet.
 ---
 
-A **connection** is how a skill reaches a service: a REST API, a cookie-
+A **connection** is how an app reaches a platform: a REST API, a cookie-
 authed dashboard, a local SQLite file. This page is about the
 architectural shape of connections — what makes them isolated, why
 that isolation is by construction rather than by policy, and how the
-ambient cookie-jar mechanism works without the skill author ever
+ambient cookie-jar mechanism works without the app author ever
 touching cookies.
 
-For the surface (what a skill author writes), see [Connections &
-Auth](/skills/connections/). For the resolution algorithm (how the
+For the surface (what an app author writes), see [Connections &
+Auth](/apps/connections/). For the resolution algorithm (how the
 engine picks the freshest cookie when multiple sources offer
 candidates), see [Auth resolution](/architecture/auth-resolution/).
 This page is the middle layer: **what a connection *is*.**
@@ -30,17 +30,17 @@ kind of client. The profile decides three things:
 
 Tools bind to a connection with `@connection("portal")`. Inside the
 tool body, plain `client.get("/x")` does the right thing because the
-connection owns the kind and the auth. **Skill code never threads
+connection owns the kind and the auth. **App code never threads
 cookies, tokens, or browser headers.**
 
-Two tools on *different* connections — even in the same skill — are
+Two tools on *different* connections — even in the same app — are
 separate browser profiles. Two tools on the *same* connection share
 state. Simple rule, enforced structurally.
 
-## Credentials key on `(domain, identifier)`, not `(skill, connection_name)`
+## Credentials key on `(domain, identifier)`, not `(app, connection_name)`
 
 The vault is keyed on who the identity *is*, not which
-skill is asking for it.
+app is asking for it.
 
 ```
 credentials (SQLite row):
@@ -56,21 +56,21 @@ credentials (SQLite row):
 2. Otherwise, the registrable domain of `base_url` — `host_from_url`
    collapses `api.exa.ai`, `dashboard.exa.ai`, and `auth.exa.ai` into
    one namespace: `exa.ai`.
-3. Fallback: the skill id.
+3. Fallback: the app id.
 
-### Why not key on `(skill, connection_name)`?
+### Why not key on `(app, connection_name)`?
 
-Imagine 20 skills declaring a connection named `portal`. Some point
+Imagine 20 apps declaring a connection named `portal`. Some point
 at `tilefive.com`, some at `exa.ai`, some at `amazon.com`. The name
-`portal` is a **local label inside the skill** — arbitrary, not
-globally meaningful. Two skills shouldn't collide just because their
+`portal` is a **local label inside the app** — arbitrary, not
+globally meaningful. Two apps shouldn't collide just because their
 authors both picked a reasonable short name.
 
 Keying on the derived domain instead gives four properties:
 
 1. **One source of truth per identity.** Log into `claude.ai` once;
-   every skill talking to Claude sees the same session.
-2. **Skill rename / move is safe.** Reorganize `amazon.py` into a
+   every app talking to Claude sees the same session.
+2. **App rename / move is safe.** Reorganize `amazon.py` into a
    nested folder, rename its `web` connection to `account` — the
    cookies don't move because they're keyed on `amazon.com`.
 3. **Subdomain sprawl collapses naturally.** `api.exa.ai` and
@@ -185,10 +185,10 @@ inherit from the connection.
 
 ## What this replaces
 
-Before this model landed, skills carried cookies manually:
+Before this model landed, apps carried cookies manually:
 
 ```python
-# BEFORE — the skill threads cookies everywhere
+# BEFORE — the app threads cookies everywhere
 async def list_api_keys(**params):
     cookie_header = require_cookies(params, "list_api_keys")
     async with http.client(cookies=cookie_header, http2=False,
@@ -212,7 +212,7 @@ async def list_api_keys(**params):
     return parse(resp["json"])
 ```
 
-The skill shrinks. The engine doesn't grow. The cookie-auth `Set-Cookie`
+The app shrinks. The engine doesn't grow. The cookie-auth `Set-Cookie`
 roundtrip that used to require a session context manager happens
 automatically because the per-call jar is ambient to every HTTP call
 the tool body makes.
@@ -223,7 +223,7 @@ the tool body makes.
   Different connections → different `(domain, identifier)` keys →
   different rows → different in-memory jars. There's no code path
   that would let one jar read the other.
-- **A compromised skill cannot reach across identities.** It can
+- **A compromised app cannot reach across identities.** It can
   only touch the credential row its resolved connection maps to. It
   can't enumerate rows, can't open a jar for a different domain.
 - **Plaintext lives for seconds, in one process.** The per-call jar
@@ -235,13 +235,13 @@ the tool body makes.
 
 ## Related
 
-- [Security](/architecture/security/) — the broader invariants (skill
+- [Security](/architecture/security/) — the broader invariants (app
   decoupling, engine refuses to know entity types, credentials
   encrypted at rest).
 - [Auth resolution](/architecture/auth-resolution/) — the algorithm
   the engine uses to pick the freshest cookie when store, cache,
   and browser providers all offer candidates for the same
   `(domain, identifier)`.
-- [Connections & Auth (skill author's view)](/skills/connections/) —
+- [Connections & Auth (app author's view)](/apps/connections/) —
   the surface. What the `connection(...)` call looks like, what
   `client=` does, which auth types are supported.

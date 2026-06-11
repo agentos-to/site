@@ -228,7 +228,7 @@ def _probe_source_root(root: Path, origin: str) -> AppSource:
     shapes: Path | None = None
     crates: Path | None = None
 
-    candidate_apps = root / "skills"
+    candidate_apps = root / "apps"
     if candidate_apps.is_dir():
         apps = candidate_apps
     elif _looks_like_apps_dir(root):
@@ -294,7 +294,7 @@ def _discover_sources(explicit_apps_dir: Path | None = None) -> list[AppSource]:
         workspace_apps = workspace_apps.resolve()
         workspace_root = (
             workspace_apps.parent
-            if workspace_apps.name == "skills"
+            if workspace_apps.name == "apps"
             else workspace_apps
         )
         ws = _probe_source_root(workspace_root, origin="workspace")
@@ -411,13 +411,12 @@ def _find_apps_dir(start: Path | None = None) -> Path | None:
     """Locate the apps/ directory to audit.
 
     Resolution order:
-      1. AGENTOS_SKILLS_DIR env var
+      1. AGENTOS_APPS_DIR env var
       2. <start>/apps/ if it contains nested readme.md files
-      3. Walk up from <start> looking for a `apps/` directory that
-         contains readme.md files (typical: agentos-community repo)
-      4. Walk up looking for an `agentos-community/apps/` sibling
+      3. Walk up from <start> looking for an `apps/` directory that
+         contains readme.md files (typical: the workspace root)
     """
-    env = os.environ.get("AGENTOS_SKILLS_DIR") or os.environ.get("SKILLS_DIR")
+    env = os.environ.get("AGENTOS_APPS_DIR")
     if env:
         p = Path(env).expanduser().resolve()
         if p.is_dir():
@@ -440,10 +439,7 @@ def _find_apps_dir(start: Path | None = None) -> Path | None:
         return False
 
     for base in [start, *start.parents]:
-        candidate = base / "skills"
-        if _has_apps(candidate):
-            return candidate
-        candidate = base / "agentos-community" / "skills"
+        candidate = base / "apps"
         if _has_apps(candidate):
             return candidate
 
@@ -555,6 +551,11 @@ _NON_SHAPE_RETURNS = {
 
 # Decorators that mark a function as a tool. The engine reads these via AST.
 _TOOL_MARKER_DECORATORS = {"returns", "provides", "connection", "timeout", "claims"}
+
+# `@account.<role>` decorator roles — the account protocol's declaration
+# point. The engine resolves an app's check/login/logout/profile ops from
+# these, never from literal tool names.
+_ACCOUNT_ROLES = {"check", "login", "logout", "profile"}
 
 # snake_case pattern — flagged only when camelCase version is a known shape field
 _SNAKE_RE = re.compile(r"^[a-z]+_[a-z]")
@@ -867,9 +868,7 @@ def _collect_produced_shapes(apps_roots: list[Path]) -> set[str]:
                 for node in tree.body:
                     if not _is_tool_function(node):
                         continue
-                    shape = _tool_return_shape(node)
-                    if shape:
-                        produced.add(shape)
+                    produced.update(_tool_return_shapes(node))
     return produced
 
 
@@ -1015,6 +1014,25 @@ def _decorator_name(dec: ast.AST) -> str | None:
     return None
 
 
+def _account_role(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str | None:
+    """Return the role when the function is decorated `@account.<role>`.
+
+    Matches the bare-attribute form only (`@account.login`, not
+    `@account.login(...)`) — that is the decorator's one shape. The
+    `account.` qualifier is required so an unrelated `@foo.login` never
+    matches.
+    """
+    for dec in node.decorator_list:
+        if (
+            isinstance(dec, ast.Attribute)
+            and isinstance(dec.value, ast.Name)
+            and dec.value.id == "account"
+            and dec.attr in _ACCOUNT_ROLES
+        ):
+            return dec.attr
+    return None
+
+
 def _is_tool_function(node: ast.AST) -> bool:
     """True if a top-level function is a tool (decorated + not underscore-prefixed)."""
     if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
@@ -1024,15 +1042,18 @@ def _is_tool_function(node: ast.AST) -> bool:
     for dec in node.decorator_list:
         if _decorator_name(dec) in _TOOL_MARKER_DECORATORS:
             return True
-    return False
+    return _account_role(node) is not None
 
 
-def _tool_return_shape(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str | None:
-    """Extract the shape name from @returns(...) on a tool function.
+def _tool_return_shapes(node: ast.FunctionDef | ast.AsyncFunctionDef) -> list[str]:
+    """Extract the shape name(s) from @returns(...) on a tool function.
 
     Returns:
-        - shape name (with brackets stripped) for `@returns("shape")`, `@returns("shape[]")`
-        - None if @returns is absent, uses an inline dict schema, or returns a non-shape primitive
+        - [shape] (brackets stripped) for `@returns("shape")`, `@returns("shape[]")`
+        - one entry per arm for a union — `@returns("account | auth_challenge")`;
+          the worker discriminates which arm a given call returned
+        - [] if @returns is absent, uses an inline dict schema, or returns
+          only non-shape primitives
     """
     for dec in node.decorator_list:
         if not isinstance(dec, ast.Call):
@@ -1043,12 +1064,11 @@ def _tool_return_shape(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str | No
             continue
         arg = dec.args[0]
         if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
-            base = arg.value.strip().rstrip("[]").rstrip()
-            if base and base not in _NON_SHAPE_RETURNS:
-                return base
+            arms = [a.strip().rstrip("[]").rstrip() for a in arg.value.split("|")]
+            return [a for a in arms if a and a not in _NON_SHAPE_RETURNS]
         # inline dict schema → not a shape reference
-        return None
-    return None
+        return []
+    return []
 
 
 def _has_returns_decorator(node: ast.FunctionDef | ast.AsyncFunctionDef) -> bool:
@@ -1602,33 +1622,51 @@ def check_shape_conformance(app_dir: Path, shapes_dir: Path | None) -> list[str]
         for node in tree.body:  # top-level only
             if not _is_tool_function(node):
                 continue
-            shape_name = _tool_return_shape(node)
-            if not shape_name:
+            shape_names = _tool_return_shapes(node)
+            if not shape_names:
                 continue  # inline schema or primitive return
 
-            shape_data = _load_shape_fields(shapes_dir, shape_name)
-            if shape_data is None:
-                warnings.append(
-                    f"{rel}:{node.lineno}: {node.name} returns shape '{shape_name}' "
-                    f"— shape not found in shapes/"
-                )
+            # Union returns validate keys against the union of all arms'
+            # fields — static analysis sees every return statement mixed
+            # together, so per-arm attribution is impossible here; the
+            # worker discriminates at runtime.
+            shape_fields: set[str] = set()
+            shape_relations: set[str] = set()
+            missing_arm = False
+            for shape_name in shape_names:
+                shape_data = _load_shape_fields(shapes_dir, shape_name)
+                if shape_data is None:
+                    warnings.append(
+                        f"{rel}:{node.lineno}: {node.name} returns shape '{shape_name}' "
+                        f"— shape not found in shapes/"
+                    )
+                    missing_arm = True
+                    continue
+                arm_fields, arm_relations = shape_data
+                shape_fields |= arm_fields
+                shape_relations |= arm_relations
+            if missing_arm and not (shape_fields or shape_relations):
                 continue
-            shape_fields, shape_relations = shape_data
+            shape_label = " | ".join(shape_names)
             all_valid_keys = STANDARD_FIELDS | shape_fields | shape_relations | SYSTEM_RETURN_FIELDS
 
             returned_keys = _extract_return_keys_from_function(tree, node.name)
             if returned_keys is None:
                 continue  # no dict-literal returns — can't analyze
 
-            identity_keys = _load_shape_identity(shapes_dir, shape_name)
-            if identity_keys:
-                field_identity = [k for k in identity_keys if k not in shape_relations and k != "id"]
-                for key in field_identity:
-                    if key not in returned_keys:
-                        warnings.append(
-                            f"{rel}:{node.lineno}: {node.name} returns shape '{shape_name}' "
-                            f"but is missing identity field '{key}' — dedup will fall back to imported_from"
-                        )
+            # Identity completeness is only checkable for a single-shape
+            # return — with a union, no static way to tell which return
+            # statements belong to which arm.
+            if len(shape_names) == 1:
+                identity_keys = _load_shape_identity(shapes_dir, shape_names[0])
+                if identity_keys:
+                    field_identity = [k for k in identity_keys if k not in shape_relations and k != "id"]
+                    for key in field_identity:
+                        if key not in returned_keys:
+                            warnings.append(
+                                f"{rel}:{node.lineno}: {node.name} returns shape '{shape_label}' "
+                                f"but is missing identity field '{key}' — dedup will fall back to imported_from"
+                            )
 
             # Extra keys advisory — ignore underscore-prefixed internals.
             # Lazy-learned shapes absorb new keys on next run; this is a
@@ -1636,9 +1674,9 @@ def check_shape_conformance(app_dir: Path, shapes_dir: Path | None) -> list[str]
             extra = {k for k in returned_keys - all_valid_keys if not k.startswith("_")}
             if extra:
                 warnings.append(
-                    f"{rel}:{node.lineno}: {node.name} returns keys not declared on shape '{shape_name}': "
+                    f"{rel}:{node.lineno}: {node.name} returns keys not declared on shape '{shape_label}': "
                     f"{', '.join(sorted(extra))} — the engine will union-extend on next run; "
-                    f"add to platform/ontology/shapes/{shape_name}.yaml to get SDK TypedDict coverage"
+                    f"add to platform/ontology/shapes/{shape_names[0]}.yaml to get SDK TypedDict coverage"
                 )
 
             # Link-registry conformance — for every returned key that's
@@ -1653,7 +1691,7 @@ def check_shape_conformance(app_dir: Path, shapes_dir: Path | None) -> list[str]
                 if unknown_slots:
                     warnings.append(
                         f"{rel}:{node.lineno}: {node.name} returns link slot(s) "
-                        f"{', '.join(unknown_slots)} on shape '{shape_name}' but the "
+                        f"{', '.join(unknown_slots)} on shape '{shape_label}' but the "
                         f"link registry has no matching canonical or reverse-accessor — "
                         f"add to platform/ontology/links/ or rename to an existing label"
                     )
@@ -1955,6 +1993,49 @@ def check_logout_presence(app_dir: Path) -> list[str]:
     return issues
 
 
+def check_account_trio(app_dir: Path) -> list[str]:
+    """Validate `@account.<role>` declarations — the account protocol.
+
+    - `@account.login` requires a sibling `@account.logout` somewhere in
+      the app. Every app that can log in must be able to log out —
+      server-side revocation is what makes "logout" more than a cosmetic
+      local-cache delete (same rationale as `check_logout_presence`, which
+      covers the legacy connection-dict declaration and dies with it).
+    - At most one op per role — the app's tool namespace is flat and the
+      engine resolves exactly one op per role.
+
+    Errors, not warnings: the decorators are new, so there is no installed
+    base to migrate — the wrong thing is impossible from day one.
+    """
+    issues: list[str] = []
+    sites: dict[str, list[tuple[str, int, str]]] = {}
+    for rel, _py, _src, tree in _iter_app_py_files(app_dir):
+        for node in tree.body:
+            if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            role = _account_role(node)
+            if role is not None:
+                sites.setdefault(role, []).append((rel, node.lineno, node.name))
+
+    for role, where in sorted(sites.items()):
+        if len(where) > 1:
+            locs = ", ".join(f"{rel}:{lineno} {name}" for rel, lineno, name in where)
+            issues.append(
+                f"@account.{role} declared on {len(where)} ops ({locs}) — "
+                f"one op per role; the engine resolves exactly one."
+            )
+
+    if "login" in sites and "logout" not in sites:
+        rel, lineno, name = sites["login"][0]
+        issues.append(
+            f"{rel}:{lineno}: `{name}` is @account.login but no op is "
+            f"@account.logout. Every app that can log in must be able to "
+            f"log out — server-side revoke is what makes logout more than "
+            f"a local-cache delete. See docs/.../apps/adding-login.md."
+        )
+    return issues
+
+
 def check_auth_provider_contract(app_dir: Path) -> list[str]:
     """Enforce the OAuth / cookie provider return contract at commit time.
 
@@ -2127,10 +2208,10 @@ def check_provider_service_contract(
             declared_base = declared.strip().rstrip("[]").rstrip()
             if _load_shape_fields(shapes_dir, declared_base) is None:
                 continue
-            tool_shape = _tool_return_shape(node)
-            if tool_shape == declared_base:
+            tool_shapes = _tool_return_shapes(node)
+            if declared_base in tool_shapes:
                 continue
-            if tool_shape is None:
+            if not tool_shapes:
                 warnings.append(
                     f"{rel}:{node.lineno}: {node.name} is `@provides({service})` but "
                     f"@returns declares no shape — the {service} contract returns "
@@ -2141,7 +2222,7 @@ def check_provider_service_contract(
             else:
                 issues.append(
                     f"{rel}:{node.lineno}: {node.name} is `@provides({service})` but "
-                    f"@returns declares '{tool_shape}' — the {service} contract returns "
+                    f"@returns declares '{' | '.join(tool_shapes)}' — the {service} contract returns "
                     f"'{declared_base}' (ontology/services/{service}.yaml). A general "
                     f"provider's bound tool must return the service's declared shape."
                 )
@@ -2188,7 +2269,7 @@ def check_claims(app_dir: Path) -> list[str]:
                 )
                 continue
             # @claims with no @returns(shape) is a no-op — warn.
-            if _tool_return_shape(node) is None:
+            if not _tool_return_shapes(node):
                 issues.append(
                     f"{rel}:{node.lineno}: {node.name} uses `@claims(\"{claimant}\")` "
                     f"but `@returns(...)` is missing or uses an inline dict. "
@@ -2212,13 +2293,16 @@ def check_camelcase_dict_keys(app_dir: Path, shapes_dir: Path | None) -> list[st
 
     def _target_camel_fields(func: ast.FunctionDef | ast.AsyncFunctionDef) -> set[str]:
         """Return the set of camelCase field names that apply to this function's return."""
-        shape_name = _tool_return_shape(func)
-        if shape_name:
-            data = _load_shape_fields(shapes_dir, shape_name)
-            if not data:
-                return set()
-            fields, relations = data
-            return fields | relations
+        shape_names = _tool_return_shapes(func)
+        if shape_names:
+            combined: set[str] = set()
+            for shape_name in shape_names:
+                data = _load_shape_fields(shapes_dir, shape_name)
+                if not data:
+                    continue
+                fields, relations = data
+                combined |= fields | relations
+            return combined
         inline = _inline_returns_keys(func)
         return inline or set()
 
@@ -2324,6 +2408,7 @@ def audit_app_dir(app_dir: Path, shapes_dir: Path | None) -> tuple[int, str | No
     all_issues.extend(check_sync_sleep_in_async(app_dir))
     all_issues.extend(check_camelcase_dict_keys(app_dir, shapes_dir))
     all_issues.extend(check_auth_provider_contract(app_dir))
+    all_issues.extend(check_account_trio(app_dir))
     provider_issues, provider_warnings = check_provider_service_contract(app_dir, shapes_dir)
     all_issues.extend(provider_issues)
     all_warnings.extend(provider_warnings)
@@ -2429,7 +2514,7 @@ def run_validate(target: str | None = None, *, validate_all: bool = False,
         apps_dir = _find_apps_dir()
     if apps_dir is None:
         print("error: could not locate apps/ directory", file=sys.stderr)
-        print("  set AGENTOS_SKILLS_DIR or run from inside agentos-community/", file=sys.stderr)
+        print("  set AGENTOS_APPS_DIR or run from inside the workspace", file=sys.stderr)
         return 1
 
     # Discover all sources — local workspace + anything configured in the

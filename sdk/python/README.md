@@ -1,10 +1,10 @@
-# AgentOS Skills SDK — Python
+# AgentOS App SDK — Python
 
-The Python SDK for writing AgentOS skills. Installed package name:
-`agentos` (so skills `from agentos import http, llm, shell, sql`). CLI
+The Python SDK for writing AgentOS apps. Installed package name:
+`agentos` (so apps `from agentos import http, llm, shell, sql`). CLI
 entry point: `agent-sdk`.
 
-[agentos.to](https://agentos.to) · [agentos.to/docs/skills](https://agentos.to/docs/skills/)
+[agentos.to](https://agentos.to) · [agentos.to/apps/overview](https://agentos.to/apps/overview/)
 
 ## What's here
 
@@ -12,13 +12,14 @@ entry point: `agent-sdk`.
 agentos/
   __init__.py       Package surface — from agentos import http, llm, …
   _bridge.py        IPC shim into the Rust engine
-  _generated.py     AUTO-GENERATED TypedDicts for every shape (from docs/shapes/*.yaml)
+  _generated.py     AUTO-GENERATED TypedDicts for every shape (from ontology/shapes/*.yaml)
   http.py           HTTP client with browser-header injection + cookie auth
-  llm.py            LLM capability binding (provider-agnostic)
+  llm.py            llm() — the brokered LLM service binding (provider-agnostic)
+  services.py       Service name constants + broker stubs (generated)
   shell.py          shell.run — subprocess wrapper
   sql.py            sql.query — SQLite read access
   macos/            macOS-specific helpers (keychain, plist, …)
-  validate.py       agent-sdk validate — the static skill linter
+  validate.py       agent-sdk validate — the static app linter
   cli.py            agent-sdk CLI entry point
   decorators.py     @tool, @returns, @provides
   shapes.py         Shape registry
@@ -28,39 +29,38 @@ agentos/
 ## Install
 
 ```bash
-pip install -e ../sdk-skills
+pipx install -e .     # from this directory (platform/sdk/python)
 ```
 
-Run from a skills clone that sits next to this repo
-(`~/dev/agentos/skills` alongside `~/dev/agentos/sdk-skills`).
+Apps live in the `apps/` workspace sibling (`~/dev/agentos/apps`
+alongside `~/dev/agentos/platform`).
 
 ## CLI
 
 ```bash
-agent-sdk validate                  # audit every skill under cwd
-agent-sdk validate <skill-dir>      # single skill
-agent-sdk validate --all            # walk skills/ tree
+agent-sdk validate                  # audit every app under cwd
+agent-sdk validate <app-dir>        # single app
+agent-sdk validate --all            # walk the apps/ tree
 agent-sdk validate --sandbox        # only banned-import sandbox check
-agent-sdk new-skill my-skill        # scaffold a new skill
+agent-sdk new-app my-app            # scaffold a new app
 agent-sdk shapes                    # list available shapes
+agent-sdk guide                     # print the app development guide
 ```
 
 ## Generated code
 
-`agentos/_generated.py` is emitted from `../docs/shapes/*.yaml` by
-`../docs/generate.py --lang python`. Do not edit — regenerate. Drift is
-checked on every commit via the pre-commit hook.
+`agentos/_generated.py` and `agentos/services.py` are emitted from
+`../../ontology/` by `../../codegen/generate.py`. Do not edit —
+regenerate. Drift is checked on every commit via the pre-commit hook.
 
 ## Sibling repos
 
-| Repo                                                     | Lang         | What |
-| -------------------------------------------------------- | ------------ | ---- |
-| [`core`](https://github.com/agentos-to/core)             | Rust         | The engine, CLI, MCP server |
-| [`docs`](https://github.com/agentos-to/docs)             | Astro + YAML | Docs + shapes (ontology) — [agentos.to](https://agentos.to) |
-| [`skills`](https://github.com/agentos-to/skills)         | Python       | Skills — adapters for third-party services |
-| **`sdk-skills`** (this repo)                             | Python       | Skills SDK — the `agentos` package |
-| [`apps`](https://github.com/agentos-to/apps)             | TypeScript   | Apps + React components |
-| [`sdk-apps`](https://github.com/agentos-to/sdk-apps)     | TypeScript   | Apps SDK — React components + TS shapes |
+| Repo                                                                   | Lang                  | What |
+| ---------------------------------------------------------------------- | --------------------- | ---- |
+| [`core`](https://github.com/agentos-to/core)                           | Rust                  | The engine, CLI, MCP server + the desktop shell |
+| [`site`](https://github.com/agentos-to/site) (this repo, `platform/`)  | YAML + Python + Astro | The contract — ontology, codegen, both SDKs, docs site |
+| [`apps`](https://github.com/agentos-to/apps)                           | Python                | Apps — adapters for third-party platforms |
+| `commons` (local)                                                      | TS + assets           | Themes, wallpapers, pre-installed apps |
 
 ## License
 

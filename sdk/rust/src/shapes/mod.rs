@@ -27,6 +27,7 @@ pub mod aircraft;
 pub mod airline;
 pub mod airport;
 pub mod app;
+pub mod auth_challenge;
 pub mod birth;
 pub mod book;
 pub mod booking_offer;
@@ -140,6 +141,7 @@ pub use aircraft::{AIRCRAFT, Aircraft};
 pub use airline::{AIRLINE, Airline};
 pub use airport::{AIRPORT, Airport};
 pub use app::{APP, App};
+pub use auth_challenge::{AUTH_CHALLENGE, AuthChallenge};
 pub use birth::{BIRTH, Birth};
 pub use book::{BOOK, Book};
 pub use booking_offer::{BOOKING_OFFER, BookingOffer};
@@ -259,6 +261,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "airline" => Some(&AIRLINE),
         "airport" => Some(&AIRPORT),
         "app" => Some(&APP),
+        "auth_challenge" => Some(&AUTH_CHALLENGE),
         "birth" => Some(&BIRTH),
         "book" => Some(&BOOK),
         "booking_offer" => Some(&BOOKING_OFFER),
@@ -457,6 +460,15 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         image: None,
         highlights: &[],
         body: None,
+        preview: &[],
+        also: &[],
+    }),
+    ("auth_challenge", Display {
+        title: None,
+        subtitle: Some("instructions"),
+        image: None,
+        highlights: &[],
+        body: Some("artifact"),
         preview: &[],
         also: &[],
     }),
@@ -1423,6 +1435,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("airline", &["iataCode", "icaoCode", "callsign", "country", "alliance", "industry", "actorType"]),
     ("airport", &["iataCode", "icaoCode", "city", "country", "countryCode", "timezone", "elevationFt", "terminalCount"]),
     ("app", &["id", "name", "description", "color", "status", "error", "iconRole", "route", "defaultView", "isSystem", "handles", "composition"]),
+    ("auth_challenge", &["kind", "payload", "artifact", "instructions", "expiresAt", "continueWith"]),
     ("birth", &["givenName", "additionalName", "familyName", "honorificPrefix", "honorificSuffix", "legalName", "maidenName", "sortAs", "nameOrder", "phoneticGivenName", "phoneticFamilyName", "gender", "nickname", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("book", &["isbn", "isbn13", "pages", "genres", "series", "format", "language", "originalTitle", "places", "characters", "awardsWon", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "coverage", "tags", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("booking_offer", &["cartId", "referenceNumber", "status", "preparedAt", "presentedAt", "approvedAt", "expiresAt", "currency", "baseAmount", "taxAmount", "feesAmount", "totalAmount", "itineraryHash", "signature", "signatureAlg", "signedBy", "checkoutUrl", "confirmEndpoint", "isRefundable", "isChangeable", "hasVoidWindow", "voidWindowEndsAt", "conditions", "blob", "review", "contactEmail", "contactPhone", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
@@ -1546,6 +1559,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("airline", "airlines"),
     ("airport", "airports"),
     ("app", "apps"),
+    ("auth_challenge", "auth_challenges"),
     ("birth", "births"),
     ("book", "books"),
     ("booking_offer", "booking_offers"),

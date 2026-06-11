@@ -73,7 +73,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[IATA NDC OfferItem](https://www.iata.org/en/programs/airline-distribution/retailing/ndc/)** — Our bookingToken ≈ OfferItemID; validUntil ≈ TimeLimits/ OfferExpirationDateTime; trips[] ≈ Itinerary.
 - **[schema.org/AggregateOffer](https://schema.org/AggregateOffer)** — For price-range offers (SerpAPI flight results). offerType is AgentOS-specific.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [united](/skills/reference/logistics/united/) — `search_flights`
-- [serpapi](/skills/reference/web/serpapi/) — `search_offers`, `list_offers`, `get_offer`
+- [united](/apps/reference/logistics/united/) — `search_flights`
+- [serpapi](/apps/reference/web/serpapi/) — `search_offers`, `list_offers`, `get_offer`

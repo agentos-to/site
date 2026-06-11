@@ -51,8 +51,8 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[Ollama /api/show + Modelfile](https://github.com/ollama/ollama/blob/main/docs/modelfile.md)** — Our quantization/quantizationLevel/format/digest/parameterSize come directly from Ollama's show-model response.
 - **[OpenRouter Models API](https://openrouter.ai/docs/models)** — Our contextLength/contextWindow/maxOutput/pricingInput/ pricingOutput mirror OpenRouter's model spec.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [openrouter](/skills/reference/ai/openrouter/) — `list_models`
-- [claude](/skills/reference/ai/claude/) — `list_models`, `list_models_cli`
-- [ollama](/skills/reference/ai/ollama/) — `list_models`, `list_models_cli`
+- [openrouter](/apps/reference/ai/openrouter/) — `list_models`
+- [claude](/apps/reference/ai/claude/) — `list_models`, `list_models_cli`
+- [ollama](/apps/reference/ai/ollama/) — `list_models`, `list_models_cli`

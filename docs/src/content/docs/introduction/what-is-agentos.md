@@ -13,15 +13,15 @@ The agent is the primary customer. AgentOS is the operating system *for* agents,
 
 ## The pieces
 
-**The engine** — a Rust binary that runs the graph (a SQLite database — the "memex"), executes skills, resolves auth, and speaks **[MCP](/interfaces/mcp/)** so any MCP-capable agent (Claude Code, Cursor, etc.) can use AgentOS as its tool surface.
+**The engine** — a Rust binary that runs the graph (a SQLite database — the "memex"), executes apps, resolves auth, and speaks **[MCP](/interfaces/mcp/)** so any MCP-capable agent (Claude Code, Cursor, etc.) can use AgentOS as its tool surface.
 
-**[Skills](/skills/overview/)** — Python adapters that connect to external services (macOS apps, cloud services, keychains) or act as pure agent tools. They declare the *capabilities* they provide (`@provides(llm)`, `@provides(web_search)`), and the engine matchmakes requests to the best available provider.
+**[Apps](/apps/overview/)** — Python connectors that reach external platforms (macOS software, cloud platforms, keychains) or act as pure agent tools. They declare the *services* they provide (`@provides(llm)`, `@provides(web_search)`), and the engine matchmakes requests to the best available provider — the user's default app for each service first.
 
-**[GUI](/apps/overview/)** — an optional layer for humans (TypeScript/React, served by the engine, browsed via Tauri or a standard browser). Think Linux plus an optional desktop environment: the [CLI](/interfaces/cli/) and engine work fully without it.
+**The shell** — an optional desktop layer for humans (served by the engine, browsed via Tauri or a standard browser). Every installed app renders as a generated window built from its contract. Think Linux plus an optional desktop environment: the [CLI](/interfaces/cli/) and engine work fully without it.
 
 **The graph** — your personal knowledge store. Everything is an entity; entities connect via relationships. It all lives in a single portable SQLite file at `~/.agentos/data/agentos.db`.
 
-Skills and apps never know about each other. The engine is the sole broker — **security by architecture**.
+Apps never know about each other. The engine is the sole broker — **security by architecture**.
 
 ## The graph
 
@@ -37,7 +37,7 @@ Your memex is a portable SQLite file — your entire mind in a `.db` file. Copy 
 
 - A YouTube channel is a community. A YouTube comment is a post. A transcript is a document.
 - A WhatsApp contact and an iMessage contact with the same phone number are the same person.
-- A skill that connects to a service is itself an entity. The system models itself.
+- An app that connects to a platform is itself an entity. The system models itself.
 - If something exists and has properties and relationships, it belongs in your graph.
 
 The graph is the foundation. Every feature — search, feeds, timelines, recommendations, agents — reads from the same graph. Get the graph right, and features compose naturally. Get it wrong, and everything built on top is a special case.
@@ -46,7 +46,7 @@ The graph is the foundation. Every feature — search, feeds, timelines, recomme
 
 People are used to two mental models for files: **local** (on my computer, only changes when I change it) and **cloud** (iCloud, Dropbox, Drive — somewhere out there, syncing in the background). These feel like different things. AgentOS dissolves that boundary.
 
-A document in your graph can be backed by a local file, a GitHub repo, an API response, or all three simultaneously. The NEPOMUK ontology calls this the separation between **content** (the information itself) and **storage** (where it lives). One document, many access paths. The graph tracks the content; skills handle the storage.
+A document in your graph can be backed by a local file, a GitHub repo, an API response, or all three simultaneously. The NEPOMUK ontology calls this the separation between **content** (the information itself) and **storage** (where it lives). One document, many access paths. The graph tracks the content; apps handle the storage.
 
 ## What it looks like when it works
 
@@ -56,4 +56,4 @@ The agent queries your graph: messages received, tasks completed by others, cale
 
 All of this from one graph. No special integrations. No "Slack + Linear" connector. Your graph already has the entities and relationships. The agent just traverses.
 
-That's the vision. We're not there yet. But every entity we model correctly, every relationship we capture, every skill we build — it gets closer.
+That's the vision. We're not there yet. But every entity we model correctly, every relationship we capture, every app we build — it gets closer.

@@ -38,8 +38,8 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[OpenSearch Description Document](https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md)** — Result-pointer model: each hit has a URL + metadata. Our resultType ≈ Url template's type attribute.
 - **[Web Search API conventions (Brave/Bing)](https://api.search.brave.com/app/documentation/web-search/get-started)** — Practical source. Our indexedAt/resultType align with common fields across Brave, Bing, and Exa web APIs.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [moltbook](/skills/reference/media/moltbook/) — `search_posts`
-- [brave](/skills/reference/web/brave/) — `search`
-- [exa](/skills/reference/web/exa/) — `search`
+- [moltbook](/apps/reference/media/moltbook/) — `search_posts`
+- [brave](/apps/reference/web/brave/) — `search`
+- [exa](/apps/reference/web/exa/) — `search`

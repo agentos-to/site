@@ -130,9 +130,9 @@ def emit_op_docs(ops: list[Op], op_types: dict[str, OpType], out_dir: Path) -> N
             type_lines.append("")
 
     # Index page.
-    idx = _frontmatter("Ops", "The engine op contract — primitives skills call.", "Overview")
+    idx = _frontmatter("Ops", "The engine op contract — primitives apps call.", "Overview")
     idx += [
-        "The op contract — the engine primitives skills call (`shell.run`,",
+        "The op contract — the engine primitives apps call (`shell.run`,",
         "`http.request`, `sql.query`, …). Authored as YAML in",
         "`platform/ontology/ops/`, projected here and into every SDK.",
         "",

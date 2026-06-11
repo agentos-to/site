@@ -17,7 +17,7 @@ The human owner, each AI agent, and the system itself are all entities on the gr
 This is **identification, not authentication** — on a single-user local system, localhost binding is the access boundary. We're not gatekeeping *who can act*; we're recording *who did*.
 
 - **The human owner** — one entity per AgentOS install. Your edits.
-- **AI agents** — Claude, Cursor, your custom skills. Each a distinct entity.
+- **AI agents** — Claude, Cursor, your custom apps. Each a distinct entity.
 - **The system** — automated processes like sync, indexing, migration. Attributed to a `system` actor, not hidden.
 
 ## Changes are entities

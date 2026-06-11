@@ -83,8 +83,8 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[Linear GraphQL API — Issue](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)** — Practical canonical. Our priority/state/project/targetDate align with Linear's Issue model exactly.
 - **[Todoist REST API v2 — Tasks](https://developer.todoist.com/rest/v2/)** — Consumer-grade task model. Our startedAt/targetDate ≈ created_at/due; labels match directly.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [todoist](/skills/reference/productivity/todoist/) — `list_tasks`, `list_all_tasks`, `filter_task`, `get_task`, `create_task`, `update_task`, `move_task`
-- [linear](/skills/reference/dev/linear/) — `list_tasks`, `get_task`, `create_task`, `update_task`
-- [github](/skills/reference/dev/github/) — `list_tasks`, `get_task`
+- [todoist](/apps/reference/productivity/todoist/) — `list_tasks`, `list_all_tasks`, `filter_task`, `get_task`, `create_task`, `update_task`, `move_task`
+- [linear](/apps/reference/dev/linear/) — `list_tasks`, `get_task`, `create_task`, `update_task`
+- [github](/apps/reference/dev/github/) — `list_tasks`, `get_task`

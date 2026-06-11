@@ -44,12 +44,12 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[Matrix Room (m.room)](https://spec.matrix.org/latest/client-server-api/#room-events)** — Practical thread model. Our isGroup ≈ room.join_rules; unreadCount ≈ unread_notifications.highlight_count.
 - **[Gmail API — Thread resource](https://developers.google.com/gmail/api/reference/rest/v1/users.threads)** — Our messageCount ≈ messages.length; unreadCount derived from UNREAD labels on Thread messages.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [granola](/skills/reference/productivity/granola/) — `list_conversations`, `get_conversation`
-- [cursor](/skills/reference/dev/cursor/) — `list_sessions`, `backfill_session`, `get_session`
-- [claude](/skills/reference/ai/claude/) — `list_conversations`, `search_conversations`, `list_conversations_cli`, `get_conversation`, `read_conversation_cli`
-- [mimestream](/skills/reference/comms/mimestream/) — `list_conversations`, `get_conversation`
-- [imessage](/skills/reference/comms/imessage/) — `list_conversations`, `get_conversation`
-- [gmail](/skills/reference/comms/gmail/) — `list_conversations`, `get_conversation`
-- [whatsapp](/skills/reference/comms/whatsapp/) — `list_conversations`, `get_conversation`, `mark_read`
+- [granola](/apps/reference/productivity/granola/) — `list_conversations`, `get_conversation`
+- [cursor](/apps/reference/dev/cursor/) — `list_sessions`, `backfill_session`, `get_session`
+- [claude](/apps/reference/ai/claude/) — `list_conversations`, `search_conversations`, `list_conversations_cli`, `get_conversation`, `read_conversation_cli`
+- [mimestream](/apps/reference/comms/mimestream/) — `list_conversations`, `get_conversation`
+- [imessage](/apps/reference/comms/imessage/) — `list_conversations`, `get_conversation`
+- [gmail](/apps/reference/comms/gmail/) — `list_conversations`, `get_conversation`
+- [whatsapp](/apps/reference/comms/whatsapp/) — `list_conversations`, `get_conversation`, `mark_read`

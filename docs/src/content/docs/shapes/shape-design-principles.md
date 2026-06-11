@@ -9,7 +9,7 @@ For the tactical reference (field types, format, display rules), see the [Ontolo
 
 ## 1. A shape describes what something IS, not where it came from
 
-A book is a book. Not a "Goodreads book" or an "Amazon book." The shape defines intrinsic properties. The skill defines the source.
+A book is a book. Not a "Goodreads book" or an "Amazon book." The shape defines intrinsic properties. The app defines the source.
 
 ## 2. No counts on shapes
 
@@ -66,8 +66,8 @@ This doesn't mean every date field becomes a full event entity today. `birthday`
 
 The graph supports `inverse_name` on relationship types. If a person authored a book (`person --write--> book`), the book shows "written by person" (`book <--write-- person`). Both directions exist in the graph. Shapes declare one direction in `relations`; the engine resolves the other.
 
-When a skill creates an link in one direction, the inverse is automatically queryable. "Show me all books written by this person" and "Show me who wrote this book" are the same link traversed in opposite directions.
+When an app creates an link in one direction, the inverse is automatically queryable. "Show me all books written by this person" and "Show me who wrote this book" are the same link traversed in opposite directions.
 
 ## 10. Principles evolve
 
-These principles are extracted from practice, not prescribed from theory. As we build more skills and model more domains, we'll discover new patterns and refine these. The test is always: does this make the ontology more useful and more universal?
+These principles are extracted from practice, not prescribed from theory. As we build more apps and model more domains, we'll discover new patterns and refine these. The test is always: does this make the ontology more useful and more universal?

@@ -99,7 +99,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[RFC 5545 (iCalendar) VEVENT](https://datatracker.ietf.org/doc/html/rfc5545)** — Our icalUid is their UID; recurrence is their RRULE; status maps to STATUS (TENTATIVE/CONFIRMED/CANCELLED); showAs ≈ TRANSP; involves[] ≈ ATTENDEE.
 - **[ActivityStreams 2.0 Event](https://www.w3.org/TR/activitystreams-vocabulary/#dfn-event)** — Fediverse inbox format. Thinner than iCal — no native recurrence or showAs; our involves[] ≈ attendees via as:Relationship.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [google-calendar](/skills/reference/productivity/google-calendar/) — `list_events`, `search_events`, `get_event`, `create_event`, `update_event`
-- [posthog](/skills/reference/web/posthog/) — `list_events`, `get_event`
+- [google-calendar](/apps/reference/productivity/google-calendar/) — `list_events`, `search_events`, `get_event`, `create_event`, `update_event`
+- [posthog](/apps/reference/web/posthog/) — `list_events`, `get_event`

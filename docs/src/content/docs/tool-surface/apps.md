@@ -14,8 +14,8 @@ App introspection and direct dispatch.
 - [`run`](#run) — Execute an app tool directly
 - [`load`](#load) — Load an app manual (readme + tool list + per-connection auth state) before calling run
 - [`connect`](#connect) — Store a credential for an app connection (api-key connections)
-- [`disable`](#disable) — Switch a plugin off: it drops out of matchmaking, run, and readme()'s tool list
-- [`enable`](#enable) — Switch a disabled plugin back on
+- [`disable`](#disable) — Switch an app off: it drops out of matchmaking, run, and readme()'s tool list
+- [`enable`](#enable) — Switch a disabled app back on
 - [`accounts`](#accounts) — Every account + every app connection with auth kind, status, identifier, and freshness — the identity surface behind the apps
 
 ## `run`
@@ -159,7 +159,7 @@ connect({ app: "porkbun", key: "pk1_...:sk1_..." })
       "type": "string"
     },
     "identifier": {
-      "description": "Account identity at the service (email/handle), when known.",
+      "description": "Account identity at the platform (email/handle), when known.",
       "type": "string"
     },
     "key": {
@@ -184,7 +184,7 @@ connect({ app: "porkbun", key: "pk1_...:sk1_..." })
 
 ## `disable`
 
-Switch a plugin off: it drops out of matchmaking, run, and readme()'s tool list. The graph node and any stored credentials stay; enable reverses it.
+Switch an app off: it drops out of matchmaking, run, and readme()'s tool list. The graph node and any stored credentials stay; enable reverses it.
 
 ### Examples
 
@@ -199,7 +199,7 @@ disable({ app: "porkbun" })
   "additionalProperties": false,
   "properties": {
     "app": {
-      "description": "Plugin (app) id to switch off \u2014 it drops out of matchmaking, run, and readme until re-enabled.",
+      "description": "App id to switch off \u2014 it drops out of matchmaking, run, and readme until re-enabled.",
       "type": "string"
     }
   },
@@ -212,7 +212,7 @@ disable({ app: "porkbun" })
 
 ## `enable`
 
-Switch a disabled plugin back on.
+Switch a disabled app back on.
 
 ### Examples
 
@@ -227,7 +227,7 @@ enable({ app: "porkbun" })
   "additionalProperties": false,
   "properties": {
     "app": {
-      "description": "Plugin (app) id to switch back on.",
+      "description": "App id to switch back on.",
       "type": "string"
     }
   },

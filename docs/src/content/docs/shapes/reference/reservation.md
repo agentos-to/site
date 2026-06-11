@@ -134,6 +134,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[FEP-8a8e Event interop](https://w3id.org/fep/8a8e)** — Splits supply-side status (on the event/flight) from demand-side status (on the attendee/passenger). We mirror this by keeping `status` on reservation (passenger-side) separate from any cancellation/delay state on the `flight` or `trip` itself.
 - **[Valueflows / REA — Commitment](https://www.valueflo.ws/concepts/flows/)** — REA accounting framing: a reservation IS a commitment with provider, receiver, resourceConformsTo, quantity, and time window. Useful lens for future extension (hotel nights, car rental days).
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [united](/skills/reference/logistics/united/) — `list_trips`, `get_cart`, `select_flight`, `register_traveler`
+- [united](/apps/reference/logistics/united/) — `list_trips`, `get_cart`, `select_flight`, `register_traveler`

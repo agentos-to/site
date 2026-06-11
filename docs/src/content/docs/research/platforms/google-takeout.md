@@ -73,7 +73,7 @@ Product leads, engineers, and designers behind Google's products.
 | `webpage` | Web source with URL |
 | `quote` | Notable saying |
 
-**From agentos-community brainstorming:**
+**From apps-repo brainstorming:**
 - `task` — unit of work
 - `event` — calendar event
 - `message` — chat/email message

@@ -58,6 +58,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[Goodreads API — Shelves](https://www.goodreads.com/api)** — Direct source. Our isExclusive maps to Goodreads' "exclusive shelves" (read, to-read, currently-reading).
 - **[schema.org/ItemList (bookshelf)](https://schema.org/ItemList)** — Generic collection peer. contains(book[]) ≈ itemListElement.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [goodreads](/skills/reference/media/goodreads/) — `list_shelves`
+- [goodreads](/apps/reference/media/goodreads/) — `list_shelves`

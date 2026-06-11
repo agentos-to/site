@@ -45,8 +45,8 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[Matrix m.room.message](https://spec.matrix.org/latest/client-server-api/#mroommessage)** — Practical cross-platform message event schema. Our isOutgoing has no Matrix analog (sender identity instead); repliesTo ≈ m.relates_to rel_type m.thread/m.in_reply_to.
 - **[XMPP (RFC 6121) message stanza](https://datatracker.ietf.org/doc/html/rfc6121)** — IETF instant-messaging baseline. from/to/thread correspond to our from/inConversation; no standardized isStarred.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [claude](/skills/reference/ai/claude/) — `import_conversation`
-- [imessage](/skills/reference/comms/imessage/) — `list_messages`, `search_messages`, `get_message`
-- [whatsapp](/skills/reference/comms/whatsapp/) — `list_messages`, `search_messages`, `get_message`, `send_message`, `send_media`
+- [claude](/apps/reference/ai/claude/) — `import_conversation`
+- [imessage](/apps/reference/comms/imessage/) — `list_messages`, `search_messages`, `get_message`
+- [whatsapp](/apps/reference/comms/whatsapp/) — `list_messages`, `search_messages`, `get_message`, `send_message`, `send_media`

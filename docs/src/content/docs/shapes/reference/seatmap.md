@@ -76,6 +76,6 @@ id is a synthetic string the app composes.
 | `flown_with` | [`aircraft`](/shapes/reference/aircraft/) |
 | `under` | [`reservation`](/shapes/reference/reservation/) |
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [united](/skills/reference/logistics/united/) — `get_seatmap`
+- [united](/apps/reference/logistics/united/) — `get_seatmap`

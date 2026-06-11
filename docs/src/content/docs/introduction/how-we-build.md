@@ -12,27 +12,23 @@ We are **co-CTOs** — human and AI — making strategic decisions together. Thi
 - **Delete fearlessly.** No attachment to past code. If the model changes, the code changes. We write for the current best understanding, not for backwards compatibility.
 - **Infinite time horizon.** No customers, no deadlines, no pressure to ship. The right architecture at the right time.
 - **Pain-driven.** If you can't articulate the pain, don't build it.
-- **Blast radius is not a cost — stale architecture is.** An "audacious" refactor that touches the engine and every skill in one shot is *not more expensive* than a one-line fix. Pre-launch means zero migration cost.
+- **Blast radius is not a cost — stale architecture is.** An "audacious" refactor that touches the engine and every app in one shot is *not more expensive* than a one-line fix. Pre-launch means zero migration cost.
 
 See [Architectural laws](/architecture/architectural-laws/) for the full rule set.
 
-## Skills
+## Apps
 
-Each skill is a directory with a `readme.md` (YAML frontmatter for identity + connections, markdown body for the agent-facing guide) plus one or more `.py` files whose `@returns`-decorated functions are the tools. No separate manifest — operations are extracted from the Python AST at load time. The community repo tracks shipped skills under `skills/`.
+Each app is a directory with a `readme.md` (YAML frontmatter for identity + test config, markdown body for the agent-facing guide) plus one or more `.py` files whose decorated functions are the tools. No separate manifest — tools are extracted from the Python AST at load time. The public [apps repo](https://github.com/agentos-to/apps) tracks shipped apps.
 
-Start at the [Skills overview](/skills/overview/).
+Apps never name each other. An app declares the services it `@provides(...)`; a consumer asks the engine for the service; the engine matchmakes. And nobody hand-writes app UI — every installed app renders in the desktop shell as a generated window built from its contract (`@returns` shapes + JSON-Schema input schemas).
+
+Start at the [Apps overview](/apps/overview/).
 
 ## Shapes
 
-The ontology is a directory of YAML files — one shape per file — at `docs/shapes/`. Shapes describe entity types (fields, relations, display hints, operations). Add a shape, reseed, restart the engine; the graph now knows about a new entity type. No Rust change required.
+The ontology is a directory of YAML files — one shape per file — at `platform/ontology/shapes/`. Shapes describe entity types (fields, relations, display hints). One generator (`platform/codegen/generate.py`) projects them into the Python SDK, the engine's Rust contract, and the shell's typed contract. Add a shape, regenerate; the graph learns the new entity type lazily when an app first returns it. No Rust change required.
 
 Read the [Shape design principles](/shapes/shape-design-principles/) before proposing a new shape.
-
-## Apps
-
-TypeScript/React UIs for humans. Each app is self-contained and built against `@agentos/sdk` from the `sdk-apps/` sibling repo. Apps never talk to skills directly — they ask the engine for a capability, the engine routes to a skill that `@provides(...)` it.
-
-See [Apps overview](/apps/overview/).
 
 ## Proposals & roadmap
 
@@ -42,6 +38,6 @@ Design thinking lives in `_roadmap/` — pain, proposal, review, closeout. The p
 
 ## Build discipline
 
-- **Test through real services, not mocks.** No unit tests. Integration tests via MCP against the running engine.
+- **Test through real platforms, not mocks.** No unit tests. Integration tests via MCP against the running engine.
 - **Architecture over quick.** Always choose the right long-term architecture. No shortcuts.
 - **Dogfooding is the whole point.** Every session, building with the SDK should get easier. DX wins beat feature wins. If something isn't intuitive, *improve the SDK, don't work around it.*

@@ -1,15 +1,19 @@
 # AgentOS Docs
 
-The documentation site and shape ontology for AgentOS. Deploys to
+The documentation site for AgentOS — the `docs/` directory of the
+`platform` repo (GitHub remote: `agentos-to/site`). Deploys to
 [agentos.to](https://agentos.to) on every push to `main`.
 
 ```
 CNAME               agentos.to (pins the custom domain each deploy)
-src/content/docs/   Prose — principles, shapes, skills, connections, …
-shapes/             *.yaml — the shape ontology (source of truth)
-generate.py         Codegen — reads shapes/, emits typed code into sibling SDKs
+src/content/docs/   Prose — principles, shapes, apps, connections, …
+scripts/            audit.py (stale-content gate), fix-paths.mjs, …
 astro.config.mjs    Starlight config
 ```
+
+The shape ontology itself lives at `../ontology/` (one YAML per shape);
+the generator at `../codegen/generate.py`. This directory is prose +
+generated reference pages only.
 
 ## Working on it
 
@@ -25,31 +29,31 @@ plain `astro build`, then assemble `CNAME + dist/ → _site/`.
 
 ## Codegen
 
-`generate.py` reads `shapes/*.yaml` and emits typed code into each
-consumer SDK and into the Rust engine:
+`../codegen/generate.py` reads `../ontology/` and emits typed code into
+each consumer surface:
 
 - `../sdk/python/agentos/_generated.py` (Python TypedDicts)
-- `../sdk/typescript/src/shapes.ts` (TypeScript interfaces)
-- `../../core/crates/contract-generated/src/shapes.rs` (Rust — the contract crate's `shapes` module)
+- `../sdk/rust/src/shapes/` (Rust shape tree)
+- `../../core/web/src/contract-generated/shapes.ts` (the desktop shell's typed contract)
+- `../../core/crates/contract-generated/src/` (Rust — the engine's contract crate)
+- `src/content/docs/{apps,shapes,ops}/reference/` + `src/content/docs/tool-surface/` (generated reference pages — never hand-edit)
 
-Run `python3 generate.py --check` to confirm every downstream artifact
-is in sync with the current YAML.
+Run `python3 ../codegen/generate.py --check` to confirm every downstream
+artifact is in sync with the current YAML.
 
 ## Sibling repos
 
-| Repo                                                       | Lang         | What |
-| ---------------------------------------------------------- | ------------ | ---- |
-| [`core`](https://github.com/agentos-to/core)               | Rust + TS    | The engine, CLI, MCP server |
-| **`docs`** (this repo)                                     | Astro + YAML | Docs + shape ontology — deploys to [agentos.to](https://agentos.to) |
-| [`skills`](https://github.com/agentos-to/skills)           | Python       | Python skills |
-| [`sdk-skills`](https://github.com/agentos-to/sdk-skills)   | Python       | Skills SDK (pip-installable) |
-| [`apps`](https://github.com/agentos-to/apps)               | TypeScript   | Apps |
-| [`sdk-apps`](https://github.com/agentos-to/sdk-apps)       | TypeScript   | Apps SDK + React components |
+| Repo                                                       | Lang          | What |
+| ---------------------------------------------------------- | ------------- | ---- |
+| [`core`](https://github.com/agentos-to/core)               | Rust + TS     | The engine, CLI, MCP server, desktop shell |
+| **`site`** (this repo)                                     | YAML + Python + Astro | Ontology + codegen + Python SDK + docs — deploys to [agentos.to](https://agentos.to) |
+| [`apps`](https://github.com/agentos-to/apps)               | Python        | Apps (platform connectors) |
+| [`commons`](https://github.com/agentos-to/commons)         | Mixed         | Themes, wallpapers, pre-installed apps |
 
 ## Contributing
 
-[Open an issue](https://github.com/agentos-to/docs/issues) or a PR.
+[Open an issue](https://github.com/agentos-to/site/issues) or a PR.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see `../sdk/python/LICENSE`.

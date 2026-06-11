@@ -72,6 +72,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[schema.org/ExerciseAction](https://schema.org/ExerciseAction)** — Fitness-specific vocabulary: activityType ≈ exerciseType; venue matches directly as location.
 - **[Mindbody Public API (class schedules)](https://developers.mindbodyonline.com/PublicDocumentation/V6)** — Practical API mirror. Our capacity/spotsRemaining/isFull come from Mindbody's MaxCapacity/TotalBooked/IsWaitlistAvailable.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [austin-boulder-project](/skills/reference/fitness/austin-boulder-project/) — `get_schedule`
+- [austin-boulder-project](/apps/reference/fitness/austin-boulder-project/) — `get_schedule`

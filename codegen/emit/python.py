@@ -35,7 +35,7 @@ def _shape_to_wire_def(s: Shape) -> dict:
     (list of EdgeDef), derived (list of DerivedBinding), shortcuts
     (list of ShortcutDef), also, identity, identity_any, display.
 
-    Skill workers attach the matching entry as `__shape_def__` on every
+    App workers attach the matching entry as `__shape_def__` on every
     `@returns(shape)` response. The engine deserialises it server-side
     and upserts the shape-def before landing the data node — every
     write carries its schema (shape-unification Phase 1)."""
@@ -150,13 +150,13 @@ def emit_python(onto: Ontology) -> str:
         lines.append("")
         lines.append("")
 
-    # SHAPE_DEFS: per-shape structured schema. The skill worker attaches
+    # SHAPE_DEFS: per-shape structured schema. The app worker attaches
     # the matching entry as `__shape_def__` on every @returns(shape)
     # response; the Rust engine deserialises it directly into
     # `agentos_graph::ShapeDef` and upserts the shape-def alongside the
     # data write (shape-unification Phase 1). Replaces the legacy
     # `SHAPE_YAMLS` apparatus — engine no longer carries any YAML parser.
-    lines.append("# Structured shape defs — consumed by the skill worker to attach")
+    lines.append("# Structured shape defs — consumed by the app worker to attach")
     lines.append("# `__shape_def__` on every @returns(shape) response. Wire-equivalent")
     lines.append("# to `agentos_graph::ShapeDef`.")
     lines.append("SHAPE_DEFS: dict[str, dict] = {")
@@ -166,12 +166,12 @@ def emit_python(onto: Ontology) -> str:
     lines.append("}")
     lines.append("")
 
-    # Identity sidecars — the skill worker attaches these as
+    # Identity sidecars — the app worker attaches these as
     # `__shape_identity__` and `__shape_identity_any__` next to
     # `__shape_yaml__` on every @returns(shape) response, so the Rust
     # engine can drive identity-based upserts without parsing YAML or
     # consulting any in-process registry.
-    lines.append("# Identity keys per shape — sidecars for the skill worker.")
+    lines.append("# Identity keys per shape — sidecars for the app worker.")
     lines.append("SHAPE_IDENTITIES: dict[str, list[str]] = {")
     for s in shapes:
         if not s.identity:

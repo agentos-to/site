@@ -391,7 +391,7 @@ class _AppsNamespace:
         Args:
             app (string, required): App id (e.g. "porkbun").
             connection (string, optional): Connection name. Optional when the app declares exactly one authenticated connection.
-            identifier (string, optional): Account identity at the service (email/handle), when known.
+            identifier (string, optional): Account identity at the platform (email/handle), when known.
             key (string, optional): The API key/secret. For multi-part keys, use the format the app's manual states (e.g. porkbun: "apikey:secretapikey").
             label (string, optional): Display label for the credential.
             value (dict, optional): Alternative to key: explicit secret fields ({ field: secret, … }).
@@ -403,10 +403,10 @@ class _AppsNamespace:
         return self._call("apps.connect", params)
 
     def disable(self, **params: Any) -> Any:
-        """Switch a plugin off: it drops out of matchmaking, run, and readme()'s tool list. The graph node and any stored credentials stay; enable reverses it.
+        """Switch an app off: it drops out of matchmaking, run, and readme()'s tool list. The graph node and any stored credentials stay; enable reverses it.
 
         Args:
-            app (string, required): Plugin (app) id to switch off — it drops out of matchmaking, run, and readme until re-enabled.
+            app (string, required): App id to switch off — it drops out of matchmaking, run, and readme until re-enabled.
 
         Examples:
             disable({ app: "porkbun" })
@@ -414,10 +414,10 @@ class _AppsNamespace:
         return self._call("apps.disable", params)
 
     def enable(self, **params: Any) -> Any:
-        """Switch a disabled plugin back on.
+        """Switch a disabled app back on.
 
         Args:
-            app (string, required): Plugin (app) id to switch back on.
+            app (string, required): App id to switch back on.
 
         Examples:
             enable({ app: "porkbun" })
@@ -627,7 +627,7 @@ class Client:
 
         client.data.read(id="abc")
         client.system.status()
-        client.skills.run(skill="exa", tool="search", params={...})
+        client.apps.run(app="exa", tool="search", params={...})
     """
 
     def __init__(self, socket_path: Path | str | None = None):
@@ -651,7 +651,7 @@ class AsyncClient:
 
         client.data.read(id="abc")
         client.system.status()
-        client.skills.run(skill="exa", tool="search", params={...})
+        client.apps.run(app="exa", tool="search", params={...})
     """
 
     def __init__(self, socket_path: Path | str | None = None):

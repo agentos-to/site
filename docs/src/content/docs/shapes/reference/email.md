@@ -87,7 +87,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[RFC 2369 + RFC 8058 (List headers, one-click unsubscribe)](https://datatracker.ietf.org/doc/html/rfc2369)** — Our unsubscribe/unsubscribeOneClick/listId are List-Unsubscribe/List-Unsubscribe-Post/List-ID. RFC 8058 defines the one-click POST semantics.
 - **[Gmail API Message resource](https://developers.google.com/gmail/api/reference/rest/v1/users.messages)** — Practical API mirror. Our sizeEstimate and isUnread/isStarred/isDraft/isSent/isTrash/isSpam correspond to Gmail's sizeEstimate and labelIds (UNREAD, STARRED, DRAFT, SENT, TRASH, SPAM).
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [mimestream](/skills/reference/comms/mimestream/) — `list_emails`, `search_emails`, `get_email`
-- [gmail](/skills/reference/comms/gmail/) — `list_email_stubs`, `list_emails`, `search_emails`, `list_drafts`, `get_email`, `get_draft`, `send_email`, `reply_email`, `forward_email`, `modify_email`, `trash_email`, `untrash_email`, `create_draft`, `update_draft`, `send_draft`
+- [mimestream](/apps/reference/comms/mimestream/) — `list_emails`, `search_emails`, `get_email`
+- [gmail](/apps/reference/comms/gmail/) — `list_email_stubs`, `list_emails`, `search_emails`, `list_drafts`, `get_email`, `get_draft`, `send_email`, `reply_email`, `forward_email`, `modify_email`, `trash_email`, `untrash_email`, `create_draft`, `update_draft`, `send_draft`

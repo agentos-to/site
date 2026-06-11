@@ -33,7 +33,10 @@ def returns(shape):
     """Declare the return shape of an operation.
 
     Args:
-        shape: Entity shape reference ("event[]", "post") or inline schema dict
+        shape: Entity shape reference ("event[]", "post"), a union of shape
+               references ("account | auth_challenge") when the op's result
+               shape depends on the call — the worker discriminates per
+               call from the returned dict — or an inline schema dict
                ({"ok": "boolean", "id": "string"}).
     """
     def decorator(func):
@@ -182,6 +185,60 @@ def _attach_test(fn, cases, *, skip=False, skip_reason=None):
 
 
 test = _Test()
+
+
+class _Account:
+    """Declare an app's account ops — read by the engine via AST, no-ops at runtime.
+
+    `@account.check` / `@account.login` / `@account.logout` /
+    `@account.profile` mark which ops answer "who am I?", "sign me in",
+    "sign me out", and "enrich my account node". The engine resolves
+    auto-relogin, identity checks, and GUI sign-in through this metadata —
+    never through literal tool names. One declaration point: the op itself
+    (replaces the `ConnectionAuth.login` key and the frontmatter account
+    block).
+
+    `login` returns `account` when a session is already (or now) live, or
+    `auth_challenge` when a human must act — declare the union:
+
+        @account.check
+        @returns("account")
+        async def check_session(**params): ...
+
+        @account.login
+        @returns("account | auth_challenge")
+        async def login(**params): ...
+
+        @account.logout
+        @returns({"ok": "boolean"})
+        async def logout(**params): ...
+
+    Every app that can log in must be able to log out — the validator
+    enforces the pair (`check_account_trio`).
+    """
+
+    @staticmethod
+    def check(fn):
+        fn._agentos_account = "check"
+        return fn
+
+    @staticmethod
+    def login(fn):
+        fn._agentos_account = "login"
+        return fn
+
+    @staticmethod
+    def logout(fn):
+        fn._agentos_account = "logout"
+        return fn
+
+    @staticmethod
+    def profile(fn):
+        fn._agentos_account = "profile"
+        return fn
+
+
+account = _Account()
 
 
 def claims(who):

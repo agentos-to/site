@@ -83,7 +83,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[GS1 GTIN (UPC/EAN)](https://www.gs1.org/standards/id-keys/gtin)** — Canonical barcode standard. Our barcode field is a GTIN-8/12/13/14; GS1 also underlies schema.org's gtin* properties.
 - **[Open Food Facts API](https://openfoodfacts.github.io/openfoodfacts-server/api/)** — Best practical source for food attributes. Our nutritionScore/novaGroup/calories/servingSize mirror nutriscore_grade/nova_group/nutriments.energy-kcal/serving_size.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [uber](/skills/reference/logistics/uber/) — `get_item_customizations`, `search_products`
-- [amazon](/skills/reference/logistics/amazon/) — `search_products`, `buy_again`, `get_product`
+- [uber](/apps/reference/logistics/uber/) — `get_item_customizations`, `search_products`
+- [amazon](/apps/reference/logistics/amazon/) — `search_products`, `buy_again`, `get_product`

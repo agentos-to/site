@@ -175,7 +175,7 @@ and FIBO calls the customer side **`AccountHolder`**. The verb is
 This is the *smallest* of the three — it only matters when you're
 storing a signed token and need to know who can verify the signature.
 It's also the *least like* what we currently mean by `issuer` on
-`account`. When a skill like `reddit-web` stores an account for
+`account`. When an app like `reddit-web` stores an account for
 `joe_reddit`, there is no JWT, no signature, no `sub` claim — we're
 just recording a cookie-authed identity. Calling Reddit the "issuer"
 is a category error. We're using an OAuth word for a non-OAuth thing.
@@ -293,7 +293,7 @@ shape-level "which service does this live at" references, consistent
 with FOAF's `accountServiceHomepage` wording at a third of the
 characters. Downstream: service nodes get a `kind` field
 (`platform | bank | broker | mail_server | imap | phone_carrier`) so
-skills can still branch on "is this a custodial asset or a social
+apps can still branch on "is this a custodial asset or a social
 identity" when they need to.
 
 This also resolves an architectural wart: today, `platform` on `post`
@@ -323,8 +323,8 @@ is the same reason FOAF split `foaf:mbox` (mailbox) from `foaf:account`.
 **Email addresses.** Is `joe@gmail.com` an account at Gmail, or an
 email address at the gmail.com domain? Both. Model the account
 (`at: gmail.com`, `identifier: joe`) and the email address as a
-derived `ContactPoint` tied to it. Any skill using it for identity
-uses the account; any skill using it for delivery uses the ContactPoint.
+derived `ContactPoint` tied to it. Any app using it for identity
+uses the account; any app using it for delivery uses the ContactPoint.
 The `at` link survives cleanly because the email address doesn't *have*
 an `at` — it's a value, not an account.
 

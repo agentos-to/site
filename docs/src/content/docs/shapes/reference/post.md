@@ -49,9 +49,9 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[OpenGraph protocol](https://ogp.me/)** — How posts surface when linked. Our externalUrl + media[] correspond to og:url and og:image/og:video; postType loosely parallels og:type (article, video).
 - **[ATProto app.bsky.feed.post](https://atproto.com/lexicons/app-bsky-feed)** — Modern practical lexicon. Our repliesTo ≈ reply.parent; media ≈ embed.images; externalUrl ≈ embed.external.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [hackernews](/skills/reference/media/hackernews/) — `list_posts`, `search_posts`, `comments_post`, `get_post`
-- [youtube](/skills/reference/media/youtube/) — `list_posts`
-- [moltbook](/skills/reference/media/moltbook/) — `list_posts`, `get_feed`, `list_comments`, `get_post`
-- [reddit](/skills/reference/media/reddit/) — `search_posts`, `list_posts`, `comments_post`, `get_post`
+- [hackernews](/apps/reference/media/hackernews/) — `list_posts`, `search_posts`, `comments_post`, `get_post`
+- [youtube](/apps/reference/media/youtube/) — `list_posts`
+- [moltbook](/apps/reference/media/moltbook/) — `list_posts`, `get_feed`, `list_comments`, `get_post`
+- [reddit](/apps/reference/media/reddit/) — `search_posts`, `list_posts`, `comments_post`, `get_post`

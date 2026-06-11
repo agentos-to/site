@@ -13,7 +13,7 @@ Usage:
     python generate.py --check                # drift check — exit 1 if any target is stale
     python generate.py --from-api             # load shapes from the graph instead of YAML
     python generate.py --from-api --dump-yaml ./shapes  # export graph → YAML
-    python generate.py --docs                 # MDX reference pages (shapes + skills)
+    python generate.py --docs                 # MDX reference pages (shapes + apps)
 """
 
 from __future__ import annotations
@@ -28,22 +28,21 @@ from pathlib import Path
 import ir
 import ir_diff
 from emit import (
-    build_skills_index,
-    discover_skills,
+    build_apps_index,
+    discover_apps,
     emit_contract_root,
     emit_links,
     emit_migrations,
     emit_op_docs,
     emit_ops_python,
     emit_ops_rust,
-    emit_ops_ts,
     emit_python,
     emit_python_auth_contracts,
     emit_rust_auth_contracts,
     emit_services_python,
     emit_services_rust,
     emit_shape_docs,
-    emit_skill_docs,
+    emit_app_docs,
     emit_typescript,
     write_rust_sdk,
 )
@@ -52,6 +51,17 @@ from emit import (
 # consumes the `system.schema` registry; only used on the `--docs` path.
 from tool_surface import load_tool_surface, emit_tool_surface_docs  # noqa: E402
 from sdk_client import emit_sdk_client  # noqa: E402
+
+
+def _default_agentos_bin() -> str:
+    """The engine CLI to query for registry-driven codegen.
+
+    The engine builds into the sibling core repo's `target/`, and the
+    bare `agentos` on PATH (if any) may be stale — prefer the workspace
+    debug binary, fall back to PATH.
+    """
+    workspace_bin = Path(__file__).resolve().parent.parent.parent / "core" / "target" / "debug" / "agentos"
+    return str(workspace_bin) if workspace_bin.is_file() else "agentos"
 
 
 # The shape emitters — one per language with an SDK target. Adding a
@@ -153,8 +163,8 @@ def main():
     parser.add_argument("--from-api", action="store_true", help="Load shapes from graph via agentos CLI instead of YAML files")
     parser.add_argument("--agentos-bin", type=str, help="Path to agentos binary (default: agentos)")
     parser.add_argument("--dump-yaml", type=Path, help="With --from-api: also dump each shape as YAML to this directory (backup/export)")
-    parser.add_argument("--docs", action="store_true", help="Emit MDX reference pages for shapes + skills (Starlight)")
-    parser.add_argument("--skills-root", type=Path, help="Path to skills/ tree for --docs (default: ../skills)")
+    parser.add_argument("--docs", action="store_true", help="Emit MDX reference pages for shapes + apps (Starlight)")
+    parser.add_argument("--apps-root", type=Path, help="Path to apps/ tree for --docs (default: ../apps)")
     parser.add_argument("--docs-out", type=Path, help="Reference output root for --docs (default: src/content/docs/reference)")
     parser.add_argument("--check", action="store_true", help="Drift check: compare rendered output to files on disk; exit 1 if different")
     parser.add_argument("--breaking-check", action="store_true", help="Breaking-change gate: diff the IR against the last release tag; exit 1 on a removal/rename/retype/tightening")
@@ -171,7 +181,7 @@ def main():
 
     # ---- Stage 1: YAML → IR --------------------------------------------------
     if args.from_api:
-        agentos_bin = args.agentos_bin or "agentos"
+        agentos_bin = args.agentos_bin or _default_agentos_bin()
         shapes = ir.load_shapes_from_api(agentos_bin)
         print(f"Loaded {len(shapes)} shapes from graph API")
         if args.dump_yaml:
@@ -253,26 +263,26 @@ def main():
 
     # ---- Stage 2 (docs path) -------------------------------------------------
     if args.docs:
-        skills_root = args.skills_root or (workspace / "skills").resolve()
+        apps_root = args.apps_root or (workspace / "apps").resolve()
         docs_out = args.docs_out or (platform_root / "docs" / "src" / "content" / "docs")
-        if not skills_root.is_dir():
-            print(f"Skills root not found: {skills_root}", file=sys.stderr)
+        if not apps_root.is_dir():
+            print(f"Apps root not found: {apps_root}", file=sys.stderr)
             sys.exit(1)
-        skills = discover_skills(skills_root)
-        print(f"Discovered {len(skills)} skills in {skills_root}")
+        apps = discover_apps(apps_root)
+        print(f"Discovered {len(apps)} apps in {apps_root}")
         known_shapes = {s.name for s in ontology.shapes}
-        skills_index = build_skills_index(skills, known_shapes)
-        emit_shape_docs(ontology.shapes, docs_out / "shapes" / "reference", skills_index)
+        apps_index = build_apps_index(apps, known_shapes)
+        emit_shape_docs(ontology.shapes, docs_out / "shapes" / "reference", apps_index)
         print(f"  shapes: {docs_out / 'shapes' / 'reference'} ({len(ontology.shapes)} pages + index)")
-        emit_skill_docs(skills, docs_out / "skills" / "reference", known_shapes)
-        print(f"  skills: {docs_out / 'skills' / 'reference'} ({len(skills)} pages + index)")
+        emit_app_docs(apps, docs_out / "apps" / "reference", known_shapes)
+        print(f"  apps: {docs_out / 'apps' / 'reference'} ({len(apps)} pages + index)")
 
         emit_op_docs(ontology.ops, ontology.op_types, docs_out / "ops" / "reference")
         print(f"  ops: {docs_out / 'ops' / 'reference'} ({len(ontology.ops)} ops)")
 
         # Registry-driven codegen — both outputs read the same `system.schema`
         # dump. Opt out cleanly if the engine isn't running.
-        agentos_bin = args.agentos_bin or "agentos"
+        agentos_bin = args.agentos_bin or _default_agentos_bin()
         try:
             namespaces = load_tool_surface(agentos_bin)
         except SystemExit:
@@ -289,14 +299,17 @@ def main():
         return
 
     # ---- Stage 2 (default path): IR → emitters -------------------------------
-    # Output destinations per language — python/ts write into the in-repo SDK
-    # packages; rust writes into `platform/sdk/rust/src/shapes/` (a tree of
-    # files, one per shape — shape-unification Phase 1). Use --out-dir to
-    # override (e.g. for Go/Swift one-off exports).
+    # Output destinations per language — python writes into the in-repo SDK
+    # package; typescript writes the desktop shell's contract module
+    # (core/web/src/contract-generated/ — the TS mirror of the
+    # contract-generated crate); rust writes into
+    # `platform/sdk/rust/src/shapes/` (a tree of files, one per shape —
+    # shape-unification Phase 1). Use --out-dir to override (e.g. for
+    # Go/Swift one-off exports).
     contract_crate = workspace / "core" / "crates" / "contract-generated" / "src"
     targets = {
         "python": platform_root / "sdk" / "python" / "agentos" / "_generated.py",
-        "typescript": platform_root / "sdk" / "typescript" / "src" / "shapes.ts",
+        "typescript": workspace / "core" / "web" / "src" / "contract-generated" / "shapes.ts",
     }
 
     langs = [args.lang] if args.lang else list(EMITTERS.keys()) + ["rust"]
@@ -377,17 +390,14 @@ def main():
             )
 
         # Op contract — projected into the `ops` module of the contract
-        # crate, plus one TS module (ops.ts) and the per-group Python op
-        # stubs into the SDK package.
+        # crate, plus the per-group Python op stubs into the SDK package.
+        # No TS projection: the shell consumes no op contract today; add a
+        # target here the day a consumer exists.
         if ontology.ops:
             op_targets = {
                 "ops-rust": (
                     emit_ops_rust(ontology),
                     contract_crate / "ops.rs",
-                ),
-                "ops-ts": (
-                    emit_ops_ts(ontology),
-                    platform_root / "sdk" / "typescript" / "src" / "ops.ts",
                 ),
             }
             for label, (output, out_path) in op_targets.items():

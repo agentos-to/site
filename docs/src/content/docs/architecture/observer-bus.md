@@ -22,7 +22,7 @@ static OBSERVER_EVENTS: Lazy<broadcast::Sender<Value>> = Lazy::new(|| {
 
 ## Event lifecycle
 
-A single tool call (graph read, skill run, etc.) emits **at three points**:
+A single tool call (graph read, app run, etc.) emits **at three points**:
 
 | Phase | Site | When |
 |---|---|---|
@@ -30,7 +30,7 @@ A single tool call (graph read, skill run, etc.) emits **at three points**:
 | `completed` | `lib.rs:533` | On success, with `latency_ms` and the rendered result. |
 | `failed` | `lib.rs:547` | On error, with `latency_ms` and the error string. |
 
-Display metadata (`title`, `address`, `icon`, `body_markdown`, `accent_color`) is computed by `observer_display()` (`lib.rs:236-273`) and embedded into every event so consumers don't have to re-derive it. Skill colors are looked up from the skill manifest at emit time.
+Display metadata (`title`, `address`, `icon`, `body_markdown`, `accent_color`) is computed by `observer_display()` (`lib.rs:236-273`) and embedded into every event so consumers don't have to re-derive it. App colors are looked up from the app's readme at emit time.
 
 ```mermaid
 flowchart TD
@@ -50,7 +50,7 @@ Every event is a JSON object. Two flavors share the wire — **live** events fro
 
 | `phase` | `tool` examples | Notable fields |
 |---|---|---|
-| `started` | `read`, `search`, `run`, `create`, `delete`, `accounts` | `request_id`, `skill?`, `operation`, `arguments`, `display` |
+| `started` | `read`, `search`, `run`, `create`, `delete`, `accounts` | `request_id`, `app?`, `operation`, `arguments`, `display` |
 | `completed` | same | adds `latency_ms`, `result` |
 | `failed` | same | adds `latency_ms`, `error` |
 | `history` | `activity` | replayed past activity from `graph::observer_history`; `display.title` is the activity summary |
@@ -59,7 +59,7 @@ Every event is a JSON object. Two flavors share the wire — **live** events fro
 
 Every event carries `ts`, `session_id`, `client`, `working_dir`, and a `display` block (`title`, `address`, `icon`, `body_markdown`, `accent_color`). See `observer_event()` at `lib.rs:275-306` for the exact schema.
 
-A concrete `completed` payload for a Goodreads skill call:
+A concrete `completed` payload for a Goodreads app call:
 
 ```json
 {
@@ -67,12 +67,12 @@ A concrete `completed` payload for a Goodreads skill call:
   "request_id": "req-918",
   "phase": "completed",
   "tool": "run",
-  "skill": "goodreads",
+  "app": "goodreads",
   "operation": "get_book",
   "session_id": "claude-code-9f3b",
   "client": "Claude Code",
   "working_dir": "/Users/joe/dev/agentos",
-  "arguments": { "skill": "goodreads", "tool": "get_book",
+  "arguments": { "app": "goodreads", "tool": "get_book",
                  "params": { "isbn": "9780140449136" } },
   "display": {
     "title": "goodreads · get_book",
@@ -142,6 +142,6 @@ Same daemon, same flock — just two listening sockets.
 |---|---|
 | **Engine restart** | `observer.sock` closes. Bridge sees EOF on its `read_line`, the SSE stream ends. Browser `EventSource` reconnects; the bridge re-runs `connect_observer()` with the 20×250 ms retry, picks up the new socket, replays history prefix, resumes live. Total user-visible gap: ~10 s. |
 | **Bridge restart** | Engine drops the bridge's broadcast `Receiver` (`Closed`). All `EventSource` connections terminate. Browser auto-reconnects to the new bridge process. |
-| **Skill emits faster than the channel drains** | Broadcast ring overruns the slow subscriber. That subscriber gets `RecvError::Lagged(n)`, which the engine surfaces as a synthetic `phase: "lagged"` event over the wire. Fast subscribers are unaffected. The graph's persistent activity log is unaffected — durability lives in the graph, not in the channel. |
+| **App emits faster than the channel drains** | Broadcast ring overruns the slow subscriber. That subscriber gets `RecvError::Lagged(n)`, which the engine surfaces as a synthetic `phase: "lagged"` event over the wire. Fast subscribers are unaffected. The graph's persistent activity log is unaffected — durability lives in the graph, not in the channel. |
 | **Bridge can't reach the engine** | After 20 failed connect attempts, `/observer/stream` and `/observer/history` return `503`. `/healthz` reports `engine: false` (`web-bridge/src/lib.rs:99-103`). |
 | **Observer socket exists but engine is wedged** | Bridge connects, sends subscribe line, reads zero lines; `read_line` returns `Ok(0)` and the SSE stream closes cleanly. No retry inside a single connection — the browser's `EventSource` will reconnect and try again. |

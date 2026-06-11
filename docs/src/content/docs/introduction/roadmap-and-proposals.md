@@ -34,7 +34,7 @@ The priority is the parent folder — moving a project between `p2/` and `p1/` i
 
 ## Why it's separate from the engine
 
-Engine repos (`core`, `skills`, `site`, `apps`) stay focused on code and the ontology. Roadmap material is design thinking — *reasoning about architecture*, not the architecture itself. Mixing them pollutes git history with churn that has no bearing on the engine and leaks half-formed ideas into the public surface.
+The workspace repos (`core`, `apps`, `site`, `commons`) stay focused on code and the ontology. Roadmap material is design thinking — *reasoning about architecture*, not the architecture itself. Mixing them pollutes git history with churn that has no bearing on the engine and leaks half-formed ideas into the public surface.
 
 `_roadmap/` is private. Nothing there is API.
 
@@ -48,7 +48,7 @@ Proposals get **adversarial reviews** — an agent (or Joe) reads the proposal a
 - What's the weakest link? What assumption, if wrong, collapses the plan?
 - Where are the escape hatches? If this is wrong, can we roll back, or does it lock us in?
 
-A single critical blocker means **revise**. All critical pass means **implement**. See [Agent empathy → Scoring](/skills/agent-empathy/) for why we use pass/fail/partial labels instead of numeric scores.
+A single critical blocker means **revise**. All critical pass means **implement**. See [Agent empathy → Scoring](/apps/agent-empathy/) for why we use pass/fail/partial labels instead of numeric scores.
 
 ## Closeout
 

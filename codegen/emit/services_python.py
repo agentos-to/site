@@ -11,7 +11,7 @@ Two halves, one file:
      `services` op group exactly like every other generated op stub.
 
 This module REPLACES the old hand-written `agentos/tools.py` constants
-and the generated `agentos/capability.py` stubs.
+and the generated `agentos/services.py` stubs.
 """
 
 from __future__ import annotations

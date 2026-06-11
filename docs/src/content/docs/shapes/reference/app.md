@@ -14,9 +14,10 @@ apps additionally carry connection lifecycle (`status` / `error`)
 because they adapt external platforms.
 
 What an app OFFERS the rest of the system is a `service` — see
-shapes/agentos/service.yaml. Apps link to services with `provides`
-edges (minted by the engine from the app's own declarations, never
-authored). An app may provide zero services or several.
+shapes/agentos/service.yaml. The service node points at its providers
+with `provided_by` edges (minted by the engine from each app's own
+declarations, never authored). An app may provide zero services or
+several.
 
 Themes never reference app ids by string literal. They reference
 role-based list ids ('primary-launcher', 'tray', 'desktop') and render
@@ -51,7 +52,6 @@ theme owns presentation, not identity.
 
 | Relation | Target |
 |---|---|
-| `provides` | [`service`](/shapes/reference/service/) |
 | `online_at` | [`website`](/shapes/reference/website/) |
 | `privacy_at` | [`webpage`](/shapes/reference/webpage/) |
 | `terms_at` | [`webpage`](/shapes/reference/webpage/) |

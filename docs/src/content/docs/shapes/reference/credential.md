@@ -56,7 +56,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[macOS Keychain SecItem attributes](https://developer.apple.com/documentation/security/keychain_services/keychain_items/item_attribute_keys_and_values)** — Keychain separates `kSecAttr*` (metadata — server, account, creation/modification dates) from `kSecValueData` (the secret). Attributes are queryable without decrypting the value. Our fields map: kSecAttrServer → domain, kSecAttrAccount → identifier, kSecAttrCreationDate → obtainedAt, kSecAttrModificationDate → lastVerified.
 - **[schema.org/DigitalDocument (WebAuthn credentials stored as)](https://schema.org/DigitalDocument)** — Weak alignment — schema.org has no native credential type. Cited only to note that existing web ontologies deliberately stop short of secret material; descriptor-only is the established pattern.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [onepassword](/skills/reference/secrets/onepassword/) — `get_credentials`
-- [macos-keychain](/skills/reference/macos/macos-keychain/) — `get_credentials`
+- [onepassword](/apps/reference/secrets/onepassword/) — `get_credentials`
+- [macos-keychain](/apps/reference/macos/macos-keychain/) — `get_credentials`

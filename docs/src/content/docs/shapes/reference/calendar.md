@@ -43,6 +43,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[CalDAV (RFC 4791)](https://datatracker.ietf.org/doc/html/rfc4791)** — CalDAV calendar collections define accessRole semantics (owner/writer/reader) that match our field directly.
 - **[Google Calendar API CalendarList](https://developers.google.com/calendar/api/v3/reference/calendarList)** — Practical API mirror. Our color/backgroundColor/foregroundColor, isPrimary, accessRole come from Google's CalendarList resource.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [google-calendar](/skills/reference/productivity/google-calendar/) — `list_calendars`
+- [google-calendar](/apps/reference/productivity/google-calendar/) — `list_calendars`

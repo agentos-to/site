@@ -39,6 +39,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[WHOIS (RFC 3912)](https://datatracker.ietf.org/doc/html/rfc3912)** — Our expiresAt/domain source from WHOIS records; claimToken has no direct WHOIS peer (HERE.NOW-specific).
 - **[RFC 7033 WebFinger (host-meta)](https://datatracker.ietf.org/doc/html/rfc7033)** — Website metadata discovery. Our claimUrl parallels /.well-known/host-meta patterns.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [here-now](/skills/reference/hosting/here-now/) — `list_websites`, `create_website`, `update_website`
+- [here-now](/apps/reference/hosting/here-now/) — `list_websites`, `create_website`, `update_website`

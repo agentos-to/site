@@ -5,7 +5,7 @@ The contract agents work against: the data **shapes**, the auth-flow
 project into. One ontology, one generator, one repo.
 
 GitHub remote: `agentos-to/site`. Sits at `~/dev/agentos/platform/`
-alongside `core/`, `skills/`, `apps/`.
+alongside `core/`, `apps/`, `commons/`.
 
 ## Layout
 
@@ -13,7 +13,10 @@ alongside `core/`, `skills/`, `apps/`.
 platform/
 ├── ontology/              the contract — authored as YAML
 │   ├── shapes/*.yaml          entity schemas
+│   ├── links/*.yaml           typed link definitions
 │   ├── ops/*.yaml             engine primitives (shell.run, http.request, …)
+│   ├── services/*.yaml        brokered service definitions (web_search, llm, …)
+│   ├── migrations/*.yaml      schema migration chain
 │   └── auth-contracts/*.yaml  OAuth + cookie provider return shapes
 ├── codegen/               one generator: YAML → IR → typed code
 │   ├── generate.py            orchestrator
@@ -22,8 +25,8 @@ platform/
 │   ├── sdk_client.py          engine-client emitter
 │   └── tool_surface.py        tool-surface docs emitter
 ├── sdk/
-│   ├── python/            the `agentos` package — Python Skills SDK
-│   └── typescript/        `@agentos/sdk` — TypeScript Apps SDK
+│   ├── python/            the `agentos` package — Python App SDK
+│   └── rust/              generated Rust shape tree
 └── docs/                  Astro site → agentos.to
 ```
 
@@ -174,9 +177,10 @@ correction must not erase the prior belief.
 | Target | Path |
 |---|---|
 | Python SDK — shapes | `sdk/python/agentos/_generated.py` |
-| Python SDK — op stubs | `sdk/python/agentos/{capability,crypto,plist,secrets,shell,sql}.py` |
-| TypeScript SDK — shapes | `sdk/typescript/src/shapes.ts` |
-| TypeScript SDK — ops | `sdk/typescript/src/ops.ts` |
+| Python SDK — op stubs | `sdk/python/agentos/{crypto,plist,secrets,shell,sql}.py` |
+| Python SDK — services | `sdk/python/agentos/services.py` |
+| Rust SDK — shape tree | `sdk/rust/src/shapes/` |
+| Shell contract (cross-repo) | `core/web/src/contract-generated/shapes.ts` |
 | Rust — shapes (cross-repo) | `core/crates/contract-generated/src/shapes.rs` |
 | Rust — op contract (cross-repo) | `core/crates/contract-generated/src/ops.rs` |
 | Reference docs | `docs/src/content/docs/` |

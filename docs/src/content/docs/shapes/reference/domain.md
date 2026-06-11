@@ -29,7 +29,7 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[RFC 1035 (Domain Names)](https://datatracker.ietf.org/doc/html/rfc1035)** — Canonical domain-name syntax + nameservers + TTL. Our nameservers are NS records for the apex.
 - **[RFC 3912 (WHOIS)](https://datatracker.ietf.org/doc/html/rfc3912)** — Our registrar/status/expiresAt/autoRenew come from WHOIS response fields.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [gandi](/skills/reference/hosting/gandi/) — `list_domains`, `get_domain`
-- [porkbun](/skills/reference/hosting/porkbun/) — `list_domains`
+- [gandi](/apps/reference/hosting/gandi/) — `list_domains`, `get_domain`
+- [porkbun](/apps/reference/hosting/porkbun/) — `list_domains`

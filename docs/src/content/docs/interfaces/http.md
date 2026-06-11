@@ -1,9 +1,9 @@
 ---
 title: HTTP
-description: The web bridge — localhost HTTP + SSE at 127.0.0.1:3456 for browser apps. Read-only by default, reads from a separate SQLite connection.
+description: The web bridge — localhost HTTP + SSE at 127.0.0.1:3456 for the desktop shell. Read-only by default, reads from a separate SQLite connection.
 ---
 
-The **web bridge** is how browser-based apps talk to AgentOS. Browsers can't open Unix sockets, so the bridge translates: it's a small HTTP/SSE server on `127.0.0.1:3456` that serves the graph, the observer event stream, shapes, user prefs, and the static assets apps need.
+The **web bridge** is how the browser-based desktop shell talks to AgentOS. Browsers can't open Unix sockets, so the bridge translates: it's a small HTTP/SSE server on `127.0.0.1:3456` that serves the graph, the observer event stream, shapes, user prefs, and static assets.
 
 Run it with `agentos bridge`. It auto-starts the engine if needed (via `ensure_engine()`), opens its own read-only SQLite connection to `~/.agentos/data/agentos.db`, and binds to localhost only.
 
@@ -24,14 +24,14 @@ Run it with `agentos bridge`. It auto-starts the engine if needed (via `ensure_e
 `/call` mirrors MCP's `tools/call` wire format: dotted op identity in, handler result out, dispatched through the same `tools::registry::dispatch` path that MCP, CLI, and the Python SDK use. One registry, four interfaces, identical behaviour:
 
 - `data.read` — fetch one node by id (with relationships + content).
-- `data.list` — list nodes by shape, user_tag, name, FTS via `q`, system metadata, or skill membership.
+- `data.list` — list nodes by shape, user_tag, name, FTS via `q`, system metadata, or app membership.
 - `data.update` — set or delete vals on an existing node, or set vals on an link (`{link: id, vals}`).
 - `data.create` — create a node, or upsert if `identity` is provided.
 - `data.delete` — soft-delete a node or link.
-- `skills.run` — invoke a skill tool.
-- `skills.load` — fetch a skill manual before calling `run`.
+- `apps.run` — invoke an app tool.
+- `apps.load` — fetch an app manual before calling `run`.
 - `system.{status, schema}` — engine lifecycle + introspection.
-- `tools.<capability>` — dynamic capability tools contributed by installed skills' `@provides` (e.g. `tools.web_search`).
+- `services.<name>` — brokered service verbs contributed by installed apps' `@provides` (e.g. `services.web_search`).
 
 See [`tool-surface/`](/tool-surface/) for the full op catalog (one page per namespace, generated from the registry). All ops accept `view: { format: "json" | "markdown" }` to override the per-interface default — HTTP defaults to JSON.
 
@@ -44,17 +44,18 @@ See [`tool-surface/`](/tool-surface/) for the full op catalog (one page per name
 
 Observer events come from a separate socket (`~/.agentos/observer.sock`) that the engine writes to. The bridge tails that socket and forwards events to any connected SSE subscriber.
 
-This is the primitive behind any "live activity feed" UI — you can see skills invocations, graph writes, and auth resolutions as they happen.
+This is the primitive behind any "live activity feed" UI — you can see app invocations, graph writes, and auth resolutions as they happen.
 
 ### App metadata
 
 | Method | Path | Purpose |
 |---|---|---|
-| GET | `/apps` | List installed + bundled app definitions (title, icon path, manifest). |
+| GET | `/apps` | List installed app definitions (title, icon, contract metadata). |
 | GET | `/user` | Unified user profile: person record + desktop prefs + theme. |
+| GET | `/readme` | The engine's live readme — orientation for agents without MCP tools. |
 
 User preferences are written through `POST /call` with `data.update` —
-there's no separate `PUT /user/pref` shim. Settings.tsx writes
+there's no separate `PUT /user/pref` shim. Settings writes
 `pref:*` vals on the person node; the desktop folder writes positions
 through `data.update {link: <id>, vals: {...}}` (the link branch).
 
@@ -62,8 +63,9 @@ through `data.update {link: <id>, vals: {...}}` (the link branch).
 
 | Method | Path | Purpose |
 |---|---|---|
-| GET | `/ui/*` | App bundles, themes, wallpapers, icons. |
-| GET | `/files/*` | File previews for entities that reference local files. |
+| GET | `/ui/wallpapers/*` | Theme wallpapers. |
+| GET | `/content/:id` | Content for entities that reference local files. |
+| GET | `/docs/*` | Rendered doc files. |
 
 ## Trust model
 
@@ -71,7 +73,7 @@ The bridge is **localhost only**. It binds to `127.0.0.1`, not `0.0.0.0`. Nothin
 
 Within localhost, there is no additional auth. Any process on the machine that can open a TCP connection to `:3456` can read the graph. This is the same trust model as the [CLI](/interfaces/cli/): if you're on the machine, you have access.
 
-**Writes go through the engine, not the bridge.** The bridge's SQLite connection is opened read-only; mutating ops (`POST /call` with `data.update` / `data.create` / `data.delete` / `skills.run`) proxy to the engine socket, which enforces the usual dispatch and auth flow.
+**Writes go through the engine, not the bridge.** The bridge's SQLite connection is opened read-only; mutating ops (`POST /call` with `data.update` / `data.create` / `data.delete` / `apps.run`) proxy to the engine socket, which enforces the usual dispatch and auth flow.
 
 ## SSE contract
 
@@ -86,17 +88,11 @@ The `entities` field is what the frontend's reactive cache binds against — wri
 
 Clients should use the browser `EventSource` API, not raw fetch. Reconnect is automatic; the server accepts `Last-Event-ID` for resumption (current implementation: the server keeps a small ring buffer of recent events for reconnect replay).
 
-## Building an app against the bridge
+## How apps get a UI
 
-Apps are regular web pages that fetch from `http://127.0.0.1:3456/call` (and friends). The `sdk-apps/` sibling repo ships `@agentos/sdk`, a TypeScript wrapper around these endpoints — most apps use it rather than calling fetch directly.
+There are no hand-written web apps and no TypeScript SDK. Every installed app renders in the desktop shell as a **generated window** — `core/web/src/views/AppWindow.tsx` builds the UI from the app's contract: its `@returns` shapes and the JSON-Schema input schemas derived from its tool signatures. The shell's own typed contract (`shapes.ts`) is codegen output, generated into `core/web/src/contract-generated/` from the same ontology that produces the Python SDK.
 
-A minimal app is:
-
-1. An HTML entrypoint + bundle served from `/ui/your-app-id/`.
-2. A manifest at `app.json` the bridge picks up via `/apps`.
-3. JavaScript that calls `fetch('/call', { method: 'POST', body: JSON.stringify({op: 'data.read', params: {id: '...'}}) })`.
-
-See [Apps overview](/apps/overview/) for the full shape.
+Writing an app means writing Python (see [Apps overview](/apps/overview/)); the window comes for free.
 
 ## Port configuration
 
@@ -108,7 +104,7 @@ agentos bridge --port 3001
 AGENTOS_BRIDGE_PORT=3001 agentos bridge
 ```
 
-If you change the port, apps that hardcode `3456` will break. The SDK reads the port from the page's origin, so apps served by the bridge itself are fine.
+If you change the port, anything that hardcodes `3456` will break. The shell reads the port from the page's origin, so pages served by the bridge itself are fine.
 
 ## Failure modes
 

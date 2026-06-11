@@ -61,6 +61,6 @@ External standards this shape draws from or aligns with. See [Shape design princ
 - **[Ollama API — /api/ps](https://github.com/ollama/ollama/blob/main/docs/api.md#list-running-models)** — Direct source. Our size/vramUsage/sizeVram/quantization/digest/ expiresAt map to Ollama's ListRunningModelsResponse fields.
 - **[OpenTelemetry Resource semconv (ML/AI)](https://opentelemetry.io/docs/specs/semconv/gen-ai/)** — Emerging conventions for GenAI observability. Our size/digest align with gen_ai.model.* resource attributes.
 
-## Skills that produce this shape
+## Apps that produce this shape
 
-- [ollama](/skills/reference/ai/ollama/) — `ps`
+- [ollama](/apps/reference/ai/ollama/) — `ps`

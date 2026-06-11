@@ -17,7 +17,7 @@ Because the file is portable, domain memex (astronomy, law, medicine) can be mou
 
 - A YouTube channel is a community. A YouTube comment is a post. A transcript is a document.
 - A WhatsApp contact and an iMessage contact with the same phone number are the same person.
-- A skill that connects to a service is itself an entity. The system models itself.
+- An app that connects to a platform is itself an entity. The system models itself.
 - If something exists and has properties and relationships, it belongs in your graph.
 
 The graph is the foundation. Every feature we build — search, feeds, timelines, recommendations, agents — reads from the same graph. Get the graph right, and features compose naturally. Get it wrong, and everything built on top is a special case.
@@ -30,7 +30,7 @@ This is what makes the engine generic. Adding a new entity type is a YAML file i
 
 ## Content vs. storage
 
-The NEPOMUK Semantic Desktop drew a distinction we borrow: **content** (the information itself) and **storage** (where it lives). A document in your graph can be backed by a local file, a GitHub repo, an API response, or all three simultaneously. The graph tracks the content; skills handle the storage.
+The NEPOMUK Semantic Desktop drew a distinction we borrow: **content** (the information itself) and **storage** (where it lives). A document in your graph can be backed by a local file, a GitHub repo, an API response, or all three simultaneously. The graph tracks the content; apps handle the storage.
 
 This is why "local" and "remote" aren't two different things in AgentOS. Our own roadmap specs on GitHub are live documents. A research paper cited in our vision is a document entity with a URL. The vision file on disk, the same file on GitHub, and the entity in your graph — one thing, three views. When AgentOS fetches the latest from a source, it's not "downloading a file" — it's refreshing an entity.
 
