@@ -34,6 +34,11 @@ pub static NOTE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("isPinned", FieldType::Boolean),
         FieldDef::optional("noteType", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "created_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "references".into(), to: Some("note".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "extracted_from".into(), to: Some("webpage".into()), from: None, card: Cardinality::One },
+    ],
     display: Some(DisplaySpec {
         subtitle: Some("noteType".into()),
         ..DisplaySpec::default()

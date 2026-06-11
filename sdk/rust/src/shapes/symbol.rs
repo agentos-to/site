@@ -45,6 +45,13 @@ pub static SYMBOL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("summary", FieldType::Text),
         FieldDef::optional("urn", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "returns".into(), to: Some("node".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "calls".into(), to: Some("symbol".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "called_by".into(), to: Some("symbol".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "see".into(), to: Some("document".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "documents".into(), to: Some("node".into()), from: None, card: Cardinality::One },
+    ],
     display: Some(DisplaySpec {
         subtitle: Some("signature".into()),
         body: Some("summary".into()),

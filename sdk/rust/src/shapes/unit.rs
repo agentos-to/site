@@ -59,6 +59,10 @@ pub static UNIT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("unCefactCommonCode", FieldType::String),
         FieldDef::optional("wikidataId", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "measures".into(), to: Some("dimension".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "quantifies".into(), to: Some("quantity-kind".into()), from: None, card: Cardinality::Many },
+    ],
     identity_any: vec!["ucumCode".into(), "siDigitalFrameworkUri".into(), "iso4217".into()],
     display: Some(DisplaySpec {
         subtitle: Some("symbol".into()),

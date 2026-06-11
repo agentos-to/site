@@ -33,6 +33,14 @@ class Account(TypedDict, total=False):
     metadata: Any
     phone: str
     userId: str
+    accessed_via: Product
+    at_namespace: Actor
+    authenticated_via: Account
+    followed_by: list[Account]
+    operated_by: Actor
+    owned_by: Person
+    speaks_protocol: Protocol
+    succeeds: list[Account]
 
 
 class Activity(TypedDict, total=False):
@@ -64,6 +72,14 @@ class Activity(TypedDict, total=False):
     timezone: str
     toolName: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    filed_in: List
+    held_at: Place
+    in_: McpSession  # in
+    involves: list[Person]
+    organized_by: Person
 
 
 class Actor(TypedDict, total=False):
@@ -116,6 +132,11 @@ class Aircraft(TypedDict, total=False):
     weight: str
     weightUnit: str
     weightValue: float
+    branded_as: Brand
+    created_by: list[Actor]
+    inspired_by: list[Product]
+    manufactured_by: Organization
+    tagged_with: list[Tag]
 
 
 class Airline(TypedDict, total=False):
@@ -134,6 +155,11 @@ class Airline(TypedDict, total=False):
     iataCode: str
     icaoCode: str
     industry: str
+    for_: list[Person]  # for
+    headquartered_at: Place
+    on: Domain
+    online_at: Website
+    subsidiary_of: Organization
 
 
 class Airport(TypedDict, total=False):
@@ -153,6 +179,8 @@ class Airport(TypedDict, total=False):
     icaoCode: str
     terminalCount: int
     timezone: str
+    held_at: Place
+    operated_by: Organization
 
 
 class App(TypedDict, total=False):
@@ -208,6 +236,12 @@ class Birth(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
 
 
 class Book(TypedDict, total=False):
@@ -259,6 +293,15 @@ class Book(TypedDict, total=False):
     weight: str
     weightUnit: str
     weightValue: float
+    branded_as: Brand
+    contributed_by: list[Person]
+    created_by: list[Actor]
+    held_by: Person
+    inspired_by: list[Product]
+    manufactured_by: Organization
+    published_by: Actor
+    tagged_with: list[Tag]
+    written_by: Person
 
 
 class BookingOffer(TypedDict, total=False):
@@ -311,6 +354,27 @@ class BookingOffer(TypedDict, total=False):
     totalAmount: float
     visibility: str
     voidWindowEndsAt: str
+    accommodates: list[Person]
+    at_namespace: Actor
+    billed_to: Place
+    booked_for: Person
+    booked_under: Account
+    bought_by: list[Person]
+    brokered_by: Actor
+    concerns: Person
+    covers_trip: list[Trip]
+    created_by: Person
+    derived_from: Offer
+    held_at: Place
+    involves: list[Person]
+    itemizes: list[TaxLine]
+    organized_by: Person
+    paid_with: PaymentMethod
+    priced_at: list[Fare]
+    realized_as: Reservation
+    reserves: list[Pass]
+    settled_as: Transaction
+    tied_to: Membership
 
 
 class Bookmark(TypedDict, total=False):
@@ -323,6 +387,7 @@ class Bookmark(TypedDict, total=False):
     datePublished: str
     content: str
     handle: str
+    points_to: Any
 
 
 class Branch(TypedDict, total=False):
@@ -340,6 +405,7 @@ class Branch(TypedDict, total=False):
     isCurrent: bool
     isRemote: bool
     upstream: str
+    in_: Repository  # in
 
 
 class Brand(TypedDict, total=False):
@@ -355,6 +421,9 @@ class Brand(TypedDict, total=False):
     primaryColor: str
     tagline: str
     textColor: str
+    depicted_by: Image
+    online_at: Website
+    owned_by: Organization
 
 
 class Calendar(TypedDict, total=False):
@@ -375,6 +444,9 @@ class Calendar(TypedDict, total=False):
     isReadonly: bool
     source: str
     timezone: str
+    at_namespace: Actor
+    owned_by: Person
+    schedules: list[Event]
 
 
 class Change(TypedDict, total=False):
@@ -392,6 +464,8 @@ class Change(TypedDict, total=False):
     status: str
     summary: str
     version: str
+    derived_from: Change
+    modifies: Any
 
 
 class Channel(TypedDict, total=False):
@@ -405,6 +479,7 @@ class Channel(TypedDict, total=False):
     content: str
     banner: str
     subscriberCount: int
+    at_namespace: Actor
 
 
 class Class(TypedDict, total=False):
@@ -435,6 +510,13 @@ class Class(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
+    taught_by: Person
 
 
 class Community(TypedDict, total=False):
@@ -450,6 +532,7 @@ class Community(TypedDict, total=False):
     memberCount: int
     privacy: str
     subscriberCount: int
+    at_namespace: Actor
 
 
 class Conversation(TypedDict, total=False):
@@ -470,6 +553,9 @@ class Conversation(TypedDict, total=False):
     messageCount: int
     source: str
     unreadCount: int
+    at_namespace: Actor
+    contains: list[Message]
+    in_: List  # in
 
 
 class Conversion(TypedDict, total=False):
@@ -499,6 +585,15 @@ class Conversion(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    converts_from: Unit
+    converts_to: Unit
+    created_by: Person
+    depends_on: Any
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
 
 
 class CreativeWork(TypedDict, total=False):
@@ -517,6 +612,10 @@ class CreativeWork(TypedDict, total=False):
     language: str
     license: str
     tags: list[str]
+    contributed_by: list[Person]
+    held_by: Person
+    published_by: Actor
+    written_by: Person
 
 
 class Credential(TypedDict, total=False):
@@ -536,6 +635,8 @@ class Credential(TypedDict, total=False):
     refreshable: bool
     source: str
     storeRowId: int
+    at_namespace: Organization
+    written_by: Skill
 
 
 class Dimension(TypedDict, total=False):
@@ -557,6 +658,7 @@ class Dimension(TypedDict, total=False):
     mass: int
     temperature: int
     time: int
+    has_base_unit: Unit
 
 
 class DnsRecord(TypedDict, total=False):
@@ -601,6 +703,12 @@ class Document(TypedDict, total=False):
     size: int
     tableOfContents: str
     wordCount: int
+    attached_to: Message
+    authored_by: Actor
+    cited_by: list[Document]
+    embeds: list[Any]
+    in_: Repository  # in
+    references: list[Document]
 
 
 class Domain(TypedDict, total=False):
@@ -659,6 +767,16 @@ class Email(TypedDict, total=False):
     toRaw: str
     unsubscribe: str
     unsubscribeOneClick: bool
+    addressed_to: list[Account]
+    at_namespace: Actor
+    attaches: list[File]
+    blind_copied_to: list[Account]
+    copied_to: list[Account]
+    in_: Conversation  # in
+    on: Domain
+    replies_to: Message
+    sent_by: Account
+    tagged_with: list[Tag]
 
 
 class Episode(TypedDict, total=False):
@@ -673,6 +791,9 @@ class Episode(TypedDict, total=False):
     durationMs: int
     episodeNumber: int
     seasonNumber: int
+    aired_in: Podcast
+    featured: list[Person]
+    transcribed_by: Transcript
 
 
 class Event(TypedDict, total=False):
@@ -699,6 +820,12 @@ class Event(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
 
 
 class Fare(TypedDict, total=False):
@@ -725,6 +852,13 @@ class Fare(TypedDict, total=False):
     productType: str
     refundable: bool
     restrictions: list[str]
+    at_namespace: Actor
+    derived_from: Offer
+    earns_into: Membership
+    itemizes: list[TaxLine]
+    priced_for: Trip
+    routed_through: list[Leg]
+    under: Reservation
 
 
 class File(TypedDict, total=False):
@@ -745,6 +879,8 @@ class File(TypedDict, total=False):
     path: str
     sha: str
     size: int
+    attached_to: Message
+    in_: Repository  # in
 
 
 class FinancialAccount(TypedDict, total=False):
@@ -769,6 +905,9 @@ class FinancialAccount(TypedDict, total=False):
     last4: str
     minimumPayment: float
     routingNumber: str
+    accessed_via: Account
+    at_namespace: Actor
+    owned_by: Person
 
 
 class Flight(TypedDict, total=False):
@@ -809,6 +948,19 @@ class Flight(TypedDict, total=False):
     tracePointCount: int
     vehicleType: str
     visibility: str
+    arrives_at: Airport
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    departs_from: Airport
+    ends_at: Place
+    flown_with: Aircraft
+    held_at: Place
+    in_: Trip  # in
+    involves: list[Person]
+    operated_by: Airline
+    organized_by: Person
+    starts_at: Place
 
 
 class Flow(TypedDict, total=False):
@@ -823,6 +975,10 @@ class Flow(TypedDict, total=False):
     goal: str
     status: str
     trigger: str
+    has_step: list[Step]
+    involves: list[Any]
+    produces: Any
+    serves: list[Any]
 
 
 class Font(TypedDict, total=False):
@@ -852,6 +1008,10 @@ class Font(TypedDict, total=False):
     tags: list[str]
     vendorUrl: str
     weights: list[int]
+    contributed_by: list[Person]
+    held_by: Person
+    published_by: Actor
+    written_by: Person
 
 
 class GitCommit(TypedDict, total=False):
@@ -885,6 +1045,16 @@ class GitCommit(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at_namespace: Actor
+    authored_by: Account
+    committed_by: Account
+    concerns: Person
+    created_by: Person
+    derived_from: GitCommit
+    held_at: Place
+    in_: Repository  # in
+    involves: list[Person]
+    organized_by: Person
 
 
 class Group(TypedDict, total=False):
@@ -914,6 +1084,7 @@ class HealthBiomarker(TypedDict, total=False):
     description: str
     loincCode: str
     measure: str
+    part_of: list[HealthPanel]
 
 
 class HealthCondition(TypedDict, total=False):
@@ -949,6 +1120,13 @@ class HealthCondition(TypedDict, total=False):
     timezone: str
     verificationStatus: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    evidenced_by: list[File]
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
 
 
 class HealthImmunization(TypedDict, total=False):
@@ -985,6 +1163,14 @@ class HealthImmunization(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    administered_at: HealthLab
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    evidenced_by: list[File]
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
 
 
 class HealthLab(TypedDict, total=False):
@@ -1003,6 +1189,11 @@ class HealthLab(TypedDict, total=False):
     industry: str
     labType: str
     npi: str
+    for_: list[Person]  # for
+    headquartered_at: Place
+    on: Domain
+    online_at: Website
+    subsidiary_of: Organization
 
 
 class HealthObservation(TypedDict, total=False):
@@ -1044,6 +1235,16 @@ class HealthObservation(TypedDict, total=False):
     value: float
     valueText: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    documented_in: File
+    evaluated_against: HealthReferenceRange
+    held_at: Place
+    involves: list[Person]
+    measures: HealthBiomarker
+    organized_by: Person
+    part_of: HealthPanel
 
 
 class HealthPanel(TypedDict, total=False):
@@ -1086,6 +1287,17 @@ class HealthPanel(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at_namespace: Actor
+    backed_by: Image
+    belongs_to: Account
+    concerns: Person
+    contains: list[Any]
+    created_by: Person
+    documented_in: File
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
+    performed_at: HealthLab
 
 
 class HealthProcedure(TypedDict, total=False):
@@ -1120,6 +1332,17 @@ class HealthProcedure(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    evidenced_by: list[File]
+    held_at: Place
+    involves: list[Person]
+    ordered_by: Person
+    organized_by: Person
+    performed_at: HealthLab
+    performed_by: Person
+    treats: HealthCondition
 
 
 class HealthReferenceRange(TypedDict, total=False):
@@ -1160,6 +1383,14 @@ class HealthReferenceRange(TypedDict, total=False):
     timezone: str
     unit: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    held_at: Place
+    involves: list[Person]
+    issued_by: HealthLab
+    measures: HealthBiomarker
+    organized_by: Person
 
 
 class Icon(TypedDict, total=False):
@@ -1183,6 +1414,10 @@ class Icon(TypedDict, total=False):
     purpose: str
     style: str
     tags: list[str]
+    contributed_by: list[Person]
+    held_by: Person
+    published_by: Actor
+    written_by: Person
 
 
 class Image(TypedDict, total=False):
@@ -1217,6 +1452,12 @@ class Image(TypedDict, total=False):
     tags: list[str]
     width: int
     windowId: int
+    attached_to: Message
+    contributed_by: list[Person]
+    held_by: Person
+    in_: Repository  # in
+    published_by: Actor
+    written_by: Person
 
 
 class IntellectualProperty(TypedDict, total=False):
@@ -1238,6 +1479,9 @@ class IntellectualProperty(TypedDict, total=False):
     status: str
     validIn: str
     verificationUrl: str
+    covers: CreativeWork
+    granted_by: Organization
+    held_by: Actor
 
 
 class Invitation(TypedDict, total=False):
@@ -1271,6 +1515,15 @@ class Invitation(TypedDict, total=False):
     timezone: str
     token: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    extended_by: Account
+    extended_to: Account
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
+    within_org: Organization
 
 
 class Launch(TypedDict, total=False):
@@ -1307,6 +1560,12 @@ class Launch(TypedDict, total=False):
     visibility: str
     webcastUrl: str
     wikipediaUrl: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
 
 
 class Leg(TypedDict, total=False):
@@ -1346,6 +1605,17 @@ class Leg(TypedDict, total=False):
     tracePointCount: int
     vehicleType: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    ends_at: Place
+    flown_with: Aircraft
+    held_at: Place
+    in_: Trip  # in
+    involves: list[Person]
+    operated_by: Organization
+    organized_by: Person
+    starts_at: Place
 
 
 class List(TypedDict, total=False):
@@ -1370,6 +1640,10 @@ class List(TypedDict, total=False):
     path: str
     privacy: str
     sort_by: str
+    at_namespace: Actor
+    backed_by: Image
+    belongs_to: Account
+    contains: list[Any]
 
 
 class LoadedModel(TypedDict, total=False):
@@ -1401,6 +1675,12 @@ class LoadedModel(TypedDict, total=False):
     timezone: str
     visibility: str
     vramUsage: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
 
 
 class McpSession(TypedDict, total=False):
@@ -1420,6 +1700,7 @@ class McpSession(TypedDict, total=False):
     sessionType: str
     startedAt: str
     tokenCount: int
+    in_: List  # in
 
 
 class Meeting(TypedDict, total=False):
@@ -1452,6 +1733,13 @@ class Meeting(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
+    transcribed_by: Transcript
 
 
 class Membership(TypedDict, total=False):
@@ -1485,6 +1773,15 @@ class Membership(TypedDict, total=False):
     timezone: str
     useCount: int
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    for_: Person  # for
+    held_at: Place
+    held_via: Account
+    involves: list[Person]
+    organized_by: Person
+    under: Product
 
 
 class Message(TypedDict, total=False):
@@ -1499,6 +1796,11 @@ class Message(TypedDict, total=False):
     conversationId: str
     isOutgoing: bool
     isStarred: bool
+    at_namespace: Actor
+    attaches: list[File]
+    in_: Conversation  # in
+    replies_to: Message
+    sent_by: Actor
 
 
 class Milestone(TypedDict, total=False):
@@ -1527,6 +1829,15 @@ class Milestone(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at_namespace: Actor
+    blocked_by: list[Milestone]
+    completes: list[Any]
+    concerns: Person
+    created_by: Person
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
+    part_of: Any
 
 
 class Model(TypedDict, total=False):
@@ -1552,6 +1863,7 @@ class Model(TypedDict, total=False):
     quantization: str
     quantizationLevel: str
     size: str
+    at_namespace: Actor
 
 
 class Module(TypedDict, total=False):
@@ -1568,6 +1880,9 @@ class Module(TypedDict, total=False):
     role: str
     status: str
     version: str
+    depends_on: list[Module]
+    has_part: list[Module]
+    part_of: Any
 
 
 class Note(TypedDict, total=False):
@@ -1581,6 +1896,9 @@ class Note(TypedDict, total=False):
     content: str
     isPinned: bool
     noteType: str
+    created_by: Person
+    extracted_from: Webpage
+    references: list[Note]
 
 
 class Offer(TypedDict, total=False):
@@ -1613,6 +1931,15 @@ class Offer(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    covers_trip: list[Trip]
+    created_by: Person
+    held_at: Place
+    involves: list[Person]
+    offered_by: Organization
+    offered_for: Product
+    organized_by: Person
 
 
 class Order(TypedDict, total=False):
@@ -1666,6 +1993,17 @@ class Order(TypedDict, total=False):
     total: str
     totalAmount: float
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    contains: list[Product]
+    created_by: Person
+    delivered_via: Trip
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
+    purchased_at: Place
+    shipped_to: Place
+    tracked_at: Webpage
 
 
 class Organization(TypedDict, total=False):
@@ -1679,6 +2017,11 @@ class Organization(TypedDict, total=False):
     content: str
     actorType: str
     industry: str
+    for_: list[Person]  # for
+    headquartered_at: Place
+    on: Domain
+    online_at: Website
+    subsidiary_of: Organization
 
 
 class Outcome(TypedDict, total=False):
@@ -1697,6 +2040,11 @@ class Outcome(TypedDict, total=False):
     statement: str
     status: str
     target: str
+    advances: Milestone
+    depends_on: list[Outcome]
+    owns: list[Any]
+    serves: list[Any]
+    upholds: list[Principle]
 
 
 class Pass(TypedDict, total=False):
@@ -1737,6 +2085,18 @@ class Pass(TypedDict, total=False):
     timezone: str
     useCount: int
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    granted_by: Membership
+    held_at: Place
+    held_by: Person
+    held_via: Account
+    instance_of: Product
+    involves: list[Person]
+    organized_by: Person
+    under: Reservation
+    valid_for: Leg
 
 
 class PaymentMethod(TypedDict, total=False):
@@ -1770,6 +2130,13 @@ class PaymentMethod(TypedDict, total=False):
     status: str
     subtype: str
     type: str
+    at_namespace: Actor
+    billed_to: Place
+    funded_by: FinancialAccount
+    held_by: Person
+    issued_by: Actor
+    saved_under: Account
+    tied_to: Membership
 
 
 class Person(TypedDict, total=False):
@@ -1784,6 +2151,13 @@ class Person(TypedDict, total=False):
     about: str
     actorType: str
     notes: str
+    enrolled_in: list[Membership]
+    holds_account: list[Account]
+    holds_pass: list[Pass]
+    holds_qualification: list[Qualification]
+    holds_role: list[Role]
+    online_at: Website
+    practices: list[Practice]
 
 
 class Persona(TypedDict, total=False):
@@ -1801,6 +2175,9 @@ class Persona(TypedDict, total=False):
     quote: str
     reachesFor: str
     who: str
+    parent: Persona
+    represents: Any
+    targets: Any
 
 
 class Place(TypedDict, total=False):
@@ -1844,6 +2221,9 @@ class Place(TypedDict, total=False):
     timezone: str
     website: str
     wikidataId: str
+    at_namespace: Actor
+    branded_as: Organization
+    offers: list[Product]
 
 
 class Playlist(TypedDict, total=False):
@@ -1868,6 +2248,10 @@ class Playlist(TypedDict, total=False):
     path: str
     privacy: str
     sort_by: str
+    at_namespace: Actor
+    backed_by: Image
+    belongs_to: Account
+    contains: list[Video]
 
 
 class Podcast(TypedDict, total=False):
@@ -1880,6 +2264,8 @@ class Podcast(TypedDict, total=False):
     datePublished: str
     content: str
     feedUrl: str
+    at_namespace: Actor
+    hosted_by: list[Person]
 
 
 class Post(TypedDict, total=False):
@@ -1896,6 +2282,13 @@ class Post(TypedDict, total=False):
     externalUrl: str
     postType: str
     score: int
+    at_namespace: Actor
+    contains: list[Video]
+    posted_by: Account
+    published_in: Community
+    replies: list[Post]
+    replies_to: Post
+    shows: list[Image]
 
 
 class Practice(TypedDict, total=False):
@@ -1911,6 +2304,7 @@ class Practice(TypedDict, total=False):
     code: str
     codeSystem: str
     description: str
+    specialization_of: Practice
 
 
 class Principle(TypedDict, total=False):
@@ -1926,6 +2320,10 @@ class Principle(TypedDict, total=False):
     rationale: str
     statement: str
     status: str
+    conflicts_with: list[Principle]
+    governs: Any
+    held_by: Actor
+    supersedes: Principle
 
 
 class Product(TypedDict, total=False):
@@ -1960,6 +2358,11 @@ class Product(TypedDict, total=False):
     weight: str
     weightUnit: str
     weightValue: float
+    branded_as: Brand
+    created_by: list[Actor]
+    inspired_by: list[Product]
+    manufactured_by: Organization
+    tagged_with: list[Tag]
 
 
 class Project(TypedDict, total=False):
@@ -1974,6 +2377,7 @@ class Project(TypedDict, total=False):
     color: str
     parentId: str
     state: str
+    at_namespace: Actor
 
 
 class Protocol(TypedDict, total=False):
@@ -2006,6 +2410,10 @@ class Qualification(TypedDict, total=False):
     status: str
     validIn: str
     verificationUrl: str
+    governed_by: Organization
+    granted_by: Organization
+    held_by: Person
+    in_: Practice  # in
 
 
 class QuantityKind(TypedDict, total=False):
@@ -2019,6 +2427,8 @@ class QuantityKind(TypedDict, total=False):
     content: str
     key: str
     label: str
+    measures: Dimension
+    specialization_of: QuantityKind
 
 
 class Quote(TypedDict, total=False):
@@ -2053,6 +2463,8 @@ class Repository(TypedDict, total=False):
     size: int
     stars: int
     topics: list[str]
+    forked_from: Repository
+    owned_by: Account
 
 
 class Reservation(TypedDict, total=False):
@@ -2095,6 +2507,22 @@ class Reservation(TypedDict, total=False):
     totalAmount: float
     visibility: str
     voidWindowEndsAt: str
+    accommodates: list[Person]
+    at_namespace: Actor
+    booked_for: Person
+    booked_under: Account
+    brokered_by: Actor
+    concerns: Person
+    covers_trip: list[Trip]
+    created_by: Person
+    derived_from: Offer
+    enrolled_in: Membership
+    for_: Event  # for
+    held_at: Place
+    involves: list[Person]
+    issued_pass: list[Pass]
+    organized_by: Person
+    placed_via: Order
 
 
 class Result(TypedDict, total=False):
@@ -2134,6 +2562,14 @@ class Review(TypedDict, total=False):
     ratingMax: float
     score: int
     tags: list[str]
+    at_namespace: Actor
+    contains: list[Video]
+    posted_by: Account
+    published_in: Community
+    replies: list[Post]
+    replies_to: Post
+    reviews: Product
+    shows: list[Image]
 
 
 class Role(TypedDict, total=False):
@@ -2163,6 +2599,14 @@ class Role(TypedDict, total=False):
     timezone: str
     title: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    held_at: Place
+    held_by: Person
+    involves: list[Person]
+    organized_by: Person
+    within_org: Organization
 
 
 class Seatmap(TypedDict, total=False):
@@ -2188,6 +2632,10 @@ class Seatmap(TypedDict, total=False):
     origin: str
     tiers: Any
     totalSeats: int
+    at_namespace: Actor
+    flown_with: Aircraft
+    for_: Flight  # for
+    under: Reservation
 
 
 class Shelf(TypedDict, total=False):
@@ -2213,6 +2661,10 @@ class Shelf(TypedDict, total=False):
     path: str
     privacy: str
     sort_by: str
+    at_namespace: Actor
+    backed_by: Image
+    belongs_to: Account
+    contains: list[Book]
 
 
 class Skill(TypedDict, total=False):
@@ -2229,6 +2681,9 @@ class Skill(TypedDict, total=False):
     error: str
     skillId: str
     status: str
+    online_at: Website
+    privacy_at: Webpage
+    terms_at: Webpage
 
 
 class Software(TypedDict, total=False):
@@ -2267,6 +2722,11 @@ class Software(TypedDict, total=False):
     weight: str
     weightUnit: str
     weightValue: float
+    branded_as: Brand
+    created_by: list[Actor]
+    inspired_by: list[Product]
+    manufactured_by: Organization
+    tagged_with: list[Tag]
 
 
 class Sound(TypedDict, total=False):
@@ -2299,6 +2759,12 @@ class Sound(TypedDict, total=False):
     sha: str
     size: int
     tags: list[str]
+    attached_to: Message
+    contributed_by: list[Person]
+    held_by: Person
+    in_: Repository  # in
+    published_by: Actor
+    written_by: Person
 
 
 class Source(TypedDict, total=False):
@@ -2316,6 +2782,7 @@ class Source(TypedDict, total=False):
     lastSynced: str
     scanner: str
     sourceId: str
+    in_: List  # in
 
 
 class Spec(TypedDict, total=False):
@@ -2361,6 +2828,22 @@ class Spec(TypedDict, total=False):
     targetDate: str
     timezone: str
     visibility: str
+    assigned_to: Person
+    at_namespace: Actor
+    attached_to: Message
+    blocked_by: list[Task]
+    blocks: list[Task]
+    concerns: Person
+    created_by: Person
+    depends_on: list[Spec]
+    has_subtask: list[Task]
+    held_at: Place
+    in_: Repository  # in
+    involves: list[Person]
+    organized_by: Person
+    references: Repository
+    subtask_of: Task
+    supersedes: list[Spec]
 
 
 class Step(TypedDict, total=False):
@@ -2375,6 +2858,10 @@ class Step(TypedDict, total=False):
     detail: str
     position: int
     status: str
+    happens_in: Module
+    next: Step
+    part_of: Flow
+    performed_by: Any
 
 
 class Subscription(TypedDict, total=False):
@@ -2407,6 +2894,11 @@ class Symbol(TypedDict, total=False):
     sourcePath: str
     summary: str
     urn: str
+    called_by: Symbol
+    calls: Symbol
+    documents: Any
+    returns: Any
+    see: Document
 
 
 class Tag(TypedDict, total=False):
@@ -2456,6 +2948,19 @@ class Task(TypedDict, total=False):
     targetDate: str
     timezone: str
     visibility: str
+    assigned_to: Person
+    at_namespace: Actor
+    blocked_by: list[Task]
+    blocks: list[Task]
+    concerns: Person
+    created_by: Person
+    has_subtask: list[Task]
+    held_at: Place
+    in_: Project  # in
+    involves: list[Person]
+    organized_by: Person
+    references: Repository
+    subtask_of: Task
 
 
 class TaxLine(TypedDict, total=False):
@@ -2480,6 +2985,13 @@ class TaxLine(TypedDict, total=False):
     rate: float
     refundable: bool
     taxableAmount: float
+    applies_to: Fare
+    at_namespace: Actor
+    derived_from: Offer
+    for_: Leg  # for
+    held_at: Place
+    imposed_by: Actor
+    under: Reservation
 
 
 class Theme(TypedDict, total=False):
@@ -2497,6 +3009,7 @@ class Theme(TypedDict, total=False):
     startMenu: str
     style: str
     themeId: str
+    represents: Product
 
 
 class ToolCall(TypedDict, total=False):
@@ -2512,6 +3025,10 @@ class ToolCall(TypedDict, total=False):
     input: str
     isError: bool
     output: str
+    in_: Message  # in
+    invoked_by: Actor
+    on: Product
+    replies_to: ToolCall
 
 
 class Transaction(TypedDict, total=False):
@@ -2548,6 +3065,13 @@ class Transaction(TypedDict, total=False):
     timezone: str
     type: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
+    posted_to: FinancialAccount
 
 
 class Transcript(TypedDict, total=False):
@@ -2604,6 +3128,12 @@ class Transition(TypedDict, total=False):
     status: str
     timezone: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    held_at: Place
+    involves: list[Person]
+    organized_by: Person
 
 
 class Trip(TypedDict, total=False):
@@ -2653,6 +3183,18 @@ class Trip(TypedDict, total=False):
     vehicle: Any
     vehicleType: str
     visibility: str
+    at_namespace: Actor
+    concerns: Person
+    created_by: Person
+    driven_by: Person
+    ends_at: Place
+    held_at: Place
+    involves: list[Person]
+    operated_by: Organization
+    organized_by: Person
+    placed_via: Order
+    routed_through: list[Leg]
+    starts_at: Place
 
 
 class Unit(TypedDict, total=False):
@@ -2678,6 +3220,8 @@ class Unit(TypedDict, total=False):
     ucumCode: str
     unCefactCommonCode: str
     wikidataId: str
+    measures: Dimension
+    quantifies: list[QuantityKind]
 
 
 class User(TypedDict, total=False):
@@ -2692,6 +3236,7 @@ class User(TypedDict, total=False):
     actorType: str
     osUsername: str
     primaryUser: bool
+    identified_as: Person
 
 
 class UserIdentity(TypedDict, total=False):
@@ -2739,6 +3284,15 @@ class Video(TypedDict, total=False):
     size: int
     tags: list[str]
     viewCount: int
+    added_to: Playlist
+    attached_to: Message
+    contributed_by: list[Person]
+    held_by: Person
+    in_: Repository  # in
+    on: Channel
+    published_by: Actor
+    transcribed_by: Transcript
+    written_by: Person
 
 
 class Volume(TypedDict, total=False):
@@ -2794,124 +3348,126 @@ class Website(TypedDict, total=False):
     claimUrl: str
     status: str
     versionId: str
+    on: Domain
+    owned_by: Organization
 
 
 # Structured shape defs — consumed by the skill worker to attach
 # `__shape_def__` on every @returns(shape) response. Wire-equivalent
 # to `agentos_graph::ShapeDef`.
 SHAPE_DEFS: dict[str, dict] = {
-    'account': {'name': 'account', 'plural': 'accounts', 'description': "A user's presence within a namespace — their GitHub handle, Gmail address,", 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'accountType', 'ty': 'string'}, {'name': 'bio', 'ty': 'text'}, {'name': 'color', 'ty': 'string'}, {'name': 'display', 'ty': 'string'}, {'name': 'displayName', 'ty': 'string'}, {'name': 'email', 'ty': 'string'}, {'name': 'handle', 'ty': 'string'}, {'name': 'identifier', 'ty': 'string', 'required': True}, {'name': 'isActive', 'ty': 'boolean'}, {'name': 'issuer', 'ty': 'string'}, {'name': 'joinedDate', 'ty': 'datetime'}, {'name': 'lastActive', 'ty': 'datetime'}, {'name': 'lastProfileFetch', 'ty': 'datetime'}, {'name': 'metadata', 'ty': 'json'}, {'name': 'phone', 'ty': 'string'}, {'name': 'userId', 'ty': 'string'}], 'identity': ['at', 'identifier'], 'display': {'subtitle': 'identifier'}},
-    'activity': {'name': 'activity', 'plural': 'activities', 'description': 'An immutable change event — a graph mutation, skill run, search, or load.', 'icon': 'activity', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'action', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'changedKeys', 'ty': 'stringlist'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'duration', 'ty': 'number'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'success', 'ty': 'boolean'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'toolName', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'display': {'subtitle': 'action', 'highlights': ['startDate', 'endDate', 'location']}},
+    'account': {'name': 'account', 'plural': 'accounts', 'description': "A user's presence within a namespace — their GitHub handle, Gmail address,", 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'accountType', 'ty': 'string'}, {'name': 'bio', 'ty': 'text'}, {'name': 'color', 'ty': 'string'}, {'name': 'display', 'ty': 'string'}, {'name': 'displayName', 'ty': 'string'}, {'name': 'email', 'ty': 'string'}, {'name': 'handle', 'ty': 'string'}, {'name': 'identifier', 'ty': 'string', 'required': True}, {'name': 'isActive', 'ty': 'boolean'}, {'name': 'issuer', 'ty': 'string'}, {'name': 'joinedDate', 'ty': 'datetime'}, {'name': 'lastActive', 'ty': 'datetime'}, {'name': 'lastProfileFetch', 'ty': 'datetime'}, {'name': 'metadata', 'ty': 'json'}, {'name': 'phone', 'ty': 'string'}, {'name': 'userId', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'accessed_via', 'card': 'one', 'to': 'product'}, {'label': 'operated_by', 'card': 'one', 'to': 'actor'}, {'label': 'speaks_protocol', 'card': 'one', 'to': 'protocol'}, {'label': 'owned_by', 'card': 'one', 'to': 'person'}, {'label': 'authenticated_via', 'card': 'one', 'to': 'account'}, {'label': 'succeeds', 'card': 'many', 'to': 'account'}, {'label': 'followed_by', 'card': 'many', 'to': 'account'}], 'identity': ['at', 'identifier'], 'display': {'subtitle': 'identifier'}},
+    'activity': {'name': 'activity', 'plural': 'activities', 'description': 'An immutable change event — a graph mutation, skill run, search, or load.', 'icon': 'activity', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'action', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'changedKeys', 'ty': 'stringlist'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'duration', 'ty': 'number'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'success', 'ty': 'boolean'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'toolName', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'in', 'card': 'one', 'to': 'mcp_session'}, {'label': 'filed_in', 'card': 'one', 'to': 'list'}], 'also': ['event'], 'display': {'subtitle': 'action', 'highlights': ['startDate', 'endDate', 'location']}},
     'actor': {'name': 'actor', 'plural': 'actors', 'description': 'Base type for anything that can be attributed as "who did this" in the graph.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'actorType', 'ty': 'string'}], 'display': {'subtitle': 'actorType'}},
-    'aircraft': {'name': 'aircraft', 'plural': 'aircraft', 'description': 'An aircraft type (not an individual plane). Linked from flight search results.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'aisle', 'ty': 'string'}, {'name': 'availability', 'ty': 'string'}, {'name': 'barcode', 'ty': 'string'}, {'name': 'calories', 'ty': 'number'}, {'name': 'categories', 'ty': 'stringlist'}, {'name': 'category', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'customizationGroups', 'ty': 'json'}, {'name': 'department', 'ty': 'string'}, {'name': 'iataCode', 'ty': 'string'}, {'name': 'icaoCode', 'ty': 'string', 'required': True}, {'name': 'images', 'ty': 'json'}, {'name': 'model', 'ty': 'string'}, {'name': 'novaGroup', 'ty': 'integer'}, {'name': 'nutritionScore', 'ty': 'string'}, {'name': 'originalPrice', 'ty': 'string'}, {'name': 'originalPriceAmount', 'ty': 'number'}, {'name': 'price', 'ty': 'string'}, {'name': 'priceAmount', 'ty': 'number'}, {'name': 'quantity', 'ty': 'integer'}, {'name': 'rangeKm', 'ty': 'integer'}, {'name': 'seatCapacity', 'ty': 'integer'}, {'name': 'servingSize', 'ty': 'string'}, {'name': 'sku', 'ty': 'string'}, {'name': 'soldByWeight', 'ty': 'boolean'}, {'name': 'variant', 'ty': 'string'}, {'name': 'weight', 'ty': 'string'}, {'name': 'weightUnit', 'ty': 'string'}, {'name': 'weightValue', 'ty': 'number'}], 'also': ['product'], 'identity': ['icaoCode'], 'display': {'subtitle': 'model'}},
+    'aircraft': {'name': 'aircraft', 'plural': 'aircraft', 'description': 'An aircraft type (not an individual plane). Linked from flight search results.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'aisle', 'ty': 'string'}, {'name': 'availability', 'ty': 'string'}, {'name': 'barcode', 'ty': 'string'}, {'name': 'calories', 'ty': 'number'}, {'name': 'categories', 'ty': 'stringlist'}, {'name': 'category', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'customizationGroups', 'ty': 'json'}, {'name': 'department', 'ty': 'string'}, {'name': 'iataCode', 'ty': 'string'}, {'name': 'icaoCode', 'ty': 'string', 'required': True}, {'name': 'images', 'ty': 'json'}, {'name': 'model', 'ty': 'string'}, {'name': 'novaGroup', 'ty': 'integer'}, {'name': 'nutritionScore', 'ty': 'string'}, {'name': 'originalPrice', 'ty': 'string'}, {'name': 'originalPriceAmount', 'ty': 'number'}, {'name': 'price', 'ty': 'string'}, {'name': 'priceAmount', 'ty': 'number'}, {'name': 'quantity', 'ty': 'integer'}, {'name': 'rangeKm', 'ty': 'integer'}, {'name': 'seatCapacity', 'ty': 'integer'}, {'name': 'servingSize', 'ty': 'string'}, {'name': 'sku', 'ty': 'string'}, {'name': 'soldByWeight', 'ty': 'boolean'}, {'name': 'variant', 'ty': 'string'}, {'name': 'weight', 'ty': 'string'}, {'name': 'weightUnit', 'ty': 'string'}, {'name': 'weightValue', 'ty': 'number'}], 'out': [{'label': 'manufactured_by', 'card': 'one', 'to': 'organization'}], 'also': ['product'], 'identity': ['icaoCode'], 'display': {'subtitle': 'model'}},
     'airline': {'name': 'airline', 'plural': 'airlines', 'description': 'A commercial airline. Created from flight search results.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'actorType', 'ty': 'string'}, {'name': 'alliance', 'ty': 'string'}, {'name': 'callsign', 'ty': 'string'}, {'name': 'country', 'ty': 'string'}, {'name': 'iataCode', 'ty': 'string', 'required': True}, {'name': 'icaoCode', 'ty': 'string'}, {'name': 'industry', 'ty': 'string'}], 'also': ['organization'], 'identity': ['iataCode'], 'display': {'subtitle': 'iataCode', 'image': 'image', 'highlights': ['headquarters']}},
-    'airport': {'name': 'airport', 'plural': 'airports', 'description': 'An airport. Created from flight search results and linked to flights.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'city', 'ty': 'string'}, {'name': 'country', 'ty': 'string'}, {'name': 'countryCode', 'ty': 'string'}, {'name': 'elevationFt', 'ty': 'integer'}, {'name': 'iataCode', 'ty': 'string', 'required': True}, {'name': 'icaoCode', 'ty': 'string'}, {'name': 'terminalCount', 'ty': 'integer'}, {'name': 'timezone', 'ty': 'string'}], 'identity': ['iataCode'], 'display': {'subtitle': 'iataCode'}},
+    'airport': {'name': 'airport', 'plural': 'airports', 'description': 'An airport. Created from flight search results and linked to flights.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'city', 'ty': 'string'}, {'name': 'country', 'ty': 'string'}, {'name': 'countryCode', 'ty': 'string'}, {'name': 'elevationFt', 'ty': 'integer'}, {'name': 'iataCode', 'ty': 'string', 'required': True}, {'name': 'icaoCode', 'ty': 'string'}, {'name': 'terminalCount', 'ty': 'integer'}, {'name': 'timezone', 'ty': 'string'}], 'out': [{'label': 'held_at', 'card': 'one', 'to': 'place'}, {'label': 'operated_by', 'card': 'one', 'to': 'organization'}], 'identity': ['iataCode'], 'display': {'subtitle': 'iataCode'}},
     'app': {'name': 'app', 'plural': 'apps', 'description': 'An application — something the shell can spawn as a window. Includes', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'defaultView', 'ty': 'string'}, {'name': 'handles', 'ty': 'stringlist'}, {'name': 'iconRole', 'ty': 'string'}, {'name': 'isSystem', 'ty': 'boolean'}, {'name': 'route', 'ty': 'string'}], 'identity': ['id'], 'display': {'subtitle': 'name'}},
     'birth': {'name': 'birth', 'plural': 'births', 'description': "A person's birth. The canonical event recording given/family names,", 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'additionalName', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'familyName', 'ty': 'string'}, {'name': 'gender', 'ty': 'string'}, {'name': 'givenName', 'ty': 'string'}, {'name': 'honorificPrefix', 'ty': 'string'}, {'name': 'honorificSuffix', 'ty': 'string'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'legalName', 'ty': 'string'}, {'name': 'maidenName', 'ty': 'string'}, {'name': 'nameOrder', 'ty': 'string'}, {'name': 'nickname', 'ty': 'string'}, {'name': 'phoneticFamilyName', 'ty': 'string'}, {'name': 'phoneticGivenName', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sortAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'display': {'subtitle': 'location', 'highlights': ['startDate', 'location']}},
-    'book': {'name': 'book', 'plural': 'books', 'description': 'A book. Books are BOTH creative works (the intellectual work — its', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'aisle', 'ty': 'string'}, {'name': 'availability', 'ty': 'string'}, {'name': 'awardsWon', 'ty': 'stringlist'}, {'name': 'barcode', 'ty': 'string'}, {'name': 'calories', 'ty': 'number'}, {'name': 'categories', 'ty': 'stringlist'}, {'name': 'category', 'ty': 'string'}, {'name': 'characters', 'ty': 'stringlist'}, {'name': 'copyrightYear', 'ty': 'integer'}, {'name': 'coverage', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'customizationGroups', 'ty': 'json'}, {'name': 'dateCreated', 'ty': 'date'}, {'name': 'department', 'ty': 'string'}, {'name': 'description', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'genres', 'ty': 'stringlist'}, {'name': 'images', 'ty': 'json'}, {'name': 'isbn', 'ty': 'string'}, {'name': 'isbn13', 'ty': 'string'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'novaGroup', 'ty': 'integer'}, {'name': 'nutritionScore', 'ty': 'string'}, {'name': 'originalPrice', 'ty': 'string'}, {'name': 'originalPriceAmount', 'ty': 'number'}, {'name': 'originalTitle', 'ty': 'string'}, {'name': 'pages', 'ty': 'integer'}, {'name': 'places', 'ty': 'stringlist'}, {'name': 'price', 'ty': 'string'}, {'name': 'priceAmount', 'ty': 'number'}, {'name': 'quantity', 'ty': 'integer'}, {'name': 'series', 'ty': 'string'}, {'name': 'servingSize', 'ty': 'string'}, {'name': 'sku', 'ty': 'string'}, {'name': 'soldByWeight', 'ty': 'boolean'}, {'name': 'tags', 'ty': 'stringlist'}, {'name': 'weight', 'ty': 'string'}, {'name': 'weightUnit', 'ty': 'string'}, {'name': 'weightValue', 'ty': 'number'}], 'also': ['creative_work', 'product'], 'identity_any': ['isbn13', 'isbn'], 'display': {'subtitle': 'written_by', 'image': 'image', 'body': 'description', 'highlights': ['datePublished', 'published_by']}},
-    'booking_offer': {'name': 'booking_offer', 'plural': 'booking_offers', 'description': 'A signed, itemized, fully-priced commitment presented to a human for', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'approvedAt', 'ty': 'datetime'}, {'name': 'baseAmount', 'ty': 'number'}, {'name': 'blob', 'ty': 'string'}, {'name': 'cartId', 'ty': 'string', 'required': True}, {'name': 'checkoutUrl', 'ty': 'url'}, {'name': 'conditions', 'ty': 'json'}, {'name': 'confirmEndpoint', 'ty': 'url'}, {'name': 'contactEmail', 'ty': 'string'}, {'name': 'contactPhone', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'expiresAt', 'ty': 'datetime'}, {'name': 'feesAmount', 'ty': 'number'}, {'name': 'hasVoidWindow', 'ty': 'boolean'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'isChangeable', 'ty': 'boolean'}, {'name': 'isRefundable', 'ty': 'boolean'}, {'name': 'itineraryHash', 'ty': 'string'}, {'name': 'preparedAt', 'ty': 'datetime'}, {'name': 'presentedAt', 'ty': 'datetime'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'referenceNumber', 'ty': 'string'}, {'name': 'review', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'signature', 'ty': 'string'}, {'name': 'signatureAlg', 'ty': 'string'}, {'name': 'signedBy', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'taxAmount', 'ty': 'number'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'totalAmount', 'ty': 'number'}, {'name': 'visibility', 'ty': 'string'}, {'name': 'voidWindowEndsAt', 'ty': 'datetime'}], 'also': ['event'], 'identity': ['at', 'cartId'], 'display': {'subtitle': 'totalAmount', 'highlights': ['startDate', 'endDate', 'location']}},
-    'bookmark': {'name': 'bookmark', 'plural': 'bookmarks', 'description': 'A pointer into the graph — the universal shortcut. A bookmark is a', 'icon': '"\\U0001F516"', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'handle', 'ty': 'string'}], 'identity': ['points_to'], 'display': {'subtitle': 'name'}},
-    'branch': {'name': 'branch', 'plural': 'branches', 'description': 'A git branch.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'ahead', 'ty': 'integer'}, {'name': 'behind', 'ty': 'integer'}, {'name': 'commit', 'ty': 'string'}, {'name': 'isCurrent', 'ty': 'boolean'}, {'name': 'isRemote', 'ty': 'boolean'}, {'name': 'upstream', 'ty': 'string'}], 'display': {'subtitle': 'commit'}},
-    'brand': {'name': 'brand', 'plural': 'brands', 'description': 'A consumer brand — a named, visual, commercial identity. Often (but not', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string', 'required': True}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'country', 'ty': 'string'}, {'name': 'primaryColor', 'ty': 'string'}, {'name': 'tagline', 'ty': 'string'}, {'name': 'textColor', 'ty': 'string'}], 'identity': ['url'], 'display': {'subtitle': 'tagline'}},
-    'calendar': {'name': 'calendar', 'plural': 'calendars', 'description': 'A calendar — container for events.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'accessRole', 'ty': 'string'}, {'name': 'backgroundColor', 'ty': 'string'}, {'name': 'calendarId', 'ty': 'string', 'required': True}, {'name': 'color', 'ty': 'string'}, {'name': 'foregroundColor', 'ty': 'string'}, {'name': 'isPrimary', 'ty': 'boolean'}, {'name': 'isReadonly', 'ty': 'boolean'}, {'name': 'source', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}], 'identity': ['at', 'calendarId'], 'display': {'subtitle': 'source'}},
-    'change': {'name': 'change', 'plural': 'changes', 'description': 'A delta on something — a file born/modified/removed, a document revision,', 'icon': 'file-diff', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'phase', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}, {'name': 'summary', 'ty': 'text'}, {'name': 'version', 'ty': 'string'}], 'display': {'subtitle': 'kind', 'body': 'summary', 'highlights': ['status', 'phase', 'path']}},
-    'channel': {'name': 'channel', 'plural': 'channels', 'description': 'A content channel — typically a YouTube channel. Videos are uploaded to channels.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'banner', 'ty': 'url'}, {'name': 'subscriberCount', 'ty': 'integer'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'subscriberCount'}},
-    'class': {'name': 'class', 'plural': 'classes', 'description': 'A scheduled, bookable group activity — gym classes, workshops, courses.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'activityType', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'capacity', 'ty': 'integer'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'isFull', 'ty': 'boolean'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'spotsRemaining', 'ty': 'integer'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'display': {'subtitle': 'activityType', 'highlights': ['startDate', 'endDate', 'location']}},
-    'community': {'name': 'community', 'plural': 'communities', 'description': 'An online community — a subreddit, Facebook group, or similar.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allowCrypto', 'ty': 'boolean'}, {'name': 'memberCount', 'ty': 'integer'}, {'name': 'privacy', 'ty': 'string'}, {'name': 'subscriberCount', 'ty': 'integer'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'text'}},
-    'conversation': {'name': 'conversation', 'plural': 'conversations', 'description': 'A message thread — an iMessage chat, WhatsApp group, email thread, Claude', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'accountEmail', 'ty': 'string'}, {'name': 'cwd', 'ty': 'string'}, {'name': 'gitBranch', 'ty': 'string'}, {'name': 'historyId', 'ty': 'string'}, {'name': 'isArchived', 'ty': 'boolean'}, {'name': 'isGroup', 'ty': 'boolean'}, {'name': 'messageCount', 'ty': 'integer'}, {'name': 'source', 'ty': 'string'}, {'name': 'unreadCount', 'ty': 'integer'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'text'}},
-    'conversion': {'name': 'conversion', 'plural': 'conversions', 'description': 'A contextual unit conversion — one that is NOT intrinsic to the units', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'factor', 'ty': 'number'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'rate', 'ty': 'number'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'display': {'subtitle': 'kind', 'highlights': ['startDate', 'endDate', 'location']}},
-    'creative_work': {'name': 'creative_work', 'plural': 'creative_works', 'description': "A creative work — the abstract level of FRBR's Work tier. Anything", 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'copyrightYear', 'ty': 'integer'}, {'name': 'coverage', 'ty': 'string'}, {'name': 'dateCreated', 'ty': 'date'}, {'name': 'description', 'ty': 'string'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'tags', 'ty': 'stringlist'}], 'display': {'subtitle': 'written_by', 'image': 'image', 'body': 'description', 'highlights': ['datePublished', 'published_by']}},
-    'credential': {'name': 'credential', 'plural': 'credentials', 'description': 'A credential held by AgentOS — the graph descriptor that mirrors one', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'domain', 'ty': 'string', 'required': True}, {'name': 'identifier', 'ty': 'string', 'required': True}, {'name': 'itemType', 'ty': 'string', 'required': True}, {'name': 'lastVerified', 'ty': 'datetime'}, {'name': 'obtainedAt', 'ty': 'datetime'}, {'name': 'refreshable', 'ty': 'boolean'}, {'name': 'source', 'ty': 'string'}, {'name': 'storeRowId', 'ty': 'integer'}], 'identity': ['domain', 'identifier', 'itemType'], 'display': {'subtitle': 'source'}},
-    'dimension': {'name': 'dimension', 'plural': 'dimensions', 'description': 'A physical dimension — the abstract nature of a quantity, expressed as', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'amount', 'ty': 'integer'}, {'name': 'current', 'ty': 'integer'}, {'name': 'dimensionless', 'ty': 'boolean'}, {'name': 'key', 'ty': 'string', 'required': True}, {'name': 'label', 'ty': 'string'}, {'name': 'length', 'ty': 'integer'}, {'name': 'luminous', 'ty': 'integer'}, {'name': 'mass', 'ty': 'integer'}, {'name': 'temperature', 'ty': 'integer'}, {'name': 'time', 'ty': 'integer'}], 'identity': ['key'], 'display': {'subtitle': 'label'}},
+    'book': {'name': 'book', 'plural': 'books', 'description': 'A book. Books are BOTH creative works (the intellectual work — its', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'aisle', 'ty': 'string'}, {'name': 'availability', 'ty': 'string'}, {'name': 'awardsWon', 'ty': 'stringlist'}, {'name': 'barcode', 'ty': 'string'}, {'name': 'calories', 'ty': 'number'}, {'name': 'categories', 'ty': 'stringlist'}, {'name': 'category', 'ty': 'string'}, {'name': 'characters', 'ty': 'stringlist'}, {'name': 'copyrightYear', 'ty': 'integer'}, {'name': 'coverage', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'customizationGroups', 'ty': 'json'}, {'name': 'dateCreated', 'ty': 'date'}, {'name': 'department', 'ty': 'string'}, {'name': 'description', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'genres', 'ty': 'stringlist'}, {'name': 'images', 'ty': 'json'}, {'name': 'isbn', 'ty': 'string'}, {'name': 'isbn13', 'ty': 'string'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'novaGroup', 'ty': 'integer'}, {'name': 'nutritionScore', 'ty': 'string'}, {'name': 'originalPrice', 'ty': 'string'}, {'name': 'originalPriceAmount', 'ty': 'number'}, {'name': 'originalTitle', 'ty': 'string'}, {'name': 'pages', 'ty': 'integer'}, {'name': 'places', 'ty': 'stringlist'}, {'name': 'price', 'ty': 'string'}, {'name': 'priceAmount', 'ty': 'number'}, {'name': 'quantity', 'ty': 'integer'}, {'name': 'series', 'ty': 'string'}, {'name': 'servingSize', 'ty': 'string'}, {'name': 'sku', 'ty': 'string'}, {'name': 'soldByWeight', 'ty': 'boolean'}, {'name': 'tags', 'ty': 'stringlist'}, {'name': 'weight', 'ty': 'string'}, {'name': 'weightUnit', 'ty': 'string'}, {'name': 'weightValue', 'ty': 'number'}], 'out': [{'label': 'contributed_by', 'card': 'many', 'to': 'person'}], 'also': ['creative_work', 'product'], 'identity_any': ['isbn13', 'isbn'], 'display': {'subtitle': 'written_by', 'image': 'image', 'body': 'description', 'highlights': ['datePublished', 'published_by']}},
+    'booking_offer': {'name': 'booking_offer', 'plural': 'booking_offers', 'description': 'A signed, itemized, fully-priced commitment presented to a human for', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'approvedAt', 'ty': 'datetime'}, {'name': 'baseAmount', 'ty': 'number'}, {'name': 'blob', 'ty': 'string'}, {'name': 'cartId', 'ty': 'string', 'required': True}, {'name': 'checkoutUrl', 'ty': 'url'}, {'name': 'conditions', 'ty': 'json'}, {'name': 'confirmEndpoint', 'ty': 'url'}, {'name': 'contactEmail', 'ty': 'string'}, {'name': 'contactPhone', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'expiresAt', 'ty': 'datetime'}, {'name': 'feesAmount', 'ty': 'number'}, {'name': 'hasVoidWindow', 'ty': 'boolean'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'isChangeable', 'ty': 'boolean'}, {'name': 'isRefundable', 'ty': 'boolean'}, {'name': 'itineraryHash', 'ty': 'string'}, {'name': 'preparedAt', 'ty': 'datetime'}, {'name': 'presentedAt', 'ty': 'datetime'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'referenceNumber', 'ty': 'string'}, {'name': 'review', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'signature', 'ty': 'string'}, {'name': 'signatureAlg', 'ty': 'string'}, {'name': 'signedBy', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'taxAmount', 'ty': 'number'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'totalAmount', 'ty': 'number'}, {'name': 'visibility', 'ty': 'string'}, {'name': 'voidWindowEndsAt', 'ty': 'datetime'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'derived_from', 'card': 'one', 'to': 'offer'}, {'label': 'covers_trip', 'card': 'many', 'to': 'trip'}, {'label': 'reserves', 'card': 'many', 'to': 'pass'}, {'label': 'bought_by', 'card': 'many', 'to': 'person'}, {'label': 'accommodates', 'card': 'many', 'to': 'person'}, {'label': 'booked_for', 'card': 'one', 'to': 'person'}, {'label': 'paid_with', 'card': 'one', 'to': 'payment_method'}, {'label': 'billed_to', 'card': 'one', 'to': 'place'}, {'label': 'priced_at', 'card': 'many', 'to': 'fare'}, {'label': 'itemizes', 'card': 'many', 'to': 'tax_line'}, {'label': 'booked_under', 'card': 'one', 'to': 'account'}, {'label': 'tied_to', 'card': 'one', 'to': 'membership'}, {'label': 'brokered_by', 'card': 'one', 'to': 'actor'}, {'label': 'realized_as', 'card': 'one', 'to': 'reservation'}, {'label': 'settled_as', 'card': 'one', 'to': 'transaction'}], 'also': ['event'], 'identity': ['at', 'cartId'], 'display': {'subtitle': 'totalAmount', 'highlights': ['startDate', 'endDate', 'location']}},
+    'bookmark': {'name': 'bookmark', 'plural': 'bookmarks', 'description': 'A pointer into the graph — the universal shortcut. A bookmark is a', 'icon': '"\\U0001F516"', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'handle', 'ty': 'string'}], 'out': [{'label': 'points_to', 'card': 'one', 'to': 'node'}], 'identity': ['points_to'], 'display': {'subtitle': 'name'}},
+    'branch': {'name': 'branch', 'plural': 'branches', 'description': 'A git branch.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'ahead', 'ty': 'integer'}, {'name': 'behind', 'ty': 'integer'}, {'name': 'commit', 'ty': 'string'}, {'name': 'isCurrent', 'ty': 'boolean'}, {'name': 'isRemote', 'ty': 'boolean'}, {'name': 'upstream', 'ty': 'string'}], 'out': [{'label': 'in', 'card': 'one', 'to': 'repository'}], 'display': {'subtitle': 'commit'}},
+    'brand': {'name': 'brand', 'plural': 'brands', 'description': 'A consumer brand — a named, visual, commercial identity. Often (but not', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string', 'required': True}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'country', 'ty': 'string'}, {'name': 'primaryColor', 'ty': 'string'}, {'name': 'tagline', 'ty': 'string'}, {'name': 'textColor', 'ty': 'string'}], 'out': [{'label': 'owned_by', 'card': 'one', 'to': 'organization'}, {'label': 'online_at', 'card': 'one', 'to': 'website'}, {'label': 'depicted_by', 'card': 'one', 'to': 'image'}], 'identity': ['url'], 'display': {'subtitle': 'tagline'}},
+    'calendar': {'name': 'calendar', 'plural': 'calendars', 'description': 'A calendar — container for events.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'accessRole', 'ty': 'string'}, {'name': 'backgroundColor', 'ty': 'string'}, {'name': 'calendarId', 'ty': 'string', 'required': True}, {'name': 'color', 'ty': 'string'}, {'name': 'foregroundColor', 'ty': 'string'}, {'name': 'isPrimary', 'ty': 'boolean'}, {'name': 'isReadonly', 'ty': 'boolean'}, {'name': 'source', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'owned_by', 'card': 'one', 'to': 'person'}, {'label': 'schedules', 'card': 'many', 'to': 'event'}], 'identity': ['at', 'calendarId'], 'display': {'subtitle': 'source'}},
+    'change': {'name': 'change', 'plural': 'changes', 'description': 'A delta on something — a file born/modified/removed, a document revision,', 'icon': 'file-diff', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'phase', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}, {'name': 'summary', 'ty': 'text'}, {'name': 'version', 'ty': 'string'}], 'out': [{'label': 'modifies', 'card': 'one', 'to': 'node'}, {'label': 'derived_from', 'card': 'one', 'to': 'change'}], 'display': {'subtitle': 'kind', 'body': 'summary', 'highlights': ['status', 'phase', 'path']}},
+    'channel': {'name': 'channel', 'plural': 'channels', 'description': 'A content channel — typically a YouTube channel. Videos are uploaded to channels.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'banner', 'ty': 'url'}, {'name': 'subscriberCount', 'ty': 'integer'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'subscriberCount'}},
+    'class': {'name': 'class', 'plural': 'classes', 'description': 'A scheduled, bookable group activity — gym classes, workshops, courses.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'activityType', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'capacity', 'ty': 'integer'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'isFull', 'ty': 'boolean'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'spotsRemaining', 'ty': 'integer'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'taught_by', 'card': 'one', 'to': 'person'}, {'label': 'held_at', 'card': 'one', 'to': 'place'}], 'also': ['event'], 'display': {'subtitle': 'activityType', 'highlights': ['startDate', 'endDate', 'location']}},
+    'community': {'name': 'community', 'plural': 'communities', 'description': 'An online community — a subreddit, Facebook group, or similar.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allowCrypto', 'ty': 'boolean'}, {'name': 'memberCount', 'ty': 'integer'}, {'name': 'privacy', 'ty': 'string'}, {'name': 'subscriberCount', 'ty': 'integer'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'text'}},
+    'conversation': {'name': 'conversation', 'plural': 'conversations', 'description': 'A message thread — an iMessage chat, WhatsApp group, email thread, Claude', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'accountEmail', 'ty': 'string'}, {'name': 'cwd', 'ty': 'string'}, {'name': 'gitBranch', 'ty': 'string'}, {'name': 'historyId', 'ty': 'string'}, {'name': 'isArchived', 'ty': 'boolean'}, {'name': 'isGroup', 'ty': 'boolean'}, {'name': 'messageCount', 'ty': 'integer'}, {'name': 'source', 'ty': 'string'}, {'name': 'unreadCount', 'ty': 'integer'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'contains', 'card': 'many', 'to': 'message'}, {'label': 'in', 'card': 'one', 'to': 'list'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'text'}},
+    'conversion': {'name': 'conversion', 'plural': 'conversions', 'description': 'A contextual unit conversion — one that is NOT intrinsic to the units', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'factor', 'ty': 'number'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'rate', 'ty': 'number'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'converts_from', 'card': 'one', 'to': 'unit'}, {'label': 'converts_to', 'card': 'one', 'to': 'unit'}, {'label': 'depends_on', 'card': 'one', 'to': 'node'}], 'also': ['event'], 'display': {'subtitle': 'kind', 'highlights': ['startDate', 'endDate', 'location']}},
+    'creative_work': {'name': 'creative_work', 'plural': 'creative_works', 'description': "A creative work — the abstract level of FRBR's Work tier. Anything", 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'copyrightYear', 'ty': 'integer'}, {'name': 'coverage', 'ty': 'string'}, {'name': 'dateCreated', 'ty': 'date'}, {'name': 'description', 'ty': 'string'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'tags', 'ty': 'stringlist'}], 'out': [{'label': 'written_by', 'card': 'one', 'to': 'person'}, {'label': 'published_by', 'card': 'one', 'to': 'actor'}, {'label': 'contributed_by', 'card': 'many', 'to': 'person'}, {'label': 'held_by', 'card': 'one', 'to': 'person'}], 'display': {'subtitle': 'written_by', 'image': 'image', 'body': 'description', 'highlights': ['datePublished', 'published_by']}},
+    'credential': {'name': 'credential', 'plural': 'credentials', 'description': 'A credential held by AgentOS — the graph descriptor that mirrors one', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'domain', 'ty': 'string', 'required': True}, {'name': 'identifier', 'ty': 'string', 'required': True}, {'name': 'itemType', 'ty': 'string', 'required': True}, {'name': 'lastVerified', 'ty': 'datetime'}, {'name': 'obtainedAt', 'ty': 'datetime'}, {'name': 'refreshable', 'ty': 'boolean'}, {'name': 'source', 'ty': 'string'}, {'name': 'storeRowId', 'ty': 'integer'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'organization'}, {'label': 'written_by', 'card': 'one', 'to': 'skill'}], 'identity': ['domain', 'identifier', 'itemType'], 'display': {'subtitle': 'source'}},
+    'dimension': {'name': 'dimension', 'plural': 'dimensions', 'description': 'A physical dimension — the abstract nature of a quantity, expressed as', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'amount', 'ty': 'integer'}, {'name': 'current', 'ty': 'integer'}, {'name': 'dimensionless', 'ty': 'boolean'}, {'name': 'key', 'ty': 'string', 'required': True}, {'name': 'label', 'ty': 'string'}, {'name': 'length', 'ty': 'integer'}, {'name': 'luminous', 'ty': 'integer'}, {'name': 'mass', 'ty': 'integer'}, {'name': 'temperature', 'ty': 'integer'}, {'name': 'time', 'ty': 'integer'}], 'out': [{'label': 'has_base_unit', 'card': 'one', 'to': 'unit'}], 'identity': ['key'], 'display': {'subtitle': 'label'}},
     'dns_record': {'name': 'dns_record', 'plural': 'dns_records', 'description': 'A DNS record for a domain. One domain has many records (A, CNAME, MX, TXT, etc.).', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'domain', 'ty': 'string', 'required': True}, {'name': 'priority', 'ty': 'integer'}, {'name': 'recordId', 'ty': 'string'}, {'name': 'recordName', 'ty': 'string', 'required': True}, {'name': 'recordType', 'ty': 'string', 'required': True}, {'name': 'ttl', 'ty': 'integer'}, {'name': 'type', 'ty': 'string'}, {'name': 'values', 'ty': 'stringlist'}], 'identity': ['domain', 'recordType', 'recordName'], 'display': {'subtitle': 'recordType'}},
-    'document': {'name': 'document', 'plural': 'documents', 'description': 'A document — any human-readable text content with structure and authorship.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'abstract', 'ty': 'text'}, {'name': 'contentType', 'ty': 'string'}, {'name': 'encoding', 'ty': 'string'}, {'name': 'filename', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'language', 'ty': 'string'}, {'name': 'lineCount', 'ty': 'integer'}, {'name': 'mimeType', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'sha', 'ty': 'string'}, {'name': 'size', 'ty': 'integer'}, {'name': 'tableOfContents', 'ty': 'text'}, {'name': 'wordCount', 'ty': 'integer'}], 'also': ['file'], 'display': {'subtitle': 'contentType', 'body': 'abstract', 'highlights': ['datePublished', 'author', 'wordCount']}},
+    'document': {'name': 'document', 'plural': 'documents', 'description': 'A document — any human-readable text content with structure and authorship.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'abstract', 'ty': 'text'}, {'name': 'contentType', 'ty': 'string'}, {'name': 'encoding', 'ty': 'string'}, {'name': 'filename', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'language', 'ty': 'string'}, {'name': 'lineCount', 'ty': 'integer'}, {'name': 'mimeType', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'sha', 'ty': 'string'}, {'name': 'size', 'ty': 'integer'}, {'name': 'tableOfContents', 'ty': 'text'}, {'name': 'wordCount', 'ty': 'integer'}], 'out': [{'label': 'authored_by', 'card': 'one', 'to': 'actor'}, {'label': 'references', 'card': 'many', 'to': 'document'}, {'label': 'cited_by', 'card': 'many', 'to': 'document'}, {'label': 'embeds', 'card': 'many', 'to': 'node'}], 'also': ['file'], 'display': {'subtitle': 'contentType', 'body': 'abstract', 'highlights': ['datePublished', 'author', 'wordCount']}},
     'domain': {'name': 'domain', 'plural': 'domains', 'description': 'A registered domain name. Also auto-created from email sender/recipient addresses.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'autoRenew', 'ty': 'boolean'}, {'name': 'nameservers', 'ty': 'stringlist'}, {'name': 'registrar', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}], 'identity': ['name'], 'display': {'subtitle': 'registrar'}},
-    'email': {'name': 'email', 'plural': 'emails', 'description': 'An email message. Emails are also messages — querying by "message"', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'accountEmail', 'ty': 'string'}, {'name': 'attachments', 'ty': 'json'}, {'name': 'authResults', 'ty': 'string'}, {'name': 'bccRaw', 'ty': 'string'}, {'name': 'bodyHtml', 'ty': 'text'}, {'name': 'ccRaw', 'ty': 'string'}, {'name': 'conversationId', 'ty': 'string'}, {'name': 'deliveredTo', 'ty': 'string'}, {'name': 'draftId', 'ty': 'string'}, {'name': 'hasAttachments', 'ty': 'boolean'}, {'name': 'inReplyTo', 'ty': 'string'}, {'name': 'isAutomated', 'ty': 'boolean'}, {'name': 'isDraft', 'ty': 'boolean'}, {'name': 'isOutgoing', 'ty': 'boolean'}, {'name': 'isSent', 'ty': 'boolean'}, {'name': 'isSpam', 'ty': 'boolean'}, {'name': 'isStarred', 'ty': 'boolean'}, {'name': 'isTrash', 'ty': 'boolean'}, {'name': 'isUnread', 'ty': 'boolean'}, {'name': 'listId', 'ty': 'string'}, {'name': 'mailer', 'ty': 'string'}, {'name': 'manageSubscription', 'ty': 'string'}, {'name': 'messageId', 'ty': 'string'}, {'name': 'precedence', 'ty': 'string'}, {'name': 'references', 'ty': 'string'}, {'name': 'replyTo', 'ty': 'string'}, {'name': 'returnPath', 'ty': 'string'}, {'name': 'sizeEstimate', 'ty': 'integer'}, {'name': 'subject', 'ty': 'string'}, {'name': 'toRaw', 'ty': 'string'}, {'name': 'unsubscribe', 'ty': 'string'}, {'name': 'unsubscribeOneClick', 'ty': 'boolean'}], 'also': ['message'], 'identity': ['at', 'id'], 'display': {'subtitle': 'author'}},
-    'episode': {'name': 'episode', 'plural': 'episodes', 'description': 'A single episode of a podcast or show. Transcribable.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'durationMs', 'ty': 'integer'}, {'name': 'episodeNumber', 'ty': 'integer'}, {'name': 'seasonNumber', 'ty': 'integer'}], 'display': {'subtitle': 'author'}},
-    'event': {'name': 'event', 'plural': 'events', 'description': 'Something that happens — at a time, optionally at a place, involving people.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'startDate', 'highlights': ['startDate', 'endDate', 'location']}},
-    'fare': {'name': 'fare', 'plural': 'fares', 'description': 'The priced class-of-service unit for a transport journey — the BASE', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'basePrice', 'ty': 'number'}, {'name': 'bookingCode', 'ty': 'string'}, {'name': 'changeable', 'ty': 'boolean'}, {'name': 'class', 'ty': 'string'}, {'name': 'components', 'ty': 'integer'}, {'name': 'conditions', 'ty': 'json'}, {'name': 'currency', 'ty': 'string'}, {'name': 'fareFamily', 'ty': 'string'}, {'name': 'identifier', 'ty': 'string', 'required': True}, {'name': 'milesEarned', 'ty': 'integer'}, {'name': 'passengerType', 'ty': 'string'}, {'name': 'pointsEarned', 'ty': 'integer'}, {'name': 'productType', 'ty': 'string'}, {'name': 'refundable', 'ty': 'boolean'}, {'name': 'restrictions', 'ty': 'stringlist'}], 'identity': ['at', 'identifier'], 'display': {'subtitle': 'fareFamily'}},
-    'file': {'name': 'file', 'plural': 'files', 'description': 'A file — source code, attachment, download, or any discrete digital artifact.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'encoding', 'ty': 'string'}, {'name': 'filename', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'lineCount', 'ty': 'integer'}, {'name': 'mimeType', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'sha', 'ty': 'string'}, {'name': 'size', 'ty': 'integer'}], 'display': {'subtitle': 'path'}},
-    'financial_account': {'name': 'financial_account', 'plural': 'financial_accounts', 'description': 'A financial account — bank checking/savings, brokerage, crypto wallet, etc.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'accountId', 'ty': 'string'}, {'name': 'accountNumber', 'ty': 'string'}, {'name': 'accountType', 'ty': 'string'}, {'name': 'available', 'ty': 'number'}, {'name': 'balance', 'ty': 'number'}, {'name': 'cardType', 'ty': 'string'}, {'name': 'creditLimit', 'ty': 'number'}, {'name': 'currency', 'ty': 'string'}, {'name': 'identifier', 'ty': 'string', 'required': True}, {'name': 'interestRate', 'ty': 'number'}, {'name': 'last4', 'ty': 'string'}, {'name': 'minimumPayment', 'ty': 'number'}, {'name': 'routingNumber', 'ty': 'string'}], 'identity': ['at', 'identifier'], 'display': {'subtitle': 'last4'}},
-    'flight': {'name': 'flight', 'plural': 'flights', 'description': 'A flight — a specific leg of air travel. A flight IS a leg.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'arrivalTime', 'ty': 'datetime'}, {'name': 'cabinClass', 'ty': 'string'}, {'name': 'carbonEmissions', 'ty': 'json'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'departureTime', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'duration', 'ty': 'string'}, {'name': 'durationMinutes', 'ty': 'integer'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'flightNumber', 'ty': 'string'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'layoverMinutes', 'ty': 'integer'}, {'name': 'polyline', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'sequence', 'ty': 'integer'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'stops', 'ty': 'integer'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'trace', 'ty': 'json'}, {'name': 'tracePointCount', 'ty': 'integer'}, {'name': 'vehicleType', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['leg'], 'display': {'subtitle': 'airline', 'highlights': ['startDate', 'endDate', 'location']}},
-    'flow': {'name': 'flow', 'plural': 'flows', 'description': 'A process / swim-lane — actors across ordered steps. The universal shape', 'icon': 'workflow', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'goal', 'ty': 'text'}, {'name': 'status', 'ty': 'string'}, {'name': 'trigger', 'ty': 'string'}], 'display': {'subtitle': 'goal', 'highlights': ['trigger', 'status']}},
+    'email': {'name': 'email', 'plural': 'emails', 'description': 'An email message. Emails are also messages — querying by "message"', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'accountEmail', 'ty': 'string'}, {'name': 'attachments', 'ty': 'json'}, {'name': 'authResults', 'ty': 'string'}, {'name': 'bccRaw', 'ty': 'string'}, {'name': 'bodyHtml', 'ty': 'text'}, {'name': 'ccRaw', 'ty': 'string'}, {'name': 'conversationId', 'ty': 'string'}, {'name': 'deliveredTo', 'ty': 'string'}, {'name': 'draftId', 'ty': 'string'}, {'name': 'hasAttachments', 'ty': 'boolean'}, {'name': 'inReplyTo', 'ty': 'string'}, {'name': 'isAutomated', 'ty': 'boolean'}, {'name': 'isDraft', 'ty': 'boolean'}, {'name': 'isOutgoing', 'ty': 'boolean'}, {'name': 'isSent', 'ty': 'boolean'}, {'name': 'isSpam', 'ty': 'boolean'}, {'name': 'isStarred', 'ty': 'boolean'}, {'name': 'isTrash', 'ty': 'boolean'}, {'name': 'isUnread', 'ty': 'boolean'}, {'name': 'listId', 'ty': 'string'}, {'name': 'mailer', 'ty': 'string'}, {'name': 'manageSubscription', 'ty': 'string'}, {'name': 'messageId', 'ty': 'string'}, {'name': 'precedence', 'ty': 'string'}, {'name': 'references', 'ty': 'string'}, {'name': 'replyTo', 'ty': 'string'}, {'name': 'returnPath', 'ty': 'string'}, {'name': 'sizeEstimate', 'ty': 'integer'}, {'name': 'subject', 'ty': 'string'}, {'name': 'toRaw', 'ty': 'string'}, {'name': 'unsubscribe', 'ty': 'string'}, {'name': 'unsubscribeOneClick', 'ty': 'boolean'}], 'out': [{'label': 'sent_by', 'card': 'one', 'to': 'account'}, {'label': 'addressed_to', 'card': 'many', 'to': 'account'}, {'label': 'copied_to', 'card': 'many', 'to': 'account'}, {'label': 'blind_copied_to', 'card': 'many', 'to': 'account'}, {'label': 'on', 'card': 'one', 'to': 'domain'}, {'label': 'tagged_with', 'card': 'many', 'to': 'tag'}], 'also': ['message'], 'identity': ['at', 'id'], 'display': {'subtitle': 'author'}},
+    'episode': {'name': 'episode', 'plural': 'episodes', 'description': 'A single episode of a podcast or show. Transcribable.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'durationMs', 'ty': 'integer'}, {'name': 'episodeNumber', 'ty': 'integer'}, {'name': 'seasonNumber', 'ty': 'integer'}], 'out': [{'label': 'aired_in', 'card': 'one', 'to': 'podcast'}, {'label': 'transcribed_by', 'card': 'one', 'to': 'transcript'}, {'label': 'featured', 'card': 'many', 'to': 'person'}], 'display': {'subtitle': 'author'}},
+    'event': {'name': 'event', 'plural': 'events', 'description': 'Something that happens — at a time, optionally at a place, involving people.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'involves', 'card': 'many', 'to': 'person'}, {'label': 'held_at', 'card': 'one', 'to': 'place'}, {'label': 'organized_by', 'card': 'one', 'to': 'person'}, {'label': 'created_by', 'card': 'one', 'to': 'person'}, {'label': 'concerns', 'card': 'one', 'to': 'person'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'startDate', 'highlights': ['startDate', 'endDate', 'location']}},
+    'fare': {'name': 'fare', 'plural': 'fares', 'description': 'The priced class-of-service unit for a transport journey — the BASE', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'basePrice', 'ty': 'number'}, {'name': 'bookingCode', 'ty': 'string'}, {'name': 'changeable', 'ty': 'boolean'}, {'name': 'class', 'ty': 'string'}, {'name': 'components', 'ty': 'integer'}, {'name': 'conditions', 'ty': 'json'}, {'name': 'currency', 'ty': 'string'}, {'name': 'fareFamily', 'ty': 'string'}, {'name': 'identifier', 'ty': 'string', 'required': True}, {'name': 'milesEarned', 'ty': 'integer'}, {'name': 'passengerType', 'ty': 'string'}, {'name': 'pointsEarned', 'ty': 'integer'}, {'name': 'productType', 'ty': 'string'}, {'name': 'refundable', 'ty': 'boolean'}, {'name': 'restrictions', 'ty': 'stringlist'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'priced_for', 'card': 'one', 'to': 'trip'}, {'label': 'routed_through', 'card': 'many', 'to': 'leg'}, {'label': 'derived_from', 'card': 'one', 'to': 'offer'}, {'label': 'under', 'card': 'one', 'to': 'reservation'}, {'label': 'itemizes', 'card': 'many', 'to': 'tax_line'}, {'label': 'earns_into', 'card': 'one', 'to': 'membership'}], 'identity': ['at', 'identifier'], 'display': {'subtitle': 'fareFamily'}},
+    'file': {'name': 'file', 'plural': 'files', 'description': 'A file — source code, attachment, download, or any discrete digital artifact.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'encoding', 'ty': 'string'}, {'name': 'filename', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'lineCount', 'ty': 'integer'}, {'name': 'mimeType', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'sha', 'ty': 'string'}, {'name': 'size', 'ty': 'integer'}], 'out': [{'label': 'attached_to', 'card': 'one', 'to': 'message'}, {'label': 'in', 'card': 'one', 'to': 'repository'}], 'identity_any': ['sha', 'url'], 'display': {'subtitle': 'path'}},
+    'financial_account': {'name': 'financial_account', 'plural': 'financial_accounts', 'description': 'A financial account — bank checking/savings, brokerage, crypto wallet, etc.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'accountId', 'ty': 'string'}, {'name': 'accountNumber', 'ty': 'string'}, {'name': 'accountType', 'ty': 'string'}, {'name': 'available', 'ty': 'number'}, {'name': 'balance', 'ty': 'number'}, {'name': 'cardType', 'ty': 'string'}, {'name': 'creditLimit', 'ty': 'number'}, {'name': 'currency', 'ty': 'string'}, {'name': 'identifier', 'ty': 'string', 'required': True}, {'name': 'interestRate', 'ty': 'number'}, {'name': 'last4', 'ty': 'string'}, {'name': 'minimumPayment', 'ty': 'number'}, {'name': 'routingNumber', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'accessed_via', 'card': 'one', 'to': 'account'}, {'label': 'owned_by', 'card': 'one', 'to': 'person'}], 'identity': ['at', 'identifier'], 'display': {'subtitle': 'last4'}},
+    'flight': {'name': 'flight', 'plural': 'flights', 'description': 'A flight — a specific leg of air travel. A flight IS a leg.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'arrivalTime', 'ty': 'datetime'}, {'name': 'cabinClass', 'ty': 'string'}, {'name': 'carbonEmissions', 'ty': 'json'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'departureTime', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'duration', 'ty': 'string'}, {'name': 'durationMinutes', 'ty': 'integer'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'flightNumber', 'ty': 'string'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'layoverMinutes', 'ty': 'integer'}, {'name': 'polyline', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'sequence', 'ty': 'integer'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'stops', 'ty': 'integer'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'trace', 'ty': 'json'}, {'name': 'tracePointCount', 'ty': 'integer'}, {'name': 'vehicleType', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'operated_by', 'card': 'one', 'to': 'airline'}, {'label': 'departs_from', 'card': 'one', 'to': 'airport'}, {'label': 'arrives_at', 'card': 'one', 'to': 'airport'}, {'label': 'flown_with', 'card': 'one', 'to': 'aircraft'}], 'also': ['leg'], 'display': {'subtitle': 'airline', 'highlights': ['startDate', 'endDate', 'location']}},
+    'flow': {'name': 'flow', 'plural': 'flows', 'description': 'A process / swim-lane — actors across ordered steps. The universal shape', 'icon': 'workflow', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'goal', 'ty': 'text'}, {'name': 'status', 'ty': 'string'}, {'name': 'trigger', 'ty': 'string'}], 'out': [{'label': 'involves', 'card': 'many', 'to': 'node'}, {'label': 'has_step', 'card': 'many', 'to': 'step'}, {'label': 'serves', 'card': 'many', 'to': 'node'}, {'label': 'produces', 'card': 'one', 'to': 'node'}], 'display': {'subtitle': 'goal', 'highlights': ['trigger', 'status']}},
     'font': {'name': 'font', 'plural': 'fonts', 'description': 'A typeface — the family-level work. One node per font family', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'copyrightYear', 'ty': 'integer'}, {'name': 'coverage', 'ty': 'string'}, {'name': 'dateCreated', 'ty': 'date'}, {'name': 'description', 'ty': 'string'}, {'name': 'designerUrl', 'ty': 'string'}, {'name': 'family', 'ty': 'string'}, {'name': 'formats', 'ty': 'stringlist'}, {'name': 'genericFamily', 'ty': 'string'}, {'name': 'glyphCount', 'ty': 'integer'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'licenseInfoUrl', 'ty': 'string'}, {'name': 'postscriptName', 'ty': 'string'}, {'name': 'scripts', 'ty': 'stringlist'}, {'name': 'styles', 'ty': 'stringlist'}, {'name': 'tags', 'ty': 'stringlist'}, {'name': 'vendorUrl', 'ty': 'string'}, {'name': 'weights', 'ty': 'integerlist'}], 'also': ['creative_work'], 'identity_any': ['family', 'postscriptName'], 'display': {'subtitle': 'author', 'image': 'image', 'body': 'description', 'highlights': ['datePublished', 'published_by']}},
-    'git_commit': {'name': 'git_commit', 'plural': 'git_commits', 'description': 'A git commit — a single point in version control history.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'additions', 'ty': 'integer'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'committedAt', 'ty': 'datetime'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'deletions', 'ty': 'integer'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'filesChanged', 'ty': 'integer'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'message', 'ty': 'text'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'sha', 'ty': 'string'}, {'name': 'shortHash', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'display': {'subtitle': 'author', 'highlights': ['startDate', 'endDate', 'location']}},
+    'git_commit': {'name': 'git_commit', 'plural': 'git_commits', 'description': 'A git commit — a single point in version control history.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'additions', 'ty': 'integer'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'committedAt', 'ty': 'datetime'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'deletions', 'ty': 'integer'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'filesChanged', 'ty': 'integer'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'message', 'ty': 'text'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'sha', 'ty': 'string'}, {'name': 'shortHash', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'authored_by', 'card': 'one', 'to': 'account'}, {'label': 'committed_by', 'card': 'one', 'to': 'account'}, {'label': 'in', 'card': 'one', 'to': 'repository'}, {'label': 'derived_from', 'card': 'one', 'to': 'git_commit'}], 'also': ['event'], 'display': {'subtitle': 'author', 'highlights': ['startDate', 'endDate', 'location']}},
     'group': {'name': 'group', 'plural': 'groups', 'description': 'A group or community — online group, reading group, etc.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'category', 'ty': 'string'}, {'name': 'memberCount', 'ty': 'integer'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'category'}},
-    'health-biomarker': {'name': 'health-biomarker', 'plural': 'health-biomarkers', 'description': 'The *definition* of a measurable health quantity — TSH, LDL cholesterol,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'analyteType', 'ty': 'string'}, {'name': 'category', 'ty': 'string'}, {'name': 'description', 'ty': 'text'}, {'name': 'loincCode', 'ty': 'string'}, {'name': 'measure', 'ty': 'string'}], 'identity_any': ['loincCode', 'measure'], 'display': {'subtitle': 'category'}},
-    'health-condition': {'name': 'health-condition', 'plural': 'health-conditions', 'description': 'A health condition — a diagnosis, problem, symptom, or family-history', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'bodySite', 'ty': 'string'}, {'name': 'clinicalArea', 'ty': 'string'}, {'name': 'clinicalStatus', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'icd10Code', 'ty': 'string'}, {'name': 'mitigation', 'ty': 'text'}, {'name': 'properties', 'ty': 'json'}, {'name': 'proximity', 'ty': 'string'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'severity', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'snomedCode', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'verificationStatus', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'identity_any': ['snomedCode', 'name'], 'display': {'subtitle': 'clinicalStatus', 'highlights': ['startDate', 'endDate', 'location']}},
-    'health-immunization': {'name': 'health-immunization', 'plural': 'health-immunizations', 'description': 'An immunization — a single vaccine administration at a point in time.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'cvxCode', 'ty': 'string'}, {'name': 'dateAdministered', 'ty': 'datetime'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'diseaseTarget', 'ty': 'string'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'doseNumber', 'ty': 'integer'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'lotNumber', 'ty': 'string'}, {'name': 'manufacturer', 'ty': 'string'}, {'name': 'notes', 'ty': 'text'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'route', 'ty': 'string'}, {'name': 'seriesDoses', 'ty': 'integer'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'site', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'display': {'subtitle': 'dateAdministered', 'highlights': ['startDate', 'endDate', 'location']}},
+    'health-biomarker': {'name': 'health-biomarker', 'plural': 'health-biomarkers', 'description': 'The *definition* of a measurable health quantity — TSH, LDL cholesterol,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'analyteType', 'ty': 'string'}, {'name': 'category', 'ty': 'string'}, {'name': 'description', 'ty': 'text'}, {'name': 'loincCode', 'ty': 'string'}, {'name': 'measure', 'ty': 'string'}], 'out': [{'label': 'part_of', 'card': 'many', 'to': 'health-panel'}], 'identity_any': ['loincCode', 'measure'], 'display': {'subtitle': 'category'}},
+    'health-condition': {'name': 'health-condition', 'plural': 'health-conditions', 'description': 'A health condition — a diagnosis, problem, symptom, or family-history', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'bodySite', 'ty': 'string'}, {'name': 'clinicalArea', 'ty': 'string'}, {'name': 'clinicalStatus', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'icd10Code', 'ty': 'string'}, {'name': 'mitigation', 'ty': 'text'}, {'name': 'properties', 'ty': 'json'}, {'name': 'proximity', 'ty': 'string'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'severity', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'snomedCode', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'verificationStatus', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'concerns', 'card': 'one', 'to': 'person'}, {'label': 'evidenced_by', 'card': 'many', 'to': 'file'}], 'also': ['event'], 'identity_any': ['snomedCode', 'name'], 'display': {'subtitle': 'clinicalStatus', 'highlights': ['startDate', 'endDate', 'location']}},
+    'health-immunization': {'name': 'health-immunization', 'plural': 'health-immunizations', 'description': 'An immunization — a single vaccine administration at a point in time.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'cvxCode', 'ty': 'string'}, {'name': 'dateAdministered', 'ty': 'datetime'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'diseaseTarget', 'ty': 'string'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'doseNumber', 'ty': 'integer'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'lotNumber', 'ty': 'string'}, {'name': 'manufacturer', 'ty': 'string'}, {'name': 'notes', 'ty': 'text'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'route', 'ty': 'string'}, {'name': 'seriesDoses', 'ty': 'integer'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'site', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'administered_at', 'card': 'one', 'to': 'health-lab'}, {'label': 'concerns', 'card': 'one', 'to': 'person'}, {'label': 'evidenced_by', 'card': 'many', 'to': 'file'}], 'also': ['event'], 'display': {'subtitle': 'dateAdministered', 'highlights': ['startDate', 'endDate', 'location']}},
     'health-lab': {'name': 'health-lab', 'plural': 'health-labs', 'description': 'A clinical laboratory or testing facility — the place that processes a', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'accreditation', 'ty': 'string'}, {'name': 'actorType', 'ty': 'string'}, {'name': 'ccn', 'ty': 'string'}, {'name': 'cliaNumber', 'ty': 'string'}, {'name': 'industry', 'ty': 'string'}, {'name': 'labType', 'ty': 'string'}, {'name': 'npi', 'ty': 'string'}], 'also': ['organization'], 'identity_any': ['cliaNumber', 'url'], 'display': {'subtitle': 'labType', 'image': 'image', 'highlights': ['headquarters']}},
-    'health-observation': {'name': 'health-observation', 'plural': 'health-observations', 'description': 'A single measured health value at a point in time — "LDL = 95 mg/dL on', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'community', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'externalUrl', 'ty': 'url'}, {'name': 'favicon', 'ty': 'url'}, {'name': 'flag', 'ty': 'string'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'indexedAt', 'ty': 'datetime'}, {'name': 'notes', 'ty': 'text'}, {'name': 'postId', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'refHigh', 'ty': 'number'}, {'name': 'refLow', 'ty': 'number'}, {'name': 'refText', 'ty': 'string'}, {'name': 'resultType', 'ty': 'string'}, {'name': 'score', 'ty': 'integer'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'similarity', 'ty': 'number'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'value', 'ty': 'number'}, {'name': 'valueText', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['result', 'event'], 'display': {'subtitle': 'startDate', 'highlights': ['startDate', 'endDate', 'location']}},
-    'health-panel': {'name': 'health-panel', 'plural': 'health-panels', 'description': 'A panel — a named grouping of biomarkers ordered and reported together.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'arrangement', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'default_view', 'ty': 'string'}, {'name': 'description', 'ty': 'text'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'fasting', 'ty': 'boolean'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'icon_size', 'ty': 'integer'}, {'name': 'isDefault', 'ty': 'boolean'}, {'name': 'isPublic', 'ty': 'boolean'}, {'name': 'itemCount', 'ty': 'integer'}, {'name': 'listId', 'ty': 'string'}, {'name': 'listType', 'ty': 'string'}, {'name': 'member_shape', 'ty': 'string'}, {'name': 'ordering_mode', 'ty': 'string'}, {'name': 'panelCode', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'privacy', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sort_by', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['list', 'event'], 'display': {'subtitle': 'startDate', 'highlights': ['startDate', 'endDate', 'location']}},
-    'health-procedure': {'name': 'health-procedure', 'plural': 'health-procedures', 'description': 'A procedure — a clinical action performed on the body. Surgeries', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'bodySite', 'ty': 'string'}, {'name': 'cptCode', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'findings', 'ty': 'text'}, {'name': 'followUp', 'ty': 'text'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'outcome', 'ty': 'string'}, {'name': 'performedDate', 'ty': 'datetime'}, {'name': 'procedureType', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'snomedCode', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'identity_any': ['cptCode', 'snomedCode', 'id'], 'display': {'subtitle': 'performedDate', 'highlights': ['startDate', 'endDate', 'location']}},
-    'health-reference-range': {'name': 'health-reference-range', 'plural': 'health-reference-ranges', 'description': 'A lab-specific reference interval — the "normal range" for a biomarker,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'ageHigh', 'ty': 'number'}, {'name': 'ageLow', 'ty': 'number'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'category', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'fasting', 'ty': 'boolean'}, {'name': 'gestationalAge', 'ty': 'string'}, {'name': 'high', 'ty': 'number'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'low', 'ty': 'number'}, {'name': 'method', 'ty': 'string', 'required': True}, {'name': 'pregnancy', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'provenance', 'ty': 'string'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'refText', 'ty': 'string'}, {'name': 'sex', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime', 'required': True}, {'name': 'status', 'ty': 'string'}, {'name': 'timeOfDay', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'unit', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'identity': ['analyte', 'issuingLab', 'method', 'startDate'], 'display': {'subtitle': 'refText', 'highlights': ['startDate', 'endDate', 'location']}},
+    'health-observation': {'name': 'health-observation', 'plural': 'health-observations', 'description': 'A single measured health value at a point in time — "LDL = 95 mg/dL on', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'community', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'externalUrl', 'ty': 'url'}, {'name': 'favicon', 'ty': 'url'}, {'name': 'flag', 'ty': 'string'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'indexedAt', 'ty': 'datetime'}, {'name': 'notes', 'ty': 'text'}, {'name': 'postId', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'refHigh', 'ty': 'number'}, {'name': 'refLow', 'ty': 'number'}, {'name': 'refText', 'ty': 'string'}, {'name': 'resultType', 'ty': 'string'}, {'name': 'score', 'ty': 'integer'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'similarity', 'ty': 'number'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'value', 'ty': 'number'}, {'name': 'valueText', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'measures', 'card': 'one', 'to': 'health-biomarker'}, {'label': 'part_of', 'card': 'one', 'to': 'health-panel'}, {'label': 'evaluated_against', 'card': 'one', 'to': 'health-reference-range'}, {'label': 'documented_in', 'card': 'one', 'to': 'file'}, {'label': 'concerns', 'card': 'one', 'to': 'person'}], 'also': ['result', 'event'], 'display': {'subtitle': 'startDate', 'highlights': ['startDate', 'endDate', 'location']}},
+    'health-panel': {'name': 'health-panel', 'plural': 'health-panels', 'description': 'A panel — a named grouping of biomarkers ordered and reported together.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'arrangement', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'default_view', 'ty': 'string'}, {'name': 'description', 'ty': 'text'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'fasting', 'ty': 'boolean'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'icon_size', 'ty': 'integer'}, {'name': 'isDefault', 'ty': 'boolean'}, {'name': 'isPublic', 'ty': 'boolean'}, {'name': 'itemCount', 'ty': 'integer'}, {'name': 'listId', 'ty': 'string'}, {'name': 'listType', 'ty': 'string'}, {'name': 'member_shape', 'ty': 'string'}, {'name': 'ordering_mode', 'ty': 'string'}, {'name': 'panelCode', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'privacy', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sort_by', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'performed_at', 'card': 'one', 'to': 'health-lab'}, {'label': 'documented_in', 'card': 'one', 'to': 'file'}, {'label': 'concerns', 'card': 'one', 'to': 'person'}], 'also': ['list', 'event'], 'display': {'subtitle': 'startDate', 'highlights': ['startDate', 'endDate', 'location']}},
+    'health-procedure': {'name': 'health-procedure', 'plural': 'health-procedures', 'description': 'A procedure — a clinical action performed on the body. Surgeries', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'bodySite', 'ty': 'string'}, {'name': 'cptCode', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'findings', 'ty': 'text'}, {'name': 'followUp', 'ty': 'text'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'outcome', 'ty': 'string'}, {'name': 'performedDate', 'ty': 'datetime'}, {'name': 'procedureType', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'snomedCode', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'treats', 'card': 'one', 'to': 'health-condition'}, {'label': 'performed_by', 'card': 'one', 'to': 'person'}, {'label': 'ordered_by', 'card': 'one', 'to': 'person'}, {'label': 'performed_at', 'card': 'one', 'to': 'health-lab'}, {'label': 'concerns', 'card': 'one', 'to': 'person'}, {'label': 'evidenced_by', 'card': 'many', 'to': 'file'}], 'also': ['event'], 'identity_any': ['cptCode', 'snomedCode', 'id'], 'display': {'subtitle': 'performedDate', 'highlights': ['startDate', 'endDate', 'location']}},
+    'health-reference-range': {'name': 'health-reference-range', 'plural': 'health-reference-ranges', 'description': 'A lab-specific reference interval — the "normal range" for a biomarker,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'ageHigh', 'ty': 'number'}, {'name': 'ageLow', 'ty': 'number'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'category', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'fasting', 'ty': 'boolean'}, {'name': 'gestationalAge', 'ty': 'string'}, {'name': 'high', 'ty': 'number'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'low', 'ty': 'number'}, {'name': 'method', 'ty': 'string', 'required': True}, {'name': 'pregnancy', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'provenance', 'ty': 'string'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'refText', 'ty': 'string'}, {'name': 'sex', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime', 'required': True}, {'name': 'status', 'ty': 'string'}, {'name': 'timeOfDay', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'unit', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'measures', 'card': 'one', 'to': 'health-biomarker'}, {'label': 'issued_by', 'card': 'one', 'to': 'health-lab'}], 'also': ['event'], 'identity': ['analyte', 'issuingLab', 'method', 'startDate'], 'display': {'subtitle': 'refText', 'highlights': ['startDate', 'endDate', 'location']}},
     'icon': {'name': 'icon', 'plural': 'icons', 'description': 'A small graphic intended for UI use — toolbar buttons, file-type', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'component', 'ty': 'string'}, {'name': 'copyrightYear', 'ty': 'integer'}, {'name': 'coverage', 'ty': 'string'}, {'name': 'dateCreated', 'ty': 'date'}, {'name': 'description', 'ty': 'string'}, {'name': 'dimension', 'ty': 'integer'}, {'name': 'format', 'ty': 'string'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'purpose', 'ty': 'string'}, {'name': 'style', 'ty': 'string'}, {'name': 'tags', 'ty': 'stringlist'}], 'also': ['creative_work'], 'identity_any': ['component', 'url'], 'display': {'subtitle': 'purpose', 'image': 'image', 'body': 'description', 'highlights': ['datePublished', 'published_by']}},
-    'image': {'name': 'image', 'plural': 'images', 'description': 'An image file. Photos, screenshots, diagrams, artwork.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'altText', 'ty': 'string'}, {'name': 'appName', 'ty': 'string'}, {'name': 'copyrightYear', 'ty': 'integer'}, {'name': 'coverage', 'ty': 'string'}, {'name': 'dateCreated', 'ty': 'date'}, {'name': 'description', 'ty': 'string'}, {'name': 'displayId', 'ty': 'integer'}, {'name': 'displayIndex', 'ty': 'integer'}, {'name': 'encoding', 'ty': 'string'}, {'name': 'filename', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'height', 'ty': 'integer'}, {'name': 'kind', 'ty': 'string'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'lineCount', 'ty': 'integer'}, {'name': 'mimeType', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'sha', 'ty': 'string'}, {'name': 'size', 'ty': 'integer'}, {'name': 'tags', 'ty': 'stringlist'}, {'name': 'width', 'ty': 'integer'}, {'name': 'windowId', 'ty': 'integer'}], 'also': ['creative_work', 'file'], 'identity_any': ['url'], 'display': {'subtitle': 'format', 'image': 'image', 'body': 'description', 'highlights': ['datePublished', 'published_by']}},
-    'intellectual_property': {'name': 'intellectual_property', 'plural': 'intellectual_properties', 'description': 'A registered or pending intellectual-property right — a trademark,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'category', 'ty': 'string'}, {'name': 'filingBasis', 'ty': 'string'}, {'name': 'identifier', 'ty': 'string'}, {'name': 'mark', 'ty': 'string'}, {'name': 'niceClass', 'ty': 'integerlist'}, {'name': 'register', 'ty': 'string'}, {'name': 'renewalPeriod', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}, {'name': 'validIn', 'ty': 'string'}, {'name': 'verificationUrl', 'ty': 'url'}], 'identity_any': ['identifier'], 'display': {'subtitle': 'category', 'highlights': ['identifier', 'status', 'granted_by']}},
-    'invitation': {'name': 'invitation', 'plural': 'invitations', 'description': 'An invitation to join something — an organization, a workspace, a team, a', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'acceptedAt', 'ty': 'datetime'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'email', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'invitationType', 'ty': 'string'}, {'name': 'message', 'ty': 'text'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'revokedAt', 'ty': 'datetime'}, {'name': 'role', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'token', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'identity': ['at', 'id'], 'display': {'subtitle': 'invitationType', 'highlights': ['startDate', 'endDate', 'location']}},
+    'image': {'name': 'image', 'plural': 'images', 'description': 'An image file. Photos, screenshots, diagrams, artwork.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'altText', 'ty': 'string'}, {'name': 'appName', 'ty': 'string'}, {'name': 'copyrightYear', 'ty': 'integer'}, {'name': 'coverage', 'ty': 'string'}, {'name': 'dateCreated', 'ty': 'date'}, {'name': 'description', 'ty': 'string'}, {'name': 'displayId', 'ty': 'integer'}, {'name': 'displayIndex', 'ty': 'integer'}, {'name': 'encoding', 'ty': 'string'}, {'name': 'filename', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'height', 'ty': 'integer'}, {'name': 'kind', 'ty': 'string'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'lineCount', 'ty': 'integer'}, {'name': 'mimeType', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'sha', 'ty': 'string'}, {'name': 'size', 'ty': 'integer'}, {'name': 'tags', 'ty': 'stringlist'}, {'name': 'width', 'ty': 'integer'}, {'name': 'windowId', 'ty': 'integer'}], 'also': ['creative_work', 'file'], 'identity_any': ['sha', 'url'], 'display': {'subtitle': 'format', 'image': 'image', 'body': 'description', 'highlights': ['datePublished', 'published_by']}},
+    'intellectual_property': {'name': 'intellectual_property', 'plural': 'intellectual_properties', 'description': 'A registered or pending intellectual-property right — a trademark,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'category', 'ty': 'string'}, {'name': 'filingBasis', 'ty': 'string'}, {'name': 'identifier', 'ty': 'string'}, {'name': 'mark', 'ty': 'string'}, {'name': 'niceClass', 'ty': 'integerlist'}, {'name': 'register', 'ty': 'string'}, {'name': 'renewalPeriod', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}, {'name': 'validIn', 'ty': 'string'}, {'name': 'verificationUrl', 'ty': 'url'}], 'out': [{'label': 'held_by', 'card': 'one', 'to': 'actor'}, {'label': 'granted_by', 'card': 'one', 'to': 'organization'}, {'label': 'covers', 'card': 'one', 'to': 'creative_work'}], 'identity_any': ['identifier'], 'display': {'subtitle': 'category', 'highlights': ['identifier', 'status', 'granted_by']}},
+    'invitation': {'name': 'invitation', 'plural': 'invitations', 'description': 'An invitation to join something — an organization, a workspace, a team, a', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'acceptedAt', 'ty': 'datetime'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'email', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'invitationType', 'ty': 'string'}, {'name': 'message', 'ty': 'text'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'revokedAt', 'ty': 'datetime'}, {'name': 'role', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'token', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'extended_by', 'card': 'one', 'to': 'account'}, {'label': 'extended_to', 'card': 'one', 'to': 'account'}, {'label': 'within_org', 'card': 'one', 'to': 'organization'}, {'label': 'at_namespace', 'card': 'one', 'to': 'actor'}], 'also': ['event'], 'identity': ['at', 'id'], 'display': {'subtitle': 'invitationType', 'highlights': ['startDate', 'endDate', 'location']}},
     'launch': {'name': 'launch', 'plural': 'launches', 'description': 'A rocket launch event. Carries flight-specific fields that previously', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'articleUrl', 'ty': 'url'}, {'name': 'crewIds', 'ty': 'stringlist'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'flightNumber', 'ty': 'integer'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'landingOutcomes', 'ty': 'json'}, {'name': 'launchpadId', 'ty': 'string'}, {'name': 'patchImage', 'ty': 'url'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'reusedBoosters', 'ty': 'stringlist'}, {'name': 'rocketId', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}, {'name': 'webcastUrl', 'ty': 'url'}, {'name': 'wikipediaUrl', 'ty': 'url'}], 'also': ['event'], 'display': {'subtitle': 'rocketId', 'highlights': ['startDate', 'rocketId', 'launchpadId']}},
-    'leg': {'name': 'leg', 'plural': 'legs', 'description': 'One continuous movement on a single vehicle — takeoff to landing,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'arrivalTime', 'ty': 'datetime'}, {'name': 'cabinClass', 'ty': 'string'}, {'name': 'carbonEmissions', 'ty': 'json'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'departureTime', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'duration', 'ty': 'string'}, {'name': 'durationMinutes', 'ty': 'integer'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'flightNumber', 'ty': 'string'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'layoverMinutes', 'ty': 'integer'}, {'name': 'polyline', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'sequence', 'ty': 'integer'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'trace', 'ty': 'json'}, {'name': 'tracePointCount', 'ty': 'integer'}, {'name': 'vehicleType', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'display': {'subtitle': 'flightNumber', 'highlights': ['startDate', 'endDate', 'location']}},
-    'list': {'name': 'list', 'plural': 'lists', 'description': 'A list — the universal ordered (or not) collection. Folders, menus,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'arrangement', 'ty': 'string'}, {'name': 'default_view', 'ty': 'string'}, {'name': 'icon_size', 'ty': 'integer'}, {'name': 'isDefault', 'ty': 'boolean'}, {'name': 'isPublic', 'ty': 'boolean'}, {'name': 'itemCount', 'ty': 'integer'}, {'name': 'listId', 'ty': 'string'}, {'name': 'listType', 'ty': 'string'}, {'name': 'member_shape', 'ty': 'string'}, {'name': 'ordering_mode', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'privacy', 'ty': 'string'}, {'name': 'sort_by', 'ty': 'string'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'name'}},
+    'leg': {'name': 'leg', 'plural': 'legs', 'description': 'One continuous movement on a single vehicle — takeoff to landing,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'arrivalTime', 'ty': 'datetime'}, {'name': 'cabinClass', 'ty': 'string'}, {'name': 'carbonEmissions', 'ty': 'json'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'departureTime', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'duration', 'ty': 'string'}, {'name': 'durationMinutes', 'ty': 'integer'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'flightNumber', 'ty': 'string'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'layoverMinutes', 'ty': 'integer'}, {'name': 'polyline', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'sequence', 'ty': 'integer'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'trace', 'ty': 'json'}, {'name': 'tracePointCount', 'ty': 'integer'}, {'name': 'vehicleType', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'starts_at', 'card': 'one', 'to': 'place'}, {'label': 'ends_at', 'card': 'one', 'to': 'place'}, {'label': 'operated_by', 'card': 'one', 'to': 'organization'}, {'label': 'flown_with', 'card': 'one', 'to': 'aircraft'}, {'label': 'in', 'card': 'one', 'to': 'trip'}], 'also': ['event'], 'display': {'subtitle': 'flightNumber', 'highlights': ['startDate', 'endDate', 'location']}},
+    'list': {'name': 'list', 'plural': 'lists', 'description': 'A list — the universal ordered (or not) collection. Folders, menus,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'arrangement', 'ty': 'string'}, {'name': 'default_view', 'ty': 'string'}, {'name': 'icon_size', 'ty': 'integer'}, {'name': 'isDefault', 'ty': 'boolean'}, {'name': 'isPublic', 'ty': 'boolean'}, {'name': 'itemCount', 'ty': 'integer'}, {'name': 'listId', 'ty': 'string'}, {'name': 'listType', 'ty': 'string'}, {'name': 'member_shape', 'ty': 'string'}, {'name': 'ordering_mode', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'privacy', 'ty': 'string'}, {'name': 'sort_by', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'belongs_to', 'card': 'one', 'to': 'account'}, {'label': 'contains', 'card': 'many', 'to': 'node'}, {'label': 'backed_by', 'card': 'one', 'to': 'image'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'name'}},
     'loaded_model': {'name': 'loaded_model', 'plural': 'loaded_models', 'description': 'A currently loaded/running AI model instance.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'digest', 'ty': 'string'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'quantization', 'ty': 'string'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'size', 'ty': 'string'}, {'name': 'sizeVram', 'ty': 'integer'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}, {'name': 'vramUsage', 'ty': 'string'}], 'also': ['event'], 'display': {'subtitle': 'size', 'highlights': ['startDate', 'endDate', 'location']}},
-    'mcp_session': {'name': 'mcp_session', 'plural': 'mcp_sessions', 'description': 'An MCP session — a client connected, made some calls, disconnected.', 'icon': 'terminal', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'client', 'ty': 'string', 'required': True}, {'name': 'endedAt', 'ty': 'datetime'}, {'name': 'gitBranch', 'ty': 'string', 'required': True}, {'name': 'messageCount', 'ty': 'integer'}, {'name': 'projectId', 'ty': 'string', 'required': True}, {'name': 'sessionType', 'ty': 'string'}, {'name': 'startedAt', 'ty': 'datetime'}, {'name': 'tokenCount', 'ty': 'integer'}], 'identity': ['client', 'projectId', 'gitBranch'], 'display': {'subtitle': 'client'}},
-    'meeting': {'name': 'meeting', 'plural': 'meetings', 'description': 'A calendar meeting — an event with virtual meeting details and transcripts.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'calendarLink', 'ty': 'url'}, {'name': 'conferenceProvider', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'isVirtual', 'ty': 'boolean'}, {'name': 'meetingType', 'ty': 'string'}, {'name': 'meetingUrl', 'ty': 'url'}, {'name': 'phoneDialIn', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'display': {'subtitle': 'location', 'highlights': ['startDate', 'endDate', 'location']}},
-    'membership': {'name': 'membership', 'plural': 'memberships', 'description': 'A time-bounded right-of-belonging granted by an organization.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'autoRenew', 'ty': 'boolean'}, {'name': 'billingType', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'guestPassQuantity', 'ty': 'integer'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'price', 'ty': 'number'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'tier', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'useCount', 'ty': 'integer'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'identity': ['at', 'id'], 'display': {'subtitle': 'status', 'highlights': ['startDate', 'endDate', 'location']}},
-    'message': {'name': 'message', 'plural': 'messages', 'description': 'A single message in a conversation. Base type — email extends this via `also`.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'conversationId', 'ty': 'string'}, {'name': 'isOutgoing', 'ty': 'boolean'}, {'name': 'isStarred', 'ty': 'boolean'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'from'}},
-    'milestone': {'name': 'milestone', 'plural': 'milestones', 'description': 'A point-in-time checkpoint — a significant, zero-duration moment in a', 'icon': 'flag', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'criterion', 'ty': 'text'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'reachedAt', 'ty': 'datetime'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'display': {'subtitle': 'status', 'body': 'criterion', 'highlights': ['status', 'reachedAt']}},
-    'model': {'name': 'model', 'plural': 'models', 'description': 'An AI model — LLM, embedding model, or other ML model.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'contextLength', 'ty': 'integer'}, {'name': 'contextWindow', 'ty': 'integer'}, {'name': 'digest', 'ty': 'string'}, {'name': 'family', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'maxOutput', 'ty': 'integer'}, {'name': 'modality', 'ty': 'stringlist'}, {'name': 'modelType', 'ty': 'string'}, {'name': 'parameterSize', 'ty': 'string'}, {'name': 'pricingInput', 'ty': 'string'}, {'name': 'pricingOutput', 'ty': 'string'}, {'name': 'quantization', 'ty': 'string'}, {'name': 'quantizationLevel', 'ty': 'string'}, {'name': 'size', 'ty': 'string'}], 'identity': ['at', 'name'], 'display': {'subtitle': 'name'}},
-    'module': {'name': 'module', 'plural': 'modules', 'description': 'A self-contained unit of a larger whole — a software module, a course', 'icon': 'package', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'planned', 'ty': 'boolean'}, {'name': 'role', 'ty': 'text'}, {'name': 'status', 'ty': 'string'}, {'name': 'version', 'ty': 'string'}], 'display': {'subtitle': 'role', 'highlights': ['status', 'path']}},
-    'note': {'name': 'note', 'plural': 'notes', 'description': 'Private text content, primarily for the author. Journal entries, PKM notes,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'isPinned', 'ty': 'boolean'}, {'name': 'noteType', 'ty': 'string'}], 'display': {'subtitle': 'noteType'}},
-    'offer': {'name': 'offer', 'plural': 'offers', 'description': 'A purchasable offer — typically a flight itinerary with a price.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'availability', 'ty': 'string'}, {'name': 'bookingToken', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'departureToken', 'ty': 'string'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'offerType', 'ty': 'string'}, {'name': 'price', 'ty': 'number'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'identity': ['id'], 'display': {'subtitle': 'price', 'highlights': ['startDate', 'endDate', 'location']}},
-    'order': {'name': 'order', 'plural': 'orders', 'description': 'A purchase order. Contains products and tracks delivery.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'body', 'ty': 'text'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'deliveryDate', 'ty': 'datetime'}, {'name': 'deliveryFee', 'ty': 'number'}, {'name': 'deliveryInstructions', 'ty': 'string'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'eta', 'ty': 'string'}, {'name': 'fareBreakdown', 'ty': 'json'}, {'name': 'head', 'ty': 'text'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'interactionType', 'ty': 'string'}, {'name': 'itemStates', 'ty': 'json'}, {'name': 'latestArrival', 'ty': 'datetime'}, {'name': 'messages', 'ty': 'json'}, {'name': 'orderDate', 'ty': 'datetime'}, {'name': 'orderId', 'ty': 'string', 'required': True}, {'name': 'orderUuid', 'ty': 'string'}, {'name': 'originalTotal', 'ty': 'string'}, {'name': 'originalTotalAmount', 'ty': 'number'}, {'name': 'progress', 'ty': 'number'}, {'name': 'progressTotal', 'ty': 'number'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'savings', 'ty': 'number'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'subtotal', 'ty': 'number'}, {'name': 'summary', 'ty': 'string'}, {'name': 'taxes', 'ty': 'number'}, {'name': 'timeline', 'ty': 'json'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'tipAmount', 'ty': 'number'}, {'name': 'total', 'ty': 'string'}, {'name': 'totalAmount', 'ty': 'number'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'identity': ['at', 'orderId'], 'display': {'subtitle': 'total', 'highlights': ['startDate', 'endDate', 'location']}},
-    'organization': {'name': 'organization', 'plural': 'organizations', 'description': 'A company, nonprofit, or other organization. Organizations are actors — they', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string', 'required': True}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'actorType', 'ty': 'string'}, {'name': 'industry', 'ty': 'string'}], 'also': ['actor'], 'identity': ['url'], 'display': {'subtitle': 'industry', 'image': 'image', 'highlights': ['headquarters']}},
-    'outcome': {'name': 'outcome', 'plural': 'outcomes', 'description': 'A tracked target-state — the change being sought, with a status and', 'icon': 'target', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'archived', 'ty': 'boolean'}, {'name': 'baseline', 'ty': 'string'}, {'name': 'current', 'ty': 'string'}, {'name': 'metric', 'ty': 'string'}, {'name': 'statement', 'ty': 'text'}, {'name': 'status', 'ty': 'string'}, {'name': 'target', 'ty': 'string'}], 'display': {'subtitle': 'status', 'body': 'statement'}},
-    'pass': {'name': 'pass', 'plural': 'passes', 'description': 'A fixed-quantity right-of-access — a bundle of entries, a multi-day', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'boardingGroup', 'ty': 'string'}, {'name': 'checkinStatus', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'gate', 'ty': 'string'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'isAllDayPass', 'ty': 'boolean'}, {'name': 'nameOnTicket', 'ty': 'string'}, {'name': 'price', 'ty': 'number'}, {'name': 'properties', 'ty': 'json'}, {'name': 'purchasedQuantity', 'ty': 'integer'}, {'name': 'quantity', 'ty': 'integer'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'seatAssignment', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'terminal', 'ty': 'string'}, {'name': 'ticketClass', 'ty': 'string'}, {'name': 'ticketNumber', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'useCount', 'ty': 'integer'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'identity': ['at', 'id'], 'display': {'subtitle': 'status', 'highlights': ['startDate', 'endDate', 'location']}},
-    'payment_method': {'name': 'payment_method', 'plural': 'payment_methods', 'description': 'A saved payment instrument — credit/debit card, PayPal/Venmo account,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'balance', 'ty': 'number'}, {'name': 'binRange', 'ty': 'string'}, {'name': 'brand', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'customDescription', 'ty': 'string'}, {'name': 'displayName', 'ty': 'string'}, {'name': 'expMonth', 'ty': 'integer'}, {'name': 'expYear', 'ty': 'integer'}, {'name': 'expirationDate', 'ty': 'string'}, {'name': 'fingerprint', 'ty': 'string'}, {'name': 'holderName', 'ty': 'string'}, {'name': 'identifier', 'ty': 'string', 'required': True}, {'name': 'isDefault', 'ty': 'boolean'}, {'name': 'isExpired', 'ty': 'boolean'}, {'name': 'isPrimary', 'ty': 'boolean'}, {'name': 'isSelected', 'ty': 'boolean'}, {'name': 'last4', 'ty': 'string'}, {'name': 'metadata', 'ty': 'json'}, {'name': 'providerTokens', 'ty': 'json'}, {'name': 'status', 'ty': 'string'}, {'name': 'subtype', 'ty': 'string'}, {'name': 'type', 'ty': 'string'}], 'identity': ['at', 'identifier'], 'display': {'subtitle': 'displayName'}},
-    'person': {'name': 'person', 'plural': 'people', 'description': 'A real human. People are actors — they can own accounts, hold roles,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'about', 'ty': 'text'}, {'name': 'actorType', 'ty': 'string'}, {'name': 'notes', 'ty': 'text'}], 'derived': [{'key': 'additionalName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'additionalName'}, {'find': 'changed', 'is': 'transition', 'get': 'additionalName'}]}}, {'key': 'birthdate', 'spec': {'find': 'born_in', 'is': 'birth', 'get': 'startDate'}}, {'key': 'current_residence', 'spec': {'find': 'lived_at', 'where_link': {'to': None}, 'get': 'name'}}, {'key': 'current_role', 'spec': {'find': 'worked_at', 'where_link': {'to': None}, 'get': 'title'}}, {'key': 'familyName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'familyName'}, {'find': 'changed', 'is': 'transition', 'get': 'familyName'}]}}, {'key': 'gender', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'gender'}, {'find': 'changed', 'is': 'transition', 'get': 'gender'}]}}, {'key': 'givenName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'givenName'}, {'find': 'changed', 'is': 'transition', 'get': 'givenName'}]}}, {'key': 'honorificPrefix', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'honorificPrefix'}, {'find': 'changed', 'is': 'transition', 'get': 'honorificPrefix'}]}}, {'key': 'honorificSuffix', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'honorificSuffix'}, {'find': 'changed', 'is': 'transition', 'get': 'honorificSuffix'}]}}, {'key': 'legalName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'legalName'}, {'find': 'changed', 'is': 'transition', 'get': 'legalName'}]}}, {'key': 'maidenName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'maidenName'}, {'find': 'changed', 'is': 'transition', 'get': 'maidenName'}]}}, {'key': 'nameOrder', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'nameOrder'}, {'find': 'changed', 'is': 'transition', 'get': 'nameOrder'}]}}, {'key': 'nickname', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'nickname'}, {'find': 'changed', 'is': 'transition', 'get': 'nickname'}]}}, {'key': 'phoneticFamilyName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'phoneticFamilyName'}, {'find': 'changed', 'is': 'transition', 'get': 'phoneticFamilyName'}]}}, {'key': 'phoneticGivenName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'phoneticGivenName'}, {'find': 'changed', 'is': 'transition', 'get': 'phoneticGivenName'}]}}, {'key': 'sortAs', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'sortAs'}, {'find': 'changed', 'is': 'transition', 'get': 'sortAs'}]}}], 'shortcuts': [{'key': 'additionalName', 'writes': 'born_in[is=birth].additionalName'}, {'key': 'birthdate', 'writes': 'born_in[is=birth].startDate'}, {'key': 'familyName', 'writes': 'born_in[is=birth].familyName'}, {'key': 'gender', 'writes': 'born_in[is=birth].gender'}, {'key': 'givenName', 'writes': 'born_in[is=birth].givenName'}, {'key': 'honorificPrefix', 'writes': 'born_in[is=birth].honorificPrefix'}, {'key': 'honorificSuffix', 'writes': 'born_in[is=birth].honorificSuffix'}, {'key': 'legalName', 'writes': 'born_in[is=birth].legalName'}, {'key': 'maidenName', 'writes': 'born_in[is=birth].maidenName'}, {'key': 'nameOrder', 'writes': 'born_in[is=birth].nameOrder'}, {'key': 'nickname', 'writes': 'born_in[is=birth].nickname'}, {'key': 'phoneticFamilyName', 'writes': 'born_in[is=birth].phoneticFamilyName'}, {'key': 'phoneticGivenName', 'writes': 'born_in[is=birth].phoneticGivenName'}, {'key': 'sortAs', 'writes': 'born_in[is=birth].sortAs'}], 'also': ['actor'], 'identity_any': ['url'], 'display': {'subtitle': 'about', 'image': 'image', 'body': 'notes', 'highlights': ['birthdate', 'gender']}},
-    'persona': {'name': 'persona', 'plural': 'personas', 'description': 'An archetype of an audience segment — a named, hypothetical user that', 'icon': 'user-round-search', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'goals', 'ty': 'stringlist'}, {'name': 'headline', 'ty': 'string'}, {'name': 'painPoints', 'ty': 'stringlist'}, {'name': 'quote', 'ty': 'text'}, {'name': 'reachesFor', 'ty': 'text'}, {'name': 'who', 'ty': 'text'}], 'display': {'subtitle': 'headline', 'body': 'who', 'highlights': ['reachesFor', 'quote']}},
-    'place': {'name': 'place', 'plural': 'places', 'description': 'A physical location — address, building, city, or point of interest.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'accuracy', 'ty': 'string'}, {'name': 'businessStatus', 'ty': 'string'}, {'name': 'categories', 'ty': 'stringlist'}, {'name': 'city', 'ty': 'string'}, {'name': 'closedMessage', 'ty': 'string'}, {'name': 'country', 'ty': 'string'}, {'name': 'countryCode', 'ty': 'string'}, {'name': 'district', 'ty': 'string'}, {'name': 'eta', 'ty': 'string'}, {'name': 'featureType', 'ty': 'string'}, {'name': 'fullAddress', 'ty': 'string'}, {'name': 'googlePlaceId', 'ty': 'string'}, {'name': 'hours', 'ty': 'json'}, {'name': 'isOrderable', 'ty': 'boolean'}, {'name': 'latitude', 'ty': 'number'}, {'name': 'locality', 'ty': 'string'}, {'name': 'longitude', 'ty': 'number'}, {'name': 'mapboxId', 'ty': 'string'}, {'name': 'neighborhood', 'ty': 'string'}, {'name': 'phone', 'ty': 'string'}, {'name': 'placeFormatted', 'ty': 'string'}, {'name': 'postalCode', 'ty': 'string'}, {'name': 'priceLevel', 'ty': 'string'}, {'name': 'productCount', 'ty': 'integer'}, {'name': 'rating', 'ty': 'number'}, {'name': 'region', 'ty': 'string'}, {'name': 'reviewCount', 'ty': 'integer'}, {'name': 'street', 'ty': 'string'}, {'name': 'streetNumber', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'website', 'ty': 'url'}, {'name': 'wikidataId', 'ty': 'string'}], 'identity_any': ['googlePlaceId', 'mapboxId'], 'display': {'subtitle': 'featureType', 'image': 'image', 'body': 'fullAddress', 'highlights': ['city', 'country', 'rating']}},
-    'playlist': {'name': 'playlist', 'plural': 'playlists', 'description': 'A video playlist. Playlists are lists that contain videos instead of products.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'arrangement', 'ty': 'string'}, {'name': 'default_view', 'ty': 'string'}, {'name': 'icon_size', 'ty': 'integer'}, {'name': 'isDefault', 'ty': 'boolean'}, {'name': 'isPublic', 'ty': 'boolean'}, {'name': 'itemCount', 'ty': 'integer'}, {'name': 'listId', 'ty': 'string'}, {'name': 'listType', 'ty': 'string'}, {'name': 'member_shape', 'ty': 'string'}, {'name': 'ordering_mode', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'privacy', 'ty': 'string'}, {'name': 'sort_by', 'ty': 'string'}], 'also': ['list'], 'display': {'subtitle': 'text'}},
-    'podcast': {'name': 'podcast', 'plural': 'podcasts', 'description': "A podcast series. Contains episodes. Not the audio itself — that's on the episode.", 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'feedUrl', 'ty': 'url'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'host'}},
-    'post': {'name': 'post', 'plural': 'posts', 'description': 'A piece of published content — a Reddit submission, HN story, YouTube upload,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'commentCount', 'ty': 'integer'}, {'name': 'community', 'ty': 'string'}, {'name': 'externalUrl', 'ty': 'url'}, {'name': 'postType', 'ty': 'string'}, {'name': 'score', 'ty': 'integer'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'author'}},
-    'practice': {'name': 'practice', 'plural': 'practices', 'description': 'A field of practice or study — a discipline a person practices, or the', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'aliases', 'ty': 'stringlist'}, {'name': 'code', 'ty': 'string'}, {'name': 'codeSystem', 'ty': 'string'}, {'name': 'description', 'ty': 'text'}], 'display': {'subtitle': 'parent'}},
-    'principle': {'name': 'principle', 'plural': 'principles', 'description': 'A guiding bright-line — a value or rule used to judge edge cases. Universal:', 'icon': 'scale', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'domain', 'ty': 'string'}, {'name': 'rationale', 'ty': 'text'}, {'name': 'statement', 'ty': 'text'}, {'name': 'status', 'ty': 'string'}], 'display': {'subtitle': 'domain', 'body': 'rationale', 'highlights': ['statement', 'status']}},
-    'product': {'name': 'product', 'plural': 'products', 'description': 'A purchasable item OR an identifiable product released into the world.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'aisle', 'ty': 'string'}, {'name': 'availability', 'ty': 'string'}, {'name': 'barcode', 'ty': 'string'}, {'name': 'calories', 'ty': 'number'}, {'name': 'categories', 'ty': 'stringlist'}, {'name': 'category', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'customizationGroups', 'ty': 'json'}, {'name': 'department', 'ty': 'string'}, {'name': 'images', 'ty': 'json'}, {'name': 'novaGroup', 'ty': 'integer'}, {'name': 'nutritionScore', 'ty': 'string'}, {'name': 'originalPrice', 'ty': 'string'}, {'name': 'originalPriceAmount', 'ty': 'number'}, {'name': 'price', 'ty': 'string'}, {'name': 'priceAmount', 'ty': 'number'}, {'name': 'quantity', 'ty': 'integer'}, {'name': 'servingSize', 'ty': 'string'}, {'name': 'sku', 'ty': 'string'}, {'name': 'soldByWeight', 'ty': 'boolean'}, {'name': 'weight', 'ty': 'string'}, {'name': 'weightUnit', 'ty': 'string'}, {'name': 'weightValue', 'ty': 'number'}], 'identity_any': ['url'], 'display': {'subtitle': 'brand'}},
-    'project': {'name': 'project', 'plural': 'projects', 'description': 'A project that groups tasks. Tasks belong to projects.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'color', 'ty': 'string'}, {'name': 'parentId', 'ty': 'string'}, {'name': 'state', 'ty': 'string'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'state'}},
+    'mcp_session': {'name': 'mcp_session', 'plural': 'mcp_sessions', 'description': 'An MCP session — a client connected, made some calls, disconnected.', 'icon': 'terminal', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'client', 'ty': 'string', 'required': True}, {'name': 'endedAt', 'ty': 'datetime'}, {'name': 'gitBranch', 'ty': 'string', 'required': True}, {'name': 'messageCount', 'ty': 'integer'}, {'name': 'projectId', 'ty': 'string', 'required': True}, {'name': 'sessionType', 'ty': 'string'}, {'name': 'startedAt', 'ty': 'datetime'}, {'name': 'tokenCount', 'ty': 'integer'}], 'out': [{'label': 'in', 'card': 'one', 'to': 'list'}], 'identity': ['client', 'projectId', 'gitBranch'], 'display': {'subtitle': 'client'}},
+    'meeting': {'name': 'meeting', 'plural': 'meetings', 'description': 'A calendar meeting — an event with virtual meeting details and transcripts.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'calendarLink', 'ty': 'url'}, {'name': 'conferenceProvider', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'isVirtual', 'ty': 'boolean'}, {'name': 'meetingType', 'ty': 'string'}, {'name': 'meetingUrl', 'ty': 'url'}, {'name': 'phoneDialIn', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'transcribed_by', 'card': 'one', 'to': 'transcript'}], 'also': ['event'], 'display': {'subtitle': 'location', 'highlights': ['startDate', 'endDate', 'location']}},
+    'membership': {'name': 'membership', 'plural': 'memberships', 'description': 'A time-bounded right-of-belonging granted by an organization.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'autoRenew', 'ty': 'boolean'}, {'name': 'billingType', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'guestPassQuantity', 'ty': 'integer'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'price', 'ty': 'number'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'tier', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'useCount', 'ty': 'integer'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'held_via', 'card': 'one', 'to': 'account'}, {'label': 'for', 'card': 'one', 'to': 'person'}, {'label': 'under', 'card': 'one', 'to': 'product'}, {'label': 'held_at', 'card': 'one', 'to': 'place'}], 'also': ['event'], 'identity': ['at', 'id'], 'display': {'subtitle': 'status', 'highlights': ['startDate', 'endDate', 'location']}},
+    'message': {'name': 'message', 'plural': 'messages', 'description': 'A single message in a conversation. Base type — email extends this via `also`.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'conversationId', 'ty': 'string'}, {'name': 'isOutgoing', 'ty': 'boolean'}, {'name': 'isStarred', 'ty': 'boolean'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'sent_by', 'card': 'one', 'to': 'actor'}, {'label': 'in', 'card': 'one', 'to': 'conversation'}, {'label': 'replies_to', 'card': 'one', 'to': 'message'}, {'label': 'attaches', 'card': 'many', 'to': 'file'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'from'}},
+    'milestone': {'name': 'milestone', 'plural': 'milestones', 'description': 'A point-in-time checkpoint — a significant, zero-duration moment in a', 'icon': 'flag', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'criterion', 'ty': 'text'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'reachedAt', 'ty': 'datetime'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'part_of', 'card': 'one', 'to': 'node'}, {'label': 'blocked_by', 'card': 'many', 'to': 'milestone'}, {'label': 'completes', 'card': 'many', 'to': 'node'}], 'also': ['event'], 'display': {'subtitle': 'status', 'body': 'criterion', 'highlights': ['status', 'reachedAt']}},
+    'model': {'name': 'model', 'plural': 'models', 'description': 'An AI model — LLM, embedding model, or other ML model.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'contextLength', 'ty': 'integer'}, {'name': 'contextWindow', 'ty': 'integer'}, {'name': 'digest', 'ty': 'string'}, {'name': 'family', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'maxOutput', 'ty': 'integer'}, {'name': 'modality', 'ty': 'stringlist'}, {'name': 'modelType', 'ty': 'string'}, {'name': 'parameterSize', 'ty': 'string'}, {'name': 'pricingInput', 'ty': 'string'}, {'name': 'pricingOutput', 'ty': 'string'}, {'name': 'quantization', 'ty': 'string'}, {'name': 'quantizationLevel', 'ty': 'string'}, {'name': 'size', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}], 'identity': ['at', 'name'], 'display': {'subtitle': 'name'}},
+    'module': {'name': 'module', 'plural': 'modules', 'description': 'A self-contained unit of a larger whole — a software module, a course', 'icon': 'package', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'planned', 'ty': 'boolean'}, {'name': 'role', 'ty': 'text'}, {'name': 'status', 'ty': 'string'}, {'name': 'version', 'ty': 'string'}], 'out': [{'label': 'part_of', 'card': 'one', 'to': 'node'}, {'label': 'has_part', 'card': 'many', 'to': 'module'}, {'label': 'depends_on', 'card': 'many', 'to': 'module'}], 'display': {'subtitle': 'role', 'highlights': ['status', 'path']}},
+    'note': {'name': 'note', 'plural': 'notes', 'description': 'Private text content, primarily for the author. Journal entries, PKM notes,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'isPinned', 'ty': 'boolean'}, {'name': 'noteType', 'ty': 'string'}], 'out': [{'label': 'created_by', 'card': 'one', 'to': 'person'}, {'label': 'references', 'card': 'many', 'to': 'note'}, {'label': 'extracted_from', 'card': 'one', 'to': 'webpage'}], 'display': {'subtitle': 'noteType'}},
+    'offer': {'name': 'offer', 'plural': 'offers', 'description': 'A purchasable offer — typically a flight itinerary with a price.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'availability', 'ty': 'string'}, {'name': 'bookingToken', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'departureToken', 'ty': 'string'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'offerType', 'ty': 'string'}, {'name': 'price', 'ty': 'number'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'offered_for', 'card': 'one', 'to': 'product'}, {'label': 'offered_by', 'card': 'one', 'to': 'organization'}, {'label': 'covers_trip', 'card': 'many', 'to': 'trip'}], 'also': ['event'], 'identity': ['id'], 'display': {'subtitle': 'price', 'highlights': ['startDate', 'endDate', 'location']}},
+    'order': {'name': 'order', 'plural': 'orders', 'description': 'A purchase order. Contains products and tracks delivery.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'body', 'ty': 'text'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'deliveryDate', 'ty': 'datetime'}, {'name': 'deliveryFee', 'ty': 'number'}, {'name': 'deliveryInstructions', 'ty': 'string'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'eta', 'ty': 'string'}, {'name': 'fareBreakdown', 'ty': 'json'}, {'name': 'head', 'ty': 'text'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'interactionType', 'ty': 'string'}, {'name': 'itemStates', 'ty': 'json'}, {'name': 'latestArrival', 'ty': 'datetime'}, {'name': 'messages', 'ty': 'json'}, {'name': 'orderDate', 'ty': 'datetime'}, {'name': 'orderId', 'ty': 'string', 'required': True}, {'name': 'orderUuid', 'ty': 'string'}, {'name': 'originalTotal', 'ty': 'string'}, {'name': 'originalTotalAmount', 'ty': 'number'}, {'name': 'progress', 'ty': 'number'}, {'name': 'progressTotal', 'ty': 'number'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'savings', 'ty': 'number'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'subtotal', 'ty': 'number'}, {'name': 'summary', 'ty': 'string'}, {'name': 'taxes', 'ty': 'number'}, {'name': 'timeline', 'ty': 'json'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'tipAmount', 'ty': 'number'}, {'name': 'total', 'ty': 'string'}, {'name': 'totalAmount', 'ty': 'number'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'contains', 'card': 'many', 'to': 'product'}, {'label': 'shipped_to', 'card': 'one', 'to': 'place'}, {'label': 'purchased_at', 'card': 'one', 'to': 'place'}, {'label': 'delivered_via', 'card': 'one', 'to': 'trip'}, {'label': 'tracked_at', 'card': 'one', 'to': 'webpage'}], 'also': ['event'], 'identity': ['at', 'orderId'], 'display': {'subtitle': 'total', 'highlights': ['startDate', 'endDate', 'location']}},
+    'organization': {'name': 'organization', 'plural': 'organizations', 'description': 'A company, nonprofit, or other organization. Organizations are actors — they', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string', 'required': True}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'actorType', 'ty': 'string'}, {'name': 'industry', 'ty': 'string'}], 'out': [{'label': 'for', 'card': 'many', 'to': 'person'}, {'label': 'on', 'card': 'one', 'to': 'domain'}, {'label': 'online_at', 'card': 'one', 'to': 'website'}, {'label': 'headquartered_at', 'card': 'one', 'to': 'place'}, {'label': 'subsidiary_of', 'card': 'one', 'to': 'organization'}], 'also': ['actor'], 'identity': ['url'], 'display': {'subtitle': 'industry', 'image': 'image', 'highlights': ['headquarters']}},
+    'outcome': {'name': 'outcome', 'plural': 'outcomes', 'description': 'A tracked target-state — the change being sought, with a status and', 'icon': 'target', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'archived', 'ty': 'boolean'}, {'name': 'baseline', 'ty': 'string'}, {'name': 'current', 'ty': 'string'}, {'name': 'metric', 'ty': 'string'}, {'name': 'statement', 'ty': 'text'}, {'name': 'status', 'ty': 'string'}, {'name': 'target', 'ty': 'string'}], 'out': [{'label': 'depends_on', 'card': 'many', 'to': 'outcome'}, {'label': 'advances', 'card': 'one', 'to': 'milestone'}, {'label': 'upholds', 'card': 'many', 'to': 'principle'}, {'label': 'serves', 'card': 'many', 'to': 'node'}, {'label': 'owns', 'card': 'many', 'to': 'node'}], 'display': {'subtitle': 'status', 'body': 'statement'}},
+    'pass': {'name': 'pass', 'plural': 'passes', 'description': 'A fixed-quantity right-of-access — a bundle of entries, a multi-day', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'boardingGroup', 'ty': 'string'}, {'name': 'checkinStatus', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'gate', 'ty': 'string'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'isAllDayPass', 'ty': 'boolean'}, {'name': 'nameOnTicket', 'ty': 'string'}, {'name': 'price', 'ty': 'number'}, {'name': 'properties', 'ty': 'json'}, {'name': 'purchasedQuantity', 'ty': 'integer'}, {'name': 'quantity', 'ty': 'integer'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'seatAssignment', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'terminal', 'ty': 'string'}, {'name': 'ticketClass', 'ty': 'string'}, {'name': 'ticketNumber', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'useCount', 'ty': 'integer'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'held_via', 'card': 'one', 'to': 'account'}, {'label': 'held_by', 'card': 'one', 'to': 'person'}, {'label': 'granted_by', 'card': 'one', 'to': 'membership'}, {'label': 'instance_of', 'card': 'one', 'to': 'product'}, {'label': 'held_at', 'card': 'one', 'to': 'place'}, {'label': 'valid_for', 'card': 'one', 'to': 'leg'}, {'label': 'under', 'card': 'one', 'to': 'reservation'}], 'also': ['event'], 'identity': ['at', 'id'], 'display': {'subtitle': 'status', 'highlights': ['startDate', 'endDate', 'location']}},
+    'payment_method': {'name': 'payment_method', 'plural': 'payment_methods', 'description': 'A saved payment instrument — credit/debit card, PayPal/Venmo account,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'balance', 'ty': 'number'}, {'name': 'binRange', 'ty': 'string'}, {'name': 'brand', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'customDescription', 'ty': 'string'}, {'name': 'displayName', 'ty': 'string'}, {'name': 'expMonth', 'ty': 'integer'}, {'name': 'expYear', 'ty': 'integer'}, {'name': 'expirationDate', 'ty': 'string'}, {'name': 'fingerprint', 'ty': 'string'}, {'name': 'holderName', 'ty': 'string'}, {'name': 'identifier', 'ty': 'string', 'required': True}, {'name': 'isDefault', 'ty': 'boolean'}, {'name': 'isExpired', 'ty': 'boolean'}, {'name': 'isPrimary', 'ty': 'boolean'}, {'name': 'isSelected', 'ty': 'boolean'}, {'name': 'last4', 'ty': 'string'}, {'name': 'metadata', 'ty': 'json'}, {'name': 'providerTokens', 'ty': 'json'}, {'name': 'status', 'ty': 'string'}, {'name': 'subtype', 'ty': 'string'}, {'name': 'type', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'saved_under', 'card': 'one', 'to': 'account'}, {'label': 'held_by', 'card': 'one', 'to': 'person'}, {'label': 'billed_to', 'card': 'one', 'to': 'place'}, {'label': 'funded_by', 'card': 'one', 'to': 'financial_account'}, {'label': 'issued_by', 'card': 'one', 'to': 'actor'}, {'label': 'tied_to', 'card': 'one', 'to': 'membership'}], 'identity': ['at', 'identifier'], 'display': {'subtitle': 'displayName'}},
+    'person': {'name': 'person', 'plural': 'people', 'description': 'A real human. People are actors — they can own accounts, hold roles,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'about', 'ty': 'text'}, {'name': 'actorType', 'ty': 'string'}, {'name': 'notes', 'ty': 'text'}], 'out': [{'label': 'holds_account', 'card': 'many', 'to': 'account'}, {'label': 'holds_role', 'card': 'many', 'to': 'role'}, {'label': 'enrolled_in', 'card': 'many', 'to': 'membership'}, {'label': 'holds_pass', 'card': 'many', 'to': 'pass'}, {'label': 'holds_qualification', 'card': 'many', 'to': 'qualification'}, {'label': 'practices', 'card': 'many', 'to': 'practice'}, {'label': 'online_at', 'card': 'one', 'to': 'website'}], 'derived': [{'key': 'additionalName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'additionalName'}, {'find': 'changed', 'is': 'transition', 'get': 'additionalName'}]}}, {'key': 'birthdate', 'spec': {'find': 'born_in', 'is': 'birth', 'get': 'startDate'}}, {'key': 'current_residence', 'spec': {'find': 'lived_at', 'where_link': {'to': None}, 'get': 'name'}}, {'key': 'current_role', 'spec': {'find': 'worked_at', 'where_link': {'to': None}, 'get': 'title'}}, {'key': 'familyName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'familyName'}, {'find': 'changed', 'is': 'transition', 'get': 'familyName'}]}}, {'key': 'gender', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'gender'}, {'find': 'changed', 'is': 'transition', 'get': 'gender'}]}}, {'key': 'givenName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'givenName'}, {'find': 'changed', 'is': 'transition', 'get': 'givenName'}]}}, {'key': 'honorificPrefix', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'honorificPrefix'}, {'find': 'changed', 'is': 'transition', 'get': 'honorificPrefix'}]}}, {'key': 'honorificSuffix', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'honorificSuffix'}, {'find': 'changed', 'is': 'transition', 'get': 'honorificSuffix'}]}}, {'key': 'legalName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'legalName'}, {'find': 'changed', 'is': 'transition', 'get': 'legalName'}]}}, {'key': 'maidenName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'maidenName'}, {'find': 'changed', 'is': 'transition', 'get': 'maidenName'}]}}, {'key': 'nameOrder', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'nameOrder'}, {'find': 'changed', 'is': 'transition', 'get': 'nameOrder'}]}}, {'key': 'nickname', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'nickname'}, {'find': 'changed', 'is': 'transition', 'get': 'nickname'}]}}, {'key': 'phoneticFamilyName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'phoneticFamilyName'}, {'find': 'changed', 'is': 'transition', 'get': 'phoneticFamilyName'}]}}, {'key': 'phoneticGivenName', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'phoneticGivenName'}, {'find': 'changed', 'is': 'transition', 'get': 'phoneticGivenName'}]}}, {'key': 'sortAs', 'spec': {'latest': [{'find': 'born_in', 'is': 'birth', 'get': 'sortAs'}, {'find': 'changed', 'is': 'transition', 'get': 'sortAs'}]}}], 'shortcuts': [{'key': 'additionalName', 'writes': 'born_in[is=birth].additionalName'}, {'key': 'birthdate', 'writes': 'born_in[is=birth].startDate'}, {'key': 'familyName', 'writes': 'born_in[is=birth].familyName'}, {'key': 'gender', 'writes': 'born_in[is=birth].gender'}, {'key': 'givenName', 'writes': 'born_in[is=birth].givenName'}, {'key': 'honorificPrefix', 'writes': 'born_in[is=birth].honorificPrefix'}, {'key': 'honorificSuffix', 'writes': 'born_in[is=birth].honorificSuffix'}, {'key': 'legalName', 'writes': 'born_in[is=birth].legalName'}, {'key': 'maidenName', 'writes': 'born_in[is=birth].maidenName'}, {'key': 'nameOrder', 'writes': 'born_in[is=birth].nameOrder'}, {'key': 'nickname', 'writes': 'born_in[is=birth].nickname'}, {'key': 'phoneticFamilyName', 'writes': 'born_in[is=birth].phoneticFamilyName'}, {'key': 'phoneticGivenName', 'writes': 'born_in[is=birth].phoneticGivenName'}, {'key': 'sortAs', 'writes': 'born_in[is=birth].sortAs'}], 'also': ['actor'], 'identity_any': ['url'], 'display': {'subtitle': 'about', 'image': 'image', 'body': 'notes', 'highlights': ['birthdate', 'gender']}},
+    'persona': {'name': 'persona', 'plural': 'personas', 'description': 'An archetype of an audience segment — a named, hypothetical user that', 'icon': 'user-round-search', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'goals', 'ty': 'stringlist'}, {'name': 'headline', 'ty': 'string'}, {'name': 'painPoints', 'ty': 'stringlist'}, {'name': 'quote', 'ty': 'text'}, {'name': 'reachesFor', 'ty': 'text'}, {'name': 'who', 'ty': 'text'}], 'out': [{'label': 'parent', 'card': 'one', 'to': 'persona'}, {'label': 'represents', 'card': 'one', 'to': 'node'}, {'label': 'targets', 'card': 'one', 'to': 'node'}], 'display': {'subtitle': 'headline', 'body': 'who', 'highlights': ['reachesFor', 'quote']}},
+    'place': {'name': 'place', 'plural': 'places', 'description': 'A physical location — address, building, city, or point of interest.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'accuracy', 'ty': 'string'}, {'name': 'businessStatus', 'ty': 'string'}, {'name': 'categories', 'ty': 'stringlist'}, {'name': 'city', 'ty': 'string'}, {'name': 'closedMessage', 'ty': 'string'}, {'name': 'country', 'ty': 'string'}, {'name': 'countryCode', 'ty': 'string'}, {'name': 'district', 'ty': 'string'}, {'name': 'eta', 'ty': 'string'}, {'name': 'featureType', 'ty': 'string'}, {'name': 'fullAddress', 'ty': 'string'}, {'name': 'googlePlaceId', 'ty': 'string'}, {'name': 'hours', 'ty': 'json'}, {'name': 'isOrderable', 'ty': 'boolean'}, {'name': 'latitude', 'ty': 'number'}, {'name': 'locality', 'ty': 'string'}, {'name': 'longitude', 'ty': 'number'}, {'name': 'mapboxId', 'ty': 'string'}, {'name': 'neighborhood', 'ty': 'string'}, {'name': 'phone', 'ty': 'string'}, {'name': 'placeFormatted', 'ty': 'string'}, {'name': 'postalCode', 'ty': 'string'}, {'name': 'priceLevel', 'ty': 'string'}, {'name': 'productCount', 'ty': 'integer'}, {'name': 'rating', 'ty': 'number'}, {'name': 'region', 'ty': 'string'}, {'name': 'reviewCount', 'ty': 'integer'}, {'name': 'street', 'ty': 'string'}, {'name': 'streetNumber', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'website', 'ty': 'url'}, {'name': 'wikidataId', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'branded_as', 'card': 'one', 'to': 'organization'}, {'label': 'offers', 'card': 'many', 'to': 'product'}], 'identity_any': ['googlePlaceId', 'mapboxId'], 'display': {'subtitle': 'featureType', 'image': 'image', 'body': 'fullAddress', 'highlights': ['city', 'country', 'rating']}},
+    'playlist': {'name': 'playlist', 'plural': 'playlists', 'description': 'A video playlist. Playlists are lists that contain videos instead of products.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'arrangement', 'ty': 'string'}, {'name': 'default_view', 'ty': 'string'}, {'name': 'icon_size', 'ty': 'integer'}, {'name': 'isDefault', 'ty': 'boolean'}, {'name': 'isPublic', 'ty': 'boolean'}, {'name': 'itemCount', 'ty': 'integer'}, {'name': 'listId', 'ty': 'string'}, {'name': 'listType', 'ty': 'string'}, {'name': 'member_shape', 'ty': 'string'}, {'name': 'ordering_mode', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'privacy', 'ty': 'string'}, {'name': 'sort_by', 'ty': 'string'}], 'out': [{'label': 'contains', 'card': 'many', 'to': 'video'}], 'also': ['list'], 'display': {'subtitle': 'text'}},
+    'podcast': {'name': 'podcast', 'plural': 'podcasts', 'description': "A podcast series. Contains episodes. Not the audio itself — that's on the episode.", 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'feedUrl', 'ty': 'url'}], 'out': [{'label': 'hosted_by', 'card': 'many', 'to': 'person'}, {'label': 'at_namespace', 'card': 'one', 'to': 'actor'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'host'}},
+    'post': {'name': 'post', 'plural': 'posts', 'description': 'A piece of published content — a Reddit submission, HN story, YouTube upload,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'commentCount', 'ty': 'integer'}, {'name': 'community', 'ty': 'string'}, {'name': 'externalUrl', 'ty': 'url'}, {'name': 'postType', 'ty': 'string'}, {'name': 'score', 'ty': 'integer'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'posted_by', 'card': 'one', 'to': 'account'}, {'label': 'published_in', 'card': 'one', 'to': 'community'}, {'label': 'replies_to', 'card': 'one', 'to': 'post'}, {'label': 'replies', 'card': 'many', 'to': 'post'}, {'label': 'contains', 'card': 'many', 'to': 'video'}, {'label': 'shows', 'card': 'many', 'to': 'image'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'author'}},
+    'practice': {'name': 'practice', 'plural': 'practices', 'description': 'A field of practice or study — a discipline a person practices, or the', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'aliases', 'ty': 'stringlist'}, {'name': 'code', 'ty': 'string'}, {'name': 'codeSystem', 'ty': 'string'}, {'name': 'description', 'ty': 'text'}], 'out': [{'label': 'specialization_of', 'card': 'one', 'to': 'practice'}], 'display': {'subtitle': 'parent'}},
+    'principle': {'name': 'principle', 'plural': 'principles', 'description': 'A guiding bright-line — a value or rule used to judge edge cases. Universal:', 'icon': 'scale', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'domain', 'ty': 'string'}, {'name': 'rationale', 'ty': 'text'}, {'name': 'statement', 'ty': 'text'}, {'name': 'status', 'ty': 'string'}], 'out': [{'label': 'held_by', 'card': 'one', 'to': 'actor'}, {'label': 'supersedes', 'card': 'one', 'to': 'principle'}, {'label': 'conflicts_with', 'card': 'many', 'to': 'principle'}, {'label': 'governs', 'card': 'one', 'to': 'node'}], 'display': {'subtitle': 'domain', 'body': 'rationale', 'highlights': ['statement', 'status']}},
+    'product': {'name': 'product', 'plural': 'products', 'description': 'A purchasable item OR an identifiable product released into the world.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'aisle', 'ty': 'string'}, {'name': 'availability', 'ty': 'string'}, {'name': 'barcode', 'ty': 'string'}, {'name': 'calories', 'ty': 'number'}, {'name': 'categories', 'ty': 'stringlist'}, {'name': 'category', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'customizationGroups', 'ty': 'json'}, {'name': 'department', 'ty': 'string'}, {'name': 'images', 'ty': 'json'}, {'name': 'novaGroup', 'ty': 'integer'}, {'name': 'nutritionScore', 'ty': 'string'}, {'name': 'originalPrice', 'ty': 'string'}, {'name': 'originalPriceAmount', 'ty': 'number'}, {'name': 'price', 'ty': 'string'}, {'name': 'priceAmount', 'ty': 'number'}, {'name': 'quantity', 'ty': 'integer'}, {'name': 'servingSize', 'ty': 'string'}, {'name': 'sku', 'ty': 'string'}, {'name': 'soldByWeight', 'ty': 'boolean'}, {'name': 'weight', 'ty': 'string'}, {'name': 'weightUnit', 'ty': 'string'}, {'name': 'weightValue', 'ty': 'number'}], 'out': [{'label': 'branded_as', 'card': 'one', 'to': 'brand'}, {'label': 'manufactured_by', 'card': 'one', 'to': 'organization'}, {'label': 'created_by', 'card': 'many', 'to': 'actor'}, {'label': 'inspired_by', 'card': 'many', 'to': 'product'}, {'label': 'tagged_with', 'card': 'many', 'to': 'tag'}], 'identity_any': ['url'], 'display': {'subtitle': 'brand'}},
+    'project': {'name': 'project', 'plural': 'projects', 'description': 'A project that groups tasks. Tasks belong to projects.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'color', 'ty': 'string'}, {'name': 'parentId', 'ty': 'string'}, {'name': 'state', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'state'}},
     'protocol': {'name': 'protocol', 'plural': 'protocols', 'description': 'A protocol or technical spec — git, bitcoin, ssh, smtp, oauth, etc.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'homepage', 'ty': 'url'}, {'name': 'rfc', 'ty': 'string'}, {'name': 'wikidataId', 'ty': 'string'}], 'identity': ['name'], 'display': {'subtitle': 'name'}},
-    'qualification': {'name': 'qualification', 'plural': 'qualifications', 'description': 'An earned qualification — a degree, professional license, board', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'category', 'ty': 'string'}, {'name': 'identifier', 'ty': 'string'}, {'name': 'level', 'ty': 'string'}, {'name': 'renewalPeriod', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}, {'name': 'validIn', 'ty': 'string'}, {'name': 'verificationUrl', 'ty': 'url'}], 'identity_any': ['identifier'], 'display': {'subtitle': 'category', 'highlights': ['identifier', 'validIn', 'granted_by']}},
-    'quantity-kind': {'name': 'quantity-kind', 'plural': 'quantity-kinds', 'description': 'A quantity kind — WHAT is being measured, semantically. "Mass', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'key', 'ty': 'string', 'required': True}, {'name': 'label', 'ty': 'string'}], 'identity': ['key'], 'display': {'subtitle': 'label'}},
+    'qualification': {'name': 'qualification', 'plural': 'qualifications', 'description': 'An earned qualification — a degree, professional license, board', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'category', 'ty': 'string'}, {'name': 'identifier', 'ty': 'string'}, {'name': 'level', 'ty': 'string'}, {'name': 'renewalPeriod', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}, {'name': 'validIn', 'ty': 'string'}, {'name': 'verificationUrl', 'ty': 'url'}], 'out': [{'label': 'held_by', 'card': 'one', 'to': 'person'}, {'label': 'granted_by', 'card': 'one', 'to': 'organization'}, {'label': 'governed_by', 'card': 'one', 'to': 'organization'}, {'label': 'in', 'card': 'one', 'to': 'practice'}], 'identity_any': ['identifier'], 'display': {'subtitle': 'category', 'highlights': ['identifier', 'validIn', 'granted_by']}},
+    'quantity-kind': {'name': 'quantity-kind', 'plural': 'quantity-kinds', 'description': 'A quantity kind — WHAT is being measured, semantically. "Mass', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'key', 'ty': 'string', 'required': True}, {'name': 'label', 'ty': 'string'}], 'out': [{'label': 'measures', 'card': 'one', 'to': 'dimension'}, {'label': 'specialization_of', 'card': 'one', 'to': 'quantity-kind'}], 'identity': ['key'], 'display': {'subtitle': 'label'}},
     'quote': {'name': 'quote', 'plural': 'quotes', 'description': 'A notable quote. Attribution is a graph relationship, not a field —', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'context', 'ty': 'string'}, {'name': 'year', 'ty': 'integer'}], 'display': {'subtitle': 'year'}},
-    'repository': {'name': 'repository', 'plural': 'repositories', 'description': 'A source code repository.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'defaultBranch', 'ty': 'string'}, {'name': 'forks', 'ty': 'integer'}, {'name': 'isArchived', 'ty': 'boolean'}, {'name': 'isPrivate', 'ty': 'boolean'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'openIssues', 'ty': 'integer'}, {'name': 'size', 'ty': 'integer'}, {'name': 'stars', 'ty': 'integer'}, {'name': 'topics', 'ty': 'stringlist'}], 'identity_any': ['path', 'url'], 'display': {'subtitle': 'language'}},
-    'reservation': {'name': 'reservation', 'plural': 'reservations', 'description': 'A forward commitment to a future thing — a flight booking, a hotel', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'availableActions', 'ty': 'stringlist'}, {'name': 'baseAmount', 'ty': 'number'}, {'name': 'bookingTime', 'ty': 'datetime'}, {'name': 'bookingType', 'ty': 'string'}, {'name': 'checkinUrl', 'ty': 'url'}, {'name': 'conditions', 'ty': 'json'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'endTime', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'modifiedTime', 'ty': 'datetime'}, {'name': 'partySize', 'ty': 'integer'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'reservationId', 'ty': 'string', 'required': True}, {'name': 'reservationType', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'startTime', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'taxAmount', 'ty': 'number'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'totalAmount', 'ty': 'number'}, {'name': 'visibility', 'ty': 'string'}, {'name': 'voidWindowEndsAt', 'ty': 'datetime'}], 'also': ['event'], 'identity': ['at', 'reservationId'], 'display': {'subtitle': 'reservationType', 'highlights': ['startDate', 'endDate', 'location']}},
+    'repository': {'name': 'repository', 'plural': 'repositories', 'description': 'A source code repository.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'defaultBranch', 'ty': 'string'}, {'name': 'forks', 'ty': 'integer'}, {'name': 'isArchived', 'ty': 'boolean'}, {'name': 'isPrivate', 'ty': 'boolean'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'openIssues', 'ty': 'integer'}, {'name': 'size', 'ty': 'integer'}, {'name': 'stars', 'ty': 'integer'}, {'name': 'topics', 'ty': 'stringlist'}], 'out': [{'label': 'forked_from', 'card': 'one', 'to': 'repository'}, {'label': 'owned_by', 'card': 'one', 'to': 'account'}], 'identity_any': ['path', 'url'], 'display': {'subtitle': 'language'}},
+    'reservation': {'name': 'reservation', 'plural': 'reservations', 'description': 'A forward commitment to a future thing — a flight booking, a hotel', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'availableActions', 'ty': 'stringlist'}, {'name': 'baseAmount', 'ty': 'number'}, {'name': 'bookingTime', 'ty': 'datetime'}, {'name': 'bookingType', 'ty': 'string'}, {'name': 'checkinUrl', 'ty': 'url'}, {'name': 'conditions', 'ty': 'json'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'endTime', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'modifiedTime', 'ty': 'datetime'}, {'name': 'partySize', 'ty': 'integer'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'reservationId', 'ty': 'string', 'required': True}, {'name': 'reservationType', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'startTime', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'taxAmount', 'ty': 'number'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'totalAmount', 'ty': 'number'}, {'name': 'visibility', 'ty': 'string'}, {'name': 'voidWindowEndsAt', 'ty': 'datetime'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'covers_trip', 'card': 'many', 'to': 'trip'}, {'label': 'held_at', 'card': 'one', 'to': 'place'}, {'label': 'for', 'card': 'one', 'to': 'event'}, {'label': 'accommodates', 'card': 'many', 'to': 'person'}, {'label': 'booked_for', 'card': 'one', 'to': 'person'}, {'label': 'booked_under', 'card': 'one', 'to': 'account'}, {'label': 'brokered_by', 'card': 'one', 'to': 'actor'}, {'label': 'enrolled_in', 'card': 'one', 'to': 'membership'}, {'label': 'placed_via', 'card': 'one', 'to': 'order'}, {'label': 'issued_pass', 'card': 'many', 'to': 'pass'}, {'label': 'derived_from', 'card': 'one', 'to': 'offer'}], 'also': ['event'], 'identity': ['at', 'reservationId'], 'display': {'subtitle': 'reservationType', 'highlights': ['startDate', 'endDate', 'location']}},
     'result': {'name': 'result', 'plural': 'results', 'description': 'A search result — a pointer to something found. Not the thing itself.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'community', 'ty': 'string'}, {'name': 'externalUrl', 'ty': 'url'}, {'name': 'favicon', 'ty': 'url'}, {'name': 'indexedAt', 'ty': 'datetime'}, {'name': 'postId', 'ty': 'string'}, {'name': 'resultType', 'ty': 'string'}, {'name': 'score', 'ty': 'integer'}, {'name': 'similarity', 'ty': 'number'}], 'display': {'subtitle': 'url'}},
-    'review': {'name': 'review', 'plural': 'reviews', 'description': 'A user review of a product. Reviews are also posts, so they carry engagement metrics.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'commentCount', 'ty': 'integer'}, {'name': 'community', 'ty': 'string'}, {'name': 'externalUrl', 'ty': 'url'}, {'name': 'isVerified', 'ty': 'boolean'}, {'name': 'postType', 'ty': 'string'}, {'name': 'rating', 'ty': 'number'}, {'name': 'ratingMax', 'ty': 'number'}, {'name': 'score', 'ty': 'integer'}, {'name': 'tags', 'ty': 'stringlist'}], 'also': ['post'], 'display': {'subtitle': 'author'}},
-    'role': {'name': 'role', 'plural': 'roles', 'description': "A person's position at an organization (job title, board seat, etc.).", 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'department', 'ty': 'string'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'roleType', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'title', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'display': {'subtitle': 'name', 'highlights': ['startDate', 'endDate', 'location']}},
-    'seatmap': {'name': 'seatmap', 'plural': 'seatmaps', 'description': 'A seat map for a specific flight + cabin, returned by an airline skill.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'aircraftCode', 'ty': 'string'}, {'name': 'availableSeats', 'ty': 'integer'}, {'name': 'basicEconomyLocked', 'ty': 'boolean'}, {'name': 'cabins', 'ty': 'json'}, {'name': 'classOfService', 'ty': 'string'}, {'name': 'destination', 'ty': 'string'}, {'name': 'fareBasisCode', 'ty': 'string'}, {'name': 'flightNumber', 'ty': 'string'}, {'name': 'hasExitRow', 'ty': 'boolean'}, {'name': 'hasFreeSeats', 'ty': 'boolean'}, {'name': 'hasPaidSeats', 'ty': 'boolean'}, {'name': 'origin', 'ty': 'string'}, {'name': 'tiers', 'ty': 'json'}, {'name': 'totalSeats', 'ty': 'integer'}], 'identity': ['id'], 'display': {'title': 'flightNumber'}},
-    'shelf': {'name': 'shelf', 'plural': 'shelves', 'description': 'A bookshelf. Shelves are lists that contain books instead of generic products.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'arrangement', 'ty': 'string'}, {'name': 'default_view', 'ty': 'string'}, {'name': 'icon_size', 'ty': 'integer'}, {'name': 'isDefault', 'ty': 'boolean'}, {'name': 'isExclusive', 'ty': 'boolean'}, {'name': 'isPublic', 'ty': 'boolean'}, {'name': 'itemCount', 'ty': 'integer'}, {'name': 'listId', 'ty': 'string'}, {'name': 'listType', 'ty': 'string'}, {'name': 'member_shape', 'ty': 'string'}, {'name': 'ordering_mode', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'privacy', 'ty': 'string'}, {'name': 'sort_by', 'ty': 'string'}], 'also': ['list'], 'display': {'subtitle': 'isExclusive'}},
-    'skill': {'name': 'skill', 'plural': 'skills', 'description': 'A connected service/integration in agentOS. Each skill provides tools', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'color', 'ty': 'string'}, {'name': 'description', 'ty': 'text'}, {'name': 'error', 'ty': 'text'}, {'name': 'skillId', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}], 'display': {'subtitle': 'description'}},
-    'software': {'name': 'software', 'plural': 'software', 'description': 'A software product — operating system, application, library, icon pack,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'aisle', 'ty': 'string'}, {'name': 'applicationCategory', 'ty': 'string'}, {'name': 'availability', 'ty': 'string'}, {'name': 'barcode', 'ty': 'string'}, {'name': 'calories', 'ty': 'number'}, {'name': 'categories', 'ty': 'stringlist'}, {'name': 'category', 'ty': 'string'}, {'name': 'codename', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'customizationGroups', 'ty': 'json'}, {'name': 'department', 'ty': 'string'}, {'name': 'images', 'ty': 'json'}, {'name': 'novaGroup', 'ty': 'integer'}, {'name': 'nutritionScore', 'ty': 'string'}, {'name': 'originalPrice', 'ty': 'string'}, {'name': 'originalPriceAmount', 'ty': 'number'}, {'name': 'price', 'ty': 'string'}, {'name': 'priceAmount', 'ty': 'number'}, {'name': 'quantity', 'ty': 'integer'}, {'name': 'runtimePlatform', 'ty': 'string'}, {'name': 'servingSize', 'ty': 'string'}, {'name': 'sku', 'ty': 'string'}, {'name': 'soldByWeight', 'ty': 'boolean'}, {'name': 'version', 'ty': 'string'}, {'name': 'weight', 'ty': 'string'}, {'name': 'weightUnit', 'ty': 'string'}, {'name': 'weightValue', 'ty': 'number'}], 'also': ['product'], 'identity_any': ['url'], 'display': {'subtitle': 'applicationCategory', 'highlights': ['version', 'runtimePlatform']}},
-    'sound': {'name': 'sound', 'plural': 'sounds', 'description': 'An audio clip — startup chimes, error beeps, notification dings,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'bitDepth', 'ty': 'integer'}, {'name': 'channels', 'ty': 'integer'}, {'name': 'copyrightYear', 'ty': 'integer'}, {'name': 'coverage', 'ty': 'string'}, {'name': 'dateCreated', 'ty': 'date'}, {'name': 'description', 'ty': 'string'}, {'name': 'durationMs', 'ty': 'integer'}, {'name': 'encoding', 'ty': 'string'}, {'name': 'filename', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'lineCount', 'ty': 'integer'}, {'name': 'mimeType', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'purpose', 'ty': 'string'}, {'name': 'sampleRate', 'ty': 'integer'}, {'name': 'sha', 'ty': 'string'}, {'name': 'size', 'ty': 'integer'}, {'name': 'tags', 'ty': 'stringlist'}], 'also': ['creative_work', 'file'], 'identity_any': ['url'], 'display': {'subtitle': 'purpose', 'image': 'image', 'body': 'description', 'highlights': ['datePublished', 'published_by']}},
-    'source': {'name': 'source', 'plural': 'sources', 'description': 'A content source — where skills, themes, shapes, and wallpapers live.', 'icon': '"\\U0001F4E6"', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'address', 'ty': 'string', 'required': True}, {'name': 'description', 'ty': 'text'}, {'name': 'enabled', 'ty': 'boolean'}, {'name': 'lastSynced', 'ty': 'datetime'}, {'name': 'scanner', 'ty': 'string'}, {'name': 'sourceId', 'ty': 'string'}], 'identity': ['address'], 'display': {'subtitle': 'sourceId'}},
-    'spec': {'name': 'spec', 'plural': 'specs', 'description': 'A spec — a design document describing work to be done.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'encoding', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'filename', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'labels', 'ty': 'stringlist'}, {'name': 'lineCount', 'ty': 'integer'}, {'name': 'mimeType', 'ty': 'string'}, {'name': 'parentId', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'priority', 'ty': 'integer'}, {'name': 'problem', 'ty': 'text'}, {'name': 'projectId', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'remoteId', 'ty': 'string'}, {'name': 'sha', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'size', 'ty': 'integer'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'state', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}, {'name': 'successCriteria', 'ty': 'text'}, {'name': 'target', 'ty': 'json'}, {'name': 'targetDate', 'ty': 'datetime'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['task', 'file'], 'display': {'subtitle': 'state', 'highlights': ['startDate', 'endDate', 'location']}},
-    'step': {'name': 'step', 'plural': 'steps', 'description': 'One ordered act within a flow. A first-class node, not an array slot:', 'icon': 'list-ordered', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'detail', 'ty': 'text'}, {'name': 'position', 'ty': 'integer'}, {'name': 'status', 'ty': 'string'}], 'display': {'subtitle': 'status', 'body': 'detail', 'highlights': ['position', 'status']}},
+    'review': {'name': 'review', 'plural': 'reviews', 'description': 'A user review of a product. Reviews are also posts, so they carry engagement metrics.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'commentCount', 'ty': 'integer'}, {'name': 'community', 'ty': 'string'}, {'name': 'externalUrl', 'ty': 'url'}, {'name': 'isVerified', 'ty': 'boolean'}, {'name': 'postType', 'ty': 'string'}, {'name': 'rating', 'ty': 'number'}, {'name': 'ratingMax', 'ty': 'number'}, {'name': 'score', 'ty': 'integer'}, {'name': 'tags', 'ty': 'stringlist'}], 'out': [{'label': 'reviews', 'card': 'one', 'to': 'product'}, {'label': 'posted_by', 'card': 'one', 'to': 'account'}], 'also': ['post'], 'display': {'subtitle': 'author'}},
+    'role': {'name': 'role', 'plural': 'roles', 'description': "A person's position at an organization (job title, board seat, etc.).", 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'department', 'ty': 'string'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'roleType', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'title', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'held_by', 'card': 'one', 'to': 'person'}, {'label': 'within_org', 'card': 'one', 'to': 'organization'}], 'also': ['event'], 'display': {'subtitle': 'name', 'highlights': ['startDate', 'endDate', 'location']}},
+    'seatmap': {'name': 'seatmap', 'plural': 'seatmaps', 'description': 'A seat map for a specific flight + cabin, returned by an airline skill.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'aircraftCode', 'ty': 'string'}, {'name': 'availableSeats', 'ty': 'integer'}, {'name': 'basicEconomyLocked', 'ty': 'boolean'}, {'name': 'cabins', 'ty': 'json'}, {'name': 'classOfService', 'ty': 'string'}, {'name': 'destination', 'ty': 'string'}, {'name': 'fareBasisCode', 'ty': 'string'}, {'name': 'flightNumber', 'ty': 'string'}, {'name': 'hasExitRow', 'ty': 'boolean'}, {'name': 'hasFreeSeats', 'ty': 'boolean'}, {'name': 'hasPaidSeats', 'ty': 'boolean'}, {'name': 'origin', 'ty': 'string'}, {'name': 'tiers', 'ty': 'json'}, {'name': 'totalSeats', 'ty': 'integer'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'for', 'card': 'one', 'to': 'flight'}, {'label': 'flown_with', 'card': 'one', 'to': 'aircraft'}, {'label': 'under', 'card': 'one', 'to': 'reservation'}], 'identity': ['id'], 'display': {'title': 'flightNumber'}},
+    'shelf': {'name': 'shelf', 'plural': 'shelves', 'description': 'A bookshelf. Shelves are lists that contain books instead of generic products.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'arrangement', 'ty': 'string'}, {'name': 'default_view', 'ty': 'string'}, {'name': 'icon_size', 'ty': 'integer'}, {'name': 'isDefault', 'ty': 'boolean'}, {'name': 'isExclusive', 'ty': 'boolean'}, {'name': 'isPublic', 'ty': 'boolean'}, {'name': 'itemCount', 'ty': 'integer'}, {'name': 'listId', 'ty': 'string'}, {'name': 'listType', 'ty': 'string'}, {'name': 'member_shape', 'ty': 'string'}, {'name': 'ordering_mode', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'privacy', 'ty': 'string'}, {'name': 'sort_by', 'ty': 'string'}], 'out': [{'label': 'contains', 'card': 'many', 'to': 'book'}], 'also': ['list'], 'display': {'subtitle': 'isExclusive'}},
+    'skill': {'name': 'skill', 'plural': 'skills', 'description': 'A connected service/integration in agentOS. Each skill provides tools', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'color', 'ty': 'string'}, {'name': 'description', 'ty': 'text'}, {'name': 'error', 'ty': 'text'}, {'name': 'skillId', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}], 'out': [{'label': 'online_at', 'card': 'one', 'to': 'website'}, {'label': 'privacy_at', 'card': 'one', 'to': 'webpage'}, {'label': 'terms_at', 'card': 'one', 'to': 'webpage'}], 'display': {'subtitle': 'description'}},
+    'software': {'name': 'software', 'plural': 'software', 'description': 'A software product — operating system, application, library, icon pack,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'aisle', 'ty': 'string'}, {'name': 'applicationCategory', 'ty': 'string'}, {'name': 'availability', 'ty': 'string'}, {'name': 'barcode', 'ty': 'string'}, {'name': 'calories', 'ty': 'number'}, {'name': 'categories', 'ty': 'stringlist'}, {'name': 'category', 'ty': 'string'}, {'name': 'codename', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'customizationGroups', 'ty': 'json'}, {'name': 'department', 'ty': 'string'}, {'name': 'images', 'ty': 'json'}, {'name': 'novaGroup', 'ty': 'integer'}, {'name': 'nutritionScore', 'ty': 'string'}, {'name': 'originalPrice', 'ty': 'string'}, {'name': 'originalPriceAmount', 'ty': 'number'}, {'name': 'price', 'ty': 'string'}, {'name': 'priceAmount', 'ty': 'number'}, {'name': 'quantity', 'ty': 'integer'}, {'name': 'runtimePlatform', 'ty': 'string'}, {'name': 'servingSize', 'ty': 'string'}, {'name': 'sku', 'ty': 'string'}, {'name': 'soldByWeight', 'ty': 'boolean'}, {'name': 'version', 'ty': 'string'}, {'name': 'weight', 'ty': 'string'}, {'name': 'weightUnit', 'ty': 'string'}, {'name': 'weightValue', 'ty': 'number'}], 'out': [{'label': 'manufactured_by', 'card': 'one', 'to': 'organization'}], 'also': ['product'], 'identity_any': ['url'], 'display': {'subtitle': 'applicationCategory', 'highlights': ['version', 'runtimePlatform']}},
+    'sound': {'name': 'sound', 'plural': 'sounds', 'description': 'An audio clip — startup chimes, error beeps, notification dings,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'bitDepth', 'ty': 'integer'}, {'name': 'channels', 'ty': 'integer'}, {'name': 'copyrightYear', 'ty': 'integer'}, {'name': 'coverage', 'ty': 'string'}, {'name': 'dateCreated', 'ty': 'date'}, {'name': 'description', 'ty': 'string'}, {'name': 'durationMs', 'ty': 'integer'}, {'name': 'encoding', 'ty': 'string'}, {'name': 'filename', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'lineCount', 'ty': 'integer'}, {'name': 'mimeType', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'purpose', 'ty': 'string'}, {'name': 'sampleRate', 'ty': 'integer'}, {'name': 'sha', 'ty': 'string'}, {'name': 'size', 'ty': 'integer'}, {'name': 'tags', 'ty': 'stringlist'}], 'also': ['creative_work', 'file'], 'identity_any': ['sha', 'url'], 'display': {'subtitle': 'purpose', 'image': 'image', 'body': 'description', 'highlights': ['datePublished', 'published_by']}},
+    'source': {'name': 'source', 'plural': 'sources', 'description': 'A content source — where skills, themes, shapes, and wallpapers live.', 'icon': '"\\U0001F4E6"', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'address', 'ty': 'string', 'required': True}, {'name': 'description', 'ty': 'text'}, {'name': 'enabled', 'ty': 'boolean'}, {'name': 'lastSynced', 'ty': 'datetime'}, {'name': 'scanner', 'ty': 'string'}, {'name': 'sourceId', 'ty': 'string'}], 'out': [{'label': 'in', 'card': 'one', 'to': 'list'}], 'identity': ['address'], 'display': {'subtitle': 'sourceId'}},
+    'spec': {'name': 'spec', 'plural': 'specs', 'description': 'A spec — a design document describing work to be done.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'encoding', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'filename', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'labels', 'ty': 'stringlist'}, {'name': 'lineCount', 'ty': 'integer'}, {'name': 'mimeType', 'ty': 'string'}, {'name': 'parentId', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'priority', 'ty': 'integer'}, {'name': 'problem', 'ty': 'text'}, {'name': 'projectId', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'remoteId', 'ty': 'string'}, {'name': 'sha', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'size', 'ty': 'integer'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'state', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}, {'name': 'successCriteria', 'ty': 'text'}, {'name': 'target', 'ty': 'json'}, {'name': 'targetDate', 'ty': 'datetime'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'depends_on', 'card': 'many', 'to': 'spec'}, {'label': 'supersedes', 'card': 'many', 'to': 'spec'}], 'also': ['task', 'file'], 'display': {'subtitle': 'state', 'highlights': ['startDate', 'endDate', 'location']}},
+    'step': {'name': 'step', 'plural': 'steps', 'description': 'One ordered act within a flow. A first-class node, not an array slot:', 'icon': 'list-ordered', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'detail', 'ty': 'text'}, {'name': 'position', 'ty': 'integer'}, {'name': 'status', 'ty': 'string'}], 'out': [{'label': 'part_of', 'card': 'one', 'to': 'flow'}, {'label': 'next', 'card': 'one', 'to': 'step'}, {'label': 'performed_by', 'card': 'one', 'to': 'node'}, {'label': 'happens_in', 'card': 'one', 'to': 'module'}], 'display': {'subtitle': 'status', 'body': 'detail', 'highlights': ['position', 'status']}},
     'subscription': {'name': 'subscription', 'plural': 'subscriptions', 'description': 'A standing subscription — a durable intent to stream live entities, re-armed on every engine boot.', 'icon': 'rss', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'op', 'ty': 'string', 'required': True}, {'name': 'skill', 'ty': 'string', 'required': True}, {'name': 'target', 'ty': 'string'}], 'identity': ['skill', 'op'], 'display': {'subtitle': 'target'}},
-    'symbol': {'name': 'symbol', 'plural': 'symbols', 'description': 'A code symbol — one named thing in a source surface: an MCP tool/op, a', 'icon': 'code', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'lang', 'ty': 'string'}, {'name': 'signature', 'ty': 'text'}, {'name': 'sourceLine', 'ty': 'integer'}, {'name': 'sourcePath', 'ty': 'string'}, {'name': 'summary', 'ty': 'text'}, {'name': 'urn', 'ty': 'string'}], 'display': {'subtitle': 'signature', 'body': 'summary', 'highlights': ['kind', 'lang', 'sourcePath']}},
+    'symbol': {'name': 'symbol', 'plural': 'symbols', 'description': 'A code symbol — one named thing in a source surface: an MCP tool/op, a', 'icon': 'code', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'lang', 'ty': 'string'}, {'name': 'signature', 'ty': 'text'}, {'name': 'sourceLine', 'ty': 'integer'}, {'name': 'sourcePath', 'ty': 'string'}, {'name': 'summary', 'ty': 'text'}, {'name': 'urn', 'ty': 'string'}], 'out': [{'label': 'returns', 'card': 'one', 'to': 'node'}, {'label': 'calls', 'card': 'one', 'to': 'symbol'}, {'label': 'called_by', 'card': 'one', 'to': 'symbol'}, {'label': 'see', 'card': 'one', 'to': 'document'}, {'label': 'documents', 'card': 'one', 'to': 'node'}], 'display': {'subtitle': 'signature', 'body': 'summary', 'highlights': ['kind', 'lang', 'sourcePath']}},
     'tag': {'name': 'tag', 'plural': 'tags', 'description': 'A tag or label — Gmail label, Todoist label, GitHub label, git tag,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'annotated', 'ty': 'boolean'}, {'name': 'color', 'ty': 'string'}, {'name': 'hash', 'ty': 'string'}, {'name': 'tagType', 'ty': 'string'}], 'identity': ['name'], 'display': {'title': 'name', 'subtitle': 'tagType'}},
-    'task': {'name': 'task', 'plural': 'tasks', 'description': 'A work item — issue, ticket, or to-do. Supports hierarchy (parent/children)', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'labels', 'ty': 'stringlist'}, {'name': 'parentId', 'ty': 'string'}, {'name': 'priority', 'ty': 'integer'}, {'name': 'projectId', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'remoteId', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'state', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}, {'name': 'target', 'ty': 'json'}, {'name': 'targetDate', 'ty': 'datetime'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'identity': ['at', 'id'], 'display': {'subtitle': 'state', 'highlights': ['startDate', 'endDate', 'location']}},
-    'tax_line': {'name': 'tax_line', 'plural': 'tax_lines', 'description': 'A single tax, fee, or surcharge line item on a priced commerce', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'amount', 'ty': 'number'}, {'name': 'appliesToIndex', 'ty': 'integer'}, {'name': 'code', 'ty': 'string'}, {'name': 'country', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'description', 'ty': 'string'}, {'name': 'inclusive', 'ty': 'boolean'}, {'name': 'kind', 'ty': 'string'}, {'name': 'merchantImposed', 'ty': 'boolean'}, {'name': 'nature', 'ty': 'string'}, {'name': 'rate', 'ty': 'number'}, {'name': 'refundable', 'ty': 'boolean'}, {'name': 'taxableAmount', 'ty': 'number'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'description'}},
-    'theme': {'name': 'theme', 'plural': 'themes', 'description': "An OS theme — a named knob-vector over its family's structure.", 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'defaultBackgroundColor', 'ty': 'string'}, {'name': 'description', 'ty': 'text'}, {'name': 'family', 'ty': 'string'}, {'name': 'startMenu', 'ty': 'string'}, {'name': 'style', 'ty': 'string'}, {'name': 'themeId', 'ty': 'string', 'required': True}], 'identity': ['themeId'], 'display': {'subtitle': 'family'}},
-    'tool_call': {'name': 'tool_call', 'plural': 'tool_calls', 'description': 'A single tool invocation made by an agent during a message.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'durationMs', 'ty': 'integer'}, {'name': 'input', 'ty': 'text'}, {'name': 'isError', 'ty': 'boolean'}, {'name': 'output', 'ty': 'text'}], 'identity': ['platform', 'id'], 'display': {'subtitle': 'name'}},
-    'transaction': {'name': 'transaction', 'plural': 'transactions', 'description': 'A financial transaction — credit card charge, bank transfer, etc.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'amount', 'ty': 'number'}, {'name': 'balance', 'ty': 'number'}, {'name': 'category', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'details', 'ty': 'json'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'notes', 'ty': 'string'}, {'name': 'pending', 'ty': 'boolean'}, {'name': 'postingDate', 'ty': 'datetime'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'recurring', 'ty': 'boolean'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'type', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'identity': ['at', 'id'], 'display': {'subtitle': 'category', 'body': 'notes', 'highlights': ['amount', 'postingDate', 'currency']}},
+    'task': {'name': 'task', 'plural': 'tasks', 'description': 'A work item — issue, ticket, or to-do. Supports hierarchy (parent/children)', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'labels', 'ty': 'stringlist'}, {'name': 'parentId', 'ty': 'string'}, {'name': 'priority', 'ty': 'integer'}, {'name': 'projectId', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'remoteId', 'ty': 'string'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'state', 'ty': 'string'}, {'name': 'status', 'ty': 'string'}, {'name': 'target', 'ty': 'json'}, {'name': 'targetDate', 'ty': 'datetime'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'assigned_to', 'card': 'one', 'to': 'person'}, {'label': 'in', 'card': 'one', 'to': 'project'}, {'label': 'references', 'card': 'one', 'to': 'repository'}, {'label': 'subtask_of', 'card': 'one', 'to': 'task'}, {'label': 'has_subtask', 'card': 'many', 'to': 'task'}, {'label': 'blocked_by', 'card': 'many', 'to': 'task'}, {'label': 'blocks', 'card': 'many', 'to': 'task'}], 'also': ['event'], 'identity': ['at', 'id'], 'display': {'subtitle': 'state', 'highlights': ['startDate', 'endDate', 'location']}},
+    'tax_line': {'name': 'tax_line', 'plural': 'tax_lines', 'description': 'A single tax, fee, or surcharge line item on a priced commerce', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'amount', 'ty': 'number'}, {'name': 'appliesToIndex', 'ty': 'integer'}, {'name': 'code', 'ty': 'string'}, {'name': 'country', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'description', 'ty': 'string'}, {'name': 'inclusive', 'ty': 'boolean'}, {'name': 'kind', 'ty': 'string'}, {'name': 'merchantImposed', 'ty': 'boolean'}, {'name': 'nature', 'ty': 'string'}, {'name': 'rate', 'ty': 'number'}, {'name': 'refundable', 'ty': 'boolean'}, {'name': 'taxableAmount', 'ty': 'number'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'applies_to', 'card': 'one', 'to': 'fare'}, {'label': 'derived_from', 'card': 'one', 'to': 'offer'}, {'label': 'under', 'card': 'one', 'to': 'reservation'}, {'label': 'for', 'card': 'one', 'to': 'leg'}, {'label': 'imposed_by', 'card': 'one', 'to': 'actor'}, {'label': 'held_at', 'card': 'one', 'to': 'place'}], 'identity': ['at', 'id'], 'display': {'subtitle': 'description'}},
+    'theme': {'name': 'theme', 'plural': 'themes', 'description': "An OS theme — a named knob-vector over its family's structure.", 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'defaultBackgroundColor', 'ty': 'string'}, {'name': 'description', 'ty': 'text'}, {'name': 'family', 'ty': 'string'}, {'name': 'startMenu', 'ty': 'string'}, {'name': 'style', 'ty': 'string'}, {'name': 'themeId', 'ty': 'string', 'required': True}], 'out': [{'label': 'represents', 'card': 'one', 'to': 'product'}], 'identity': ['themeId'], 'display': {'subtitle': 'family'}},
+    'tool_call': {'name': 'tool_call', 'plural': 'tool_calls', 'description': 'A single tool invocation made by an agent during a message.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'durationMs', 'ty': 'integer'}, {'name': 'input', 'ty': 'text'}, {'name': 'isError', 'ty': 'boolean'}, {'name': 'output', 'ty': 'text'}], 'out': [{'label': 'on', 'card': 'one', 'to': 'product'}, {'label': 'invoked_by', 'card': 'one', 'to': 'actor'}, {'label': 'in', 'card': 'one', 'to': 'message'}, {'label': 'replies_to', 'card': 'one', 'to': 'tool_call'}], 'identity': ['platform', 'id'], 'display': {'subtitle': 'name'}},
+    'transaction': {'name': 'transaction', 'plural': 'transactions', 'description': 'A financial transaction — credit card charge, bank transfer, etc.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'amount', 'ty': 'number'}, {'name': 'balance', 'ty': 'number'}, {'name': 'category', 'ty': 'string'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'details', 'ty': 'json'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'notes', 'ty': 'string'}, {'name': 'pending', 'ty': 'boolean'}, {'name': 'postingDate', 'ty': 'datetime'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'recurring', 'ty': 'boolean'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'type', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'posted_to', 'card': 'one', 'to': 'financial_account'}], 'also': ['event'], 'identity': ['at', 'id'], 'display': {'subtitle': 'category', 'body': 'notes', 'highlights': ['amount', 'postingDate', 'currency']}},
     'transcript': {'name': 'transcript', 'plural': 'transcripts', 'description': 'A text transcript of audio/video content. Linked from meetings and videos.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'contentRole', 'ty': 'string'}, {'name': 'durationMs', 'ty': 'integer'}, {'name': 'language', 'ty': 'string'}, {'name': 'segmentCount', 'ty': 'integer'}, {'name': 'segments', 'ty': 'json'}, {'name': 'sourceType', 'ty': 'string'}], 'display': {'subtitle': 'language'}},
     'transition': {'name': 'transition', 'plural': 'transitions', 'description': 'An identity change — name, gender, religion, sports team, anything', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'additionalName', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'familyName', 'ty': 'string'}, {'name': 'gender', 'ty': 'string'}, {'name': 'givenName', 'ty': 'string'}, {'name': 'honorificPrefix', 'ty': 'string'}, {'name': 'honorificSuffix', 'ty': 'string'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'legalName', 'ty': 'string'}, {'name': 'maidenName', 'ty': 'string'}, {'name': 'nameOrder', 'ty': 'string'}, {'name': 'nickname', 'ty': 'string'}, {'name': 'phoneticFamilyName', 'ty': 'string'}, {'name': 'phoneticGivenName', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sortAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'display': {'subtitle': 'startDate', 'highlights': ['startDate', 'givenName', 'familyName', 'gender']}},
-    'trip': {'name': 'trip', 'plural': 'trips', 'description': 'A directed journey from origin to destination — one direction of travel.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'arrivalTime', 'ty': 'datetime'}, {'name': 'bookingToken', 'ty': 'string'}, {'name': 'cabinClass', 'ty': 'string'}, {'name': 'carbonEmissions', 'ty': 'json'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'departureTime', 'ty': 'datetime'}, {'name': 'distance', 'ty': 'string'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'duration', 'ty': 'string'}, {'name': 'durationMinutes', 'ty': 'integer'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'fare', 'ty': 'string'}, {'name': 'fareAmount', 'ty': 'number'}, {'name': 'guest', 'ty': 'json'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'isPool', 'ty': 'boolean'}, {'name': 'isReserve', 'ty': 'boolean'}, {'name': 'isScheduled', 'ty': 'boolean'}, {'name': 'isSurge', 'ty': 'boolean'}, {'name': 'marketplace', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'rating', 'ty': 'string'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'stops', 'ty': 'integer'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'trackingUrl', 'ty': 'url'}, {'name': 'tripType', 'ty': 'string'}, {'name': 'vehicle', 'ty': 'json'}, {'name': 'vehicleType', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'also': ['event'], 'identity': ['at', 'id'], 'display': {'subtitle': 'tripType', 'highlights': ['startDate', 'endDate', 'location']}},
-    'unit': {'name': 'unit', 'plural': 'units', 'description': 'A unit of measure — a concrete scale for a quantity. mg/dL, USD, pascal,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'iso4217', 'ty': 'string'}, {'name': 'iso4217Numeric', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'label', 'ty': 'string'}, {'name': 'logBase', 'ty': 'number'}, {'name': 'minorExponent', 'ty': 'integer'}, {'name': 'qudtUnitIri', 'ty': 'string'}, {'name': 'siDigitalFrameworkUri', 'ty': 'string'}, {'name': 'symbol', 'ty': 'string'}, {'name': 'toBaseFactor', 'ty': 'number'}, {'name': 'toBaseOffset', 'ty': 'number'}, {'name': 'ucumCode', 'ty': 'string'}, {'name': 'unCefactCommonCode', 'ty': 'string'}, {'name': 'wikidataId', 'ty': 'string'}], 'identity_any': ['ucumCode', 'siDigitalFrameworkUri', 'iso4217'], 'display': {'subtitle': 'symbol'}},
-    'user': {'name': 'user', 'plural': 'users', 'description': "An AgentOS user — the seat at this machine. Carries the user's", 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'actorType', 'ty': 'string'}, {'name': 'osUsername', 'ty': 'string'}, {'name': 'primaryUser', 'ty': 'boolean'}], 'also': ['actor'], 'identity_any': ['osUsername'], 'display': {'subtitle': 'name'}},
+    'trip': {'name': 'trip', 'plural': 'trips', 'description': 'A directed journey from origin to destination — one direction of travel.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'allDay', 'ty': 'boolean'}, {'name': 'arrivalTime', 'ty': 'datetime'}, {'name': 'bookingToken', 'ty': 'string'}, {'name': 'cabinClass', 'ty': 'string'}, {'name': 'carbonEmissions', 'ty': 'json'}, {'name': 'currency', 'ty': 'string'}, {'name': 'currentUrl', 'ty': 'string'}, {'name': 'dateUpdated', 'ty': 'datetime'}, {'name': 'departureTime', 'ty': 'datetime'}, {'name': 'distance', 'ty': 'string'}, {'name': 'distinctId', 'ty': 'string'}, {'name': 'duration', 'ty': 'string'}, {'name': 'durationMinutes', 'ty': 'integer'}, {'name': 'endDate', 'ty': 'datetime'}, {'name': 'fare', 'ty': 'string'}, {'name': 'fareAmount', 'ty': 'number'}, {'name': 'guest', 'ty': 'json'}, {'name': 'icalUid', 'ty': 'string'}, {'name': 'isPool', 'ty': 'boolean'}, {'name': 'isReserve', 'ty': 'boolean'}, {'name': 'isScheduled', 'ty': 'boolean'}, {'name': 'isSurge', 'ty': 'boolean'}, {'name': 'marketplace', 'ty': 'string'}, {'name': 'properties', 'ty': 'json'}, {'name': 'rating', 'ty': 'string'}, {'name': 'recurrence', 'ty': 'stringlist'}, {'name': 'showAs', 'ty': 'string'}, {'name': 'sourceTitle', 'ty': 'string'}, {'name': 'sourceUrl', 'ty': 'url'}, {'name': 'startDate', 'ty': 'datetime'}, {'name': 'status', 'ty': 'string'}, {'name': 'stops', 'ty': 'integer'}, {'name': 'timezone', 'ty': 'string'}, {'name': 'trackingUrl', 'ty': 'url'}, {'name': 'tripType', 'ty': 'string'}, {'name': 'vehicle', 'ty': 'json'}, {'name': 'vehicleType', 'ty': 'string'}, {'name': 'visibility', 'ty': 'string'}], 'out': [{'label': 'at_namespace', 'card': 'one', 'to': 'actor'}, {'label': 'starts_at', 'card': 'one', 'to': 'place'}, {'label': 'ends_at', 'card': 'one', 'to': 'place'}, {'label': 'routed_through', 'card': 'many', 'to': 'leg'}, {'label': 'operated_by', 'card': 'one', 'to': 'organization'}, {'label': 'driven_by', 'card': 'one', 'to': 'person'}, {'label': 'placed_via', 'card': 'one', 'to': 'order'}], 'also': ['event'], 'identity': ['at', 'id'], 'display': {'subtitle': 'tripType', 'highlights': ['startDate', 'endDate', 'location']}},
+    'unit': {'name': 'unit', 'plural': 'units', 'description': 'A unit of measure — a concrete scale for a quantity. mg/dL, USD, pascal,', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'iso4217', 'ty': 'string'}, {'name': 'iso4217Numeric', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'label', 'ty': 'string'}, {'name': 'logBase', 'ty': 'number'}, {'name': 'minorExponent', 'ty': 'integer'}, {'name': 'qudtUnitIri', 'ty': 'string'}, {'name': 'siDigitalFrameworkUri', 'ty': 'string'}, {'name': 'symbol', 'ty': 'string'}, {'name': 'toBaseFactor', 'ty': 'number'}, {'name': 'toBaseOffset', 'ty': 'number'}, {'name': 'ucumCode', 'ty': 'string'}, {'name': 'unCefactCommonCode', 'ty': 'string'}, {'name': 'wikidataId', 'ty': 'string'}], 'out': [{'label': 'measures', 'card': 'one', 'to': 'dimension'}, {'label': 'quantifies', 'card': 'many', 'to': 'quantity-kind'}], 'identity_any': ['ucumCode', 'siDigitalFrameworkUri', 'iso4217'], 'display': {'subtitle': 'symbol'}},
+    'user': {'name': 'user', 'plural': 'users', 'description': "An AgentOS user — the seat at this machine. Carries the user's", 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'actorType', 'ty': 'string'}, {'name': 'osUsername', 'ty': 'string'}, {'name': 'primaryUser', 'ty': 'boolean'}], 'out': [{'label': 'identified_as', 'card': 'one', 'to': 'person'}], 'also': ['actor'], 'identity_any': ['osUsername'], 'display': {'subtitle': 'name'}},
     'user_identity': {'name': 'user_identity', 'plural': 'user_identities', 'description': 'An identity claim — "the engine-level user X identifies as person:Y', 'icon': 'user', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'active', 'ty': 'boolean'}, {'name': 'person_node_id', 'ty': 'string'}, {'name': 'user_id', 'ty': 'string'}, {'name': 'volume_id', 'ty': 'string'}], 'display': {'subtitle': 'volume_id', 'highlights': ['person_node_id', 'active']}},
-    'video': {'name': 'video', 'plural': 'videos', 'description': 'A video file — the media artifact, not the social context around it.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'codec', 'ty': 'string'}, {'name': 'copyrightYear', 'ty': 'integer'}, {'name': 'coverage', 'ty': 'string'}, {'name': 'dateCreated', 'ty': 'date'}, {'name': 'description', 'ty': 'string'}, {'name': 'durationMs', 'ty': 'integer'}, {'name': 'encoding', 'ty': 'string'}, {'name': 'filename', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'frameRate', 'ty': 'number'}, {'name': 'kind', 'ty': 'string'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'lineCount', 'ty': 'integer'}, {'name': 'mimeType', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'resolution', 'ty': 'string'}, {'name': 'sha', 'ty': 'string'}, {'name': 'size', 'ty': 'integer'}, {'name': 'tags', 'ty': 'stringlist'}, {'name': 'viewCount', 'ty': 'integer'}], 'also': ['creative_work', 'file'], 'display': {'subtitle': 'author', 'image': 'image', 'body': 'description', 'highlights': ['datePublished', 'published_by']}},
+    'video': {'name': 'video', 'plural': 'videos', 'description': 'A video file — the media artifact, not the social context around it.', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'codec', 'ty': 'string'}, {'name': 'copyrightYear', 'ty': 'integer'}, {'name': 'coverage', 'ty': 'string'}, {'name': 'dateCreated', 'ty': 'date'}, {'name': 'description', 'ty': 'string'}, {'name': 'durationMs', 'ty': 'integer'}, {'name': 'encoding', 'ty': 'string'}, {'name': 'filename', 'ty': 'string'}, {'name': 'format', 'ty': 'string'}, {'name': 'frameRate', 'ty': 'number'}, {'name': 'kind', 'ty': 'string'}, {'name': 'language', 'ty': 'string'}, {'name': 'license', 'ty': 'string'}, {'name': 'lineCount', 'ty': 'integer'}, {'name': 'mimeType', 'ty': 'string'}, {'name': 'path', 'ty': 'string'}, {'name': 'resolution', 'ty': 'string'}, {'name': 'sha', 'ty': 'string'}, {'name': 'size', 'ty': 'integer'}, {'name': 'tags', 'ty': 'stringlist'}, {'name': 'viewCount', 'ty': 'integer'}], 'out': [{'label': 'on', 'card': 'one', 'to': 'channel'}, {'label': 'transcribed_by', 'card': 'one', 'to': 'transcript'}, {'label': 'added_to', 'card': 'one', 'to': 'playlist'}], 'also': ['creative_work', 'file'], 'identity_any': ['sha', 'url'], 'display': {'subtitle': 'author', 'image': 'image', 'body': 'description', 'highlights': ['datePublished', 'published_by']}},
     'volume': {'name': 'volume', 'plural': 'volumes', 'description': 'A mounted Volume — any named source of typed nodes the engine has', 'icon': 'drive', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string'}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'address', 'ty': 'string'}, {'name': 'auto_mount', 'ty': 'boolean'}, {'name': 'default_view', 'ty': 'string'}, {'name': 'freeBytes', 'ty': 'integer'}, {'name': 'icon', 'ty': 'string'}, {'name': 'kind', 'ty': 'string'}, {'name': 'provider', 'ty': 'string'}, {'name': 'readOnly', 'ty': 'boolean'}, {'name': 'removable', 'ty': 'boolean'}, {'name': 'scope', 'ty': 'string'}, {'name': 'totalBytes', 'ty': 'integer'}, {'name': 'volume_id', 'ty': 'string'}], 'display': {'subtitle': 'kind'}},
     'webpage': {'name': 'webpage', 'plural': 'webpages', 'description': 'A web page. Base type for search result. Also used for browser history', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string', 'required': True}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'contentType', 'ty': 'string'}, {'name': 'error', 'ty': 'string'}, {'name': 'favicon', 'ty': 'url'}, {'name': 'lastVisitUnix', 'ty': 'integer'}, {'name': 'visitCount', 'ty': 'integer'}], 'identity': ['url'], 'display': {'subtitle': 'url'}},
-    'website': {'name': 'website', 'plural': 'websites', 'description': 'A published website (not a single page — see webpage for that).', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string', 'required': True}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'anonymous', 'ty': 'boolean'}, {'name': 'claimToken', 'ty': 'string'}, {'name': 'claimUrl', 'ty': 'url'}, {'name': 'status', 'ty': 'string'}, {'name': 'versionId', 'ty': 'string'}], 'identity': ['url'], 'display': {'subtitle': 'url'}},
+    'website': {'name': 'website', 'plural': 'websites', 'description': 'A published website (not a single page — see webpage for that).', 'fields': [{'name': 'name', 'ty': 'string', 'required': True}, {'name': 'text', 'ty': 'string'}, {'name': 'url', 'ty': 'string', 'required': True}, {'name': 'image', 'ty': 'string'}, {'name': 'author', 'ty': 'string'}, {'name': 'datePublished', 'ty': 'string'}, {'name': 'content', 'ty': 'string'}, {'name': 'anonymous', 'ty': 'boolean'}, {'name': 'claimToken', 'ty': 'string'}, {'name': 'claimUrl', 'ty': 'url'}, {'name': 'status', 'ty': 'string'}, {'name': 'versionId', 'ty': 'string'}], 'out': [{'label': 'on', 'card': 'one', 'to': 'domain'}, {'label': 'owned_by', 'card': 'one', 'to': 'organization'}], 'identity': ['url'], 'display': {'subtitle': 'url'}},
 }
 
 # Identity keys per shape — sidecars for the skill worker.
@@ -2971,13 +3527,14 @@ SHAPE_IDENTITIES: dict[str, list[str]] = {
 
 SHAPE_IDENTITIES_ANY: dict[str, list[str]] = {
     'book': ['isbn13', 'isbn'],
+    'file': ['sha', 'url'],
     'font': ['family', 'postscriptName'],
     'health-biomarker': ['loincCode', 'measure'],
     'health-condition': ['snomedCode', 'name'],
     'health-lab': ['cliaNumber', 'url'],
     'health-procedure': ['cptCode', 'snomedCode', 'id'],
     'icon': ['component', 'url'],
-    'image': ['url'],
+    'image': ['sha', 'url'],
     'intellectual_property': ['identifier'],
     'person': ['url'],
     'place': ['googlePlaceId', 'mapboxId'],
@@ -2985,9 +3542,10 @@ SHAPE_IDENTITIES_ANY: dict[str, list[str]] = {
     'qualification': ['identifier'],
     'repository': ['path', 'url'],
     'software': ['url'],
-    'sound': ['url'],
+    'sound': ['sha', 'url'],
     'unit': ['ucumCode', 'siDigitalFrameworkUri', 'iso4217'],
     'user': ['osUsername'],
+    'video': ['sha', 'url'],
 }
 
 # YAML declaration order per shape — author order is meaning.

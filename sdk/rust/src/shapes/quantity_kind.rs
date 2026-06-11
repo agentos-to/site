@@ -34,6 +34,10 @@ pub static QUANTITY_KIND: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::required("key", FieldType::String),
         FieldDef::optional("label", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "measures".into(), to: Some("dimension".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "specialization_of".into(), to: Some("quantity-kind".into()), from: None, card: Cardinality::One },
+    ],
     identity: vec!["key".into()],
     display: Some(DisplaySpec {
         subtitle: Some("label".into()),

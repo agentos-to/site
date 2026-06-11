@@ -40,6 +40,11 @@ pub static SKILL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("skillId", FieldType::String),
         FieldDef::optional("status", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "online_at".into(), to: Some("website".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "privacy_at".into(), to: Some("webpage".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "terms_at".into(), to: Some("webpage".into()), from: None, card: Cardinality::One },
+    ],
     display: Some(DisplaySpec {
         subtitle: Some("description".into()),
         ..DisplaySpec::default()

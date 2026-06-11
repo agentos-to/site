@@ -88,6 +88,12 @@ pub static FLIGHT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("vehicleType", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "operated_by".into(), to: Some("airline".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "departs_from".into(), to: Some("airport".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "arrives_at".into(), to: Some("airport".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "flown_with".into(), to: Some("aircraft".into()), from: None, card: Cardinality::One },
+    ],
     also: vec!["leg".into()],
     display: Some(DisplaySpec {
         subtitle: Some("airline".into()),

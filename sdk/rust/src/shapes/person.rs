@@ -36,6 +36,15 @@ pub static PERSON: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("actorType", FieldType::String),
         FieldDef::optional("notes", FieldType::Text),
     ],
+    out: vec![
+        EdgeDef { label: "holds_account".into(), to: Some("account".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "holds_role".into(), to: Some("role".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "enrolled_in".into(), to: Some("membership".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "holds_pass".into(), to: Some("pass".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "holds_qualification".into(), to: Some("qualification".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "practices".into(), to: Some("practice".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "online_at".into(), to: Some("website".into()), from: None, card: Cardinality::One },
+    ],
     also: vec!["actor".into()],
     identity_any: vec!["url".into()],
     derived: vec![

@@ -33,6 +33,9 @@ pub static BOOKMARK: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("content", FieldType::String),
         FieldDef::optional("handle", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "points_to".into(), to: Some("node".into()), from: None, card: Cardinality::One },
+    ],
     identity: vec!["points_to".into()],
     display: Some(DisplaySpec {
         subtitle: Some("name".into()),

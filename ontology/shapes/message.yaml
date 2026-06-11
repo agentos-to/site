@@ -15,6 +15,7 @@ message:
     sent_by:              actor     # sender — a person, agent, or organization
     in:   conversation
     replies_to:        message
+    attaches:          file[]    # reverse accessor of file.attached_to — media/documents this message carries
   prior_art:
     - source: ActivityStreams 2.0 Note/Activity
       url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note

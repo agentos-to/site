@@ -38,6 +38,9 @@ pub static PRACTICE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("codeSystem", FieldType::String),
         FieldDef::optional("description", FieldType::Text),
     ],
+    out: vec![
+        EdgeDef { label: "specialization_of".into(), to: Some("practice".into()), from: None, card: Cardinality::One },
+    ],
     display: Some(DisplaySpec {
         subtitle: Some("parent".into()),
         ..DisplaySpec::default()

@@ -76,6 +76,13 @@ pub static PRODUCT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("weightUnit", FieldType::String),
         FieldDef::optional("weightValue", FieldType::Number),
     ],
+    out: vec![
+        EdgeDef { label: "branded_as".into(), to: Some("brand".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "manufactured_by".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "created_by".into(), to: Some("actor".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "inspired_by".into(), to: Some("product".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "tagged_with".into(), to: Some("tag".into()), from: None, card: Cardinality::Many },
+    ],
     identity_any: vec!["url".into()],
     display: Some(DisplaySpec {
         subtitle: Some("brand".into()),

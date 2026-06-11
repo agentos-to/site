@@ -39,6 +39,12 @@ pub static PRINCIPLE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("statement", FieldType::Text),
         FieldDef::optional("status", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "held_by".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "supersedes".into(), to: Some("principle".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "conflicts_with".into(), to: Some("principle".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "governs".into(), to: Some("node".into()), from: None, card: Cardinality::One },
+    ],
     display: Some(DisplaySpec {
         subtitle: Some("domain".into()),
         body: Some("rationale".into()),

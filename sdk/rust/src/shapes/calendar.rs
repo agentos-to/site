@@ -48,6 +48,11 @@ pub static CALENDAR: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("source", FieldType::String),
         FieldDef::optional("timezone", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "owned_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "schedules".into(), to: Some("event".into()), from: None, card: Cardinality::Many },
+    ],
     identity: vec!["at".into(), "calendarId".into()],
     display: Some(DisplaySpec {
         subtitle: Some("source".into()),

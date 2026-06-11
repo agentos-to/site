@@ -1,0 +1,32 @@
+# blobs.* ops — the content-addressed blob store at ~/.agentos/blobs.
+#
+# Engine-owned bytes on disk; graph nodes reference blobs by the returned
+# path (a file-shaped node's `path` field). Skills hand the engine base64
+# and the engine owns placement, hashing, and dedup — no skill ever
+# invents a path into the user's state dir. Handlers live in
+# agentos-exec-executors.
+
+blobs.put:
+  doc: "Store base64 bytes content-addressed under ~/.agentos/blobs; returns path, sha256, size."
+  doc_full: |
+    Store bytes in the engine's content-addressed blob store:
+    `~/.agentos/blobs/<sha256[0:2]>/<sha256>.<ext>`. Identical bytes land
+    on the same path, so re-storing is a free no-op — dedup by
+    construction. The returned absolute path is what a file-shaped graph
+    node carries in its `path` field.
+
+    Args:
+        data: base64-encoded bytes.
+        ext: filename extension (no dot); names the stored file.
+
+    Returns:
+        path, sha256, size of the stored blob.
+  capability: blobs
+  request:
+    data: { type: "string", doc: "Base64-encoded bytes to store." }
+    ext:  { type: "string", default: "bin", doc: "File extension (no dot), e.g. jpg, ogg, pdf." }
+  response:
+    path:   { type: "string", doc: "Absolute path of the stored blob." }
+    sha256: { type: "string", doc: "SHA-256 of the bytes, hex." }
+    size:   { type: "u64",    doc: "Byte length of the decoded payload." }
+  effects: []

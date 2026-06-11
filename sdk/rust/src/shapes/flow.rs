@@ -37,6 +37,12 @@ pub static FLOW: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("status", FieldType::String),
         FieldDef::optional("trigger", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "involves".into(), to: Some("node".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "has_step".into(), to: Some("step".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "serves".into(), to: Some("node".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "produces".into(), to: Some("node".into()), from: None, card: Cardinality::One },
+    ],
     display: Some(DisplaySpec {
         subtitle: Some("goal".into()),
         highlights: vec!["trigger".into(), "status".into()],

@@ -36,6 +36,9 @@ pub static PROJECT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("parentId", FieldType::String),
         FieldDef::optional("state", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
+    ],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {
         subtitle: Some("state".into()),

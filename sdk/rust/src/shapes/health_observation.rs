@@ -90,6 +90,13 @@ pub static HEALTH_OBSERVATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("valueText", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "measures".into(), to: Some("health-biomarker".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "part_of".into(), to: Some("health-panel".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "evaluated_against".into(), to: Some("health-reference-range".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "documented_in".into(), to: Some("file".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "concerns".into(), to: Some("person".into()), from: None, card: Cardinality::One },
+    ],
     also: vec!["result".into(), "event".into()],
     display: Some(DisplaySpec {
         subtitle: Some("startDate".into()),

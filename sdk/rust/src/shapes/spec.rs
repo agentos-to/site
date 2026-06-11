@@ -98,6 +98,10 @@ pub static SPEC: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("timezone", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "depends_on".into(), to: Some("spec".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "supersedes".into(), to: Some("spec".into()), from: None, card: Cardinality::Many },
+    ],
     also: vec!["task".into(), "file".into()],
     display: Some(DisplaySpec {
         subtitle: Some("state".into()),

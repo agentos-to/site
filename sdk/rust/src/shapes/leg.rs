@@ -86,6 +86,13 @@ pub static LEG: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("vehicleType", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "starts_at".into(), to: Some("place".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "ends_at".into(), to: Some("place".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "operated_by".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "flown_with".into(), to: Some("aircraft".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "in".into(), to: Some("trip".into()), from: None, card: Cardinality::One },
+    ],
     also: vec!["event".into()],
     display: Some(DisplaySpec {
         subtitle: Some("flightNumber".into()),

@@ -66,6 +66,11 @@ pub static CONVERSION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("timezone", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "converts_from".into(), to: Some("unit".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "converts_to".into(), to: Some("unit".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "depends_on".into(), to: Some("node".into()), from: None, card: Cardinality::One },
+    ],
     also: vec!["event".into()],
     display: Some(DisplaySpec {
         subtitle: Some("kind".into()),

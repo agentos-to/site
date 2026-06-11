@@ -10,6 +10,7 @@ video:
   plural: videos
   display:
     subtitle: author
+  identity_any: [sha, url]
   also: [creative_work, file]   # a video is a creative work AND a file
   fields:
     durationMs:       integer

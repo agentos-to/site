@@ -60,6 +60,14 @@ pub static EVENT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("timezone", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "involves".into(), to: Some("person".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "held_at".into(), to: Some("place".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "organized_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "created_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "concerns".into(), to: Some("person".into()), from: None, card: Cardinality::One },
+    ],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {
         subtitle: Some("startDate".into()),

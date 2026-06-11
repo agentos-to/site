@@ -80,6 +80,11 @@ pub static HEALTH_IMMUNIZATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("timezone", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "administered_at".into(), to: Some("health-lab".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "concerns".into(), to: Some("person".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "evidenced_by".into(), to: Some("file".into()), from: None, card: Cardinality::Many },
+    ],
     also: vec!["event".into()],
     display: Some(DisplaySpec {
         subtitle: Some("dateAdministered".into()),

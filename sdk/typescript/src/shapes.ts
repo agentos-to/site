@@ -27,6 +27,14 @@ export interface Account {
     metadata?: unknown;
     phone?: string;
     userId?: string;
+    accessedVia?: Product;
+    atNamespace?: Actor;
+    authenticatedVia?: Account;
+    followedBy?: Account[];
+    operatedBy?: Actor;
+    ownedBy?: Person;
+    speaksProtocol?: Protocol;
+    succeeds?: Account[];
 }
 
 export interface Activity {
@@ -58,6 +66,14 @@ export interface Activity {
     timezone?: string;
     toolName?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    filedIn?: List;
+    heldAt?: Place;
+    in?: McpSession;
+    involves?: Person[];
+    organizedBy?: Person;
 }
 
 export interface Actor {
@@ -110,6 +126,11 @@ export interface Aircraft {
     weight?: string;
     weightUnit?: string;
     weightValue?: number;
+    brandedAs?: Brand;
+    createdBy?: Actor[];
+    inspiredBy?: Product[];
+    manufacturedBy?: Organization;
+    taggedWith?: Tag[];
 }
 
 export interface Airline {
@@ -128,6 +149,11 @@ export interface Airline {
     iataCode?: string;
     icaoCode?: string;
     industry?: string;
+    for?: Person[];
+    headquarteredAt?: Place;
+    on?: Domain;
+    onlineAt?: Website;
+    subsidiaryOf?: Organization;
 }
 
 export interface Airport {
@@ -147,6 +173,8 @@ export interface Airport {
     icaoCode?: string;
     terminalCount?: number;
     timezone?: string;
+    heldAt?: Place;
+    operatedBy?: Organization;
 }
 
 export interface App {
@@ -202,6 +230,12 @@ export interface Birth {
     status?: string;
     timezone?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
 }
 
 export interface Book {
@@ -253,6 +287,15 @@ export interface Book {
     weight?: string;
     weightUnit?: string;
     weightValue?: number;
+    brandedAs?: Brand;
+    contributedBy?: Person[];
+    createdBy?: Actor[];
+    heldBy?: Person;
+    inspiredBy?: Product[];
+    manufacturedBy?: Organization;
+    publishedBy?: Actor;
+    taggedWith?: Tag[];
+    writtenBy?: Person;
 }
 
 export interface BookingOffer {
@@ -305,6 +348,27 @@ export interface BookingOffer {
     totalAmount?: number;
     visibility?: string;
     voidWindowEndsAt?: string;
+    accommodates?: Person[];
+    atNamespace?: Actor;
+    billedTo?: Place;
+    bookedFor?: Person;
+    bookedUnder?: Account;
+    boughtBy?: Person[];
+    brokeredBy?: Actor;
+    concerns?: Person;
+    coversTrip?: Trip[];
+    createdBy?: Person;
+    derivedFrom?: Offer;
+    heldAt?: Place;
+    involves?: Person[];
+    itemizes?: TaxLine[];
+    organizedBy?: Person;
+    paidWith?: PaymentMethod;
+    pricedAt?: Fare[];
+    realizedAs?: Reservation;
+    reserves?: Pass[];
+    settledAs?: Transaction;
+    tiedTo?: Membership;
 }
 
 export interface Bookmark {
@@ -317,6 +381,7 @@ export interface Bookmark {
     datePublished?: string;
     content?: string;
     handle?: string;
+    pointsTo?: unknown;
 }
 
 export interface Branch {
@@ -334,6 +399,7 @@ export interface Branch {
     isCurrent?: boolean;
     isRemote?: boolean;
     upstream?: string;
+    in?: Repository;
 }
 
 export interface Brand {
@@ -349,6 +415,9 @@ export interface Brand {
     primaryColor?: string;
     tagline?: string;
     textColor?: string;
+    depictedBy?: Image;
+    onlineAt?: Website;
+    ownedBy?: Organization;
 }
 
 export interface Calendar {
@@ -369,6 +438,9 @@ export interface Calendar {
     isReadonly?: boolean;
     source?: string;
     timezone?: string;
+    atNamespace?: Actor;
+    ownedBy?: Person;
+    schedules?: Event[];
 }
 
 export interface Change {
@@ -386,6 +458,8 @@ export interface Change {
     status?: string;
     summary?: string;
     version?: string;
+    derivedFrom?: Change;
+    modifies?: unknown;
 }
 
 export interface Channel {
@@ -399,6 +473,7 @@ export interface Channel {
     content?: string;
     banner?: string;
     subscriberCount?: number;
+    atNamespace?: Actor;
 }
 
 export interface Class {
@@ -429,6 +504,13 @@ export interface Class {
     status?: string;
     timezone?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
+    taughtBy?: Person;
 }
 
 export interface Community {
@@ -444,6 +526,7 @@ export interface Community {
     memberCount?: number;
     privacy?: string;
     subscriberCount?: number;
+    atNamespace?: Actor;
 }
 
 export interface Conversation {
@@ -464,6 +547,9 @@ export interface Conversation {
     messageCount?: number;
     source?: string;
     unreadCount?: number;
+    atNamespace?: Actor;
+    contains?: Message[];
+    in?: List;
 }
 
 export interface Conversion {
@@ -493,6 +579,15 @@ export interface Conversion {
     status?: string;
     timezone?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    convertsFrom?: Unit;
+    convertsTo?: Unit;
+    createdBy?: Person;
+    dependsOn?: unknown;
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
 }
 
 export interface CreativeWork {
@@ -511,6 +606,10 @@ export interface CreativeWork {
     language?: string;
     license?: string;
     tags?: string[];
+    contributedBy?: Person[];
+    heldBy?: Person;
+    publishedBy?: Actor;
+    writtenBy?: Person;
 }
 
 export interface Credential {
@@ -530,6 +629,8 @@ export interface Credential {
     refreshable?: boolean;
     source?: string;
     storeRowId?: number;
+    atNamespace?: Organization;
+    writtenBy?: Skill;
 }
 
 export interface Dimension {
@@ -551,6 +652,7 @@ export interface Dimension {
     mass?: number;
     temperature?: number;
     time?: number;
+    hasBaseUnit?: Unit;
 }
 
 export interface DnsRecord {
@@ -595,6 +697,12 @@ export interface Document {
     size?: number;
     tableOfContents?: string;
     wordCount?: number;
+    attachedTo?: Message;
+    authoredBy?: Actor;
+    citedBy?: Document[];
+    embeds?: unknown[];
+    in?: Repository;
+    references?: Document[];
 }
 
 export interface Domain {
@@ -653,6 +761,16 @@ export interface Email {
     toRaw?: string;
     unsubscribe?: string;
     unsubscribeOneClick?: boolean;
+    addressedTo?: Account[];
+    atNamespace?: Actor;
+    attaches?: File[];
+    blindCopiedTo?: Account[];
+    copiedTo?: Account[];
+    in?: Conversation;
+    on?: Domain;
+    repliesTo?: Message;
+    sentBy?: Account;
+    taggedWith?: Tag[];
 }
 
 export interface Episode {
@@ -667,6 +785,9 @@ export interface Episode {
     durationMs?: number;
     episodeNumber?: number;
     seasonNumber?: number;
+    airedIn?: Podcast;
+    featured?: Person[];
+    transcribedBy?: Transcript;
 }
 
 export interface Event {
@@ -693,6 +814,12 @@ export interface Event {
     status?: string;
     timezone?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
 }
 
 export interface Fare {
@@ -719,6 +846,13 @@ export interface Fare {
     productType?: string;
     refundable?: boolean;
     restrictions?: string[];
+    atNamespace?: Actor;
+    derivedFrom?: Offer;
+    earnsInto?: Membership;
+    itemizes?: TaxLine[];
+    pricedFor?: Trip;
+    routedThrough?: Leg[];
+    under?: Reservation;
 }
 
 export interface File {
@@ -739,6 +873,8 @@ export interface File {
     path?: string;
     sha?: string;
     size?: number;
+    attachedTo?: Message;
+    in?: Repository;
 }
 
 export interface FinancialAccount {
@@ -763,6 +899,9 @@ export interface FinancialAccount {
     last4?: string;
     minimumPayment?: number;
     routingNumber?: string;
+    accessedVia?: Account;
+    atNamespace?: Actor;
+    ownedBy?: Person;
 }
 
 export interface Flight {
@@ -803,6 +942,19 @@ export interface Flight {
     tracePointCount?: number;
     vehicleType?: string;
     visibility?: string;
+    arrivesAt?: Airport;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    departsFrom?: Airport;
+    endsAt?: Place;
+    flownWith?: Aircraft;
+    heldAt?: Place;
+    in?: Trip;
+    involves?: Person[];
+    operatedBy?: Airline;
+    organizedBy?: Person;
+    startsAt?: Place;
 }
 
 export interface Flow {
@@ -817,6 +969,10 @@ export interface Flow {
     goal?: string;
     status?: string;
     trigger?: string;
+    hasStep?: Step[];
+    involves?: unknown[];
+    produces?: unknown;
+    serves?: unknown[];
 }
 
 export interface Font {
@@ -846,6 +1002,10 @@ export interface Font {
     tags?: string[];
     vendorUrl?: string;
     weights?: number[];
+    contributedBy?: Person[];
+    heldBy?: Person;
+    publishedBy?: Actor;
+    writtenBy?: Person;
 }
 
 export interface GitCommit {
@@ -879,6 +1039,16 @@ export interface GitCommit {
     status?: string;
     timezone?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    authoredBy?: Account;
+    committedBy?: Account;
+    concerns?: Person;
+    createdBy?: Person;
+    derivedFrom?: GitCommit;
+    heldAt?: Place;
+    in?: Repository;
+    involves?: Person[];
+    organizedBy?: Person;
 }
 
 export interface Group {
@@ -908,6 +1078,7 @@ export interface HealthBiomarker {
     description?: string;
     loincCode?: string;
     measure?: string;
+    partOf?: HealthPanel[];
 }
 
 export interface HealthCondition {
@@ -943,6 +1114,13 @@ export interface HealthCondition {
     timezone?: string;
     verificationStatus?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    evidencedBy?: File[];
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
 }
 
 export interface HealthImmunization {
@@ -979,6 +1157,14 @@ export interface HealthImmunization {
     status?: string;
     timezone?: string;
     visibility?: string;
+    administeredAt?: HealthLab;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    evidencedBy?: File[];
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
 }
 
 export interface HealthLab {
@@ -997,6 +1183,11 @@ export interface HealthLab {
     industry?: string;
     labType?: string;
     npi?: string;
+    for?: Person[];
+    headquarteredAt?: Place;
+    on?: Domain;
+    onlineAt?: Website;
+    subsidiaryOf?: Organization;
 }
 
 export interface HealthObservation {
@@ -1038,6 +1229,16 @@ export interface HealthObservation {
     value?: number;
     valueText?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    documentedIn?: File;
+    evaluatedAgainst?: HealthReferenceRange;
+    heldAt?: Place;
+    involves?: Person[];
+    measures?: HealthBiomarker;
+    organizedBy?: Person;
+    partOf?: HealthPanel;
 }
 
 export interface HealthPanel {
@@ -1080,6 +1281,17 @@ export interface HealthPanel {
     status?: string;
     timezone?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    backedBy?: Image;
+    belongsTo?: Account;
+    concerns?: Person;
+    contains?: unknown[];
+    createdBy?: Person;
+    documentedIn?: File;
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
+    performedAt?: HealthLab;
 }
 
 export interface HealthProcedure {
@@ -1114,6 +1326,17 @@ export interface HealthProcedure {
     status?: string;
     timezone?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    evidencedBy?: File[];
+    heldAt?: Place;
+    involves?: Person[];
+    orderedBy?: Person;
+    organizedBy?: Person;
+    performedAt?: HealthLab;
+    performedBy?: Person;
+    treats?: HealthCondition;
 }
 
 export interface HealthReferenceRange {
@@ -1154,6 +1377,14 @@ export interface HealthReferenceRange {
     timezone?: string;
     unit?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    heldAt?: Place;
+    involves?: Person[];
+    issuedBy?: HealthLab;
+    measures?: HealthBiomarker;
+    organizedBy?: Person;
 }
 
 export interface Icon {
@@ -1177,6 +1408,10 @@ export interface Icon {
     purpose?: string;
     style?: string;
     tags?: string[];
+    contributedBy?: Person[];
+    heldBy?: Person;
+    publishedBy?: Actor;
+    writtenBy?: Person;
 }
 
 export interface Image {
@@ -1211,6 +1446,12 @@ export interface Image {
     tags?: string[];
     width?: number;
     windowId?: number;
+    attachedTo?: Message;
+    contributedBy?: Person[];
+    heldBy?: Person;
+    in?: Repository;
+    publishedBy?: Actor;
+    writtenBy?: Person;
 }
 
 export interface IntellectualProperty {
@@ -1232,6 +1473,9 @@ export interface IntellectualProperty {
     status?: string;
     validIn?: string;
     verificationUrl?: string;
+    covers?: CreativeWork;
+    grantedBy?: Organization;
+    heldBy?: Actor;
 }
 
 export interface Invitation {
@@ -1265,6 +1509,15 @@ export interface Invitation {
     timezone?: string;
     token?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    extendedBy?: Account;
+    extendedTo?: Account;
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
+    withinOrg?: Organization;
 }
 
 export interface Launch {
@@ -1301,6 +1554,12 @@ export interface Launch {
     visibility?: string;
     webcastUrl?: string;
     wikipediaUrl?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
 }
 
 export interface Leg {
@@ -1340,6 +1599,17 @@ export interface Leg {
     tracePointCount?: number;
     vehicleType?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    endsAt?: Place;
+    flownWith?: Aircraft;
+    heldAt?: Place;
+    in?: Trip;
+    involves?: Person[];
+    operatedBy?: Organization;
+    organizedBy?: Person;
+    startsAt?: Place;
 }
 
 export interface List {
@@ -1364,6 +1634,10 @@ export interface List {
     path?: string;
     privacy?: string;
     sortBy?: string;
+    atNamespace?: Actor;
+    backedBy?: Image;
+    belongsTo?: Account;
+    contains?: unknown[];
 }
 
 export interface LoadedModel {
@@ -1395,6 +1669,12 @@ export interface LoadedModel {
     timezone?: string;
     visibility?: string;
     vramUsage?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
 }
 
 export interface McpSession {
@@ -1414,6 +1694,7 @@ export interface McpSession {
     sessionType?: string;
     startedAt?: string;
     tokenCount?: number;
+    in?: List;
 }
 
 export interface Meeting {
@@ -1446,6 +1727,13 @@ export interface Meeting {
     status?: string;
     timezone?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
+    transcribedBy?: Transcript;
 }
 
 export interface Membership {
@@ -1479,6 +1767,15 @@ export interface Membership {
     timezone?: string;
     useCount?: number;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    for?: Person;
+    heldAt?: Place;
+    heldVia?: Account;
+    involves?: Person[];
+    organizedBy?: Person;
+    under?: Product;
 }
 
 export interface Message {
@@ -1493,6 +1790,11 @@ export interface Message {
     conversationId?: string;
     isOutgoing?: boolean;
     isStarred?: boolean;
+    atNamespace?: Actor;
+    attaches?: File[];
+    in?: Conversation;
+    repliesTo?: Message;
+    sentBy?: Actor;
 }
 
 export interface Milestone {
@@ -1521,6 +1823,15 @@ export interface Milestone {
     status?: string;
     timezone?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    blockedBy?: Milestone[];
+    completes?: unknown[];
+    concerns?: Person;
+    createdBy?: Person;
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
+    partOf?: unknown;
 }
 
 export interface Model {
@@ -1546,6 +1857,7 @@ export interface Model {
     quantization?: string;
     quantizationLevel?: string;
     size?: string;
+    atNamespace?: Actor;
 }
 
 export interface Module {
@@ -1562,6 +1874,9 @@ export interface Module {
     role?: string;
     status?: string;
     version?: string;
+    dependsOn?: Module[];
+    hasPart?: Module[];
+    partOf?: unknown;
 }
 
 export interface Note {
@@ -1575,6 +1890,9 @@ export interface Note {
     content?: string;
     isPinned?: boolean;
     noteType?: string;
+    createdBy?: Person;
+    extractedFrom?: Webpage;
+    references?: Note[];
 }
 
 export interface Offer {
@@ -1607,6 +1925,15 @@ export interface Offer {
     status?: string;
     timezone?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    coversTrip?: Trip[];
+    createdBy?: Person;
+    heldAt?: Place;
+    involves?: Person[];
+    offeredBy?: Organization;
+    offeredFor?: Product;
+    organizedBy?: Person;
 }
 
 export interface Order {
@@ -1660,6 +1987,17 @@ export interface Order {
     total?: string;
     totalAmount?: number;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    contains?: Product[];
+    createdBy?: Person;
+    deliveredVia?: Trip;
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
+    purchasedAt?: Place;
+    shippedTo?: Place;
+    trackedAt?: Webpage;
 }
 
 export interface Organization {
@@ -1673,6 +2011,11 @@ export interface Organization {
     content?: string;
     actorType?: string;
     industry?: string;
+    for?: Person[];
+    headquarteredAt?: Place;
+    on?: Domain;
+    onlineAt?: Website;
+    subsidiaryOf?: Organization;
 }
 
 export interface Outcome {
@@ -1691,6 +2034,11 @@ export interface Outcome {
     statement?: string;
     status?: string;
     target?: string;
+    advances?: Milestone;
+    dependsOn?: Outcome[];
+    owns?: unknown[];
+    serves?: unknown[];
+    upholds?: Principle[];
 }
 
 export interface Pass {
@@ -1731,6 +2079,18 @@ export interface Pass {
     timezone?: string;
     useCount?: number;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    grantedBy?: Membership;
+    heldAt?: Place;
+    heldBy?: Person;
+    heldVia?: Account;
+    instanceOf?: Product;
+    involves?: Person[];
+    organizedBy?: Person;
+    under?: Reservation;
+    validFor?: Leg;
 }
 
 export interface PaymentMethod {
@@ -1764,6 +2124,13 @@ export interface PaymentMethod {
     status?: string;
     subtype?: string;
     type?: string;
+    atNamespace?: Actor;
+    billedTo?: Place;
+    fundedBy?: FinancialAccount;
+    heldBy?: Person;
+    issuedBy?: Actor;
+    savedUnder?: Account;
+    tiedTo?: Membership;
 }
 
 export interface Person {
@@ -1778,6 +2145,13 @@ export interface Person {
     about?: string;
     actorType?: string;
     notes?: string;
+    enrolledIn?: Membership[];
+    holdsAccount?: Account[];
+    holdsPass?: Pass[];
+    holdsQualification?: Qualification[];
+    holdsRole?: Role[];
+    onlineAt?: Website;
+    practices?: Practice[];
 }
 
 export interface Persona {
@@ -1795,6 +2169,9 @@ export interface Persona {
     quote?: string;
     reachesFor?: string;
     who?: string;
+    parent?: Persona;
+    represents?: unknown;
+    targets?: unknown;
 }
 
 export interface Place {
@@ -1838,6 +2215,9 @@ export interface Place {
     timezone?: string;
     website?: string;
     wikidataId?: string;
+    atNamespace?: Actor;
+    brandedAs?: Organization;
+    offers?: Product[];
 }
 
 export interface Playlist {
@@ -1862,6 +2242,10 @@ export interface Playlist {
     path?: string;
     privacy?: string;
     sortBy?: string;
+    atNamespace?: Actor;
+    backedBy?: Image;
+    belongsTo?: Account;
+    contains?: Video[];
 }
 
 export interface Podcast {
@@ -1874,6 +2258,8 @@ export interface Podcast {
     datePublished?: string;
     content?: string;
     feedUrl?: string;
+    atNamespace?: Actor;
+    hostedBy?: Person[];
 }
 
 export interface Post {
@@ -1890,6 +2276,13 @@ export interface Post {
     externalUrl?: string;
     postType?: string;
     score?: number;
+    atNamespace?: Actor;
+    contains?: Video[];
+    postedBy?: Account;
+    publishedIn?: Community;
+    replies?: Post[];
+    repliesTo?: Post;
+    shows?: Image[];
 }
 
 export interface Practice {
@@ -1905,6 +2298,7 @@ export interface Practice {
     code?: string;
     codeSystem?: string;
     description?: string;
+    specializationOf?: Practice;
 }
 
 export interface Principle {
@@ -1920,6 +2314,10 @@ export interface Principle {
     rationale?: string;
     statement?: string;
     status?: string;
+    conflictsWith?: Principle[];
+    governs?: unknown;
+    heldBy?: Actor;
+    supersedes?: Principle;
 }
 
 export interface Product {
@@ -1954,6 +2352,11 @@ export interface Product {
     weight?: string;
     weightUnit?: string;
     weightValue?: number;
+    brandedAs?: Brand;
+    createdBy?: Actor[];
+    inspiredBy?: Product[];
+    manufacturedBy?: Organization;
+    taggedWith?: Tag[];
 }
 
 export interface Project {
@@ -1968,6 +2371,7 @@ export interface Project {
     color?: string;
     parentId?: string;
     state?: string;
+    atNamespace?: Actor;
 }
 
 export interface Protocol {
@@ -2000,6 +2404,10 @@ export interface Qualification {
     status?: string;
     validIn?: string;
     verificationUrl?: string;
+    governedBy?: Organization;
+    grantedBy?: Organization;
+    heldBy?: Person;
+    in?: Practice;
 }
 
 export interface QuantityKind {
@@ -2013,6 +2421,8 @@ export interface QuantityKind {
     content?: string;
     key?: string;
     label?: string;
+    measures?: Dimension;
+    specializationOf?: QuantityKind;
 }
 
 export interface Quote {
@@ -2047,6 +2457,8 @@ export interface Repository {
     size?: number;
     stars?: number;
     topics?: string[];
+    forkedFrom?: Repository;
+    ownedBy?: Account;
 }
 
 export interface Reservation {
@@ -2089,6 +2501,22 @@ export interface Reservation {
     totalAmount?: number;
     visibility?: string;
     voidWindowEndsAt?: string;
+    accommodates?: Person[];
+    atNamespace?: Actor;
+    bookedFor?: Person;
+    bookedUnder?: Account;
+    brokeredBy?: Actor;
+    concerns?: Person;
+    coversTrip?: Trip[];
+    createdBy?: Person;
+    derivedFrom?: Offer;
+    enrolledIn?: Membership;
+    for?: Event;
+    heldAt?: Place;
+    involves?: Person[];
+    issuedPass?: Pass[];
+    organizedBy?: Person;
+    placedVia?: Order;
 }
 
 export interface Result {
@@ -2128,6 +2556,14 @@ export interface Review {
     ratingMax?: number;
     score?: number;
     tags?: string[];
+    atNamespace?: Actor;
+    contains?: Video[];
+    postedBy?: Account;
+    publishedIn?: Community;
+    replies?: Post[];
+    repliesTo?: Post;
+    reviews?: Product;
+    shows?: Image[];
 }
 
 export interface Role {
@@ -2157,6 +2593,14 @@ export interface Role {
     timezone?: string;
     title?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    heldAt?: Place;
+    heldBy?: Person;
+    involves?: Person[];
+    organizedBy?: Person;
+    withinOrg?: Organization;
 }
 
 export interface Seatmap {
@@ -2182,6 +2626,10 @@ export interface Seatmap {
     origin?: string;
     tiers?: unknown;
     totalSeats?: number;
+    atNamespace?: Actor;
+    flownWith?: Aircraft;
+    for?: Flight;
+    under?: Reservation;
 }
 
 export interface Shelf {
@@ -2207,6 +2655,10 @@ export interface Shelf {
     path?: string;
     privacy?: string;
     sortBy?: string;
+    atNamespace?: Actor;
+    backedBy?: Image;
+    belongsTo?: Account;
+    contains?: Book[];
 }
 
 export interface Skill {
@@ -2223,6 +2675,9 @@ export interface Skill {
     error?: string;
     skillId?: string;
     status?: string;
+    onlineAt?: Website;
+    privacyAt?: Webpage;
+    termsAt?: Webpage;
 }
 
 export interface Software {
@@ -2261,6 +2716,11 @@ export interface Software {
     weight?: string;
     weightUnit?: string;
     weightValue?: number;
+    brandedAs?: Brand;
+    createdBy?: Actor[];
+    inspiredBy?: Product[];
+    manufacturedBy?: Organization;
+    taggedWith?: Tag[];
 }
 
 export interface Sound {
@@ -2293,6 +2753,12 @@ export interface Sound {
     sha?: string;
     size?: number;
     tags?: string[];
+    attachedTo?: Message;
+    contributedBy?: Person[];
+    heldBy?: Person;
+    in?: Repository;
+    publishedBy?: Actor;
+    writtenBy?: Person;
 }
 
 export interface Source {
@@ -2310,6 +2776,7 @@ export interface Source {
     lastSynced?: string;
     scanner?: string;
     sourceId?: string;
+    in?: List;
 }
 
 export interface Spec {
@@ -2355,6 +2822,22 @@ export interface Spec {
     targetDate?: string;
     timezone?: string;
     visibility?: string;
+    assignedTo?: Person;
+    atNamespace?: Actor;
+    attachedTo?: Message;
+    blockedBy?: Task[];
+    blocks?: Task[];
+    concerns?: Person;
+    createdBy?: Person;
+    dependsOn?: Spec[];
+    hasSubtask?: Task[];
+    heldAt?: Place;
+    in?: Repository;
+    involves?: Person[];
+    organizedBy?: Person;
+    references?: Repository;
+    subtaskOf?: Task;
+    supersedes?: Spec[];
 }
 
 export interface Step {
@@ -2369,6 +2852,10 @@ export interface Step {
     detail?: string;
     position?: number;
     status?: string;
+    happensIn?: Module;
+    next?: Step;
+    partOf?: Flow;
+    performedBy?: unknown;
 }
 
 export interface Subscription {
@@ -2401,6 +2888,11 @@ export interface Symbol {
     sourcePath?: string;
     summary?: string;
     urn?: string;
+    calledBy?: Symbol;
+    calls?: Symbol;
+    documents?: unknown;
+    returns?: unknown;
+    see?: Document;
 }
 
 export interface Tag {
@@ -2450,6 +2942,19 @@ export interface Task {
     targetDate?: string;
     timezone?: string;
     visibility?: string;
+    assignedTo?: Person;
+    atNamespace?: Actor;
+    blockedBy?: Task[];
+    blocks?: Task[];
+    concerns?: Person;
+    createdBy?: Person;
+    hasSubtask?: Task[];
+    heldAt?: Place;
+    in?: Project;
+    involves?: Person[];
+    organizedBy?: Person;
+    references?: Repository;
+    subtaskOf?: Task;
 }
 
 export interface TaxLine {
@@ -2474,6 +2979,13 @@ export interface TaxLine {
     rate?: number;
     refundable?: boolean;
     taxableAmount?: number;
+    appliesTo?: Fare;
+    atNamespace?: Actor;
+    derivedFrom?: Offer;
+    for?: Leg;
+    heldAt?: Place;
+    imposedBy?: Actor;
+    under?: Reservation;
 }
 
 export interface Theme {
@@ -2491,6 +3003,7 @@ export interface Theme {
     startMenu?: string;
     style?: string;
     themeId?: string;
+    represents?: Product;
 }
 
 export interface ToolCall {
@@ -2506,6 +3019,10 @@ export interface ToolCall {
     input?: string;
     isError?: boolean;
     output?: string;
+    in?: Message;
+    invokedBy?: Actor;
+    on?: Product;
+    repliesTo?: ToolCall;
 }
 
 export interface Transaction {
@@ -2542,6 +3059,13 @@ export interface Transaction {
     timezone?: string;
     type?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
+    postedTo?: FinancialAccount;
 }
 
 export interface Transcript {
@@ -2598,6 +3122,12 @@ export interface Transition {
     status?: string;
     timezone?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    heldAt?: Place;
+    involves?: Person[];
+    organizedBy?: Person;
 }
 
 export interface Trip {
@@ -2647,6 +3177,18 @@ export interface Trip {
     vehicle?: unknown;
     vehicleType?: string;
     visibility?: string;
+    atNamespace?: Actor;
+    concerns?: Person;
+    createdBy?: Person;
+    drivenBy?: Person;
+    endsAt?: Place;
+    heldAt?: Place;
+    involves?: Person[];
+    operatedBy?: Organization;
+    organizedBy?: Person;
+    placedVia?: Order;
+    routedThrough?: Leg[];
+    startsAt?: Place;
 }
 
 export interface Unit {
@@ -2672,6 +3214,8 @@ export interface Unit {
     ucumCode?: string;
     unCefactCommonCode?: string;
     wikidataId?: string;
+    measures?: Dimension;
+    quantifies?: QuantityKind[];
 }
 
 export interface User {
@@ -2686,6 +3230,7 @@ export interface User {
     actorType?: string;
     osUsername?: string;
     primaryUser?: boolean;
+    identifiedAs?: Person;
 }
 
 export interface UserIdentity {
@@ -2733,6 +3278,15 @@ export interface Video {
     size?: number;
     tags?: string[];
     viewCount?: number;
+    addedTo?: Playlist;
+    attachedTo?: Message;
+    contributedBy?: Person[];
+    heldBy?: Person;
+    in?: Repository;
+    on?: Channel;
+    publishedBy?: Actor;
+    transcribedBy?: Transcript;
+    writtenBy?: Person;
 }
 
 export interface Volume {
@@ -2788,6 +3342,8 @@ export interface Website {
     claimUrl?: string;
     status?: string;
     versionId?: string;
+    on?: Domain;
+    ownedBy?: Organization;
 }
 
 // ─── Display spec — `display:` block per shape ──────────────────────────

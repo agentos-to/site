@@ -56,6 +56,11 @@ pub static FINANCIAL_ACCOUNT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("minimumPayment", FieldType::Number),
         FieldDef::optional("routingNumber", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "accessed_via".into(), to: Some("account".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "owned_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
+    ],
     identity: vec!["at".into(), "identifier".into()],
     display: Some(DisplaySpec {
         subtitle: Some("last4".into()),

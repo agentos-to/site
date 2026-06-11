@@ -88,6 +88,10 @@ pub static HEALTH_REFERENCE_RANGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("unit", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "measures".into(), to: Some("health-biomarker".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "issued_by".into(), to: Some("health-lab".into()), from: None, card: Cardinality::One },
+    ],
     also: vec!["event".into()],
     identity: vec!["analyte".into(), "issuingLab".into(), "method".into(), "startDate".into()],
     display: Some(DisplaySpec {

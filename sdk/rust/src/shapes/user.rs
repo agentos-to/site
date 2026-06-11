@@ -36,6 +36,9 @@ pub static USER: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("osUsername", FieldType::String),
         FieldDef::optional("primaryUser", FieldType::Boolean),
     ],
+    out: vec![
+        EdgeDef { label: "identified_as".into(), to: Some("person".into()), from: None, card: Cardinality::One },
+    ],
     also: vec!["actor".into()],
     identity_any: vec!["osUsername".into()],
     display: Some(DisplaySpec {

@@ -37,6 +37,12 @@ pub static STEP: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("position", FieldType::Integer),
         FieldDef::optional("status", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "part_of".into(), to: Some("flow".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "next".into(), to: Some("step".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "performed_by".into(), to: Some("node".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "happens_in".into(), to: Some("module".into()), from: None, card: Cardinality::One },
+    ],
     display: Some(DisplaySpec {
         subtitle: Some("status".into()),
         body: Some("detail".into()),

@@ -39,6 +39,22 @@ export interface AuthStoreReadResponse {
     last_verified?: number;
 }
 
+export interface BlobsPutRequest {
+    /** Base64-encoded bytes to store. */
+    data: string;
+    /** File extension (no dot), e.g. jpg, ogg, pdf. */
+    ext?: string;
+}
+
+export interface BlobsPutResponse {
+    /** Absolute path of the stored blob. */
+    path: string;
+    /** SHA-256 of the bytes, hex. */
+    sha256: string;
+    /** Byte length of the decoded payload. */
+    size: number;
+}
+
 export interface CapabilityCallRequest {
     /** Capability name to match. */
     name: string;
@@ -211,6 +227,7 @@ export interface SqlExecuteResponse {
 /** Every engine op, keyed by wire name. */
 export interface OpContracts {
     "auth_store.read": { request: AuthStoreReadRequest; response: AuthStoreReadResponse };
+    "blobs.put": { request: BlobsPutRequest; response: BlobsPutResponse };
     "capability.call": { request: CapabilityCallRequest; response: CapabilityCallResponse };
     "capability.list_providers": { request: CapabilityListProvidersRequest; response: CapabilityListProvidersResponse };
     "crypto.pbkdf2": { request: CryptoPbkdf2Request; response: CryptoPbkdf2Response };
@@ -226,4 +243,4 @@ export interface OpContracts {
 }
 
 /** Op wire names. */
-export type OpName = "auth_store.read" | "capability.call" | "capability.list_providers" | "crypto.pbkdf2" | "crypto.aes" | "http.request" | "llm.resolve_tools" | "plist.parse" | "secrets.read" | "secrets.read_binary" | "shell.run" | "sql.query" | "sql.execute";
+export type OpName = "auth_store.read" | "blobs.put" | "capability.call" | "capability.list_providers" | "crypto.pbkdf2" | "crypto.aes" | "http.request" | "llm.resolve_tools" | "plist.parse" | "secrets.read" | "secrets.read_binary" | "shell.run" | "sql.query" | "sql.execute";

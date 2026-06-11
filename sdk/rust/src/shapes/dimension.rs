@@ -50,6 +50,9 @@ pub static DIMENSION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("temperature", FieldType::Integer),
         FieldDef::optional("time", FieldType::Integer),
     ],
+    out: vec![
+        EdgeDef { label: "has_base_unit".into(), to: Some("unit".into()), from: None, card: Cardinality::One },
+    ],
     identity: vec!["key".into()],
     display: Some(DisplaySpec {
         subtitle: Some("label".into()),

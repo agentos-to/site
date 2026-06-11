@@ -74,6 +74,12 @@ pub static INVITATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("token", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "extended_by".into(), to: Some("account".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "extended_to".into(), to: Some("account".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "within_org".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
+    ],
     also: vec!["event".into()],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {

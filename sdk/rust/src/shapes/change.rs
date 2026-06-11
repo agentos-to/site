@@ -43,6 +43,10 @@ pub static CHANGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("summary", FieldType::Text),
         FieldDef::optional("version", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "modifies".into(), to: Some("node".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "derived_from".into(), to: Some("change".into()), from: None, card: Cardinality::One },
+    ],
     display: Some(DisplaySpec {
         subtitle: Some("kind".into()),
         body: Some("summary".into()),

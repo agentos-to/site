@@ -72,7 +72,13 @@ pub static VIDEO: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("tags", FieldType::StringList),
         FieldDef::optional("viewCount", FieldType::Integer),
     ],
+    out: vec![
+        EdgeDef { label: "on".into(), to: Some("channel".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "transcribed_by".into(), to: Some("transcript".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "added_to".into(), to: Some("playlist".into()), from: None, card: Cardinality::One },
+    ],
     also: vec!["creative_work".into(), "file".into()],
+    identity_any: vec!["sha".into(), "url".into()],
     display: Some(DisplaySpec {
         subtitle: Some("author".into()),
         image: Some("image".into()),

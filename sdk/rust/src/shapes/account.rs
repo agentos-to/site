@@ -62,6 +62,16 @@ pub static ACCOUNT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("phone", FieldType::String),
         FieldDef::optional("userId", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "accessed_via".into(), to: Some("product".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "operated_by".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "speaks_protocol".into(), to: Some("protocol".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "owned_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "authenticated_via".into(), to: Some("account".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "succeeds".into(), to: Some("account".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "followed_by".into(), to: Some("account".into()), from: None, card: Cardinality::Many },
+    ],
     identity: vec!["at".into(), "identifier".into()],
     display: Some(DisplaySpec {
         subtitle: Some("identifier".into()),

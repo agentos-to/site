@@ -430,6 +430,27 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
         lines.append(f"pub use {mod}::{{{ident}, {cls}}};")
     lines.append("")
 
+    # Def lookup by name — the engine's fallback when a write touches a
+    # shape the wire carried no `__shape_def__` for (e.g. a nested child
+    # entity whose shape was never a top-level `@returns`). The compiled
+    # contract IS the def.
+    lines += [
+        "// ===========================================================",
+        "// Def lookup — full compiled ShapeDef by shape name",
+        "// ===========================================================",
+        "",
+        "pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {",
+        "    match shape {",
+    ]
+    for s in shapes_sorted:
+        lines.append(f'        "{s.name}" => Some(&{_const_ident(s.name)}),')
+    lines += [
+        "        _ => None,",
+        "    }",
+        "}",
+        "",
+    ]
+
     # Display lookups.
     lines += [
         "// ===========================================================",

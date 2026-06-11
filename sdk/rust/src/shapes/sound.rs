@@ -73,7 +73,7 @@ pub static SOUND: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("tags", FieldType::StringList),
     ],
     also: vec!["creative_work".into(), "file".into()],
-    identity_any: vec!["url".into()],
+    identity_any: vec!["sha".into(), "url".into()],
     display: Some(DisplaySpec {
         subtitle: Some("purpose".into()),
         image: Some("image".into()),

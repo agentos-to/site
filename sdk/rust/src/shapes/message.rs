@@ -36,6 +36,13 @@ pub static MESSAGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("isOutgoing", FieldType::Boolean),
         FieldDef::optional("isStarred", FieldType::Boolean),
     ],
+    out: vec![
+        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "sent_by".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "in".into(), to: Some("conversation".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "replies_to".into(), to: Some("message".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "attaches".into(), to: Some("file".into()), from: None, card: Cardinality::Many },
+    ],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {
         subtitle: Some("from".into()),

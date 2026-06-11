@@ -61,6 +61,12 @@ pub static LIST: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("privacy", FieldType::String),
         FieldDef::optional("sort_by", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "belongs_to".into(), to: Some("account".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "contains".into(), to: Some("node".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "backed_by".into(), to: Some("image".into()), from: None, card: Cardinality::One },
+    ],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {
         subtitle: Some("name".into()),

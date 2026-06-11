@@ -65,6 +65,11 @@ pub static MILESTONE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("timezone", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
+    out: vec![
+        EdgeDef { label: "part_of".into(), to: Some("node".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "blocked_by".into(), to: Some("milestone".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "completes".into(), to: Some("node".into()), from: None, card: Cardinality::Many },
+    ],
     also: vec!["event".into()],
     display: Some(DisplaySpec {
         subtitle: Some("status".into()),

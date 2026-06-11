@@ -392,6 +392,33 @@ def load_shapes_from_api(agentos_bin: str) -> list[Shape]:
     return _build_shapes(raw, {})
 
 
+def _shape_yaml_loader():
+    """A SafeLoader that keeps `on`/`off`/`yes`/`no` as strings.
+
+    YAML 1.1 resolves those words as booleans, but they appear as LINK
+    LABELS in shape files (`email —on→ domain`) where a `True:` key
+    silently corrupts the relation map. `true`/`false` still parse as
+    booleans — only the ambiguous English words become strings."""
+    import yaml
+
+    class ShapeLoader(yaml.SafeLoader):
+        pass
+
+    bool_tag = "tag:yaml.org,2002:bool"
+    import re as _re
+    strict_bool = _re.compile(r"^(?:true|True|TRUE|false|False|FALSE)$")
+    for ch in list("oOyYnNtTfF"):
+        existing = ShapeLoader.yaml_implicit_resolvers.get(ch, [])
+        replaced = []
+        for tag, regexp in existing:
+            if tag == bool_tag:
+                replaced.append((tag, strict_bool))
+            else:
+                replaced.append((tag, regexp))
+        ShapeLoader.yaml_implicit_resolvers[ch] = replaced
+    return ShapeLoader
+
+
 def load_shapes(shapes_dir: Path) -> list[Shape]:
     """Load shapes from YAML files on disk."""
     try:
@@ -408,9 +435,10 @@ def load_shapes(shapes_dir: Path) -> list[Shape]:
     yaml_files = list(shapes_dir.glob("*.yaml"))
     for sub in sorted(p for p in shapes_dir.iterdir() if p.is_dir() and not p.name.startswith("_")):
         yaml_files.extend(sub.glob("*.yaml"))
+    loader = _shape_yaml_loader()
     for f in sorted(yaml_files):
         text = f.read_text()
-        data = yaml.safe_load(text)
+        data = yaml.load(text, Loader=loader)
         if data and isinstance(data, dict):
             # Capture leading `# ...` comment block (before first non-comment, non-blank line).
             lead_lines = []
@@ -467,7 +495,7 @@ def _build_shapes(
         rels = {}
         for also in defn.get("also", []):
             rels.update(resolve_relations(also, seen))
-        for label, target in (defn.get("relations") or {}).items():
+        for label, target in (defn.get("links") or {}).items():
             rels[label] = str(target)
         return rels
 
@@ -650,7 +678,7 @@ def _build_shapes(
         for fname, ftype in (defn.get("fields") or {}).items():
             is_array = str(ftype).endswith("[]")
             s.own_fields.append(Field(fname, str(ftype), False, is_array, None))
-        for label, target in (defn.get("relations") or {}).items():
+        for label, target in (defn.get("links") or {}).items():
             tgt_s = str(target)
             is_array = tgt_s.endswith("[]")
             s.own_relations.append(Field(label, tgt_s, True, is_array, tgt_s.rstrip("[]")))

@@ -77,7 +77,7 @@ pub static IMAGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("windowId", FieldType::Integer),
     ],
     also: vec!["creative_work".into(), "file".into()],
-    identity_any: vec!["url".into()],
+    identity_any: vec!["sha".into(), "url".into()],
     display: Some(DisplaySpec {
         subtitle: Some("format".into()),
         image: Some("image".into()),

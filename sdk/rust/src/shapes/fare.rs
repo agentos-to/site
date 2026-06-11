@@ -60,6 +60,15 @@ pub static FARE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("refundable", FieldType::Boolean),
         FieldDef::optional("restrictions", FieldType::StringList),
     ],
+    out: vec![
+        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "priced_for".into(), to: Some("trip".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "routed_through".into(), to: Some("leg".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "derived_from".into(), to: Some("offer".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "under".into(), to: Some("reservation".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "itemizes".into(), to: Some("tax_line".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "earns_into".into(), to: Some("membership".into()), from: None, card: Cardinality::One },
+    ],
     identity: vec!["at".into(), "identifier".into()],
     display: Some(DisplaySpec {
         subtitle: Some("fareFamily".into()),

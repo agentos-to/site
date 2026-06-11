@@ -46,6 +46,10 @@ pub static CREDENTIAL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("source", FieldType::String),
         FieldDef::optional("storeRowId", FieldType::Integer),
     ],
+    out: vec![
+        EdgeDef { label: "at_namespace".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
+        EdgeDef { label: "written_by".into(), to: Some("skill".into()), from: None, card: Cardinality::One },
+    ],
     identity: vec!["domain".into(), "identifier".into(), "itemType".into()],
     display: Some(DisplaySpec {
         subtitle: Some("source".into()),

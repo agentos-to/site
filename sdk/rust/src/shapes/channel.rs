@@ -34,6 +34,9 @@ pub static CHANNEL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("banner", FieldType::Url),
         FieldDef::optional("subscriberCount", FieldType::Integer),
     ],
+    out: vec![
+        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
+    ],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {
         subtitle: Some("subscriberCount".into()),

@@ -23,6 +23,7 @@ from agentos.results import skill_error, skill_result, skill_secret
 
 # --- Engine-dispatched modules ---
 from agentos import sql
+from agentos import blobs
 from agentos import crypto
 from agentos import oauth
 from agentos import shell
@@ -72,7 +73,7 @@ __all__ = [
     # Engine dispatch (external Python scripts)
     "Client", "AsyncClient", "EngineError",
     # Engine-dispatched modules
-    "sql", "crypto", "oauth", "shell", "llm", "checkpoint", "credentials",
+    "sql", "blobs", "crypto", "oauth", "shell", "llm", "checkpoint", "credentials",
     "capability",
     # Identity helpers
     "identity", "normalize_email", "normalize_phone", "normalize_handle",
