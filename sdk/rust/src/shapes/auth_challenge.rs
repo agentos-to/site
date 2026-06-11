@@ -20,6 +20,7 @@ pub struct AuthChallenge {
     pub instructions: Option<String>,
     pub kind: Option<String>,
     pub payload: Option<String>,
+    pub retrieval: Option<serde_json::Value>,
 }
 
 pub static AUTH_CHALLENGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
@@ -41,6 +42,7 @@ pub static AUTH_CHALLENGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("instructions", FieldType::Text),
         FieldDef::optional("kind", FieldType::String),
         FieldDef::optional("payload", FieldType::String),
+        FieldDef::optional("retrieval", FieldType::Json),
     ],
     display: Some(DisplaySpec {
         subtitle: Some("instructions".into()),

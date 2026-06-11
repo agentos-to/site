@@ -2316,6 +2316,13 @@
           "is_relation": false,
           "is_array": false,
           "target": null
+        },
+        {
+          "name": "retrieval",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
         }
       ],
       "also": [],
@@ -2334,7 +2341,7 @@
       },
       "identity": [],
       "identity_any": [],
-      "leading_comment": "A platform demands something only a human (usually) can do — scan a QR\nwith a phone, click an OAuth consent, type a code that was mailed out of\nband. The challenge is a successful result, not an error: the login op\ndid its job, and this is what came back. `artifact` is display-ready\ntext — a Unicode QR block, a consent URL — so one string renders on\nevery surface an agent lives on: a terminal, a chat, the desktop act\nwindow. No image pipeline, no per-surface renderer.\n\nFor `code_sent` the human may not be needed at all: `instructions`\ntells the agent to try `email_lookup` providers before relaying.",
+      "leading_comment": "A platform demands something only a human (usually) can do — scan a QR\nwith a phone, click an OAuth consent, type a code that was mailed out of\nband. The challenge is a successful result, not an error: the login op\ndid its job, and this is what came back. `artifact` is display-ready\ntext — a Unicode QR block, a consent URL — so one string renders on\nevery surface an agent lives on: a terminal, a chat, the desktop act\nwindow. No image pipeline, no per-surface renderer.\n\nFor `code_sent` / `magic_link` the human may not be needed at all:\n`retrieval` carries a structured hint — which sender, which subject,\nwhat to extract — so an agent with email access can self-serve the\ncode or link and call `continueWith` without ever relaying to the\nhuman. `instructions` is the prose fallback for an agent that can't.",
       "own_fields": [
         {
           "name": "kind",
@@ -2360,6 +2367,13 @@
         {
           "name": "instructions",
           "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "retrieval",
+          "type": "json",
           "is_relation": false,
           "is_array": false,
           "target": null
@@ -2393,13 +2407,14 @@
         }
       ],
       "source_path": "auth_challenge.yaml",
-      "raw_body": "plural: auth_challenges\ndisplay:\n  subtitle: instructions\n  body: artifact\n  mono: artifact\n  preview:\n    artifact: full\nfields:\n  kind: string\n  payload: string\n  artifact: text\n  instructions: text\n  expiresAt: datetime\n  continueWith: string\nprior_art:\n- source: OAuth 2.0 Device Authorization Grant (RFC 8628)\n  url: https://datatracker.ietf.org/doc/html/rfc8628\n  notes: \"The device flow returns the human-must-act moment as data, not as an error:\\\n    \\ user_code + verification_uri + expires_in, with the client polling the token\\\n    \\ endpoint until the human acts. Same anatomy here \\u2014 payload/artifact \\u2248\\\n    \\ user_code/verification_uri, expiresAt \\u2248 expires_in, continueWith \\u2248\\\n    \\ the polling step.\"\n- source: whatsapp-web.js + qrcode-terminal\n  url: https://github.com/pedroslopez/whatsapp-web.js\n  notes: 'The proven precedent for QR-as-text: the linked-device QR payload is re-rendered\n    as Unicode block characters in a terminal and scanned straight off the screen.\n    `artifact` generalizes that to every text surface.'\n",
+      "raw_body": "plural: auth_challenges\ndisplay:\n  subtitle: instructions\n  body: artifact\n  mono: artifact\n  preview:\n    artifact: full\nfields:\n  kind: string\n  payload: string\n  artifact: text\n  instructions: text\n  retrieval: json\n  expiresAt: datetime\n  continueWith: string\nprior_art:\n- source: OAuth 2.0 Device Authorization Grant (RFC 8628)\n  url: https://datatracker.ietf.org/doc/html/rfc8628\n  notes: \"The device flow returns the human-must-act moment as data, not as an error:\\\n    \\ user_code + verification_uri + expires_in, with the client polling the token\\\n    \\ endpoint until the human acts. Same anatomy here \\u2014 payload/artifact \\u2248\\\n    \\ user_code/verification_uri, expiresAt \\u2248 expires_in, continueWith \\u2248\\\n    \\ the polling step.\"\n- source: whatsapp-web.js + qrcode-terminal\n  url: https://github.com/pedroslopez/whatsapp-web.js\n  notes: 'The proven precedent for QR-as-text: the linked-device QR payload is re-rendered\n    as Unicode block characters in a terminal and scanned straight off the screen.\n    `artifact` generalizes that to every text surface.'\n",
       "ancestors": [],
       "field_order": [
         "kind",
         "payload",
         "artifact",
         "instructions",
+        "retrieval",
         "expiresAt",
         "continueWith"
       ],

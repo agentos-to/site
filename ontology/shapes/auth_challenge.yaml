@@ -6,8 +6,11 @@
 # every surface an agent lives on: a terminal, a chat, the desktop act
 # window. No image pipeline, no per-surface renderer.
 #
-# For `code_sent` the human may not be needed at all: `instructions`
-# tells the agent to try `email_lookup` providers before relaying.
+# For `code_sent` / `magic_link` the human may not be needed at all:
+# `retrieval` carries a structured hint — which sender, which subject,
+# what to extract — so an agent with email access can self-serve the
+# code or link and call `continueWith` without ever relaying to the
+# human. `instructions` is the prose fallback for an agent that can't.
 auth_challenge:
   plural: auth_challenges
   display:
@@ -17,10 +20,11 @@ auth_challenge:
     preview:
       artifact: full        # never clip — a clipped QR scans as nothing
   fields:
-    kind:          string    # qr | code_sent | oauth_url — discriminator
+    kind:          string    # qr | code_sent | magic_link | oauth_url — discriminator
     payload:       string    # raw datum — QR ref string, consent URL, masked destination
     artifact:      text      # display-ready text: Unicode QR block, or the URL itself
-    instructions:  text      # what the agent does or relays (code_sent: try email_lookup first)
+    instructions:  text      # prose fallback — what an agent without email access relays
+    retrieval:     json      # structured self-serve hint: {via, sender, subjectHint, extract: otp|magic_link}
     expiresAt:     datetime  # rotation honesty — WhatsApp QR refs rotate ~20s
     continueWith:  string    # the op that advances the flow: a verify op, or the check op for polling
   prior_art:
