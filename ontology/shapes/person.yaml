@@ -145,6 +145,14 @@ person:
                                        # they were plain fields.
     body: notes
 
+  # Ordered property sections for the detail pane / card. Most reference
+  # derived fields — the resolver projects them onto the node JSON at read
+  # time, so the pane finds them like plain vals.
+  groups:
+    Name: [givenName, additionalName, familyName, nickname, legalName, maidenName]
+    Personal: [birthdate, gender, current_residence, current_role]
+    About: [about, notes, url]
+
   prior_art:
     - source: schema.org/Person
       url: https://schema.org/Person

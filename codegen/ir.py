@@ -106,6 +106,7 @@ class Shape:
     ancestors: list[str] = field(default_factory=list)        # transitive `also:` closure — every shape this one inherits from, walk order (immediate parents first, then grandparents, deduped).
     field_order: list[str] = field(default_factory=list)      # YAML declaration order, this shape's own fields first, then inherited via `also:` (deduped). Drives `SHAPE_FIELD_ORDER` per the life-events plan — author order is meaning.
     derived: dict = field(default_factory=dict)               # `derived:` block — per-field read-side bindings. Values are raw dicts with `find` / `where` / `where_link` / `is` / `get` / `latest`. See event-derived-attributes plan §"The derived block".
+    groups: list[tuple[str, list[str]]] = field(default_factory=list)  # `groups:` block — ordered property sections for the detail pane / card. Each entry is (section name, [field names]); the section name renders verbatim (author-cased). Drives `SHAPE_FIELD_GROUPS`. Undeclared vals fall to a trailing "Other" section in the UI.
     shortcuts: dict = field(default_factory=dict)             # `shortcuts:` block — per-flat-key write-side expansions. Each entry maps a flat create-key to a single canonical write target (e.g. `birthdate: {writes: born_in[is=birth].startDate}`).
     prefs_schemas: dict = field(default_factory=dict)         # `prefsSchemas:` block — shape-level pref vocabulary (namespace → entries[]). Settings reads it off the shape-def node to render its tabs. `user` is the canonical case; any shape can declare one.
 
@@ -664,6 +665,18 @@ def _build_shapes(
         shortcuts = defn.get("shortcuts") or {}
         if isinstance(shortcuts, dict):
             s.shortcuts = shortcuts
+
+        # `groups:` block — ordered property sections for the detail pane.
+        # `{Contact: [email, phone], Work: [current_role]}` → the pane
+        # renders a "Contact" section, then "Work", each listing those
+        # fields in order; anything the node carries but no section names
+        # trails in a default "Other" section.
+        groups = defn.get("groups") or {}
+        if isinstance(groups, dict):
+            s.groups = [
+                (str(name), [str(f) for f in (fields or [])])
+                for name, fields in groups.items()
+            ]
 
         # `prefsSchemas:` block — shape-level pref vocabulary. Carried
         # through to the Rust/TS SDKs so Settings can render its tabs

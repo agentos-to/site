@@ -93,6 +93,26 @@ def emit_typescript(onto: Ontology) -> str:
     lines.append("};")
     lines.append("")
 
+    # SHAPE_FIELD_GROUPS — the ontology `groups:` block: ordered property
+    # sections for the detail pane / card. The pane renders these sections
+    # in order, each listing the named fields the node actually carries;
+    # any val no section names trails in a default "Other" section.
+    lines.extend([
+        "// ─── Property sections per shape — ontology `groups:` block ─────────────",
+        "// The detail pane (NodeMetadata) renders these sections in order; the",
+        "// section name renders verbatim. Vals no section names fall to \"Other\".",
+        "",
+        "export interface FieldGroup { name: string; fields: readonly string[] }",
+        "export const SHAPE_FIELD_GROUPS: Record<string, readonly FieldGroup[]> = {",
+    ])
+    for s in shapes:
+        if not s.groups:
+            continue
+        secs = [{"name": name, "fields": fields} for name, fields in s.groups]
+        lines.append(f"    {json.dumps(s.name)}: {json.dumps(secs)},")
+    lines.append("};")
+    lines.append("")
+
     # EVENT_TYPES — every shape whose `also:` chain includes `event` (plus
     # `event` itself). Derived from the shape graph — the shape IS the type.
     lines.extend([

@@ -12,6 +12,13 @@ account:
   identity: [at, identifier]
   display:
     subtitle: identifier
+  # Ordered property sections for the detail pane / card. Renders verbatim;
+  # vals no section names trail in a default "Other" section.
+  groups:
+    Identity: [identifier, handle, displayName, email, phone]
+    Profile: [bio, accountType, color, isActive]
+    Activity: [joinedDate, lastActive, lastProfileFetch]
+    Technical: [userId, issuer, metadata]
   fields:
     identifier:        string    # canonical key within `at`'s namespace
                                   # (e.g. an email for email-login services,
