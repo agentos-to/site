@@ -40836,7 +40836,7 @@
     },
     {
       "name": "cdp_access",
-      "description": "Raw, protocol-level browser access. A provider returns a CDP WebSocket URL + target descriptor for a debug-attachable Chromium browser. Tiny surface: one `cdp_connect` tool. Brave is today's provider; Chrome/Arc could join. Consumers should almost always use `browser_session` instead — this is the layer underneath it.",
+      "description": "Raw, protocol-level browser access. A provider returns a CDP WebSocket URL + target descriptor for a debug-attachable Chromium browser. Tiny surface: one `cdp_connect` tool, plus a fixed-name sibling verb every provider ships — `login_window(url, label?|close)`, the headed app-mode swap on the same profile, dispatched by the `login_window` service's provider against whichever app this service resolves to (never a fresh walk). Brave is today's provider; Chrome/Arc could join. Consumers should almost always use `browser_session` instead — this is the layer underneath it.",
       "params": {},
       "returns": null,
       "leading_comment": "Raw protocol-level access to a debug-attachable Chromium browser."
@@ -40960,6 +40960,13 @@
       },
       "returns": null,
       "leading_comment": "{email|handle, password} tuple for a domain (credential provision)."
+    },
+    {
+      "name": "login_window",
+      "description": "Surface the engine-owned (normally headless) browser as a headed Chromium app-mode window (`--app=<url>`) so a human can complete a login the agent can't do autonomously — SSO, MFA, CAPTCHA. One profile, two modes: the window runs on the same user-data-dir the headless session host drives, so the signed-in session is on disk the moment the human finishes — no cookie copying, ever. `login_window(url, label?)` opens the window; `login_window(close=true)` returns the instance to headless. Between the two, poll the target app's `check_session` until it reports authenticated. Provided by the OS browser app, which resolves `cdp_access` once — honoring the human's default pick — and dispatches the provider's fixed-name `login_window` tool, so the headed window always opens on the exact profile the headless session host drives.",
+      "params": {},
+      "returns": null,
+      "leading_comment": "Headed sign-in window on the engine-owned browser profile."
     },
     {
       "name": "map_tiles",

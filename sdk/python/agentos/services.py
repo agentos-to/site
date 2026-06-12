@@ -67,6 +67,9 @@ llm = "llm"
 # {email|handle, password} tuple for a domain (credential provision).
 login_credentials = "login_credentials"
 
+# Headed sign-in window on the engine-owned browser profile.
+login_window = "login_window"
+
 # Serve map tile imagery for a viewport.
 map_tiles = "map_tiles"
 
