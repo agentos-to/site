@@ -45,5 +45,10 @@ pub static EPISODE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("author".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Apple Podcasts RSS Extensions (itunes:episode)".into(), url: Some("https://help.apple.com/itc/podcasts_connect/#/itcb54353390".into()), notes: Some("De-facto podcast metadata standard. Our episodeNumber/seasonNumber/ durationMs = itunes:episode/itunes:season/itunes:duration.".into()) },
+        PriorArtDef { source: "schema.org/PodcastEpisode".into(), url: Some("https://schema.org/PodcastEpisode".into()), notes: Some("Our series ≈ partOfSeries (PodcastSeries); transcribe ≈ transcript; guest ≈ actor.".into()) },
+        PriorArtDef { source: "Podcast Namespace (podcast:*)".into(), url: Some("https://podcastindex.org/namespace/1.0".into()), notes: Some("Modern open extension to RSS. Covers our guest, season, episode, and transcript relations via podcast:person, podcast:season, etc.".into()) },
+    ],
     ..ShapeDef::default()
 });

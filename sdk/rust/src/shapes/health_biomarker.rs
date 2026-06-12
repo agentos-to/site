@@ -48,5 +48,9 @@ pub static HEALTH_BIOMARKER: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("category".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "HL7 FHIR R5 — ObservationDefinition".into(), url: Some("https://www.hl7.org/fhir/observationdefinition.html".into()), notes: Some("FHIR's ObservationDefinition is the reusable definition of an observable, separate from the Observation that records a value. Our measure/category map to its code + quantitativeDetails. We deliberately do NOT include its qualifiedInterval — reference ranges are their own shape (health-reference-range).".into()) },
+        PriorArtDef { source: "LOINC — Logical Observation Identifiers Names and Codes".into(), url: Some("https://loinc.org/".into()), notes: Some("The universal code system for lab and clinical observations. loincCode is the join key — every lab observable has a LOINC code (TSH 3016-3, LDL 2089-1, HbA1c 4548-4). LOINC identifies the observable only; it carries no reference range.".into()) },
+    ],
     ..ShapeDef::default()
 });

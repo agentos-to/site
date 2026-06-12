@@ -58,5 +58,10 @@ pub static DIMENSION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("label".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "BIPM — SI Brochure, 9th edition (2019)".into(), url: Some("https://www.bipm.org/documents/20126/41483022/SI-Brochure-9-EN.pdf".into()), notes: Some("Defines the 7 base quantities (length, mass, time, electric current, thermodynamic temperature, amount of substance, luminous intensity) and their dimensions L, M, T, I, Θ, N, J. The seven exponent fields here are exactly those base dimensions.".into()) },
+        PriorArtDef { source: "ISO 80000-1 — Quantities and units, Part 1: General".into(), url: Some("https://www.iso.org/standard/76921.html".into()), notes: Some("The ISQ (International System of Quantities) — the rigorous definition of a quantity dimension as a product of base-quantity powers. This shape is a direct encoding of an ISQ dimension.".into()) },
+        PriorArtDef { source: "QUDT — QuantityKindDimensionVector".into(), url: Some("https://www.qudt.org/doc/DOC_SCHEMA-QUDT.html".into()), notes: Some("QUDT encodes the same 7 exponents as separate properties (qudt:dimensionExponentForMass etc.) plus a compact vector IRI. Our `key` mirrors that compact form; the seven integer fields mirror the per-dimension properties.".into()) },
+    ],
     ..ShapeDef::default()
 });

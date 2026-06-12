@@ -71,5 +71,9 @@ pub static SHELF: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("isExclusive".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Goodreads API — Shelves".into(), url: Some("https://www.goodreads.com/api".into()), notes: Some("Direct source. Our isExclusive maps to Goodreads' \"exclusive shelves\" (read, to-read, currently-reading).".into()) },
+        PriorArtDef { source: "schema.org/ItemList (bookshelf)".into(), url: Some("https://schema.org/ItemList".into()), notes: Some("Generic collection peer. contains(book[]) ≈ itemListElement.".into()) },
+    ],
     ..ShapeDef::default()
 });

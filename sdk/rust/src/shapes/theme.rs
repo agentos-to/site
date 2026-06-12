@@ -50,5 +50,8 @@ pub static THEME: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("family".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "System theme APIs (macOS NSAppearance, Windows WinUI)".into(), url: Some("https://developer.apple.com/documentation/appkit/nsappearance".into()), notes: Some("OS-level theme abstraction. Our `family` parallels NSAppearance.Name (aqua, darkAqua) and Windows theme families.".into()) },
+    ],
     ..ShapeDef::default()
 });

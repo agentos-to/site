@@ -122,5 +122,10 @@ pub static BOOK: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["datePublished".into(), "published_by".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Book".into(), url: Some("https://schema.org/Book".into()), notes: Some("Our isbn maps to isbn; writtenBy = author; publisher matches; pages = numberOfPages; language = inLanguage; format ≈ bookFormat (Hardcover/Paperback/EBook).".into()) },
+        PriorArtDef { source: "ONIX for Books 3.0".into(), url: Some("https://www.editeur.org/83/Overview/".into()), notes: Some("Publishing-industry canonical. Our isbn/isbn13/pages/format/language/series/originalTitle align with ONIX Product Identifier, Extent, ProductForm, Language, Collection, and OriginalLanguageTitle composites.".into()) },
+        PriorArtDef { source: "Open Library Books API".into(), url: Some("https://openlibrary.org/developers/api".into()), notes: Some("Practical lookup by ISBN. Our genres/characters/places/awardsWon map to subjects/subject_people/subject_places/subject_times (awards less standardized).".into()) },
+    ],
     ..ShapeDef::default()
 });

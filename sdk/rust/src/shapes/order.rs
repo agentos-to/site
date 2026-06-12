@@ -129,5 +129,10 @@ pub static ORDER: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Order".into(), url: Some("https://schema.org/Order".into()), notes: Some("Our orderId = orderNumber; orderDate = orderDate; total = totalPaymentDue; status = orderStatus; shippingAddress = orderDelivery.".into()) },
+        PriorArtDef { source: "schema.org/OrderStatus (enum)".into(), url: Some("https://schema.org/OrderStatus".into()), notes: Some("Our status values (placed, confirmed, delivering, completed, cancelled) map to OrderProcessing/OrderInTransit/OrderDelivered/ OrderCancelled.".into()) },
+        PriorArtDef { source: "Amazon Order Reports (MWS / SP-API)".into(), url: Some("https://developer-docs.amazon.com/sp-api/docs/orders-api-v0-reference".into()), notes: Some("Practical source. Our orderId, fareBreakdown, savings, eta are lifted from Amazon/Uber Eats order structures.".into()) },
+    ],
     ..ShapeDef::default()
 });

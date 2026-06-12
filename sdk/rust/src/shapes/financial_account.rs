@@ -66,5 +66,11 @@ pub static FINANCIAL_ACCOUNT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("last4".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "OFX (Open Financial Exchange)".into(), url: Some("https://financialdataexchange.org/ofx".into()), notes: Some("Bank-feed canonical. Our accountNumber / routingNumber / balance / available map to OFX BANKACCTFROM / LEDGERBAL / AVAILBAL.".into()) },
+        PriorArtDef { source: "ISO 20022 Financial Messaging".into(), url: Some("https://www.iso20022.org/".into()), notes: Some("Modern bank-messaging standard. Our last4 / cardType / creditLimit / interestRate align with ISO 20022 Card / Account components.".into()) },
+        PriorArtDef { source: "schema.org/BankAccount".into(), url: Some("https://schema.org/BankAccount".into()), notes: Some("Our accountNumber ≈ accountId; balance / available are accountMinimumInflow / accountOverdraftLimit loosely; cardType fits schema.org/CreditCard.".into()) },
+        PriorArtDef { source: "1Password Bank Account item".into(), url: Some("https://1password.com/".into()), notes: Some("1P's Bank Account category holds institution + account number + routing + type — same shape. Their Crypto Wallet and Credit Card are separate categories; we treat them as different `accountType` values on the same shape for now, splitting only if the field diversity forces it.".into()) },
+    ],
     ..ShapeDef::default()
 });

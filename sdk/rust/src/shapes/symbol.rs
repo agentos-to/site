@@ -58,5 +58,11 @@ pub static SYMBOL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["kind".into(), "lang".into(), "sourcePath".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Language Server Protocol — DocumentSymbol / SymbolKind".into(), url: Some("https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol".into()), notes: Some("SymbolKind (Function/Struct/Interface/Method/Module…) is the canonical `kind` enum; DocumentSymbol's name + detail + range → our name + signature + sourcePath/sourceLine.".into()) },
+        PriorArtDef { source: "LSIF — Language Server Index Format".into(), url: Some("https://microsoft.github.io/language-server-protocol/specifications/lsif/0.6.0/specification/".into()), notes: Some("LSIF persists hover/definition/references as a graph of monikers across files — exactly our `urn` + calls/called_by trail, made queryable.".into()) },
+        PriorArtDef { source: "rustdoc JSON output format".into(), url: Some("https://doc.rust-lang.org/rustdoc/unstable-features.html#--output-format-json-output-crate-info-in-json".into()), notes: Some("The P3 extractor's source — Item{id, name, kind, docs, links} maps item.id → urn, kind → kind, docs → body, inner.decl → signature.".into()) },
+        PriorArtDef { source: "schema.org/SoftwareSourceCode + ctags".into(), url: Some("https://schema.org/SoftwareSourceCode".into()), notes: Some("codeRepository/programmingLanguage → lang; ctags' (tag, file, kind) triple is the minimal symbol-index prior art for sourcePath + kind.".into()) },
+    ],
     ..ShapeDef::default()
 });

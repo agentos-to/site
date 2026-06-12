@@ -86,5 +86,9 @@ pub static GIT_COMMIT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Git Internals — commit object".into(), url: Some("https://git-scm.com/book/en/v2/Git-Internals-Git-Objects".into()), notes: Some("Our sha/shortHash/message/parent match the commit object exactly. author/committer follow Git's distinct author-vs-committer model.".into()) },
+        PriorArtDef { source: "Conventional Commits 1.0".into(), url: Some("https://www.conventionalcommits.org/en/v1.0.0/".into()), notes: Some("Practical structure for message field (type(scope): subject). Optional — we don't enforce but it's compatible.".into()) },
+    ],
     ..ShapeDef::default()
 });

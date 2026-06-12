@@ -97,5 +97,9 @@ pub static AIRCRAFT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("model".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "ICAO Aircraft Type Designators (Doc 8643)".into(), url: Some("https://www.icao.int/publications/DOC8643/Pages/Search.aspx".into()), notes: Some("Our icaoCode is the canonical 4-char type code (B738, A320); iataCode is the 3-char IATA equivalent (738, 320).".into()) },
+        PriorArtDef { source: "schema.org/Vehicle".into(), url: Some("https://schema.org/Vehicle".into()), notes: Some("Our model/seatCapacity map to vehicleModelDate/vehicleSeatingCapacity; manufacturer matches directly.".into()) },
+    ],
     ..ShapeDef::default()
 });

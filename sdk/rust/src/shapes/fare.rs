@@ -74,5 +74,13 @@ pub static FARE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("fareFamily".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "IATA Fare Basis Code / ATPCO filings".into(), url: Some("https://en.wikipedia.org/wiki/Fare_basis_code".into()), notes: Some("Airline canonical. First char = RBD/booking class (our `bookingCode`); remainder = airline-proprietary pointer into ATPCO-filed fare rules (our `identifier` as opaque string, `conditions` for the rule blob). Codes are 3-8 chars; we don't parse beyond the first char.".into()) },
+        PriorArtDef { source: "IATA NDC FareDetail / FareComponent".into(), url: Some("https://developer.iata.org/en/ndc/".into()), notes: Some("NDC's FareDetail.FareComponent carries FareBasis.FareBasisCode, FareBasis.RBD, Price.BaseAmount, FareRules.Penalty, and CabinType.CabinTypeCode. Our identifier/bookingCode/basePrice/ class/refundable map directly.".into()) },
+        PriorArtDef { source: "Duffel Offer Slice / fare_basis_code".into(), url: Some("https://duffel.com/docs/api/v2/offers".into()), notes: Some("Duffel surfaces fare_basis_code on each slice's segments along with cabin_class, cabin_class_marketing_name (our fareFamily), and passenger-level base_amount. Our basePrice = base_amount; class = cabin_class; fareFamily = cabin_class_marketing_name.".into()) },
+        PriorArtDef { source: "Amtrak / Rail Europe fare types".into(), url: Some("https://www.amtrak.com/routes/fares".into()), notes: Some("Non-airline generalization. Amtrak fares are Saver / Value / Flexible / Premium / Business / First / Acela First / Acela First Refundable — their tier codes fit `identifier`; their names fit `fareFamily`; their rules fit `refundable`/ `changeable`/`restrictions`.".into()) },
+        PriorArtDef { source: "GTFS fare_products.txt (transit)".into(), url: Some("https://gtfs.org/documentation/schedule/reference/#fare_productstxt".into()), notes: Some("Open transit standard for fare products. Their fare_product_id = our identifier; fare_product_name = fareFamily; amount = basePrice; currency_code = currency. rider_category matches passengerType (adult/child/senior/student).".into()) },
+        PriorArtDef { source: "schema.org/Offer price + FlightReservation".into(), url: Some("https://schema.org/FlightReservation".into()), notes: Some("schema.org's Offer.price + Offer.priceCurrency align with our basePrice + currency. schema.org has no fare-basis concept; NDC and GTFS fill that gap.".into()) },
+    ],
     ..ShapeDef::default()
 });

@@ -49,5 +49,10 @@ pub static ORGANIZATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["headquarters".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Organization".into(), url: Some("https://schema.org/Organization".into()), notes: Some("Our industry ≈ naics/isicV4 (loosely); founded = foundingDate; member[] = member; headquarters = location; parentOrganization maps directly (schema.org's subOrganization is its declared inverse).".into()) },
+        PriorArtDef { source: "vCard 4.0 KIND=org (RFC 6350)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc6350".into()), notes: Some("Organization-as-contact. Our website/domain ≈ URL; headquarters ≈ ADR. Thinner than schema.org for industry/founded.".into()) },
+        PriorArtDef { source: "Wikidata (Organization, Q43229)".into(), url: Some("https://www.wikidata.org/wiki/Q43229".into()), notes: Some("Cross-reference identity. Useful for deduping; no direct field alignment but industry maps to P452 (industry) and founded to P571 (inception).".into()) },
+    ],
     ..ShapeDef::default()
 });

@@ -44,5 +44,10 @@ pub static TAG: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("tagType".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "GitHub REST API — Labels".into(), url: Some("https://docs.github.com/en/rest/issues/labels".into()), notes: Some("Our color/name/tagType ≈ GitHub Label's color/name/default.".into()) },
+        PriorArtDef { source: "Gmail API — Labels".into(), url: Some("https://developers.google.com/gmail/api/reference/rest/v1/users.labels".into()), notes: Some("Practical source. Our tagType distinguishes Gmail's SYSTEM vs USER label types.".into()) },
+        PriorArtDef { source: "Dublin Core dc:subject".into(), url: Some("https://www.dublincore.org/specifications/dublin-core/dces/".into()), notes: Some("Generic classification vocabulary — tags on any resource.".into()) },
+    ],
     ..ShapeDef::default()
 });

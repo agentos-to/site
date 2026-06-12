@@ -51,5 +51,10 @@ pub static SOURCE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("sourceId".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Homebrew Taps".into(), url: Some("https://docs.brew.sh/Taps".into()), notes: Some("Direct precedent. Our sourceId/address match tap name/URL; our platform=agentos parallels tap formulae discovery.".into()) },
+        PriorArtDef { source: "Cydia / Sileo (APT repos for iOS)".into(), url: Some("https://wiki.theapebox.com/index.php/Package_Management".into()), notes: Some("Namespaced third-party source model. Our sourceId prefix is the Cydia repo-namespace pattern.".into()) },
+        PriorArtDef { source: "Debian APT sources.list".into(), url: Some("https://wiki.debian.org/SourcesList".into()), notes: Some("Canonical third-party source mechanism. Our enabled flag parallels APT source enable/disable; lastSynced ≈ apt-get update timestamp.".into()) },
+    ],
     ..ShapeDef::default()
 });

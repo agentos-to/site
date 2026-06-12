@@ -59,5 +59,10 @@ pub static REPOSITORY: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("language".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Git internals + Git refs".into(), url: Some("https://git-scm.com/book/en/v2/Git-Internals-Git-References".into()), notes: Some("Our defaultBranch is a Git ref (refs/heads/main); forkedFrom is explicit in our model vs. implicit in Git (recorded only by forges).".into()) },
+        PriorArtDef { source: "GitHub REST API — Repository".into(), url: Some("https://docs.github.com/en/rest/repos/repos".into()), notes: Some("Direct source. Our stars/forks/openIssues/topics/defaultBranch/ license/size/isArchived/isPrivate all come from the GitHub Repository resource.".into()) },
+        PriorArtDef { source: "SPDX License List".into(), url: Some("https://spdx.org/licenses/".into()), notes: Some("Our license values are SPDX identifiers (MIT, Apache-2.0, GPL-3.0-or-later).".into()) },
+    ],
     ..ShapeDef::default()
 });

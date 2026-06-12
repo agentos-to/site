@@ -57,5 +57,10 @@ pub static CREATIVE_WORK: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["datePublished".into(), "published_by".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/CreativeWork".into(), url: Some("https://schema.org/CreativeWork".into()), notes: Some("Our name=name; written_by≈author; published_by≈publisher; datePublished=datePublished; license=license; copyrightHolder= copyrightHolder; copyrightYear=copyrightYear; description= description; url=url; language=inLanguage; tags=keywords.".into()) },
+        PriorArtDef { source: "Dublin Core Metadata Element Set (ISO 15836)".into(), url: Some("https://www.dublincore.org/specifications/dublin-core/dces/".into()), notes: Some("Maps cleanly to all 15 DC elements except `type` (carried by the shape discriminator), `format` (subtype-specific), `identifier` (universal node id), `relation` (graph links), `subject` (tags).".into()) },
+        PriorArtDef { source: "FRBR (IFLA, 1998)".into(), url: Some("https://www.ifla.org/files/assets/cataloguing/frbr/frbr.pdf".into()), notes: Some("creative_work corresponds to FRBR's Work tier (the abstract intellectual creation). Expression / Manifestation / Item not modeled in v1; subtype shapes carry equivalents as array fields (font.weights, font.formats).".into()) },
+    ],
     ..ShapeDef::default()
 });

@@ -74,5 +74,10 @@ pub static EVENT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Event".into(), url: Some("https://schema.org/Event".into()), notes: Some("Core event type. Our startDate/endDate map 1:1; eventType is free-form vs. schema.org's subtype hierarchy (Concert, Conference, BusinessEvent). organizer/location match directly.".into()) },
+        PriorArtDef { source: "RFC 5545 (iCalendar) VEVENT".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc5545".into()), notes: Some("Our icalUid is their UID; recurrence is their RRULE; status maps to STATUS (TENTATIVE/CONFIRMED/CANCELLED); showAs ≈ TRANSP; involves[] ≈ ATTENDEE.".into()) },
+        PriorArtDef { source: "ActivityStreams 2.0 Event".into(), url: Some("https://www.w3.org/TR/activitystreams-vocabulary/#dfn-event".into()), notes: Some("Fediverse inbox format. Thinner than iCal — no native recurrence or showAs; our involves[] ≈ attendees via as:Relationship.".into()) },
+    ],
     ..ShapeDef::default()
 });

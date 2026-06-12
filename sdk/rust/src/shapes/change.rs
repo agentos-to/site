@@ -53,5 +53,10 @@ pub static CHANGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["status".into(), "phase".into(), "path".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "PROV-O (W3C)".into(), url: Some("https://www.w3.org/TR/prov-o/".into()), notes: Some("wasRevisionOf / wasGeneratedBy / wasInvalidatedBy model born/modified/removed → kind + the derived_from edge.".into()) },
+        PriorArtDef { source: "Keep a Changelog 1.1.0".into(), url: Some("https://keepachangelog.com/en/1.1.0/".into()), notes: Some("The six categories (Added/Changed/Deprecated/Removed/Fixed/Security) are the canonical `kind` enum.".into()) },
+        PriorArtDef { source: "Conventional Commits 1.0.0 + SemVer 2.0.0".into(), url: Some("https://www.conventionalcommits.org/".into()), notes: Some("Commit type → impact tier (feat=minor, fix=patch, BREAKING=major); supplies the `version` semantics.".into()) },
+    ],
     ..ShapeDef::default()
 });

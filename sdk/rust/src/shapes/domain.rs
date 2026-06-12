@@ -43,5 +43,9 @@ pub static DOMAIN: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("registrar".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "RFC 1035 (Domain Names)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc1035".into()), notes: Some("Canonical domain-name syntax + nameservers + TTL. Our nameservers are NS records for the apex.".into()) },
+        PriorArtDef { source: "RFC 3912 (WHOIS)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc3912".into()), notes: Some("Our registrar/status/expiresAt/autoRenew come from WHOIS response fields.".into()) },
+    ],
     ..ShapeDef::default()
 });

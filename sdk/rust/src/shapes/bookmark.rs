@@ -43,5 +43,10 @@ pub static BOOKMARK: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("name".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Browser bookmarks (Mosaic / Netscape Navigator hotlist)".into(), url: Some("https://en.wikipedia.org/wiki/Bookmark_(digital)".into()), notes: Some("Direct precedent. A bookmark is a name + a target; the target is the contract; the surface doesn't care what's behind it. We replace HTTP URLs with graph node references; everything else maps 1:1.".into()) },
+        PriorArtDef { source: "macOS alias / Windows .lnk file".into(), url: Some("https://en.wikipedia.org/wiki/Alias_(Mac_OS)".into()), notes: Some("OS-level shortcut primitive. Same shape: name + target. Per- instance position is handled by the parent folder/desktop in both — for us that lives on the contains-link.".into()) },
+        PriorArtDef { source: "Finder sidebar / Windows Explorer Quick Access".into(), url: Some("https://support.apple.com/guide/mac-help/customize-the-finder-sidebar-mchlp3014/mac".into()), notes: Some("OS file managers use a bookmark sidebar as their universal navigation primitive (My Computer, Documents, Network). We treat every shape the same way — bookmark to any graph node, no FS bias.".into()) },
+    ],
     ..ShapeDef::default()
 });

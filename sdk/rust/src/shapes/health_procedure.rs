@@ -91,5 +91,10 @@ pub static HEALTH_PROCEDURE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "HL7 FHIR R5 — Procedure".into(), url: Some("https://www.hl7.org/fhir/procedure.html".into()), notes: Some("The resource for an action performed on a patient. performedDate ≈ occurrenceDateTime/occurrencePeriod; status ≈ status; bodySite ≈ bodySite; outcome ≈ outcome; findings ≈ report + note; `treats` link ≈ reason; performer ≈ performer.actor. `orderedBy` ≈ basedOn → ServiceRequest.requester — the clinician who ordered the study, which on imaging/scopes is rarely the one who performs it.".into()) },
+        PriorArtDef { source: "CPT — Current Procedural Terminology (AMA)".into(), url: Some("https://www.ama-assn.org/practice-management/cpt".into()), notes: Some("The US procedure code system used for billing. cptCode is the identity on insurance claims and operative records (septoplasty 30520, colonoscopy 45378).".into()) },
+        PriorArtDef { source: "SNOMED CT — Procedure axis".into(), url: Some("https://www.snomed.org/".into()), notes: Some("SNOMED's procedure hierarchy provides the clinical (non-billing) code. FHIR Procedure.code is SNOMED-coded; snomedCode is the join key to the clinical ontology.".into()) },
+    ],
     ..ShapeDef::default()
 });

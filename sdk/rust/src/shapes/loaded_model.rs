@@ -76,5 +76,9 @@ pub static LOADED_MODEL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Ollama API — /api/ps".into(), url: Some("https://github.com/ollama/ollama/blob/main/docs/api.md#list-running-models".into()), notes: Some("Direct source. Our size/vramUsage/sizeVram/quantization/digest/ expiresAt map to Ollama's ListRunningModelsResponse fields.".into()) },
+        PriorArtDef { source: "OpenTelemetry Resource semconv (ML/AI)".into(), url: Some("https://opentelemetry.io/docs/specs/semconv/gen-ai/".into()), notes: Some("Emerging conventions for GenAI observability. Our size/digest align with gen_ai.model.* resource attributes.".into()) },
+    ],
     ..ShapeDef::default()
 });

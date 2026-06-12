@@ -50,5 +50,9 @@ pub static AUTH_CHALLENGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         mono: Some("artifact".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "OAuth 2.0 Device Authorization Grant (RFC 8628)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc8628".into()), notes: Some("The device flow returns the human-must-act moment as data, not as an error: user_code + verification_uri + expires_in, with the client polling the token endpoint until the human acts. Same anatomy here — payload/artifact ≈ user_code/verification_uri, expiresAt ≈ expires_in, continueWith ≈ the polling step.".into()) },
+        PriorArtDef { source: "whatsapp-web.js + qrcode-terminal".into(), url: Some("https://github.com/pedroslopez/whatsapp-web.js".into()), notes: Some("The proven precedent for QR-as-text: the linked-device QR payload is re-rendered as Unicode block characters in a terminal and scanned straight off the screen. `artifact` generalizes that to every text surface.".into()) },
+    ],
     ..ShapeDef::default()
 });

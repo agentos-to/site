@@ -39,5 +39,9 @@ pub static GROUP: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("category".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Group (via Organization/memberOf)".into(), url: Some("https://schema.org/Organization".into()), notes: Some("schema.org models groups as Organization. Our memberCount ≈ numberOfEmployees loosely; category ≈ naics/knowsAbout.".into()) },
+        PriorArtDef { source: "FOAF Group".into(), url: Some("http://xmlns.com/foaf/spec/#term_Group".into()), notes: Some("Foundational social-graph vocabulary. foaf:member populates membership; category has no direct FOAF peer.".into()) },
+    ],
     ..ShapeDef::default()
 });

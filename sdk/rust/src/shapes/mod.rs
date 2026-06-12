@@ -14,7 +14,7 @@
 // impossible by construction.
 pub(crate) mod sdk_prelude {
     pub(crate) use agentos_graph::{
-        Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldType, ShapeDef, ShortcutDef,
+        Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldGroupDef, FieldType, PriorArtDef, ShapeDef, ShortcutDef,
     };
     pub(crate) use once_cell::sync::Lazy;
     pub(crate) use serde::{Deserialize, Serialize};
@@ -108,6 +108,7 @@ pub mod review;
 pub mod role;
 pub mod seatmap;
 pub mod service;
+pub mod shape;
 pub mod shelf;
 pub mod software;
 pub mod sound;
@@ -221,6 +222,7 @@ pub use review::{REVIEW, Review};
 pub use role::{ROLE, Role};
 pub use seatmap::{SEATMAP, Seatmap};
 pub use service::{SERVICE, Service};
+pub use shape::{SHAPE, Shape};
 pub use shelf::{SHELF, Shelf};
 pub use software::{SOFTWARE, Software};
 pub use sound::{SOUND, Sound};
@@ -340,6 +342,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "role" => Some(&ROLE),
         "seatmap" => Some(&SEATMAP),
         "service" => Some(&SERVICE),
+        "shape" => Some(&SHAPE),
         "shelf" => Some(&SHELF),
         "software" => Some(&SOFTWARE),
         "sound" => Some(&SOUND),
@@ -1278,6 +1281,16 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &[],
     }),
+    ("shape", Display {
+        title: None,
+        subtitle: Some("description"),
+        image: None,
+        highlights: &["plural"],
+        body: Some("description"),
+        mono: None,
+        preview: &[],
+        also: &[],
+    }),
     ("shelf", Display {
         title: None,
         subtitle: Some("isExclusive"),
@@ -1617,6 +1630,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("role", &["title", "department", "roleType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("seatmap", &["flightNumber", "origin", "destination", "fareBasisCode", "classOfService", "aircraftCode", "totalSeats", "availableSeats", "cabins", "tiers", "hasExitRow", "hasFreeSeats", "hasPaidSeats", "basicEconomyLocked"]),
     ("service", &["id", "description", "params", "returns"]),
+    ("shape", &["plural", "description", "icon", "fields", "out", "in", "display", "groups", "identity", "identity_any", "also", "derived", "shortcuts", "prior_art", "prefsSchemas"]),
     ("shelf", &["isExclusive", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path"]),
     ("software", &["version", "applicationCategory", "runtimePlatform", "codename", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("sound", &["durationMs", "channels", "sampleRate", "bitDepth", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
@@ -1740,6 +1754,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("role", "roles"),
     ("seatmap", "seatmaps"),
     ("service", "services"),
+    ("shape", "shapes"),
     ("shelf", "shelves"),
     ("software", "software"),
     ("sound", "sounds"),

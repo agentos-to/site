@@ -108,5 +108,10 @@ pub static SPEC: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "IETF RFC process".into(), url: Some("https://www.ietf.org/standards/rfcs/".into()), notes: Some("Canonical \"design doc with problem statement and success criteria\" lineage. Our problem/successCriteria mirror the RFC structure.".into()) },
+        PriorArtDef { source: "Architectural Decision Records (ADR / MADR)".into(), url: Some("https://adr.github.io/".into()), notes: Some("Modern in-repo equivalent. supersedes[] matches ADR's \"Supersedes\" link; dependsOn[] has no direct ADR peer.".into()) },
+        PriorArtDef { source: "Python PEP (spec-as-markdown)".into(), url: Some("https://peps.python.org/pep-0001/".into()), notes: Some("PEP states problem, rationale, spec, rejected alternatives. Our fields are a slim version of the PEP template.".into()) },
+    ],
     ..ShapeDef::default()
 });

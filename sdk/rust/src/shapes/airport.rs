@@ -55,5 +55,10 @@ pub static AIRPORT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("iataCode".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "IATA/ICAO Airport Codes".into(), url: Some("https://www.iata.org/en/publications/directories/code-search/".into()), notes: Some("iataCode is 3-letter (LAX, JFK); icaoCode is 4-letter (KLAX, KJFK). Canonical identifiers for global airport routing.".into()) },
+        PriorArtDef { source: "schema.org/Airport".into(), url: Some("https://schema.org/Airport".into()), notes: Some("Our iataCode/icaoCode = iataCode/icaoCode; city/country = address fields; elevationFt ≈ elevation. Direct alignment.".into()) },
+        PriorArtDef { source: "OurAirports open dataset".into(), url: Some("https://ourairports.com/data/".into()), notes: Some("Practical open dataset covering terminalCount, elevation, and country codes (ISO 3166-1) aligning with our countryCode field.".into()) },
+    ],
     ..ShapeDef::default()
 });

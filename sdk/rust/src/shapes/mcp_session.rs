@@ -55,5 +55,10 @@ pub static MCP_SESSION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("client".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Model Context Protocol (MCP) session".into(), url: Some("https://modelcontextprotocol.io/specification".into()), notes: Some("Direct source. Our client/sessionType come from MCP's client/transport concepts (STDIO, HTTP+SSE).".into()) },
+        PriorArtDef { source: "OpenTelemetry Spans (root span ≈ session)".into(), url: Some("https://opentelemetry.io/docs/concepts/signals/traces/".into()), notes: Some("Our startedAt/endedAt/messageCount/tokenCount align with span lifecycle + attributes in a trace context.".into()) },
+        PriorArtDef { source: "OpenID Connect Session Management 1.0".into(), url: Some("https://openid.net/specs/openid-connect-session-1_0.html".into()), notes: Some("Classical web-session model. Our participant ≈ authenticated subject; projectId/gitBranch are AgentOS-specific scoping.".into()) },
+    ],
     ..ShapeDef::default()
 });

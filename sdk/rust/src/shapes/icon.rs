@@ -63,5 +63,11 @@ pub static ICON: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["datePublished".into(), "published_by".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/ImageObject".into(), url: Some("https://schema.org/ImageObject".into()), notes: Some("Icons could be modeled as ImageObject — we chose a distinct shape because the role-specific `purpose` field has no counterpart on ImageObject (which is purpose-agnostic by design) and because component-backed icons aren't fetchable as image URLs.".into()) },
+        PriorArtDef { source: "Iconify metadata".into(), url: Some("https://iconify.design/".into()), notes: Some("Iconify treats icons as named entries within an icon set, each with a category and tags. Our `purpose` field plays the same role as Iconify's category; our `style` plays the same role as Iconify's iconset style attribute (filled / outline / pixel).".into()) },
+        PriorArtDef { source: "Material Symbols metadata".into(), url: Some("https://fonts.google.com/icons".into()), notes: Some("Material Symbols ship as a variable icon font with `fill`, `weight`, `grade`, and `optical-size` axes. Our shape doesn't model variable axes (Material Symbols would be one font, not one icon-per-glyph) — we model icons that live OUTSIDE icon fonts.".into()) },
+        PriorArtDef { source: "macOS / Windows system icon naming".into(), url: Some("https://learn.microsoft.com/en-us/windows/win32/uxguide/vis-icons".into()), notes: Some("Both platforms standardize on role-named icons (e.g. \"back\", \"forward\", \"close\") rather than file-named icons. Our `purpose` field follows the same convention; theme authors register icons by their semantic role, not by a filename slug.".into()) },
+    ],
     ..ShapeDef::default()
 });

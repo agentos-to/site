@@ -88,5 +88,12 @@ pub static PRODUCT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("brand".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Product + Offer".into(), url: Some("https://schema.org/Product".into()), notes: Some("Product on schema.org, price/priceAmount/currency/availability on nested Offer. Our sku/barcode map to sku/gtin13/gtin12; brand/manufacturer match directly. schema.org has `releaseDate` on Product (mirrors our `released`) but no formalized end-of-life property.".into()) },
+        PriorArtDef { source: "Wikidata P2669 (discontinued date)".into(), url: Some("https://www.wikidata.org/wiki/Property:P2669".into()), notes: Some("Wikidata's canonical \"discontinued date\" property — broadly used across Wikidata's product entities (software, hardware, vehicles, consumer goods) with consistent semantics (\"date when a product ceased to be manufactured, supported, or available\"). Our `discontinued` field aligns directly. Wikidata P577 (publication date) similarly aligns with our `released`.".into()) },
+        PriorArtDef { source: "schema.org/CreativeWork (creator, isBasedOn)".into(), url: Some("https://schema.org/CreativeWork".into()), notes: Some("Our `creator: actor[]` mirrors schema.org/creator (Person|Organization). Our `inspiredBy: product[]` maps to schema.org/isBasedOn (CreativeWork derivation/credit link); we keep the more readable name and broaden the target to any product so non-CreativeWork lineages (one aircraft type inspired by another, one OS inspired by another) work the same way.".into()) },
+        PriorArtDef { source: "GS1 GTIN (UPC/EAN)".into(), url: Some("https://www.gs1.org/standards/id-keys/gtin".into()), notes: Some("Canonical barcode standard. Our barcode field is a GTIN-8/12/13/14; GS1 also underlies schema.org's gtin* properties.".into()) },
+        PriorArtDef { source: "Open Food Facts API".into(), url: Some("https://openfoodfacts.github.io/openfoodfacts-server/api/".into()), notes: Some("Best practical source for food attributes. Our nutritionScore/novaGroup/calories/servingSize mirror nutriscore_grade/nova_group/nutriments.energy-kcal/serving_size.".into()) },
+    ],
     ..ShapeDef::default()
 });

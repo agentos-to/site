@@ -57,5 +57,9 @@ pub static REVIEW: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("author".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Review".into(), url: Some("https://schema.org/Review".into()), notes: Some("Our rating ≈ reviewRating.ratingValue; ratingMax ≈ bestRating; reviews = itemReviewed; isVerified has no direct property (extension).".into()) },
+        PriorArtDef { source: "schema.org/AggregateRating".into(), url: Some("https://schema.org/AggregateRating".into()), notes: Some("For product review aggregates. Our rating/ratingMax map to ratingValue/bestRating; reviewCount is inherited when computed.".into()) },
+    ],
     ..ShapeDef::default()
 });

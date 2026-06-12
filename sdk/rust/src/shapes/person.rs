@@ -88,5 +88,16 @@ pub static PERSON: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["birthdate".into(), "gender".into()],
         ..DisplaySpec::default()
     }),
+    groups: vec![
+        FieldGroupDef { name: "Name".into(), fields: vec!["givenName".into(), "additionalName".into(), "familyName".into(), "nickname".into(), "legalName".into(), "maidenName".into()] },
+        FieldGroupDef { name: "Personal".into(), fields: vec!["birthdate".into(), "gender".into(), "current_residence".into(), "current_role".into()] },
+        FieldGroupDef { name: "About".into(), fields: vec!["about".into(), "notes".into(), "url".into()] },
+    ],
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Person".into(), url: Some("https://schema.org/Person".into()), notes: Some("Our givenName / familyName / additionalName / honorificPrefix / honorificSuffix live on `birth.yaml` (and `transition.yaml`), not on the person node itself — schema.org's `birthDate` lives on the `--born_in--> birth { startDate }` relationship per rule 1. We diverge by modeling accounts[] as a first-class relation rather than sameAs URLs.".into()) },
+        PriorArtDef { source: "vCard 4.0 (RFC 6350) §6.2.2 N property + §5.9 SORT-AS".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc6350#section-6.2.2".into()), notes: Some("The N property is `family;given;additional;prefixes;suffixes`, each comma-multi-valued. Round-trips exactly through the birth event's structured name fields.".into()) },
+        PriorArtDef { source: "W3C i18n — Personal names around the world".into(), url: Some("https://www.w3.org/International/questions/qa-personal-names".into()), notes: Some("Canonical reference for why \"first/last\" is a Western bias. CJK names put family first. Spanish uses two surnames. Icelandic uses patronymics without family names. The birth event's `nameOrder` field captures the rendering rule; structured fields stay neutral.".into()) },
+        PriorArtDef { source: "FOAF (Friend of a Friend)".into(), url: Some("http://xmlns.com/foaf/spec/".into()), notes: Some("Original social-graph vocabulary. Largely superseded by schema.org but still a reference for account-centric modeling.".into()) },
+    ],
     ..ShapeDef::default()
 });

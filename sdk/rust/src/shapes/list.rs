@@ -72,5 +72,12 @@ pub static LIST: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("name".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/ItemList".into(), url: Some("https://schema.org/ItemList".into()), notes: Some("listType ≈ itemListOrder; contains ≈ itemListElement; isPublic ≈ publicAccess.".into()) },
+        PriorArtDef { source: "ActivityStreams 2.0 Collection / OrderedCollection".into(), url: Some("https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection".into()), notes: Some("contains[] ≈ items; ordering_mode='linear' ≈ OrderedCollection, ordering_mode='unordered' ≈ Collection.".into()) },
+        PriorArtDef { source: "WinFS Item / FolderMember".into(), url: Some("https://learn.microsoft.com/en-us/archive/msdn-magazine/2004/january/winfs-lets-users-search-and-manage-files-based-on-content".into()), notes: Some("WinFS unified Folder + Contact + Photo under a single Item base, with FolderMember as a holding link. Our list-with-contains is the same pattern: one shape, one link mechanism, view-time projections handle the \"I want it to look like an album\" case.".into()) },
+        PriorArtDef { source: "Vannevar Bush — As We May Think (Memex trails)".into(), url: Some("https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/".into()), notes: Some("A Memex trail is a named, ordered list of associative jumps. A `list` with ordering_mode='linear' and contains-bookmarks IS Bush's trail. Foundational precedent for the everything-is-a-list thesis.".into()) },
+        PriorArtDef { source: "POSIX / Single Unix Specification (directories)".into(), url: Some("https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html".into()), notes: Some("listType='folder' with optional `path` field mirrors a POSIX directory. The engine treats it as a list; the filesystem mirror is a projection, not a separate primitive.".into()) },
+    ],
     ..ShapeDef::default()
 });

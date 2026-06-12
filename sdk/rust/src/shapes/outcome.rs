@@ -59,5 +59,10 @@ pub static OUTCOME: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["status".into(), "priority".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "John Doerr, \"Measure What Matters\" (OKR)".into(), url: Some("https://www.whatmatters.com/faqs/okr-meaning-definition-example".into()), notes: Some("Objective → statement; Key Result → the metric/baseline/current/target quad (\"I will X as measured by Y\").".into()) },
+        PriorArtDef { source: "W.K. Kellogg Foundation Logic Model Development Guide".into(), url: Some("https://www.nj.gov/state/assets/pdf/ofbi/kellogg-foundation-logic-model-development-guide.pdf".into()), notes: Some("Outcomes as short/intermediate/long-term changes in a causal chain → the depends_on / advances edges.".into()) },
+        PriorArtDef { source: "schema.org/AchieveAction + result".into(), url: Some("https://schema.org/AchieveAction".into()), notes: Some("Closest schema.org neighbor, but `result` models what an action produced, not a tracked target-state — so outcome is its own type.".into()) },
+    ],
     ..ShapeDef::default()
 });

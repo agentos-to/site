@@ -30217,6 +30217,384 @@
       "prefs_schemas": {}
     },
     {
+      "name": "shape",
+      "class_name": "Shape",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "also",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "derived",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "display",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "fields",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "groups",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "icon",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "identity",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "identity_any",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "in",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "out",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "plural",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "prefsSchemas",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "prior_art",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "shortcuts",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "plural": "shapes",
+      "subtitle": "description",
+      "display": {
+        "title": null,
+        "subtitle": "description",
+        "image": null,
+        "highlights": [
+          "plural"
+        ],
+        "body": "description",
+        "mono": null,
+        "preview": {}
+      },
+      "identity": [
+        "name"
+      ],
+      "identity_any": [],
+      "leading_comment": "A shape definition - the ontology node that describes a node type.\nShapes are first-class graph nodes: selecting one in Finder should show\nits schema, display contract, identity rules, relations, and sources the\nsame way selecting an organization shows organization facts.",
+      "own_fields": [
+        {
+          "name": "plural",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "icon",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "fields",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "out",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "in",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "display",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "groups",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "identity",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "identity_any",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "also",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "derived",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "shortcuts",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "prior_art",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "prefsSchemas",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "JSON Schema",
+          "url": "https://json-schema.org/",
+          "notes": "Prior art for describing fields and JSON-shaped validation contracts. AgentOS keeps shape identity and graph relations first-class instead of flattening everything into one document schema."
+        },
+        {
+          "source": "W3C SHACL",
+          "url": "https://www.w3.org/TR/shacl/",
+          "notes": "Prior art for RDF graph shape constraints. AgentOS uses the same idea - graph data has shapes - but stores the shape definition as an inspectable node in the local graph."
+        },
+        {
+          "source": "RDF Schema",
+          "url": "https://www.w3.org/TR/rdf-schema/",
+          "notes": "Prior art for classes/properties as graph vocabulary. AgentOS shape nodes are the local, executable version of that vocabulary."
+        }
+      ],
+      "source_path": "shape.yaml",
+      "raw_body": "plural: shapes\nidentity: name\ndisplay:\n  subtitle: description\n  body: description\n  highlights:\n  - plural\nfields:\n  plural: string\n  description: text\n  icon: string\n  fields: json\n  out: json\n  in: json\n  display: json\n  groups: json\n  identity: string[]\n  identity_any: string[]\n  also: string[]\n  derived: json\n  shortcuts: json\n  prior_art: json\n  prefsSchemas: json\ngroups:\n  Schema:\n  - fields\n  - out\n  - in\n  Display:\n  - display\n  - groups\n  Identity:\n  - identity\n  - identity_any\n  - also\n  Automation:\n  - derived\n  - shortcuts\n  Sources:\n  - prior_art\n  Preferences:\n  - prefsSchemas\nprior_art:\n- source: JSON Schema\n  url: https://json-schema.org/\n  notes: Prior art for describing fields and JSON-shaped validation contracts. AgentOS\n    keeps shape identity and graph relations first-class instead of flattening everything\n    into one document schema.\n- source: W3C SHACL\n  url: https://www.w3.org/TR/shacl/\n  notes: Prior art for RDF graph shape constraints. AgentOS uses the same idea - graph\n    data has shapes - but stores the shape definition as an inspectable node in the\n    local graph.\n- source: RDF Schema\n  url: https://www.w3.org/TR/rdf-schema/\n  notes: Prior art for classes/properties as graph vocabulary. AgentOS shape nodes\n    are the local, executable version of that vocabulary.\n",
+      "ancestors": [],
+      "field_order": [
+        "plural",
+        "description",
+        "icon",
+        "fields",
+        "out",
+        "in",
+        "display",
+        "groups",
+        "identity",
+        "identity_any",
+        "also",
+        "derived",
+        "shortcuts",
+        "prior_art",
+        "prefsSchemas"
+      ],
+      "derived": {},
+      "groups": [
+        [
+          "Schema",
+          [
+            "fields",
+            "out",
+            "in"
+          ]
+        ],
+        [
+          "Display",
+          [
+            "display",
+            "groups"
+          ]
+        ],
+        [
+          "Identity",
+          [
+            "identity",
+            "identity_any",
+            "also"
+          ]
+        ],
+        [
+          "Automation",
+          [
+            "derived",
+            "shortcuts"
+          ]
+        ],
+        [
+          "Sources",
+          [
+            "prior_art"
+          ]
+        ],
+        [
+          "Preferences",
+          [
+            "prefsSchemas"
+          ]
+        ]
+      ],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
       "name": "shelf",
       "class_name": "Shelf",
       "fields": [

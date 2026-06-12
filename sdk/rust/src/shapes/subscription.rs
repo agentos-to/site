@@ -42,5 +42,10 @@ pub static SUBSCRIPTION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("target".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "W3C WebSub subscriptions".into(), url: Some("https://www.w3.org/TR/websub/".into()), notes: Some("A subscription is a stored intent (topic + callback) the hub re-delivers against — content never lives on the subscription. Our app/op ≈ topic/callback.".into()) },
+        PriorArtDef { source: "MQTT persistent sessions".into(), url: Some("https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html".into()), notes: Some("Subscriptions survive connection loss and re-attach on reconnect. Our engine-boot re-arm parallels session resumption.".into()) },
+        PriorArtDef { source: "systemd unit enablement (systemctl enable)".into(), url: Some("https://www.freedesktop.org/software/systemd/man/systemctl.html".into()), notes: Some("Enablement is a durable on-disk fact distinct from the running process; boot re-creates the runtime state from it. Our node ≈ the wants/ symlink, the live CDP hook ≈ the running unit.".into()) },
+    ],
     ..ShapeDef::default()
 });

@@ -122,5 +122,10 @@ pub static TRIP: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Trip + subTrip".into(), url: Some("https://schema.org/Trip".into()), notes: Some("Our origin/destination/departureTime/arrivalTime map exactly; legs[] ≈ subTrip or itinerary.".into()) },
+        PriorArtDef { source: "IATA NDC Slice (airline itineraries)".into(), url: Some("https://www.iata.org/en/programs/airline-distribution/retailing/ndc/".into()), notes: Some("NDC slice = our trip; NDC segment = our leg. cabinClass, bookingToken come from NDC offer items.".into()) },
+        PriorArtDef { source: "Uber API — Trip resource".into(), url: Some("https://developer.uber.com/docs/riders/references/api".into()), notes: Some("Practical source for ride trips. Our fare/fareAmount/ trackingUrl/isSurge/isScheduled lifted from Uber's Trip model.".into()) },
+    ],
     ..ShapeDef::default()
 });

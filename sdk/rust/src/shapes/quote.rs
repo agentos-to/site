@@ -38,5 +38,9 @@ pub static QUOTE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("year".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Quotation".into(), url: Some("https://schema.org/Quotation".into()), notes: Some("Our context ≈ about; year ≈ datePublished. schema.org models spokenByCharacter/creator — we model attribution via graph links instead.".into()) },
+        PriorArtDef { source: "Wikiquote data model".into(), url: Some("https://en.wikiquote.org/wiki/Help:Sources".into()), notes: Some("Practical canonical quote source. Our provenance-via-links (document --contains--> quote --attributedTo--> person) matches Wikiquote's source-citation discipline.".into()) },
+    ],
     ..ShapeDef::default()
 });

@@ -77,5 +77,10 @@ pub static CONVERSION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "NIH/NLM — UCUM conversion service".into(), url: Some("https://ucum.nlm.nih.gov/ucum-service.html".into()), notes: Some("The NIH service requires a MOLWEIGHT parameter to convert between molar and mass concentration — direct proof that the conversion is not intrinsic to the unit pair but depends on the substance.".into()) },
+        PriorArtDef { source: "QUDT — currency units carry no conversionMultiplier".into(), url: Some("https://qudt.org/doc/2024/12/DOC_VOCAB-UNITS-CURRENCY.html".into()), notes: Some("QUDT explicitly notes that FX rates are external data not encoded in QUDT — the same reason fx conversions are their own node here rather than a property of the currency unit.".into()) },
+        PriorArtDef { source: "ISO 4217 — Currency codes".into(), url: Some("https://www.iso.org/iso-4217-currency-codes.html".into()), notes: Some("Currency identity for the from/to units of an fx conversion.".into()) },
+    ],
     ..ShapeDef::default()
 });

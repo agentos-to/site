@@ -62,5 +62,10 @@ pub static VOLUME: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("kind".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "HDT (Header, Dictionary, Triples)".into(), url: Some("https://www.rdfhdt.org/what-is-hdt/".into()), notes: Some("RDF binary file format; one file = one queryable graph. The Header describes the dataset in its own vocabulary — same shapes-ride-along move as our embedded ontology.".into()) },
+        PriorArtDef { source: "Stardog Virtual Graphs".into(), url: Some("https://docs.stardog.com/virtual-graphs/".into()), notes: Some("Register an external source under a URI; query as a named graph. Our volume shape is the registration row; mount/unmount is the verb pair.".into()) },
+        PriorArtDef { source: "macOS Disk Utility / DMG".into(), url: Some("https://support.apple.com/guide/disk-utility/welcome/mac".into()), notes: Some("The UX mental model. A volume is an attached, browseable disk; the Finder shows it in the sidebar; eject detaches it without destroying the underlying file.".into()) },
+    ],
     ..ShapeDef::default()
 });

@@ -33,7 +33,8 @@ def _shape_to_wire_def(s: Shape) -> dict:
     Rust `ShapeDef`. Mirrors `agentos_graph::ShapeDef` exactly: name,
     plural, description, icon, fields (list of FieldDef), out / in
     (list of EdgeDef), derived (list of DerivedBinding), shortcuts
-    (list of ShortcutDef), also, identity, identity_any, display.
+    (list of ShortcutDef), also, identity, identity_any, display,
+    groups, prior_art.
 
     App workers attach the matching entry as `__shape_def__` on every
     `@returns(shape)` response. The engine deserialises it server-side
@@ -110,6 +111,10 @@ def _shape_to_wire_def(s: Shape) -> dict:
             disp["highlights"] = list(d.highlights)
         if disp:
             out["display"] = disp
+    if s.groups:
+        out["groups"] = [{"name": name, "fields": list(fields)} for name, fields in s.groups]
+    if s.prior_art:
+        out["prior_art"] = [dict(entry) for entry in s.prior_art]
     return out
 
 

@@ -57,5 +57,10 @@ pub static FILE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("path".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "IANA Media Types (RFC 6838)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc6838".into()), notes: Some("Our mimeType follows type/subtype syntax (text/plain, application/pdf). Canonical source for format identification.".into()) },
+        PriorArtDef { source: "schema.org/DigitalDocument".into(), url: Some("https://schema.org/DigitalDocument".into()), notes: Some("Our filename ≈ name; size ≈ contentSize; mimeType ≈ encodingFormat.".into()) },
+        PriorArtDef { source: "Git Internals (blob objects)".into(), url: Some("https://git-scm.com/book/en/v2/Git-Internals-Git-Objects".into()), notes: Some("Our sha is a Git blob SHA-1 (40-hex). Git's content-addressable model underlies our repo-file identity.".into()) },
+    ],
     ..ShapeDef::default()
 });

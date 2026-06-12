@@ -87,5 +87,10 @@ pub static INVITATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "ActivityStreams 2.0 Invite activity".into(), url: Some("https://www.w3.org/TR/activitystreams-vocabulary/#dfn-invite".into()), notes: Some("AS2 Invite is the canonical fediverse verb. Our inviter = actor; invitee = target; status tracks Accept/Reject/TentativeAccept responses.".into()) },
+        PriorArtDef { source: "iCalendar ATTENDEE + PARTSTAT (RFC 5545)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc5545".into()), notes: Some("Calendar-style invitations. Our status maps to PARTSTAT (NEEDS-ACTION/ACCEPTED/DECLINED/DELEGATED).".into()) },
+        PriorArtDef { source: "SCIM 2.0 (RFC 7644) — user provisioning".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc7644".into()), notes: Some("Enterprise invitation/provisioning. Our email/role/organization align with SCIM User resource's email + entitlements + group membership.".into()) },
+    ],
     ..ShapeDef::default()
 });

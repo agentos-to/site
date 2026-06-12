@@ -51,5 +51,9 @@ pub static DNS_RECORD: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("recordType".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "RFC 1035 (DNS)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc1035".into()), notes: Some("Foundational spec. Our domain/recordName/recordType/ttl/values map directly to NAME/TYPE/CLASS/TTL/RDATA.".into()) },
+        PriorArtDef { source: "RFC 7208 (SPF), RFC 6376 (DKIM), RFC 7489 (DMARC)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc7208".into()), notes: Some("TXT-record vocabularies that frequently populate our values[] for SPF, DKIM, and DMARC policy records.".into()) },
+    ],
     ..ShapeDef::default()
 });

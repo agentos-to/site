@@ -54,5 +54,10 @@ pub static POST: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("author".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "ActivityStreams 2.0 (Note/Article + Create)".into(), url: Some("https://www.w3.org/TR/activitystreams-vocabulary/".into()), notes: Some("Fediverse post model. Our postedBy ≈ actor/attributedTo; publish(community) ≈ audience/to; repliesTo/replies ≈ inReplyTo/replies; media/attachment ≈ attachment.".into()) },
+        PriorArtDef { source: "OpenGraph protocol".into(), url: Some("https://ogp.me/".into()), notes: Some("How posts surface when linked. Our externalUrl + media[] correspond to og:url and og:image/og:video; postType loosely parallels og:type (article, video).".into()) },
+        PriorArtDef { source: "ATProto app.bsky.feed.post".into(), url: Some("https://atproto.com/lexicons/app-bsky-feed".into()), notes: Some("Modern practical lexicon. Our repliesTo ≈ reply.parent; media ≈ embed.images; externalUrl ≈ embed.external.".into()) },
+    ],
     ..ShapeDef::default()
 });

@@ -107,5 +107,10 @@ pub static PLACE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["city".into(), "country".into(), "rating".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Place + PostalAddress".into(), url: Some("https://schema.org/Place".into()), notes: Some("Our latitude/longitude = geo.latitude/longitude; street/city/region/postalCode/countryCode map to PostalAddress streetAddress/addressLocality/addressRegion/postalCode/addressCountry; hours ≈ openingHoursSpecification; rating/reviewCount ≈ aggregateRating.".into()) },
+        PriorArtDef { source: "Google Places API (Place resource)".into(), url: Some("https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places".into()), notes: Some("Practical POI schema. Our googlePlaceId = id; featureType/categories ≈ types/primaryType; businessStatus, priceLevel, rating match directly.".into()) },
+        PriorArtDef { source: "GeoJSON (RFC 7946) + ISO 3166-1".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc7946".into()), notes: Some("Our latitude/longitude are a GeoJSON Point [lon, lat]; countryCode follows ISO 3166-1 alpha-2.".into()) },
+    ],
     ..ShapeDef::default()
 });

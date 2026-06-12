@@ -55,5 +55,11 @@ pub static CREDENTIAL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("source".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "OAuth 2.0 Token Introspection (RFC 7662)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc7662".into()), notes: Some("RFC 7662 describes token metadata as a separate addressable resource from the token itself (active, exp, iss, sub, scope). Same split here: descriptor is queryable graph metadata, encrypted value is retrieved by a separate call (`auth_store.read` by identifier). Our obtainedAt/expiresAt/lastVerified mirror iat/exp/auth_time.".into()) },
+        PriorArtDef { source: "FIDO Metadata Service (MDS3)".into(), url: Some("https://fidoalliance.org/metadata/".into()), notes: Some("FIDO separates authenticator metadata from the authenticator itself — metadata is queryable, the cryptographic material is not. Mirrors our descriptor/vault split.".into()) },
+        PriorArtDef { source: "macOS Keychain SecItem attributes".into(), url: Some("https://developer.apple.com/documentation/security/keychain_services/keychain_items/item_attribute_keys_and_values".into()), notes: Some("Keychain separates `kSecAttr*` (metadata — server, account, creation/modification dates) from `kSecValueData` (the secret). Attributes are queryable without decrypting the value. Our fields map: kSecAttrServer → domain, kSecAttrAccount → identifier, kSecAttrCreationDate → obtainedAt, kSecAttrModificationDate → lastVerified.".into()) },
+        PriorArtDef { source: "schema.org/DigitalDocument (WebAuthn credentials stored as)".into(), url: Some("https://schema.org/DigitalDocument".into()), notes: Some("Weak alignment — schema.org has no native credential type. Cited only to note that existing web ontologies deliberately stop short of secret material; descriptor-only is the established pattern.".into()) },
+    ],
     ..ShapeDef::default()
 });

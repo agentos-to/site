@@ -88,5 +88,12 @@ pub static MEMBERSHIP: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/ProgramMembership".into(), url: Some("https://schema.org/ProgramMembership".into()), notes: Some("schema.org's canonical membership type. Our member = member; plan ≈ programName/membershipNumber; at ≈ hostingOrganization. ProgramMembership covers gym, loyalty, society memberships without requiring a billing cycle — matches our non-commercial framing.".into()) },
+        PriorArtDef { source: "schema.org/Subscription".into(), url: Some("https://schema.org/Subscription".into()), notes: Some("Streaming/SaaS subscriptions fit this shape — one model covers gym memberships and Spotify Premium. billingType maps to billingPeriod; autoRenew maps directly.".into()) },
+        PriorArtDef { source: "Stripe Subscriptions API".into(), url: Some("https://docs.stripe.com/api/subscriptions".into()), notes: Some("Practical API mirror for commercial memberships. Our status values (active/paused/cancelled/past_due) mirror Stripe Subscription.status. nextBillDate ≈ current_period_end.".into()) },
+        PriorArtDef { source: "Mindbody Contracts/Memberships".into(), url: Some("https://developers.mindbodyonline.com/PublicDocumentation/V6".into()), notes: Some("Gym-industry API. Our useCount, guestPassQuantity, startEffectiveDate / endEffectiveDate are lifted from Mindbody's Membership record shape.".into()) },
+        PriorArtDef { source: "FOAF member / membershipClass".into(), url: Some("http://xmlns.com/foaf/spec/#term_member".into()), notes: Some("Social-web vocabulary for \"X is a member of Y\". Our member ↔ at link mirrors foaf:member; our tier ≈ foaf:membershipClass.".into()) },
+    ],
     ..ShapeDef::default()
 });

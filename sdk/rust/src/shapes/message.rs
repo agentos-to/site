@@ -48,5 +48,10 @@ pub static MESSAGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("from".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "ActivityStreams 2.0 Note/Activity".into(), url: Some("https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note".into()), notes: Some("Closest open standard for generic messages. Our from ≈ actor; inConversation ≈ context/conversation; repliesTo ≈ inReplyTo.".into()) },
+        PriorArtDef { source: "Matrix m.room.message".into(), url: Some("https://spec.matrix.org/latest/client-server-api/#mroommessage".into()), notes: Some("Practical cross-platform message event schema. Our isOutgoing has no Matrix analog (sender identity instead); repliesTo ≈ m.relates_to rel_type m.thread/m.in_reply_to.".into()) },
+        PriorArtDef { source: "XMPP (RFC 6121) message stanza".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc6121".into()), notes: Some("IETF instant-messaging baseline. from/to/thread correspond to our from/inConversation; no standardized isStarred.".into()) },
+    ],
     ..ShapeDef::default()
 });

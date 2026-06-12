@@ -71,5 +71,10 @@ pub static DOCUMENT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["datePublished".into(), "author".into(), "wordCount".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Dublin Core Metadata Initiative".into(), url: Some("https://www.dublincore.org/specifications/dublin-core/dces/".into()), notes: Some("Our contentType ≈ dc:format; language = dc:language; author = dc:creator; references/citedBy ≈ dc:relation.".into()) },
+        PriorArtDef { source: "schema.org/DigitalDocument".into(), url: Some("https://schema.org/DigitalDocument".into()), notes: Some("Our abstract ≈ abstract; tableOfContents = hasPart or accessModeSufficient; wordCount = wordCount.".into()) },
+        PriorArtDef { source: "W3C Web Annotation Data Model".into(), url: Some("https://www.w3.org/TR/annotation-model/".into()), notes: Some("Our references[]/citedBy[] are annotation target/body relationships between documents.".into()) },
+    ],
     ..ShapeDef::default()
 });

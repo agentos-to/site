@@ -86,5 +86,8 @@ pub static LAUNCH: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "rocketId".into(), "launchpadId".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "SpaceX r/SpaceX API v4".into(), url: Some("https://github.com/r-spacex/SpaceX-API".into()), notes: Some("Original source of these fields. The fly-by-night-launch.com app maps the v4 launches endpoint onto this shape; the per-booster landing outcomes JSON mirrors that API's `cores` sub-document.".into()) },
+    ],
     ..ShapeDef::default()
 });

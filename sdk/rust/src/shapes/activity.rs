@@ -81,5 +81,9 @@ pub static ACTIVITY: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "ActivityStreams 2.0".into(), url: Some("https://www.w3.org/TR/activitystreams-core/".into()), notes: Some("AS2's Create/Update/Delete activities match our action values. We diverge by tracking changedKeys explicitly instead of encoding full object replacement.".into()) },
+        PriorArtDef { source: "OpenTelemetry Traces".into(), url: Some("https://opentelemetry.io/docs/concepts/signals/traces/".into()), notes: Some("Closest fit for toolName/duration/success — span-shaped. Our activity is closer to a span event than a full span.".into()) },
+    ],
     ..ShapeDef::default()
 });

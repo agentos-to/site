@@ -48,5 +48,11 @@ pub static BRAND: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("tagline".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Brand".into(), url: Some("https://schema.org/Brand".into()), notes: Some("Our tagline ≈ slogan; founded = foundingDate; ownedBy ≈ parentOrganization (on the owning Organization); logo = logo. schema.org doesn't model color on Brand; that's a Wikidata extension.".into()) },
+        PriorArtDef { source: "Wikidata (Brand, Q431289)".into(), url: Some("https://www.wikidata.org/wiki/Q431289".into()), notes: Some("Cross-reference identity for dedupe. country maps to P17 (country); founded to P571 (inception); ownedBy to P127 (owned by); primaryColor ≈ P465 \"hex color code\" (Wikidata stores without the \"#\" prefix — we include it to match CSS and our app-frontmatter convention).".into()) },
+        PriorArtDef { source: "Apple PassKit pkpass".into(), url: Some("https://developer.apple.com/documentation/walletpasses".into()), notes: Some("Wallet passes carry backgroundColor / foregroundColor / labelColor — three-color palette aligned with our primaryColor / textColor. We ship two here (pairing primary with its paired text color) and defer the third until a renderer needs it. An itinerary PDF can derive a \"label\" color from a lighter tint of textColor at render time if needed, rather than fixing it at the data layer.".into()) },
+        PriorArtDef { source: "Material Design 3 — dynamic color roles".into(), url: Some("https://m3.material.io/styles/color/roles".into()), notes: Some("Material's palette has paired slots (`primary` / `onPrimary`; `secondary` / `onSecondary`; `surface` / `onSurface`). Our primaryColor/textColor follows the primary/onPrimary pairing. Secondary tiers are deferred until renderers actually need them.".into()) },
+    ],
     ..ShapeDef::default()
 });

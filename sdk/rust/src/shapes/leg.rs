@@ -99,5 +99,10 @@ pub static LEG: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "IATA NDC \"segment\"".into(), url: Some("https://www.iata.org/en/programs/airline-distribution/retailing/ndc/".into()), notes: Some("NDC segment = our leg. flightNumber, departureTime, arrivalTime, cabinClass come straight from NDC OfferItem Segment.".into()) },
+        PriorArtDef { source: "GTFS stop_times.txt".into(), url: Some("https://gtfs.org/documentation/schedule/reference/#stop_timestxt".into()), notes: Some("Transit leg model. Our sequence = stop_sequence; departureTime/ arrivalTime = arrival_time/departure_time.".into()) },
+        PriorArtDef { source: "Google Encoded Polyline Algorithm".into(), url: Some("https://developers.google.com/maps/documentation/utilities/polylinealgorithmformat".into()), notes: Some("Our polyline field is the standard Google encoded polyline. trace is a denser GPS breadcrumb alternative (GeoJSON-adjacent).".into()) },
+    ],
     ..ShapeDef::default()
 });

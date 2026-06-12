@@ -44,5 +44,10 @@ pub static PROJECT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("state".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Linear API — Project".into(), url: Some("https://developers.linear.app/docs/graphql/working-with-the-graphql-api".into()), notes: Some("Our state/color come directly from Linear's Project model.".into()) },
+        PriorArtDef { source: "GitHub Projects (v2)".into(), url: Some("https://docs.github.com/en/graphql/reference/objects#projectv2".into()), notes: Some("Canonical open-source project-board model. state ≈ ProjectV2SingleSelectFieldOption; color is per-field metadata.".into()) },
+        PriorArtDef { source: "schema.org/Project".into(), url: Some("https://schema.org/Project".into()), notes: Some("Generic project-as-effort type. Thinner than the practical APIs; mainly useful for outbound JSON-LD.".into()) },
+    ],
     ..ShapeDef::default()
 });

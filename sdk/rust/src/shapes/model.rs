@@ -66,5 +66,10 @@ pub static MODEL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("name".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Hugging Face Model Cards".into(), url: Some("https://huggingface.co/docs/hub/en/model-cards".into()), notes: Some("Our provider/contextLength/modality/family/quantization/ parameterSize align with HF model-card metadata conventions.".into()) },
+        PriorArtDef { source: "Ollama /api/show + Modelfile".into(), url: Some("https://github.com/ollama/ollama/blob/main/docs/modelfile.md".into()), notes: Some("Our quantization/quantizationLevel/format/digest/parameterSize come directly from Ollama's show-model response.".into()) },
+        PriorArtDef { source: "OpenRouter Models API".into(), url: Some("https://openrouter.ai/docs/models".into()), notes: Some("Our contextLength/contextWindow/maxOutput/pricingInput/ pricingOutput mirror OpenRouter's model spec.".into()) },
+    ],
     ..ShapeDef::default()
 });

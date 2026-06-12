@@ -48,5 +48,10 @@ pub static FLOW: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["trigger".into(), "status".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "BPMN 2.0 (OMG)".into(), url: Some("https://www.omg.org/spec/BPMN/2.0/".into()), notes: Some("Pools/lanes = actors; SequenceFlow imposes step order; the lane a step sits in assigns its actor.".into()) },
+        PriorArtDef { source: "schema.org/HowTo".into(), url: Some("https://schema.org/HowTo".into()), notes: Some("HowTo = a flow; its steps are HowToStep items; HowTo.result ≈ goal.".into()) },
+        PriorArtDef { source: "UML Activity Diagram (activity partitions)".into(), url: Some("https://www.uml-diagrams.org/activity-diagrams.html".into()), notes: Some("Activity partitions are the formal name for swim-lanes; actions are ordered by control flow.".into()) },
+    ],
     ..ShapeDef::default()
 });

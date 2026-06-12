@@ -100,5 +100,10 @@ pub static FLIGHT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "IATA Resolution 753 / Flight Codeshare".into(), url: Some("https://www.iata.org/en/programs/ops-infra/baggage/baggage-tracking/".into()), notes: Some("Our flightNumber follows IATA carrier-code + digits format (UA 1234). Canonical for cross-carrier flight identity.".into()) },
+        PriorArtDef { source: "Duffel / IATA NDC Slice+Segment".into(), url: Some("https://duffel.com/docs/api/v2/overview".into()), notes: Some("NDC models a trip (slice) as multiple flights (segments). Our flight shape = NDC segment; our trip = NDC slice.".into()) },
+        PriorArtDef { source: "schema.org/Flight".into(), url: Some("https://schema.org/Flight".into()), notes: Some("Our flightNumber = flightNumber; departsFrom/arrivesAt = departureAirport/arrivalAirport; departureTime/arrivalTime match directly; carbonEmissions ≈ estimatedFlightDuration + emissions extensions.".into()) },
+    ],
     ..ShapeDef::default()
 });

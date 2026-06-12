@@ -287,6 +287,30 @@ def _emit_shape_const(s: Shape) -> list[str]:
             lines.append("        ..DisplaySpec::default()")
             lines.append("    }),")
 
+    # groups — ontology-declared card/detail sections.
+    if s.groups:
+        lines.append("    groups: vec![")
+        for name, fields in s.groups:
+            field_list = ", ".join(f'{_rust_string_literal(field)}.into()' for field in fields)
+            lines.append(
+                f"        FieldGroupDef {{ name: {_rust_string_literal(name)}.into(), fields: vec![{field_list}] }},"
+            )
+        lines.append("    ],")
+
+    # prior_art — external standards this shape aligns with.
+    if s.prior_art:
+        lines.append("    prior_art: vec![")
+        for entry in s.prior_art:
+            source = _rust_string_literal(str(entry.get("source", "")))
+            url = str(entry.get("url", ""))
+            notes = str(entry.get("notes", ""))
+            url_expr = f"Some({_rust_string_literal(url)}.into())" if url else "None"
+            notes_expr = f"Some({_rust_string_literal(notes)}.into())" if notes else "None"
+            lines.append(
+                f"        PriorArtDef {{ source: {source}.into(), url: {url_expr}, notes: {notes_expr} }},"
+            )
+        lines.append("    ],")
+
     # prefs_schemas (JSON-opaque) — shape-level pref vocabulary
     # (`namespace → entries[]`). Settings reads it off the shape-def
     # node. Carried as `serde_json::Value` because each entry is a
@@ -385,6 +409,10 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
     prelude_syms: list[str] = ["FieldDef", "FieldType", "ShapeDef"]
     if any(s.display for s in shapes_sorted):
         prelude_syms.append("DisplaySpec")
+    if any(s.groups for s in shapes_sorted):
+        prelude_syms.append("FieldGroupDef")
+    if any(s.prior_art for s in shapes_sorted):
+        prelude_syms.append("PriorArtDef")
     if any(s.derived for s in shapes_sorted):
         prelude_syms.append("DerivedBinding")
     if any(s.shortcuts for s in shapes_sorted):

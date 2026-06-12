@@ -69,5 +69,9 @@ pub static PLAYLIST: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("text".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/MusicPlaylist / ItemList".into(), url: Some("https://schema.org/MusicPlaylist".into()), notes: Some("Our contains(video[]) ≈ track/itemListElement. We generalize beyond music to any ordered media list.".into()) },
+        PriorArtDef { source: "YouTube Data API — Playlist".into(), url: Some("https://developers.google.com/youtube/v3/docs/playlists".into()), notes: Some("Practical source. Playlist = ordered Video collection — inherits list identity semantics.".into()) },
+    ],
     ..ShapeDef::default()
 });

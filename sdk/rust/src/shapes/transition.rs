@@ -92,5 +92,12 @@ pub static TRANSITION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "givenName".into(), "familyName".into(), "gender".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Event Sourcing (Fowler)".into(), url: Some("https://martinfowler.com/eaaDev/EventSourcing.html".into()), notes: Some("Past-tense events as facts; entity state = fold over the event stream. `transition` is the past-tense event-node; the `latest:` resolver is the fold. Reuses canonical field names — no `new_*` prefix per the event-sourcing convention.".into()) },
+        PriorArtDef { source: "Palantir Foundry — Action Log Objects".into(), url: Some("https://www.palantir.com/docs/foundry/announcements/2022-10/index.html".into()), notes: Some("Palantir reifies every mutation as a queryable Action Log Object — same shape as our reified `transition` event. They type Actions per-mutation (`AssignEmployee` etc.); we collapse to one umbrella shape with optional fields for agent-OS ergonomics (operations not known in advance).".into()) },
+        PriorArtDef { source: "IMO / GISIS maritime registry — particulars change".into(), url: Some("https://gisis.imo.org/public/default.aspx".into()), notes: Some("50-year-old domain proves the pattern: stable identifier (IMO number) + canonical property names + reified change events (name/flag/owner change). `Person.id` ↔ `Ship.imo`; `transition.gender` ↔ a `flag_change` on a ship.".into()) },
+        PriorArtDef { source: "FHIR R5 HumanName.use + HumanName.period".into(), url: Some("https://hl7.org/fhir/datatypes.html#HumanName".into()), notes: Some("FHIR encodes dated names via multi-value on the Patient (no event-node). We lift the same pattern to an event-node because the change has its own date + place + authority context worth capturing as a first-class graph entity.".into()) },
+        PriorArtDef { source: "Wikidata P735/P734/P21 + P580/P582 qualifiers".into(), url: Some("https://www.wikidata.org/wiki/Property:P735".into()), notes: Some("Property statements with start-time/end-time qualifiers. Validates \"reuse canonical field name + date positions in time\".".into()) },
+    ],
     ..ShapeDef::default()
 });

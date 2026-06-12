@@ -91,5 +91,10 @@ pub static HEALTH_IMMUNIZATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "HL7 FHIR R5 — Immunization".into(), url: Some("https://www.hl7.org/fhir/immunization.html".into()), notes: Some("The resource for an administered vaccine. dateAdministered ≈ occurrenceDateTime; manufacturer ≈ manufacturer; lotNumber ≈ lotNumber; site/route ≈ site/route; doseNumber ≈ protocolApplied.doseNumber; seriesDoses ≈ protocolApplied.seriesDoses.".into()) },
+        PriorArtDef { source: "CDC CVX — Vaccine Administered code set".into(), url: Some("https://www2a.cdc.gov/vaccines/iis/iisstandards/vaccines.asp?rpt=cvx".into()), notes: Some("The US standard vaccine code system. cvxCode is the canonical vaccine identity (CVX 208 = COVID-19 Pfizer, CVX 20 = DTaP). FHIR Immunization.vaccineCode is CVX-coded.".into()) },
+        PriorArtDef { source: "HL7 v2.x — VXU (Unsolicited Vaccination Update)".into(), url: Some("https://www.cdc.gov/vaccines/programs/iis/technical-guidance/hl7.html".into()), notes: Some("The message format Immunization Information Systems exchange. The RXA segment carries date, CVX, lot, manufacturer, site, route — confirms the field set.".into()) },
+    ],
     ..ShapeDef::default()
 });

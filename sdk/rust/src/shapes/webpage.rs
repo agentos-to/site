@@ -45,5 +45,10 @@ pub static WEBPAGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("url".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/WebPage".into(), url: Some("https://schema.org/WebPage".into()), notes: Some("Our URL-as-identity matches schema.org's @id/url convention; contentType ≈ encodingFormat.".into()) },
+        PriorArtDef { source: "HTTP semantics (RFC 9110)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc9110".into()), notes: Some("Our contentType is the Content-Type response header; error ≈ non-2xx status text.".into()) },
+        PriorArtDef { source: "Chrome history / WebExtensions History API".into(), url: Some("https://developer.chrome.com/docs/extensions/reference/api/history".into()), notes: Some("Practical source. Our visitCount/lastVisitUnix lift from the history API's VisitItem structure.".into()) },
+    ],
     ..ShapeDef::default()
 });

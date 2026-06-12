@@ -81,5 +81,10 @@ pub static MEETING: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "RFC 5545 VEVENT + conference property (RFC 7986)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc7986#section-5.11".into()), notes: Some("Our meetingUrl ≈ CONFERENCE URI; phoneDialIn = tel: URI in CONFERENCE feature=PHONE; conferenceProvider ≈ CONFERENCE LABEL.".into()) },
+        PriorArtDef { source: "schema.org/Event — location.VirtualLocation".into(), url: Some("https://schema.org/VirtualLocation".into()), notes: Some("Our isVirtual triggers VirtualLocation; meetingUrl ≈ VirtualLocation.url.".into()) },
+        PriorArtDef { source: "Google Calendar Event conferenceData".into(), url: Some("https://developers.google.com/calendar/api/v3/reference/events".into()), notes: Some("Practical API mirror. Our conferenceProvider ≈ conferenceData.conferenceSolution.name; meetingUrl = entryPoints[uri].".into()) },
+    ],
     ..ShapeDef::default()
 });

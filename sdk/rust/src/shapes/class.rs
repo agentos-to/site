@@ -78,5 +78,10 @@ pub static CLASS: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/EducationEvent".into(), url: Some("https://schema.org/EducationEvent".into()), notes: Some("schema.org's closest peer for a bookable class. Our instructor = performer; capacity = maximumAttendeeCapacity; spotsRemaining ≈ remainingAttendeeCapacity.".into()) },
+        PriorArtDef { source: "schema.org/ExerciseAction".into(), url: Some("https://schema.org/ExerciseAction".into()), notes: Some("Fitness-specific vocabulary: activityType ≈ exerciseType; venue matches directly as location.".into()) },
+        PriorArtDef { source: "Mindbody Public API (class schedules)".into(), url: Some("https://developers.mindbodyonline.com/PublicDocumentation/V6".into()), notes: Some("Practical API mirror. Our capacity/spotsRemaining/isFull come from Mindbody's MaxCapacity/TotalBooked/IsWaitlistAvailable.".into()) },
+    ],
     ..ShapeDef::default()
 });

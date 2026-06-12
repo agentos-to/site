@@ -85,5 +85,10 @@ pub static IMAGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["datePublished".into(), "published_by".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/ImageObject".into(), url: Some("https://schema.org/ImageObject".into()), notes: Some("Our width/height = width/height; format ≈ encodingFormat; altText = caption/accessibilityCaption.".into()) },
+        PriorArtDef { source: "IANA Media Types (image/*)".into(), url: Some("https://www.iana.org/assignments/media-types/media-types.xhtml#image".into()), notes: Some("Our format values (PNG, JPEG, WebP, SVG) align with registered image/* media types.".into()) },
+        PriorArtDef { source: "Exif 2.3 (JEITA CP-3451)".into(), url: Some("https://www.cipa.jp/std/documents/e/DC-008-Translation-2019-E.pdf".into()), notes: Some("Source of most image metadata fields. width/height come from Exif PixelXDimension/PixelYDimension.".into()) },
+    ],
     ..ShapeDef::default()
 });

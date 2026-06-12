@@ -46,5 +46,10 @@ pub static TRANSCRIPT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("language".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "WebVTT (W3C)".into(), url: Some("https://www.w3.org/TR/webvtt1/".into()), notes: Some("Our segments are WebVTT cues (start/end/text). language follows WebVTT's LANGUAGE header.".into()) },
+        PriorArtDef { source: "SRT SubRip Subtitles".into(), url: Some("https://matroska.org/technical/subtitles.html#srt-subtitles".into()), notes: Some("Practical alternative cue format. Same segment shape.".into()) },
+        PriorArtDef { source: "Whisper JSON output".into(), url: Some("https://github.com/openai/whisper".into()), notes: Some("Practical source — many transcript apps return Whisper-shaped JSON (segments with start/end/text). Direct match.".into()) },
+    ],
     ..ShapeDef::default()
 });

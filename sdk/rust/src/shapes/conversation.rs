@@ -58,5 +58,10 @@ pub static CONVERSATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("text".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "ActivityStreams 2.0 context/inReplyTo".into(), url: Some("https://www.w3.org/TR/activitystreams-vocabulary/#dfn-context".into()), notes: Some("Conversations are AS2 contexts — the thread that groups replies. Our participant[] ≈ to/cc/audience.".into()) },
+        PriorArtDef { source: "Matrix Room (m.room)".into(), url: Some("https://spec.matrix.org/latest/client-server-api/#room-events".into()), notes: Some("Practical thread model. Our isGroup ≈ room.join_rules; unreadCount ≈ unread_notifications.highlight_count.".into()) },
+        PriorArtDef { source: "Gmail API — Thread resource".into(), url: Some("https://developers.google.com/gmail/api/reference/rest/v1/users.threads".into()), notes: Some("Our messageCount ≈ messages.length; unreadCount derived from UNREAD labels on Thread messages.".into()) },
+    ],
     ..ShapeDef::default()
 });

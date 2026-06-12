@@ -92,5 +92,10 @@ pub static BIRTH: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Person.birthDate / birthPlace".into(), url: Some("https://schema.org/birthDate".into()), notes: Some("schema.org collapses birth into two flat fields on Person; we lift to an event-node so all birth particulars (name, gender, legal-doc form) co-locate per platform README rule 1.".into()) },
+        PriorArtDef { source: "GEDCOM 7 INDI.BIRT".into(), url: Some("https://gedcom.io/specifications/FamilySearchGEDCOMv7.html".into()), notes: Some("Genealogy's canonical model: a typed INDIVIDUAL_EVENT with DATE, PLAC, ADDR sub-records. Our `birth` shape is the equivalent — sub-records map to event-base fields (startDate, location) plus the typed birth-particulars fields above.".into()) },
+        PriorArtDef { source: "GEDCOM-X Fact (FactType=Birth)".into(), url: Some("https://github.com/FamilySearch/gedcomx/blob/master/specifications/fact-types-specification.md".into()), notes: Some("FamilySearch's reified-fact model. We adopt the reified-event pattern; field set is richer (legalName + phonetics + nameOrder) for present-day identity-document interop.".into()) },
+    ],
     ..ShapeDef::default()
 });

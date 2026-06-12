@@ -50,5 +50,9 @@ pub static RESULT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("url".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "OpenSearch Description Document".into(), url: Some("https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md".into()), notes: Some("Result-pointer model: each hit has a URL + metadata. Our resultType ≈ Url template's type attribute.".into()) },
+        PriorArtDef { source: "Web Search API conventions (Brave/Bing)".into(), url: Some("https://api.search.brave.com/app/documentation/web-search/get-started".into()), notes: Some("Practical source. Our indexedAt/resultType align with common fields across Brave, Bing, and Exa web APIs.".into()) },
+    ],
     ..ShapeDef::default()
 });

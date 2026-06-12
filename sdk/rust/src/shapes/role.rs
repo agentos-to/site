@@ -76,5 +76,9 @@ pub static ROLE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Role + OrganizationRole".into(), url: Some("https://schema.org/OrganizationRole".into()), notes: Some("Our title = roleName; startDate/endDate match; department ≈ name of a subOrganization; person/organization = Role's nested pattern.".into()) },
+        PriorArtDef { source: "FOAF + Bio vocabularies (position)".into(), url: Some("http://vocab.org/bio/0.1/.html".into()), notes: Some("Period-of-employment modeling. Our startDate/endDate ≈ bio:date; roleType has no FOAF peer.".into()) },
+    ],
     ..ShapeDef::default()
 });

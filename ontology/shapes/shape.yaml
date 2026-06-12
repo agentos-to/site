@@ -1,0 +1,52 @@
+# A shape definition - the ontology node that describes a node type.
+# Shapes are first-class graph nodes: selecting one in Finder should show
+# its schema, display contract, identity rules, relations, and sources the
+# same way selecting an organization shows organization facts.
+shape:
+  plural: shapes
+  identity: name
+  display:
+    subtitle: description
+    body: description
+    highlights: [plural]
+  fields:
+    plural:       string
+    description:  text
+    icon:         string
+    fields:       json      # FieldDef[] - name, ty, required, description
+    out:          json      # EdgeDef[] - outgoing relation hints
+    in:           json      # EdgeDef[] - incoming relation hints
+    display:      json      # role bindings: title/subtitle/image/highlights/body
+    groups:       json      # ordered card/detail sections for instances
+    identity:     string[]  # compound natural key fields
+    identity_any: string[]  # alternate natural key fields
+    also:         string[]  # parent shapes / type facets
+    derived:      json      # read-side projected bindings
+    shortcuts:    json      # write-side flat create expansions
+    prior_art:    json      # external standards this shape aligns with
+    prefsSchemas: json      # shape-level UI preference vocabulary
+  groups:
+    Schema: [fields, out, in]
+    Display: [display, groups]
+    Identity: [identity, identity_any, also]
+    Automation: [derived, shortcuts]
+    Sources: [prior_art]
+    Preferences: [prefsSchemas]
+  prior_art:
+    - source: JSON Schema
+      url: https://json-schema.org/
+      notes: >-
+        Prior art for describing fields and JSON-shaped validation contracts.
+        AgentOS keeps shape identity and graph relations first-class instead
+        of flattening everything into one document schema.
+    - source: W3C SHACL
+      url: https://www.w3.org/TR/shacl/
+      notes: >-
+        Prior art for RDF graph shape constraints. AgentOS uses the same idea
+        - graph data has shapes - but stores the shape definition as an
+        inspectable node in the local graph.
+    - source: RDF Schema
+      url: https://www.w3.org/TR/rdf-schema/
+      notes: >-
+        Prior art for classes/properties as graph vocabulary. AgentOS shape
+        nodes are the local, executable version of that vocabulary.

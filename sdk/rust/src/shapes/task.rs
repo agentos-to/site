@@ -93,5 +93,10 @@ pub static TASK: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "GitHub REST API — Issues".into(), url: Some("https://docs.github.com/en/rest/issues/issues".into()), notes: Some("Direct source. Our remoteId/state/labels/assignedTo/parent/ children/blockedBy/blocks map to GitHub Issue + sub-issues + task-list tracking.".into()) },
+        PriorArtDef { source: "Linear GraphQL API — Issue".into(), url: Some("https://developers.linear.app/docs/graphql/working-with-the-graphql-api".into()), notes: Some("Practical canonical. Our priority/state/project/targetDate align with Linear's Issue model exactly.".into()) },
+        PriorArtDef { source: "Todoist REST API v2 — Tasks".into(), url: Some("https://developer.todoist.com/rest/v2/".into()), notes: Some("Consumer-grade task model. Our startedAt/targetDate ≈ created_at/due; labels match directly.".into()) },
+    ],
     ..ShapeDef::default()
 });

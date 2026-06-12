@@ -52,5 +52,10 @@ pub static HEALTH_LAB: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["headquarters".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/MedicalOrganization / DiagnosticLab".into(), url: Some("https://schema.org/DiagnosticLab".into()), notes: Some("schema.org's DiagnosticLab is a MedicalOrganization subtype, which is an Organization subtype — exactly our also:[organization] chain. Our labType refines what schema.org leaves implicit.".into()) },
+        PriorArtDef { source: "CLIA — Clinical Laboratory Improvement Amendments".into(), url: Some("https://www.cms.gov/medicare/quality/clinical-laboratory-improvement-amendments".into()), notes: Some("cliaNumber, npi (the organizational/type-2 National Provider Identifier), and ccn (the Medicare CMS Certification Number) are all CMS-issued identifiers a US testing facility carries. cliaNumber is the canonical identity for a US clinical lab.".into()) },
+        PriorArtDef { source: "HL7 FHIR R5 — Organization (role: laboratory)".into(), url: Some("https://www.hl7.org/fhir/organization.html".into()), notes: Some("FHIR models a lab as an Organization with a laboratory role code, not a distinct resource — consistent with our also:[organization]. FHIR Observation.performer / DiagnosticReport.performer reference it; our health-panel.performedAt and health-reference-range. issuingLab links are the same linkage.".into()) },
+    ],
     ..ShapeDef::default()
 });

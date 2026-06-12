@@ -61,5 +61,13 @@ pub static INTELLECTUAL_PROPERTY: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["identifier".into(), "status".into(), "granted_by".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Wikidata — trademark (Q167270) / registered trademark (Q111048186)".into(), url: Some("https://www.wikidata.org/wiki/Q167270".into()), notes: Some("Trademark is a subclass of `intellectual property right` and of `mark`; holder via `owned by` (P127). registered-vs-pending is a status of one type, not a separate type — our `status` field.".into()) },
+        PriorArtDef { source: "WIPO Standard ST.96 — Trademark Components".into(), url: Some("https://www.wipo.int/standards/en/st96/v8-0/release_notes.html".into()), notes: Some("Canonical IP-office XML model. Source for mark, identifier, register, niceClass, status. Splits schemas by Trademark / Patent / Design Components — confirms `category` as the discriminator across one `intellectual_property` concept.".into()) },
+        PriorArtDef { source: "WIPO Standard ST.87 — IP event codes".into(), url: Some("https://www.wipo.int/standards/en/".into()), notes: Some("Standard lifecycle-event vocabulary (KeyEventCode). The filed/published/granted/lapsed milestones are dated links to the granting office, not node fields — events-as-links rule 1.".into()) },
+        PriorArtDef { source: "Nice Classification (Nice Agreement 1957; NCL 13-2026)".into(), url: Some("https://www.wipo.int/en/web/classification-nice".into()), notes: Some("45-class system (1-34 goods, 35-45 services). `niceClass` is an integer[] of class numbers — a standard code. ADAVIA is Class 42.".into()) },
+        PriorArtDef { source: "USPTO — trademark process & intent-to-use basis".into(), url: Some("https://www.uspto.gov/trademarks/basics/trademark-process".into()), notes: Some("Lifecycle and the use-vs-intent-to-use fork. Source for the `status` value set and `filingBasis`.".into()) },
+        PriorArtDef { source: "schema.org/Intangible, schema.org/Brand".into(), url: Some("https://schema.org/Intangible".into()), notes: Some("Weak alignment — schema.org has no Trademark type; `Brand` is the marketing concept, not the legal right. Cited to mark the gap web ontologies leave: the IP right needs its own shape.".into()) },
+    ],
     ..ShapeDef::default()
 });

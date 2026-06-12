@@ -108,5 +108,10 @@ pub static HEALTH_PANEL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "HL7 FHIR R5 — DiagnosticReport".into(), url: Some("https://www.hl7.org/fhir/diagnosticreport.html".into()), notes: Some("A dated panel is a DiagnosticReport: a set of observations grouped under one report with an effective date and a performer. Our `contains` links (from `list`) ≈ DiagnosticReport.result; effectiveDate ≈ effectiveDateTime; performedAt ≈ performer.".into()) },
+        PriorArtDef { source: "LOINC — Panels and Forms".into(), url: Some("https://loinc.org/panels/".into()), notes: Some("LOINC defines panel codes and their member observables (CBC panel 58410-2 enumerates hemoglobin, hematocrit, WBC, …). panelCode plus the contains→biomarker links mirror a LOINC panel definition.".into()) },
+        PriorArtDef { source: "schema.org/MedicalTest".into(), url: Some("https://schema.org/MedicalTest".into()), notes: Some("Lighter-weight precedent — a diagnostic test with usedToDiagnose / normalRange. Our panel is the grouping; biomarkers and health-reference-range carry the observable detail and the ranges.".into()) },
+    ],
     ..ShapeDef::default()
 });

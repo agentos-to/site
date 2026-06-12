@@ -54,5 +54,10 @@ pub static PERSONA: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["reachesFor".into(), "quote".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Alan Cooper, \"The Inmates Are Running the Asylum\" (1999)".into(), url: Some("https://www.nngroup.com/articles/persona/".into()), notes: Some("Origin of the persona method — \"a precise definition of our user and what he wishes to accomplish\"; a hypothetical archetype, not a real person. Maps to role + who + goals + quote.".into()) },
+        PriorArtDef { source: "schema.org/PeopleAudience".into(), url: Some("https://schema.org/PeopleAudience".into()), notes: Some("A persona is a narrative archetype OF an audience; it specializes Audience (audienceType) but adds goals/quote that schema.org lacks — and is firmly distinct from `person` (a real human).".into()) },
+        PriorArtDef { source: "Nielsen Norman Group — personas".into(), url: Some("https://www.nngroup.com/articles/persona/".into()), notes: Some("Canonical UX template — role + goals + pain points + quote, grounded in field research.".into()) },
+    ],
     ..ShapeDef::default()
 });

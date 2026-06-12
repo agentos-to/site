@@ -51,5 +51,10 @@ pub static MODULE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["status".into(), "path".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org hasPart / isPartOf (Course modules)".into(), url: Some("https://schema.org/hasPart".into()), notes: Some("Course.hasPart models course modules; hasPart/isPartOf are the inverse composition edges, reusable for any whole/part.".into()) },
+        PriorArtDef { source: "UML 2.5 Component (OMG)".into(), url: Some("https://www.uml-diagrams.org/component.html".into()), notes: Some("A component is a \"modular part with encapsulated content, replaceable within its environment\" → role + depends_on.".into()) },
+        PriorArtDef { source: "SPDX Package".into(), url: Some("https://spdx.dev/".into()), notes: Some("A package is a versioned, named unit with declared dependencies → version + depends_on, across software and hardware domains.".into()) },
+    ],
     ..ShapeDef::default()
 });

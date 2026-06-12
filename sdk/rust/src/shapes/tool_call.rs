@@ -49,5 +49,10 @@ pub static TOOL_CALL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("name".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Anthropic Tool Use API".into(), url: Some("https://docs.anthropic.com/en/docs/build-with-claude/tool-use".into()), notes: Some("Our name/input/output/isError map to tool_use/tool_result blocks in Claude's message API.".into()) },
+        PriorArtDef { source: "OpenAI Function Calling / tool_calls".into(), url: Some("https://platform.openai.com/docs/guides/function-calling".into()), notes: Some("Our name/input = function.name/function.arguments; output is the tool-result message content.".into()) },
+        PriorArtDef { source: "OpenTelemetry GenAI semconv".into(), url: Some("https://opentelemetry.io/docs/specs/semconv/gen-ai/".into()), notes: Some("Emerging observability standard. Our durationMs/isError align with gen_ai.tool.* span attributes.".into()) },
+    ],
     ..ShapeDef::default()
 });

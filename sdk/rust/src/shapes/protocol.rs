@@ -41,5 +41,10 @@ pub static PROTOCOL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("name".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/CreativeWork".into(), url: Some("https://schema.org/CreativeWork".into()), notes: Some("Closest match in schema.org — protocols are creative works in the broadest sense. We narrow to protocols and technical specifications used as identity namespaces.".into()) },
+        PriorArtDef { source: "Wikidata (Communication protocol, Q15836568)".into(), url: Some("https://www.wikidata.org/wiki/Q15836568".into()), notes: Some("wikidataId enables cross-reference for dedupe across other knowledge graphs. Most well-known protocols have Q-IDs.".into()) },
+        PriorArtDef { source: "IANA Protocol Registry".into(), url: Some("https://www.iana.org/protocols".into()), notes: Some("Authoritative registry for many protocols. Our `name` aligns with IANA protocol slugs where applicable.".into()) },
+    ],
     ..ShapeDef::default()
 });

@@ -49,5 +49,9 @@ pub static BRANCH: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("commit".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Git Internals — Branches".into(), url: Some("https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell".into()), notes: Some("A branch is a movable pointer to a commit. Our commit field is the HEAD sha; ahead/behind mirror `git rev-list --count`.".into()) },
+        PriorArtDef { source: "GitHub REST — branches".into(), url: Some("https://docs.github.com/en/rest/branches/branches".into()), notes: Some("Practical API surface. Our upstream ≈ the remote tracking ref; we flatten protection/commit metadata that GitHub nests.".into()) },
+    ],
     ..ShapeDef::default()
 });

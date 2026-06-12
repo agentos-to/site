@@ -99,5 +99,11 @@ pub static HEALTH_REFERENCE_RANGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "CLSI EP28-A3c — Defining, Establishing, and Verifying Reference Intervals".into(), url: Some("https://clsi.org/shop/standards/ep28/".into()), notes: Some("The authoritative protocol. Each lab must establish (de novo, min n=120 per partition) or verify (min n=20) its own intervals. `provenance` (established/verified/manufacturer-claimed) comes directly from this guideline; it is why two same-instrument labs legitimately diverge.".into()) },
+        PriorArtDef { source: "HL7 FHIR R5 — ObservationDefinition.qualifiedInterval".into(), url: Some("https://www.hl7.org/fhir/observationdefinition.html".into()), notes: Some("The closest standard precedent — a reusable, multi-context interval. Our category maps to its rangeCategory; range to range; age/gestationalAge/sex to the same; condition ≈ our population fields. But qualifiedInterval has NO issuingLab and NO validity window — this shape adds both. qualifiedInterval is the lossy EXPORT projection of this shape, not its equal.".into()) },
+        PriorArtDef { source: "HL7 FHIR R5 — Observation.referenceRange".into(), url: Some("https://www.hl7.org/fhir/observation.html".into()), notes: Some("FHIR's other reference-range model — inlined on the result as a denormalized snapshot (low/high/normalValue/type/appliesTo/age/ text). health-observation keeps that snapshot too (its refLow/ refHigh fields); this shape is the normalized, reusable form the snapshot can point back to.".into()) },
+        PriorArtDef { source: "OMOP CDM v5.4 — MEASUREMENT.range_low / range_high".into(), url: Some("https://ohdsi.github.io/CommonDataModel/cdm54.html".into()), notes: Some("OMOP inlines range_low/range_high as columns on the measurement row — \"no separate standalone table for reference ranges.\" Confirms the gap: no major model makes the range first-class.".into()) },
+    ],
     ..ShapeDef::default()
 });

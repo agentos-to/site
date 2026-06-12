@@ -108,5 +108,10 @@ pub static EMAIL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("author".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "RFC 5322 (Internet Message Format)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc5322".into()), notes: Some("Supersedes RFC 2822. Our messageId/inReplyTo/references/replyTo map directly to Message-ID/In-Reply-To/References/Reply-To headers; toRaw/ccRaw/bccRaw are the literal header values.".into()) },
+        PriorArtDef { source: "RFC 2369 + RFC 8058 (List headers, one-click unsubscribe)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc2369".into()), notes: Some("Our unsubscribe/unsubscribeOneClick/listId are List-Unsubscribe/List-Unsubscribe-Post/List-ID. RFC 8058 defines the one-click POST semantics.".into()) },
+        PriorArtDef { source: "Gmail API Message resource".into(), url: Some("https://developers.google.com/gmail/api/reference/rest/v1/users.messages".into()), notes: Some("Practical API mirror. Our sizeEstimate and isUnread/isStarred/isDraft/isSent/isTrash/isSpam correspond to Gmail's sizeEstimate and labelIds (UNREAD, STARRED, DRAFT, SENT, TRASH, SPAM).".into()) },
+    ],
     ..ShapeDef::default()
 });

@@ -49,5 +49,10 @@ pub static WEBSITE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("url".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/WebSite".into(), url: Some("https://schema.org/WebSite".into()), notes: Some("Our url-as-identity matches; ownedBy ≈ publisher; domain relation ≈ url host.".into()) },
+        PriorArtDef { source: "WHOIS (RFC 3912)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc3912".into()), notes: Some("Our expiresAt/domain source from WHOIS records; claimToken has no direct WHOIS peer (HERE.NOW-specific).".into()) },
+        PriorArtDef { source: "RFC 7033 WebFinger (host-meta)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc7033".into()), notes: Some("Website metadata discovery. Our claimUrl parallels /.well-known/host-meta patterns.".into()) },
+    ],
     ..ShapeDef::default()
 });

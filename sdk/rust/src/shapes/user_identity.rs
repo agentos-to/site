@@ -47,5 +47,9 @@ pub static USER_IDENTITY: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["person_node_id".into(), "active".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Solid (Tim Berners-Lee)".into(), url: Some("https://solidproject.org/faq".into()), notes: Some("Solid Pod ↔ WebID is the per-user identity model. A Solid user owns one personal pod whose WebID is the authoritative identity; cross-pod identity is a single relation. We split: User is engine state; Person is graph content; user_identity is the explicit bridge that can be many-to-many across volumes.".into()) },
+        PriorArtDef { source: "Unix/macOS — /etc/passwd vs /Users/<u>".into(), url: Some("https://en.wikipedia.org/wiki/Passwd".into()), notes: Some("OS users (engine.db::users) and home directories (~/.agentos/users/<u>.db) follow the Unix convention. The identity *within* the home is content the home owns.".into()) },
+    ],
     ..ShapeDef::default()
 });

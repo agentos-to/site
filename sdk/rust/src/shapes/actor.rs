@@ -36,5 +36,9 @@ pub static ACTOR: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("actorType".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "FOAF Agent".into(), url: Some("http://xmlns.com/foaf/spec/#term_Agent".into()), notes: Some("FOAF Agent is the base class for Person, Organization, and Group. Our actorType mirrors FOAF's agent taxonomy.".into()) },
+        PriorArtDef { source: "ActivityStreams 2.0 Actor".into(), url: Some("https://www.w3.org/TR/activitystreams-vocabulary/#actor-types".into()), notes: Some("AS2 defines Actor types (Person, Organization, Group, Service, Application). Our agent ≈ Service/Application.".into()) },
+    ],
     ..ShapeDef::default()
 });

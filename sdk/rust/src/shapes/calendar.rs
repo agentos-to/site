@@ -58,5 +58,10 @@ pub static CALENDAR: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("source".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "RFC 5545 VCALENDAR".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc5545".into()), notes: Some("Our calendarId ≈ VCALENDAR's X-WR-CALID; timezone = X-WR-TIMEZONE; events relation mirrors VCALENDAR's VEVENT components.".into()) },
+        PriorArtDef { source: "CalDAV (RFC 4791)".into(), url: Some("https://datatracker.ietf.org/doc/html/rfc4791".into()), notes: Some("CalDAV calendar collections define accessRole semantics (owner/writer/reader) that match our field directly.".into()) },
+        PriorArtDef { source: "Google Calendar API CalendarList".into(), url: Some("https://developers.google.com/calendar/api/v3/reference/calendarList".into()), notes: Some("Practical API mirror. Our color/backgroundColor/foregroundColor, isPrimary, accessRole come from Google's CalendarList resource.".into()) },
+    ],
     ..ShapeDef::default()
 });

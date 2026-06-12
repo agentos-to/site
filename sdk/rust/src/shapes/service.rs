@@ -45,5 +45,10 @@ pub static SERVICE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("description".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Debian alternatives system (update-alternatives)".into(), url: Some("https://wiki.debian.org/DebianAlternatives".into()), notes: Some("A generic name (editor) resolves to one of several registered providers via a per-name symlink the admin can repoint. Our service id ≈ the generic name; defaults_to ≈ the symlink.".into()) },
+        PriorArtDef { source: "Windows XP — Set Program Access and Defaults".into(), url: Some("https://learn.microsoft.com/en-us/windows/win32/shell/default-programs".into()), notes: Some("The OS-level \"which program answers this kind of request\" surface. Our defaults_to link is that choice as graph state.".into()) },
+        PriorArtDef { source: "Android Intents (action + default app)".into(), url: Some("https://developer.android.com/guide/components/intents-filters".into()), notes: Some("Apps declare which actions they answer; the user picks a default per action. provided_by ≈ intent-filter; defaults_to ≈ the user's \"always\" choice.".into()) },
+    ],
     ..ShapeDef::default()
 });

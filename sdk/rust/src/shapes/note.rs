@@ -43,5 +43,10 @@ pub static NOTE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("noteType".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "Zettelkasten / Luhmann slip-box".into(), url: Some("https://zettelkasten.de/overview/".into()), notes: Some("Our noteType (fleeting/literature/permanent) is the canonical Zettelkasten triad; references[] ≈ Luhmann's permanent links.".into()) },
+        PriorArtDef { source: "W3C Web Annotation Data Model".into(), url: Some("https://www.w3.org/TR/annotation-model/".into()), notes: Some("Our extractedFrom = target; createdBy = creator. Notes are annotations without a structured position selector.".into()) },
+        PriorArtDef { source: "Obsidian / Roam / Logseq PKM conventions".into(), url: Some("https://obsidian.md/".into()), notes: Some("Practical PKM lineage. isPinned/noteType mirror the \"pinned/daily/permanent\" UX of modern note apps.".into()) },
+    ],
     ..ShapeDef::default()
 });

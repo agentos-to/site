@@ -51,5 +51,10 @@ pub static PRINCIPLE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["statement".into(), "status".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "principles.design".into(), url: Some("https://principles.design/".into()), notes: Some("1600+ principles modeled as name + statement + elaboration, grouped into named collections → name / statement / rationale.".into()) },
+        PriorArtDef { source: "MADR (Markdown ADR) — decision drivers".into(), url: Some("https://adr.github.io/madr/".into()), notes: Some("Decision drivers are principles applied to a choice; the status enum (proposed/accepted/deprecated/superseded) → status + supersedes.".into()) },
+        PriorArtDef { source: "GOV.UK Design Principles".into(), url: Some("https://www.gov.uk/guidance/government-design-principles".into()), notes: Some("Canonical 10-principle collection — each principle is an imperative statement + worked examples.".into()) },
+    ],
     ..ShapeDef::default()
 });

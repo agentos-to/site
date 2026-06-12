@@ -43,5 +43,9 @@ pub static QUANTITY_KIND: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         subtitle: Some("label".into()),
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "ISO 80000-1 — kind of quantity".into(), url: Some("https://www.iso.org/standard/76921.html".into()), notes: Some("ISO 80000 makes \"kind of quantity\" a rigorous first-class notion, distinct from dimension — quantities of the same dimension are not necessarily of the same kind.".into()) },
+        PriorArtDef { source: "QUDT — QuantityKind".into(), url: Some("https://www.qudt.org/doc/DOC_SCHEMA-QUDT.html".into()), notes: Some("qudt:QuantityKind is exactly this layer. Its hasDimensionVector property corresponds to our `dimension` link; QUDT's broader/ narrower kind hierarchy corresponds to our `parent` link.".into()) },
+    ],
     ..ShapeDef::default()
 });

@@ -94,5 +94,10 @@ pub static SOFTWARE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["version".into(), "runtimePlatform".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/SoftwareApplication".into(), url: Some("https://schema.org/SoftwareApplication".into()), notes: Some("Our applicationCategory mirrors schema.org applicationCategory (free-form string, common values include \"GameApplication\", \"BusinessApplication\", \"BrowserApplication\"). Our version maps to softwareVersion; runtimePlatform maps to operatingSystem (the closest analog — schema.org uses `operatingSystem` to mean \"which platform the software runs on\", which matches our intent). Codename has no schema.org equivalent.".into()) },
+        PriorArtDef { source: "schema.org/SoftwareSourceCode".into(), url: Some("https://schema.org/SoftwareSourceCode".into()), notes: Some("For libraries / open-source code (XP.css, 98.css), schema.org has a separate SoftwareSourceCode type with codeRepository / programmingLanguage fields. We keep one `software` shape and let the product's url field carry the repo URL when applicable.".into()) },
+        PriorArtDef { source: "Wikidata Q7397 (software)".into(), url: Some("https://www.wikidata.org/wiki/Q7397".into()), notes: Some("Wikidata software entities use P348 (software version identifier), P178 (developer) ≈ our manufacturer/creator, P306 (operating system) ≈ our runtimePlatform, and P2669 (discontinued date) — inherited from product. Cross-reference identity rather than direct field alignment.".into()) },
+    ],
     ..ShapeDef::default()
 });

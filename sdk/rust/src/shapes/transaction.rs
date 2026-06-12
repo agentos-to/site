@@ -92,5 +92,10 @@ pub static TRANSACTION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["amount".into(), "postingDate".into(), "currency".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "OFX (Open Financial Exchange) STMTTRN".into(), url: Some("https://financialdataexchange.org/ofx".into()), notes: Some("Direct source. Our amount/type/postingDate/balance map to STMTTRN TRNAMT/TRNTYPE/DTPOSTED/BALAMT.".into()) },
+        PriorArtDef { source: "ISO 20022 payments messaging".into(), url: Some("https://www.iso20022.org/".into()), notes: Some("Modern bank-messaging. Our currency = Ccy; category ≈ purpose code; details ≈ RemittanceInformation.".into()) },
+        PriorArtDef { source: "Plaid Transactions API".into(), url: Some("https://plaid.com/docs/api/products/transactions/".into()), notes: Some("Practical mirror. Our category/pending/recurring/notes match Plaid's category/pending/personal_finance_category/name fields.".into()) },
+    ],
     ..ShapeDef::default()
 });

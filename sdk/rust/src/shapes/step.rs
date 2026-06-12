@@ -49,5 +49,9 @@ pub static STEP: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["position".into(), "status".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/HowToStep".into(), url: Some("https://schema.org/HowToStep".into()), notes: Some("A step is its own type with a `position` Integer + nextItem/previousItem; schema.org states markup order alone is insufficient for ordering.".into()) },
+        PriorArtDef { source: "BPMN 2.0 SequenceFlow".into(), url: Some("https://www.omg.org/spec/BPMN/2.0/".into()), notes: Some("Order is an explicit SequenceFlow edge between activity nodes → the `next` edge; the actor is lane membership.".into()) },
+    ],
     ..ShapeDef::default()
 });

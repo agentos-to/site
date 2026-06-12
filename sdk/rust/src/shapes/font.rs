@@ -75,5 +75,11 @@ pub static FONT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["datePublished".into(), "published_by".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Typeface".into(), url: Some("https://schema.org/Typeface".into()), notes: Some("Schema.org added Typeface in 2024. Sparse compared to OpenType (fontFamily, format only) — we lean on the OpenType `name` table for most fields.".into()) },
+        PriorArtDef { source: "OpenType `name` table (ISO/IEC 14496-22)".into(), url: Some("https://learn.microsoft.com/en-us/typography/opentype/spec/name".into()), notes: Some("nameID 1=family; 6=postscriptName; 8=manufacturer (publisher in our model, via creative_work); 9=designer (author via creative_work); 13=licenseDescription (license via creative_work); 14=licenseInfoUrl; 11=vendorUrl; 12=designerUrl. Our font shape is a graph-native projection of this table; .woff2 metadata can round-trip losslessly.".into()) },
+        PriorArtDef { source: "Google Fonts metadata".into(), url: Some("https://fonts.google.com/specimen/Roboto".into()), notes: Some("Treats fonts as \"families\" with weights / styles arrays. Same model we adopt. Google Fonts also tracks subsets (Latin / Cyrillic / Greek) — equivalent to our scripts field.".into()) },
+        PriorArtDef { source: "ISO 15924 (script codes)".into(), url: Some("https://www.unicode.org/iso15924/iso15924-codes.html".into()), notes: Some("Our scripts field uses ISO 15924 four-letter codes (Latn / Cyrl / Grek / Arab / Hans / Hant / Jpan / Kore / etc.). Canonical identification of writing systems.".into()) },
+    ],
     ..ShapeDef::default()
 });

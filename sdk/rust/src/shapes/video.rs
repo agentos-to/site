@@ -86,5 +86,10 @@ pub static VIDEO: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["datePublished".into(), "published_by".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/VideoObject".into(), url: Some("https://schema.org/VideoObject".into()), notes: Some("Our durationMs ≈ duration (ISO 8601 period); resolution ≈ videoFrameSize; frameRate has no direct property; codec ≈ encodingFormat.".into()) },
+        PriorArtDef { source: "IANA Media Types (video/*)".into(), url: Some("https://www.iana.org/assignments/media-types/media-types.xhtml#video".into()), notes: Some("Our codec values map to registered video/* media types (mp4, webm, ogg).".into()) },
+        PriorArtDef { source: "MPEG / ITU video codec specs".into(), url: Some("https://www.itu.int/rec/T-REC-H.264".into()), notes: Some("Canonical codec definitions. Our codec values are MPEG/ITU codec short names (h264, vp9, av1).".into()) },
+    ],
     ..ShapeDef::default()
 });

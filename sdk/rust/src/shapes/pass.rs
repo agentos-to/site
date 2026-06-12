@@ -105,5 +105,10 @@ pub static PASS: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Ticket".into(), url: Some("https://schema.org/Ticket".into()), notes: Some("schema.org's peer for a claim-check right-of-entry. Our purchasedDate = issuedAt; holder = underName; price matches directly. Ticket is event-bound; we generalize to any right-of-use.".into()) },
+        PriorArtDef { source: "Mindbody Services (pricing options)".into(), url: Some("https://developers.mindbodyonline.com/PublicDocumentation/V6".into()), notes: Some("Gym-industry reference. Our quantity/purchasedQuantity/ useCount/depletedDate are lifted from Mindbody's ClientService.Remaining / Count / DateCompleted.".into()) },
+        PriorArtDef { source: "GTFS fare rules / IATA fare basis".into(), url: Some("https://gtfs.org/documentation/schedule/reference/#fare_productstxt".into()), notes: Some("Transit-pass vocabulary: single-ride, day-pass, period-pass all fit `isAllDayPass` + `startEffectiveDate` + `endEffectiveDate`.".into()) },
+    ],
     ..ShapeDef::default()
 });

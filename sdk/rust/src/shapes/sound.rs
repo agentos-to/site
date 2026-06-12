@@ -81,5 +81,11 @@ pub static SOUND: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["datePublished".into(), "published_by".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/AudioObject".into(), url: Some("https://schema.org/AudioObject".into()), notes: Some("Our durationMs ≈ duration (ISO 8601 period). Most metadata comes from creative_work via `also`; AudioObject's surface is sparse (contentUrl, encodingFormat, transcript).".into()) },
+        PriorArtDef { source: "ID3v2 (audio metadata in MP3)".into(), url: Some("https://id3.org/id3v2.4.0-structure".into()), notes: Some("TPE1=artist (author via creative_work); TALB=album; TIT2=title (name via creative_work); TYER=year (copyrightYear via creative_work); TCOP=copyright; TCOM=composer.".into()) },
+        PriorArtDef { source: "WAV LIST INFO chunks".into(), url: Some("https://www.recordingblogs.com/wiki/list-chunk-of-a-wave-file".into()), notes: Some("IART=artist; ICOP=copyright; ICRD=creation date; INAM=name; IGNR=genre. Inherited from creative_work where they apply.".into()) },
+        PriorArtDef { source: "Broadcast Wave Format (BWF) bext chunk".into(), url: Some("https://tech.ebu.ch/docs/tech/tech3285.pdf".into()), notes: Some("BWF carries Originator (creator), OriginationDate, OriginatorReference — production-pipeline provenance for broadcast audio. Inherited via creative_work; AgentOS doesn't currently parse bext chunks.".into()) },
+    ],
     ..ShapeDef::default()
 });

@@ -103,5 +103,11 @@ pub static HEALTH_OBSERVATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "HL7 FHIR R5 — Observation".into(), url: Some("https://www.hl7.org/fhir/observation.html".into()), notes: Some("The canonical resource for a measured value. value (with its UCUM unit) ≈ valueQuantity; effectiveDate ≈ effectiveDateTime; refLow/refHigh/refText ≈ the referenceRange backbone (the inline snapshot); flag ≈ interpretation; status ≈ status. `measures` ≈ code resolved to a biomarker. FHIR has no normalized-range link — our `reportedRange` link adds that.".into()) },
+        PriorArtDef { source: "HL7 v2.x — OBX segment".into(), url: Some("https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX".into()), notes: Some("The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6 (units) together ≈ our value-with-unit; OBX-7 (reference range), OBX-8 (abnormal flag), OBX-14 (datetime) map to refText/ flag/effectiveDate. Confirms the snapshot field set against real lab feeds.".into()) },
+        PriorArtDef { source: "LOINC".into(), url: Some("https://loinc.org/".into()), notes: Some("The observation itself is not LOINC-coded — its `biomarker` is. The `measures` link carries the LOINC identity.".into()) },
+        PriorArtDef { source: "UCUM — Unified Code for Units of Measure".into(), url: Some("https://ucum.org/".into()), notes: Some("The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM — the unit system FHIR mandates for Observation.valueQuantity, so observations round-trip into FHIR cleanly.".into()) },
+    ],
     ..ShapeDef::default()
 });

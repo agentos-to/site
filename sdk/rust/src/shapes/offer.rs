@@ -84,5 +84,10 @@ pub static OFFER: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/Offer".into(), url: Some("https://schema.org/Offer".into()), notes: Some("Our price = price; currency = priceCurrency; availability = availability; validFrom/validUntil match directly.".into()) },
+        PriorArtDef { source: "IATA NDC OfferItem".into(), url: Some("https://www.iata.org/en/programs/airline-distribution/retailing/ndc/".into()), notes: Some("Our bookingToken ≈ OfferItemID; validUntil ≈ TimeLimits/ OfferExpirationDateTime; trips[] ≈ Itinerary.".into()) },
+        PriorArtDef { source: "schema.org/AggregateOffer".into(), url: Some("https://schema.org/AggregateOffer".into()), notes: Some("For price-range offers (SerpAPI flight results). offerType is AgentOS-specific.".into()) },
+    ],
     ..ShapeDef::default()
 });
