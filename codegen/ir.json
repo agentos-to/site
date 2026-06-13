@@ -7460,6 +7460,364 @@
       "prefs_schemas": {}
     },
     {
+      "name": "cursor",
+      "class_name": "Cursor",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "copyrightYear",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "coverage",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "dateCreated",
+          "type": "date",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "dimension",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "encoding",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "filename",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "hotspotX",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "hotspotY",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "license",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "lineCount",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "mimeType",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "path",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "purpose",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sha",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "size",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "tags",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "attached_to",
+          "type": "message",
+          "is_relation": true,
+          "is_array": false,
+          "target": "message"
+        },
+        {
+          "name": "contributed_by",
+          "type": "person[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "person"
+        },
+        {
+          "name": "held_by",
+          "type": "person",
+          "is_relation": true,
+          "is_array": false,
+          "target": "person"
+        },
+        {
+          "name": "in",
+          "type": "repository",
+          "is_relation": true,
+          "is_array": false,
+          "target": "repository"
+        },
+        {
+          "name": "published_by",
+          "type": "actor",
+          "is_relation": true,
+          "is_array": false,
+          "target": "actor"
+        },
+        {
+          "name": "written_by",
+          "type": "person",
+          "is_relation": true,
+          "is_array": false,
+          "target": "person"
+        }
+      ],
+      "also": [
+        "creative_work",
+        "file"
+      ],
+      "plural": "cursors",
+      "subtitle": "purpose",
+      "display": {
+        "title": null,
+        "subtitle": "purpose",
+        "image": "image",
+        "highlights": [
+          "datePublished",
+          "published_by"
+        ],
+        "body": "description",
+        "mono": null,
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [
+        "sha",
+        "url"
+      ],
+      "leading_comment": "A mouse-pointer image — the arrow, the I-beam, the hand, the resize\ncursors. The pointer scheme a theme bundles, one entry per role.\n\nA cursor is BOTH a creative_work (the pointer art — its designer,\nlicense, era come from there) AND a file (the bytes on disk, with a\nformat and pixel dimension). Distinct from `icon`: an icon labels a\nthing in the UI; a cursor IS the pointer the OS paints under the mouse.\n\nBrowser-supported formats only — `png` (with an explicit hotspot, since\nPNG carries none) and `cur` (embeds its own). Animated `.ani` cursors\nare NOT supported in CSS `cursor` and never become cursor assets.",
+      "own_fields": [
+        {
+          "name": "hotspotX",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "hotspotY",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "dimension",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "purpose",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "CSS UI `cursor` property",
+          "url": "https://www.w3.org/TR/css-ui-4/#cursor",
+          "notes": "The render contract: `cursor: url(<url>) <hotspotX> <hotspotY>, <keyword>`. Our hotspotX/hotspotY ARE the `<x> <y>` the spec needs for image cursors; purpose maps to the trailing keyword."
+        },
+        {
+          "source": "Windows .cur / .ani cursor format",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/menurc/about-cursors",
+          "notes": "Source format of the bundled XP scheme — the .cur header carries the hotspot in its image-directory entry (bytes 4–7), which we read and record as hotspotX/hotspotY when downscaling to PNG. `.ani` (animated) is excluded — browsers don't support it in CSS cursor."
+        },
+        {
+          "source": "schema.org/ImageObject",
+          "url": "https://schema.org/ImageObject",
+          "notes": "A cursor is an image artifact; most metadata (author, license, datePublished) comes from creative_work via `also`, dimension ≈ width/height."
+        }
+      ],
+      "source_path": "cursor.yaml",
+      "raw_body": "plural: cursors\ndisplay:\n  subtitle: purpose\nidentity_any:\n- sha\n- url\nalso:\n- creative_work\n- file\nfields:\n  hotspotX: integer\n  hotspotY: integer\n  dimension: integer\n  format: string\n  purpose: string\nprior_art:\n- source: CSS UI `cursor` property\n  url: https://www.w3.org/TR/css-ui-4/#cursor\n  notes: 'The render contract: `cursor: url(<url>) <hotspotX> <hotspotY>, <keyword>`.\n    Our hotspotX/hotspotY ARE the `<x> <y>` the spec needs for image cursors; purpose\n    maps to the trailing keyword.'\n- source: Windows .cur / .ani cursor format\n  url: https://learn.microsoft.com/en-us/windows/win32/menurc/about-cursors\n  notes: \"Source format of the bundled XP scheme \\u2014 the .cur header carries the\\\n    \\ hotspot in its image-directory entry (bytes 4\\u20137), which we read and record\\\n    \\ as hotspotX/hotspotY when downscaling to PNG. `.ani` (animated) is excluded\\\n    \\ \\u2014 browsers don't support it in CSS cursor.\"\n- source: schema.org/ImageObject\n  url: https://schema.org/ImageObject\n  notes: \"A cursor is an image artifact; most metadata (author, license, datePublished)\\\n    \\ comes from creative_work via `also`, dimension \\u2248 width/height.\"\n",
+      "ancestors": [
+        "creative_work",
+        "file"
+      ],
+      "field_order": [
+        "hotspotX",
+        "hotspotY",
+        "dimension",
+        "format",
+        "purpose",
+        "name",
+        "description",
+        "license",
+        "copyrightYear",
+        "datePublished",
+        "dateCreated",
+        "url",
+        "language",
+        "coverage",
+        "tags",
+        "filename",
+        "mimeType",
+        "size",
+        "path",
+        "encoding",
+        "lineCount",
+        "kind",
+        "sha"
+      ],
+      "derived": {},
+      "groups": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
       "name": "dimension",
       "class_name": "Dimension",
       "fields": [

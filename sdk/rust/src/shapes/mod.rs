@@ -43,6 +43,7 @@ pub mod conversation;
 pub mod conversion;
 pub mod creative_work;
 pub mod credential;
+pub mod cursor;
 pub mod dimension;
 pub mod dns_record;
 pub mod document;
@@ -157,6 +158,7 @@ pub use conversation::{CONVERSATION, Conversation};
 pub use conversion::{CONVERSION, Conversion};
 pub use creative_work::{CREATIVE_WORK, CreativeWork};
 pub use credential::{CREDENTIAL, Credential};
+pub use cursor::{CURSOR, Cursor};
 pub use dimension::{DIMENSION, Dimension};
 pub use dns_record::{DNS_RECORD, DnsRecord};
 pub use document::{DOCUMENT, Document};
@@ -277,6 +279,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "conversion" => Some(&CONVERSION),
         "creative_work" => Some(&CREATIVE_WORK),
         "credential" => Some(&CREDENTIAL),
+        "cursor" => Some(&CURSOR),
         "dimension" => Some(&DIMENSION),
         "dns_record" => Some(&DNS_RECORD),
         "document" => Some(&DOCUMENT),
@@ -630,6 +633,16 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         mono: None,
         preview: &[],
         also: &[],
+    }),
+    ("cursor", Display {
+        title: None,
+        subtitle: Some("purpose"),
+        image: Some("image"),
+        highlights: &["datePublished", "published_by"],
+        body: Some("description"),
+        mono: None,
+        preview: &[],
+        also: &["creative_work", "file"],
     }),
     ("dimension", Display {
         title: None,
@@ -1565,6 +1578,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("conversion", &["kind", "factor", "rate", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("creative_work", &["name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags"]),
     ("credential", &["domain", "identifier", "itemType", "source", "obtainedAt", "lastVerified", "refreshable", "storeRowId"]),
+    ("cursor", &["hotspotX", "hotspotY", "dimension", "format", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "encoding", "lineCount", "kind", "sha"]),
     ("dimension", &["key", "label", "length", "mass", "time", "current", "temperature", "amount", "luminous", "dimensionless"]),
     ("dns_record", &["domain", "recordName", "recordType", "type", "ttl", "priority", "recordId", "values"]),
     ("document", &["contentType", "language", "wordCount", "abstract", "tableOfContents", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
@@ -1689,6 +1703,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("conversion", "conversions"),
     ("creative_work", "creative_works"),
     ("credential", "credentials"),
+    ("cursor", "cursors"),
     ("dimension", "dimensions"),
     ("dns_record", "dns_records"),
     ("document", "documents"),
@@ -1798,6 +1813,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
     ("booking_offer", &["event"]),
     ("class", &["event"]),
     ("conversion", &["event"]),
+    ("cursor", &["creative_work", "file"]),
     ("document", &["file"]),
     ("email", &["message"]),
     ("flight", &["leg", "event"]),
