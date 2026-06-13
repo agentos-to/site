@@ -25,6 +25,10 @@
 # navigates to it. The engine refuses a bookmark carrying both.
 bookmark:
   plural: bookmarks
+  # Identity is existential: the engine's delete cascade reads this list
+  # and soft-deletes any bookmark whose points_to target is deleted — a
+  # pointer with no target has no meaning. Restore brings them back as a
+  # batch. (crates/graph/src/database.rs delete_node_cascade_on.)
   identity: [points_to]
   display:
     subtitle: name
