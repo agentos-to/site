@@ -1,0 +1,8 @@
+# Single-form link `cites` (Pattern 3). Stem = storage label.
+# A node cites a source node as prior art, evidence, or reference material.
+# Source commentary rides on link vals (`notes`), not on either node.
+# Sources: shape, document, note, node
+# Targets: webpage, creative_work, document, node
+from: node
+to: node
+card: one_to_many

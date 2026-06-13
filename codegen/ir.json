@@ -39559,6 +39559,18 @@
       "preposition_root": null
     },
     {
+      "name": "aligns_with",
+      "from_kind": "node",
+      "to_kind": "node",
+      "cardinality": "one_to_many",
+      "link_vals": {},
+      "inverse_of": null,
+      "reverse_name": null,
+      "group_file": "aligns_with.yaml",
+      "verb_root": null,
+      "preposition_root": null
+    },
+    {
       "name": "allowed_by",
       "from_kind": "intellectual_property",
       "to_kind": "organization",
@@ -39843,6 +39855,18 @@
       "inverse_of": null,
       "reverse_name": null,
       "group_file": "cited_by.yaml",
+      "verb_root": null,
+      "preposition_root": null
+    },
+    {
+      "name": "cites",
+      "from_kind": "node",
+      "to_kind": "node",
+      "cardinality": "one_to_many",
+      "link_vals": {},
+      "inverse_of": null,
+      "reverse_name": null,
+      "group_file": "cites.yaml",
       "verb_root": null,
       "preposition_root": null
     },
