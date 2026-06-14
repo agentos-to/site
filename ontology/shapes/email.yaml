@@ -39,7 +39,9 @@ email:
     mailer:            string    # X-Mailer or User-Agent — what sent the email
     returnPath:       string    # Return-Path — envelope sender for bounces
     authResults:      string    # Authentication-Results: spf/dkim/dmarc verdicts
-    bodyHtml:         text      # HTML body (can be large)
+    # The body is not a val — it lives in the content table as a typed
+    # representation (text/html for the rich part, text/plain otherwise),
+    # so it renders through the same MIME pipeline as any other content.
   links:
     sent_by:              account   # sender
     addressed_to:                account[] # recipients
