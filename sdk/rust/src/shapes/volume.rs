@@ -26,6 +26,7 @@ pub struct Volume {
     pub read_only: Option<bool>,
     pub removable: Option<bool>,
     pub scope: Option<String>,
+    pub source: Option<String>,
     pub total_bytes: Option<i64>,
     #[serde(rename = "volume_id")]
     pub volume_id: Option<String>,
@@ -55,6 +56,7 @@ pub static VOLUME: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("readOnly", FieldType::Boolean),
         FieldDef::optional("removable", FieldType::Boolean),
         FieldDef::optional("scope", FieldType::String),
+        FieldDef::optional("source", FieldType::String),
         FieldDef::optional("totalBytes", FieldType::Integer),
         FieldDef::optional("volume_id", FieldType::String),
     ],

@@ -22,11 +22,21 @@ volume:
                             #   the live registry; stamped here so the UI
                             #   can recover it without round-tripping
                             #   through the mount registry.
-    kind:        string    # the transport axis. "memex" | "text" — built-in
-                            #   (the engine opens a SQLite pool / YAML dir).
+    kind:        string    # the transport axis. "memex" — built-in (a graph
+                            #   at rest the engine opens: a SQLite pool or a
+                            #   materialized YAML dir; the fork is `source`).
                             #   "filesystem" — served live by the app that
                             #   announced it via @provides(volume_transport);
                             #   later: "browser" | "service" | "device".
+    source:      string    # how a graph-backed volume was populated —
+                            #   "sqlite" (a `.db` you author, direct write
+                            #   path) or "yaml" (a YAML dir, materialized
+                            #   into a throwaway cache, git is the write
+                            #   path). The honest format name — the
+                            #   materializer is `format::yaml`. Orthogonal to
+                            #   `kind`: the materialize-on-change behavior keys
+                            #   off this, so `kind` carries one fork (memex vs
+                            #   transport), never provenance.
     address:     string    # the locator, transport-specific. memex: absolute
                             #   `.db` path. text: the YAML dir. filesystem:
                             #   the mount point ("/", "/Volumes/Backup").

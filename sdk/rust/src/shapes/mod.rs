@@ -1666,7 +1666,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("user", &["osUsername", "primaryUser", "actorType"]),
     ("user_identity", &["user_id", "volume_id", "person_node_id", "active"]),
     ("video", &["durationMs", "resolution", "frameRate", "codec", "viewCount", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
-    ("volume", &["volume_id", "kind", "address", "provider", "auto_mount", "readOnly", "removable", "totalBytes", "freeBytes", "scope", "icon", "default_view"]),
+    ("volume", &["volume_id", "kind", "source", "address", "provider", "auto_mount", "readOnly", "removable", "totalBytes", "freeBytes", "scope", "icon", "default_view"]),
     ("webpage", &["visitCount", "lastVisitUnix", "contentType", "favicon", "error"]),
     ("website", &["status", "versionId", "anonymous", "claimToken", "claimUrl"]),
 ];

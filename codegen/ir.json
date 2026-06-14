@@ -38137,6 +38137,13 @@
           "target": null
         },
         {
+          "name": "source",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "totalBytes",
           "type": "integer",
           "is_relation": false,
@@ -38176,6 +38183,13 @@
         },
         {
           "name": "kind",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "source",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -38271,11 +38285,12 @@
         }
       ],
       "source_path": "volume.yaml",
-      "raw_body": "plural: volumes\ndisplay:\n  subtitle: kind\nicon: drive\nfields:\n  volume_id: string\n  kind: string\n  address: string\n  provider: string\n  auto_mount: boolean\n  readOnly: boolean\n  removable: boolean\n  totalBytes: integer\n  freeBytes: integer\n  scope: string\n  icon: string\n  default_view: string\nprior_art:\n- source: HDT (Header, Dictionary, Triples)\n  url: https://www.rdfhdt.org/what-is-hdt/\n  notes: \"RDF binary file format; one file = one queryable graph. The Header describes\\\n    \\ the dataset in its own vocabulary \\u2014 same shapes-ride-along move as our\\\n    \\ embedded ontology.\"\n- source: Stardog Virtual Graphs\n  url: https://docs.stardog.com/virtual-graphs/\n  notes: Register an external source under a URI; query as a named graph. Our volume\n    shape is the registration row; mount/unmount is the verb pair.\n- source: macOS Disk Utility / DMG\n  url: https://support.apple.com/guide/disk-utility/welcome/mac\n  notes: The UX mental model. A volume is an attached, browseable disk; the Finder\n    shows it in the sidebar; eject detaches it without destroying the underlying file.\n",
+      "raw_body": "plural: volumes\ndisplay:\n  subtitle: kind\nicon: drive\nfields:\n  volume_id: string\n  kind: string\n  source: string\n  address: string\n  provider: string\n  auto_mount: boolean\n  readOnly: boolean\n  removable: boolean\n  totalBytes: integer\n  freeBytes: integer\n  scope: string\n  icon: string\n  default_view: string\nprior_art:\n- source: HDT (Header, Dictionary, Triples)\n  url: https://www.rdfhdt.org/what-is-hdt/\n  notes: \"RDF binary file format; one file = one queryable graph. The Header describes\\\n    \\ the dataset in its own vocabulary \\u2014 same shapes-ride-along move as our\\\n    \\ embedded ontology.\"\n- source: Stardog Virtual Graphs\n  url: https://docs.stardog.com/virtual-graphs/\n  notes: Register an external source under a URI; query as a named graph. Our volume\n    shape is the registration row; mount/unmount is the verb pair.\n- source: macOS Disk Utility / DMG\n  url: https://support.apple.com/guide/disk-utility/welcome/mac\n  notes: The UX mental model. A volume is an attached, browseable disk; the Finder\n    shows it in the sidebar; eject detaches it without destroying the underlying file.\n",
       "ancestors": [],
       "field_order": [
         "volume_id",
         "kind",
+        "source",
         "address",
         "provider",
         "auto_mount",
