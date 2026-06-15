@@ -54,7 +54,6 @@ pub mod fare;
 pub mod file;
 pub mod financial_account;
 pub mod flight;
-pub mod flow;
 pub mod font;
 pub mod git_commit;
 pub mod group;
@@ -115,7 +114,6 @@ pub mod software;
 pub mod sound;
 pub mod source;
 pub mod spec;
-pub mod step;
 pub mod subscription;
 pub mod symbol;
 pub mod tag;
@@ -170,7 +168,6 @@ pub use fare::{FARE, Fare};
 pub use file::{FILE, File};
 pub use financial_account::{FINANCIAL_ACCOUNT, FinancialAccount};
 pub use flight::{FLIGHT, Flight};
-pub use flow::{FLOW, Flow};
 pub use font::{FONT, Font};
 pub use git_commit::{GIT_COMMIT, GitCommit};
 pub use group::{GROUP, Group};
@@ -231,7 +228,6 @@ pub use software::{SOFTWARE, Software};
 pub use sound::{SOUND, Sound};
 pub use source::{SOURCE, Source};
 pub use spec::{SPEC, Spec};
-pub use step::{STEP, Step};
 pub use subscription::{SUBSCRIPTION, Subscription};
 pub use symbol::{SYMBOL, Symbol};
 pub use tag::{TAG, Tag};
@@ -292,7 +288,6 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "file" => Some(&FILE),
         "financial_account" => Some(&FINANCIAL_ACCOUNT),
         "flight" => Some(&FLIGHT),
-        "flow" => Some(&FLOW),
         "font" => Some(&FONT),
         "git_commit" => Some(&GIT_COMMIT),
         "group" => Some(&GROUP),
@@ -353,7 +348,6 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "sound" => Some(&SOUND),
         "source" => Some(&SOURCE),
         "spec" => Some(&SPEC),
-        "step" => Some(&STEP),
         "subscription" => Some(&SUBSCRIPTION),
         "symbol" => Some(&SYMBOL),
         "tag" => Some(&TAG),
@@ -746,16 +740,6 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         mono: None,
         preview: &[],
         also: &["leg", "event"],
-    }),
-    ("flow", Display {
-        title: None,
-        subtitle: Some("goal"),
-        image: None,
-        highlights: &["trigger", "status"],
-        body: None,
-        mono: None,
-        preview: &[],
-        also: &[],
     }),
     ("font", Display {
         title: None,
@@ -1357,16 +1341,6 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &["task", "event", "file"],
     }),
-    ("step", Display {
-        title: None,
-        subtitle: Some("status"),
-        image: None,
-        highlights: &["position", "status"],
-        body: Some("detail"),
-        mono: None,
-        preview: &[],
-        also: &[],
-    }),
     ("subscription", Display {
         title: None,
         subtitle: Some("target"),
@@ -1602,7 +1576,6 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("file", &["filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("financial_account", &["identifier", "accountId", "accountNumber", "routingNumber", "last4", "currency", "accountType", "balance", "available", "creditLimit", "minimumPayment", "cardType", "interestRate"]),
     ("flight", &["flightNumber", "durationMinutes", "cabinClass", "stops", "carbonEmissions", "sequence", "departureTime", "arrivalTime", "duration", "vehicleType", "layoverMinutes", "trace", "tracePointCount", "polyline", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
-    ("flow", &["goal", "trigger", "status"]),
     ("font", &["family", "genericFamily", "postscriptName", "weights", "styles", "formats", "scripts", "glyphCount", "designerUrl", "vendorUrl", "licenseInfoUrl", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags"]),
     ("git_commit", &["sha", "shortHash", "message", "additions", "deletions", "filesChanged", "committedAt", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("group", &["memberCount", "category"]),
@@ -1663,7 +1636,6 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("sound", &["durationMs", "channels", "sampleRate", "bitDepth", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("source", &["sourceId", "address", "scanner", "enabled", "description", "lastSynced"]),
     ("spec", &["problem", "successCriteria", "remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
-    ("step", &["position", "detail", "status"]),
     ("subscription", &["app", "op", "target"]),
     ("symbol", &["urn", "kind", "lang", "signature", "summary", "sourcePath", "sourceLine"]),
     ("tag", &["color", "tagType", "annotated", "hash"]),
@@ -1728,7 +1700,6 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("file", "files"),
     ("financial_account", "financial_accounts"),
     ("flight", "flights"),
-    ("flow", "flows"),
     ("font", "fonts"),
     ("git_commit", "git_commits"),
     ("group", "groups"),
@@ -1789,7 +1760,6 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("sound", "sounds"),
     ("source", "sources"),
     ("spec", "specs"),
-    ("step", "steps"),
     ("subscription", "subscriptions"),
     ("symbol", "symbols"),
     ("tag", "tags"),
