@@ -532,16 +532,24 @@ DEPRECATED_FRONTMATTER = {
 
 # Standard fields available on every shape without being declared.
 STANDARD_FIELDS = {
-    "id", "name", "text", "url", "image", "author", "published", "content",
+    "id", "name", "text", "url", "image", "author", "published",
     "platform",
 }
+
+# The content-pipeline trio — a node's *body*, not a val. The engine
+# consumes these in `prepare_node_data` and routes them to the content
+# table (`extraction.rs` skips them when building vals), so they're
+# universal to every shape and never declared per-shape: `content` is the
+# bytes, `content_role` their role (default "body"), `content_mime` their
+# declared type (default text/markdown). Any node can carry a typed body.
+CONTENT_FIELDS = {"content", "content_role", "content_mime"}
 
 # Internal fields the engine uses that aren't shape fields.
 #
 # `authenticated` is `check_session`'s runtime freshness signal — the
 # engine consumes it to decide whether to persist + trigger auto-login,
 # never lands it on the account node (per `plan.md` Decision 3).
-SYSTEM_RETURN_FIELDS = {"content_role", "_source", "error", "authenticated"}
+SYSTEM_RETURN_FIELDS = {"_source", "error", "authenticated"}
 
 # @returns values that aren't shape names — primitives, informal hints,
 # or inline dicts (handled separately).
@@ -1647,7 +1655,7 @@ def check_shape_conformance(app_dir: Path, shapes_dir: Path | None) -> list[str]
             if missing_arm and not (shape_fields or shape_relations):
                 continue
             shape_label = " | ".join(shape_names)
-            all_valid_keys = STANDARD_FIELDS | shape_fields | shape_relations | SYSTEM_RETURN_FIELDS
+            all_valid_keys = STANDARD_FIELDS | CONTENT_FIELDS | shape_fields | shape_relations | SYSTEM_RETURN_FIELDS
 
             returned_keys = _extract_return_keys_from_function(tree, node.name)
             if returned_keys is None:
