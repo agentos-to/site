@@ -7,7 +7,7 @@
 # engine restart (`auto_mount: true`).
 #
 # Mount lifecycle is six steps; this shape captures the persisted state
-# of step 5. See `core/_roadmap/p2/realms-transports/plan.md`.
+# of step 5. See `core/_product/p2/realms-transports/plan.md`.
 volume:
   plural: volumes
   display:

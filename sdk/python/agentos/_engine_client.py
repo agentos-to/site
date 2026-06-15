@@ -177,7 +177,7 @@ class _DataNamespace:
 
         Examples:
             read({ id: "abc123" })
-            read({ id: "roadmap", volume: "agentos-roadmap", depth: 4 })
+            read({ id: "roadmap", volume: "agentos-product", depth: 4 })
         """
         return self._call("data.read", params)
 

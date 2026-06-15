@@ -7,7 +7,7 @@ truth for what apps decorated `@provides(oauth_auth, ...)` /
 projections off the `AuthContract` IR — they never traverse raw YAML.
 
 Why: the mimestream camelCase / engine snake_case bug
-(_roadmap/p1/observability/panes.md). Implicit contracts → silent
+(_product/p1/observability/panes.md). Implicit contracts → silent
 401s. Explicit contracts → uncommittable bugs.
 """
 
@@ -135,7 +135,7 @@ def emit_rust_auth_contracts(onto: Ontology) -> str:
         "// Replaces literal field-name strings (\"access_token\", \"refresh_token\",",
         "// etc.) scattered through crates/auth/src/{types,resolve,source,cache}.rs.",
         "//",
-        "// See _roadmap/p1/observability/panes.md for the bug that motivated this.",
+        "// See _product/p1/observability/panes.md for the bug that motivated this.",
         "",
         "#![allow(dead_code)]",
         "",

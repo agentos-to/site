@@ -38260,7 +38260,7 @@
       },
       "identity": [],
       "identity_any": [],
-      "leading_comment": "A mounted Volume — any named source of typed nodes the engine has\nattached to the Registry: a `.db` memex file, a YAML text volume, or a\ntransport volume served live by an app (the host filesystem, a USB\nstick, a browser's data). The home graph is the always-mounted\nwriteable Volume; it is the hardcoded constant. Every OTHER mount IS a\n`volume` node — one row per mount, persisted so the mount survives\nengine restart (`auto_mount: true`).\n\nMount lifecycle is six steps; this shape captures the persisted state\nof step 5. See `core/_roadmap/p2/realms-transports/plan.md`.",
+      "leading_comment": "A mounted Volume — any named source of typed nodes the engine has\nattached to the Registry: a `.db` memex file, a YAML text volume, or a\ntransport volume served live by an app (the host filesystem, a USB\nstick, a browser's data). The home graph is the always-mounted\nwriteable Volume; it is the hardcoded constant. Every OTHER mount IS a\n`volume` node — one row per mount, persisted so the mount survives\nengine restart (`auto_mount: true`).\n\nMount lifecycle is six steps; this shape captures the persisted state\nof step 5. See `core/_product/p2/realms-transports/plan.md`.",
       "own_fields": [
         {
           "name": "volume_id",
@@ -42216,7 +42216,7 @@
     },
     {
       "name": "volume_transport",
-      "description": "The providing app announces mountable volumes and serves their contents to the finder/graph layer. One service, a fixed three-verb interface: `list_volumes()` → volume[] (ANNOUNCE — called at boot and on refresh; entries upsert as volume nodes under a realm), `list_contents(id, cursor?)` → typed child nodes + nextCursor (SERVE), `read_node(id)` → one node's full detail. The provides binding (`via`) names `list_volumes` only — it marks the app as a transport; `list_contents` / `read_node` are reached by their fixed names on the announcing app (browse binds to the stamped provider, never a fresh service walk). Read-only by construction: the write verbs don't exist yet. Contract: core/_roadmap/p2/realms-transports/plan.md \"The transport contract\".",
+      "description": "The providing app announces mountable volumes and serves their contents to the finder/graph layer. One service, a fixed three-verb interface: `list_volumes()` → volume[] (ANNOUNCE — called at boot and on refresh; entries upsert as volume nodes under a realm), `list_contents(id, cursor?)` → typed child nodes + nextCursor (SERVE), `read_node(id)` → one node's full detail. The provides binding (`via`) names `list_volumes` only — it marks the app as a transport; `list_contents` / `read_node` are reached by their fixed names on the announcing app (browse binds to the stamped provider, never a fresh service walk). Read-only by construction: the write verbs don't exist yet. Contract: core/_product/p2/realms-transports/plan.md \"The transport contract\".",
       "params": {},
       "returns": "volume",
       "leading_comment": "Announce + serve mountable volumes (the KIO-worker / 9P read-only core)."

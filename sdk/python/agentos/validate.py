@@ -1809,7 +1809,7 @@ def _load_auth_contracts() -> dict[str, dict] | None:
 def check_check_session_identity(app_dir: Path) -> tuple[list[str], list[str]]:
     """Enforce the `check_session` identity contract at commit time.
 
-    Per `_roadmap/p1/fix-auth/credential-providers-and-identity.md` Decision 8:
+    Per `_product/p1/fix-auth/credential-providers-and-identity.md` Decision 8:
       - `authenticated: True` returns MUST include an `identifier` field.
       - `identifier` MUST NOT be a pure-integer literal (the Goodreads
         `"26631647"` antipattern). Use the service's email, handle, or
@@ -1991,7 +1991,7 @@ def check_auth_provider_contract(app_dir: Path) -> list[str]:
 
     Catches the `mimestream.credential_get returned accessToken` bug (and
     every future copy of it) before commit. See
-    `_roadmap/p1/observability/panes.md` for the full incident.
+    `_product/p1/observability/panes.md` for the full incident.
     """
     issues: list[str] = []
     contracts = _load_auth_contracts()

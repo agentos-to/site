@@ -21,7 +21,7 @@ font:
                                   # AND the font.mono slot picker filter. From
                                   # OS/2.sFamilyClass + post.isFixedPitch (a
                                   # fixed-pitch font is monospace). See
-                                  # _roadmap/p1/theming/fonts.md.
+                                  # _product/p1/theming/fonts.md.
     postscriptName:    string     # "MS-Sans-Serif" — PostScript-safe id
                                   # (no spaces, ASCII; used in @font-face)
     weights:           integer[]  # [400, 700] — the cuts that ship

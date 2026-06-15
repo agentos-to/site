@@ -1,6 +1,6 @@
 """Tool-surface registry loader — `agentos call --json system.schema`.
 
-Per D11 (`_roadmap/p1/unified-surface/unified-surface.md`) the registry in
+Per D11 (`_product/p1/unified-surface/unified-surface.md`) the registry in
 `crates/core/src/tools.rs` is the single source of truth. This module fetches
 it from a running engine for registry-driven codegen (`sdk_client.py`, the
 `--sdk-client` path). The MCP tool registry's *docs* projection lives in the

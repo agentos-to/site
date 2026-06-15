@@ -65,7 +65,7 @@ from agentos.dates import parse_date, iso_from_ms, iso_from_seconds
 
 # Engine dispatch Client — talks to a running engine over its MCP socket.
 # Auto-generated from the registry in crates/core/src/tools.rs (see D11
-# in _roadmap/p1/unified-surface/unified-surface.md). External Python
+# in _product/p1/unified-surface/unified-surface.md). External Python
 # scripts use `from agentos import Client, AsyncClient`; apps use
 # their in-process SDK modules above.
 from agentos._engine_client import Client, AsyncClient, EngineError

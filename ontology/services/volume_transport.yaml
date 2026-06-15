@@ -11,5 +11,5 @@ description: >-
   names on the announcing app (browse binds to the stamped provider,
   never a fresh service walk). Read-only by construction: the write
   verbs don't exist yet. Contract:
-  core/_roadmap/p2/realms-transports/plan.md "The transport contract".
+  core/_product/p2/realms-transports/plan.md "The transport contract".
 returns: volume

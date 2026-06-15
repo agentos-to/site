@@ -67,7 +67,7 @@ class Field:
 # table / markdown preview all project. Five roles (`ROLE_REGISTRY`), each
 # optional. `title` defaults to the standard `name` field when absent;
 # everything not bound is *unpromoted* and renders at detail density in
-# YAML declaration order. See `core/_roadmap/p1/shape-display/plan.md`.
+# YAML declaration order. See `core/_product/p1/shape-display/plan.md`.
 DISPLAY_ROLES = {"title", "subtitle", "image", "highlights", "body", "mono"}
 
 

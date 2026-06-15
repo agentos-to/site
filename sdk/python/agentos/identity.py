@@ -9,7 +9,7 @@ engine-side normalization logic.
 
 The engine trusts what apps return. These helpers are the contract.
 
-Conventions per `_roadmap/p1/fix-auth/credential-providers-and-identity.md`
+Conventions per `_product/p1/fix-auth/credential-providers-and-identity.md`
 Decision 8:
 
 - **Email**: lowercase local-part + IDN-punycode domain. No Gmail

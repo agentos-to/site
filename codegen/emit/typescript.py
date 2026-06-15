@@ -40,7 +40,7 @@ def emit_typescript(onto: Ontology) -> str:
         "// ─── Display spec — `display:` block per shape ──────────────────────────",
         "// The closed role vocabulary every theme renders against; the frontend's",
         "// `resolveDisplay()` reads `SHAPE_DISPLAY[shape]` and projects a",
-        "// `DisplayModel` from a node. See core/_roadmap/p1/shape-display/plan.md.",
+        "// `DisplayModel` from a node. See core/_product/p1/shape-display/plan.md.",
         "",
         "export interface Display {",
         "    title?: string;       // → a field (default: `name`)",
