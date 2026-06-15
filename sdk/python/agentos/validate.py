@@ -412,9 +412,9 @@ def _find_apps_dir(start: Path | None = None) -> Path | None:
 
     Resolution order:
       1. AGENTOS_APPS_DIR env var
-      2. <start>/apps/ if it contains nested readme.md files
-      3. Walk up from <start> looking for an `apps/` directory that
-         contains readme.md files (typical: the workspace root)
+      2. Walk up from <start> looking for an apps home that contains
+         readme.md files — either `<base>/apps` or `<base>/commons/apps`
+         (apps now ship under commons/ alongside themes/ + wallpapers/).
     """
     env = os.environ.get("AGENTOS_APPS_DIR")
     if env:
@@ -439,9 +439,9 @@ def _find_apps_dir(start: Path | None = None) -> Path | None:
         return False
 
     for base in [start, *start.parents]:
-        candidate = base / "apps"
-        if _has_apps(candidate):
-            return candidate
+        for candidate in (base / "apps", base / "commons" / "apps"):
+            if _has_apps(candidate):
+                return candidate
 
     return None
 
