@@ -21,10 +21,13 @@ outcome:
     current:    string   # latest observed value
     target:     string   # the value that counts as success
   links:
+    addresses:   issue[]      # the demand this outcome exists to resolve — the spine of
+                              # the board. An outcome that addresses nothing is a smell.
+    owns:        outcome[]    # sub-outcomes — the ONLY nesting (subsumes milestone + requirement)
+    part_of:     outcome      # inverse of owns — this outcome's parent
     depends_on:  outcome[]    # upstream outcomes that must move first
     upholds:     principle[]  # the bright-lines this outcome must honor
     serves:      node[]       # who it's for — a persona (archetype), or a real person / organization
-    owns:        node[]       # the flows / requirements / changes that compose it
   prior_art:
     - source: John Doerr, "Measure What Matters" (OKR)
       url: https://www.whatmatters.com/faqs/okr-meaning-definition-example

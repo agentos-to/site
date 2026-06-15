@@ -1,0 +1,36 @@
+# A dated, directional endorsement of an issue. Each cast is its OWN node,
+# not a link: a person votes once, but the Sleep agent re-hits the same wall
+# night after night — recurrence between the same two parties forces a node
+# (ontology rule 3: the storage layer stores at most one link per
+# (from,label,to), so N encounters cannot be N links). A vote node per
+# encounter gives weight = how many times, by whom, when — and lets an agent
+# vote carry the concrete evidence (`instance`) that recurred.
+vote:
+  plural: votes
+  display:
+    subtitle: direction
+    body: note
+  icon: arrow-big-up
+  fields:
+    direction: string    # up | down — first-class both ways (board may surface up-only)
+    note:      text      # optional WHY / what recurred (agent evidence)
+    instance:  string    # optional evidence anchor (commit hash, exchange id)
+    # No `date` field: a vote is written at the moment it's cast, so the node's
+    # intrinsic created_at IS the cast time — recency ("last seen 2d ago") reads
+    # that. One fewer authored field, and rule 1 (no node-borne dates) holds.
+  links:
+    for:      issue   # what it endorses (bare-preposition stative, like membership `for`)
+    cast_by:  actor   # who cast it — person or agent (`_by` = agent of the action)
+  prior_art:
+    - source: Canny / Featurebase vote object
+      url: https://developers.canny.io/api-reference
+      notes: >-
+        A vote is an object (voter + post + created date), not a counter — so
+        duplicates merge and votes roll up. Our `for`/`cast_by`/`date` mirror
+        Canny's post/voter/created; score is derived from the set, never stored.
+    - source: ActivityStreams 2.0 Like
+      url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-like
+      notes: >-
+        A Like is an Activity with actor + object — our cast_by ≈ actor, for ≈
+        object. We add `direction` (up/down) and `note`/`instance` for
+        evidence-bearing agent recurrence, which AS2 Like lacks.

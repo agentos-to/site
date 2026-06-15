@@ -5325,235 +5325,6 @@
       "prefs_schemas": {}
     },
     {
-      "name": "change",
-      "class_name": "Change",
-      "fields": [
-        {
-          "name": "id",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "text",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "url",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "image",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "author",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "datePublished",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "content",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "kind",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "path",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "phase",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "summary",
-          "type": "text",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "version",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "derived_from",
-          "type": "change",
-          "is_relation": true,
-          "is_array": false,
-          "target": "change"
-        },
-        {
-          "name": "modifies",
-          "type": "node",
-          "is_relation": true,
-          "is_array": false,
-          "target": "node"
-        }
-      ],
-      "also": [],
-      "plural": "changes",
-      "subtitle": "kind",
-      "display": {
-        "title": null,
-        "subtitle": "kind",
-        "image": null,
-        "highlights": [
-          "status",
-          "phase",
-          "path"
-        ],
-        "body": "summary",
-        "mono": null,
-        "preview": {}
-      },
-      "identity": [],
-      "identity_any": [],
-      "leading_comment": "A delta on something — a file born/modified/removed, a document revision,\na changelog entry, a release note. The universal \"what changed\" record.\n`kind` is the FATE of the target (so a drift audit can assert existence);\n`path` (when the target is a file) lets a checker stat it.",
-      "own_fields": [
-        {
-          "name": "kind",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "summary",
-          "type": "text",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "path",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "phase",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "version",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        }
-      ],
-      "own_relations": [
-        {
-          "name": "modifies",
-          "type": "node",
-          "is_relation": true,
-          "is_array": false,
-          "target": "node"
-        },
-        {
-          "name": "derived_from",
-          "type": "change",
-          "is_relation": true,
-          "is_array": false,
-          "target": "change"
-        }
-      ],
-      "prior_art": [
-        {
-          "source": "PROV-O (W3C)",
-          "url": "https://www.w3.org/TR/prov-o/",
-          "notes": "wasRevisionOf / wasGeneratedBy / wasInvalidatedBy model born/modified/removed → kind + the derived_from edge."
-        },
-        {
-          "source": "Keep a Changelog 1.1.0",
-          "url": "https://keepachangelog.com/en/1.1.0/",
-          "notes": "The six categories (Added/Changed/Deprecated/Removed/Fixed/Security) are the canonical `kind` enum."
-        },
-        {
-          "source": "Conventional Commits 1.0.0 + SemVer 2.0.0",
-          "url": "https://www.conventionalcommits.org/",
-          "notes": "Commit type → impact tier (feat=minor, fix=patch, BREAKING=major); supplies the `version` semantics."
-        }
-      ],
-      "source_path": "change.yaml",
-      "raw_body": "plural: changes\ndisplay:\n  subtitle: kind\n  body: summary\n  highlights:\n  - status\n  - phase\n  - path\nicon: file-diff\nfields:\n  kind: string\n  summary: text\n  status: string\n  path: string\n  phase: string\n  version: string\nlinks:\n  modifies: node\n  derived_from: change\nprior_art:\n- source: PROV-O (W3C)\n  url: https://www.w3.org/TR/prov-o/\n  notes: \"wasRevisionOf / wasGeneratedBy / wasInvalidatedBy model born/modified/removed\\\n    \\ \\u2192 kind + the derived_from edge.\"\n- source: Keep a Changelog 1.1.0\n  url: https://keepachangelog.com/en/1.1.0/\n  notes: The six categories (Added/Changed/Deprecated/Removed/Fixed/Security) are\n    the canonical `kind` enum.\n- source: Conventional Commits 1.0.0 + SemVer 2.0.0\n  url: https://www.conventionalcommits.org/\n  notes: \"Commit type \\u2192 impact tier (feat=minor, fix=patch, BREAKING=major);\\\n    \\ supplies the `version` semantics.\"\n",
-      "ancestors": [],
-      "field_order": [
-        "kind",
-        "summary",
-        "status",
-        "path",
-        "phase",
-        "version"
-      ],
-      "derived": {},
-      "groups": [],
-      "shortcuts": {},
-      "prefs_schemas": {}
-    },
-    {
       "name": "channel",
       "class_name": "Channel",
       "fields": [
@@ -17649,6 +17420,295 @@
       "prefs_schemas": {}
     },
     {
+      "name": "issue",
+      "class_name": "Issue",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "commentCount",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "community",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "declined",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "externalUrl",
+          "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "postType",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "score",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "addressed_by",
+          "type": "outcome[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "outcome"
+        },
+        {
+          "name": "at_namespace",
+          "type": "actor",
+          "is_relation": true,
+          "is_array": false,
+          "target": "actor"
+        },
+        {
+          "name": "contains",
+          "type": "video[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "video"
+        },
+        {
+          "name": "posted_by",
+          "type": "account",
+          "is_relation": true,
+          "is_array": false,
+          "target": "account"
+        },
+        {
+          "name": "published_in",
+          "type": "community",
+          "is_relation": true,
+          "is_array": false,
+          "target": "community"
+        },
+        {
+          "name": "replies",
+          "type": "post[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "post"
+        },
+        {
+          "name": "replies_to",
+          "type": "post",
+          "is_relation": true,
+          "is_array": false,
+          "target": "post"
+        },
+        {
+          "name": "shows",
+          "type": "image[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "image"
+        },
+        {
+          "name": "votes",
+          "type": "vote[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "vote"
+        }
+      ],
+      "also": [
+        "post"
+      ],
+      "plural": "issues",
+      "subtitle": "status",
+      "display": {
+        "title": null,
+        "subtitle": "status",
+        "image": null,
+        "highlights": [
+          "status",
+          "weight"
+        ],
+        "body": null,
+        "mono": null,
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "The demand atom of the product board — a problem, request, or observation.\n`also: [post]`, so it IS a post (exactly like `review`): it inherits content,\nposted_by, score, and replies_to — meaning a comment is just a post that\nreplies_to the issue, for free. It adds only the demand semantics.\n\nstatus is NOT stored — it's DERIVED from the addressing outcome (below), so\nthe board can never drift the way a hand-kept \"✓ done\" can. The ONLY authored\ninput is `declined` (won't-do), which no edge can imply.",
+      "own_fields": [
+        {
+          "name": "declined",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [
+        {
+          "name": "addressed_by",
+          "type": "outcome[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "outcome"
+        },
+        {
+          "name": "votes",
+          "type": "vote[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "vote"
+        }
+      ],
+      "prior_art": [
+        {
+          "source": "Linear issue + Customer Requests",
+          "url": "https://linear.app/docs/customer-requests",
+          "notes": "An issue aggregates a request count rather than storing a status the team hand-maintains. Our weight ≈ the request count; status is derived from the addressing outcome's stage, never typed on the issue."
+        },
+        {
+          "source": "Teresa Torres — Opportunity Solution Tree",
+          "url": "https://www.producttalk.org/2016/08/opportunity-solution-tree/",
+          "notes": "An opportunity (problem) is the citizen; solutions hang off it. Our issue is the opportunity; outcome `addresses` issue is the spine that makes a solution earn its existence."
+        },
+        {
+          "source": "Canny / Featurebase post",
+          "url": "https://canny.io/",
+          "notes": "The shipped atom is a demand item with a vote tally and a status lifecycle, grouped by status into a roadmap. issue (also post) + vote is that atom; the roadmap is this list grouped by derived status."
+        }
+      ],
+      "source_path": "issue.yaml",
+      "raw_body": "plural: issues\nalso:\n- post\ndisplay:\n  subtitle: status\n  highlights:\n  - status\n  - weight\nicon: message-circle-warning\nfields:\n  declined: boolean\nlinks:\n  addressed_by: outcome[]\n  votes: vote[]\nderived:\n  upvotes:\n    count: for\n    where:\n      direction: up\n  downvotes:\n    count: for\n    where:\n      direction: down\n  weight:\n    tally: for\n    by: direction\n    map:\n      up: 1\n      down: -1\n  status:\n    reverse: addresses\n    get: status\n    prefer:\n    - achieved\n    - active\n    - at-risk\n    - proposed\n    map:\n      achieved: addressed\n      active: in-progress\n      at-risk: in-progress\n      proposed: planned\n    default: open\n    authored:\n      field: declined\n      equals: true\n      then: declined\nprior_art:\n- source: Linear issue + Customer Requests\n  url: https://linear.app/docs/customer-requests\n  notes: \"An issue aggregates a request count rather than storing a status the team\\\n    \\ hand-maintains. Our weight \\u2248 the request count; status is derived from\\\n    \\ the addressing outcome's stage, never typed on the issue.\"\n- source: \"Teresa Torres \\u2014 Opportunity Solution Tree\"\n  url: https://www.producttalk.org/2016/08/opportunity-solution-tree/\n  notes: An opportunity (problem) is the citizen; solutions hang off it. Our issue\n    is the opportunity; outcome `addresses` issue is the spine that makes a solution\n    earn its existence.\n- source: Canny / Featurebase post\n  url: https://canny.io/\n  notes: The shipped atom is a demand item with a vote tally and a status lifecycle,\n    grouped by status into a roadmap. issue (also post) + vote is that atom; the roadmap\n    is this list grouped by derived status.\n",
+      "ancestors": [
+        "post"
+      ],
+      "field_order": [
+        "declined",
+        "externalUrl",
+        "postType",
+        "score",
+        "commentCount",
+        "community"
+      ],
+      "derived": {
+        "upvotes": {
+          "count": "for",
+          "where": {
+            "direction": "up"
+          }
+        },
+        "downvotes": {
+          "count": "for",
+          "where": {
+            "direction": "down"
+          }
+        },
+        "weight": {
+          "tally": "for",
+          "by": "direction",
+          "map": {
+            "up": 1,
+            "down": -1
+          }
+        },
+        "status": {
+          "reverse": "addresses",
+          "get": "status",
+          "prefer": [
+            "achieved",
+            "active",
+            "at-risk",
+            "proposed"
+          ],
+          "map": {
+            "achieved": "addressed",
+            "active": "in-progress",
+            "at-risk": "in-progress",
+            "proposed": "planned"
+          },
+          "default": "open",
+          "authored": {
+            "field": "declined",
+            "equals": true,
+            "then": "declined"
+          }
+        }
+      },
+      "groups": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
       "name": "launch",
       "class_name": "Launch",
       "fields": [
@@ -22893,6 +22953,13 @@
           "target": null
         },
         {
+          "name": "addresses",
+          "type": "issue[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "issue"
+        },
+        {
           "name": "depends_on",
           "type": "outcome[]",
           "is_relation": true,
@@ -22901,10 +22968,17 @@
         },
         {
           "name": "owns",
-          "type": "node[]",
+          "type": "outcome[]",
           "is_relation": true,
           "is_array": true,
-          "target": "node"
+          "target": "outcome"
+        },
+        {
+          "name": "part_of",
+          "type": "outcome",
+          "is_relation": true,
+          "is_array": false,
+          "target": "outcome"
         },
         {
           "name": "serves",
@@ -22999,6 +23073,27 @@
       ],
       "own_relations": [
         {
+          "name": "addresses",
+          "type": "issue[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "issue"
+        },
+        {
+          "name": "owns",
+          "type": "outcome[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "outcome"
+        },
+        {
+          "name": "part_of",
+          "type": "outcome",
+          "is_relation": true,
+          "is_array": false,
+          "target": "outcome"
+        },
+        {
           "name": "depends_on",
           "type": "outcome[]",
           "is_relation": true,
@@ -23014,13 +23109,6 @@
         },
         {
           "name": "serves",
-          "type": "node[]",
-          "is_relation": true,
-          "is_array": true,
-          "target": "node"
-        },
-        {
-          "name": "owns",
           "type": "node[]",
           "is_relation": true,
           "is_array": true,
@@ -23045,7 +23133,7 @@
         }
       ],
       "source_path": "outcome.yaml",
-      "raw_body": "plural: outcomes\ndisplay:\n  subtitle: status\n  body: statement\n  highlights:\n  - status\n  - priority\nicon: target\nfields:\n  statement: text\n  status: string\n  priority: integer\n  archived: boolean\n  metric: string\n  baseline: string\n  current: string\n  target: string\nlinks:\n  depends_on: outcome[]\n  upholds: principle[]\n  serves: node[]\n  owns: node[]\nprior_art:\n- source: John Doerr, \"Measure What Matters\" (OKR)\n  url: https://www.whatmatters.com/faqs/okr-meaning-definition-example\n  notes: \"Objective \\u2192 statement; Key Result \\u2192 the metric/baseline/current/target\\\n    \\ quad (\\\"I will X as measured by Y\\\").\"\n- source: W.K. Kellogg Foundation Logic Model Development Guide\n  url: https://www.nj.gov/state/assets/pdf/ofbi/kellogg-foundation-logic-model-development-guide.pdf\n  notes: \"Outcomes as short/intermediate/long-term changes in a causal chain \\u2192\\\n    \\ the depends_on / advances edges.\"\n- source: schema.org/AchieveAction + result\n  url: https://schema.org/AchieveAction\n  notes: \"Closest schema.org neighbor, but `result` models what an action produced,\\\n    \\ not a tracked target-state \\u2014 so outcome is its own type.\"\n",
+      "raw_body": "plural: outcomes\ndisplay:\n  subtitle: status\n  body: statement\n  highlights:\n  - status\n  - priority\nicon: target\nfields:\n  statement: text\n  status: string\n  priority: integer\n  archived: boolean\n  metric: string\n  baseline: string\n  current: string\n  target: string\nlinks:\n  addresses: issue[]\n  owns: outcome[]\n  part_of: outcome\n  depends_on: outcome[]\n  upholds: principle[]\n  serves: node[]\nprior_art:\n- source: John Doerr, \"Measure What Matters\" (OKR)\n  url: https://www.whatmatters.com/faqs/okr-meaning-definition-example\n  notes: \"Objective \\u2192 statement; Key Result \\u2192 the metric/baseline/current/target\\\n    \\ quad (\\\"I will X as measured by Y\\\").\"\n- source: W.K. Kellogg Foundation Logic Model Development Guide\n  url: https://www.nj.gov/state/assets/pdf/ofbi/kellogg-foundation-logic-model-development-guide.pdf\n  notes: \"Outcomes as short/intermediate/long-term changes in a causal chain \\u2192\\\n    \\ the depends_on / advances edges.\"\n- source: schema.org/AchieveAction + result\n  url: https://schema.org/AchieveAction\n  notes: \"Closest schema.org neighbor, but `result` models what an action produced,\\\n    \\ not a tracked target-state \\u2014 so outcome is its own type.\"\n",
       "ancestors": [],
       "field_order": [
         "statement",
@@ -38301,6 +38389,181 @@
         "scope",
         "icon",
         "default_view"
+      ],
+      "derived": {},
+      "groups": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "vote",
+      "class_name": "Vote",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "direction",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "instance",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "note",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "cast_by",
+          "type": "actor",
+          "is_relation": true,
+          "is_array": false,
+          "target": "actor"
+        },
+        {
+          "name": "for",
+          "type": "issue",
+          "is_relation": true,
+          "is_array": false,
+          "target": "issue"
+        }
+      ],
+      "also": [],
+      "plural": "votes",
+      "subtitle": "direction",
+      "display": {
+        "title": null,
+        "subtitle": "direction",
+        "image": null,
+        "highlights": [],
+        "body": "note",
+        "mono": null,
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "A dated, directional endorsement of an issue. Each cast is its OWN node,\nnot a link: a person votes once, but the Sleep agent re-hits the same wall\nnight after night — recurrence between the same two parties forces a node\n(ontology rule 3: the storage layer stores at most one link per\n(from,label,to), so N encounters cannot be N links). A vote node per\nencounter gives weight = how many times, by whom, when — and lets an agent\nvote carry the concrete evidence (`instance`) that recurred.",
+      "own_fields": [
+        {
+          "name": "direction",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "note",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "instance",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [
+        {
+          "name": "for",
+          "type": "issue",
+          "is_relation": true,
+          "is_array": false,
+          "target": "issue"
+        },
+        {
+          "name": "cast_by",
+          "type": "actor",
+          "is_relation": true,
+          "is_array": false,
+          "target": "actor"
+        }
+      ],
+      "prior_art": [
+        {
+          "source": "Canny / Featurebase vote object",
+          "url": "https://developers.canny.io/api-reference",
+          "notes": "A vote is an object (voter + post + created date), not a counter — so duplicates merge and votes roll up. Our `for`/`cast_by`/`date` mirror Canny's post/voter/created; score is derived from the set, never stored."
+        },
+        {
+          "source": "ActivityStreams 2.0 Like",
+          "url": "https://www.w3.org/TR/activitystreams-vocabulary/#dfn-like",
+          "notes": "A Like is an Activity with actor + object — our cast_by ≈ actor, for ≈ object. We add `direction` (up/down) and `note`/`instance` for evidence-bearing agent recurrence, which AS2 Like lacks."
+        }
+      ],
+      "source_path": "vote.yaml",
+      "raw_body": "plural: votes\ndisplay:\n  subtitle: direction\n  body: note\nicon: arrow-big-up\nfields:\n  direction: string\n  note: text\n  instance: string\nlinks:\n  for: issue\n  cast_by: actor\nprior_art:\n- source: Canny / Featurebase vote object\n  url: https://developers.canny.io/api-reference\n  notes: \"A vote is an object (voter + post + created date), not a counter \\u2014\\\n    \\ so duplicates merge and votes roll up. Our `for`/`cast_by`/`date` mirror Canny's\\\n    \\ post/voter/created; score is derived from the set, never stored.\"\n- source: ActivityStreams 2.0 Like\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-like\n  notes: \"A Like is an Activity with actor + object \\u2014 our cast_by \\u2248 actor,\\\n    \\ for \\u2248 object. We add `direction` (up/down) and `note`/`instance` for evidence-bearing\\\n    \\ agent recurrence, which AS2 Like lacks.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "direction",
+        "note",
+        "instance"
       ],
       "derived": {},
       "groups": [],

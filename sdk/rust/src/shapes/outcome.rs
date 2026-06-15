@@ -48,10 +48,12 @@ pub static OUTCOME: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("target", FieldType::String),
     ],
     out: vec![
+        EdgeDef { label: "addresses".into(), to: Some("issue".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "owns".into(), to: Some("outcome".into()), from: None, card: Cardinality::Many },
+        EdgeDef { label: "part_of".into(), to: Some("outcome".into()), from: None, card: Cardinality::One },
         EdgeDef { label: "depends_on".into(), to: Some("outcome".into()), from: None, card: Cardinality::Many },
         EdgeDef { label: "upholds".into(), to: Some("principle".into()), from: None, card: Cardinality::Many },
         EdgeDef { label: "serves".into(), to: Some("node".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "owns".into(), to: Some("node".into()), from: None, card: Cardinality::Many },
     ],
     display: Some(DisplaySpec {
         subtitle: Some("status".into()),

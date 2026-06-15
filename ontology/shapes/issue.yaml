@@ -1,0 +1,54 @@
+# The demand atom of the product board — a problem, request, or observation.
+# `also: [post]`, so it IS a post (exactly like `review`): it inherits content,
+# posted_by, score, and replies_to — meaning a comment is just a post that
+# replies_to the issue, for free. It adds only the demand semantics.
+#
+# status is NOT stored — it's DERIVED from the addressing outcome (below), so
+# the board can never drift the way a hand-kept "✓ done" can. The ONLY authored
+# input is `declined` (won't-do), which no edge can imply.
+issue:
+  plural: issues
+  also: [post]                   # an issue is also a post — inherits content/comments/score
+  display:
+    subtitle: status
+    highlights: [status, weight]
+  icon: message-circle-warning
+  fields:
+    declined:  boolean   # the ONLY authored status input — "won't do". Everything
+                         # else about status falls out of the `addresses` edge.
+  links:
+    addressed_by:  outcome[]   # reverse of outcome.addresses — the solution(s) resolving it
+    votes:         vote[]      # reverse of vote.for — the dated endorsements
+  # Read-side projection — see crate `view::display` (reverse-edge aggregation).
+  # weight/up/down aggregate the INCOMING `for` edges (votes); status projects
+  # the INCOMING `addresses` edge's outcome status through a value-map.
+  derived:
+    upvotes:   {count: for, where: {direction: up}}
+    downvotes: {count: for, where: {direction: down}}
+    weight:    {tally: for, by: direction, map: {up: 1, down: -1}}
+    status:
+      reverse: addresses                                   # incoming outcome→issue edge
+      get:     status                                      # the addressing outcome's status
+      prefer:  [achieved, active, at-risk, proposed]       # most-advanced outcome wins
+      map:     {achieved: addressed, active: in-progress, at-risk: in-progress, proposed: planned}
+      default: open                                        # no addressing outcome
+      authored: {field: declined, equals: true, then: declined}
+  prior_art:
+    - source: Linear issue + Customer Requests
+      url: https://linear.app/docs/customer-requests
+      notes: >-
+        An issue aggregates a request count rather than storing a status the
+        team hand-maintains. Our weight ≈ the request count; status is derived
+        from the addressing outcome's stage, never typed on the issue.
+    - source: Teresa Torres — Opportunity Solution Tree
+      url: https://www.producttalk.org/2016/08/opportunity-solution-tree/
+      notes: >-
+        An opportunity (problem) is the citizen; solutions hang off it. Our
+        issue is the opportunity; outcome `addresses` issue is the spine that
+        makes a solution earn its existence.
+    - source: Canny / Featurebase post
+      url: https://canny.io/
+      notes: >-
+        The shipped atom is a demand item with a vote tally and a status
+        lifecycle, grouped by status into a roadmap. issue (also post) + vote
+        is that atom; the roadmap is this list grouped by derived status.

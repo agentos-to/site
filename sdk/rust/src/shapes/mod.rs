@@ -35,7 +35,6 @@ pub mod bookmark;
 pub mod branch;
 pub mod brand;
 pub mod calendar;
-pub mod change;
 pub mod channel;
 pub mod class;
 pub mod community;
@@ -71,6 +70,7 @@ pub mod icon;
 pub mod image;
 pub mod intellectual_property;
 pub mod invitation;
+pub mod issue;
 pub mod launch;
 pub mod leg;
 pub mod list;
@@ -132,6 +132,7 @@ pub mod user;
 pub mod user_identity;
 pub mod video;
 pub mod volume;
+pub mod vote;
 pub mod webpage;
 pub mod website;
 
@@ -150,7 +151,6 @@ pub use bookmark::{BOOKMARK, Bookmark};
 pub use branch::{BRANCH, Branch};
 pub use brand::{BRAND, Brand};
 pub use calendar::{CALENDAR, Calendar};
-pub use change::{CHANGE, Change};
 pub use channel::{CHANNEL, Channel};
 pub use class::{CLASS, Class};
 pub use community::{COMMUNITY, Community};
@@ -186,6 +186,7 @@ pub use icon::{ICON, Icon};
 pub use image::{IMAGE, Image};
 pub use intellectual_property::{INTELLECTUAL_PROPERTY, IntellectualProperty};
 pub use invitation::{INVITATION, Invitation};
+pub use issue::{ISSUE, Issue};
 pub use launch::{LAUNCH, Launch};
 pub use leg::{LEG, Leg};
 pub use list::{LIST, List};
@@ -247,6 +248,7 @@ pub use user::{USER, User};
 pub use user_identity::{USER_IDENTITY, UserIdentity};
 pub use video::{VIDEO, Video};
 pub use volume::{VOLUME, Volume};
+pub use vote::{VOTE, Vote};
 pub use webpage::{WEBPAGE, Webpage};
 pub use website::{WEBSITE, Website};
 
@@ -271,7 +273,6 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "branch" => Some(&BRANCH),
         "brand" => Some(&BRAND),
         "calendar" => Some(&CALENDAR),
-        "change" => Some(&CHANGE),
         "channel" => Some(&CHANNEL),
         "class" => Some(&CLASS),
         "community" => Some(&COMMUNITY),
@@ -307,6 +308,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "image" => Some(&IMAGE),
         "intellectual_property" => Some(&INTELLECTUAL_PROPERTY),
         "invitation" => Some(&INVITATION),
+        "issue" => Some(&ISSUE),
         "launch" => Some(&LAUNCH),
         "leg" => Some(&LEG),
         "list" => Some(&LIST),
@@ -368,6 +370,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "user_identity" => Some(&USER_IDENTITY),
         "video" => Some(&VIDEO),
         "volume" => Some(&VOLUME),
+        "vote" => Some(&VOTE),
         "webpage" => Some(&WEBPAGE),
         "website" => Some(&WEBSITE),
         _ => None,
@@ -550,16 +553,6 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         image: None,
         highlights: &[],
         body: None,
-        mono: None,
-        preview: &[],
-        also: &[],
-    }),
-    ("change", Display {
-        title: None,
-        subtitle: Some("kind"),
-        image: None,
-        highlights: &["status", "phase", "path"],
-        body: Some("summary"),
         mono: None,
         preview: &[],
         also: &[],
@@ -913,6 +906,16 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         mono: None,
         preview: &[],
         also: &["event"],
+    }),
+    ("issue", Display {
+        title: None,
+        subtitle: Some("status"),
+        image: None,
+        highlights: &["status", "weight"],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &["post"],
     }),
     ("launch", Display {
         title: None,
@@ -1524,6 +1527,16 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &[],
     }),
+    ("vote", Display {
+        title: None,
+        subtitle: Some("direction"),
+        image: None,
+        highlights: &[],
+        body: Some("note"),
+        mono: None,
+        preview: &[],
+        also: &[],
+    }),
     ("webpage", Display {
         title: None,
         subtitle: Some("url"),
@@ -1570,7 +1583,6 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("branch", &["commit", "upstream", "ahead", "behind", "isCurrent", "isRemote"]),
     ("brand", &["tagline", "country", "primaryColor", "textColor"]),
     ("calendar", &["calendarId", "color", "backgroundColor", "foregroundColor", "isPrimary", "isReadonly", "accessRole", "source", "timezone"]),
-    ("change", &["kind", "summary", "status", "path", "phase", "version"]),
     ("channel", &["banner", "subscriberCount"]),
     ("class", &["activityType", "capacity", "spotsRemaining", "isFull", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("community", &["privacy", "memberCount", "subscriberCount", "allowCrypto"]),
@@ -1606,6 +1618,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("image", &["width", "height", "format", "altText", "appName", "windowId", "displayId", "displayIndex", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "encoding", "lineCount", "kind", "sha"]),
     ("intellectual_property", &["category", "mark", "identifier", "register", "status", "filingBasis", "niceClass", "validIn", "renewalPeriod", "verificationUrl"]),
     ("invitation", &["invitationType", "email", "role", "status", "token", "acceptedAt", "revokedAt", "message", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
+    ("issue", &["declined", "externalUrl", "postType", "score", "commentCount", "community"]),
     ("launch", &["flightNumber", "rocketId", "launchpadId", "crewIds", "reusedBoosters", "landingOutcomes", "articleUrl", "webcastUrl", "wikipediaUrl", "patchImage", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("leg", &["sequence", "departureTime", "arrivalTime", "duration", "durationMinutes", "flightNumber", "cabinClass", "vehicleType", "layoverMinutes", "carbonEmissions", "trace", "tracePointCount", "polyline", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("list", &["id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path"]),
@@ -1667,6 +1680,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("user_identity", &["user_id", "volume_id", "person_node_id", "active"]),
     ("video", &["durationMs", "resolution", "frameRate", "codec", "viewCount", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("volume", &["volume_id", "kind", "source", "address", "provider", "auto_mount", "readOnly", "removable", "totalBytes", "freeBytes", "scope", "icon", "default_view"]),
+    ("vote", &["direction", "note", "instance"]),
     ("webpage", &["visitCount", "lastVisitUnix", "contentType", "favicon", "error"]),
     ("website", &["status", "versionId", "anonymous", "claimToken", "claimUrl"]),
 ];
@@ -1695,7 +1709,6 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("branch", "branches"),
     ("brand", "brands"),
     ("calendar", "calendars"),
-    ("change", "changes"),
     ("channel", "channels"),
     ("class", "classes"),
     ("community", "communities"),
@@ -1731,6 +1744,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("image", "images"),
     ("intellectual_property", "intellectual_properties"),
     ("invitation", "invitations"),
+    ("issue", "issues"),
     ("launch", "launches"),
     ("leg", "legs"),
     ("list", "lists"),
@@ -1792,6 +1806,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("user_identity", "user_identities"),
     ("video", "videos"),
     ("volume", "volumes"),
+    ("vote", "votes"),
     ("webpage", "webpages"),
     ("website", "websites"),
 ];
@@ -1829,6 +1844,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
     ("icon", &["creative_work"]),
     ("image", &["creative_work", "file"]),
     ("invitation", &["event"]),
+    ("issue", &["post"]),
     ("launch", &["event"]),
     ("leg", &["event"]),
     ("loaded_model", &["event"]),
@@ -1865,7 +1881,7 @@ pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer"
 // Derived bindings — per-shape `derived:` block as JSON
 // ===========================================================
 
-pub static SHAPE_DERIVED_JSON: &str = r#"{"person": {"birthdate": {"find": "born_in", "is": "birth", "get": "startDate"}, "current_residence": {"find": "lived_at", "where_link": {"to": null}, "get": "name"}, "current_role": {"find": "worked_at", "where_link": {"to": null}, "get": "title"}, "givenName": {"latest": [{"find": "born_in", "is": "birth", "get": "givenName"}, {"find": "changed", "is": "transition", "get": "givenName"}]}, "additionalName": {"latest": [{"find": "born_in", "is": "birth", "get": "additionalName"}, {"find": "changed", "is": "transition", "get": "additionalName"}]}, "familyName": {"latest": [{"find": "born_in", "is": "birth", "get": "familyName"}, {"find": "changed", "is": "transition", "get": "familyName"}]}, "honorificPrefix": {"latest": [{"find": "born_in", "is": "birth", "get": "honorificPrefix"}, {"find": "changed", "is": "transition", "get": "honorificPrefix"}]}, "honorificSuffix": {"latest": [{"find": "born_in", "is": "birth", "get": "honorificSuffix"}, {"find": "changed", "is": "transition", "get": "honorificSuffix"}]}, "legalName": {"latest": [{"find": "born_in", "is": "birth", "get": "legalName"}, {"find": "changed", "is": "transition", "get": "legalName"}]}, "maidenName": {"latest": [{"find": "born_in", "is": "birth", "get": "maidenName"}, {"find": "changed", "is": "transition", "get": "maidenName"}]}, "sortAs": {"latest": [{"find": "born_in", "is": "birth", "get": "sortAs"}, {"find": "changed", "is": "transition", "get": "sortAs"}]}, "nameOrder": {"latest": [{"find": "born_in", "is": "birth", "get": "nameOrder"}, {"find": "changed", "is": "transition", "get": "nameOrder"}]}, "phoneticGivenName": {"latest": [{"find": "born_in", "is": "birth", "get": "phoneticGivenName"}, {"find": "changed", "is": "transition", "get": "phoneticGivenName"}]}, "phoneticFamilyName": {"latest": [{"find": "born_in", "is": "birth", "get": "phoneticFamilyName"}, {"find": "changed", "is": "transition", "get": "phoneticFamilyName"}]}, "gender": {"latest": [{"find": "born_in", "is": "birth", "get": "gender"}, {"find": "changed", "is": "transition", "get": "gender"}]}, "nickname": {"latest": [{"find": "born_in", "is": "birth", "get": "nickname"}, {"find": "changed", "is": "transition", "get": "nickname"}]}}}"#;
+pub static SHAPE_DERIVED_JSON: &str = r#"{"issue": {"upvotes": {"count": "for", "where": {"direction": "up"}}, "downvotes": {"count": "for", "where": {"direction": "down"}}, "weight": {"tally": "for", "by": "direction", "map": {"up": 1, "down": -1}}, "status": {"reverse": "addresses", "get": "status", "prefer": ["achieved", "active", "at-risk", "proposed"], "map": {"achieved": "addressed", "active": "in-progress", "at-risk": "in-progress", "proposed": "planned"}, "default": "open", "authored": {"field": "declined", "equals": true, "then": "declined"}}}, "person": {"birthdate": {"find": "born_in", "is": "birth", "get": "startDate"}, "current_residence": {"find": "lived_at", "where_link": {"to": null}, "get": "name"}, "current_role": {"find": "worked_at", "where_link": {"to": null}, "get": "title"}, "givenName": {"latest": [{"find": "born_in", "is": "birth", "get": "givenName"}, {"find": "changed", "is": "transition", "get": "givenName"}]}, "additionalName": {"latest": [{"find": "born_in", "is": "birth", "get": "additionalName"}, {"find": "changed", "is": "transition", "get": "additionalName"}]}, "familyName": {"latest": [{"find": "born_in", "is": "birth", "get": "familyName"}, {"find": "changed", "is": "transition", "get": "familyName"}]}, "honorificPrefix": {"latest": [{"find": "born_in", "is": "birth", "get": "honorificPrefix"}, {"find": "changed", "is": "transition", "get": "honorificPrefix"}]}, "honorificSuffix": {"latest": [{"find": "born_in", "is": "birth", "get": "honorificSuffix"}, {"find": "changed", "is": "transition", "get": "honorificSuffix"}]}, "legalName": {"latest": [{"find": "born_in", "is": "birth", "get": "legalName"}, {"find": "changed", "is": "transition", "get": "legalName"}]}, "maidenName": {"latest": [{"find": "born_in", "is": "birth", "get": "maidenName"}, {"find": "changed", "is": "transition", "get": "maidenName"}]}, "sortAs": {"latest": [{"find": "born_in", "is": "birth", "get": "sortAs"}, {"find": "changed", "is": "transition", "get": "sortAs"}]}, "nameOrder": {"latest": [{"find": "born_in", "is": "birth", "get": "nameOrder"}, {"find": "changed", "is": "transition", "get": "nameOrder"}]}, "phoneticGivenName": {"latest": [{"find": "born_in", "is": "birth", "get": "phoneticGivenName"}, {"find": "changed", "is": "transition", "get": "phoneticGivenName"}]}, "phoneticFamilyName": {"latest": [{"find": "born_in", "is": "birth", "get": "phoneticFamilyName"}, {"find": "changed", "is": "transition", "get": "phoneticFamilyName"}]}, "gender": {"latest": [{"find": "born_in", "is": "birth", "get": "gender"}, {"find": "changed", "is": "transition", "get": "gender"}]}, "nickname": {"latest": [{"find": "born_in", "is": "birth", "get": "nickname"}, {"find": "changed", "is": "transition", "get": "nickname"}]}}}"#;
 
 // ===========================================================
 // Shortcuts — per-shape `shortcuts:` block as JSON
