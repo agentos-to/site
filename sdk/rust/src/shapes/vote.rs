@@ -23,7 +23,6 @@ pub static VOTE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "vote".into(),
     plural: Some("votes".into()),
     description: Some("A dated, directional endorsement of an issue. Each cast is its OWN node,".into()),
-    icon: Some("arrow-big-up".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

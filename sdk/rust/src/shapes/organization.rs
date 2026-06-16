@@ -9,7 +9,7 @@ use super::sdk_prelude::*;
 pub struct Organization {
     pub name: String,
     pub text: Option<String>,
-    pub url: String,
+    pub url: Option<String>,
     pub image: Option<String>,
     pub author: Option<String>,
     pub date_published: Option<String>,
@@ -26,7 +26,7 @@ pub static ORGANIZATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),
         FieldDef::optional("text", FieldType::String),
-        FieldDef::required("url", FieldType::String),
+        FieldDef::optional("url", FieldType::String),
         FieldDef::optional("image", FieldType::String),
         FieldDef::optional("author", FieldType::String),
         FieldDef::optional("datePublished", FieldType::String),
@@ -42,7 +42,7 @@ pub static ORGANIZATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         EdgeDef { label: "subsidiary_of".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
     ],
     also: vec!["actor".into()],
-    identity: vec!["url".into()],
+    identity: vec!["name".into()],
     display: Some(DisplaySpec {
         subtitle: Some("industry".into()),
         image: Some("image".into()),

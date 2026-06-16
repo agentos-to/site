@@ -27,7 +27,6 @@ pub static USER_IDENTITY: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "user_identity".into(),
     plural: Some("user_identities".into()),
     description: Some("An identity claim — \"the engine-level user X identifies as person:Y".into()),
-    icon: Some("user".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

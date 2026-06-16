@@ -40,7 +40,6 @@ pub static ACTIVITY: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "activity".into(),
     plural: Some("activities".into()),
     description: Some("An immutable change event — a graph mutation, app run, search, or load.".into()),
-    icon: Some("activity".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

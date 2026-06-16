@@ -26,7 +26,6 @@ pub static ISSUE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "issue".into(),
     plural: Some("issues".into()),
     description: Some("The demand atom of the product board — a problem, request, or observation.".into()),
-    icon: Some("message-circle-warning".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

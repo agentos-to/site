@@ -24,7 +24,6 @@ pub static PRINCIPLE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "principle".into(),
     plural: Some("principles".into()),
     description: Some("A guiding bright-line — a value or rule used to judge edge cases. Universal:".into()),
-    icon: Some("scale".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

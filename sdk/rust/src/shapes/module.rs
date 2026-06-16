@@ -25,7 +25,6 @@ pub static MODULE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "module".into(),
     plural: Some("modules".into()),
     description: Some("A self-contained unit of a larger whole — a software module, a course".into()),
-    icon: Some("package".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

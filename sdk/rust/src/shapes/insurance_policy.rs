@@ -47,7 +47,6 @@ pub static INSURANCE_POLICY: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "insurance_policy".into(),
     plural: Some("insurance_policies".into()),
     description: Some("A contract of indemnity — one party (the insured) pays premiums to a".into()),
-    icon: Some("shield".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

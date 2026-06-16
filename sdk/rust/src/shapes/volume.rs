@@ -37,7 +37,6 @@ pub static VOLUME: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "volume".into(),
     plural: Some("volumes".into()),
     description: Some("A mounted Volume — any named source of typed nodes the engine has".into()),
-    icon: Some("drive".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

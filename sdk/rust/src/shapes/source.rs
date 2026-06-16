@@ -26,7 +26,6 @@ pub static SOURCE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "source".into(),
     plural: Some("sources".into()),
     description: Some("A content source — where apps, themes, shapes, and wallpapers live.".into()),
-    icon: Some("📦".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

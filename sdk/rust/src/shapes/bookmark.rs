@@ -22,7 +22,6 @@ pub static BOOKMARK: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "bookmark".into(),
     plural: Some("bookmarks".into()),
     description: Some("A pointer into the graph — the universal shortcut. A bookmark is a".into()),
-    icon: Some("🔖".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

@@ -28,7 +28,6 @@ pub static MCP_SESSION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "mcp_session".into(),
     plural: Some("mcp_sessions".into()),
     description: Some("An MCP session — a client connected, made some calls, disconnected.".into()),
-    icon: Some("terminal".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

@@ -31,7 +31,6 @@ pub static INSURANCE_COVERAGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "insurance_coverage".into(),
     plural: Some("insurance_coverages".into()),
     description: Some("A single benefit line within an insurance policy — the unit at which a".into()),
-    icon: Some("list-checks".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

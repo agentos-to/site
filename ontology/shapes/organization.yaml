@@ -2,7 +2,7 @@
 # can be attributed as "who" in the graph alongside people and agents.
 organization:
   plural: organizations
-  identity: url
+  identity: name
   display:
     icon: apartment
     image: image

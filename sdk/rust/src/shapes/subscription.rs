@@ -23,7 +23,6 @@ pub static SUBSCRIPTION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "subscription".into(),
     plural: Some("subscriptions".into()),
     description: Some("A standing subscription — a durable intent to stream live entities, re-armed on every engine boot.".into()),
-    icon: Some("rss".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

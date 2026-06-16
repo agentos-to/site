@@ -28,7 +28,6 @@ pub static OUTCOME: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "outcome".into(),
     plural: Some("outcomes".into()),
     description: Some("A tracked target-state — the change being sought, with a status and".into()),
-    icon: Some("target".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

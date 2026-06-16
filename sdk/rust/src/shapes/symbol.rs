@@ -27,7 +27,6 @@ pub static SYMBOL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "symbol".into(),
     plural: Some("symbols".into()),
     description: Some("A code symbol — one named thing in a source surface: an MCP tool/op, a".into()),
-    icon: Some("code".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

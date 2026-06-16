@@ -26,7 +26,6 @@ pub static PERSONA: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "persona".into(),
     plural: Some("personas".into()),
     description: Some("An archetype of an audience segment — a named, hypothetical user that".into()),
-    icon: Some("user-round-search".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),
