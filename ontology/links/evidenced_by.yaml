@@ -1,6 +1,18 @@
 # Single-form link `evidenced_by` (Pattern 3). Stem = storage label.
-# Sources: health-condition, health-immunization, health-procedure
+# Sources: health-condition, health-immunization, health-procedure,
+#          insurance_policy, insurance_coverage
 # Targets: file
+#
+# link_vals make the citation *show its work* — not just "this file backs
+# this fact" but "page 20, and here are the exact words." A coverage's
+# requiresPreauth gate points at the file via this link, carrying the
+# locator (where in the doc) and the verbatim quote (the clause itself),
+# so the graph stores the structured answer AND the proof you can read.
+# Rule 1: the citation detail is a property of the evidencing relationship,
+# so it rides on the link, never on the file or the coverage node.
 from: node
 to: file
 card: one_to_many
+link_vals:
+  locator: string   # where in the source — "Customer Guide 2024, p.20 — Mental & Behavioural Health Care"
+  quote:   text      # the verbatim clause this evidence stands on (null when the file as a whole is the evidence)

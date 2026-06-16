@@ -29,7 +29,7 @@ insurance_coverage:
   icon: list-checks
   display:
     subtitle: limit
-    highlights: [limit, deductible, outOfPocketMax, coinsurance]
+    highlights: [limit, requiresPreauth, requiresReferral, deductible]
   fields:
     limit:          number    # coverage maximum for this line (1_000_000 inpatient, 300_000 liability)
     limitBasis:     string    # per-incident | per-year | per-lifetime | per-person | aggregate
@@ -38,7 +38,18 @@ insurance_coverage:
     copay:          number    # flat per-service charge the insured pays
     coinsurance:    number    # percent of cost the insured pays after deductible (0–100)
     currency:       string    # ISO 4217 — one currency for all amounts on this line
-    notes:          text      # carve-outs / conditions ("global evac + repatriation"; "dental off-deductible")
+    # THE GATES — the conditions that decide whether a claim actually pays,
+    # not just how much. These answer "can I just hire a therapist, or do I
+    # need a referral / pre-auth first?" Booleans, so they're queryable
+    # ("show me everything that needs pre-authorization"). The prose of the
+    # condition lives in `notes`; the verbatim policy clause that proves it
+    # rides on the `evidenced_by` link (locator + quote). Cross-line
+    # universal: health's "prior authorisation required" and auto's
+    # "requires a police report" are the same `requiresPreauth` gate.
+    requiresPreauth:     boolean   # prior authorization required BEFORE treatment/service
+    requiresReferral:    boolean   # needs a doctor's recommendation / medically-necessary finding
+    waitingPeriodMonths: number    # months of cover before this line activates (Cigna obesity: 24)
+    notes:          text      # prose conditions / carve-outs ("licensed psych only; outpatient Rx excluded"; "global evac + repatriation")
   prior_art:
     - source: HL7 FHIR R5 — InsurancePlan.coverage.benefit & Coverage.costToBeneficiary
       url: https://www.hl7.org/fhir/insuranceplan-definitions.html#InsurancePlan.coverage.benefit
@@ -46,7 +57,10 @@ insurance_coverage:
         FHIR models a benefit with a type + a list of limits, and cost-
         sharing (copay/coinsurance/deductible) on Coverage.costToBeneficiary.
         Our limit/limitBasis ≈ benefit.limit{value,code}; copay/coinsurance/
-        deductible/outOfPocketMax ≈ costToBeneficiary value/type.
+        deductible/outOfPocketMax ≈ costToBeneficiary value/type. FHIR's
+        benefit.requirement (free-text access conditions) is split here into
+        the queryable gates requiresPreauth / requiresReferral plus prose in
+        notes — and the verbatim clause on the evidenced_by link.
     - source: ACORD — Coverage / Limit / Deductible
       url: https://www.acord.org/standards-architecture/reference-architecture
       notes: >-

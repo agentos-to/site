@@ -16562,6 +16562,27 @@
           "is_relation": false,
           "is_array": false,
           "target": null
+        },
+        {
+          "name": "requiresPreauth",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "requiresReferral",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "waitingPeriodMonths",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
         }
       ],
       "also": [],
@@ -16573,9 +16594,9 @@
         "image": null,
         "highlights": [
           "limit",
-          "deductible",
-          "outOfPocketMax",
-          "coinsurance"
+          "requiresPreauth",
+          "requiresReferral",
+          "deductible"
         ],
         "body": null,
         "mono": null,
@@ -16635,6 +16656,27 @@
           "target": null
         },
         {
+          "name": "requiresPreauth",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "requiresReferral",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "waitingPeriodMonths",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "notes",
           "type": "text",
           "is_relation": false,
@@ -16647,7 +16689,7 @@
         {
           "source": "HL7 FHIR R5 — InsurancePlan.coverage.benefit & Coverage.costToBeneficiary",
           "url": "https://www.hl7.org/fhir/insuranceplan-definitions.html#InsurancePlan.coverage.benefit",
-          "notes": "FHIR models a benefit with a type + a list of limits, and cost- sharing (copay/coinsurance/deductible) on Coverage.costToBeneficiary. Our limit/limitBasis ≈ benefit.limit{value,code}; copay/coinsurance/ deductible/outOfPocketMax ≈ costToBeneficiary value/type."
+          "notes": "FHIR models a benefit with a type + a list of limits, and cost- sharing (copay/coinsurance/deductible) on Coverage.costToBeneficiary. Our limit/limitBasis ≈ benefit.limit{value,code}; copay/coinsurance/ deductible/outOfPocketMax ≈ costToBeneficiary value/type. FHIR's benefit.requirement (free-text access conditions) is split here into the queryable gates requiresPreauth / requiresReferral plus prose in notes — and the verbatim clause on the evidenced_by link."
         },
         {
           "source": "ACORD — Coverage / Limit / Deductible",
@@ -16661,7 +16703,7 @@
         }
       ],
       "source_path": "insurance_coverage.yaml",
-      "raw_body": "plural: insurance_coverages\nicon: list-checks\ndisplay:\n  subtitle: limit\n  highlights:\n  - limit\n  - deductible\n  - outOfPocketMax\n  - coinsurance\nfields:\n  limit: number\n  limitBasis: string\n  deductible: number\n  outOfPocketMax: number\n  copay: number\n  coinsurance: number\n  currency: string\n  notes: text\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 InsurancePlan.coverage.benefit & Coverage.costToBeneficiary\"\n  url: https://www.hl7.org/fhir/insuranceplan-definitions.html#InsurancePlan.coverage.benefit\n  notes: \"FHIR models a benefit with a type + a list of limits, and cost- sharing\\\n    \\ (copay/coinsurance/deductible) on Coverage.costToBeneficiary. Our limit/limitBasis\\\n    \\ \\u2248 benefit.limit{value,code}; copay/coinsurance/ deductible/outOfPocketMax\\\n    \\ \\u2248 costToBeneficiary value/type.\"\n- source: \"ACORD \\u2014 Coverage / Limit / Deductible\"\n  url: https://www.acord.org/standards-architecture/reference-architecture\n  notes: 'ACORD Coverage carries Limit (with a basis: per-occurrence, aggregate, per-person)\n    and Deductible. Our limit + limitBasis + deductible map directly; this is the\n    P&C side (auto, renters, umbrella) that FHIR''s health framing doesn''t cover.'\n- source: US Summary of Benefits and Coverage (SBC)\n  url: https://www.cms.gov/marketplace/about/oversight/other-insurance-protections/summary-benefits-coverage-sbc-resources\n  notes: 'The federally-standardized consumer benefit summary: deductible, out-of-pocket\n    maximum, copay, coinsurance per service category. Our health-line field set mirrors\n    the SBC columns.'\n",
+      "raw_body": "plural: insurance_coverages\nicon: list-checks\ndisplay:\n  subtitle: limit\n  highlights:\n  - limit\n  - requiresPreauth\n  - requiresReferral\n  - deductible\nfields:\n  limit: number\n  limitBasis: string\n  deductible: number\n  outOfPocketMax: number\n  copay: number\n  coinsurance: number\n  currency: string\n  requiresPreauth: boolean\n  requiresReferral: boolean\n  waitingPeriodMonths: number\n  notes: text\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 InsurancePlan.coverage.benefit & Coverage.costToBeneficiary\"\n  url: https://www.hl7.org/fhir/insuranceplan-definitions.html#InsurancePlan.coverage.benefit\n  notes: \"FHIR models a benefit with a type + a list of limits, and cost- sharing\\\n    \\ (copay/coinsurance/deductible) on Coverage.costToBeneficiary. Our limit/limitBasis\\\n    \\ \\u2248 benefit.limit{value,code}; copay/coinsurance/ deductible/outOfPocketMax\\\n    \\ \\u2248 costToBeneficiary value/type. FHIR's benefit.requirement (free-text access\\\n    \\ conditions) is split here into the queryable gates requiresPreauth / requiresReferral\\\n    \\ plus prose in notes \\u2014 and the verbatim clause on the evidenced_by link.\"\n- source: \"ACORD \\u2014 Coverage / Limit / Deductible\"\n  url: https://www.acord.org/standards-architecture/reference-architecture\n  notes: 'ACORD Coverage carries Limit (with a basis: per-occurrence, aggregate, per-person)\n    and Deductible. Our limit + limitBasis + deductible map directly; this is the\n    P&C side (auto, renters, umbrella) that FHIR''s health framing doesn''t cover.'\n- source: US Summary of Benefits and Coverage (SBC)\n  url: https://www.cms.gov/marketplace/about/oversight/other-insurance-protections/summary-benefits-coverage-sbc-resources\n  notes: 'The federally-standardized consumer benefit summary: deductible, out-of-pocket\n    maximum, copay, coinsurance per service category. Our health-line field set mirrors\n    the SBC columns.'\n",
       "ancestors": [],
       "field_order": [
         "limit",
@@ -16671,6 +16713,9 @@
         "copay",
         "coinsurance",
         "currency",
+        "requiresPreauth",
+        "requiresReferral",
+        "waitingPeriodMonths",
         "notes"
       ],
       "derived": {},
@@ -41174,7 +41219,10 @@
       "from_kind": "node",
       "to_kind": "file",
       "cardinality": "one_to_many",
-      "link_vals": {},
+      "link_vals": {
+        "locator": "string",
+        "quote": "text"
+      },
       "inverse_of": null,
       "reverse_name": null,
       "group_file": "evidenced_by.yaml",
