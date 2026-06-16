@@ -5,6 +5,7 @@ message:
   plural: messages
   identity: [at, id]
   display:
+    icon: chat
     subtitle: from
   fields:
     isOutgoing:       boolean   # true if sent by the user

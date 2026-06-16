@@ -20,6 +20,7 @@
 practice:
   plural: practices
   display:
+    icon: sports_gymnastics
     subtitle: parent
   fields:
     description:      text      # what the practice covers

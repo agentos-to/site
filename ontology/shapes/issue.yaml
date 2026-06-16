@@ -10,9 +10,9 @@ issue:
   plural: issues
   also: [post]                   # an issue is also a post — inherits content/comments/score
   display:
+    icon: feedback
     subtitle: status
     highlights: [status, weight]
-  icon: message-circle-warning
   fields:
     declined:  boolean   # the ONLY authored status input — "won't do". Everything
                          # else about status falls out of the `addresses` edge.

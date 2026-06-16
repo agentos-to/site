@@ -8,6 +8,7 @@ model:
   plural: models
   identity: [at, name]
   display:
+    icon: psychology
     subtitle: name
   fields:
     contextLength:    integer

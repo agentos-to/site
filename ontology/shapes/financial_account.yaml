@@ -13,6 +13,7 @@ financial_account:
   plural: financial_accounts
   identity: [at, identifier]
   display:
+    icon: account_balance
     subtitle: last4
   fields:
     identifier:        string    # account number or masked equivalent — required for identity

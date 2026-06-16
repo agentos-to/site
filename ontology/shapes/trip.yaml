@@ -13,6 +13,7 @@ trip:
   identity: [at, id]
   also: [event]       # a trip is an event-shaped noun — happens at a time, has start/end
   display:
+    icon: trip
     subtitle: tripType
   fields:
     tripType:         string    # ride, flight, delivery, train, bus

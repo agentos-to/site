@@ -10,10 +10,10 @@
 symbol:
   plural: symbols
   display:
+    icon: code
     subtitle: signature
     body: summary
     highlights: [kind, lang, sourcePath]
-  icon: code
   fields:
     urn:        string   # cross-language identity — mcp:data.read, rust:agentos_core::pages::render_page, ts:web/src/themes/slots#getAssetUrl
     kind:       string   # namespace | op | fn | struct | trait | type | hook | component | module | crate | shape

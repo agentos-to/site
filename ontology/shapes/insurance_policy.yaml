@@ -58,10 +58,10 @@
 # name (inherited) = human label — "Cigna Global — Silver", "GEICO Renters".
 insurance_policy:
   plural: insurance_policies
-  icon: shield
   also: [membership]               # → event. status, premium(price), billing, autoRenew, term dates inherited.
   identity: [underwritten_by, policyNumber]
   display:
+    icon: shield
     subtitle: coverageType
     highlights: [coverageType, memberId, network, policyNumber]
   fields:

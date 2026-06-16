@@ -14,6 +14,7 @@
 auth_challenge:
   plural: auth_challenges
   display:
+    icon: qr_code_2
     subtitle: instructions
     body: artifact
     mono: artifact          # keep the QR geometry: monospace, no re-wrap

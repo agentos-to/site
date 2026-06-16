@@ -7,6 +7,7 @@ book:
   plural: books
   identity_any: [isbn13, isbn]
   display:
+    icon: book
     subtitle: written_by
   also: [creative_work, product]   # a book is a creative work AND a product
   fields:

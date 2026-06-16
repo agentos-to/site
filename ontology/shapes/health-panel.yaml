@@ -23,6 +23,7 @@ health-panel:
   also: [list, event]            # a dated panel IS an event (the draw); also [list] gives
                                   # us the ordered membership of biomarkers/observations
   display:
+    icon: lab_panel
     subtitle: startDate          # inherited from event — when the draw happened
   fields:
     panelCode:        string    # LOINC panel code when known (CBC w/ diff = 58410-2)

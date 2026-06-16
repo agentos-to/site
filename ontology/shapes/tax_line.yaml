@@ -36,6 +36,7 @@ tax_line:
   plural: tax_lines
   identity: [at, id]
   display:
+    icon: percent
     subtitle: description
   fields:
     code:              string    # provider code ("US", "XF", "AY", "VAT", "GST", or free-text)

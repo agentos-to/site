@@ -9,6 +9,7 @@
 video:
   plural: videos
   display:
+    icon: movie
     subtitle: author
   identity_any: [sha, url]
   also: [creative_work, file]   # a video is a creative work AND a file

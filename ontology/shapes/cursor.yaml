@@ -12,6 +12,7 @@
 cursor:
   plural: cursors
   display:
+    icon: mouse
     subtitle: purpose
   # `url` is the canonical cursor-file location (Vite-hashed asset path or
   # external URL). Each file is one entry; themes bundling the same image

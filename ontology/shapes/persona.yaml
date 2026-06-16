@@ -5,10 +5,10 @@
 persona:
   plural: personas
   display:
+    icon: face
     subtitle: headline
     body: who
     highlights: [reachesFor, quote]
-  icon: user-round-search
   fields:
     headline:    string   # one-line archetype descriptor ("the agent picking up the roadmap").
                           #   NOT the `role` shape (that's a formal job-position at an org) — a

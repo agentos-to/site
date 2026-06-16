@@ -36,6 +36,7 @@ fare:
   plural: fares
   identity: [at, identifier]
   display:
+    icon: airline_seat_recline_normal
     subtitle: fareFamily
   fields:
     identifier:        string    # provider's fare code. Airline: IATA fareBasisCode ("LAA0AQBN"). Rail/bus: operator tier id.

@@ -8,6 +8,7 @@ tag:
   plural: tags
   identity: name
   display:
+    icon: label
     title: name
     subtitle: tagType
   fields:

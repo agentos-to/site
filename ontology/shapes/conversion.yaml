@@ -24,6 +24,7 @@ conversion:
   plural: conversions
   also: [event]         # an fx-rate observation IS an event — the rate held at a moment
   display:
+    icon: currency_exchange
     subtitle: kind
   fields:
     kind:     string    # molar-mass | fx

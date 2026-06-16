@@ -4,6 +4,7 @@ website:
   plural: websites
   identity: url
   display:
+    icon: public
     subtitle: url
   fields:
     status:            string    # active, pending

@@ -53,6 +53,7 @@ booking_offer:
   identity: [at, cartId]
   also: [event]       # a booking_offer IS an event — the pre-commit review moment, with a short TTL
   display:
+    icon: receipt
     subtitle: totalAmount
   fields:
     # --- identity / reference ---

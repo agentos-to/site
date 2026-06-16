@@ -9,6 +9,7 @@
 quote:
   plural: quotes
   display:
+    icon: format_quote
     subtitle: year
   fields:
     context:           string    # when/where it was said, any extra notes

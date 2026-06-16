@@ -16,6 +16,7 @@ health-immunization:
   plural: health-immunizations
   also: [event]
   display:
+    icon: vaccines
     subtitle: dateAdministered
   fields:
     dateAdministered: datetime  # when the dose was given

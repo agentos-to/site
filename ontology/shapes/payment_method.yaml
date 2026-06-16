@@ -54,6 +54,7 @@ payment_method:
   plural: payment_methods
   identity: [at, identifier]
   display:
+    icon: credit_card
     subtitle: displayName
   fields:
     identifier:          string    # opaque provider-side stable id. NEVER the PAN.

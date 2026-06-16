@@ -4,6 +4,7 @@
 spec:
   plural: specs
   display:
+    icon: fact_check
     subtitle: state
   also: [task, file]
   fields:

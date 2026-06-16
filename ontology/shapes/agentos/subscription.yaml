@@ -11,8 +11,8 @@ subscription:
   plural: subscriptions
   identity: [app, op]
   display:
+    icon: notifications_active
     subtitle: target
-  icon: rss
   fields:
     app:           string    # app id the re-arm dispatches: "whatsapp"
     op:              string    # the app op that arms the stream: "watch"

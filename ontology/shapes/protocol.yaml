@@ -6,6 +6,7 @@ protocol:
   plural: protocols
   identity: [name]
   display:
+    icon: handshake
     subtitle: name
   fields:
     name:              string    # canonical lowercase name: git, bitcoin, ssh, smtp, oauth, activitypub

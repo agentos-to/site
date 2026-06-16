@@ -2,6 +2,7 @@
 transcript:
   plural: transcripts
   display:
+    icon: closed_caption
     subtitle: language
   fields:
     language:          string    # ISO 639-1 (e.g. "en", "es")

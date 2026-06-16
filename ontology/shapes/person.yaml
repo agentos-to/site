@@ -138,6 +138,7 @@ person:
     nickname:           {writes: "born_in[is=birth].nickname"}
 
   display:
+    icon: person
     image: image
     subtitle: about
     highlights: [birthdate, gender]    # both derived; resolver projects

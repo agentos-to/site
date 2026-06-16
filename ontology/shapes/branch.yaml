@@ -2,6 +2,7 @@
 branch:
   plural: branches
   display:
+    icon: account_tree
     subtitle: commit
   fields:
     commit:            string    # HEAD commit hash

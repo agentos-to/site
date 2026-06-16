@@ -14,8 +14,8 @@ source:
   plural: sources
   identity: address
   display:
+    icon: folder_open
     subtitle: sourceId
-  icon: "\U0001F4E6"
   fields:
     sourceId:          string    # namespace prefix: "community", "joes", "retro-pack"
     address:           string    # canonical location: filesystem path, git URL, or HTTP URL

@@ -33,6 +33,7 @@ health-observation:
                                   # `also: [result]` covers the find-time metadata; event
                                   # covers the when. Rule 1.
   display:
+    icon: vital_signs
     subtitle: startDate          # inherited from event — when the sample was taken
   fields:
     value:            number    # the measured quantity — 95, 1.24, 310; its UCUM unit rides on the val

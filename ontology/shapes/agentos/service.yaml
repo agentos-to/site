@@ -22,6 +22,7 @@ service:
   plural: services
   identity: [id]
   display:
+    icon: hub
     subtitle: description
   fields:
     id:                string    # the verb: 'web_search' / 'web_read' / 'llm' / ...

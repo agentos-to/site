@@ -28,6 +28,7 @@ transition:
   plural: transitions
   also: [event]
   display:
+    icon: autorenew
     subtitle: startDate
     highlights: [startDate, givenName, familyName, gender]
   fields:

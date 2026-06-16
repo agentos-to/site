@@ -2,6 +2,7 @@
 review:
   plural: reviews
   display:
+    icon: star_rate
     subtitle: author
   also: [post]        # a review is also a post
   fields:

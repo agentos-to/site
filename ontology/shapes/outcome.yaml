@@ -6,10 +6,10 @@
 outcome:
   plural: outcomes
   display:
+    icon: flag
     subtitle: status
     body: statement
     highlights: [status, priority]
-  icon: target
   fields:
     statement:  text     # the change being sought, one sentence ("agents pick up the roadmap cold")
     status:     string   # not-started | active | at-risk | achieved | missed

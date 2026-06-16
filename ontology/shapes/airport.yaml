@@ -3,6 +3,7 @@ airport:
   plural: airports
   identity: iataCode
   display:
+    icon: flight_takeoff
     subtitle: iataCode
   fields:
     iataCode:         string    # 3-letter code (e.g. LAX, JFK, SFO)

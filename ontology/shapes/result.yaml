@@ -4,6 +4,7 @@
 result:
   plural: results
   display:
+    icon: manage_search
     subtitle: url
   fields:
     indexedAt:        datetime  # when the search engine last crawled this

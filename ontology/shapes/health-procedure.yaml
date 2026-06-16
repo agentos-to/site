@@ -26,6 +26,7 @@ health-procedure:
   also: [event]
   identity_any: [cptCode, snomedCode, id]
   display:
+    icon: surgical
     subtitle: performedDate
   fields:
     performedDate:    datetime  # when a point procedure occurred (start for spanning courses)

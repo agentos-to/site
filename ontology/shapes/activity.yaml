@@ -4,8 +4,8 @@ activity:
   plural: activities
   also: [event]                   # an activity IS an event — a system mutation at a moment
   display:
+    icon: timeline
     subtitle: action
-  icon: activity
   fields:
     action:           string      # create, update, delete, run, read, search, load
                                     # When the activity happened lives on event.startDate

@@ -3,6 +3,7 @@ dns_record:
   plural: dns_records
   identity: [domain, recordType, recordName]
   display:
+    icon: dns
     subtitle: recordType
   fields:
     domain:            string

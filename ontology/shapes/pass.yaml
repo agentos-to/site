@@ -32,6 +32,7 @@ pass:
   also: [event]                  # a pass IS an event-shaped right of access — start / end
                                   # ride on event.startDate / endDate
   display:
+    icon: confirmation_number
     subtitle: status
   fields:
     status:            string    # active, depleted, expired, cancelled, refunded

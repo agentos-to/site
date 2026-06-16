@@ -22,6 +22,7 @@ dimension:
   plural: dimensions
   identity: [key]            # canonical exponent-vector string — "L-3M1", "" for dimensionless
   display:
+    icon: straighten
     subtitle: label
   fields:
     key:          string   # canonical exponent-vector — "L-3M1", "L1T-2", "" for dimensionless

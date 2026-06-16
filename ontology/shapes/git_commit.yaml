@@ -3,6 +3,7 @@ git_commit:
   plural: git_commits
   also: [event]       # a commit IS an event — a point-in-time write to a repository
   display:
+    icon: commit
     subtitle: author
   fields:
     sha:               string    # full 40-char SHA hash

@@ -51,6 +51,7 @@ def emit_typescript(onto: Ontology) -> str:
         "    mono?: string;        // → a preformatted text field (QR block, ASCII",
         "                          //   art): monospace, no re-wrap, keep geometry",
         '    preview?: Record<string, "clip" | "full" | { max_chars: number }>;',
+        "    icon?: string;        // Material Symbols glyph name (outlined) for this shape's face",
         "    /** Transitive `also:` closure — the chain this shape inherits from.",
         "     *  The resolver uses it to pick the most-specific shape on a",
         "     *  multi-shape node (`shape[]` is alphabetical, not inheritance). */",
@@ -70,6 +71,7 @@ def emit_typescript(onto: Ontology) -> str:
         if s.display.body:       d["body"]       = s.display.body
         if s.display.mono:       d["mono"]       = s.display.mono
         if s.display.preview:    d["preview"]    = dict(s.display.preview)
+        if s.display.icon:       d["icon"]       = s.display.icon
         d["also"] = list(s.ancestors)
         # JSON ensures double-quoted keys/strings (valid TS object literal).
         lines.append(f"    {json.dumps(s.name)}: {json.dumps(d)},")

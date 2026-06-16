@@ -4,6 +4,7 @@ loaded_model:
   also: [event]                  # a loaded model IS an event-shaped lease — spans
                                   # the time it sits in memory, has a start + an expiry
   display:
+    icon: memory
     subtitle: size
   fields:
     size:              string    # memory footprint

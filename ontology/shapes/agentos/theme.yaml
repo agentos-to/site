@@ -22,6 +22,7 @@ theme:
   plural: themes
   identity: themeId
   display:
+    icon: palette
     subtitle: family
   fields:
     themeId:                string  # unique within its source: "windows-xp", "windows-98"

@@ -5,6 +5,7 @@ file:
   plural: files
   identity_any: [sha, url]   # content hash first — two files with the same bytes are one file; url for remote artifacts
   display:
+    icon: draft
     subtitle: path
   fields:
     filename:          string    # original filename with extension

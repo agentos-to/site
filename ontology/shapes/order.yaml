@@ -5,6 +5,7 @@ order:
   identity: [at, orderId]
   also: [event]       # an order IS an event — the placement of a purchase at a point in time
   display:
+    icon: shopping_cart
     subtitle: total
   fields:
     orderId:           string    # platform order ID (e.g. "112-0527810-3136239")

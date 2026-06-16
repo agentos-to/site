@@ -26,6 +26,7 @@ icon:
   # one node across themes.
   identity_any: [component, url]
   display:
+    icon: glyphs
     subtitle: purpose
   also: [creative_work]
   fields:

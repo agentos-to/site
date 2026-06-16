@@ -12,6 +12,7 @@ software:
   plural: software
   identity_any: [url]   # url is the web-canonical identifier (Wikipedia page, GitHub repo, vendor URL)
   display:
+    icon: apps
     subtitle: applicationCategory
     # Release date lives on the `published_by` link val per rule 1 (was
     # `released: datetime`, removed in the life-events migration). When a

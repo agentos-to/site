@@ -3,6 +3,7 @@ repository:
   plural: repositories
   identity_any: [path, url]
   display:
+    icon: source_notes
     subtitle: language
   fields:
     stars:             integer

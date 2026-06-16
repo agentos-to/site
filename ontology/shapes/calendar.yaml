@@ -3,6 +3,7 @@ calendar:
   plural: calendars
   identity: [at, calendarId]
   display:
+    icon: calendar_today
     subtitle: source
   fields:
     calendarId:       string    # provider's calendar ID (Google: email-like string)

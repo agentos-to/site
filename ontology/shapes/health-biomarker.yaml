@@ -25,6 +25,7 @@ health-biomarker:
   identity_any: [loincCode, measure]  # LOINC code is globally unique; `measure`
                                        # name dedupes when no code is known.
   display:
+    icon: glucose
     subtitle: category
   fields:
     measure:          string    # the observable's name — "Hemoglobin A1c", "TSH, FT4 Reflex"

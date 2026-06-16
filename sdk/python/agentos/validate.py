@@ -839,6 +839,11 @@ def validate_shape_file(shape_name: str, yaml_obj: dict, known_shapes: set[str])
             "  has 'platform' relation but no identity — "
             "extraction can't dedup by platform. Add identity: [platform, id] or similar"
         )
+    display = body.get("display") or {}
+    if not isinstance(display, dict) or not display.get("icon"):
+        warnings.append(
+            "  missing display.icon — add a Material Symbols glyph name under display:"
+        )
     return issues, warnings
 
 

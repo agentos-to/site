@@ -3,6 +3,7 @@ community:
   plural: communities
   identity: [at, id]
   display:
+    icon: groups
     subtitle: text
   fields:
     privacy:           string    # public, private, closed

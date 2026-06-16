@@ -3,6 +3,7 @@ airline:
   plural: airlines
   identity: iataCode
   display:
+    icon: airlines
     subtitle: iataCode
   also: [organization]  # an airline is also an organization
   fields:

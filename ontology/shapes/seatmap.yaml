@@ -39,6 +39,7 @@ seatmap:
   plural: seatmaps
   identity: [id]
   display:
+    icon: event_seat
     title: flightNumber          # `cabinBrand` was a nested key under `cabins`,
                                  # not a top-level field — see shape-display plan
                                  # for the intended editorial.

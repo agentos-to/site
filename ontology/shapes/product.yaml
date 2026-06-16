@@ -19,6 +19,7 @@ product:
   plural: products
   identity_any: [url]    # url is the web-canonical identifier (https://github.com, https://greptile.com)
   display:
+    icon: inventory_2
     subtitle: brand
   fields:
     category:          string    # product category enum: marketplace, social,

@@ -15,11 +15,11 @@
 user_identity:
   plural: user_identities
   display:
+    icon: fingerprint
     subtitle: volume_id
     highlights:
       - person_node_id
       - active
-  icon: user
   fields:
     user_id:        string   # engine.db user id (v1 single-user → "joe")
     volume_id:      string   # the volume the persona lives in

@@ -28,6 +28,7 @@
 intellectual_property:
   plural: intellectual_properties
   display:
+    icon: copyright
     subtitle: category
     highlights: [identifier, status, granted_by]
   identity_any: [identifier]   # office serial / registration / patent

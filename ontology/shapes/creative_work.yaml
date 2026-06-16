@@ -17,6 +17,7 @@
 creative_work:
   plural: creative_works
   display:
+    icon: palette
     image: image
     subtitle: written_by
     highlights: [datePublished, published_by]

@@ -11,6 +11,7 @@ account:
   plural: accounts
   identity: [at, identifier]
   display:
+    icon: alternate_email
     subtitle: identifier
   # Ordered property sections for the detail pane / card. Renders verbatim;
   # vals no section names trail in a default "Other" section.

@@ -6,10 +6,10 @@
 principle:
   plural: principles
   display:
+    icon: gavel
     subtitle: domain
     body: rationale
     highlights: [statement, status]
-  icon: scale
   fields:
     name:       string  # short handle ("Rust is a generic engine")
     statement:  text    # the bright-line itself, one imperative sentence

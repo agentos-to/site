@@ -2,6 +2,7 @@
 channel:
   plural: channels
   display:
+    icon: subscriptions
     subtitle: subscriberCount
   identity: [at, id]
   fields:

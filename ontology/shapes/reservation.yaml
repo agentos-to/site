@@ -45,6 +45,7 @@ reservation:
   identity: [at, reservationId]
   also: [event]       # a reservation IS an event — a future commitment at a time, with start/end
   display:
+    icon: event_available
     subtitle: reservationType
   fields:
     reservationType:     string    # flight, lodging, dining, rental_car, rail, event

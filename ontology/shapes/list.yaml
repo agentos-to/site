@@ -31,6 +31,7 @@ list:
   plural: lists
   identity: [at, id]
   display:
+    icon: folder
     subtitle: name
   fields:
     id:                string    # 'primary-launcher' / 'wallpapers' / 'desktop' / platform list id / ...

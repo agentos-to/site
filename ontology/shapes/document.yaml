@@ -5,6 +5,7 @@
 document:
   plural: documents
   display:
+    icon: description
     subtitle: contentType
     highlights: [datePublished, author, wordCount]
     body: abstract

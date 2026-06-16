@@ -4,6 +4,7 @@ organization:
   plural: organizations
   identity: url
   display:
+    icon: apartment
     image: image
     subtitle: industry
     highlights: [headquarters]

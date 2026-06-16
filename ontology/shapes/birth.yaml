@@ -31,6 +31,7 @@ birth:
   plural: births
   also: [event]
   display:
+    icon: child_care
     subtitle: location
     highlights: [startDate, location]
   fields:

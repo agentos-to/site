@@ -3,6 +3,7 @@
 meeting:
   plural: meetings
   display:
+    icon: video_call
     subtitle: location
   also: [event]
   fields:

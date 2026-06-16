@@ -26,8 +26,8 @@
 # name (inherited) = the benefit line name — "Inpatient", "Collision".
 insurance_coverage:
   plural: insurance_coverages
-  icon: list-checks
   display:
+    icon: health_and_safety
     subtitle: limit
     highlights: [limit, requiresPreauth, requiresReferral, deductible]
   fields:

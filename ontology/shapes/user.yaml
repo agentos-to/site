@@ -17,6 +17,7 @@
 user:
   plural: users
   display:
+    icon: account_circle
     subtitle: name
   also: [actor]                # a user is an actor (alongside person, agent, organization)
   identity_any: [osUsername]   # one user per OS account on this machine

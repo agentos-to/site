@@ -5,6 +5,7 @@ offer:
   identity: [id]
   also: [event]                  # an offer IS an event — a priced availability with a TTL
   display:
+    icon: sell
     subtitle: price
   fields:
     price:             number

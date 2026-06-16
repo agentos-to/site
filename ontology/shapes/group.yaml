@@ -3,6 +3,7 @@ group:
   plural: groups
   identity: [at, id]
   display:
+    icon: group
     subtitle: category
   fields:
     memberCount:      integer

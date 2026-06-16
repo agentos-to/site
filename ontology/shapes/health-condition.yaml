@@ -29,6 +29,7 @@ health-condition:
                                   # abatement = endDate. Rule 1: dates ride on the event.
   identity_any: [snomedCode, name]
   display:
+    icon: sick
     subtitle: clinicalStatus
   fields:
     clinicalStatus:   string    # active | recurrence | relapse | inactive | remission | resolved

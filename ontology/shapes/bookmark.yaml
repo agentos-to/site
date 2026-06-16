@@ -31,8 +31,8 @@ bookmark:
   # batch. (crates/graph/src/database.rs delete_node_cascade_on.)
   identity: [points_to]
   display:
+    icon: bookmark
     subtitle: name
-  icon: "\U0001F516"
   fields:
     name:              string    # display name — may differ from target.name
                                   # (the user named the shortcut; the target

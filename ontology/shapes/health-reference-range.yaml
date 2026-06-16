@@ -39,6 +39,7 @@ health-reference-range:
                                                           # disambiguate further within a
                                                           # lab+method.
   display:
+    icon: straighten
     subtitle: refText
   fields:
     low:              number    # low bound of the interval

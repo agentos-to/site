@@ -17,6 +17,7 @@ sound:
   # themes bundling the same .wav share one node via this dedup key.
   identity_any: [sha, url]
   display:
+    icon: music_note
     subtitle: purpose
   also: [creative_work, file]
   fields:

@@ -4,6 +4,7 @@ webpage:
   plural: webpages
   identity: url
   display:
+    icon: web
     subtitle: url
   fields:
     visitCount:       integer   # browser history visit count

@@ -23,6 +23,7 @@ health-lab:
   identity_any: [cliaNumber, url]   # CLIA number is a unique US lab identifier;
                                      # url (inherited from organization) for non-US labs.
   display:
+    icon: biotech
     subtitle: labType
   fields:
     cliaNumber:       string    # CLIA certification number — unique US clinical-lab id

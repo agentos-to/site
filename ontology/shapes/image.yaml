@@ -6,6 +6,7 @@
 image:
   plural: images
   display:
+    icon: image
     subtitle: format
   # `url` is the canonical image-file location (Vite-hashed asset path
   # or external URL). Each image file should have one entry; multiple

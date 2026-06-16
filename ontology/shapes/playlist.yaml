@@ -2,6 +2,7 @@
 playlist:
   plural: playlists
   display:
+    icon: queue_music
     subtitle: text
   also: [list]        # a playlist is also a list
   links:

@@ -3,6 +3,7 @@ podcast:
   plural: podcasts
   identity: [at, id]
   display:
+    icon: podcasts
     subtitle: host
   fields:
     feedUrl:          url       # RSS feed URL

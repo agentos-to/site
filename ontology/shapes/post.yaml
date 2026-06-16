@@ -5,6 +5,7 @@ post:
   plural: posts
   identity: [at, id]
   display:
+    icon: newspaper
     subtitle: author
   fields:
     externalUrl:      url       # linked URL (for link posts)

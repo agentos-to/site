@@ -3,6 +3,7 @@
 flight:
   plural: flights
   display:
+    icon: flight_class
     subtitle: airline
   also: [leg]           # a flight is also a leg (and a leg is also an event — startDate/endDate inherit)
   fields:

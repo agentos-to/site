@@ -3,6 +3,7 @@
 actor:
   plural: actors
   display:
+    icon: theater_comedy
     subtitle: actorType
   fields:
     actorType:        string    # person, organization, or agent

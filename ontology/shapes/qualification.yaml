@@ -32,6 +32,7 @@ qualification:
                                # unique; absent for most degrees — with no
                                # identifier, dedup falls back to provenance.
   display:
+    icon: workspace_premium
     subtitle: category
     highlights: [identifier, validIn, granted_by]
   fields:

@@ -7,6 +7,7 @@ task:
                                   # when finished). targetDate is the *target* deadline,
                                   # distinct from event.endDate (the actual end).
   display:
+    icon: task_alt
     subtitle: state
   fields:
     remoteId:         string    # source-specific ID (e.g. PROJ-123, #456)

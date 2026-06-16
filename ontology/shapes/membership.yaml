@@ -41,6 +41,7 @@ membership:
   also: [event]                  # a membership IS an event — a time-bounded right of
                                   # belonging. Start / end ride on event.startDate / endDate.
   display:
+    icon: card_membership
     subtitle: status
   fields:
     status:            string    # active, paused, expired, cancelled, pending, revoked

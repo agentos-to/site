@@ -4,9 +4,9 @@
 module:
   plural: modules
   display:
+    icon: extension
     subtitle: role
     highlights: [status, path]
-  icon: package
   fields:
     name:        string   # the unit's name
     role:        text     # what it encapsulates / its responsibility

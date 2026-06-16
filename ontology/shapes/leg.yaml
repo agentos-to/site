@@ -7,6 +7,7 @@ leg:
   plural: legs
   also: [event]       # a leg is an event-shaped noun — happens at a time, has start/end
   display:
+    icon: transfer_within_a_station
     subtitle: flightNumber
   fields:
     sequence:          integer   # 1-based order within the trip

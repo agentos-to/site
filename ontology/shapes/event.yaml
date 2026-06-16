@@ -19,6 +19,7 @@ event:
   plural: events
   identity: [at, id]
   display:
+    icon: event
     subtitle: startDate
     highlights: [startDate, endDate, location]
   fields:

@@ -5,6 +5,7 @@ role:
   also: [event]                  # a role IS an event-shaped employment span — start / end
                                   # are event.startDate / endDate
   display:
+    icon: work
     subtitle: name
   fields:
     title:             string

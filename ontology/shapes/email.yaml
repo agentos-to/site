@@ -6,6 +6,7 @@ email:
   plural: emails
   identity: [at, id]
   display:
+    icon: mail
     subtitle: author
   also: [message]     # an email is also a message
   fields:

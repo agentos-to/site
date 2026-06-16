@@ -2,6 +2,7 @@
 shelf:
   plural: shelves
   display:
+    icon: shelves
     subtitle: isExclusive
   also: [list]        # a shelf is also a list
   fields:

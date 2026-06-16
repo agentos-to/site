@@ -4,6 +4,7 @@ transaction:
   identity: [at, id]
   also: [event]       # a transaction IS an event — the act of money moving
   display:
+    icon: receipt_long
     subtitle: category
     highlights: [amount, postingDate, currency]
     body: notes

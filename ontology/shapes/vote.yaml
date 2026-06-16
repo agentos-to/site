@@ -8,9 +8,9 @@
 vote:
   plural: votes
   display:
+    icon: thumb_up
     subtitle: direction
     body: note
-  icon: arrow-big-up
   fields:
     direction: string    # up | down — first-class both ways (board may surface up-only)
     note:      text      # optional WHY / what recurred (agent evidence)

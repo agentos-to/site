@@ -3,6 +3,7 @@ project:
   plural: projects
   identity: [at, id]
   display:
+    icon: view_kanban
     subtitle: state
   fields:
     state:             string

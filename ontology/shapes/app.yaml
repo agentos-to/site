@@ -21,6 +21,7 @@ app:
   plural: apps
   identity: [id]
   display:
+    icon: web_asset
     subtitle: description
   fields:
     id:                string    # 'finder' / 'settings' / 'gmail' / 'exa' / ...

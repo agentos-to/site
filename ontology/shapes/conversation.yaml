@@ -4,6 +4,7 @@ conversation:
   plural: conversations
   identity: [at, id]
   display:
+    icon: forum
     subtitle: text
   fields:
     isGroup:          boolean

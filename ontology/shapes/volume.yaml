@@ -11,8 +11,8 @@
 volume:
   plural: volumes
   display:
+    icon: hard_drive
     subtitle: kind
-  icon: drive
   fields:
     volume_id:   string    # Kebab-case slug — `joe-health`, `bible`. The
                             #   stable handle for `volume:` params + the

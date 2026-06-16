@@ -4,8 +4,8 @@ mcp_session:
   plural: mcp_sessions
   identity: [client, projectId, gitBranch]
   display:
+    icon: terminal
     subtitle: client
-  icon: terminal
   fields:
     client:           string    # claude-code, agentos-call, cursor, opencode
     projectId:        string    # org/repo or folder name

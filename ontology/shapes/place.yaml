@@ -9,6 +9,7 @@ place:
   plural: places
   identity_any: [googlePlaceId, mapboxId]
   display:
+    icon: location_on
     image: image
     subtitle: featureType
     highlights: [city, country, rating]

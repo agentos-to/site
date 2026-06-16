@@ -2,6 +2,7 @@
 domain:
   plural: domains
   display:
+    icon: language
     subtitle: registrar
   identity: name
   fields:

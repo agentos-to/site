@@ -18,6 +18,7 @@ brand:
   plural: brands
   identity: url
   display:
+    icon: badge
     subtitle: tagline
   fields:
     tagline:           string

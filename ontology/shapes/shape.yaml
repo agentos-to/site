@@ -6,6 +6,7 @@ shape:
   plural: shapes
   identity: name
   display:
+    icon: category
     subtitle: description
     body: description
     highlights: [plural]

@@ -68,7 +68,7 @@ class Field:
 # optional. `title` defaults to the standard `name` field when absent;
 # everything not bound is *unpromoted* and renders at detail density in
 # YAML declaration order. See `core/_product/p1/shape-display/plan.md`.
-DISPLAY_ROLES = {"title", "subtitle", "image", "highlights", "body", "mono"}
+DISPLAY_ROLES = {"title", "subtitle", "image", "highlights", "body", "mono", "icon"}
 
 
 @dataclass
@@ -83,6 +83,7 @@ class Display:
                                      #   its geometry: monospace, no re-wrap,
                                      #   no newline-flattening
     preview: dict[str, object] = field(default_factory=dict)  # per-field content policy at preview density
+    icon: str | None = None          # Material Symbols glyph name (outlined, no -fill suffix)
 
 
 @dataclass
@@ -535,6 +536,7 @@ def _build_shapes(
                     body=parent.body,
                     mono=parent.mono,
                     preview=dict(parent.preview),
+                    icon=parent.icon,
                 )
             else:
                 # Later parent overrides earlier (sibling parents): the
@@ -544,6 +546,7 @@ def _build_shapes(
                 if parent.image is not None:    merged.image = parent.image
                 if parent.body is not None:     merged.body = parent.body
                 if parent.mono is not None:     merged.mono = parent.mono
+                if parent.icon is not None:     merged.icon = parent.icon
                 if parent.highlights:           merged.highlights = list(parent.highlights)
                 for k, v in parent.preview.items():
                     merged.preview[k] = v
@@ -563,6 +566,7 @@ def _build_shapes(
                     body=disp_raw.get("body"),
                     mono=disp_raw.get("mono"),
                     preview=dict(disp_raw.get("preview") or {}),
+                    icon=disp_raw.get("icon"),
                 )
             else:
                 if disp_raw.get("title") is not None:    merged.title = disp_raw["title"]
@@ -570,6 +574,7 @@ def _build_shapes(
                 if disp_raw.get("image") is not None:    merged.image = disp_raw["image"]
                 if disp_raw.get("body") is not None:     merged.body = disp_raw["body"]
                 if disp_raw.get("mono") is not None:     merged.mono = disp_raw["mono"]
+                if disp_raw.get("icon") is not None:     merged.icon = disp_raw["icon"]
                 if disp_raw.get("highlights"):           merged.highlights = list(disp_raw["highlights"])
                 for k, v in (disp_raw.get("preview") or {}).items():
                     merged.preview[k] = v
@@ -1130,6 +1135,8 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
         # recursion per the life-events plan. The relation half must be a
         # known relation label; the field half is not validated here
         # (resolved against the target's own shape at render time).
+        if not s.display or s.display.icon is None:
+            warn(f"shape {s.name!r}: missing display.icon — add a Material Symbols glyph name")
         if s.display:
             known = {f.name for f in s.fields}
             # Derived bindings are also valid as display references — they

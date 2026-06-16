@@ -18,6 +18,7 @@ invitation:
   identity: [at, id]
   also: [event]                  # an invitation IS an event — a "you're invited" issued at a moment
   display:
+    icon: forward_to_inbox
     subtitle: invitationType
   fields:
     invitationType:   string    # organization, workspace, team, event, channel, etc.

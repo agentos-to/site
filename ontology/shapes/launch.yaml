@@ -10,6 +10,7 @@ launch:
   plural: launches
   also: [event]
   display:
+    icon: rocket_launch
     subtitle: rocketId
     highlights: [startDate, rocketId, launchpadId]
   fields:

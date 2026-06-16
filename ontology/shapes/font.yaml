@@ -11,6 +11,7 @@ font:
   plural: fonts
   identity_any: [family, postscriptName]
   display:
+    icon: text_fields
     subtitle: author
   also: [creative_work]
   fields:
