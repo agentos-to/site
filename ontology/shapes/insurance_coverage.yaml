@@ -1,0 +1,62 @@
+# A single benefit line within an insurance policy — the unit at which a
+# policy actually promises money. "Inpatient", "Outpatient", "Bodily
+# Injury Liability", "Collision", "Personal Property", "Loss of Use",
+# "Evacuation". One `insurance_policy` provides many of these (via the
+# `provides` link); the policy carries the contract envelope, each coverage
+# carries the financial terms for one line.
+#
+# Why a node and not fields on the policy (three-trigger test, rule 3):
+#   1. Arity — a policy has many coverage lines.
+#   3. Independent reference — a future `insurance_claim` is paid *under a
+#      specific coverage line* ("$400 paid under Outpatient"); that line
+#      must be referenceable. (Trigger 2, shared identity, does NOT fire —
+#      a coverage line belongs to exactly one policy, so it is composition,
+#      not a shared node. Hence no identity key: each is a distinct node,
+#      never upsert-merged across policies even when two share the name
+#      "Inpatient".)
+#
+# This is the same split as `health-panel → health-biomarker`: the
+# grouping (panel / policy) is one shape, the priced line (biomarker /
+# coverage) is another.
+#
+# One `currency` covers every monetary field on the line — all amounts in a
+# single benefit line are quoted in the same currency (rule 3: currency
+# always accompanies price).
+#
+# name (inherited) = the benefit line name — "Inpatient", "Collision".
+insurance_coverage:
+  plural: insurance_coverages
+  icon: list-checks
+  display:
+    subtitle: limit
+    highlights: [limit, deductible, outOfPocketMax, coinsurance]
+  fields:
+    limit:          number    # coverage maximum for this line (1_000_000 inpatient, 300_000 liability)
+    limitBasis:     string    # per-incident | per-year | per-lifetime | per-person | aggregate
+    deductible:     number    # amount the insured pays before the carrier pays
+    outOfPocketMax: number    # cap on total insured spend for this line (health)
+    copay:          number    # flat per-service charge the insured pays
+    coinsurance:    number    # percent of cost the insured pays after deductible (0–100)
+    currency:       string    # ISO 4217 — one currency for all amounts on this line
+    notes:          text      # carve-outs / conditions ("global evac + repatriation"; "dental off-deductible")
+  prior_art:
+    - source: HL7 FHIR R5 — InsurancePlan.coverage.benefit & Coverage.costToBeneficiary
+      url: https://www.hl7.org/fhir/insuranceplan-definitions.html#InsurancePlan.coverage.benefit
+      notes: >-
+        FHIR models a benefit with a type + a list of limits, and cost-
+        sharing (copay/coinsurance/deductible) on Coverage.costToBeneficiary.
+        Our limit/limitBasis ≈ benefit.limit{value,code}; copay/coinsurance/
+        deductible/outOfPocketMax ≈ costToBeneficiary value/type.
+    - source: ACORD — Coverage / Limit / Deductible
+      url: https://www.acord.org/standards-architecture/reference-architecture
+      notes: >-
+        ACORD Coverage carries Limit (with a basis: per-occurrence,
+        aggregate, per-person) and Deductible. Our limit + limitBasis +
+        deductible map directly; this is the P&C side (auto, renters,
+        umbrella) that FHIR's health framing doesn't cover.
+    - source: US Summary of Benefits and Coverage (SBC)
+      url: https://www.cms.gov/marketplace/about/oversight/other-insurance-protections/summary-benefits-coverage-sbc-resources
+      notes: >-
+        The federally-standardized consumer benefit summary: deductible,
+        out-of-pocket maximum, copay, coinsurance per service category.
+        Our health-line field set mirrors the SBC columns.

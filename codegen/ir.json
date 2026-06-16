@@ -16448,6 +16448,774 @@
       "prefs_schemas": {}
     },
     {
+      "name": "insurance_coverage",
+      "class_name": "InsuranceCoverage",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "coinsurance",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "copay",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "deductible",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "limitBasis",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "notes",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "outOfPocketMax",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "plural": "insurance_coverages",
+      "subtitle": "limit",
+      "display": {
+        "title": null,
+        "subtitle": "limit",
+        "image": null,
+        "highlights": [
+          "limit",
+          "deductible",
+          "outOfPocketMax",
+          "coinsurance"
+        ],
+        "body": null,
+        "mono": null,
+        "preview": {}
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "A single benefit line within an insurance policy — the unit at which a\npolicy actually promises money. \"Inpatient\", \"Outpatient\", \"Bodily\nInjury Liability\", \"Collision\", \"Personal Property\", \"Loss of Use\",\n\"Evacuation\". One `insurance_policy` provides many of these (via the\n`provides` link); the policy carries the contract envelope, each coverage\ncarries the financial terms for one line.\n\nWhy a node and not fields on the policy (three-trigger test, rule 3):\n1. Arity — a policy has many coverage lines.\n3. Independent reference — a future `insurance_claim` is paid *under a\nspecific coverage line* (\"$400 paid under Outpatient\"); that line\nmust be referenceable. (Trigger 2, shared identity, does NOT fire —\na coverage line belongs to exactly one policy, so it is composition,\nnot a shared node. Hence no identity key: each is a distinct node,\nnever upsert-merged across policies even when two share the name\n\"Inpatient\".)\n\nThis is the same split as `health-panel → health-biomarker`: the\ngrouping (panel / policy) is one shape, the priced line (biomarker /\ncoverage) is another.\n\nOne `currency` covers every monetary field on the line — all amounts in a\nsingle benefit line are quoted in the same currency (rule 3: currency\nalways accompanies price).\n\nname (inherited) = the benefit line name — \"Inpatient\", \"Collision\".",
+      "own_fields": [
+        {
+          "name": "limit",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "limitBasis",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "deductible",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "outOfPocketMax",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "copay",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "coinsurance",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "notes",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "HL7 FHIR R5 — InsurancePlan.coverage.benefit & Coverage.costToBeneficiary",
+          "url": "https://www.hl7.org/fhir/insuranceplan-definitions.html#InsurancePlan.coverage.benefit",
+          "notes": "FHIR models a benefit with a type + a list of limits, and cost- sharing (copay/coinsurance/deductible) on Coverage.costToBeneficiary. Our limit/limitBasis ≈ benefit.limit{value,code}; copay/coinsurance/ deductible/outOfPocketMax ≈ costToBeneficiary value/type."
+        },
+        {
+          "source": "ACORD — Coverage / Limit / Deductible",
+          "url": "https://www.acord.org/standards-architecture/reference-architecture",
+          "notes": "ACORD Coverage carries Limit (with a basis: per-occurrence, aggregate, per-person) and Deductible. Our limit + limitBasis + deductible map directly; this is the P&C side (auto, renters, umbrella) that FHIR's health framing doesn't cover."
+        },
+        {
+          "source": "US Summary of Benefits and Coverage (SBC)",
+          "url": "https://www.cms.gov/marketplace/about/oversight/other-insurance-protections/summary-benefits-coverage-sbc-resources",
+          "notes": "The federally-standardized consumer benefit summary: deductible, out-of-pocket maximum, copay, coinsurance per service category. Our health-line field set mirrors the SBC columns."
+        }
+      ],
+      "source_path": "insurance_coverage.yaml",
+      "raw_body": "plural: insurance_coverages\nicon: list-checks\ndisplay:\n  subtitle: limit\n  highlights:\n  - limit\n  - deductible\n  - outOfPocketMax\n  - coinsurance\nfields:\n  limit: number\n  limitBasis: string\n  deductible: number\n  outOfPocketMax: number\n  copay: number\n  coinsurance: number\n  currency: string\n  notes: text\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 InsurancePlan.coverage.benefit & Coverage.costToBeneficiary\"\n  url: https://www.hl7.org/fhir/insuranceplan-definitions.html#InsurancePlan.coverage.benefit\n  notes: \"FHIR models a benefit with a type + a list of limits, and cost- sharing\\\n    \\ (copay/coinsurance/deductible) on Coverage.costToBeneficiary. Our limit/limitBasis\\\n    \\ \\u2248 benefit.limit{value,code}; copay/coinsurance/ deductible/outOfPocketMax\\\n    \\ \\u2248 costToBeneficiary value/type.\"\n- source: \"ACORD \\u2014 Coverage / Limit / Deductible\"\n  url: https://www.acord.org/standards-architecture/reference-architecture\n  notes: 'ACORD Coverage carries Limit (with a basis: per-occurrence, aggregate, per-person)\n    and Deductible. Our limit + limitBasis + deductible map directly; this is the\n    P&C side (auto, renters, umbrella) that FHIR''s health framing doesn''t cover.'\n- source: US Summary of Benefits and Coverage (SBC)\n  url: https://www.cms.gov/marketplace/about/oversight/other-insurance-protections/summary-benefits-coverage-sbc-resources\n  notes: 'The federally-standardized consumer benefit summary: deductible, out-of-pocket\n    maximum, copay, coinsurance per service category. Our health-line field set mirrors\n    the SBC columns.'\n",
+      "ancestors": [],
+      "field_order": [
+        "limit",
+        "limitBasis",
+        "deductible",
+        "outOfPocketMax",
+        "copay",
+        "coinsurance",
+        "currency",
+        "notes"
+      ],
+      "derived": {},
+      "groups": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "insurance_policy",
+      "class_name": "InsurancePolicy",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "allDay",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "autoRenew",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "billingType",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "coverageType",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "currentUrl",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "dateUpdated",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "distinctId",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "endDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "groupNumber",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "guestPassQuantity",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "icalUid",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "memberId",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "network",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "policyNumber",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "price",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "properties",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "recurrence",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "showAs",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sourceTitle",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sourceUrl",
+          "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "startDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "tier",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "timezone",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "useCount",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "visibility",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "administered_by",
+          "type": "organization",
+          "is_relation": true,
+          "is_array": false,
+          "target": "organization"
+        },
+        {
+          "name": "at_namespace",
+          "type": "actor",
+          "is_relation": true,
+          "is_array": false,
+          "target": "actor"
+        },
+        {
+          "name": "concerns",
+          "type": "person",
+          "is_relation": true,
+          "is_array": false,
+          "target": "person"
+        },
+        {
+          "name": "created_by",
+          "type": "person",
+          "is_relation": true,
+          "is_array": false,
+          "target": "person"
+        },
+        {
+          "name": "evidenced_by",
+          "type": "file",
+          "is_relation": true,
+          "is_array": false,
+          "target": "file"
+        },
+        {
+          "name": "for",
+          "type": "person",
+          "is_relation": true,
+          "is_array": false,
+          "target": "person"
+        },
+        {
+          "name": "held_at",
+          "type": "place",
+          "is_relation": true,
+          "is_array": false,
+          "target": "place"
+        },
+        {
+          "name": "held_via",
+          "type": "account",
+          "is_relation": true,
+          "is_array": false,
+          "target": "account"
+        },
+        {
+          "name": "insures",
+          "type": "node",
+          "is_relation": true,
+          "is_array": false,
+          "target": "node"
+        },
+        {
+          "name": "involves",
+          "type": "person[]",
+          "is_relation": true,
+          "is_array": true,
+          "target": "person"
+        },
+        {
+          "name": "organized_by",
+          "type": "person",
+          "is_relation": true,
+          "is_array": false,
+          "target": "person"
+        },
+        {
+          "name": "provides",
+          "type": "insurance_coverage",
+          "is_relation": true,
+          "is_array": false,
+          "target": "insurance_coverage"
+        },
+        {
+          "name": "sold_by",
+          "type": "actor",
+          "is_relation": true,
+          "is_array": false,
+          "target": "actor"
+        },
+        {
+          "name": "under",
+          "type": "product",
+          "is_relation": true,
+          "is_array": false,
+          "target": "product"
+        },
+        {
+          "name": "underwritten_by",
+          "type": "organization",
+          "is_relation": true,
+          "is_array": false,
+          "target": "organization"
+        }
+      ],
+      "also": [
+        "membership"
+      ],
+      "plural": "insurance_policies",
+      "subtitle": "coverageType",
+      "display": {
+        "title": null,
+        "subtitle": "coverageType",
+        "image": null,
+        "highlights": [
+          "coverageType",
+          "memberId",
+          "network",
+          "policyNumber"
+        ],
+        "body": null,
+        "mono": null,
+        "preview": {}
+      },
+      "identity": [
+        "underwritten_by",
+        "policyNumber"
+      ],
+      "identity_any": [],
+      "leading_comment": "A contract of indemnity — one party (the insured) pays premiums to a\ncarrier in exchange for a promise to cover defined losses. ONE shape\ncovers every line of insurance: health, dental, vision, auto, renters,\nhomeowners, umbrella, travel, life, disability, pet. The `coverageType`\ndiscriminator is what lets a single shape span all of them — the same\nmove `membership` makes to fold in subscriptions, and `health-condition`\nmakes to fold in family history via `proximity`.\n\n`also: [membership]` — an insurance policy IS a membership: a paid,\ntime-bounded, recurring right granted by an organization. The lifecycle\nis identical and fully inherited, not re-declared:\n- status      (active | lapsed | cancelled | expired | pending)\n- price       → the PREMIUM (per-billing-cycle), with currency\n- billingType (monthly | annual | …) + autoRenew\n- term dates  → via membership's own `also: [event]`: the policy's\neffective date = event.startDate, renewal/expiry =\nevent.endDate. Rule 1 — the policy IS the time-bounded\nthing, so the dates live on it as an event, exactly as\na membership's validity window does.\n\nTHE ORG MODEL — insurance is a value chain, not one issuer.\nReal policies involve several distinct organizations playing distinct\nroles, and conflating them hides what the holder actually needs to know\n(\"who bears the risk?\" vs \"who sold it to me?\" vs \"whose portal do I log\ninto?\"). GEICO *sells* renters insurance *underwritten* by Homesite;\nyou log into GEICO's portal. RLI underwrites its own umbrella. Cigna\nunderwrites and sells its own Global plan direct. So instead of one\ngeneric `at_namespace`, the orgs are split into honest domain verbs:\n- underwritten_by → the carrier bearing the risk and issuing the\npolicy number. THE IDENTITY ANCHOR (a policy number\nis namespaced by its carrier). Required.\n- sold_by         → the brand / agent / distributor you bought through\n(GEICO). Null when the carrier sells direct.\n- administered_by → claims administrator / TPA, when distinct from the\ncarrier (e.g. an international claims office).\n\"Who do I log in with?\" is answered separately and honestly by\n`held_via → account`: the account is namespaced to whichever org's\nportal it actually is (account → at → organization), independent of who\nunderwrites. GEICO-sold / Homesite-underwritten / log-into-GEICO is\nthree clean links with no contradiction.\n\nTHE COVERAGE MODEL — the benefit lines are nodes, not a field-bag.\nA policy's terms differ wildly by line (health has inpatient/outpatient\ndeductibles & out-of-pocket maxes; auto has per-incident liability limits\n+ collision/comprehensive deductibles; renters has dwelling/personal-\nproperty/loss-of-use/liability limits; umbrella has one aggregate limit).\nModeling these as ~30 optional fields would violate \"keep shapes\ndomain-agnostic\" and never fit all lines. Instead each benefit line is an\n`insurance_coverage` node, reached via `provides`. This mirrors the\n`health-panel → health-biomarker` split, and it passes the three-trigger\nnode test: many per policy (arity) AND a future `insurance_claim` will\nreference the specific coverage it was paid under (independent reference).\n\nIdentity: [underwritten_by, policyNumber] — one policy per (carrier,\npolicy number). Carrier-keyed (not a string) so a carrier rebrand or\nbook-of-business transfer moves the link without fragmenting the policy.\n\nname (inherited) = human label — \"Cigna Global — Silver\", \"GEICO Renters\".",
+      "own_fields": [
+        {
+          "name": "coverageType",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "policyNumber",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "memberId",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "groupNumber",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "network",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [
+        {
+          "name": "underwritten_by",
+          "type": "organization",
+          "is_relation": true,
+          "is_array": false,
+          "target": "organization"
+        },
+        {
+          "name": "sold_by",
+          "type": "actor",
+          "is_relation": true,
+          "is_array": false,
+          "target": "actor"
+        },
+        {
+          "name": "administered_by",
+          "type": "organization",
+          "is_relation": true,
+          "is_array": false,
+          "target": "organization"
+        },
+        {
+          "name": "held_via",
+          "type": "account",
+          "is_relation": true,
+          "is_array": false,
+          "target": "account"
+        },
+        {
+          "name": "under",
+          "type": "product",
+          "is_relation": true,
+          "is_array": false,
+          "target": "product"
+        },
+        {
+          "name": "insures",
+          "type": "node",
+          "is_relation": true,
+          "is_array": false,
+          "target": "node"
+        },
+        {
+          "name": "provides",
+          "type": "insurance_coverage",
+          "is_relation": true,
+          "is_array": false,
+          "target": "insurance_coverage"
+        },
+        {
+          "name": "evidenced_by",
+          "type": "file",
+          "is_relation": true,
+          "is_array": false,
+          "target": "file"
+        }
+      ],
+      "prior_art": [
+        {
+          "source": "HL7 FHIR R5 — Coverage",
+          "url": "https://www.hl7.org/fhir/coverage.html",
+          "notes": "The canonical health-insurance enrollment resource. Our memberId ≈ Coverage.subscriberId / Coverage.beneficiary; groupNumber ≈ Coverage.class[type=group]; underwritten_by ≈ Coverage.payor; under (plan) ≈ Coverage.class[type=plan]; network ≈ Coverage.network. Coverage.period maps to our inherited event.startDate / endDate."
+        },
+        {
+          "source": "HL7 FHIR R5 — InsurancePlan",
+          "url": "https://www.hl7.org/fhir/insuranceplan.html",
+          "notes": "Describes the PLAN (the product), distinct from a person's Coverage. We split the same way — the plan is a `product` reached via `under`; InsurancePlan.coverage[].benefit (limits, cost-sharing) is our `insurance_coverage` nodes reached via `provides`."
+        },
+        {
+          "source": "ACORD Reference Architecture — Policy / Coverage / Producer",
+          "url": "https://www.acord.org/standards-architecture/reference-architecture",
+          "notes": "The P&C industry data standard. ACORD separates Insurer (carrier), Producer (agent/broker who sells), and Policy → Coverage → Limit / Deductible. Our underwritten_by ≈ Insurer, sold_by ≈ Producer, and insurance_coverage ≈ ACORD Coverage with its Limit/Deductible."
+        },
+        {
+          "source": "schema.org/ProgramMembership & schema.org/Permit",
+          "url": "https://schema.org/ProgramMembership",
+          "notes": "schema.org has no first-class insurance policy type; the closest framing is a membership/permit granted by an organization for a period — which is exactly why we model the policy as `also: [membership]` rather than inventing a parallel lifecycle."
+        }
+      ],
+      "source_path": "insurance_policy.yaml",
+      "raw_body": "plural: insurance_policies\nicon: shield\nalso:\n- membership\nidentity:\n- underwritten_by\n- policyNumber\ndisplay:\n  subtitle: coverageType\n  highlights:\n  - coverageType\n  - memberId\n  - network\n  - policyNumber\nfields:\n  coverageType: string\n  policyNumber: string\n  memberId: string\n  groupNumber: string\n  network: string\nlinks:\n  underwritten_by: organization\n  sold_by: actor\n  administered_by: organization\n  held_via: account\n  under: product\n  insures: node\n  provides: insurance_coverage\n  evidenced_by: file\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Coverage\"\n  url: https://www.hl7.org/fhir/coverage.html\n  notes: \"The canonical health-insurance enrollment resource. Our memberId \\u2248\\\n    \\ Coverage.subscriberId / Coverage.beneficiary; groupNumber \\u2248 Coverage.class[type=group];\\\n    \\ underwritten_by \\u2248 Coverage.payor; under (plan) \\u2248 Coverage.class[type=plan];\\\n    \\ network \\u2248 Coverage.network. Coverage.period maps to our inherited event.startDate\\\n    \\ / endDate.\"\n- source: \"HL7 FHIR R5 \\u2014 InsurancePlan\"\n  url: https://www.hl7.org/fhir/insuranceplan.html\n  notes: \"Describes the PLAN (the product), distinct from a person's Coverage. We\\\n    \\ split the same way \\u2014 the plan is a `product` reached via `under`; InsurancePlan.coverage[].benefit\\\n    \\ (limits, cost-sharing) is our `insurance_coverage` nodes reached via `provides`.\"\n- source: \"ACORD Reference Architecture \\u2014 Policy / Coverage / Producer\"\n  url: https://www.acord.org/standards-architecture/reference-architecture\n  notes: \"The P&C industry data standard. ACORD separates Insurer (carrier), Producer\\\n    \\ (agent/broker who sells), and Policy \\u2192 Coverage \\u2192 Limit / Deductible.\\\n    \\ Our underwritten_by \\u2248 Insurer, sold_by \\u2248 Producer, and insurance_coverage\\\n    \\ \\u2248 ACORD Coverage with its Limit/Deductible.\"\n- source: schema.org/ProgramMembership & schema.org/Permit\n  url: https://schema.org/ProgramMembership\n  notes: \"schema.org has no first-class insurance policy type; the closest framing\\\n    \\ is a membership/permit granted by an organization for a period \\u2014 which\\\n    \\ is exactly why we model the policy as `also: [membership]` rather than inventing\\\n    \\ a parallel lifecycle.\"\n",
+      "ancestors": [
+        "membership",
+        "event"
+      ],
+      "field_order": [
+        "coverageType",
+        "policyNumber",
+        "memberId",
+        "groupNumber",
+        "network",
+        "status",
+        "tier",
+        "autoRenew",
+        "price",
+        "currency",
+        "billingType",
+        "useCount",
+        "guestPassQuantity",
+        "startDate",
+        "endDate",
+        "timezone",
+        "allDay",
+        "recurrence",
+        "visibility",
+        "showAs",
+        "dateUpdated",
+        "sourceUrl",
+        "sourceTitle",
+        "icalUid",
+        "distinctId",
+        "currentUrl",
+        "properties"
+      ],
+      "derived": {},
+      "groups": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
       "name": "intellectual_property",
       "class_name": "IntellectualProperty",
       "fields": [
@@ -37759,6 +38527,13 @@
           "target": null
         },
         {
+          "name": "ejectable",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "freeBytes",
           "type": "integer",
           "is_relation": false,
@@ -37902,6 +38677,13 @@
           "target": null
         },
         {
+          "name": "ejectable",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "totalBytes",
           "type": "integer",
           "is_relation": false,
@@ -37956,7 +38738,7 @@
         }
       ],
       "source_path": "volume.yaml",
-      "raw_body": "plural: volumes\ndisplay:\n  subtitle: kind\nicon: drive\nfields:\n  volume_id: string\n  kind: string\n  source: string\n  address: string\n  provider: string\n  auto_mount: boolean\n  readOnly: boolean\n  removable: boolean\n  totalBytes: integer\n  freeBytes: integer\n  scope: string\n  icon: string\n  default_view: string\nprior_art:\n- source: HDT (Header, Dictionary, Triples)\n  url: https://www.rdfhdt.org/what-is-hdt/\n  notes: \"RDF binary file format; one file = one queryable graph. The Header describes\\\n    \\ the dataset in its own vocabulary \\u2014 same shapes-ride-along move as our\\\n    \\ embedded ontology.\"\n- source: Stardog Virtual Graphs\n  url: https://docs.stardog.com/virtual-graphs/\n  notes: Register an external source under a URI; query as a named graph. Our volume\n    shape is the registration row; mount/unmount is the verb pair.\n- source: macOS Disk Utility / DMG\n  url: https://support.apple.com/guide/disk-utility/welcome/mac\n  notes: The UX mental model. A volume is an attached, browseable disk; the Finder\n    shows it in the sidebar; eject detaches it without destroying the underlying file.\n",
+      "raw_body": "plural: volumes\ndisplay:\n  subtitle: kind\nicon: drive\nfields:\n  volume_id: string\n  kind: string\n  source: string\n  address: string\n  provider: string\n  auto_mount: boolean\n  readOnly: boolean\n  removable: boolean\n  ejectable: boolean\n  totalBytes: integer\n  freeBytes: integer\n  scope: string\n  icon: string\n  default_view: string\nprior_art:\n- source: HDT (Header, Dictionary, Triples)\n  url: https://www.rdfhdt.org/what-is-hdt/\n  notes: \"RDF binary file format; one file = one queryable graph. The Header describes\\\n    \\ the dataset in its own vocabulary \\u2014 same shapes-ride-along move as our\\\n    \\ embedded ontology.\"\n- source: Stardog Virtual Graphs\n  url: https://docs.stardog.com/virtual-graphs/\n  notes: Register an external source under a URI; query as a named graph. Our volume\n    shape is the registration row; mount/unmount is the verb pair.\n- source: macOS Disk Utility / DMG\n  url: https://support.apple.com/guide/disk-utility/welcome/mac\n  notes: The UX mental model. A volume is an attached, browseable disk; the Finder\n    shows it in the sidebar; eject detaches it without destroying the underlying file.\n",
       "ancestors": [],
       "field_order": [
         "volume_id",
@@ -37967,6 +38749,7 @@
         "auto_mount",
         "readOnly",
         "removable",
+        "ejectable",
         "totalBytes",
         "freeBytes",
         "scope",
@@ -39751,6 +40534,18 @@
       "preposition_root": null
     },
     {
+      "name": "administered_by",
+      "from_kind": "insurance_policy",
+      "to_kind": "organization",
+      "cardinality": "many_to_many",
+      "link_vals": {},
+      "inverse_of": null,
+      "reverse_name": null,
+      "group_file": "administered_by.yaml",
+      "verb_root": null,
+      "preposition_root": null
+    },
+    {
       "name": "aired_in",
       "from_kind": "episode",
       "to_kind": "podcast",
@@ -40747,6 +41542,18 @@
       "preposition_root": null
     },
     {
+      "name": "insures",
+      "from_kind": "insurance_policy",
+      "to_kind": "node",
+      "cardinality": "one_to_many",
+      "link_vals": {},
+      "inverse_of": null,
+      "reverse_name": null,
+      "group_file": "insures.yaml",
+      "verb_root": null,
+      "preposition_root": null
+    },
+    {
       "name": "invested_by",
       "from_kind": "transaction",
       "to_kind": "person",
@@ -41137,6 +41944,18 @@
       "preposition_root": null
     },
     {
+      "name": "provides",
+      "from_kind": "insurance_policy",
+      "to_kind": "insurance_coverage",
+      "cardinality": "one_to_many",
+      "link_vals": {},
+      "inverse_of": null,
+      "reverse_name": null,
+      "group_file": "provides.yaml",
+      "verb_root": null,
+      "preposition_root": null
+    },
+    {
       "name": "published_by",
       "from_kind": "creative_work",
       "to_kind": "actor",
@@ -41365,6 +42184,18 @@
       "preposition_root": null
     },
     {
+      "name": "sold_by",
+      "from_kind": "insurance_policy",
+      "to_kind": "actor",
+      "cardinality": "many_to_many",
+      "link_vals": {},
+      "inverse_of": null,
+      "reverse_name": null,
+      "group_file": "sold_by.yaml",
+      "verb_root": null,
+      "preposition_root": null
+    },
+    {
       "name": "speaks_protocol",
       "from_kind": "account",
       "to_kind": "protocol",
@@ -41543,6 +42374,18 @@
       "group_file": "under.yaml",
       "verb_root": null,
       "preposition_root": "under"
+    },
+    {
+      "name": "underwritten_by",
+      "from_kind": "insurance_policy",
+      "to_kind": "organization",
+      "cardinality": "many_to_many",
+      "link_vals": {},
+      "inverse_of": null,
+      "reverse_name": null,
+      "group_file": "underwritten_by.yaml",
+      "verb_root": null,
+      "preposition_root": null
     },
     {
       "name": "valid_for",

@@ -54,6 +54,14 @@ volume:
     removable:   boolean   # filesystem transport — a /Volumes/* mount (DMG,
                             #   USB) vs the internal disk; drives the eject
                             #   affordance + glyph.
+    ejectable:   boolean   # can the user unmount this volume? false for the
+                            #   core OS volumes (Home, System) the engine
+                            #   manages; true for user-mounted pods. The
+                            #   Unmount verb is hidden when false, and the
+                            #   engine's unmount op refuses a false volume.
+                            #   Distinct from `removable` (a physical-media
+                            #   trait); `ejectable` is an ownership/policy
+                            #   trait. Absent → treated as ejectable.
     totalBytes:  integer   # filesystem transport — capacity, from statvfs.
     freeBytes:   integer   # filesystem transport — free space, from statvfs.
     scope:       string    # "user" (default) — a memex/pod the user mounted,

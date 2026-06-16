@@ -19,6 +19,7 @@ pub struct Volume {
     pub auto_mount: Option<bool>,
     #[serde(rename = "default_view")]
     pub default_view: Option<String>,
+    pub ejectable: Option<bool>,
     pub free_bytes: Option<i64>,
     pub icon: Option<String>,
     pub kind: Option<String>,
@@ -49,6 +50,7 @@ pub static VOLUME: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("address", FieldType::String),
         FieldDef::optional("auto_mount", FieldType::Boolean),
         FieldDef::optional("default_view", FieldType::String),
+        FieldDef::optional("ejectable", FieldType::Boolean),
         FieldDef::optional("freeBytes", FieldType::Integer),
         FieldDef::optional("icon", FieldType::String),
         FieldDef::optional("kind", FieldType::String),

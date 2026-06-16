@@ -1,0 +1,12 @@
+# Single-form link `insures` (Pattern 3). Stem = storage label.
+# Sources: insurance_policy
+# Targets: node (polymorphic — person | place | vehicle | …)
+#
+# The subject a policy protects. Health/life/disability insure a `person`;
+# renters/homeowners insure a `place`; auto insures a vehicle. Typed `node`
+# so one verb spans every line; the concrete target shape is whatever the
+# policy covers. A policy may insure several subjects (a family health plan,
+# multiple vehicles).
+from: insurance_policy
+to: node
+card: one_to_many

@@ -1,0 +1,114 @@
+# A contract of indemnity — one party (the insured) pays premiums to a
+# carrier in exchange for a promise to cover defined losses. ONE shape
+# covers every line of insurance: health, dental, vision, auto, renters,
+# homeowners, umbrella, travel, life, disability, pet. The `coverageType`
+# discriminator is what lets a single shape span all of them — the same
+# move `membership` makes to fold in subscriptions, and `health-condition`
+# makes to fold in family history via `proximity`.
+#
+# `also: [membership]` — an insurance policy IS a membership: a paid,
+# time-bounded, recurring right granted by an organization. The lifecycle
+# is identical and fully inherited, not re-declared:
+#   - status      (active | lapsed | cancelled | expired | pending)
+#   - price       → the PREMIUM (per-billing-cycle), with currency
+#   - billingType (monthly | annual | …) + autoRenew
+#   - term dates  → via membership's own `also: [event]`: the policy's
+#                   effective date = event.startDate, renewal/expiry =
+#                   event.endDate. Rule 1 — the policy IS the time-bounded
+#                   thing, so the dates live on it as an event, exactly as
+#                   a membership's validity window does.
+#
+# THE ORG MODEL — insurance is a value chain, not one issuer.
+# Real policies involve several distinct organizations playing distinct
+# roles, and conflating them hides what the holder actually needs to know
+# ("who bears the risk?" vs "who sold it to me?" vs "whose portal do I log
+# into?"). GEICO *sells* renters insurance *underwritten* by Homesite;
+# you log into GEICO's portal. RLI underwrites its own umbrella. Cigna
+# underwrites and sells its own Global plan direct. So instead of one
+# generic `at_namespace`, the orgs are split into honest domain verbs:
+#   - underwritten_by → the carrier bearing the risk and issuing the
+#                       policy number. THE IDENTITY ANCHOR (a policy number
+#                       is namespaced by its carrier). Required.
+#   - sold_by         → the brand / agent / distributor you bought through
+#                       (GEICO). Null when the carrier sells direct.
+#   - administered_by → claims administrator / TPA, when distinct from the
+#                       carrier (e.g. an international claims office).
+# "Who do I log in with?" is answered separately and honestly by
+# `held_via → account`: the account is namespaced to whichever org's
+# portal it actually is (account → at → organization), independent of who
+# underwrites. GEICO-sold / Homesite-underwritten / log-into-GEICO is
+# three clean links with no contradiction.
+#
+# THE COVERAGE MODEL — the benefit lines are nodes, not a field-bag.
+# A policy's terms differ wildly by line (health has inpatient/outpatient
+# deductibles & out-of-pocket maxes; auto has per-incident liability limits
+# + collision/comprehensive deductibles; renters has dwelling/personal-
+# property/loss-of-use/liability limits; umbrella has one aggregate limit).
+# Modeling these as ~30 optional fields would violate "keep shapes
+# domain-agnostic" and never fit all lines. Instead each benefit line is an
+# `insurance_coverage` node, reached via `provides`. This mirrors the
+# `health-panel → health-biomarker` split, and it passes the three-trigger
+# node test: many per policy (arity) AND a future `insurance_claim` will
+# reference the specific coverage it was paid under (independent reference).
+#
+# Identity: [underwritten_by, policyNumber] — one policy per (carrier,
+# policy number). Carrier-keyed (not a string) so a carrier rebrand or
+# book-of-business transfer moves the link without fragmenting the policy.
+#
+# name (inherited) = human label — "Cigna Global — Silver", "GEICO Renters".
+insurance_policy:
+  plural: insurance_policies
+  icon: shield
+  also: [membership]               # → event. status, premium(price), billing, autoRenew, term dates inherited.
+  identity: [underwritten_by, policyNumber]
+  display:
+    subtitle: coverageType
+    highlights: [coverageType, memberId, network, policyNumber]
+  fields:
+    coverageType:  string    # health|dental|vision|auto|renters|homeowners|umbrella|travel|life|disability|pet
+    policyNumber:  string    # the policy / certificate number — identity anchor with the carrier
+    memberId:      string    # subscriber / member id printed on the ID card
+    groupNumber:   string    # group / plan id (Rx group, employer group, etc.)
+    network:       string    # PPO|HMO|EPO|POS|global, or the named provider network ("Cigna Healthcare PPO")
+    # premium = inherited membership.price (per billing cycle) + currency + billingType. NOT re-declared.
+    # term: effective = event.startDate, renewal/expiry = event.endDate (inherited via membership → event).
+  links:
+    underwritten_by: organization        # the carrier bearing the risk; issues the policy number. Identity anchor.
+    sold_by:         actor               # brand / agent / distributor sold through (org or individual broker). Optional.
+    administered_by: organization        # claims administrator / TPA, when distinct from the carrier. Optional.
+    held_via:        account             # the portal / login you use (account → at says whose portal). [inherited]
+    under:           product             # the named plan / tier (Cigna Global · Silver). [inherited]
+    insures:         node                # the insured subject — person (health/life) / place (renters) / vehicle (auto)
+    provides:        insurance_coverage  # this policy's benefit lines (one node per line)
+    evidenced_by:    file                # policy docs, ID cards, certificates, welcome packets [reused]
+  prior_art:
+    - source: HL7 FHIR R5 — Coverage
+      url: https://www.hl7.org/fhir/coverage.html
+      notes: >-
+        The canonical health-insurance enrollment resource. Our memberId ≈
+        Coverage.subscriberId / Coverage.beneficiary; groupNumber ≈
+        Coverage.class[type=group]; underwritten_by ≈ Coverage.payor;
+        under (plan) ≈ Coverage.class[type=plan]; network ≈
+        Coverage.network. Coverage.period maps to our inherited
+        event.startDate / endDate.
+    - source: HL7 FHIR R5 — InsurancePlan
+      url: https://www.hl7.org/fhir/insuranceplan.html
+      notes: >-
+        Describes the PLAN (the product), distinct from a person's Coverage.
+        We split the same way — the plan is a `product` reached via `under`;
+        InsurancePlan.coverage[].benefit (limits, cost-sharing) is our
+        `insurance_coverage` nodes reached via `provides`.
+    - source: ACORD Reference Architecture — Policy / Coverage / Producer
+      url: https://www.acord.org/standards-architecture/reference-architecture
+      notes: >-
+        The P&C industry data standard. ACORD separates Insurer (carrier),
+        Producer (agent/broker who sells), and Policy → Coverage → Limit /
+        Deductible. Our underwritten_by ≈ Insurer, sold_by ≈ Producer, and
+        insurance_coverage ≈ ACORD Coverage with its Limit/Deductible.
+    - source: schema.org/ProgramMembership & schema.org/Permit
+      url: https://schema.org/ProgramMembership
+      notes: >-
+        schema.org has no first-class insurance policy type; the closest
+        framing is a membership/permit granted by an organization for a
+        period — which is exactly why we model the policy as `also:
+        [membership]` rather than inventing a parallel lifecycle.

@@ -67,6 +67,8 @@ pub mod health_procedure;
 pub mod health_reference_range;
 pub mod icon;
 pub mod image;
+pub mod insurance_coverage;
+pub mod insurance_policy;
 pub mod intellectual_property;
 pub mod invitation;
 pub mod issue;
@@ -181,6 +183,8 @@ pub use health_procedure::{HEALTH_PROCEDURE, HealthProcedure};
 pub use health_reference_range::{HEALTH_REFERENCE_RANGE, HealthReferenceRange};
 pub use icon::{ICON, Icon};
 pub use image::{IMAGE, Image};
+pub use insurance_coverage::{INSURANCE_COVERAGE, InsuranceCoverage};
+pub use insurance_policy::{INSURANCE_POLICY, InsurancePolicy};
 pub use intellectual_property::{INTELLECTUAL_PROPERTY, IntellectualProperty};
 pub use invitation::{INVITATION, Invitation};
 pub use issue::{ISSUE, Issue};
@@ -301,6 +305,8 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "health-reference-range" => Some(&HEALTH_REFERENCE_RANGE),
         "icon" => Some(&ICON),
         "image" => Some(&IMAGE),
+        "insurance_coverage" => Some(&INSURANCE_COVERAGE),
+        "insurance_policy" => Some(&INSURANCE_POLICY),
         "intellectual_property" => Some(&INTELLECTUAL_PROPERTY),
         "invitation" => Some(&INVITATION),
         "issue" => Some(&ISSUE),
@@ -870,6 +876,26 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         mono: None,
         preview: &[],
         also: &["creative_work", "file"],
+    }),
+    ("insurance_coverage", Display {
+        title: None,
+        subtitle: Some("limit"),
+        image: None,
+        highlights: &["limit", "deductible", "outOfPocketMax", "coinsurance"],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &[],
+    }),
+    ("insurance_policy", Display {
+        title: None,
+        subtitle: Some("coverageType"),
+        image: None,
+        highlights: &["coverageType", "memberId", "network", "policyNumber"],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &["membership", "event"],
     }),
     ("intellectual_property", Display {
         title: None,
@@ -1589,6 +1615,8 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("health-reference-range", &["low", "high", "unit", "refText", "category", "provenance", "method", "ageLow", "ageHigh", "sex", "pregnancy", "gestationalAge", "fasting", "timeOfDay", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("icon", &["dimension", "format", "url", "component", "purpose", "style", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "language", "coverage", "tags"]),
     ("image", &["width", "height", "format", "altText", "appName", "windowId", "displayId", "displayIndex", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "encoding", "lineCount", "kind", "sha"]),
+    ("insurance_coverage", &["limit", "limitBasis", "deductible", "outOfPocketMax", "copay", "coinsurance", "currency", "notes"]),
+    ("insurance_policy", &["coverageType", "policyNumber", "memberId", "groupNumber", "network", "status", "tier", "autoRenew", "price", "currency", "billingType", "useCount", "guestPassQuantity", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("intellectual_property", &["category", "mark", "identifier", "register", "status", "filingBasis", "niceClass", "validIn", "renewalPeriod", "verificationUrl"]),
     ("invitation", &["invitationType", "email", "role", "status", "token", "acceptedAt", "revokedAt", "message", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("issue", &["declined", "externalUrl", "postType", "score", "commentCount", "community"]),
@@ -1651,7 +1679,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("user", &["osUsername", "primaryUser", "actorType"]),
     ("user_identity", &["user_id", "volume_id", "person_node_id", "active"]),
     ("video", &["durationMs", "resolution", "frameRate", "codec", "viewCount", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
-    ("volume", &["volume_id", "kind", "source", "address", "provider", "auto_mount", "readOnly", "removable", "totalBytes", "freeBytes", "scope", "icon", "default_view"]),
+    ("volume", &["volume_id", "kind", "source", "address", "provider", "auto_mount", "readOnly", "removable", "ejectable", "totalBytes", "freeBytes", "scope", "icon", "default_view"]),
     ("vote", &["direction", "note", "instance"]),
     ("webpage", &["visitCount", "lastVisitUnix", "contentType", "favicon", "error"]),
     ("website", &["status", "versionId", "anonymous", "claimToken", "claimUrl"]),
@@ -1713,6 +1741,8 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("health-reference-range", "health-reference-ranges"),
     ("icon", "icons"),
     ("image", "images"),
+    ("insurance_coverage", "insurance_coverages"),
+    ("insurance_policy", "insurance_policies"),
     ("intellectual_property", "intellectual_properties"),
     ("invitation", "invitations"),
     ("issue", "issues"),
@@ -1813,6 +1843,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
     ("health-reference-range", &["event"]),
     ("icon", &["creative_work"]),
     ("image", &["creative_work", "file"]),
+    ("insurance_policy", &["membership", "event"]),
     ("invitation", &["event"]),
     ("issue", &["post"]),
     ("launch", &["event"]),
@@ -1845,7 +1876,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
 // Event types — shapes whose `also:` chain includes `event`
 // ===========================================================
 
-pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer", "class", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-observation", "health-panel", "health-procedure", "health-reference-range", "invitation", "launch", "leg", "loaded_model", "meeting", "membership", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "transition", "trip"];
+pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer", "class", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-observation", "health-panel", "health-procedure", "health-reference-range", "insurance_policy", "invitation", "launch", "leg", "loaded_model", "meeting", "membership", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "transition", "trip"];
 
 // ===========================================================
 // Derived bindings — per-shape `derived:` block as JSON
