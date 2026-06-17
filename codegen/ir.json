@@ -10634,7 +10634,7 @@
         "loincCode",
         "measure"
       ],
-      "leading_comment": "The *definition* of a measurable health quantity — TSH, LDL cholesterol,\nhemoglobin A1c. NOT a measurement (that's health-observation), and NOT a\nreference range (that's health-reference-range).\n\nA biomarker is the reusable, lab-neutral template: what is measured,\nwhat clinical category it belongs to, what it means. One biomarker,\nmany observations, many reference ranges. It carries no unit — the\nunit is a per-observation fact (it rides on each observation's value),\nbecause one analyte is reported in different units by different labs.\n\nDeliberately, a biomarker carries NO reference range. A range is not a\nproperty of the analyte — it depends on the lab, method, and population\n(see health-reference-range). \"LDL cholesterol\" is defined once here;\nQuest's LDL range and a Singapore lab's LDL range are two separate\nhealth-reference-range nodes, both pointing back to this biomarker.\n\nLOINC is the universal code system for lab observables — `loincCode` is\nthe join key to the rest of the medical world. Two labs reporting \"TSH\"\nunder different local names both map to LOINC 3016-3. LOINC identifies\nthe observable ONLY; it never carries a range.\n\n`name` (inherited) is the display label, e.g. \"LDL Cholesterol\".",
+      "leading_comment": "The *definition* of a measurable health quantity — TSH, LDL cholesterol,\nhemoglobin A1c. NOT a measurement (that's measure), and NOT a\nreference range (that's health-reference-range).\n\nA biomarker is the reusable, lab-neutral template: what is measured,\nwhat clinical category it belongs to, what it means. One biomarker,\nmany measures, many reference ranges. It carries no unit — the\nunit is a per-measure fact (it rides on each measure's value),\nbecause one analyte is reported in different units by different labs.\n\nDeliberately, a biomarker carries NO reference range. A range is not a\nproperty of the analyte — it depends on the lab, method, and population\n(see health-reference-range). \"LDL cholesterol\" is defined once here;\nQuest's LDL range and a Singapore lab's LDL range are two separate\nhealth-reference-range nodes, both pointing back to this biomarker.\n\nLOINC is the universal code system for lab observables — `loincCode` is\nthe join key to the rest of the medical world. Two labs reporting \"TSH\"\nunder different local names both map to LOINC 3016-3. LOINC identifies\nthe observable ONLY; it never carries a range.\n\n`name` (inherited) is the display label, e.g. \"LDL Cholesterol\".",
       "own_fields": [
         {
           "name": "measure",
@@ -11672,424 +11672,6 @@
       "prefs_schemas": {}
     },
     {
-      "name": "health-observation",
-      "class_name": "HealthObservation",
-      "fields": [
-        {
-          "name": "id",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "text",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "url",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "image",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "author",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "datePublished",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "content",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "allDay",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "community",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "currentUrl",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "dateUpdated",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "distinctId",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "endDate",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "externalUrl",
-          "type": "url",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "favicon",
-          "type": "url",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "flag",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "icalUid",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "indexedAt",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "notes",
-          "type": "text",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "postId",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "properties",
-          "type": "json",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "recurrence",
-          "type": "string[]",
-          "is_relation": false,
-          "is_array": true,
-          "target": null
-        },
-        {
-          "name": "refHigh",
-          "type": "number",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "refLow",
-          "type": "number",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "refText",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "resultType",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "score",
-          "type": "integer",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "showAs",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "similarity",
-          "type": "number",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sourceTitle",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sourceUrl",
-          "type": "url",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "startDate",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "timezone",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "value",
-          "type": "number",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "valueText",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "visibility",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        }
-      ],
-      "also": [
-        "result",
-        "event"
-      ],
-      "plural": "health-observations",
-      "subtitle": "startDate",
-      "display": {
-        "title": null,
-        "subtitle": "startDate",
-        "image": null,
-        "highlights": [
-          "startDate",
-          "endDate",
-          "location"
-        ],
-        "body": null,
-        "mono": null,
-        "preview": {},
-        "icon": "vital_signs"
-      },
-      "identity": [],
-      "identity_any": [],
-      "leading_comment": "A single measured health value at a point in time — \"LDL = 95 mg/dL on\n2024-03-20\". The measurement, not the definition (health-biomarker) and\nnot the lab's catalog interval (health-reference-range).\n\nAn observation always carries its own value, and the value's UCUM unit\nrides on the value itself — every memex val stores a unit alongside it,\nso there is no separate `unit` field. The value is meaningless without\nthe unit (95 mg/dL is not 95 mmol/L). It links to its biomarker via a\n`measures` link.\n\nReference range — TWO complementary mechanisms, on purpose:\n1. SNAPSHOT fields (refLow / refHigh / refText) — the interval THIS\nreport actually printed, frozen onto the result. This is a\nhistorical fact: it never changes, even if the lab later revises\nits range. Always populated when the report stated a range.\n2. An optional `reportedRange` link to a health-reference-range node,\nset when that lab's interval is known as a first-class entity.\nLets you reconcile the result against the normalized range.\nThe snapshot is the fact; the link is the enrichment. Both can coexist.\n\n`flag` (low / normal / high / critical) is DERIVED — a reader compares\n`value` against the range. Stored as an optional convenience only; it\nmust never be the source of truth. Re-derive it; don't trust a frozen\ncopy. (The \"derive don't declare\" principle.)\n\n`also: [result]` — an observation is a kind of result: a pointer to\nsomething found, with find-time metadata.\n\n`name` (inherited) is the display label, e.g. \"LDL Cholesterol 95 mg/dL\".",
-      "own_fields": [
-        {
-          "name": "value",
-          "type": "number",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "valueText",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "refLow",
-          "type": "number",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "refHigh",
-          "type": "number",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "refText",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "flag",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "notes",
-          "type": "text",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        }
-      ],
-      "own_relations": [],
-      "prior_art": [
-        {
-          "source": "HL7 FHIR R5 — Observation",
-          "url": "https://www.hl7.org/fhir/observation.html",
-          "notes": "The canonical resource for a measured value. value (with its UCUM unit) ≈ valueQuantity; effectiveDate ≈ effectiveDateTime; refLow/refHigh/refText ≈ the referenceRange backbone (the inline snapshot); flag ≈ interpretation; status ≈ status. `measures` ≈ code resolved to a biomarker. FHIR has no normalized-range link — our `reportedRange` link adds that."
-        },
-        {
-          "source": "HL7 v2.x — OBX segment",
-          "url": "https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX",
-          "notes": "The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6 (units) together ≈ our value-with-unit; OBX-7 (reference range), OBX-8 (abnormal flag), OBX-14 (datetime) map to refText/ flag/effectiveDate. Confirms the snapshot field set against real lab feeds."
-        },
-        {
-          "source": "LOINC",
-          "url": "https://loinc.org/",
-          "notes": "The observation itself is not LOINC-coded — its `biomarker` is. The `measures` link carries the LOINC identity."
-        },
-        {
-          "source": "UCUM — Unified Code for Units of Measure",
-          "url": "https://ucum.org/",
-          "notes": "The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM — the unit system FHIR mandates for Observation.valueQuantity, so observations round-trip into FHIR cleanly."
-        }
-      ],
-      "source_path": "health-observation.yaml",
-      "raw_body": "plural: health-observations\nalso:\n- result\n- event\ndisplay:\n  icon: vital_signs\n  subtitle: startDate\nfields:\n  value: number\n  valueText: string\n  refLow: number\n  refHigh: number\n  refText: string\n  flag: string\n  status: string\n  notes: text\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Observation\"\n  url: https://www.hl7.org/fhir/observation.html\n  notes: \"The canonical resource for a measured value. value (with its UCUM unit)\\\n    \\ \\u2248 valueQuantity; effectiveDate \\u2248 effectiveDateTime; refLow/refHigh/refText\\\n    \\ \\u2248 the referenceRange backbone (the inline snapshot); flag \\u2248 interpretation;\\\n    \\ status \\u2248 status. `measures` \\u2248 code resolved to a biomarker. FHIR has\\\n    \\ no normalized-range link \\u2014 our `reportedRange` link adds that.\"\n- source: \"HL7 v2.x \\u2014 OBX segment\"\n  url: https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX\n  notes: \"The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6\\\n    \\ (units) together \\u2248 our value-with-unit; OBX-7 (reference range), OBX-8\\\n    \\ (abnormal flag), OBX-14 (datetime) map to refText/ flag/effectiveDate. Confirms\\\n    \\ the snapshot field set against real lab feeds.\"\n- source: LOINC\n  url: https://loinc.org/\n  notes: \"The observation itself is not LOINC-coded \\u2014 its `biomarker` is. The\\\n    \\ `measures` link carries the LOINC identity.\"\n- source: \"UCUM \\u2014 Unified Code for Units of Measure\"\n  url: https://ucum.org/\n  notes: \"The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM \\u2014\\\n    \\ the unit system FHIR mandates for Observation.valueQuantity, so observations\\\n    \\ round-trip into FHIR cleanly.\"\n",
-      "ancestors": [
-        "result",
-        "event"
-      ],
-      "field_order": [
-        "value",
-        "valueText",
-        "refLow",
-        "refHigh",
-        "refText",
-        "flag",
-        "status",
-        "notes",
-        "indexedAt",
-        "resultType",
-        "favicon",
-        "externalUrl",
-        "postId",
-        "score",
-        "similarity",
-        "community",
-        "startDate",
-        "endDate",
-        "timezone",
-        "allDay",
-        "recurrence",
-        "visibility",
-        "showAs",
-        "dateUpdated",
-        "sourceUrl",
-        "sourceTitle",
-        "icalUid",
-        "distinctId",
-        "currentUrl",
-        "properties"
-      ],
-      "derived": {},
-      "groups": [],
-      "shortcuts": {},
-      "prefs_schemas": {}
-    },
-    {
       "name": "health-panel",
       "class_name": "HealthPanel",
       "fields": [
@@ -12723,7 +12305,7 @@
         "snomedCode",
         "id"
       ],
-      "leading_comment": "A procedure — a clinical action performed on the body. Surgeries\n(\"septoplasty\"), diagnostic scans (\"ankle MRI\", \"colonoscopy\"),\ntherapies (\"physiotherapy course\"). The thing that was *done*, as\nopposed to a health-condition (what you have) or a health-observation\n(a value measured).\n\n`also: [event]` — a procedure IS an event: it happened at a time, at a\nplace, involving people (surgeon, radiologist). Unlike an immunization,\na procedure can span time, so it uses the event's startDate/endDate for\nmulti-session courses (a physiotherapy course) and `performedDate` for\npoint procedures.\n\nA procedure usually addresses a health-condition (the septoplasty\ntreats the deviated septum). That `treats` link lets you ask \"what was\ndone about the 2016 stomach problem\".\n\n`bodySite` is a plain string — anatomy is not modeled as its own shape\n(see health-condition for the rationale).\n\nCPT (billing) and SNOMED CT (clinical) both code procedures —\n`cptCode` / `snomedCode` are the join keys.\n\n`name` (inherited via event) is the procedure name — \"Septoplasty\".",
+      "leading_comment": "A procedure — a clinical action performed on the body. Surgeries\n(\"septoplasty\"), diagnostic scans (\"ankle MRI\", \"colonoscopy\"),\ntherapies (\"physiotherapy course\"). The thing that was *done*, as\nopposed to a health-condition (what you have) or a measure\n(a value measured).\n\n`also: [event]` — a procedure IS an event: it happened at a time, at a\nplace, involving people (surgeon, radiologist). Unlike an immunization,\na procedure can span time, so it uses the event's startDate/endDate for\nmulti-session courses (a physiotherapy course) and `performedDate` for\npoint procedures.\n\nA procedure usually addresses a health-condition (the septoplasty\ntreats the deviated septum). That `treats` link lets you ask \"what was\ndone about the 2016 stomach problem\".\n\n`bodySite` is a plain string — anatomy is not modeled as its own shape\n(see health-condition for the rationale).\n\nCPT (billing) and SNOMED CT (clinical) both code procedures —\n`cptCode` / `snomedCode` are the join keys.\n\n`name` (inherited via event) is the procedure name — \"Septoplasty\".",
       "own_fields": [
         {
           "name": "performedDate",
@@ -13248,7 +12830,7 @@
         {
           "source": "HL7 FHIR R5 — Observation.referenceRange",
           "url": "https://www.hl7.org/fhir/observation.html",
-          "notes": "FHIR's other reference-range model — inlined on the result as a denormalized snapshot (low/high/normalValue/type/appliesTo/age/ text). health-observation keeps that snapshot too (its refLow/ refHigh fields); this shape is the normalized, reusable form the snapshot can point back to."
+          "notes": "FHIR's other reference-range model — inlined on the result as a denormalized snapshot (low/high/normalValue/type/appliesTo/age/ text). measure keeps that snapshot too (its refLow/refHigh fields); this shape is the normalized, reusable form the snapshot can point back to."
         },
         {
           "source": "OMOP CDM v5.4 — MEASUREMENT.range_low / range_high",
@@ -13257,7 +12839,7 @@
         }
       ],
       "source_path": "health-reference-range.yaml",
-      "raw_body": "plural: health-reference-ranges\nalso:\n- event\nidentity:\n- analyte\n- issuingLab\n- method\n- startDate\ndisplay:\n  icon: straighten\n  subtitle: refText\nfields:\n  low: number\n  high: number\n  unit: string\n  refText: string\n  category: string\n  provenance: string\n  method: string\n  ageLow: number\n  ageHigh: number\n  sex: string\n  pregnancy: string\n  gestationalAge: string\n  fasting: boolean\n  timeOfDay: string\nprior_art:\n- source: \"CLSI EP28-A3c \\u2014 Defining, Establishing, and Verifying Reference Intervals\"\n  url: https://clsi.org/shop/standards/ep28/\n  notes: The authoritative protocol. Each lab must establish (de novo, min n=120 per\n    partition) or verify (min n=20) its own intervals. `provenance` (established/verified/manufacturer-claimed)\n    comes directly from this guideline; it is why two same-instrument labs legitimately\n    diverge.\n- source: \"HL7 FHIR R5 \\u2014 ObservationDefinition.qualifiedInterval\"\n  url: https://www.hl7.org/fhir/observationdefinition.html\n  notes: \"The closest standard precedent \\u2014 a reusable, multi-context interval.\\\n    \\ Our category maps to its rangeCategory; range to range; age/gestationalAge/sex\\\n    \\ to the same; condition \\u2248 our population fields. But qualifiedInterval has\\\n    \\ NO issuingLab and NO validity window \\u2014 this shape adds both. qualifiedInterval\\\n    \\ is the lossy EXPORT projection of this shape, not its equal.\"\n- source: \"HL7 FHIR R5 \\u2014 Observation.referenceRange\"\n  url: https://www.hl7.org/fhir/observation.html\n  notes: \"FHIR's other reference-range model \\u2014 inlined on the result as a denormalized\\\n    \\ snapshot (low/high/normalValue/type/appliesTo/age/ text). health-observation\\\n    \\ keeps that snapshot too (its refLow/ refHigh fields); this shape is the normalized,\\\n    \\ reusable form the snapshot can point back to.\"\n- source: \"OMOP CDM v5.4 \\u2014 MEASUREMENT.range_low / range_high\"\n  url: https://ohdsi.github.io/CommonDataModel/cdm54.html\n  notes: \"OMOP inlines range_low/range_high as columns on the measurement row \\u2014\\\n    \\ \\\"no separate standalone table for reference ranges.\\\" Confirms the gap: no\\\n    \\ major model makes the range first-class.\"\n",
+      "raw_body": "plural: health-reference-ranges\nalso:\n- event\nidentity:\n- analyte\n- issuingLab\n- method\n- startDate\ndisplay:\n  icon: straighten\n  subtitle: refText\nfields:\n  low: number\n  high: number\n  unit: string\n  refText: string\n  category: string\n  provenance: string\n  method: string\n  ageLow: number\n  ageHigh: number\n  sex: string\n  pregnancy: string\n  gestationalAge: string\n  fasting: boolean\n  timeOfDay: string\nprior_art:\n- source: \"CLSI EP28-A3c \\u2014 Defining, Establishing, and Verifying Reference Intervals\"\n  url: https://clsi.org/shop/standards/ep28/\n  notes: The authoritative protocol. Each lab must establish (de novo, min n=120 per\n    partition) or verify (min n=20) its own intervals. `provenance` (established/verified/manufacturer-claimed)\n    comes directly from this guideline; it is why two same-instrument labs legitimately\n    diverge.\n- source: \"HL7 FHIR R5 \\u2014 ObservationDefinition.qualifiedInterval\"\n  url: https://www.hl7.org/fhir/observationdefinition.html\n  notes: \"The closest standard precedent \\u2014 a reusable, multi-context interval.\\\n    \\ Our category maps to its rangeCategory; range to range; age/gestationalAge/sex\\\n    \\ to the same; condition \\u2248 our population fields. But qualifiedInterval has\\\n    \\ NO issuingLab and NO validity window \\u2014 this shape adds both. qualifiedInterval\\\n    \\ is the lossy EXPORT projection of this shape, not its equal.\"\n- source: \"HL7 FHIR R5 \\u2014 Observation.referenceRange\"\n  url: https://www.hl7.org/fhir/observation.html\n  notes: \"FHIR's other reference-range model \\u2014 inlined on the result as a denormalized\\\n    \\ snapshot (low/high/normalValue/type/appliesTo/age/ text). measure keeps that\\\n    \\ snapshot too (its refLow/refHigh fields); this shape is the normalized, reusable\\\n    \\ form the snapshot can point back to.\"\n- source: \"OMOP CDM v5.4 \\u2014 MEASUREMENT.range_low / range_high\"\n  url: https://ohdsi.github.io/CommonDataModel/cdm54.html\n  notes: \"OMOP inlines range_low/range_high as columns on the measurement row \\u2014\\\n    \\ \\\"no separate standalone table for reference ranges.\\\" Confirms the gap: no\\\n    \\ major model makes the range first-class.\"\n",
       "ancestors": [
         "event"
       ],
@@ -17073,6 +16655,353 @@
         "endedAt",
         "messageCount",
         "tokenCount"
+      ],
+      "derived": {},
+      "groups": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "measure",
+      "class_name": "Measure",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "allDay",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "currentUrl",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "dateUpdated",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "distinctId",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "endDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "flag",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "icalUid",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "notes",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "properties",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "recurrence",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "refHigh",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "refLow",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "refText",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "showAs",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sourceTitle",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sourceUrl",
+          "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "startDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "timezone",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "valueText",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "visibility",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [
+        "event"
+      ],
+      "plural": "measures",
+      "subtitle": "startDate",
+      "display": {
+        "title": null,
+        "subtitle": "startDate",
+        "image": null,
+        "highlights": [
+          "startDate",
+          "endDate",
+          "location"
+        ],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "icon": "vital_signs"
+      },
+      "identity": [],
+      "identity_any": [],
+      "leading_comment": "A single measured value about a subject, at a time — \"LDL = 95 mg/dL on\n2024-03-20\", \"PHQ-9 = 18 on 2026-06-01\", a mood rating, a blood pressure.\nThe measurement itself — not the definition (health-biomarker) and not the\nlab's catalog interval (health-reference-range). One shape fits a biomarker,\na survey score, and a mood rating identically.\n\n`also: [event]` — a measurement happens at a moment (a sample is drawn, a\nsurvey is answered), so it is event-shaped: the *when* rides on the\ninherited startDate. A point measure (a lab draw) sets startDate only; a\nmeasure that spans time (continuous glucose over a night, a mood tracked\nacross a week) uses startDate / endDate. Most measures are points.\n\nThe value's UCUM unit rides on the val itself — every memex val stores a\nunit alongside it — so there is NO separate `unit` field. 95 mg/dL is not\n95 mmol/L; the value is meaningless without its unit. Links to its\ndefinition via a `measures` link to a health-biomarker.\n\nReference range — TWO complementary mechanisms, on purpose:\n1. SNAPSHOT fields (refLow / refHigh / refText) — the interval THIS report\nactually printed, frozen onto the measure. A historical fact: it never\nchanges, even if the lab later revises its range.\n2. An optional `reportedRange` link to a health-reference-range node, when\nthat lab's interval is known as a first-class entity.\nThe snapshot is the fact; the link is the enrichment. Both can coexist.\n\n`flag` (low / normal / high / critical) is DERIVED — a reader compares\n`value` against the range. Stored as an optional convenience only; never the\nsource of truth. Re-derive it; don't trust a frozen copy. (\"Derive don't\ndeclare.\")",
+      "own_fields": [
+        {
+          "name": "value",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "valueText",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "refLow",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "refHigh",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "refText",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "flag",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "notes",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "HL7 FHIR R5 — Observation",
+          "url": "https://www.hl7.org/fhir/observation.html",
+          "notes": "The canonical resource for a measured value. value (with its UCUM unit) ≈ valueQuantity; startDate ≈ effectiveDateTime; refLow/refHigh/refText ≈ the referenceRange backbone (the inline snapshot); flag ≈ interpretation; status ≈ status. `measures` ≈ code resolved to a biomarker. FHIR has no normalized-range link — our `reportedRange` link adds that."
+        },
+        {
+          "source": "HL7 v2.x — OBX segment",
+          "url": "https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX",
+          "notes": "The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6 (units) together ≈ our value-with-unit; OBX-7 (reference range), OBX-8 (abnormal flag), OBX-14 (datetime) map to refText/flag/startDate."
+        },
+        {
+          "source": "UCUM — Unified Code for Units of Measure",
+          "url": "https://ucum.org/",
+          "notes": "The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM — the unit system FHIR mandates for Observation.valueQuantity, so measures round-trip into FHIR cleanly."
+        }
+      ],
+      "source_path": "measure.yaml",
+      "raw_body": "plural: measures\nalso:\n- event\ndisplay:\n  icon: vital_signs\n  subtitle: startDate\nfields:\n  value: number\n  valueText: string\n  refLow: number\n  refHigh: number\n  refText: string\n  flag: string\n  status: string\n  notes: text\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Observation\"\n  url: https://www.hl7.org/fhir/observation.html\n  notes: \"The canonical resource for a measured value. value (with its UCUM unit)\\\n    \\ \\u2248 valueQuantity; startDate \\u2248 effectiveDateTime; refLow/refHigh/refText\\\n    \\ \\u2248 the referenceRange backbone (the inline snapshot); flag \\u2248 interpretation;\\\n    \\ status \\u2248 status. `measures` \\u2248 code resolved to a biomarker. FHIR has\\\n    \\ no normalized-range link \\u2014 our `reportedRange` link adds that.\"\n- source: \"HL7 v2.x \\u2014 OBX segment\"\n  url: https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX\n  notes: \"The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6\\\n    \\ (units) together \\u2248 our value-with-unit; OBX-7 (reference range), OBX-8\\\n    \\ (abnormal flag), OBX-14 (datetime) map to refText/flag/startDate.\"\n- source: \"UCUM \\u2014 Unified Code for Units of Measure\"\n  url: https://ucum.org/\n  notes: \"The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM \\u2014\\\n    \\ the unit system FHIR mandates for Observation.valueQuantity, so measures round-trip\\\n    \\ into FHIR cleanly.\"\n",
+      "ancestors": [
+        "event"
+      ],
+      "field_order": [
+        "value",
+        "valueText",
+        "refLow",
+        "refHigh",
+        "refText",
+        "flag",
+        "status",
+        "notes",
+        "startDate",
+        "endDate",
+        "timezone",
+        "allDay",
+        "recurrence",
+        "visibility",
+        "showAs",
+        "dateUpdated",
+        "sourceUrl",
+        "sourceTitle",
+        "icalUid",
+        "distinctId",
+        "currentUrl",
+        "properties"
       ],
       "derived": {},
       "groups": [],

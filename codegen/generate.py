@@ -29,7 +29,6 @@ import ir
 import ir_diff
 from emit import (
     emit_contract_root,
-    emit_migrations,
     emit_ops_python,
     emit_ops_rust,
     emit_python,
@@ -308,14 +307,6 @@ def main():
             emit_yaml_symbols(ontology), "yaml-symbols", check=args.check,
         )
 
-        # SCHEMA_HASH — deterministic content hash of the ontology, pinned
-        # in every data-porter export. See platform/codegen/schema_hash.py.
-        import schema_hash
-        drift |= _check_or_write(
-            contract_crate / "schema_hash.rs", schema_hash.emit_rust(ontology),
-            "schema-hash", check=args.check,
-        )
-
         # Service registry — `ontology/services/*.yaml` → the engine's
         # compiled ServiceDef table (node minting + provides validation)
         # and the SDK's one services module (constants + broker stubs).
@@ -328,18 +319,6 @@ def main():
                 platform_root / "sdk" / "python" / "agentos" / "services.py",
                 emit_services_python(service_defs, ontology),
                 "services-python", check=args.check,
-            )
-
-        # Migrations — `ontology/migrations/*.yaml` → typed `MIGRATIONS`
-        # const. Engine walks the chain on `data.import`. See
-        # `platform/ontology/migrations/README.md` for the grammar.
-        import migrations as migrations_loader
-        migrations_dir = platform_root / "ontology" / "migrations"
-        if migrations_dir.is_dir():
-            ms = migrations_loader.load_migrations(migrations_dir)
-            drift |= _check_or_write(
-                contract_crate / "migrations.rs", emit_migrations(ms),
-                "migrations", check=args.check,
             )
 
         # Op contract — projected into the `ops` module of the contract
