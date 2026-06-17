@@ -1,12 +1,12 @@
-// DO NOT EDIT — generated from platform/ontology/shapes/health-observation.yaml.
+// DO NOT EDIT — generated from platform/ontology/shapes/measure.yaml.
 // Regen: `python3 platform/codegen/generate.py`.
 
 use super::sdk_prelude::*;
 
-/// A single measured health value at a point in time — "LDL = 95 mg/dL on
+/// A single measured value about a subject, at a time — "LDL = 95 mg/dL on
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", default)]
-pub struct HealthObservation {
+pub struct Measure {
     pub name: String,
     pub text: Option<String>,
     pub url: Option<String>,
@@ -15,27 +15,19 @@ pub struct HealthObservation {
     pub date_published: Option<String>,
     pub content: Option<String>,
     pub all_day: Option<bool>,
-    pub community: Option<String>,
     pub current_url: Option<String>,
     pub date_updated: Option<String>,
     pub distinct_id: Option<String>,
     pub end_date: Option<String>,
-    pub external_url: Option<String>,
-    pub favicon: Option<String>,
     pub flag: Option<String>,
     pub ical_uid: Option<String>,
-    pub indexed_at: Option<String>,
     pub notes: Option<String>,
-    pub post_id: Option<String>,
     pub properties: Option<serde_json::Value>,
     pub recurrence: Option<Vec<String>>,
     pub ref_high: Option<f64>,
     pub ref_low: Option<f64>,
     pub ref_text: Option<String>,
-    pub result_type: Option<String>,
-    pub score: Option<i64>,
     pub show_as: Option<String>,
-    pub similarity: Option<f64>,
     pub source_title: Option<String>,
     pub source_url: Option<String>,
     pub start_date: Option<String>,
@@ -46,10 +38,10 @@ pub struct HealthObservation {
     pub visibility: Option<String>,
 }
 
-pub static HEALTH_OBSERVATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
-    name: "health-observation".into(),
-    plural: Some("health-observations".into()),
-    description: Some("A single measured health value at a point in time — \"LDL = 95 mg/dL on".into()),
+pub static MEASURE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
+    name: "measure".into(),
+    plural: Some("measures".into()),
+    description: Some("A single measured value about a subject, at a time — \"LDL = 95 mg/dL on".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),
@@ -60,27 +52,19 @@ pub static HEALTH_OBSERVATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("datePublished", FieldType::String),
         FieldDef::optional("content", FieldType::String),
         FieldDef::optional("allDay", FieldType::Boolean),
-        FieldDef::optional("community", FieldType::String),
         FieldDef::optional("currentUrl", FieldType::String),
         FieldDef::optional("dateUpdated", FieldType::Datetime),
         FieldDef::optional("distinctId", FieldType::String),
         FieldDef::optional("endDate", FieldType::Datetime),
-        FieldDef::optional("externalUrl", FieldType::Url),
-        FieldDef::optional("favicon", FieldType::Url),
         FieldDef::optional("flag", FieldType::String),
         FieldDef::optional("icalUid", FieldType::String),
-        FieldDef::optional("indexedAt", FieldType::Datetime),
         FieldDef::optional("notes", FieldType::Text),
-        FieldDef::optional("postId", FieldType::String),
         FieldDef::optional("properties", FieldType::Json),
         FieldDef::optional("recurrence", FieldType::StringList),
         FieldDef::optional("refHigh", FieldType::Number),
         FieldDef::optional("refLow", FieldType::Number),
         FieldDef::optional("refText", FieldType::String),
-        FieldDef::optional("resultType", FieldType::String),
-        FieldDef::optional("score", FieldType::Integer),
         FieldDef::optional("showAs", FieldType::String),
-        FieldDef::optional("similarity", FieldType::Number),
         FieldDef::optional("sourceTitle", FieldType::String),
         FieldDef::optional("sourceUrl", FieldType::Url),
         FieldDef::optional("startDate", FieldType::Datetime),
@@ -90,17 +74,16 @@ pub static HEALTH_OBSERVATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("valueText", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    also: vec!["result".into(), "event".into()],
+    also: vec!["event".into()],
     display: Some(DisplaySpec {
         subtitle: Some("startDate".into()),
         highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
     prior_art: vec![
-        PriorArtDef { source: "HL7 FHIR R5 — Observation".into(), url: Some("https://www.hl7.org/fhir/observation.html".into()), notes: Some("The canonical resource for a measured value. value (with its UCUM unit) ≈ valueQuantity; effectiveDate ≈ effectiveDateTime; refLow/refHigh/refText ≈ the referenceRange backbone (the inline snapshot); flag ≈ interpretation; status ≈ status. `measures` ≈ code resolved to a biomarker. FHIR has no normalized-range link — our `reportedRange` link adds that.".into()) },
-        PriorArtDef { source: "HL7 v2.x — OBX segment".into(), url: Some("https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX".into()), notes: Some("The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6 (units) together ≈ our value-with-unit; OBX-7 (reference range), OBX-8 (abnormal flag), OBX-14 (datetime) map to refText/ flag/effectiveDate. Confirms the snapshot field set against real lab feeds.".into()) },
-        PriorArtDef { source: "LOINC".into(), url: Some("https://loinc.org/".into()), notes: Some("The observation itself is not LOINC-coded — its `biomarker` is. The `measures` link carries the LOINC identity.".into()) },
-        PriorArtDef { source: "UCUM — Unified Code for Units of Measure".into(), url: Some("https://ucum.org/".into()), notes: Some("The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM — the unit system FHIR mandates for Observation.valueQuantity, so observations round-trip into FHIR cleanly.".into()) },
+        PriorArtDef { source: "HL7 FHIR R5 — Observation".into(), url: Some("https://www.hl7.org/fhir/observation.html".into()), notes: Some("The canonical resource for a measured value. value (with its UCUM unit) ≈ valueQuantity; startDate ≈ effectiveDateTime; refLow/refHigh/refText ≈ the referenceRange backbone (the inline snapshot); flag ≈ interpretation; status ≈ status. `measures` ≈ code resolved to a biomarker. FHIR has no normalized-range link — our `reportedRange` link adds that.".into()) },
+        PriorArtDef { source: "HL7 v2.x — OBX segment".into(), url: Some("https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX".into()), notes: Some("The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6 (units) together ≈ our value-with-unit; OBX-7 (reference range), OBX-8 (abnormal flag), OBX-14 (datetime) map to refText/flag/startDate.".into()) },
+        PriorArtDef { source: "UCUM — Unified Code for Units of Measure".into(), url: Some("https://ucum.org/".into()), notes: Some("The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM — the unit system FHIR mandates for Observation.valueQuantity, so measures round-trip into FHIR cleanly.".into()) },
     ],
     ..ShapeDef::default()
 });

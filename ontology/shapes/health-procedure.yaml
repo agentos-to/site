@@ -1,7 +1,7 @@
 # A procedure — a clinical action performed on the body. Surgeries
 # ("septoplasty"), diagnostic scans ("ankle MRI", "colonoscopy"),
 # therapies ("physiotherapy course"). The thing that was *done*, as
-# opposed to a health-condition (what you have) or a health-observation
+# opposed to a health-condition (what you have) or a measure
 # (a value measured).
 #
 # `also: [event]` — a procedure IS an event: it happened at a time, at a

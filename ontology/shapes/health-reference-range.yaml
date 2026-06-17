@@ -85,8 +85,8 @@ health-reference-range:
       notes: >-
         FHIR's other reference-range model — inlined on the result as a
         denormalized snapshot (low/high/normalValue/type/appliesTo/age/
-        text). health-observation keeps that snapshot too (its refLow/
-        refHigh fields); this shape is the normalized, reusable form the
+        text). measure keeps that snapshot too (its refLow/refHigh
+        fields); this shape is the normalized, reusable form the
         snapshot can point back to.
     - source: OMOP CDM v5.4 — MEASUREMENT.range_low / range_high
       url: https://ohdsi.github.io/CommonDataModel/cdm54.html

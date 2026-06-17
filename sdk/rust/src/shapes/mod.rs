@@ -61,7 +61,6 @@ pub mod health_biomarker;
 pub mod health_condition;
 pub mod health_immunization;
 pub mod health_lab;
-pub mod health_observation;
 pub mod health_panel;
 pub mod health_procedure;
 pub mod health_reference_range;
@@ -77,6 +76,7 @@ pub mod leg;
 pub mod list;
 pub mod loaded_model;
 pub mod mcp_session;
+pub mod measure;
 pub mod meeting;
 pub mod membership;
 pub mod message;
@@ -178,7 +178,6 @@ pub use health_biomarker::{HEALTH_BIOMARKER, HealthBiomarker};
 pub use health_condition::{HEALTH_CONDITION, HealthCondition};
 pub use health_immunization::{HEALTH_IMMUNIZATION, HealthImmunization};
 pub use health_lab::{HEALTH_LAB, HealthLab};
-pub use health_observation::{HEALTH_OBSERVATION, HealthObservation};
 pub use health_panel::{HEALTH_PANEL, HealthPanel};
 pub use health_procedure::{HEALTH_PROCEDURE, HealthProcedure};
 pub use health_reference_range::{HEALTH_REFERENCE_RANGE, HealthReferenceRange};
@@ -194,6 +193,7 @@ pub use leg::{LEG, Leg};
 pub use list::{LIST, List};
 pub use loaded_model::{LOADED_MODEL, LoadedModel};
 pub use mcp_session::{MCP_SESSION, McpSession};
+pub use measure::{MEASURE, Measure};
 pub use meeting::{MEETING, Meeting};
 pub use membership::{MEMBERSHIP, Membership};
 pub use message::{MESSAGE, Message};
@@ -301,7 +301,6 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "health-condition" => Some(&HEALTH_CONDITION),
         "health-immunization" => Some(&HEALTH_IMMUNIZATION),
         "health-lab" => Some(&HEALTH_LAB),
-        "health-observation" => Some(&HEALTH_OBSERVATION),
         "health-panel" => Some(&HEALTH_PANEL),
         "health-procedure" => Some(&HEALTH_PROCEDURE),
         "health-reference-range" => Some(&HEALTH_REFERENCE_RANGE),
@@ -317,6 +316,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "list" => Some(&LIST),
         "loaded_model" => Some(&LOADED_MODEL),
         "mcp_session" => Some(&MCP_SESSION),
+        "measure" => Some(&MEASURE),
         "meeting" => Some(&MEETING),
         "membership" => Some(&MEMBERSHIP),
         "message" => Some(&MESSAGE),
@@ -820,16 +820,6 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &["organization", "actor"],
     }),
-    ("health-observation", Display {
-        title: None,
-        subtitle: Some("startDate"),
-        image: None,
-        highlights: &["startDate", "endDate", "location"],
-        body: None,
-        mono: None,
-        preview: &[],
-        also: &["result", "event"],
-    }),
     ("health-panel", Display {
         title: None,
         subtitle: Some("startDate"),
@@ -979,6 +969,16 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         mono: None,
         preview: &[],
         also: &[],
+    }),
+    ("measure", Display {
+        title: None,
+        subtitle: Some("startDate"),
+        image: None,
+        highlights: &["startDate", "endDate", "location"],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &["event"],
     }),
     ("meeting", Display {
         title: None,
@@ -1622,7 +1622,6 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("health-condition", &["clinicalStatus", "verificationStatus", "proximity", "bodySite", "severity", "snomedCode", "icd10Code", "clinicalArea", "mitigation", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("health-immunization", &["dateAdministered", "cvxCode", "manufacturer", "lotNumber", "doseNumber", "seriesDoses", "site", "route", "diseaseTarget", "notes", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("health-lab", &["cliaNumber", "npi", "ccn", "labType", "accreditation", "industry", "actorType"]),
-    ("health-observation", &["value", "valueText", "refLow", "refHigh", "refText", "flag", "status", "notes", "indexedAt", "resultType", "favicon", "externalUrl", "postId", "score", "similarity", "community", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("health-panel", &["panelCode", "fasting", "description", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("health-procedure", &["performedDate", "procedureType", "bodySite", "outcome", "status", "cptCode", "snomedCode", "findings", "followUp", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("health-reference-range", &["low", "high", "unit", "refText", "category", "provenance", "method", "ageLow", "ageHigh", "sex", "pregnancy", "gestationalAge", "fasting", "timeOfDay", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
@@ -1638,6 +1637,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("list", &["id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path"]),
     ("loaded_model", &["size", "quantization", "vramUsage", "sizeVram", "digest", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("mcp_session", &["client", "projectId", "gitBranch", "sessionType", "startedAt", "endedAt", "messageCount", "tokenCount"]),
+    ("measure", &["value", "valueText", "refLow", "refHigh", "refText", "flag", "status", "notes", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("meeting", &["calendarLink", "isVirtual", "meetingUrl", "conferenceProvider", "phoneDialIn", "meetingType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("membership", &["status", "tier", "autoRenew", "price", "currency", "billingType", "useCount", "guestPassQuantity", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("message", &["isOutgoing", "isStarred", "conversationId"]),
@@ -1749,7 +1749,6 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("health-condition", "health-conditions"),
     ("health-immunization", "health-immunizations"),
     ("health-lab", "health-labs"),
-    ("health-observation", "health-observations"),
     ("health-panel", "health-panels"),
     ("health-procedure", "health-procedures"),
     ("health-reference-range", "health-reference-ranges"),
@@ -1765,6 +1764,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("list", "lists"),
     ("loaded_model", "loaded_models"),
     ("mcp_session", "mcp_sessions"),
+    ("measure", "measures"),
     ("meeting", "meetings"),
     ("membership", "memberships"),
     ("message", "messages"),
@@ -1852,7 +1852,6 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
     ("health-condition", &["event"]),
     ("health-immunization", &["event"]),
     ("health-lab", &["organization", "actor"]),
-    ("health-observation", &["result", "event"]),
     ("health-panel", &["list", "event"]),
     ("health-procedure", &["event"]),
     ("health-reference-range", &["event"]),
@@ -1864,6 +1863,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
     ("launch", &["event"]),
     ("leg", &["event"]),
     ("loaded_model", &["event"]),
+    ("measure", &["event"]),
     ("meeting", &["event"]),
     ("membership", &["event"]),
     ("offer", &["event"]),
@@ -1891,7 +1891,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
 // Event types — shapes whose `also:` chain includes `event`
 // ===========================================================
 
-pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer", "class", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-observation", "health-panel", "health-procedure", "health-reference-range", "insurance_policy", "invitation", "launch", "leg", "loaded_model", "meeting", "membership", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "transition", "trip"];
+pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer", "class", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-panel", "health-procedure", "health-reference-range", "insurance_policy", "invitation", "launch", "leg", "loaded_model", "measure", "meeting", "membership", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "transition", "trip"];
 
 // ===========================================================
 // Derived bindings — per-shape `derived:` block as JSON

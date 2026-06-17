@@ -1,11 +1,11 @@
 # The *definition* of a measurable health quantity — TSH, LDL cholesterol,
-# hemoglobin A1c. NOT a measurement (that's health-observation), and NOT a
+# hemoglobin A1c. NOT a measurement (that's measure), and NOT a
 # reference range (that's health-reference-range).
 #
 # A biomarker is the reusable, lab-neutral template: what is measured,
 # what clinical category it belongs to, what it means. One biomarker,
-# many observations, many reference ranges. It carries no unit — the
-# unit is a per-observation fact (it rides on each observation's value),
+# many measures, many reference ranges. It carries no unit — the
+# unit is a per-measure fact (it rides on each measure's value),
 # because one analyte is reported in different units by different labs.
 #
 # Deliberately, a biomarker carries NO reference range. A range is not a
