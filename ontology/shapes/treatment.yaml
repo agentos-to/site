@@ -1,0 +1,59 @@
+# A named therapeutic approach — a modality. CBT, DBT, EMDR, IFS, CPT,
+# ACT, the Gottman Method, Complicated Grief Treatment. The reusable
+# *kind* of intervention, not an instance of one being delivered.
+#
+# The defining relationship is the indication: `treatment --treats-->
+# concern`. CBT treats anxiety and depression; EMDR and CPT treat trauma;
+# IFS reaches family-rooted wounds; DBT builds emotion regulation; grief
+# therapies address grief. That edge — modality to the thing it helps — is
+# what earns treatment its own shape (independent reference: one modality
+# is cited by many therapists and many recommendations; the three-trigger
+# test passes). Without `treats`, this would just be a `practice`.
+#
+# Distinct from its neighbors, on purpose:
+#   - practice — a discipline a person *practices* as a field (yoga,
+#     Diagnostic Radiology). A therapist may "practice CBT," but CBT's
+#     identity is its indication, not its being-a-field; the `treats` edge
+#     is the difference.
+#   - health-procedure — a clinical action *performed*, an event with a
+#     date ("EMDR session on 2026-06-20"). treatment is the named approach;
+#     a session is the procedure that applies it. Type vs token.
+#
+# `abbreviation` is the clinical shorthand the world actually uses (CBT,
+# EMDR); `name` is the full term ("Cognitive Behavioral Therapy"). A
+# therapist relates via `person --practices--> treatment`.
+#
+# `name` (inherited) is the full modality name — "Eye Movement
+# Desensitization and Reprocessing".
+treatment:
+  plural: treatments
+  identity_any: [name, abbreviation]
+  display:
+    icon: healing
+    subtitle: abbreviation
+  fields:
+    abbreviation:     string    # clinical shorthand — "CBT", "DBT", "EMDR", "IFS", "CPT"
+    description:      text      # what the approach is and how it works
+    aliases:          string[]  # other names — "Exposure Therapy", "Reprocessing Therapy"
+    # The indication rides on a link, never a field: `treats --> concern`
+    # (entities-over-fields). Evidence strength, if ever modeled, attaches
+    # to the treats link or a study node — not a flat `evidenceBase` string.
+  prior_art:
+    - source: Psychology Today — "Types of Therapy"
+      url: https://www.psychologytoday.com/us/types-of-therapy
+      notes: >-
+        The canonical directory of ~80 modalities with name + abbreviation +
+        description — the facet a therapist lists and a client filters by.
+        The source for treating modality as a first-class named thing.
+    - source: APA Division 12 — Research-Supported Psychological Treatments
+      url: https://div12.org/treatments/
+      notes: >-
+        Maps treatments to the disorders/concerns they have evidence for —
+        i.e. the `treats --> concern` edge, with a research-strength rating.
+        Confirms the indication is the defining relationship of a modality.
+    - source: SAMHSA Evidence-Based Practices Resource Center
+      url: https://www.samhsa.gov/resource-search/ebp
+      notes: >-
+        Federal catalogue of evidence-based behavioral-health interventions,
+        each indexed by the conditions it addresses — reinforces modality-as-
+        entity indexed by indication rather than by delivering organization.

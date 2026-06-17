@@ -38,10 +38,10 @@ pub mod calendar;
 pub mod channel;
 pub mod class;
 pub mod community;
+pub mod concern;
 pub mod conversation;
 pub mod conversion;
 pub mod creative_work;
-pub mod credential;
 pub mod cursor;
 pub mod dimension;
 pub mod dns_record;
@@ -127,6 +127,7 @@ pub mod tool_call;
 pub mod transaction;
 pub mod transcript;
 pub mod transition;
+pub mod treatment;
 pub mod trip;
 pub mod unit;
 pub mod user;
@@ -155,10 +156,10 @@ pub use calendar::{CALENDAR, Calendar};
 pub use channel::{CHANNEL, Channel};
 pub use class::{CLASS, Class};
 pub use community::{COMMUNITY, Community};
+pub use concern::{CONCERN, Concern};
 pub use conversation::{CONVERSATION, Conversation};
 pub use conversion::{CONVERSION, Conversion};
 pub use creative_work::{CREATIVE_WORK, CreativeWork};
-pub use credential::{CREDENTIAL, Credential};
 pub use cursor::{CURSOR, Cursor};
 pub use dimension::{DIMENSION, Dimension};
 pub use dns_record::{DNS_RECORD, DnsRecord};
@@ -244,6 +245,7 @@ pub use tool_call::{TOOL_CALL, ToolCall};
 pub use transaction::{TRANSACTION, Transaction};
 pub use transcript::{TRANSCRIPT, Transcript};
 pub use transition::{TRANSITION, Transition};
+pub use treatment::{TREATMENT, Treatment};
 pub use trip::{TRIP, Trip};
 pub use unit::{UNIT, Unit};
 pub use user::{USER, User};
@@ -278,10 +280,10 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "channel" => Some(&CHANNEL),
         "class" => Some(&CLASS),
         "community" => Some(&COMMUNITY),
+        "concern" => Some(&CONCERN),
         "conversation" => Some(&CONVERSATION),
         "conversion" => Some(&CONVERSION),
         "creative_work" => Some(&CREATIVE_WORK),
-        "credential" => Some(&CREDENTIAL),
         "cursor" => Some(&CURSOR),
         "dimension" => Some(&DIMENSION),
         "dns_record" => Some(&DNS_RECORD),
@@ -367,6 +369,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "transaction" => Some(&TRANSACTION),
         "transcript" => Some(&TRANSCRIPT),
         "transition" => Some(&TRANSITION),
+        "treatment" => Some(&TREATMENT),
         "trip" => Some(&TRIP),
         "unit" => Some(&UNIT),
         "user" => Some(&USER),
@@ -590,6 +593,16 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &[],
     }),
+    ("concern", Display {
+        title: None,
+        subtitle: Some("category"),
+        image: None,
+        highlights: &["startDate", "endDate", "location"],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &["event"],
+    }),
     ("conversation", Display {
         title: None,
         subtitle: Some("text"),
@@ -616,16 +629,6 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         image: Some("image"),
         highlights: &["datePublished", "published_by"],
         body: Some("description"),
-        mono: None,
-        preview: &[],
-        also: &[],
-    }),
-    ("credential", Display {
-        title: None,
-        subtitle: Some("source"),
-        image: None,
-        highlights: &[],
-        body: None,
         mono: None,
         preview: &[],
         also: &[],
@@ -1480,6 +1483,16 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &["event"],
     }),
+    ("treatment", Display {
+        title: None,
+        subtitle: Some("abbreviation"),
+        image: None,
+        highlights: &[],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &[],
+    }),
     ("trip", Display {
         title: None,
         subtitle: Some("tripType"),
@@ -1599,10 +1612,10 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("channel", &["banner", "subscriberCount"]),
     ("class", &["activityType", "capacity", "spotsRemaining", "isFull", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("community", &["privacy", "memberCount", "subscriberCount", "allowCrypto"]),
+    ("concern", &["category", "status", "intensity", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("conversation", &["isGroup", "isArchived", "unreadCount", "messageCount", "accountEmail", "historyId", "source", "cwd", "gitBranch"]),
     ("conversion", &["kind", "factor", "rate", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("creative_work", &["name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags"]),
-    ("credential", &["domain", "identifier", "itemType", "source", "obtainedAt", "lastVerified", "refreshable", "storeRowId"]),
     ("cursor", &["hotspotX", "hotspotY", "dimension", "format", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "encoding", "lineCount", "kind", "sha"]),
     ("dimension", &["key", "label", "length", "mass", "time", "current", "temperature", "amount", "luminous", "dimensionless"]),
     ("dns_record", &["domain", "recordName", "recordType", "type", "ttl", "priority", "recordId", "values"]),
@@ -1688,6 +1701,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("transaction", &["amount", "currency", "balance", "category", "postingDate", "pending", "recurring", "notes", "type", "details", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("transcript", &["language", "languageConfidence", "sourceType", "contentRole", "durationMs", "segmentCount", "segments"]),
     ("transition", &["givenName", "additionalName", "familyName", "honorificPrefix", "honorificSuffix", "legalName", "maidenName", "sortAs", "nameOrder", "phoneticGivenName", "phoneticFamilyName", "gender", "nickname", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
+    ("treatment", &["abbreviation", "description", "aliases"]),
     ("trip", &["tripType", "status", "departureTime", "arrivalTime", "duration", "durationMinutes", "distance", "vehicleType", "cabinClass", "fare", "fareAmount", "currency", "rating", "trackingUrl", "isSurge", "isScheduled", "stops", "bookingToken", "carbonEmissions", "isPool", "isReserve", "guest", "marketplace", "vehicle", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("unit", &["ucumCode", "symbol", "label", "kind", "siDigitalFrameworkUri", "unCefactCommonCode", "qudtUnitIri", "wikidataId", "toBaseFactor", "toBaseOffset", "iso4217", "iso4217Numeric", "minorExponent", "logBase"]),
     ("user", &["osUsername", "primaryUser", "actorType"]),
@@ -1726,10 +1740,10 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("channel", "channels"),
     ("class", "classes"),
     ("community", "communities"),
+    ("concern", "concerns"),
     ("conversation", "conversations"),
     ("conversion", "conversions"),
     ("creative_work", "creative_works"),
-    ("credential", "credentials"),
     ("cursor", "cursors"),
     ("dimension", "dimensions"),
     ("dns_record", "dns_records"),
@@ -1815,6 +1829,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("transaction", "transactions"),
     ("transcript", "transcripts"),
     ("transition", "transitions"),
+    ("treatment", "treatments"),
     ("trip", "trips"),
     ("unit", "units"),
     ("user", "users"),
@@ -1842,6 +1857,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
     ("book", &["creative_work", "product"]),
     ("booking_offer", &["event"]),
     ("class", &["event"]),
+    ("concern", &["event"]),
     ("conversion", &["event"]),
     ("cursor", &["creative_work", "file"]),
     ("document", &["file"]),
@@ -1890,7 +1906,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
 // Event types — shapes whose `also:` chain includes `event`
 // ===========================================================
 
-pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer", "class", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-panel", "health-procedure", "health-reference-range", "insurance_policy", "invitation", "launch", "leg", "loaded_model", "meeting", "membership", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "transition", "trip"];
+pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer", "class", "concern", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-panel", "health-procedure", "health-reference-range", "insurance_policy", "invitation", "launch", "leg", "loaded_model", "meeting", "membership", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "transition", "trip"];
 
 // ===========================================================
 // Derived bindings — per-shape `derived:` block as JSON

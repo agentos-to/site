@@ -1,0 +1,76 @@
+# What a person is going through — the felt, lived thing they'd name when
+# asked "what's going on for you?": anxiety, grief, a fraying marriage, a
+# loss of self, a hard transition. The experiential axis of a life.
+#
+# Deliberately NOT health-condition. A health-condition is the clinical
+# lens — a diagnosis with a SNOMED/ICD code, a body site, a verification
+# status. A concern is the human lens: it is named in the first person,
+# it needs no clinician to exist, and it is what someone brings to therapy
+# before anyone has coded it to anything. "Anxiety" the felt experience is
+# a concern; "Generalized Anxiety Disorder F41.1" the diagnosis is a
+# health-condition. They can coexist and link, but the concern is primary
+# and stands alone. (Joe's pushback that drove this shape: anxiety, grief,
+# trauma "are more feelings — what someone says they're going through,"
+# not conditions.)
+#
+# One shape spans two readings, which is the point of a shared ontology:
+#   - what a PERSON experiences  — `person --experiences--> concern`
+#   - what a TREATMENT addresses — `treatment --treats--> concern`
+#   - what a THERAPIST specializes in — `person --specializes_in--> concern`
+# so "what I'm going through" and "what this therapist treats" are the same
+# nodes asked from different sides — the match falls out of the graph.
+#
+# `also: [event]` — a concern has a lifespan. Onset = startDate ("grief
+# since the loss in 2024"), easing = endDate. Mirrors health-condition's
+# choice for the same reason: the time axis matters and rides on the event,
+# not as bespoke fields (Rule 1). The private narrative — what it feels
+# like, journal entries — rides on the inherited `content` field (FTS),
+# no note subclass needed.
+#
+# `category` groups the ~25 directory-level concerns into families so a
+# list reads (anxiety/mood/trauma/grief/relational/self/identity/
+# life-transition/behavioral/substance). Not an enum — too many edges,
+# and the vocabulary is a convention, not a law.
+#
+# `name` (inherited) is the concern as the person names it — "Anxiety",
+# "Grief", "Relationship conflict with my father".
+concern:
+  plural: concerns
+  also: [event]                 # a concern has onset/easing — Rule 1, dates on the event
+  identity_any: [name]
+  display:
+    icon: cardiology            # an outline heart — the felt thing, not the clinical `sick`
+    subtitle: category
+  fields:
+    category:         string    # anxiety | mood | trauma | grief | relational |
+                                 #   self | identity | life-transition | behavioral | substance
+    status:           string    # active | easing | resolved — present-tense, human (not clinicalStatus)
+    intensity:        string    # how present it is now — mild | moderate | high
+    # Onset = startDate, easing = endDate (inherited from event via also).
+    # Intensity over time, if ever tracked seriously, becomes measure nodes
+    # linked to this concern; the field is the at-a-glance current reading.
+    # WHOSE concern and ABOUT-WHOM both ride on links, never fields:
+    #   `experienced_by --> person`, `concerns --> person` (the relationship
+    #   it's about). Rule 1 / entities-over-fields.
+  prior_art:
+    - source: Psychology Today — "Issues" (therapist directory facet)
+      url: https://www.psychologytoday.com/us/therapists
+      notes: >-
+        The directory's "Issues" filter IS this axis — Anxiety, Depression,
+        Grief, Trauma and PTSD, Relationship Issues, Self Esteem, Life
+        Transitions, ~25 values. It is what a client searches by and what a
+        therapist lists as a specialty — the dual reading this shape encodes.
+    - source: Case formulation / "presenting concern" (clinical psychology)
+      url: https://psychology.iresearchnet.com/counseling-psychology/counseling-process/clinical-presenting-issues/
+      notes: >-
+        Modern client-centered practice prefers "presenting concern" over
+        "presenting problem" — it honors how the client frames their
+        experience rather than pathologizing it diagnosis-first. The shape
+        name and its first-person framing follow that lineage.
+    - source: HL7 FHIR R5 — Condition (deliberately NOT used here)
+      url: https://www.hl7.org/fhir/condition.html
+      notes: >-
+        The clinical sibling lives in health-condition (SNOMED/ICD coded).
+        concern is the experiential counterpart that exists without a
+        clinician. A concern MAY link to a health-condition when a diagnosis
+        is on record, but never requires one.

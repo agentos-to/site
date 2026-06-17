@@ -5140,6 +5140,281 @@
       "prefs_schemas": {}
     },
     {
+      "name": "concern",
+      "class_name": "Concern",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "allDay",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "currentUrl",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "dateUpdated",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "distinctId",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "endDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "icalUid",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "intensity",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "properties",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "recurrence",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "showAs",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sourceTitle",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sourceUrl",
+          "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "startDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "timezone",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "visibility",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [
+        "event"
+      ],
+      "timed": null,
+      "plural": "concerns",
+      "subtitle": "category",
+      "display": {
+        "title": null,
+        "subtitle": "category",
+        "image": null,
+        "highlights": [
+          "startDate",
+          "endDate",
+          "location"
+        ],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "icon": "cardiology"
+      },
+      "identity": [],
+      "identity_any": [
+        "name"
+      ],
+      "leading_comment": "What a person is going through — the felt, lived thing they'd name when\nasked \"what's going on for you?\": anxiety, grief, a fraying marriage, a\nloss of self, a hard transition. The experiential axis of a life.\n\nDeliberately NOT health-condition. A health-condition is the clinical\nlens — a diagnosis with a SNOMED/ICD code, a body site, a verification\nstatus. A concern is the human lens: it is named in the first person,\nit needs no clinician to exist, and it is what someone brings to therapy\nbefore anyone has coded it to anything. \"Anxiety\" the felt experience is\na concern; \"Generalized Anxiety Disorder F41.1\" the diagnosis is a\nhealth-condition. They can coexist and link, but the concern is primary\nand stands alone. (Joe's pushback that drove this shape: anxiety, grief,\ntrauma \"are more feelings — what someone says they're going through,\"\nnot conditions.)\n\nOne shape spans two readings, which is the point of a shared ontology:\n- what a PERSON experiences  — `person --experiences--> concern`\n- what a TREATMENT addresses — `treatment --treats--> concern`\n- what a THERAPIST specializes in — `person --specializes_in--> concern`\nso \"what I'm going through\" and \"what this therapist treats\" are the same\nnodes asked from different sides — the match falls out of the graph.\n\n`also: [event]` — a concern has a lifespan. Onset = startDate (\"grief\nsince the loss in 2024\"), easing = endDate. Mirrors health-condition's\nchoice for the same reason: the time axis matters and rides on the event,\nnot as bespoke fields (Rule 1). The private narrative — what it feels\nlike, journal entries — rides on the inherited `content` field (FTS),\nno note subclass needed.\n\n`category` groups the ~25 directory-level concerns into families so a\nlist reads (anxiety/mood/trauma/grief/relational/self/identity/\nlife-transition/behavioral/substance). Not an enum — too many edges,\nand the vocabulary is a convention, not a law.\n\n`name` (inherited) is the concern as the person names it — \"Anxiety\",\n\"Grief\", \"Relationship conflict with my father\".",
+      "own_fields": [
+        {
+          "name": "category",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "intensity",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "Psychology Today — \"Issues\" (therapist directory facet)",
+          "url": "https://www.psychologytoday.com/us/therapists",
+          "notes": "The directory's \"Issues\" filter IS this axis — Anxiety, Depression, Grief, Trauma and PTSD, Relationship Issues, Self Esteem, Life Transitions, ~25 values. It is what a client searches by and what a therapist lists as a specialty — the dual reading this shape encodes."
+        },
+        {
+          "source": "Case formulation / \"presenting concern\" (clinical psychology)",
+          "url": "https://psychology.iresearchnet.com/counseling-psychology/counseling-process/clinical-presenting-issues/",
+          "notes": "Modern client-centered practice prefers \"presenting concern\" over \"presenting problem\" — it honors how the client frames their experience rather than pathologizing it diagnosis-first. The shape name and its first-person framing follow that lineage."
+        },
+        {
+          "source": "HL7 FHIR R5 — Condition (deliberately NOT used here)",
+          "url": "https://www.hl7.org/fhir/condition.html",
+          "notes": "The clinical sibling lives in health-condition (SNOMED/ICD coded). concern is the experiential counterpart that exists without a clinician. A concern MAY link to a health-condition when a diagnosis is on record, but never requires one."
+        }
+      ],
+      "source_path": "concern.yaml",
+      "raw_body": "plural: concerns\nalso:\n- event\nidentity_any:\n- name\ndisplay:\n  icon: cardiology\n  subtitle: category\nfields:\n  category: string\n  status: string\n  intensity: string\nprior_art:\n- source: \"Psychology Today \\u2014 \\\"Issues\\\" (therapist directory facet)\"\n  url: https://www.psychologytoday.com/us/therapists\n  notes: \"The directory's \\\"Issues\\\" filter IS this axis \\u2014 Anxiety, Depression,\\\n    \\ Grief, Trauma and PTSD, Relationship Issues, Self Esteem, Life Transitions,\\\n    \\ ~25 values. It is what a client searches by and what a therapist lists as a\\\n    \\ specialty \\u2014 the dual reading this shape encodes.\"\n- source: Case formulation / \"presenting concern\" (clinical psychology)\n  url: https://psychology.iresearchnet.com/counseling-psychology/counseling-process/clinical-presenting-issues/\n  notes: \"Modern client-centered practice prefers \\\"presenting concern\\\" over \\\"presenting\\\n    \\ problem\\\" \\u2014 it honors how the client frames their experience rather than\\\n    \\ pathologizing it diagnosis-first. The shape name and its first-person framing\\\n    \\ follow that lineage.\"\n- source: \"HL7 FHIR R5 \\u2014 Condition (deliberately NOT used here)\"\n  url: https://www.hl7.org/fhir/condition.html\n  notes: The clinical sibling lives in health-condition (SNOMED/ICD coded). concern\n    is the experiential counterpart that exists without a clinician. A concern MAY\n    link to a health-condition when a diagnosis is on record, but never requires one.\n",
+      "ancestors": [
+        "event"
+      ],
+      "field_order": [
+        "category",
+        "status",
+        "intensity",
+        "startDate",
+        "endDate",
+        "timezone",
+        "allDay",
+        "recurrence",
+        "visibility",
+        "showAs",
+        "dateUpdated",
+        "sourceUrl",
+        "sourceTitle",
+        "icalUid",
+        "distinctId",
+        "currentUrl",
+        "properties"
+      ],
+      "derived": {},
+      "groups": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
       "name": "conversation",
       "class_name": "Conversation",
       "fields": [
@@ -5902,243 +6177,6 @@
         "language",
         "coverage",
         "tags"
-      ],
-      "derived": {},
-      "groups": [],
-      "shortcuts": {},
-      "prefs_schemas": {}
-    },
-    {
-      "name": "credential",
-      "class_name": "Credential",
-      "fields": [
-        {
-          "name": "id",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "text",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "url",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "image",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "author",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "datePublished",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "content",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "domain",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "identifier",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "itemType",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "lastVerified",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "obtainedAt",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "refreshable",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "source",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "storeRowId",
-          "type": "integer",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        }
-      ],
-      "also": [],
-      "timed": null,
-      "plural": "credentials",
-      "subtitle": "source",
-      "display": {
-        "title": null,
-        "subtitle": "source",
-        "image": null,
-        "highlights": [],
-        "body": null,
-        "mono": null,
-        "preview": {},
-        "icon": "key"
-      },
-      "identity": [
-        "domain",
-        "identifier",
-        "itemType"
-      ],
-      "identity_any": [],
-      "leading_comment": "A credential held by AgentOS — the graph descriptor that mirrors one\nencrypted row in the vault (~/.agentos/data/agentos.db, credentials table).\n\nEvery vault row also exists as a node of this shape. The *value* stays\nencrypted in the credentials table, addressed by `storeRowId`. This\nnode carries only metadata — domain, identifier, itemType, timestamps,\nprovenance links — and nothing secret. Descriptor reads are cheap\n(graph traversal), decryption is on demand (SDK's `auth_store.read`\nby identifier, after the vault system app returns the descriptor).\n\nIdentity is `(domain, identifier, itemType)` — one node per\ndistinct credential, matching the unique-row constraint on the\ncredentials SQLite table (minus `source`, which is provenance, not\nidentity: two providers writing the same domain/identifier/itemType\npair describe the same credential; whichever writes last wins).",
-      "own_fields": [
-        {
-          "name": "domain",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "identifier",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "itemType",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "source",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "obtainedAt",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "lastVerified",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "refreshable",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "storeRowId",
-          "type": "integer",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        }
-      ],
-      "own_relations": [],
-      "prior_art": [
-        {
-          "source": "OAuth 2.0 Token Introspection (RFC 7662)",
-          "url": "https://datatracker.ietf.org/doc/html/rfc7662",
-          "notes": "RFC 7662 describes token metadata as a separate addressable resource from the token itself (active, exp, iss, sub, scope). Same split here: descriptor is queryable graph metadata, encrypted value is retrieved by a separate call (`auth_store.read` by identifier). Our obtainedAt/expiresAt/lastVerified mirror iat/exp/auth_time."
-        },
-        {
-          "source": "FIDO Metadata Service (MDS3)",
-          "url": "https://fidoalliance.org/metadata/",
-          "notes": "FIDO separates authenticator metadata from the authenticator itself — metadata is queryable, the cryptographic material is not. Mirrors our descriptor/vault split."
-        },
-        {
-          "source": "macOS Keychain SecItem attributes",
-          "url": "https://developer.apple.com/documentation/security/keychain_services/keychain_items/item_attribute_keys_and_values",
-          "notes": "Keychain separates `kSecAttr*` (metadata — server, account, creation/modification dates) from `kSecValueData` (the secret). Attributes are queryable without decrypting the value. Our fields map: kSecAttrServer → domain, kSecAttrAccount → identifier, kSecAttrCreationDate → obtainedAt, kSecAttrModificationDate → lastVerified."
-        },
-        {
-          "source": "schema.org/DigitalDocument (WebAuthn credentials stored as)",
-          "url": "https://schema.org/DigitalDocument",
-          "notes": "Weak alignment — schema.org has no native credential type. Cited only to note that existing web ontologies deliberately stop short of secret material; descriptor-only is the established pattern."
-        }
-      ],
-      "source_path": "credential.yaml",
-      "raw_body": "plural: credentials\nidentity:\n- domain\n- identifier\n- itemType\ndisplay:\n  icon: key\n  subtitle: source\nfields:\n  domain: string\n  identifier: string\n  itemType: string\n  source: string\n  obtainedAt: datetime\n  lastVerified: datetime\n  refreshable: boolean\n  storeRowId: integer\nprior_art:\n- source: OAuth 2.0 Token Introspection (RFC 7662)\n  url: https://datatracker.ietf.org/doc/html/rfc7662\n  notes: 'RFC 7662 describes token metadata as a separate addressable resource from\n    the token itself (active, exp, iss, sub, scope). Same split here: descriptor is\n    queryable graph metadata, encrypted value is retrieved by a separate call (`auth_store.read`\n    by identifier). Our obtainedAt/expiresAt/lastVerified mirror iat/exp/auth_time.'\n- source: FIDO Metadata Service (MDS3)\n  url: https://fidoalliance.org/metadata/\n  notes: \"FIDO separates authenticator metadata from the authenticator itself \\u2014\\\n    \\ metadata is queryable, the cryptographic material is not. Mirrors our descriptor/vault\\\n    \\ split.\"\n- source: macOS Keychain SecItem attributes\n  url: https://developer.apple.com/documentation/security/keychain_services/keychain_items/item_attribute_keys_and_values\n  notes: \"Keychain separates `kSecAttr*` (metadata \\u2014 server, account, creation/modification\\\n    \\ dates) from `kSecValueData` (the secret). Attributes are queryable without decrypting\\\n    \\ the value. Our fields map: kSecAttrServer \\u2192 domain, kSecAttrAccount \\u2192\\\n    \\ identifier, kSecAttrCreationDate \\u2192 obtainedAt, kSecAttrModificationDate\\\n    \\ \\u2192 lastVerified.\"\n- source: schema.org/DigitalDocument (WebAuthn credentials stored as)\n  url: https://schema.org/DigitalDocument\n  notes: \"Weak alignment \\u2014 schema.org has no native credential type. Cited only\\\n    \\ to note that existing web ontologies deliberately stop short of secret material;\\\n    \\ descriptor-only is the established pattern.\"\n",
-      "ancestors": [],
-      "field_order": [
-        "domain",
-        "identifier",
-        "itemType",
-        "source",
-        "obtainedAt",
-        "lastVerified",
-        "refreshable",
-        "storeRowId"
       ],
       "derived": {},
       "groups": [],
@@ -30862,6 +30900,162 @@
         "distinctId",
         "currentUrl",
         "properties"
+      ],
+      "derived": {},
+      "groups": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "treatment",
+      "class_name": "Treatment",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "abbreviation",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "aliases",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        }
+      ],
+      "also": [],
+      "timed": null,
+      "plural": "treatments",
+      "subtitle": "abbreviation",
+      "display": {
+        "title": null,
+        "subtitle": "abbreviation",
+        "image": null,
+        "highlights": [],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "icon": "healing"
+      },
+      "identity": [],
+      "identity_any": [
+        "name",
+        "abbreviation"
+      ],
+      "leading_comment": "A named therapeutic approach — a modality. CBT, DBT, EMDR, IFS, CPT,\nACT, the Gottman Method, Complicated Grief Treatment. The reusable\n*kind* of intervention, not an instance of one being delivered.\n\nThe defining relationship is the indication: `treatment --treats-->\nconcern`. CBT treats anxiety and depression; EMDR and CPT treat trauma;\nIFS reaches family-rooted wounds; DBT builds emotion regulation; grief\ntherapies address grief. That edge — modality to the thing it helps — is\nwhat earns treatment its own shape (independent reference: one modality\nis cited by many therapists and many recommendations; the three-trigger\ntest passes). Without `treats`, this would just be a `practice`.\n\nDistinct from its neighbors, on purpose:\n- practice — a discipline a person *practices* as a field (yoga,\nDiagnostic Radiology). A therapist may \"practice CBT,\" but CBT's\nidentity is its indication, not its being-a-field; the `treats` edge\nis the difference.\n- health-procedure — a clinical action *performed*, an event with a\ndate (\"EMDR session on 2026-06-20\"). treatment is the named approach;\na session is the procedure that applies it. Type vs token.\n\n`abbreviation` is the clinical shorthand the world actually uses (CBT,\nEMDR); `name` is the full term (\"Cognitive Behavioral Therapy\"). A\ntherapist relates via `person --practices--> treatment`.\n\n`name` (inherited) is the full modality name — \"Eye Movement\nDesensitization and Reprocessing\".",
+      "own_fields": [
+        {
+          "name": "abbreviation",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "aliases",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "Psychology Today — \"Types of Therapy\"",
+          "url": "https://www.psychologytoday.com/us/types-of-therapy",
+          "notes": "The canonical directory of ~80 modalities with name + abbreviation + description — the facet a therapist lists and a client filters by. The source for treating modality as a first-class named thing."
+        },
+        {
+          "source": "APA Division 12 — Research-Supported Psychological Treatments",
+          "url": "https://div12.org/treatments/",
+          "notes": "Maps treatments to the disorders/concerns they have evidence for — i.e. the `treats --> concern` edge, with a research-strength rating. Confirms the indication is the defining relationship of a modality."
+        },
+        {
+          "source": "SAMHSA Evidence-Based Practices Resource Center",
+          "url": "https://www.samhsa.gov/resource-search/ebp",
+          "notes": "Federal catalogue of evidence-based behavioral-health interventions, each indexed by the conditions it addresses — reinforces modality-as- entity indexed by indication rather than by delivering organization."
+        }
+      ],
+      "source_path": "treatment.yaml",
+      "raw_body": "plural: treatments\nidentity_any:\n- name\n- abbreviation\ndisplay:\n  icon: healing\n  subtitle: abbreviation\nfields:\n  abbreviation: string\n  description: text\n  aliases: string[]\nprior_art:\n- source: \"Psychology Today \\u2014 \\\"Types of Therapy\\\"\"\n  url: https://www.psychologytoday.com/us/types-of-therapy\n  notes: \"The canonical directory of ~80 modalities with name + abbreviation + description\\\n    \\ \\u2014 the facet a therapist lists and a client filters by. The source for treating\\\n    \\ modality as a first-class named thing.\"\n- source: \"APA Division 12 \\u2014 Research-Supported Psychological Treatments\"\n  url: https://div12.org/treatments/\n  notes: \"Maps treatments to the disorders/concerns they have evidence for \\u2014\\\n    \\ i.e. the `treats --> concern` edge, with a research-strength rating. Confirms\\\n    \\ the indication is the defining relationship of a modality.\"\n- source: SAMHSA Evidence-Based Practices Resource Center\n  url: https://www.samhsa.gov/resource-search/ebp\n  notes: \"Federal catalogue of evidence-based behavioral-health interventions, each\\\n    \\ indexed by the conditions it addresses \\u2014 reinforces modality-as- entity\\\n    \\ indexed by indication rather than by delivering organization.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "abbreviation",
+        "description",
+        "aliases"
       ],
       "derived": {},
       "groups": [],
