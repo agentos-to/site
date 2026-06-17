@@ -34,6 +34,10 @@ from agentos._bridge import dispatch
 # An API key for a platform (credential provision).
 api_key = "api_key"
 
+# Audio transcription — speech-to-text from an audio file. Providers
+# wrap a
+audio_transcription = "audio_transcription"
+
 # High-level typed browser session API on top of cdp_access.
 browser_session = "browser_session"
 

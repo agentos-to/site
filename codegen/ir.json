@@ -30366,6 +30366,13 @@
           "target": null
         },
         {
+          "name": "languageConfidence",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "segmentCount",
           "type": "integer",
           "is_relation": false,
@@ -30407,6 +30414,13 @@
         {
           "name": "language",
           "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "languageConfidence",
+          "type": "number",
           "is_relation": false,
           "is_array": false,
           "target": null
@@ -30466,10 +30480,11 @@
         }
       ],
       "source_path": "transcript.yaml",
-      "raw_body": "plural: transcripts\ndisplay:\n  icon: closed_caption\n  subtitle: language\nfields:\n  language: string\n  sourceType: string\n  contentRole: string\n  durationMs: integer\n  segmentCount: integer\n  segments: json\nprior_art:\n- source: WebVTT (W3C)\n  url: https://www.w3.org/TR/webvtt1/\n  notes: Our segments are WebVTT cues (start/end/text). language follows WebVTT's\n    LANGUAGE header.\n- source: SRT SubRip Subtitles\n  url: https://matroska.org/technical/subtitles.html#srt-subtitles\n  notes: Practical alternative cue format. Same segment shape.\n- source: Whisper JSON output\n  url: https://github.com/openai/whisper\n  notes: \"Practical source \\u2014 many transcript apps return Whisper-shaped JSON\\\n    \\ (segments with start/end/text). Direct match.\"\n",
+      "raw_body": "plural: transcripts\ndisplay:\n  icon: closed_caption\n  subtitle: language\nfields:\n  language: string\n  languageConfidence: number\n  sourceType: string\n  contentRole: string\n  durationMs: integer\n  segmentCount: integer\n  segments: json\nprior_art:\n- source: WebVTT (W3C)\n  url: https://www.w3.org/TR/webvtt1/\n  notes: Our segments are WebVTT cues (start/end/text). language follows WebVTT's\n    LANGUAGE header.\n- source: SRT SubRip Subtitles\n  url: https://matroska.org/technical/subtitles.html#srt-subtitles\n  notes: Practical alternative cue format. Same segment shape.\n- source: Whisper JSON output\n  url: https://github.com/openai/whisper\n  notes: \"Practical source \\u2014 many transcript apps return Whisper-shaped JSON\\\n    \\ (segments with start/end/text). Direct match.\"\n",
       "ancestors": [],
       "field_order": [
         "language",
+        "languageConfidence",
         "sourceType",
         "contentRole",
         "durationMs",
@@ -34523,6 +34538,26 @@
       },
       "returns": null,
       "leading_comment": "An API key for a platform (credential provision)."
+    },
+    {
+      "name": "audio_transcription",
+      "description": "Transcribe an audio file to a timestamped text transcript. Providers declare which models they serve (`list_models`); `model` is a required input with no default — the caller picks which model transcribes. The spoken language is detected by the model (multilingual models) unless the caller forces one. Results land on the graph as a `transcript` row.",
+      "params": {
+        "audio": {
+          "type": "string",
+          "doc": "Path to an audio file to transcribe."
+        },
+        "model": {
+          "type": "string?",
+          "doc": "Which transcription model to use (provider-specific id, e.g. \"medium.en\", \"large-v3\")."
+        },
+        "language": {
+          "type": "string?",
+          "doc": "Spoken-language code to force, or \"auto\" to detect (default). Ignored by English-only models."
+        }
+      },
+      "returns": "transcript",
+      "leading_comment": "Audio transcription — speech-to-text from an audio file. Providers wrap a\ntranscription engine (whisper.cpp via Vowen, a future native macOS\nSpeechTranscriber, …). The caller names the interface, never the app —\nsame shape as `llm` and `web_search`."
     },
     {
       "name": "browser_session",

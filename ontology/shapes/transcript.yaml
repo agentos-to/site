@@ -6,6 +6,7 @@ transcript:
     subtitle: language
   fields:
     language:          string    # ISO 639-1 (e.g. "en", "es")
+    languageConfidence: number   # 0–1 detection probability, present only when the model auto-detected the language
     sourceType:       string    # meeting, video, podcast, etc.
     contentRole:      string    # transcript, summary, notes
     durationMs:       integer
