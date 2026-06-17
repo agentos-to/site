@@ -1,6 +1,0 @@
-# Single-form link `contains` (Pattern 3). Stem = storage label.
-# Sources: conversation, list, order, playlist, post, shelf
-# Targets: book, message, node, product, video
-from: node
-to: node
-card: one_to_many

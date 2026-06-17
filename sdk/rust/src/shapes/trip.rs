@@ -106,15 +106,6 @@ pub static TRIP: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("vehicleType", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "starts_at".into(), to: Some("place".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "ends_at".into(), to: Some("place".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "routed_through".into(), to: Some("leg".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "operated_by".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "driven_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "placed_via".into(), to: Some("order".into()), from: None, card: Cardinality::One },
-    ],
     also: vec!["event".into()],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {

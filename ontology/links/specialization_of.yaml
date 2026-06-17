@@ -1,5 +1,0 @@
-# Single-form link `specialization_of` (Pattern 3). Stem = storage label.
-# Sources: practice, quantity-kind
-# Targets: practice, quantity-kind
-from: node
-to: node

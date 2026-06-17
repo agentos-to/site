@@ -1,6 +1,0 @@
-# Single-form link `practices` (Pattern 3). Stem = storage label.
-# Sources: person
-# Targets: practice
-from: person
-to: practice
-card: one_to_many

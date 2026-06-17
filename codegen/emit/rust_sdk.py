@@ -203,26 +203,6 @@ def _emit_shape_const(s: Shape) -> list[str]:
         lines.extend(field_lines)
         lines.append("    ],")
 
-    # out (relations) — `out:` block (Phase 2 will read `out:` blocks
-    # from YAML directly; for now we project from `own_relations`).
-    out_lines: list[str] = []
-    for r in s.own_relations:
-        is_many = r.is_array or (r.type or "").endswith("[]")
-        target = (r.target or "").rstrip("[]")
-        card = "Cardinality::Many" if is_many else "Cardinality::One"
-        if target:
-            out_lines.append(
-                f'        EdgeDef {{ label: "{r.name}".into(), to: Some("{target}".into()), from: None, card: {card} }},'
-            )
-        else:
-            out_lines.append(
-                f'        EdgeDef {{ label: "{r.name}".into(), to: None, from: None, card: {card} }},'
-            )
-    if out_lines:
-        lines.append("    out: vec![")
-        lines.extend(out_lines)
-        lines.append("    ],")
-
     # also (ancestry)
     if s.also:
         also = ", ".join(f'"{a}".into()' for a in s.also)
@@ -403,9 +383,9 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
     # Derive the prelude's contents from the ontology itself — re-export
     # only the agentos_graph symbols at least one shape actually
     # references, so adding/removing a YAML block (display, derived,
-    # shortcuts, out/in edges) keeps the prelude honest with zero
-    # `unused import` warnings. FieldDef + FieldType + ShapeDef are
-    # universal (every shape declares fields).
+    # shortcuts) keeps the prelude honest with zero `unused import`
+    # warnings. FieldDef + FieldType + ShapeDef are universal (every
+    # shape declares fields).
     prelude_syms: list[str] = ["FieldDef", "FieldType", "ShapeDef"]
     if any(s.display for s in shapes_sorted):
         prelude_syms.append("DisplaySpec")
@@ -417,8 +397,6 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
         prelude_syms.append("DerivedBinding")
     if any(s.shortcuts for s in shapes_sorted):
         prelude_syms.append("ShortcutDef")
-    if any(s.own_relations for s in shapes_sorted):
-        prelude_syms.extend(["Cardinality", "EdgeDef"])
     prelude_syms.sort()
 
     lines: list[str] = [

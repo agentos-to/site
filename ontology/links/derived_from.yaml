@@ -1,8 +1,0 @@
-# Single-form link `derived_from` (Pattern 3). Stem = storage label.
-# Subject is a derivative of target. Covers booking_offer/fare/reservation/
-# tax_line derived from an offer, and git_commit derived from its parent
-# commit(s).
-# Sources: booking_offer, fare, git_commit, reservation, tax_line
-# Targets: git_commit, offer
-from: node
-to: node

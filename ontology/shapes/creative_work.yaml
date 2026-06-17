@@ -35,13 +35,6 @@ creative_work:
     coverage:          string    # Dublin Core "Coverage" — era / region / period
                                  # ("xp-era", "win9x", "2000s-web")
     tags:              string[]
-  links:
-    written_by:        person      # the creator (designer / photographer / composer)
-    published_by:      actor       # who put it into the world — an org, a person
-                                   # (self-published), or a periodical (itself a
-                                   # creative_work; rule 4 — the hint does not constrain)
-    contributed_by:      person[]    # editors / illustrators / co-designers
-    held_by:   person      # may differ from the author (e.g. work-for-hire)
   prior_art:
     - source: schema.org/CreativeWork
       url: https://schema.org/CreativeWork

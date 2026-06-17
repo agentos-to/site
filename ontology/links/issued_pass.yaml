@@ -1,6 +1,0 @@
-# Single-form link `issued_pass` (Pattern 3). Stem = storage label.
-# Sources: reservation
-# Targets: pass
-from: reservation
-to: pass
-card: one_to_many

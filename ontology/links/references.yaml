@@ -1,6 +1,0 @@
-# Single-form link `references` (Pattern 3). Stem = storage label.
-# Sources: document, note, task
-# Targets: document, note, repository
-from: node
-to: node
-card: one_to_many

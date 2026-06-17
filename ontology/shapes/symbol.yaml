@@ -22,15 +22,6 @@ symbol:
     summary:    text     # first docstring line (the one-liner)
     sourcePath: string   # repo-relative path back to the canonical source
     sourceLine: integer  # line in that file, when the extractor knows it
-  links:
-    # Containment (namespace → op, module → fn) uses the universal `contains`
-    # verb — not a symbol-owned link — so the generic subtree/map walk and
-    # `read({expand})` traverse symbols exactly as they do any other volume.
-    returns:    node        # the shape or type this symbol yields (widest actor: node)
-    calls:      symbol      # the trail — what this symbol invokes (recurrence-safe: one edge per pair)
-    called_by:  symbol      # inverse reading of calls, stored once
-    see:        document    # concept doc(s) that explain this symbol in prose
-    documents:  node        # the code/contract this symbol describes (for a doc-about-code edge)
   prior_art:
     - source: Language Server Protocol — DocumentSymbol / SymbolKind
       url: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol

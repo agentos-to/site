@@ -70,10 +70,6 @@ pub static ACTIVITY: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("toolName", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "in".into(), to: Some("mcp_session".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "filed_in".into(), to: Some("list".into()), from: None, card: Cardinality::One },
-    ],
     also: vec!["event".into()],
     display: Some(DisplaySpec {
         subtitle: Some("action".into()),

@@ -1,5 +1,0 @@
-# Single-form link `represents` (Pattern 3). Stem = storage label.
-# Sources: theme
-# Targets: product
-from: theme
-to: product

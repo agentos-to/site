@@ -1,8 +1,0 @@
-# Single-form link `authenticated_via` (Pattern 3). Stem = storage label.
-# An account is authenticated via an upstream account (federated SSO) or
-# a stored credential.
-# Sources: account
-# Targets: account, credential
-from: account
-to: node
-reverse_name: authenticates

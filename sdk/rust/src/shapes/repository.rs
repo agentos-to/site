@@ -50,10 +50,6 @@ pub static REPOSITORY: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("stars", FieldType::Integer),
         FieldDef::optional("topics", FieldType::StringList),
     ],
-    out: vec![
-        EdgeDef { label: "forked_from".into(), to: Some("repository".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "owned_by".into(), to: Some("account".into()), from: None, card: Cardinality::One },
-    ],
     identity_any: vec!["path".into(), "url".into()],
     display: Some(DisplaySpec {
         subtitle: Some("language".into()),

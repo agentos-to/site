@@ -38,12 +38,6 @@ pub static TOOL_CALL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("isError", FieldType::Boolean),
         FieldDef::optional("output", FieldType::Text),
     ],
-    out: vec![
-        EdgeDef { label: "on".into(), to: Some("product".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "invoked_by".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "in".into(), to: Some("message".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "replies_to".into(), to: Some("tool_call".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["platform".into(), "id".into()],
     display: Some(DisplaySpec {
         subtitle: Some("name".into()),

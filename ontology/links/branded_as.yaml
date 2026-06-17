@@ -1,5 +1,0 @@
-# Single-form link `branded_as` (Pattern 3). Stem = storage label.
-# Sources: place, product
-# Targets: brand, organization
-from: node
-to: node

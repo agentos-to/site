@@ -34,9 +34,6 @@ settings:
     subtitle: name
   fields:
     name:             string    # human label — "Settings", "Gmail settings"
-  links:
-    belongs_to:       person    # the human these OS settings configure for
-    configures:       app       # the app a per-app settings node configures
   prefsSchemas:
     ui:
       # User-level identity defaults (override at instance level for

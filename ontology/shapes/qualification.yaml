@@ -48,11 +48,6 @@ qualification:
     level:            string     # educational / qualification level — "doctoral", "L7"
     validIn:          string     # jurisdiction where valid — "US-CA", "SG"
     verificationUrl:  url        # public verification / registry link
-  links:
-    held_by:           person        # who holds it (schema.org Person.hasCredential)
-    granted_by:        organization  # the body that issued this instance
-    governed_by:       organization  # the body that accredits / licenses / regulates
-    in:            practice      # the discipline / field this qualification is in
   prior_art:
     - source: schema.org EducationalOccupationalCredential
       url: https://schema.org/EducationalOccupationalCredential

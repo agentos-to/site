@@ -63,9 +63,6 @@ pub static SHELF: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("privacy", FieldType::String),
         FieldDef::optional("sort_by", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "contains".into(), to: Some("book".into()), from: None, card: Cardinality::Many },
-    ],
     also: vec!["list".into()],
     display: Some(DisplaySpec {
         subtitle: Some("isExclusive".into()),

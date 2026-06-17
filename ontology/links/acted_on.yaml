@@ -1,6 +1,0 @@
-# Single-form link `acted_on` (Pattern 3). Stem = storage label.
-# Sources: activity
-# Targets: birth, creative_work, document, event, file, health-biomarker, health-condition, health-immunization, health-lab, health-observation, health-panel, health-procedure, intellectual_property, organization, person, place, qualification, role, software, transaction
-from: activity
-to: node
-card: one_to_many

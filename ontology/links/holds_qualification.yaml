@@ -1,6 +1,0 @@
-# Single-form link `holds_qualification` (Pattern 3). Stem = storage label.
-# Sources: person
-# Targets: qualification
-from: person
-to: qualification
-card: one_to_many

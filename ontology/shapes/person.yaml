@@ -38,18 +38,6 @@ person:
     notes:   text      # private bio text
     about:   text      # public bio text
 
-  links:
-    # `born_in`, `changed`, `lived_at`, `worked_at` are generic life-links
-    # (rule 4 — owned by the verb, not a shape). Not declared here but the
-    # canonical homes for birthdate / identity changes / residences / roles
-    # respectively. See the `derived:` block below for the resolver wiring.
-    holds_account:         account[]      # platform identities this person owns
-    holds_role:            role[]         # positions at organizations
-    enrolled_in:      membership[]   # gym, subscription, club, citizenship
-    holds_pass:           pass[]         # class packs, day passes, tickets
-    holds_qualification:   qualification[] # degrees, licenses, certifications held
-    practices:        practice[]     # disciplines / fields this person practices
-    online_at:          website
 
   # Read-side derived bindings. Engine pre-projects via the depth-1
   # recursion machinery (life-events Phase 3) and evaluates lazily at

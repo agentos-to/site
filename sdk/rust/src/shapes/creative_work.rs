@@ -44,12 +44,6 @@ pub static CREATIVE_WORK: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("license", FieldType::String),
         FieldDef::optional("tags", FieldType::StringList),
     ],
-    out: vec![
-        EdgeDef { label: "written_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "published_by".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "contributed_by".into(), to: Some("person".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "held_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-    ],
     display: Some(DisplaySpec {
         subtitle: Some("written_by".into()),
         image: Some("image".into()),

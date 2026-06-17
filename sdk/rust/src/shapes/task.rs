@@ -76,16 +76,6 @@ pub static TASK: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("timezone", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "assigned_to".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "in".into(), to: Some("project".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "references".into(), to: Some("repository".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "subtask_of".into(), to: Some("task".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "has_subtask".into(), to: Some("task".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "blocked_by".into(), to: Some("task".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "blocks".into(), to: Some("task".into()), from: None, card: Cardinality::Many },
-    ],
     also: vec!["event".into()],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {

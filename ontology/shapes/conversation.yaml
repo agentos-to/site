@@ -6,6 +6,8 @@ conversation:
   display:
     icon: forum
     subtitle: text
+    preview:
+      content: full        # summarize_conversation renders the relationship arc into `content` — never clip it.
   fields:
     isGroup:          boolean
     isArchived:       boolean
@@ -16,10 +18,6 @@ conversation:
     source:            string    # transcript provenance (e.g., granola's "manual" vs "recording")
     cwd:               string    # working directory (for dev-tool transcripts)
     gitBranch:        string    # git branch at the time of the conversation
-  links:
-    at_namespace:                actor    # the namespace this lives within (organization, product, software, or protocol node)
-    contains:           message[]
-    in:                list      # directory this conversation happened in — a list with listType: 'folder'
   prior_art:
     - source: ActivityStreams 2.0 context/inReplyTo
       url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-context

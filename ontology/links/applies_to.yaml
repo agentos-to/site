@@ -1,5 +1,0 @@
-# Single-form link `applies_to` (Pattern 3). Stem = storage label.
-# Sources: tax_line
-# Targets: fare
-from: tax_line
-to: fare

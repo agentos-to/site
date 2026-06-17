@@ -48,10 +48,6 @@ pub static FILE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("sha", FieldType::String),
         FieldDef::optional("size", FieldType::Integer),
     ],
-    out: vec![
-        EdgeDef { label: "attached_to".into(), to: Some("message".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "in".into(), to: Some("repository".into()), from: None, card: Cardinality::One },
-    ],
     identity_any: vec!["sha".into(), "url".into()],
     display: Some(DisplaySpec {
         subtitle: Some("path".into()),

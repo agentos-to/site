@@ -1,6 +1,0 @@
-# Single-form link `schedules` (Pattern 3). Stem = storage label.
-# Sources: calendar
-# Targets: event
-from: calendar
-to: event
-card: one_to_many

@@ -48,11 +48,6 @@ pub static CONVERSATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("source", FieldType::String),
         FieldDef::optional("unreadCount", FieldType::Integer),
     ],
-    out: vec![
-        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "contains".into(), to: Some("message".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "in".into(), to: Some("list".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {
         subtitle: Some("text".into()),

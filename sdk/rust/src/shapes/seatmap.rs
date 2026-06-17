@@ -58,12 +58,6 @@ pub static SEATMAP: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("tiers", FieldType::Json),
         FieldDef::optional("totalSeats", FieldType::Integer),
     ],
-    out: vec![
-        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "for".into(), to: Some("flight".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "flown_with".into(), to: Some("aircraft".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "under".into(), to: Some("reservation".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["id".into()],
     display: Some(DisplaySpec {
         title: Some("flightNumber".into()),

@@ -61,9 +61,6 @@ pub static PLAYLIST: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("privacy", FieldType::String),
         FieldDef::optional("sort_by", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "contains".into(), to: Some("video".into()), from: None, card: Cardinality::Many },
-    ],
     also: vec!["list".into()],
     display: Some(DisplaySpec {
         subtitle: Some("text".into()),

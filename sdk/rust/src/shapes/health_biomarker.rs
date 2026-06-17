@@ -40,9 +40,6 @@ pub static HEALTH_BIOMARKER: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("loincCode", FieldType::String),
         FieldDef::optional("measure", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "part_of".into(), to: Some("health-panel".into()), from: None, card: Cardinality::Many },
-    ],
     identity_any: vec!["loincCode".into(), "measure".into()],
     display: Some(DisplaySpec {
         subtitle: Some("category".into()),

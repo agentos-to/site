@@ -1,8 +1,0 @@
-# Single-form link `attached_to` (Pattern 3). Stem = storage label.
-# A file is attached to a parent — event, post, or message. The canonical
-# direction is file → parent; "what files do I have?" reads the reverse.
-# Sources: file
-# Targets: event, message, post
-from: file
-to: node
-reverse_name: attaches

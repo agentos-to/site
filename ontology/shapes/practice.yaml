@@ -27,8 +27,6 @@ practice:
     code:             string    # taxonomy code, when one classifies it — "207X00000X"
     codeSystem:       string    # the taxonomy the code is from — NUCC | SOC | ISCED-F | ISCO
     aliases:          string[]  # other names this practice goes by — "Orthopedics", "Ortho"
-  links:
-    specialization_of:           practice  # the broader practice this one narrows
   prior_art:
     - source: NUCC Health Care Provider Taxonomy
       url: https://www.nucc.org/index.php/code-sets-mainmenu-41/provider-taxonomy-mainmenu-40

@@ -114,14 +114,6 @@ pub static ORDER: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("totalAmount", FieldType::Number),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "contains".into(), to: Some("product".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "shipped_to".into(), to: Some("place".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "purchased_at".into(), to: Some("place".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "delivered_via".into(), to: Some("trip".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "tracked_at".into(), to: Some("webpage".into()), from: None, card: Cardinality::One },
-    ],
     also: vec!["event".into()],
     identity: vec!["at".into(), "orderId".into()],
     display: Some(DisplaySpec {

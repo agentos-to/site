@@ -42,9 +42,6 @@ pub static SOURCE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("scanner", FieldType::String),
         FieldDef::optional("sourceId", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "in".into(), to: Some("list".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["address".into()],
     display: Some(DisplaySpec {
         subtitle: Some("sourceId".into()),

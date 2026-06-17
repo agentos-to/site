@@ -1,5 +1,0 @@
-# Verb-rooted link declarations for `posted` (Pattern 1) — see platform/codegen/links.py docstring + platform/README §2
-verb: posted
-# Sources across forms: post, review, transaction
-by: {from: node, to: account}
-to: {from: transaction, to: financial_account}

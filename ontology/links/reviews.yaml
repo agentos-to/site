@@ -1,5 +1,0 @@
-# Single-form link `reviews` (Pattern 3). Stem = storage label.
-# Sources: review
-# Targets: product
-from: review
-to: product

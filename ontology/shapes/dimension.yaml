@@ -37,8 +37,6 @@ dimension:
     amount:       integer  # N  — amount of substance
     luminous:     integer  # J  — luminous intensity
     dimensionless: boolean # true for pure ratios, counts, currency — the zero vector
-  links:
-    has_base_unit:     unit     # the one coherent SI unit of this dimension (kg/m³ for L-3M1, m/s for L1T-1)
   prior_art:
     - source: "BIPM — SI Brochure, 9th edition (2019)"
       url: https://www.bipm.org/documents/20126/41483022/SI-Brochure-9-EN.pdf

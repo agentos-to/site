@@ -1,5 +1,0 @@
-# Verb-rooted link declarations for `priced` (Pattern 1) — see platform/codegen/links.py docstring + platform/README §2
-verb: priced
-# Sources across forms: booking_offer, fare
-at: {from: booking_offer, to: fare, card: one_to_many}
-for: {from: fare, to: trip}

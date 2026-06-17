@@ -46,9 +46,6 @@ pub static MCP_SESSION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("startedAt", FieldType::Datetime),
         FieldDef::optional("tokenCount", FieldType::Integer),
     ],
-    out: vec![
-        EdgeDef { label: "in".into(), to: Some("list".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["client".into(), "projectId".into(), "gitBranch".into()],
     display: Some(DisplaySpec {
         subtitle: Some("client".into()),

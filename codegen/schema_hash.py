@@ -157,24 +157,6 @@ def _auth_contract_view(c) -> dict[str, Any]:
     }
 
 
-def _link_view(link) -> dict[str, Any]:
-    """Project one typed link's structural surface for the hash.
-
-    v2 Link dataclass shape: name, from_kind, to_kind, cardinality, link_vals,
-    inverse_of, plus provenance fields (group_file, verb_root,
-    preposition_root) that are intentionally excluded — file reorganization
-    must NOT bump the schema hash, only semantic changes should.
-    """
-    return {
-        "name": link.name,
-        "from_kind": link.from_kind,
-        "to_kind": link.to_kind,
-        "cardinality": link.cardinality,
-        "link_vals": dict(sorted((link.link_vals or {}).items())),
-        "inverse_of": link.inverse_of,
-    }
-
-
 def _service_view(s) -> dict[str, Any]:
     """One service's structural surface: id, params, returns. Description
     and leading comments are docs — excluded, like everywhere else."""
@@ -192,10 +174,6 @@ def schema_view(ontology) -> dict[str, Any]:
         "shapes": sorted(
             [_shape_view(s) for s in ontology.shapes],
             key=lambda s: s["name"],
-        ),
-        "links": sorted(
-            [_link_view(l) for l in (ontology.links or [])],
-            key=lambda l: l["name"],
         ),
         "ops": sorted(
             [_op_view(o) for o in ontology.ops],
@@ -255,11 +233,9 @@ if __name__ == "__main__":
     from pathlib import Path
     sys.path.insert(0, str(Path(__file__).parent))
     import ir
-    import links as _links
     platform_root = Path(__file__).parent.parent
     shapes = ir.load_shapes(platform_root / "ontology" / "shapes")
     auth_contracts = ir.load_auth_contracts(platform_root / "ontology" / "auth-contracts")
     ops, op_types = ir.load_ops(platform_root / "ontology" / "ops")
-    typed_links = _links.load(platform_root / "ontology" / "links")
-    ontology = ir.build(shapes, auth_contracts, ops, op_types, links=typed_links)
+    ontology = ir.build(shapes, auth_contracts, ops, op_types)
     print(compute(ontology))

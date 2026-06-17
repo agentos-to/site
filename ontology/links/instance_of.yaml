@@ -1,5 +1,0 @@
-# Single-form link `instance_of` (Pattern 3). Stem = storage label.
-# Sources: pass
-# Targets: product
-from: pass
-to: product

@@ -40,15 +40,6 @@ pub static POST: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("postType", FieldType::String),
         FieldDef::optional("score", FieldType::Integer),
     ],
-    out: vec![
-        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "posted_by".into(), to: Some("account".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "published_in".into(), to: Some("community".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "replies_to".into(), to: Some("post".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "replies".into(), to: Some("post".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "contains".into(), to: Some("video".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "shows".into(), to: Some("image".into()), from: None, card: Cardinality::Many },
-    ],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {
         subtitle: Some("author".into()),

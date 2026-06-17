@@ -36,10 +36,6 @@ pub static VOTE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("instance", FieldType::String),
         FieldDef::optional("note", FieldType::Text),
     ],
-    out: vec![
-        EdgeDef { label: "for".into(), to: Some("issue".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "cast_by".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-    ],
     display: Some(DisplaySpec {
         subtitle: Some("direction".into()),
         body: Some("note".into()),

@@ -1,6 +1,0 @@
-# Single-form link `tagged_with` (Pattern 3). Stem = storage label.
-# Sources: email, product
-# Targets: tag
-from: node
-to: tag
-card: one_to_many

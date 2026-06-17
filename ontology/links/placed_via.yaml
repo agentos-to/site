@@ -1,5 +1,0 @@
-# Single-form link `placed_via` (Pattern 3). Stem = storage label.
-# Sources: reservation, trip
-# Targets: order
-from: node
-to: order

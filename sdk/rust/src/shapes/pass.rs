@@ -88,16 +88,6 @@ pub static PASS: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("useCount", FieldType::Integer),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "held_via".into(), to: Some("account".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "held_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "granted_by".into(), to: Some("membership".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "instance_of".into(), to: Some("product".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "held_at".into(), to: Some("place".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "valid_for".into(), to: Some("leg".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "under".into(), to: Some("reservation".into()), from: None, card: Cardinality::One },
-    ],
     also: vec!["event".into()],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {

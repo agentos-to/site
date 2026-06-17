@@ -46,10 +46,6 @@ pub static AIRPORT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("terminalCount", FieldType::Integer),
         FieldDef::optional("timezone", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "held_at".into(), to: Some("place".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "operated_by".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["iataCode".into()],
     display: Some(DisplaySpec {
         subtitle: Some("iataCode".into()),

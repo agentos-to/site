@@ -84,16 +84,6 @@ pub static INSURANCE_POLICY: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("useCount", FieldType::Integer),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "underwritten_by".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "sold_by".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "administered_by".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "held_via".into(), to: Some("account".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "under".into(), to: Some("product".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "insures".into(), to: Some("node".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "provides".into(), to: Some("insurance_coverage".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "evidenced_by".into(), to: Some("file".into()), from: None, card: Cardinality::One },
-    ],
     also: vec!["membership".into()],
     identity: vec!["underwritten_by".into(), "policyNumber".into()],
     display: Some(DisplaySpec {

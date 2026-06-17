@@ -1,6 +1,0 @@
-# Single-form link `succeeds` (Pattern 3). Stem = storage label.
-# Sources: account
-# Targets: account
-from: account
-to: account
-card: one_to_many

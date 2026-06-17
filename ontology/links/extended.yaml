@@ -1,5 +1,0 @@
-# Verb-rooted link declarations for `extended` (Pattern 1) — see platform/codegen/links.py docstring + platform/README §2
-verb: extended
-# Sources across forms: invitation
-by: {from: invitation, to: account}
-to: {from: invitation, to: account}

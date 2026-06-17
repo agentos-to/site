@@ -54,14 +54,6 @@ fare:
     changeable:        boolean
     restrictions:      string[]  # human-readable summaries: ["non-refundable", "no changes", "no seat selection", "weekend only"]
     conditions:        json      # raw rules blob (ATPCO categories / carrier JSON / rail conditions)
-  links:
-    at_namespace:                actor         # filing carrier / operator namespace
-    priced_for:               trip          # the trip this fare prices
-    routed_through:              leg[]         # specific segments (for mixed-class itineraries)
-    derived_from:             offer         # parent offer / booking_offer
-    under:       reservation   # post-booking parent
-    itemizes:          tax_line[]    # back-links: every tax_line.appliesTo this fare
-    earns_into:         membership    # loyalty program the miles/points post to
   prior_art:
     - source: IATA Fare Basis Code / ATPCO filings
       url: https://en.wikipedia.org/wiki/Fare_basis_code

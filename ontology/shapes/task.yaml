@@ -20,15 +20,6 @@ task:
     target:            json      # structured target spec ({date, time, timezone}) — Todoist-style
     parentId:         string    # denormalized parent task id (authoritative link is `parent`)
     projectId:        string    # denormalized project id (authoritative link is `project`)
-  links:
-    at_namespace:                actor     # the namespace this task lives within (Linear, Todoist, GitHub, etc.). Required for identity.
-    assigned_to:       person
-    in:           project
-    references:        repository
-    subtask_of:            task
-    has_subtask:       task[]   # children — reverse-accessor reading of subtask_of
-    blocked_by:        task[]
-    blocks:            task[]   # tasks blocked by this one — reverse-accessor reading of blocked_by
   prior_art:
     - source: GitHub REST API — Issues
       url: https://docs.github.com/en/rest/issues/issues

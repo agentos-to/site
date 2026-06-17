@@ -76,14 +76,6 @@ pub static HEALTH_PROCEDURE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("timezone", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "treats".into(), to: Some("health-condition".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "performed_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "ordered_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "performed_at".into(), to: Some("health-lab".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "concerns".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "evidenced_by".into(), to: Some("file".into()), from: None, card: Cardinality::Many },
-    ],
     also: vec!["event".into()],
     identity_any: vec!["cptCode".into(), "snomedCode".into(), "id".into()],
     display: Some(DisplaySpec {

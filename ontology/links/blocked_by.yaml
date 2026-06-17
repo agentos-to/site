@@ -1,7 +1,0 @@
-# Single-form link `blocked_by` (Pattern 3). Stem = storage label.
-# Sources: task
-# Targets: task
-from: task
-to: task
-card: one_to_many
-reverse_name: blocks

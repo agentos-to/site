@@ -1,6 +1,0 @@
-# Single-form link `addressed_to` (Pattern 3). Stem = storage label.
-# Sources: email
-# Targets: account
-from: email
-to: account
-card: one_to_many

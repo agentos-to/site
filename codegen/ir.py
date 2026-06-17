@@ -262,7 +262,6 @@ class Ontology:
     auth_contracts: list[AuthContract] = field(default_factory=list)
     ops: list[Op] = field(default_factory=list)
     op_types: dict[str, OpType] = field(default_factory=dict)
-    links: list = field(default_factory=list)  # list[links.Link] — Phase 1c.3
     services: list = field(default_factory=list)  # list[services.Service]
 
     def auth(self, kind: str) -> AuthContract | None:
@@ -492,23 +491,9 @@ def _build_shapes(
             fields[fname] = str(ftype)
         return fields
 
-    def resolve_relations(name: str, seen: set | None = None) -> dict[str, str]:
-        if seen is None:
-            seen = set()
-        if name in seen:
-            return {}
-        seen.add(name)
-        defn = raw.get(name, {})
-        rels = {}
-        for also in defn.get("also", []):
-            rels.update(resolve_relations(also, seen))
-        for label, target in (defn.get("links") or {}).items():
-            rels[label] = str(target)
-        return rels
-
     def resolve_display(name: str, seen: set | None = None) -> Display | None:
         """Walk `also:` and deep-merge `display:` per role — most-specific
-        wins. Mirrors `resolve_fields` / `resolve_relations`. Scalar roles
+        wins. Mirrors `resolve_fields`. Scalar roles
         (title/subtitle/image/body) override; `highlights` replaces the
         whole list when re-declared (a child opts-in to parent highlights
         by re-listing them); `preview` merges per-field key.
@@ -701,44 +686,23 @@ def _build_shapes(
                         "notes": str(entry.get("notes", "")).strip(),
                     })
 
-        # Own fields — declared on THIS shape only (not inherited).
+        # Own fields — declared on THIS shape only (not inherited). A shape
+        # carries only its own data; relationships are untyped, self-registering
+        # graph structure (edges-self-register), never fields on the noun.
         for fname, ftype in (defn.get("fields") or {}).items():
             is_array = str(ftype).endswith("[]")
             s.own_fields.append(Field(fname, str(ftype), False, is_array, None))
-        for label, target in (defn.get("links") or {}).items():
-            tgt_s = str(target)
-            is_array = tgt_s.endswith("[]")
-            s.own_relations.append(Field(label, tgt_s, True, is_array, tgt_s.rstrip("[]")))
 
-        # Relations resolved up front so they can SHADOW a same-named
-        # field: when a shape models a concept as an link (`book
-        # --author--> person`), the link is the source of truth — the
-        # generated type carries `author: Person`, never both a string
-        # field and a relation. Without this, a standard field like
-        # `author` and an `author` relation emit a duplicate identifier.
-        relations = sorted(resolve_relations(shape_name).items())
-        relation_labels = {label for label, _ in relations}
-
-        # Standard fields — skipped when a relation shadows them.
+        # Standard fields.
         for wk_name, wk_type in STANDARD_FIELDS:
-            if wk_name in relation_labels:
-                continue
             s.fields.append(Field(wk_name, wk_type, False, False, None))
 
-        # Shape-declared fields — skipped when a relation shadows them.
+        # Shape-declared fields.
         for fname, ftype in sorted(resolve_fields(shape_name).items()):
             if any(sf[0] == fname for sf in STANDARD_FIELDS):
                 continue
-            if fname in relation_labels:
-                continue
             is_array = ftype.endswith("[]")
             s.fields.append(Field(fname, ftype, False, is_array, None))
-
-        # Relations
-        for label, target in relations:
-            is_array = target.endswith("[]")
-            target_name = target.rstrip("[]")
-            s.fields.append(Field(label, target, True, is_array, target_name))
 
         shapes.append(s)
 
@@ -1052,7 +1016,6 @@ def build(
     auth_contracts: list[AuthContract],
     ops: list[Op] | None = None,
     op_types: dict[str, OpType] | None = None,
-    links: list | None = None,
     services: list | None = None,
 ) -> Ontology:
     """Assemble the normalized tree from already-loaded parts."""
@@ -1061,7 +1024,6 @@ def build(
         auth_contracts=auth_contracts,
         ops=ops or [],
         op_types=op_types or {},
-        links=links or [],
         services=services or [],
     )
 

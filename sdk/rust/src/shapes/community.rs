@@ -38,9 +38,6 @@ pub static COMMUNITY: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("privacy", FieldType::String),
         FieldDef::optional("subscriberCount", FieldType::Integer),
     ],
-    out: vec![
-        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {
         subtitle: Some("text".into()),

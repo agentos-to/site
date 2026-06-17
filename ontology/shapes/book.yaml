@@ -22,12 +22,6 @@ book:
     places:            string[]  # settings/locations in the book
     characters:        string[]  # named characters
     awardsWon:        string[]
-  links:
-    # `written_by` and `published_by` are inherited from creative_work
-    # (rule 2 verb phrases). Book used to redeclare them as `writtenBy` /
-    # `publisher` (noun labels) — that broke the inheritance contract and
-    # produced duplicate TS identifiers. Drop them; the chain handles it.
-    contributed_by:      person[]  # editors, translators, illustrators
   prior_art:
     - source: schema.org/Book
       url: https://schema.org/Book

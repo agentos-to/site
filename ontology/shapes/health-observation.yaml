@@ -46,12 +46,6 @@ health-observation:
     flag:             string    # DERIVED — low | normal | high | critical. Convenience only.
     status:           string    # FHIR status — final, preliminary, amended, corrected
     notes:            text      # lab comments or annotations on this specific result
-  links:
-    measures:         health-biomarker        # the biomarker this is a measurement of
-    part_of:          health-panel            # the panel / draw this observation was part of
-    evaluated_against:    health-reference-range  # the normalized interval this result was read against
-    documented_in:         file                    # the source lab-report file on disk
-    concerns:          person                  # whose body this was measured from
   prior_art:
     - source: HL7 FHIR R5 — Observation
       url: https://www.hl7.org/fhir/observation.html

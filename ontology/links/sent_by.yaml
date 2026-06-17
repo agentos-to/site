@@ -1,5 +1,0 @@
-# Single-form link `sent_by` (Pattern 3). Stem = storage label.
-# Sources: email, message
-# Targets: account, actor
-from: node
-to: node

@@ -25,10 +25,6 @@ model:
     format:            string    # e.g., "gguf"
     family:            string    # model family, e.g., "llama", "qwen"
     digest:            string    # content-addressable hash of model weights
-  links:
-    at_namespace:                actor     # the provider entity — organization (Anthropic,
-                                  # OpenAI, Meta) or product (ollama for
-                                  # self-hosted). Required for identity.
   prior_art:
     - source: Hugging Face Model Cards
       url: https://huggingface.co/docs/hub/en/model-cards

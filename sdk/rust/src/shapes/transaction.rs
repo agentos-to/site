@@ -80,10 +80,6 @@ pub static TRANSACTION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("type", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "posted_to".into(), to: Some("financial_account".into()), from: None, card: Cardinality::One },
-    ],
     also: vec!["event".into()],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {

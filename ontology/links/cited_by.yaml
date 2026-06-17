@@ -1,6 +1,0 @@
-# Single-form link `cited_by` (Pattern 3). Stem = storage label.
-# Sources: document
-# Targets: document
-from: document
-to: document
-card: one_to_many

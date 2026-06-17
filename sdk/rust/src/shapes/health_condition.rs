@@ -79,10 +79,6 @@ pub static HEALTH_CONDITION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("verificationStatus", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "concerns".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "evidenced_by".into(), to: Some("file".into()), from: None, card: Cardinality::Many },
-    ],
     also: vec!["event".into()],
     identity_any: vec!["snomedCode".into(), "name".into()],
     display: Some(DisplaySpec {

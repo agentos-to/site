@@ -40,13 +40,6 @@ event:
     distinctId:       string    # analytics platform's distinct_id (PostHog)
     currentUrl:       string    # URL where the event fired
     properties:        json      # free-form event properties dict
-  links:
-    at_namespace:                actor    # the namespace this lives within (organization, product, software, or protocol node)
-    involves:          person[]  # people this event involves (many-to-many)
-    held_at:          place     # where it happens
-    organized_by:         person    # who organized/hosts it
-    created_by:           person    # who created it (may differ from organizer)
-    concerns:            person    # the person this analytics event is attributed to (PostHog)
   prior_art:
     - source: schema.org/Event
       url: https://schema.org/Event

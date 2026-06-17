@@ -14,10 +14,6 @@ module:
     version:     string   # release identifier (semver), when versioned
     status:      string   # active | deprecated | experimental | planned
     planned:     boolean  # does not exist yet — a future unit (skips the path drift-audit)
-  links:
-    part_of:    node      # the larger whole it composes (a repository, a course)
-    has_part:   module[]  # sub-modules it contains
-    depends_on: module[]  # other modules it requires
   prior_art:
     - source: schema.org hasPart / isPartOf (Course modules)
       url: https://schema.org/hasPart

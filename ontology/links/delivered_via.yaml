@@ -1,5 +1,0 @@
-# Single-form link `delivered_via` (Pattern 3). Stem = storage label.
-# Sources: order
-# Targets: trip
-from: order
-to: trip

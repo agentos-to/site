@@ -62,10 +62,6 @@ app:
                                   # shell dispatches sign-in/out through
                                   # this, never a literal tool name.
                                   # Absent → the app has no account flow.
-  links:
-    online_at:           website   # the platform's homepage
-    privacy_at:    webpage   # privacy policy page
-    terms_at:  webpage   # terms of service page
   prior_art:
     - source: macOS .app bundle (Info.plist)
       url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html

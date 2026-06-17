@@ -1,6 +1,0 @@
-# Single-form link `featured` (Pattern 3). Stem = storage label.
-# Sources: episode
-# Targets: person
-from: episode
-to: person
-card: one_to_many

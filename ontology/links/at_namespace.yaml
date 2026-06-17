@@ -1,5 +1,0 @@
-# Single-form link `at_namespace` (Pattern 3). Stem = storage label.
-# Sources: account, booking_offer, calendar, channel, community, conversation, credential, event, fare, financial_account, invitation, list, membership, message, model, order, pass, payment_method, place, podcast, post, project, reservation, seatmap, task, tax_line, transaction, trip
-# Targets: actor, organization
-from: node
-to: actor

@@ -10,9 +10,6 @@ spec:
   fields:
     problem:           text
     successCriteria:  text
-  links:
-    depends_on:        spec[]
-    supersedes:        spec[]
   prior_art:
     - source: IETF RFC process
       url: https://www.ietf.org/standards/rfcs/

@@ -36,11 +36,6 @@ pub static EPISODE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("episodeNumber", FieldType::Integer),
         FieldDef::optional("seasonNumber", FieldType::Integer),
     ],
-    out: vec![
-        EdgeDef { label: "aired_in".into(), to: Some("podcast".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "transcribed_by".into(), to: Some("transcript".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "featured".into(), to: Some("person".into()), from: None, card: Cardinality::Many },
-    ],
     display: Some(DisplaySpec {
         subtitle: Some("author".into()),
         ..DisplaySpec::default()

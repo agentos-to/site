@@ -56,15 +56,6 @@ pub static TAX_LINE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("refundable", FieldType::Boolean),
         FieldDef::optional("taxableAmount", FieldType::Number),
     ],
-    out: vec![
-        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "applies_to".into(), to: Some("fare".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "derived_from".into(), to: Some("offer".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "under".into(), to: Some("reservation".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "for".into(), to: Some("leg".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "imposed_by".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "held_at".into(), to: Some("place".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {
         subtitle: Some("description".into()),

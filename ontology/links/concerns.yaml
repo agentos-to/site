@@ -1,5 +1,0 @@
-# Single-form link `concerns` (Pattern 3). Stem = storage label.
-# Sources: event, health-condition, health-immunization, health-observation, health-panel, health-procedure
-# Targets: person
-from: node
-to: person

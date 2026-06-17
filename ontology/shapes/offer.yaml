@@ -16,10 +16,6 @@ offer:
                                   # (inherited via `also: [event]`), per rule 1.
     bookingToken:     string    # opaque token for completing a booking
     departureToken:   string    # SerpAPI flights: multi-leg token for resolving a return leg price
-  links:
-    offered_for:               product   # what this offer is selling
-    offered_by:        organization
-    covers_trip:             trip[]    # the trip(s) this offer books (flights: outbound + return)
   prior_art:
     - source: schema.org/Offer
       url: https://schema.org/Offer

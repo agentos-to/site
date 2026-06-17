@@ -68,10 +68,6 @@ pub static CLASS: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("timezone", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "taught_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "held_at".into(), to: Some("place".into()), from: None, card: Cardinality::One },
-    ],
     also: vec!["event".into()],
     display: Some(DisplaySpec {
         subtitle: Some("activityType".into()),

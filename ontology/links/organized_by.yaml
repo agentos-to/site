@@ -1,7 +1,0 @@
-# Single-form link `organized_by` (Pattern 3). Stem = storage label.
-# Event → its organizer (a person, organization, or other actor).
-# Sources: event
-# Targets: organization, person
-from: event
-to: actor
-reverse_name: organizes

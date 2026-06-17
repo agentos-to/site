@@ -1,5 +1,0 @@
-# Verb-rooted link declarations for `booked` (Pattern 1) — see platform/codegen/links.py docstring + platform/README §2
-verb: booked
-# Sources across forms: booking_offer, reservation
-for: {from: node, to: person}
-under: {from: node, to: account}

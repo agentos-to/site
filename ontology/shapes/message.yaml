@@ -7,16 +7,12 @@ message:
   display:
     icon: chat
     subtitle: from
+    preview:
+      content: full        # message bodies render in full — a clipped message loses the relationship arc. Email (its own shape) keeps the default clip.
   fields:
     isOutgoing:       boolean   # true if sent by the user
     isStarred:        boolean   # user-flagged as important
     conversationId:   string    # denormalized id of the parent conversation (authoritative link is `inConversation`)
-  links:
-    at_namespace:                actor    # the namespace this lives within (organization, product, software, or protocol node)
-    sent_by:              actor     # sender — a person, agent, or organization
-    in:   conversation
-    replies_to:        message
-    attaches:          file[]    # reverse accessor of file.attached_to — media/documents this message carries
   prior_art:
     - source: ActivityStreams 2.0 Note/Activity
       url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note

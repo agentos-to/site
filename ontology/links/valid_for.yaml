@@ -1,5 +1,0 @@
-# Single-form link `valid_for` (Pattern 3). Stem = storage label.
-# Sources: pass
-# Targets: leg
-from: pass
-to: leg

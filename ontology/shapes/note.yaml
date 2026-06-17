@@ -12,10 +12,6 @@ note:
   fields:
     noteType:         string    # fleeting, literature, permanent, journal, draft
     isPinned:         boolean
-  links:
-    created_by:        person
-    references:        note[]    # links to other notes
-    extracted_from:    webpage   # source material this note was taken from
   prior_art:
     - source: Zettelkasten / Luhmann slip-box
       url: https://zettelkasten.de/overview/

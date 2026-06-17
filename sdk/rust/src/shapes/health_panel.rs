@@ -97,11 +97,6 @@ pub static HEALTH_PANEL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("timezone", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "performed_at".into(), to: Some("health-lab".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "documented_in".into(), to: Some("file".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "concerns".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-    ],
     also: vec!["list".into(), "event".into()],
     display: Some(DisplaySpec {
         subtitle: Some("startDate".into()),

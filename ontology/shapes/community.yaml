@@ -10,8 +10,6 @@ community:
     memberCount:      integer   # Facebook Group members (roughly accurate)
     subscriberCount:  integer   # Reddit/Moltbook subscriber count (updated periodically)
     allowCrypto:      boolean   # Moltbook-specific: community allows crypto-topic posts
-  links:
-    at_namespace:                actor    # the namespace this lives within (organization, product, software, or protocol node)
   prior_art:
     - source: ActivityPub Group Actor
       url: https://www.w3.org/TR/activitypub/

@@ -29,7 +29,6 @@ import ir
 import ir_diff
 from emit import (
     emit_contract_root,
-    emit_links,
     emit_migrations,
     emit_ops_python,
     emit_ops_rust,
@@ -194,20 +193,6 @@ def main():
     ops_dir = platform_root / "ontology" / "ops"
     ops, op_types = ir.load_ops(ops_dir) if ops_dir.is_dir() else ([], {})
 
-    # Phase 1c.3 — typed link registry. One file per label declares
-    # forward/inverse names + from_kind/to_kind + cardinality + link_vals.
-    import links as _links
-    links_dir = platform_root / "ontology" / "links"
-    typed_links = _links.load(links_dir) if links_dir.is_dir() else []
-    if typed_links:
-        link_errors, link_warnings = _links.validate(typed_links, {s.name for s in shapes})
-        for w in link_warnings:
-            print(f"  lint [warn]: {w}", file=sys.stderr)
-        for e in link_errors:
-            print(f"  lint [error]: {e}", file=sys.stderr)
-        if link_errors:
-            sys.exit(1)
-        print(f"Loaded {len(typed_links)} link declarations from {links_dir}")
 
     # Service registry — `ontology/services/*.yaml`, one file per canonical
     # brokered interface. Validated against shapes + auth contracts (the
@@ -230,7 +215,7 @@ def main():
         print(f"Loaded {len(service_defs)} service declarations from {services_dir}")
 
     ontology = ir.build(shapes, auth_contracts, ops, op_types,
-                        links=typed_links, services=service_defs)
+                        services=service_defs)
 
     # Validation runs on every invocation. `warn` is advisory; `error`
     # means the ontology is structurally invalid (e.g. a malformed
@@ -330,15 +315,6 @@ def main():
             contract_crate / "schema_hash.rs", schema_hash.emit_rust(ontology),
             "schema-hash", check=args.check,
         )
-
-        # Typed Link enum + reflection table — projected from
-        # `ontology/links/*.yaml`. Indexed by `Link as usize`; engine
-        # consumes via `agentos_contract_generated::links::Link`.
-        if typed_links:
-            drift |= _check_or_write(
-                contract_crate / "links.rs", emit_links(typed_links),
-                "links", check=args.check,
-            )
 
         # Service registry — `ontology/services/*.yaml` → the engine's
         # compiled ServiceDef table (node minting + provides validation)

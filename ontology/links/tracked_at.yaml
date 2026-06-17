@@ -1,5 +1,0 @@
-# Single-form link `tracked_at` (Pattern 3). Stem = storage label.
-# Sources: order
-# Targets: webpage
-from: order
-to: webpage

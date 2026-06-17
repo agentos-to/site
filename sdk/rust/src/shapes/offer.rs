@@ -72,11 +72,6 @@ pub static OFFER: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("timezone", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "offered_for".into(), to: Some("product".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "offered_by".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "covers_trip".into(), to: Some("trip".into()), from: None, card: Cardinality::Many },
-    ],
     also: vec!["event".into()],
     identity: vec!["id".into()],
     display: Some(DisplaySpec {

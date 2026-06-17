@@ -14,7 +14,7 @@
 // impossible by construction.
 pub(crate) mod sdk_prelude {
     pub(crate) use agentos_graph::{
-        Cardinality, DerivedBinding, DisplaySpec, EdgeDef, FieldDef, FieldGroupDef, FieldType, PriorArtDef, ShapeDef, ShortcutDef,
+        DerivedBinding, DisplaySpec, FieldDef, FieldGroupDef, FieldType, PriorArtDef, ShapeDef, ShortcutDef,
     };
     pub(crate) use once_cell::sync::Lazy;
     pub(crate) use serde::{Deserialize, Serialize};
@@ -597,7 +597,7 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         highlights: &[],
         body: None,
         mono: None,
-        preview: &[],
+        preview: &[("content", PreviewPolicy::Full)],
         also: &[],
     }),
     ("conversion", Display {
@@ -687,7 +687,7 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         highlights: &[],
         body: None,
         mono: None,
-        preview: &[],
+        preview: &[("content", PreviewPolicy::Full)],
         also: &["message"],
     }),
     ("episode", Display {
@@ -1007,7 +1007,7 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         highlights: &[],
         body: None,
         mono: None,
-        preview: &[],
+        preview: &[("content", PreviewPolicy::Full)],
         also: &[],
     }),
     ("model", Display {

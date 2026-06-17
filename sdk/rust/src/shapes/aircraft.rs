@@ -88,9 +88,6 @@ pub static AIRCRAFT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("weightUnit", FieldType::String),
         FieldDef::optional("weightValue", FieldType::Number),
     ],
-    out: vec![
-        EdgeDef { label: "manufactured_by".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
-    ],
     also: vec!["product".into()],
     identity: vec!["icaoCode".into()],
     display: Some(DisplaySpec {

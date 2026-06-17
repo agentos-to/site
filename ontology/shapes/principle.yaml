@@ -16,11 +16,6 @@ principle:
     rationale:  text    # WHY it exists — the reasoning to judge edge cases by
     domain:     string  # area governed: design | engineering | architecture | ethics | org-value
     status:     string  # active | proposed | deprecated | superseded
-  links:
-    held_by:         actor       # the person / org / team that holds it
-    supersedes:      principle    # the earlier principle it replaces
-    conflicts_with:  principle[]  # tension surfaced when two principles pull opposite
-    governs:         node        # the artifact / system it constrains
   prior_art:
     - source: principles.design
       url: https://principles.design/

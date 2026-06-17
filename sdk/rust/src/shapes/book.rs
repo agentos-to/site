@@ -110,9 +110,6 @@ pub static BOOK: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("weightUnit", FieldType::String),
         FieldDef::optional("weightValue", FieldType::Number),
     ],
-    out: vec![
-        EdgeDef { label: "contributed_by".into(), to: Some("person".into()), from: None, card: Cardinality::Many },
-    ],
     also: vec!["creative_work".into(), "product".into()],
     identity_any: vec!["isbn13".into(), "isbn".into()],
     display: Some(DisplaySpec {

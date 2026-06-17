@@ -43,13 +43,6 @@ email:
     # The body is not a val — it lives in the content table as a typed
     # representation (text/html for the rich part, text/plain otherwise),
     # so it renders through the same MIME pipeline as any other content.
-  links:
-    sent_by:              account   # sender
-    addressed_to:                account[] # recipients
-    copied_to:                account[] # cc recipients
-    blind_copied_to:               account[] # bcc recipients
-    on:            domain    # sender's email domain
-    tagged_with:               tag[]     # labels (Gmail), categories, flags
   prior_art:
     - source: RFC 5322 (Internet Message Format)
       url: https://datatracker.ietf.org/doc/html/rfc5322

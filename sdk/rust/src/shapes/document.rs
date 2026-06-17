@@ -58,12 +58,6 @@ pub static DOCUMENT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("tableOfContents", FieldType::Text),
         FieldDef::optional("wordCount", FieldType::Integer),
     ],
-    out: vec![
-        EdgeDef { label: "authored_by".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "references".into(), to: Some("document".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "cited_by".into(), to: Some("document".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "embeds".into(), to: Some("node".into()), from: None, card: Cardinality::Many },
-    ],
     also: vec!["file".into()],
     display: Some(DisplaySpec {
         subtitle: Some("contentType".into()),

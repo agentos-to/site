@@ -52,14 +52,6 @@ tax_line:
     rate:              number    # ad-valorem rate (0.075 for 7.5%); null for flat
     taxableAmount:     number    # base the rate was applied to; null for flat fees
     inclusive:         boolean   # true = already included in displayed base price (VAT markets); false = added on top
-  links:
-    at_namespace:                actor         # selling merchant's namespace
-    applies_to:         fare          # OPTIONAL: the fare this prices alongside (back-link from fare.taxLines)
-    derived_from:             offer         # OPTIONAL: parent offer / booking_offer
-    under:       reservation   # OPTIONAL: post-booking parent
-    for:           leg           # OPTIONAL: specific segment (richer than appliesToIndex when graph-resolved)
-    imposed_by:         actor         # tax authority: country (IRS/TSA/FAA), state, airport authority, merchant
-    held_at:          place         # OPTIONAL: geographic scope of the tax (airport, jurisdiction)
   prior_art:
     - source: IATA List of Ticket and Airport Taxes and Fees (ILTATF)
       url: https://www.iata.org/en/publications/store/list-of-ticket-and-airport-taxes-and-fees/

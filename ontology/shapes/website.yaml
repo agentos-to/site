@@ -15,9 +15,6 @@ website:
     # Anonymous-site auto-expiry rides on the `registered_with` link val, or
     # — when the site is later claimed — gets superseded by the claim event.
     # Rule 1.
-  links:
-    on:            domain
-    owned_by:          organization
   prior_art:
     - source: schema.org/WebSite
       url: https://schema.org/WebSite

@@ -1,6 +1,0 @@
-# Single-form link `seeded_by` (Pattern 3). Stem = storage label.
-# Sources: creative_work, font, icon, image, organization, person, product, software, sound
-# Targets: theme
-from: node
-to: theme
-card: one_to_many

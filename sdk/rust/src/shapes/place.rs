@@ -94,11 +94,6 @@ pub static PLACE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("website", FieldType::Url),
         FieldDef::optional("wikidataId", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "branded_as".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "offers".into(), to: Some("product".into()), from: None, card: Cardinality::Many },
-    ],
     identity_any: vec!["googlePlaceId".into(), "mapboxId".into()],
     display: Some(DisplaySpec {
         subtitle: Some("featureType".into()),

@@ -1,6 +1,0 @@
-# Single-form link `involves` (Pattern 3). Stem = storage label.
-# Sources: event
-# Targets: person
-from: event
-to: person
-card: one_to_many

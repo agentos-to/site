@@ -18,10 +18,6 @@ persona:
     painPoints:  string[] # 2-3 frustrations / blockers (NN/g)
     reachesFor:  text     # the words / tools they reach for (their language, not the system's)
     quote:       text     # one representative line, in their voice
-  links:
-    parent:      persona  # a broader persona this one specializes
-    represents:  node     # the real research cohort / segment this distills
-    targets:     node     # the product / feature / surface designed for them
   prior_art:
     - source: Alan Cooper, "The Inmates Are Running the Asylum" (1999)
       url: https://www.nngroup.com/articles/persona/

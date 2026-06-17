@@ -1,5 +1,0 @@
-# Verb-rooted link declarations for `invested` (Pattern 1) — see platform/codegen/links.py docstring + platform/README §2
-verb: invested
-# Sources across forms: transaction
-by: {from: transaction, to: person, card: one_to_many}
-in: {from: transaction, to: organization, card: one_to_many}

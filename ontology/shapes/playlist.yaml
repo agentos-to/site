@@ -5,8 +5,6 @@ playlist:
     icon: queue_music
     subtitle: text
   also: [list]        # a playlist is also a list
-  links:
-    contains:          video[]
   prior_art:
     - source: schema.org/MusicPlaylist / ItemList
       url: https://schema.org/MusicPlaylist

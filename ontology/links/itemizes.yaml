@@ -1,6 +1,0 @@
-# Single-form link `itemizes` (Pattern 3). Stem = storage label.
-# Sources: booking_offer, fare
-# Targets: tax_line
-from: node
-to: tax_line
-card: one_to_many

@@ -1,6 +1,0 @@
-# Single-form link `routed_through` (Pattern 3). Stem = storage label.
-# Sources: fare, trip
-# Targets: leg
-from: node
-to: leg
-card: one_to_many

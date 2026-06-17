@@ -30,10 +30,6 @@ pub static SETTINGS: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("datePublished", FieldType::String),
         FieldDef::optional("content", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "belongs_to".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "configures".into(), to: Some("app".into()), from: None, card: Cardinality::One },
-    ],
     display: Some(DisplaySpec {
         subtitle: Some("name".into()),
         ..DisplaySpec::default()

@@ -1,9 +1,0 @@
-# Single-form link `administered_by` (Pattern 3). Stem = storage label.
-# Sources: insurance_policy
-# Targets: organization
-#
-# The claims administrator / third-party administrator (TPA), when distinct
-# from the carrier that underwrites — e.g. a separate international claims
-# office or a network administrator handling settlement.
-from: insurance_policy
-to: organization

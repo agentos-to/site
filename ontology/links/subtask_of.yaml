@@ -1,6 +1,0 @@
-# Single-form link `subtask_of` (Pattern 3). Stem = storage label.
-# Sources: task
-# Targets: task
-from: task
-to: task
-reverse_name: has_subtask

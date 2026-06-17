@@ -9,8 +9,6 @@ project:
     state:             string
     color:             string
     parentId:         string    # denormalized parent project id (Todoist supports project nesting)
-  links:
-    at_namespace:                actor     # the namespace this project lives within (Linear, Todoist, GitHub, etc.). Required for identity.
   prior_art:
     - source: Linear API — Project
       url: https://developers.linear.app/docs/graphql/working-with-the-graphql-api

@@ -1,5 +1,0 @@
-# Single-form link `ends_at` (Pattern 3). Stem = storage label.
-# Sources: leg, trip
-# Targets: place
-from: node
-to: place

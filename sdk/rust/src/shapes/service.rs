@@ -36,10 +36,6 @@ pub static SERVICE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("params", FieldType::Json),
         FieldDef::optional("returns", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "provided_by".into(), to: Some("app".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "defaults_to".into(), to: Some("app".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["id".into()],
     display: Some(DisplaySpec {
         subtitle: Some("description".into()),

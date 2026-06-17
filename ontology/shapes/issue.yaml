@@ -16,9 +16,6 @@ issue:
   fields:
     declined:  boolean   # the ONLY authored status input — "won't do". Everything
                          # else about status falls out of the `addresses` edge.
-  links:
-    addressed_by:  outcome[]   # reverse of outcome.addresses — the solution(s) resolving it
-    votes:         vote[]      # reverse of vote.for — the dated endorsements
   # Read-side projection — see crate `view::display` (reverse-edge aggregation).
   # weight/up/down aggregate the INCOMING `for` edges (votes); status projects
   # the INCOMING `addresses` edge's outcome status through a value-map.

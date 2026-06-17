@@ -70,19 +70,6 @@ reservation:
   # Our graph prefers concrete relations per reservationType — `trips` for
   # flights, `location` for hotels/restaurants, `event` for event tickets.
   # The reservationType discriminator picks which one is populated.
-  links:
-    at_namespace:                  actor       # airline / hotel chain / restaurant / rental co (namespace)
-    covers_trip:               trip[]      # flights: outbound + return. Hotels/dining: empty.
-    held_at:            place       # hotels / restaurants / rental locations
-    for:               event       # event tickets (concert, game)
-    accommodates:          person[]    # travelers (KTN/FF# live on their membership[] relations)
-    booked_for:           person      # primary holder (schema.org alignment)
-    booked_under:             account     # booking login (united.com, etc.) if applicable
-    brokered_by:              actor       # OTA / travel agent (Expedia, TripActions) if != `at`
-    enrolled_in:   membership  # FF / hotel loyalty applied to this booking
-    placed_via:               order       # optional: payment record with itemized fare
-    issued_pass:             pass[]      # per-passenger admission credentials
-    derived_from:         offer       # the offer we booked from, if captured
   prior_art:
     - source: schema.org/Reservation
       url: https://schema.org/Reservation

@@ -1,6 +1,0 @@
-# Single-form link `shows` (Pattern 3). Stem = storage label.
-# Sources: post
-# Targets: image
-from: post
-to: image
-card: one_to_many

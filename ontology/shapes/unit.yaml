@@ -65,9 +65,6 @@ unit:
     minorExponent: integer # minor-unit digits — 2 for USD cents, 0 for JPY
     # --- logarithmic-only ---
     logBase:      number   # 10 or e — the base of the log scale
-  links:
-    measures:    dimension       # the dimension this unit measures
-    quantifies: quantity-kind[] # quantity kinds conventionally expressed in this unit
   prior_art:
     - source: "UCUM — Unified Code for Units of Measure"
       url: https://ucum.org/ucum

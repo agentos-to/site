@@ -1,5 +1,0 @@
-# Verb-rooted link declarations for `paid` (Pattern 1) — see platform/codegen/links.py docstring + platform/README §2
-verb: paid
-# Sources across forms: booking_offer, transaction
-in: {from: transaction, to: organization, card: one_to_many}
-with: {from: booking_offer, to: payment_method}

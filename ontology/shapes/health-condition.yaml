@@ -46,9 +46,6 @@ health-condition:
     icd10Code:        string    # ICD-10-CM code, when a billing/diagnosis code is on record
     clinicalArea:     string    # specialty field — "Cardiology", "Dermatology", "ENT"
     mitigation:       text      # monitoring or management plan ("ultrasound every few years")
-  links:
-    concerns:          person      # who has this condition (self) or whose family member (family hx)
-    evidenced_by:         file[]      # record files documenting this condition (reports, scans)
   prior_art:
     - source: HL7 FHIR R5 — Condition
       url: https://www.hl7.org/fhir/condition.html

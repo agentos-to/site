@@ -43,11 +43,6 @@ bookmark:
                                   # (`?group=facet:shape&q=raptor`). Mutually
                                   # exclusive with points_to: an address IS the
                                   # target, re-run live on every open.
-  links:
-    points_to:            node      # ANY addressable shape — app, query, file,
-                                  # url node, list, image, person. Single
-                                  # relation, identity-keyed. Absent on an
-                                  # address bookmark (see `address`).
   prior_art:
     - source: Browser bookmarks (Mosaic / Netscape Navigator hotlist)
       url: https://en.wikipedia.org/wiki/Bookmark_(digital)

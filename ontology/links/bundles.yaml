@@ -1,6 +1,0 @@
-# Single-form link `bundles` (Pattern 3). Stem = storage label.
-# Sources: theme
-# Targets: creative_work, font, icon, image, sound
-from: theme
-to: node
-card: one_to_many

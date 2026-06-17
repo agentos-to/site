@@ -60,12 +60,6 @@ intellectual_property:
     # `--expires_on--> event` etc. Rule 1.
     renewalPeriod:   string     # ISO-8601 duration — "P10Y" for a TM
     verificationUrl: url        # public registry link (USPTO TSDR etc.)
-  links:
-    held_by:         actor         # owner — org or person (Wikidata P127)
-    granted_by:      organization  # the IP office (USPTO, EUIPO, WIPO)
-    covers:          creative_work # OPTIONAL — the artwork/logo/work the
-                                   #   right protects, when it is itself a
-                                   #   node. A wordmark covers nothing.
   prior_art:
     - source: Wikidata — trademark (Q167270) / registered trademark (Q111048186)
       url: https://www.wikidata.org/wiki/Q167270

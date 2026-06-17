@@ -1,5 +1,0 @@
-# Single-form link `realized_as` (Pattern 3). Stem = storage label.
-# Sources: booking_offer
-# Targets: reservation
-from: booking_offer
-to: reservation

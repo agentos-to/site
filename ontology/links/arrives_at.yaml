@@ -1,5 +1,0 @@
-# Single-form link `arrives_at` (Pattern 3). Stem = storage label.
-# Sources: flight
-# Targets: airport
-from: flight
-to: airport

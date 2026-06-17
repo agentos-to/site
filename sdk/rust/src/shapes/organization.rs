@@ -34,13 +34,6 @@ pub static ORGANIZATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("actorType", FieldType::String),
         FieldDef::optional("industry", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "for".into(), to: Some("person".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "on".into(), to: Some("domain".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "online_at".into(), to: Some("website".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "headquartered_at".into(), to: Some("place".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "subsidiary_of".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
-    ],
     also: vec!["actor".into()],
     identity: vec!["name".into()],
     display: Some(DisplaySpec {

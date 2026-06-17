@@ -72,15 +72,6 @@ insurance_policy:
     network:       string    # PPO|HMO|EPO|POS|global, or the named provider network ("Cigna Healthcare PPO")
     # premium = inherited membership.price (per billing cycle) + currency + billingType. NOT re-declared.
     # term: effective = event.startDate, renewal/expiry = event.endDate (inherited via membership → event).
-  links:
-    underwritten_by: organization        # the carrier bearing the risk; issues the policy number. Identity anchor.
-    sold_by:         actor               # brand / agent / distributor sold through (org or individual broker). Optional.
-    administered_by: organization        # claims administrator / TPA, when distinct from the carrier. Optional.
-    held_via:        account             # the portal / login you use (account → at says whose portal). [inherited]
-    under:           product             # the named plan / tier (Cigna Global · Silver). [inherited]
-    insures:         node                # the insured subject — person (health/life) / place (renters) / vehicle (auto)
-    provides:        insurance_coverage  # this policy's benefit lines (one node per line)
-    evidenced_by:    file                # policy docs, ID cards, certificates, welcome packets [reused]
   prior_art:
     - source: HL7 FHIR R5 — Coverage
       url: https://www.hl7.org/fhir/coverage.html

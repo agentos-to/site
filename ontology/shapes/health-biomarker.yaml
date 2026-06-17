@@ -33,8 +33,6 @@ health-biomarker:
     loincCode:        string    # LOINC code for this observable (e.g. "2089-1" for LDL)
     analyteType:      string    # quantitative | qualitative | ordinal — shape of the result
     description:      text      # what this biomarker measures and what abnormal values mean
-  links:
-    part_of:          health-panel[]   # panels that include this biomarker (CBC, CMP, …) — verb-phrase per rule 2
   prior_art:
     - source: HL7 FHIR R5 — ObservationDefinition
       url: https://www.hl7.org/fhir/observationdefinition.html

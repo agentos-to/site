@@ -42,9 +42,6 @@ pub static THEME: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("style", FieldType::String),
         FieldDef::required("themeId", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "represents".into(), to: Some("product".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["themeId".into()],
     display: Some(DisplaySpec {
         subtitle: Some("family".into()),

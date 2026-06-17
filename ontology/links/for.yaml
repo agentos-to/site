@@ -1,6 +1,0 @@
-# Bare-preposition link `for` (Pattern 2) — multi-target stative.
-# Storage label: `for`. Per-shape target lives in each shape's `links:` block.
-# Sources: membership, organization, reservation, seatmap, tax_line
-# Per-shape targets: event, flight, leg, person
-preposition: for
-to: node

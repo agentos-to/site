@@ -7,9 +7,6 @@ podcast:
     subtitle: host
   fields:
     feedUrl:          url       # RSS feed URL
-  links:
-    hosted_by:              person[]
-    at_namespace:                actor    # the namespace this lives within (organization, product, software, or protocol node)
   prior_art:
     - source: RSS 2.0 (feed + channel)
       url: https://www.rssboard.org/rss-specification

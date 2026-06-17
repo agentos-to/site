@@ -1,5 +1,0 @@
-# Single-form link `billed_to` (Pattern 3). Stem = storage label.
-# Sources: booking_offer, payment_method
-# Targets: place
-from: node
-to: place

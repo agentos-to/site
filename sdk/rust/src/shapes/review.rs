@@ -48,10 +48,6 @@ pub static REVIEW: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("score", FieldType::Integer),
         FieldDef::optional("tags", FieldType::StringList),
     ],
-    out: vec![
-        EdgeDef { label: "reviews".into(), to: Some("product".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "posted_by".into(), to: Some("account".into()), from: None, card: Cardinality::One },
-    ],
     also: vec!["post".into()],
     display: Some(DisplaySpec {
         subtitle: Some("author".into()),

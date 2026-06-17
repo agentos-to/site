@@ -31,10 +31,11 @@ _WIRE_FIELD_TYPES = {
 def _shape_to_wire_def(s: Shape) -> dict:
     """Convert IR Shape → a wire-format dict that deserialises into the
     Rust `ShapeDef`. Mirrors `agentos_graph::ShapeDef` exactly: name,
-    plural, description, icon, fields (list of FieldDef), out / in
-    (list of EdgeDef), derived (list of DerivedBinding), shortcuts
-    (list of ShortcutDef), also, identity, identity_any, display,
-    groups, prior_art.
+    plural, description, icon, fields (list of FieldDef), derived
+    (list of DerivedBinding), shortcuts (list of ShortcutDef), also,
+    identity, identity_any, display, groups, prior_art. No edges:
+    relationships are untyped, self-registering graph structure, not
+    part of the noun's shape (edges-self-register).
 
     App workers attach the matching entry as `__shape_def__` on every
     `@returns(shape)` response. The engine deserialises it server-side
@@ -53,15 +54,6 @@ def _shape_to_wire_def(s: Shape) -> dict:
         if is_required:
             fd["required"] = True
         fields_out.append(fd)
-
-    out_edges: list[dict] = []
-    for r in s.own_relations:
-        is_many = r.is_array or (r.type or "").endswith("[]")
-        target = (r.target or "").rstrip("[]")
-        edge = {"label": r.name, "card": "many" if is_many else "one"}
-        if target:
-            edge["to"] = target
-        out_edges.append(edge)
 
     derived = [{"key": k, "spec": v} for k, v in sorted(s.derived.items())]
     shortcuts = [
@@ -82,8 +74,6 @@ def _shape_to_wire_def(s: Shape) -> dict:
         out["icon"] = icon
     if fields_out:
         out["fields"] = fields_out
-    if out_edges:
-        out["out"] = out_edges
     if derived:
         out["derived"] = derived
     if shortcuts:

@@ -1,5 +1,0 @@
-# Single-form link `driven_by` (Pattern 3). Stem = storage label.
-# Sources: trip
-# Targets: person
-from: trip
-to: person

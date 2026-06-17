@@ -1,6 +1,0 @@
-# Bare-preposition link `in` (Pattern 2) — multi-target stative.
-# Storage label: `in`. Per-shape target lives in each shape's `links:` block.
-# Sources: activity, branch, conversation, file, git_commit, leg, mcp_session, message, qualification, source, task, tool_call
-# Per-shape targets: conversation, list, mcp_session, message, practice, project, repository, trip
-preposition: in
-to: node

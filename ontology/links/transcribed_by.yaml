@@ -1,5 +1,0 @@
-# Single-form link `transcribed_by` (Pattern 3). Stem = storage label.
-# Sources: episode, meeting, video
-# Targets: transcript
-from: node
-to: transcript

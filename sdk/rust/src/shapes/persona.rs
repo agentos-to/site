@@ -42,11 +42,6 @@ pub static PERSONA: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("reachesFor", FieldType::Text),
         FieldDef::optional("who", FieldType::Text),
     ],
-    out: vec![
-        EdgeDef { label: "parent".into(), to: Some("persona".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "represents".into(), to: Some("node".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "targets".into(), to: Some("node".into()), from: None, card: Cardinality::One },
-    ],
     display: Some(DisplaySpec {
         subtitle: Some("headline".into()),
         body: Some("who".into()),

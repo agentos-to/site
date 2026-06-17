@@ -1,5 +1,0 @@
-# Single-form link `has_base_unit` (Pattern 3). Stem = storage label.
-# Sources: dimension
-# Targets: unit
-from: dimension
-to: unit

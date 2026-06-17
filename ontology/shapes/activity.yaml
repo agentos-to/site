@@ -14,11 +14,6 @@ activity:
     toolName:         string      # for app runs: which operation
     duration:         number      # for app runs: execution time in ms
     success:          boolean     # for app runs: did it succeed
-  links:
-    # target is any graph node — no shape constraint. Stored as target_id field
-    # until the activity ontology spec redesigns this as a proper typed relation.
-    in:          mcp_session # during which MCP session
-    filed_in:           list        # working directory — a list node with listType: 'folder'
   prior_art:
     - source: ActivityStreams 2.0
       url: https://www.w3.org/TR/activitystreams-core/

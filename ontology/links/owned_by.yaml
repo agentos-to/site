@@ -1,6 +1,0 @@
-# Single-form link `owned_by` (Pattern 3). Stem = storage label.
-# Sources: account, brand, calendar, financial_account, repository, website
-# Targets: account, organization, person
-from: node
-to: node
-reverse_name: owns

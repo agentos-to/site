@@ -15,10 +15,6 @@ calendar:
     accessRole:       string    # owner, writer, reader, freeBusyReader
     source:            string    # e.g., "iCloud", "Google"
     timezone:          string
-  links:
-    at_namespace:                actor     # the namespace this calendar lives within (Google, iCloud, etc.). Required for identity.
-    owned_by:             person    # who owns this calendar
-    schedules:            event[]   # events in this calendar
   prior_art:
     - source: RFC 5545 VCALENDAR
       url: https://datatracker.ietf.org/doc/html/rfc5545

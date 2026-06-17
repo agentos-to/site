@@ -1,5 +1,0 @@
-# Single-form link `imposed_by` (Pattern 3). Stem = storage label.
-# Sources: tax_line
-# Targets: actor
-from: tax_line
-to: actor

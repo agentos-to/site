@@ -1,8 +1,0 @@
-# Single-form link `aligns_with` (Pattern 3). Stem = storage label.
-# A node intentionally aligns with an external standard or model.
-# Alignment commentary rides on link vals (`notes`), not on either node.
-# Sources: shape, document, node
-# Targets: creative_work, webpage, document, node
-from: node
-to: node
-card: one_to_many

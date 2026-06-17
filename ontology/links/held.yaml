@@ -1,6 +1,0 @@
-# Verb-rooted link declarations for `held` (Pattern 1) — see platform/codegen/links.py docstring + platform/README §2
-verb: held
-# Sources across forms: airport, class, creative_work, event, intellectual_property, membership, pass, payment_method, qualification, reservation, role, tax_line
-at: {from: node, to: place}
-by: {from: node, to: actor}
-via: {from: node, to: account}

@@ -1,5 +1,0 @@
-# Single-form link `funded_by` (Pattern 3). Stem = storage label.
-# Sources: payment_method
-# Targets: financial_account
-from: payment_method
-to: financial_account

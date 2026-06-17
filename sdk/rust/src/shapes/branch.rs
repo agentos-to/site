@@ -42,9 +42,6 @@ pub static BRANCH: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("isRemote", FieldType::Boolean),
         FieldDef::optional("upstream", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "in".into(), to: Some("repository".into()), from: None, card: Cardinality::One },
-    ],
     display: Some(DisplaySpec {
         subtitle: Some("commit".into()),
         ..DisplaySpec::default()

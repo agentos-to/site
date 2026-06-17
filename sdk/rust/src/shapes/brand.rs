@@ -38,11 +38,6 @@ pub static BRAND: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("tagline", FieldType::String),
         FieldDef::optional("textColor", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "owned_by".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "online_at".into(), to: Some("website".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "depicted_by".into(), to: Some("image".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["url".into()],
     display: Some(DisplaySpec {
         subtitle: Some("tagline".into()),

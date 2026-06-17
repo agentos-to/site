@@ -14,9 +14,6 @@ airport:
     timezone:          string    # IANA timezone (e.g. America/Los_Angeles)
     elevationFt:      integer
     terminalCount:    integer
-  links:
-    held_at:          place
-    operated_by:          organization
   prior_art:
     - source: IATA/ICAO Airport Codes
       url: https://www.iata.org/en/publications/directories/code-search/

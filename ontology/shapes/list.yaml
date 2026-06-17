@@ -63,13 +63,6 @@ list:
     sort_by:          string    # view-time sort field (unordered lists)
     # filesystem-mirrored lists (listType: 'folder') only
     path:              string    # POSIX path when this list mirrors a real directory
-  links:
-    at_namespace:                actor     # namespace owner — null for system lists
-    belongs_to:        account   # who owns this list — null for system lists
-    contains:          node[]    # ANY addressable shape. Link vals carry per-entry
-                                  # metadata: position (typed by ordering_mode),
-                                  # sort_order, name_override, icon_override.
-    backed_by: image     # optional — desktop wallpaper / folder backdrop
   prior_art:
     - source: schema.org/ItemList
       url: https://schema.org/ItemList

@@ -74,12 +74,6 @@ pub static GIT_COMMIT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("timezone", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "authored_by".into(), to: Some("account".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "committed_by".into(), to: Some("account".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "in".into(), to: Some("repository".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "derived_from".into(), to: Some("git_commit".into()), from: None, card: Cardinality::One },
-    ],
     also: vec!["event".into()],
     display: Some(DisplaySpec {
         subtitle: Some("author".into()),

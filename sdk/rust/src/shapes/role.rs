@@ -66,10 +66,6 @@ pub static ROLE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("title", FieldType::String),
         FieldDef::optional("visibility", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "held_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "within_org".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
-    ],
     also: vec!["event".into()],
     display: Some(DisplaySpec {
         subtitle: Some("name".into()),

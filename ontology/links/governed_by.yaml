@@ -1,5 +1,0 @@
-# Single-form link `governed_by` (Pattern 3). Stem = storage label.
-# Sources: qualification
-# Targets: organization
-from: qualification
-to: organization

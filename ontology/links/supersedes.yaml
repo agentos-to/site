@@ -1,6 +1,0 @@
-# Single-form link `supersedes` (Pattern 3). Stem = storage label.
-# Sources: spec
-# Targets: spec
-from: spec
-to: spec
-card: one_to_many

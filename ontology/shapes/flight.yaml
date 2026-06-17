@@ -12,11 +12,6 @@ flight:
     cabinClass:       string    # economy, premium_economy, business, first
     stops:             integer   # intermediate stops without transfer (rare, multi-stop flights)
     carbonEmissions:  json      # CO2 estimate from Google Flights
-  links:
-    operated_by:           airline
-    departs_from:      airport
-    arrives_at:        airport
-    flown_with:          aircraft
   prior_art:
     - source: IATA Resolution 753 / Flight Codeshare
       url: https://www.iata.org/en/programs/ops-infra/baggage/baggage-tracking/

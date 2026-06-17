@@ -38,14 +38,6 @@ health-procedure:
     snomedCode:       string    # SNOMED CT procedure concept id
     findings:         text      # what the procedure found / the report summary
     followUp:         text      # recommended follow-up actions
-  links:
-    treats:           health-condition   # the condition this procedure addresses or investigates
-    performed_by:        person             # surgeon / radiologist / clinician who performed it
-    ordered_by:        person             # referring / ordering clinician — distinct from the
-                                         # performer on imaging & scopes (the "Referring Dr" line)
-    performed_at:      health-lab         # hospital / clinic / imaging center
-    concerns:          person             # whose body the procedure was performed on
-    evidenced_by:         file[]             # operative notes, scan reports, histology files
   prior_art:
     - source: HL7 FHIR R5 — Procedure
       url: https://www.hl7.org/fhir/procedure.html

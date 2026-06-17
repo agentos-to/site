@@ -44,12 +44,6 @@ pub static QUALIFICATION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("validIn", FieldType::String),
         FieldDef::optional("verificationUrl", FieldType::Url),
     ],
-    out: vec![
-        EdgeDef { label: "held_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "granted_by".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "governed_by".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "in".into(), to: Some("practice".into()), from: None, card: Cardinality::One },
-    ],
     identity_any: vec!["identifier".into()],
     display: Some(DisplaySpec {
         subtitle: Some("category".into()),

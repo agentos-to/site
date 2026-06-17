@@ -32,17 +32,6 @@ financial_account:
     # Payment due dates ride on the billing-cycle event (one per cycle);
     # card expiration belongs on the `holds --> payment_method` link val
     # (the date the issuer printed on the card). Rule 1.
-  links:
-    at_namespace:                actor     # the institution — Chase, DBS, Coinbase.
-                                  # Required for identity. Target is the
-                                  # organization or product that issues /
-                                  # holds the account.
-    accessed_via:      account   # OPTIONAL: the login used to read this
-                                  # account. Many-to-many: one login can
-                                  # open many accounts (DBS multi-currency);
-                                  # one account can be accessed by many
-                                  # logins (joint bank account).
-    owned_by:             person    # OPTIONAL: the human the account belongs to.
   prior_art:
     - source: OFX (Open Financial Exchange)
       url: https://financialdataexchange.org/ofx

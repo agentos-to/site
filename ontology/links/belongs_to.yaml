@@ -1,5 +1,0 @@
-# Single-form link `belongs_to` (Pattern 3). Stem = storage label.
-# Sources: list
-# Targets: account
-from: list
-to: account

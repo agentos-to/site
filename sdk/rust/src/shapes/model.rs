@@ -58,9 +58,6 @@ pub static MODEL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("quantizationLevel", FieldType::String),
         FieldDef::optional("size", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["at".into(), "name".into()],
     display: Some(DisplaySpec {
         subtitle: Some("name".into()),

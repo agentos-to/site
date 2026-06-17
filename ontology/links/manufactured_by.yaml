@@ -1,5 +1,0 @@
-# Single-form link `manufactured_by` (Pattern 3). Stem = storage label.
-# Sources: aircraft, product, software
-# Targets: organization
-from: node
-to: organization

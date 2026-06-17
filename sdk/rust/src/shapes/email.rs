@@ -92,14 +92,6 @@ pub static EMAIL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("unsubscribe", FieldType::String),
         FieldDef::optional("unsubscribeOneClick", FieldType::Boolean),
     ],
-    out: vec![
-        EdgeDef { label: "sent_by".into(), to: Some("account".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "addressed_to".into(), to: Some("account".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "copied_to".into(), to: Some("account".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "blind_copied_to".into(), to: Some("account".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "on".into(), to: Some("domain".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "tagged_with".into(), to: Some("tag".into()), from: None, card: Cardinality::Many },
-    ],
     also: vec!["message".into()],
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {

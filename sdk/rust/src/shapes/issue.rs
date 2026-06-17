@@ -42,10 +42,6 @@ pub static ISSUE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("postType", FieldType::String),
         FieldDef::optional("score", FieldType::Integer),
     ],
-    out: vec![
-        EdgeDef { label: "addressed_by".into(), to: Some("outcome".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "votes".into(), to: Some("vote".into()), from: None, card: Cardinality::Many },
-    ],
     also: vec!["post".into()],
     derived: vec![
         DerivedBinding { key: "downvotes".into(), spec: serde_json::from_str("{\"count\": \"for\", \"where\": {\"direction\": \"down\"}}").unwrap_or(serde_json::Value::Null) },

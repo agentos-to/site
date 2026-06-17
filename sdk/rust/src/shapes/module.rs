@@ -40,11 +40,6 @@ pub static MODULE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("status", FieldType::String),
         FieldDef::optional("version", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "part_of".into(), to: Some("node".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "has_part".into(), to: Some("module".into()), from: None, card: Cardinality::Many },
-        EdgeDef { label: "depends_on".into(), to: Some("module".into()), from: None, card: Cardinality::Many },
-    ],
     display: Some(DisplaySpec {
         subtitle: Some("role".into()),
         highlights: vec!["status".into(), "path".into()],

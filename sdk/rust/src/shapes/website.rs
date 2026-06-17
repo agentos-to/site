@@ -40,10 +40,6 @@ pub static WEBSITE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("status", FieldType::String),
         FieldDef::optional("versionId", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "on".into(), to: Some("domain".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "owned_by".into(), to: Some("organization".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["url".into()],
     display: Some(DisplaySpec {
         subtitle: Some("url".into()),

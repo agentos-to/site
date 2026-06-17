@@ -74,15 +74,6 @@ pub static PAYMENT_METHOD: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("subtype", FieldType::String),
         FieldDef::optional("type", FieldType::String),
     ],
-    out: vec![
-        EdgeDef { label: "at_namespace".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "saved_under".into(), to: Some("account".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "held_by".into(), to: Some("person".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "billed_to".into(), to: Some("place".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "funded_by".into(), to: Some("financial_account".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "issued_by".into(), to: Some("actor".into()), from: None, card: Cardinality::One },
-        EdgeDef { label: "tied_to".into(), to: Some("membership".into()), from: None, card: Cardinality::One },
-    ],
     identity: vec!["at".into(), "identifier".into()],
     display: Some(DisplaySpec {
         subtitle: Some("displayName".into()),

@@ -96,24 +96,6 @@ booking_offer:
     contactPhone:         string
   # booking_offer is the JOIN between everything that commits at once.
   # Domain-specific details live on the relations, not here.
-  links:
-    at_namespace:                   actor              # provider namespace (united.com, duffel, opentable). Required for identity.
-    derived_from:          offer              # the lean offer we priced up from (if captured)
-    covers_trip:                trip[]             # flights, rides, train journeys. Empty for non-transport.
-    reserves:        pass[]             # per-passenger-per-thing credentials — seats, tickets, room assignments
-    bought_by:               person[]           # who's paying (usually 1); guests/passengers may overlap with this
-    accommodates:               person[]           # travelers / attendees / diners
-    booked_for:            person             # primary holder / cardholder
-    paid_with:        payment_method     # chosen instrument
-    billed_to:       place              # bill-to address. Reuses place — a billing address IS just an address.
-    priced_at:                fare[]             # base-price line items (one per passenger / per fare component)
-    itemizes:             tax_line[]         # itemized taxes / fees / surcharges
-    booked_under:              account            # logged-in account this cart lives under
-    tied_to:           membership         # loyalty program applied
-    brokered_by:               actor              # OTA / 3rd-party booker if != `at`
-    # Forward lineage: booking_offer -> reservation -> transaction
-    realized_as:    reservation        # set on commit success
-    settled_as:    transaction        # set when charge posts
   prior_art:
     - source: Duffel Offers API (pre-Order priced shape)
       url: https://duffel.com/docs/api/offers/schema

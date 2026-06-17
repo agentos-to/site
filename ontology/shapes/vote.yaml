@@ -18,9 +18,6 @@ vote:
     # No `date` field: a vote is written at the moment it's cast, so the node's
     # intrinsic created_at IS the cast time — recency ("last seen 2d ago") reads
     # that. One fewer authored field, and rule 1 (no node-borne dates) holds.
-  links:
-    for:      issue   # what it endorses (bare-preposition stative, like membership `for`)
-    cast_by:  actor   # who cast it — person or agent (`_by` = agent of the action)
   prior_art:
     - source: Canny / Featurebase vote object
       url: https://developers.canny.io/api-reference

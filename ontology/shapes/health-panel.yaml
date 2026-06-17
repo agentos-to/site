@@ -32,10 +32,6 @@ health-panel:
                                   # leave it null. Rule 1.
     fasting:          boolean    # whether the draw was taken fasting
     description:      text      # what this panel evaluates
-  links:
-    performed_at:      health-lab    # the lab that processed this draw
-    documented_in:         file          # the source report file on disk for this draw
-    concerns:          person        # whose draw this is (dated panels)
   prior_art:
     - source: HL7 FHIR R5 — DiagnosticReport
       url: https://www.hl7.org/fhir/diagnosticreport.html
