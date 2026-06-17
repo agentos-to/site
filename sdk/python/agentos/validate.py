@@ -705,63 +705,6 @@ def _load_shape_identity(shapes_dir: Path, shape_name: str) -> list[str] | None:
     return None
 
 
-def _load_link_registry(shapes_dir: Path | None) -> tuple[set[str], set[str]] | None:
-    """Load the canonical labels + reverse-accessor names from the link registry.
-
-    Returns `(canonical_labels, reverse_names)` as two sets — the union is the
-    full set of names the engine knows how to interpret on a returned dict
-    (either as a storage label directly, or as a derived reverse-accessor).
-
-    Resolution: assumes the link registry lives at `<shapes_dir>/../links/`,
-    matching `platform/ontology/{shapes,links}/`. Returns `None` if no such
-    directory exists (open-world — caller skips the link-registry check).
-
-    Reads YAML directly rather than importing `platform/codegen/links.py`
-    so the validator keeps its self-contained "just point me at a checkout"
-    posture — installed via pipx, runs anywhere with a shapes tree.
-    """
-    if not shapes_dir:
-        return None
-    links_dir = shapes_dir.parent / "links"
-    if not links_dir.is_dir():
-        return None
-    canonical: set[str] = set()
-    reverse: set[str] = set()
-    METADATA = {"verb", "forward", "inverse"}
-    for path in sorted(links_dir.glob("*.yaml")):
-        if path.name.startswith(("_", ".")):
-            continue
-        try:
-            data = yaml.safe_load(path.read_text(encoding="utf-8"))
-        except yaml.YAMLError:
-            continue
-        if not isinstance(data, dict):
-            continue
-        if "verb" in data:
-            # Pattern 1 — verb-rooted, suffix-keyed prepositions.
-            verb = str(data["verb"]).strip()
-            for key, form in data.items():
-                if key in METADATA or not isinstance(form, dict):
-                    continue
-                canonical.add(f"{verb}_{key}")
-                rn = form.get("reverse_name")
-                if isinstance(rn, str) and rn:
-                    reverse.add(rn)
-        elif "preposition" in data:
-            # Pattern 2 — bare preposition, file stem wins (YAML 1.1 may
-            # have resolved bare `on:` to `True`).
-            canonical.add(path.stem)
-            rn = data.get("reverse_name")
-            if isinstance(rn, str) and rn:
-                reverse.add(rn)
-        else:
-            # Pattern 3 — single-form (stem = label).
-            canonical.add(path.stem)
-            rn = data.get("reverse_name")
-            if isinstance(rn, str) and rn:
-                reverse.add(rn)
-    return (canonical, reverse)
-
 
 def _load_shape_fields(shapes_dir: Path, shape_name: str) -> tuple[set[str], set[str]] | None:
     """Load (fields, relations) for a shape, following `also` chains."""
@@ -1161,6 +1104,40 @@ def _extract_return_keys_from_function(tree: ast.AST, function_name: str) -> set
                 if helper_keys:
                     keys.update(helper_keys)
     return keys if keys else None
+
+
+def _is_nested_value(v: ast.AST) -> bool:
+    """True when a dict-value represents a nested entity (an edge child) or a
+    json blob rather than a scalar field — a dict, a list/comprehension, or a
+    `<dict> if cond else <...>`. Edges are open-world, so such keys are never
+    flagged as undeclared shape fields."""
+    if isinstance(v, (ast.Dict, ast.List, ast.ListComp, ast.DictComp)):
+        return True
+    if isinstance(v, ast.IfExp):
+        return _is_nested_value(v.body) or _is_nested_value(v.orelse)
+    return False
+
+
+def _extract_nested_value_keys(tree: ast.AST, function_name: str) -> set[str]:
+    """Keys in a function's return dicts whose value is a nested entity (edge)
+    rather than a scalar field. Best-effort over literal patterns (literal
+    dict / list / comprehension / conditional dict); a const-referenced child
+    (`at: _HN`) or a helper-call child isn't detected, which only means such a
+    key may still surface in the advisory — never a false silence."""
+    func_node: ast.AST | None = None
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == function_name:
+            func_node = node
+            break
+    if func_node is None:
+        return set()
+    nested: set[str] = set()
+    for child in ast.walk(func_node):
+        if isinstance(child, ast.Dict):
+            for k, v in zip(child.keys, child.values):
+                if isinstance(k, ast.Constant) and isinstance(k.value, str) and _is_nested_value(v):
+                    nested.add(k.value)
+    return nested
 
 
 def _iter_app_py_files(app_dir: Path):
@@ -1619,16 +1596,11 @@ def check_shape_conformance(app_dir: Path, shapes_dir: Path | None) -> list[str]
     warnings: list[str] = []
     if not shapes_dir:
         return warnings
-    # Link registry — when present, lets us flag return keys that look
-    # like link slots (declared in a shape's `relations:` block) but have
-    # no entry in `platform/ontology/links/`. Open-world: registry-less
-    # checkouts (e.g. a downstream consumer cloning only `shapes/`) skip
-    # this check entirely.
-    link_registry = _load_link_registry(shapes_dir)
-    known_link_slots: set[str] = set()
-    if link_registry is not None:
-        canonical, reverse = link_registry
-        known_link_slots = canonical | reverse
+    # Edges self-register (edges-self-register): there is no link registry and
+    # shapes declare no relations. A returned key whose value is a nested entity
+    # is an edge — open-world, any verb is valid — so it's never flagged as an
+    # undeclared field. Only scalar-valued keys are checked against the shape's
+    # own fields.
 
     for rel, _py_file, _source, tree in _iter_app_py_files(app_dir):
         for node in tree.body:  # top-level only
@@ -1680,33 +1652,22 @@ def check_shape_conformance(app_dir: Path, shapes_dir: Path | None) -> list[str]
                                 f"but is missing identity field '{key}' — dedup will fall back to imported_from"
                             )
 
-            # Extra keys advisory — ignore underscore-prefixed internals.
-            # Lazy-learned shapes absorb new keys on next run; this is a
-            # developer-typing hint, not a runtime error.
-            extra = {k for k in returned_keys - all_valid_keys if not k.startswith("_")}
+            # Extra keys advisory — ignore underscore-prefixed internals AND
+            # keys whose value is a nested entity (a dict / list-of-dicts).
+            # Those are edges, not fields: the verb-space is open, so the engine
+            # links any shaped child regardless of the parent's declared fields.
+            # Only scalar-valued keys are field-typo candidates worth flagging.
+            edge_keys = _extract_nested_value_keys(tree, node.name)
+            extra = {
+                k for k in returned_keys - all_valid_keys
+                if not k.startswith("_") and k not in edge_keys
+            }
             if extra:
                 warnings.append(
                     f"{rel}:{node.lineno}: {node.name} returns keys not declared on shape '{shape_label}': "
                     f"{', '.join(sorted(extra))} — the engine will union-extend on next run; "
                     f"add to platform/ontology/shapes/{shape_names[0]}.yaml to get SDK TypedDict coverage"
                 )
-
-            # Link-registry conformance — for every returned key that's
-            # declared as a relation on this shape, the registry must know
-            # the label (either as a canonical storage label or as a
-            # reverse-accessor name). Otherwise the engine can't decide
-            # what to write or which direction. Open-world: warn, not
-            # error. Skipped if `<shapes_dir>/../links/` isn't present.
-            if link_registry is not None:
-                slot_keys = (returned_keys & shape_relations) - {"id", "name"}
-                unknown_slots = sorted(slot_keys - known_link_slots)
-                if unknown_slots:
-                    warnings.append(
-                        f"{rel}:{node.lineno}: {node.name} returns link slot(s) "
-                        f"{', '.join(unknown_slots)} on shape '{shape_label}' but the "
-                        f"link registry has no matching canonical or reverse-accessor — "
-                        f"add to platform/ontology/links/ or rename to an existing label"
-                    )
     return warnings
 
 

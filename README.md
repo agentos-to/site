@@ -16,8 +16,7 @@ static-exported read-only AgentOS instance (change-static-export).
 ```
 platform/
 ├── ontology/              the contract — authored as YAML
-│   ├── shapes/*.yaml          entity schemas
-│   ├── links/*.yaml           typed link definitions
+│   ├── shapes/*.yaml          entity schemas (nouns only — no edge typing)
 │   ├── ops/*.yaml             engine primitives (shell.run, http.request, …)
 │   ├── services/*.yaml        brokered service definitions (web_search, llm, …)
 │   ├── migrations/*.yaml      schema migration chain
@@ -138,20 +137,28 @@ write. (A *thin* recurrence with no referenceable occurrence — living at
 one address across two stints — has no natural node; that case is a
 known limit, not yet resolved.)
 
-### 4. Link types are not owned by node shapes
+### 4. Edges are untyped and self-registering — shapes own no relations
 
-`lived_at` is one link type, defined once, reused by many shapes. A
-shape's `relations:` block lists the relations it *expects* — as
-documentation and a validation hint — it does **not** own them, and an
-link to an unexpected node stays possible. A shape gains no relation for
-every link that can touch it: `person` declares no `lived_at` /
-`born_at` / `born_to` — those are generic life-links, not person-fields.
+There is no edge schema anywhere: no `links/*.yaml`, no link codegen, no
+`relations:` block on a shape. **Nouns are typed, verbs are not** — the
+entity-space is finite and knowable, the relationship-space is open and
+emergent (the RDF/OWL over-typing mistake property graphs already
+corrected). A skill or the agent mints an edge inline with
+`create({from, label, inverse, to})`; the engine learns the verb the first
+time it sees it and records the pair in the lazy `link_defs` registry, so
+no edge is ever one-directional. The `inverse` rides each edge and is never
+rejected when it differs — the same verb reads back differently in
+different contexts, and that drift is fine.
 
-Type a relation hint at the **widest actor it can take**. If an
-organization can fill the slot as readily as a person, type it `actor`,
-not `person` — a trademark is `held_by` an org, a concert is `organized`
-by an org, an act `performed_at` an event may be a band. A hint typed
-narrower than reality is a hint that lies.
+A shape therefore declares only its own data (fields, identity, display,
+`also`). It gains no relation for every link that can touch it: `person`
+declares no `lived_at` / `born_at` / `born_to` — those are generic
+life-links, not person-fields. **An app names the child's noun, not the
+edge's type:** a nested relation child in a return carries its own
+`shape:` (`operated_by: {shape: "airline", …}`); the engine links any
+shaped child under any verb. Pick the child's shape at the **widest noun
+it can be** — `account` for a platform handle, `person` for a human,
+`organization` for an org — a child typed narrower than reality lies.
 
 ### 5. Shapes are nouns; a shape earns its existence by unique fields
 
