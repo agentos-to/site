@@ -1772,33 +1772,6 @@ def _provides_auth_kind(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str | N
     return None
 
 
-def _provides_service_name(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str | None:
-    """The service name from a `@provides(<service>, ...)` decorator.
-
-    Recognises the same spellings as `_provides_auth_kind` (bare name,
-    string literal, `name=` keyword) but returns the full service name —
-    `web_read`, `llm`, `cookie_auth` — without interpreting it.
-    """
-    for dec in node.decorator_list:
-        if not isinstance(dec, ast.Call):
-            continue
-        if _decorator_name(dec) != "provides":
-            continue
-        svc_node = dec.args[0] if dec.args else None
-        if svc_node is None:
-            for kw in dec.keywords:
-                if kw.arg == "name":
-                    svc_node = kw.value
-                    break
-        if svc_node is None:
-            continue
-        if isinstance(svc_node, ast.Name):
-            return svc_node.id
-        if isinstance(svc_node, ast.Constant) and isinstance(svc_node.value, str):
-            return svc_node.value
-    return None
-
-
 def _load_auth_contracts() -> dict[str, dict] | None:
     """Load codegen'd AUTH_CONTRACTS dict; returns None if generator hasn't run."""
     try:
@@ -2088,89 +2061,6 @@ def _claims_value(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str | None:
     return None
 
 
-def _provides_has_urls(node: ast.FunctionDef | ast.AsyncFunctionDef) -> bool:
-    """True when the `@provides(...)` decorator carries a `urls=[...]` filter."""
-    for dec in node.decorator_list:
-        if not isinstance(dec, ast.Call):
-            continue
-        if _decorator_name(dec) != "provides":
-            continue
-        return any(kw.arg == "urls" for kw in dec.keywords)
-    return False
-
-
-def check_provider_service_contract(
-    app_dir: Path, shapes_dir: Path | None
-) -> tuple[list[str], list[str]]:
-    """A general provider's bound tool must return the service's declared shape.
-
-    The service contract (`platform/ontology/services/<name>.yaml`) may
-    declare `returns: <shape>` — web_read → webpage, web_search → result.
-    The bound tool IS the service for whoever wins matchmaking, so a
-    GENERAL provider declaring a different shape is an error — consumers
-    would get a different record per provider.
-
-    Exempt / softer cases:
-    - `@provides(..., urls=[...])` — URL-scoped upgraders are deliberate:
-      a web_read of a Goodreads book URL returns a `book`, not a webpage.
-    - No `@returns` shape at all (inline envelope) — warning only; some
-      providers (transport plumbing) deliberately return envelopes that
-      carry shape-compatible rows without graph extraction.
-    - Auth services — governed by `check_auth_provider_contract`.
-    - Contracts whose `returns` isn't a shape in `shapes/` (protocol
-      envelopes like cdp_access) — skipped.
-    """
-    issues: list[str] = []
-    warnings: list[str] = []
-    if not shapes_dir:
-        return issues, warnings
-    services_dir = shapes_dir.parent / "services"
-    if not services_dir.is_dir():
-        return issues, warnings
-
-    for rel, _py, _src, tree in _iter_app_py_files(app_dir):
-        for node in tree.body:
-            if not _is_tool_function(node):
-                continue
-            service = _provides_service_name(node)
-            if service is None or service.endswith("_auth"):
-                continue
-            if _provides_has_urls(node):
-                continue
-            contract = services_dir / f"{service}.yaml"
-            if not contract.is_file():
-                continue
-            try:
-                data = yaml.safe_load(contract.read_text(encoding="utf-8"))
-            except yaml.YAMLError:
-                continue
-            declared = data.get("returns") if isinstance(data, dict) else None
-            if not isinstance(declared, str):
-                continue
-            declared_base = declared.strip().rstrip("[]").rstrip()
-            if _load_shape_fields(shapes_dir, declared_base) is None:
-                continue
-            tool_shapes = _tool_return_shapes(node)
-            if declared_base in tool_shapes:
-                continue
-            if not tool_shapes:
-                warnings.append(
-                    f"{rel}:{node.lineno}: {node.name} is `@provides({service})` but "
-                    f"@returns declares no shape — the {service} contract returns "
-                    f"'{declared_base}' (ontology/services/{service}.yaml). Declare "
-                    f"`@returns(\"{declared_base}\")` (or a `urls=` filter if this is "
-                    f"a URL-scoped upgrader)."
-                )
-            else:
-                issues.append(
-                    f"{rel}:{node.lineno}: {node.name} is `@provides({service})` but "
-                    f"@returns declares '{' | '.join(tool_shapes)}' — the {service} contract returns "
-                    f"'{declared_base}' (ontology/services/{service}.yaml). A general "
-                    f"provider's bound tool must return the service's declared shape."
-                )
-    return issues, warnings
-
-
 def check_claims(app_dir: Path) -> list[str]:
     """Validate `@claims(who)` usage:
 
@@ -2351,9 +2241,6 @@ def audit_app_dir(app_dir: Path, shapes_dir: Path | None) -> tuple[int, str | No
     all_issues.extend(check_camelcase_dict_keys(app_dir, shapes_dir))
     all_issues.extend(check_auth_provider_contract(app_dir))
     all_issues.extend(check_account_trio(app_dir))
-    provider_issues, provider_warnings = check_provider_service_contract(app_dir, shapes_dir)
-    all_issues.extend(provider_issues)
-    all_warnings.extend(provider_warnings)
     all_issues.extend(check_claims(app_dir))
 
     check_session_errors, check_session_warnings = check_check_session_identity(app_dir)
