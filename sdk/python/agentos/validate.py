@@ -178,6 +178,9 @@ def _write_configured_source_paths(paths: list[str], db_path: Path = AGENTOS_DB_
 _SHAPES_CANDIDATES = (
     "shapes",
     "platform/ontology/shapes",
+    # Apps now live in commons/apps; shapes stay in the sibling platform/ repo.
+    # When the source root is commons/, reach across to its sibling.
+    "../platform/ontology/shapes",
     "agentos-sdk/shapes",
 )
 
@@ -235,7 +238,7 @@ def _probe_source_root(root: Path, origin: str) -> AppSource:
         apps = root
 
     for rel in _SHAPES_CANDIDATES:
-        candidate = root / rel
+        candidate = (root / rel).resolve()
         if candidate.is_dir() and any(candidate.glob("*.yaml")):
             shapes = candidate
             break
@@ -1106,37 +1109,70 @@ def _extract_return_keys_from_function(tree: ast.AST, function_name: str) -> set
     return keys if keys else None
 
 
-def _is_nested_value(v: ast.AST) -> bool:
+def _module_nested_consts(tree: ast.AST) -> set[str]:
+    """Module-level names bound to a dict/list literal (`_HN = {...}`). A return
+    key whose value references one of these (`at: _HN`) is an edge child, not a
+    scalar field."""
+    names: set[str] = set()
+    for node in getattr(tree, "body", []):
+        if isinstance(node, ast.Assign) and isinstance(node.value, (ast.Dict, ast.List)):
+            for tgt in node.targets:
+                if isinstance(tgt, ast.Name):
+                    names.add(tgt.id)
+    return names
+
+
+def _is_nested_value(v: ast.AST, const_names: set[str]) -> bool:
     """True when a dict-value represents a nested entity (an edge child) or a
-    json blob rather than a scalar field — a dict, a list/comprehension, or a
-    `<dict> if cond else <...>`. Edges are open-world, so such keys are never
-    flagged as undeclared shape fields."""
+    json blob rather than a scalar field — a dict, a list/comprehension, a
+    `<dict> if cond else <...>`, or a reference to a module-level dict/list
+    const. Edges are open-world, so such keys are never flagged as undeclared
+    shape fields."""
     if isinstance(v, (ast.Dict, ast.List, ast.ListComp, ast.DictComp)):
         return True
     if isinstance(v, ast.IfExp):
-        return _is_nested_value(v.body) or _is_nested_value(v.orelse)
+        return _is_nested_value(v.body, const_names) or _is_nested_value(v.orelse, const_names)
+    if isinstance(v, ast.Name):
+        return v.id in const_names
     return False
 
 
 def _extract_nested_value_keys(tree: ast.AST, function_name: str) -> set[str]:
     """Keys in a function's return dicts whose value is a nested entity (edge)
-    rather than a scalar field. Best-effort over literal patterns (literal
-    dict / list / comprehension / conditional dict); a const-referenced child
-    (`at: _HN`) or a helper-call child isn't detected, which only means such a
-    key may still surface in the advisory — never a false silence."""
-    func_node: ast.AST | None = None
-    for node in ast.walk(tree):
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == function_name:
-            func_node = node
-            break
-    if func_node is None:
+    rather than a scalar field. Follows the same reach as
+    `_extract_return_keys_from_function` — the tool fn itself plus any helper it
+    returns via `[_helper(x) for x in …]` (where the dict is actually built) —
+    and recognizes module-level dict/list consts (`at: _HN`)."""
+    const_names = _module_nested_consts(tree)
+
+    def _find_fn(name: str) -> ast.AST | None:
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == name:
+                return node
+        return None
+
+    root = _find_fn(function_name)
+    if root is None:
         return set()
+    # The tool fn plus any list-comprehension helper it returns — that helper is
+    # where map-style apps build the actual dict (`return [_map_hit(h) for …]`).
+    fns = [root]
+    for child in ast.walk(root):
+        if isinstance(child, ast.Return) and isinstance(child.value, ast.ListComp):
+            elt = child.value.elt
+            if isinstance(elt, ast.Call) and isinstance(elt.func, ast.Name):
+                helper = _find_fn(elt.func.id)
+                if helper is not None:
+                    fns.append(helper)
+
     nested: set[str] = set()
-    for child in ast.walk(func_node):
-        if isinstance(child, ast.Dict):
-            for k, v in zip(child.keys, child.values):
-                if isinstance(k, ast.Constant) and isinstance(k.value, str) and _is_nested_value(v):
-                    nested.add(k.value)
+    for fn in fns:
+        for child in ast.walk(fn):
+            if isinstance(child, ast.Dict):
+                for k, v in zip(child.keys, child.values):
+                    if (isinstance(k, ast.Constant) and isinstance(k.value, str)
+                            and _is_nested_value(v, const_names)):
+                        nested.add(k.value)
     return nested
 
 
