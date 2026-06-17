@@ -34,8 +34,6 @@ from emit import (
     emit_python,
     emit_python_auth_contracts,
     emit_rust_auth_contracts,
-    emit_services_python,
-    emit_services_rust,
     emit_typescript,
     emit_yaml_symbols,
     write_rust_sdk,
@@ -192,29 +190,16 @@ def main():
     ops_dir = platform_root / "ontology" / "ops"
     ops, op_types = ir.load_ops(ops_dir) if ops_dir.is_dir() else ([], {})
 
+    # Services are not authored. A service exists because an app
+    # `@provides` it — the engine self-registers a `shape:service` node
+    # from the union of provider declarations at boot (see
+    # `core/.../apps/seed.rs::mint_service_graph`). The SDK ships only
+    # the broker (`services.call` / `list_providers`), generated from the
+    # `services` op group like any other op stub — no registry, no
+    # constants, no `returns:` contract. Same move as edges: the verb
+    # space is emergent, never declared.
 
-    # Service registry — `ontology/services/*.yaml`, one file per canonical
-    # brokered interface. Validated against shapes + auth contracts (the
-    # `returns:` contract must name one of them).
-    import services as _services
-    services_dir = platform_root / "ontology" / "services"
-    service_defs = _services.load(services_dir) if services_dir.is_dir() else []
-    if service_defs:
-        svc_errors, svc_warnings = _services.validate(
-            service_defs,
-            {s.name for s in shapes},
-            {c.kind for c in auth_contracts},
-        )
-        for w in svc_warnings:
-            print(f"  lint [warn]: {w}", file=sys.stderr)
-        for e in svc_errors:
-            print(f"  lint [error]: {e}", file=sys.stderr)
-        if svc_errors:
-            sys.exit(1)
-        print(f"Loaded {len(service_defs)} service declarations from {services_dir}")
-
-    ontology = ir.build(shapes, auth_contracts, ops, op_types,
-                        services=service_defs)
+    ontology = ir.build(shapes, auth_contracts, ops, op_types)
 
     # Validation runs on every invocation. `warn` is advisory; `error`
     # means the ontology is structurally invalid (e.g. a malformed
@@ -306,20 +291,6 @@ def main():
             workspace / "core" / "crates" / "core" / "generated" / "yaml-symbols.json",
             emit_yaml_symbols(ontology), "yaml-symbols", check=args.check,
         )
-
-        # Service registry — `ontology/services/*.yaml` → the engine's
-        # compiled ServiceDef table (node minting + provides validation)
-        # and the SDK's one services module (constants + broker stubs).
-        if service_defs:
-            drift |= _check_or_write(
-                contract_crate / "services.rs", emit_services_rust(service_defs),
-                "services-rust", check=args.check,
-            )
-            drift |= _check_or_write(
-                platform_root / "sdk" / "python" / "agentos" / "services.py",
-                emit_services_python(service_defs, ontology),
-                "services-python", check=args.check,
-            )
 
         # Op contract — projected into the `ops` module of the contract
         # crate, plus the per-group Python op stubs into the SDK package.

@@ -1,6 +1,0 @@
-# Read one file's contents.
-description: >-
-  Read a file's contents by path.
-params:
-  path: { type: "string", doc: "File to read." }
-returns: file

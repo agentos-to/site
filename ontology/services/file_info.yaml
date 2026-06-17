@@ -1,7 +1,0 @@
-# Stat one file — size, kind, timestamps.
-description: >-
-  Return one file's metadata (size, kind, timestamps) without reading
-  its contents.
-params:
-  path: { type: "string", doc: "File to stat." }
-returns: file

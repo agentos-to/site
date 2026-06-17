@@ -1,6 +1,0 @@
-# Provide OAuth credentials for a platform (auth provision).
-description: >-
-  Auth provision — return an OAuth credential (access token + refresh
-  metadata) for a platform. Consumed by the engine's auth resolution;
-  the token-refresh path re-dispatches the provider when expiry nears.
-returns: oauth

@@ -3,7 +3,7 @@
     from agentos import client, url, molt, shape   # network verbs, URL math, text, shapes
     from agentos import sql, crypto, oauth          # engine-dispatched modules
     from agentos import returns, provides           # operation decorators
-    from agentos.services import web_search, web_read  # service constants
+    from agentos import services                     # the brokered-service primitive
     from agentos.macos import keychain, plist       # platform-specific
 
     resp = await client.get("/api/auth/session")   # jar + bundle from the connection
@@ -36,22 +36,13 @@ from agentos.decorators import returns, provides, connection, timeout, claims, t
 # --- Challenge artifacts (account protocol) ---
 from agentos import qr
 
-# --- Standard service constants (for @provides declarations) ---
-# NOTE: the `llm` service constant is NOT imported here — `agentos.llm` is
-# the SDK module. Use `from agentos.services import llm` in @provides.
-from agentos.services import (
-    web_search, web_read, email_lookup, flight_search,
-    geocoding, map_tiles, file_list, file_read, file_info,
-    volume_transport,
-    cookie_auth, oauth_auth,
-    login_credentials, password, api_key, signs_for,
-    cdp_access, browser_session,
-)
-
 # --- Engine-dispatched modules (auth bridge) ---
 from agentos import credentials
 
-# --- The service broker — the primitive under every @provides(X) ---
+# --- The service broker — the primitive under every @provides("name") ---
+# Services are named by their bare string, never a constant — a service
+# is self-registered from `@provides`, the same way an edge verb is from
+# `create`. `services.call` / `services.list_providers` are the broker.
 from agentos import services
 
 # --- Identity normalization helpers ---
@@ -84,12 +75,6 @@ __all__ = [
     "returns", "provides", "connection", "timeout", "claims", "test", "account",
     # Challenge artifacts
     "qr",
-    # Standard services
-    "web_search", "web_read", "email_lookup", "flight_search",
-    "geocoding", "map_tiles", "file_list", "file_read", "file_info",
-    "volume_transport",
-    "cookie_auth", "oauth_auth",
-    "login_credentials", "password", "api_key", "signs_for",
     # App result helpers
     "app_error", "app_result", "app_secret",
     # Text (fine-grained)

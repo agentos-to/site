@@ -1,9 +1,0 @@
-# Provide fresh browser cookies for a domain (auth provision).
-description: >-
-  Auth provision — return fresh cookies for a domain from a live
-  browser profile. Consumed by the engine's auth resolution, never
-  called ad hoc; freshness arbitration picks the newest cookie per
-  domain across providers.
-params:
-  domain: { type: "string", doc: "Domain to provide cookies for." }
-returns: cookie

@@ -1,8 +1,0 @@
-# Search flights between airports on a date.
-description: >-
-  Search for flights — origin, destination, dates — returning typed
-  flight/fare results.
-params:
-  origin:      { type: "string", doc: "Origin airport / city code." }
-  destination: { type: "string", doc: "Destination airport / city code." }
-  date:        { type: "string", doc: "Departure date (ISO 8601)." }

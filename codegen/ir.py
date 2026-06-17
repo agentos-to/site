@@ -263,7 +263,6 @@ class Ontology:
     auth_contracts: list[AuthContract] = field(default_factory=list)
     ops: list[Op] = field(default_factory=list)
     op_types: dict[str, OpType] = field(default_factory=dict)
-    services: list = field(default_factory=list)  # list[services.Service]
 
     def auth(self, kind: str) -> AuthContract | None:
         for c in self.auth_contracts:
@@ -1018,7 +1017,6 @@ def build(
     auth_contracts: list[AuthContract],
     ops: list[Op] | None = None,
     op_types: dict[str, OpType] | None = None,
-    services: list | None = None,
 ) -> Ontology:
     """Assemble the normalized tree from already-loaded parts."""
     return Ontology(
@@ -1026,7 +1024,6 @@ def build(
         auth_contracts=auth_contracts,
         ops=ops or [],
         op_types=op_types or {},
-        services=services or [],
     )
 
 

@@ -18,9 +18,10 @@ platform/
 ├── ontology/              the contract — authored as YAML
 │   ├── shapes/*.yaml          entity schemas (nouns only — no edge typing)
 │   ├── ops/*.yaml             engine primitives (shell.run, http.request, …)
-│   ├── services/*.yaml        brokered service definitions (web_search, llm, …)
-│   ├── migrations/*.yaml      schema migration chain
 │   └── auth-contracts/*.yaml  OAuth + cookie provider return shapes
+│                              (services are NOT authored — a service self-
+│                               registers from each app's @provides, like an
+│                               edge verb self-registers from create)
 ├── codegen/               one generator: YAML → IR → typed code
 │   ├── generate.py            orchestrator
 │   ├── ir.py                  YAML → one normalized Ontology tree

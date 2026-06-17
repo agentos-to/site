@@ -1,9 +1,0 @@
-# Fetch one URL and return it as a webpage with content.
-description: >-
-  Fetch a URL and return the page as a `webpage` node with a content
-  row — readable text, not raw bytes. Plain HTTP fetch is the baseline
-  technique; JS-rendering providers (CDP-backed) and extraction APIs
-  (Firecrawl, Exa) compete on quality, not interface.
-params:
-  url: { type: "string", doc: "The URL to fetch." }
-returns: webpage

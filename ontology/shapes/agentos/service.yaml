@@ -4,20 +4,21 @@
 # a service — which app opens/renders a shape or mime is the app shape's
 # `handles` field, a shell association, not a brokered call.
 #
-# The registry of canonical services is authored in
-# `platform/ontology/services/*.yaml` (one file per service; id = file
-# stem) and projected by codegen into the SDK constants and the engine's
-# compiled registry. Service NODES on the graph are minted by the engine
-# from that registry — never authored by hand. The service node carries
-# its whole story: `provided_by` edges to every providing app
-# (link_vals: {via: the bound tool} — derived, cleared and rebuilt each
-# boot) and the user's standing pick as a `defaults_to` link (XP's "Set
-# Program Access and Defaults"). Both point service → app, so providers
-# whose nodes live in the read-only System volume are reachable
-# cross-volume.
+# There is NO authored service registry. A service exists because an app
+# `@provides` it — the engine self-registers a service NODE from the
+# union of provider declarations at boot (same move as edges, which
+# self-register from `create`). The node carries `id` (the verb) and
+# `description` (the first provider that supplied one); it never declares
+# a typed `params`/`returns` contract — cross-provider compatibility is a
+# discipline between providers, not a stamped type. The node also carries
+# its live wiring: `provided_by` edges to every providing app (link_vals:
+# {via: the bound tool} — derived, cleared and rebuilt each boot) and the
+# user's standing pick as a `defaults_to` link. Both point service → app,
+# so providers whose nodes live in the read-only System volume are
+# reachable cross-volume.
 #
-# Keep the registry small and verb-shaped. If a candidate interface has
-# no second potential provider, it probably isn't a service yet.
+# A service with no provider cannot exist — self-registration enforces
+# exactly what "keep it verb-shaped" used to ask for by hand.
 service:
   plural: services
   identity: [id]
@@ -27,10 +28,6 @@ service:
   fields:
     id:                string    # the verb: 'web_search' / 'web_read' / 'llm' / ...
     description:       text
-    params:            json      # the params a caller passes — JSON-schema-ish
-                                  # map, projected from the registry YAML
-    returns:           string    # the shape (or auth-contract) a provider's
-                                  # bound tool must produce — the typed contract
   links:
     provided_by:         app       # every app offering this service — minted
                                     # from the apps' own declarations at load,

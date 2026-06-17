@@ -1,6 +1,0 @@
-# An API key for a platform (credential provision).
-description: >-
-  Credential provision — an API key for a platform. Same matchmaking
-  path as login_credentials; secret material never transits the LLM.
-params:
-  platform: { type: "string", doc: "The platform the key is for." }

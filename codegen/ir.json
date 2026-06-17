@@ -25996,20 +25996,6 @@
           "is_relation": false,
           "is_array": false,
           "target": null
-        },
-        {
-          "name": "params",
-          "type": "json",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "returns",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
         }
       ],
       "also": [],
@@ -26030,7 +26016,7 @@
         "id"
       ],
       "identity_any": [],
-      "leading_comment": "A service — a named interface the engine brokers between strangers.\nThe caller names the interface (web_search, web_read, llm), never the\napp; the engine matchmakes a provider and dispatches. Rendering is NOT\na service — which app opens/renders a shape or mime is the app shape's\n`handles` field, a shell association, not a brokered call.\n\nThe registry of canonical services is authored in\n`platform/ontology/services/*.yaml` (one file per service; id = file\nstem) and projected by codegen into the SDK constants and the engine's\ncompiled registry. Service NODES on the graph are minted by the engine\nfrom that registry — never authored by hand. The service node carries\nits whole story: `provided_by` edges to every providing app\n(link_vals: {via: the bound tool} — derived, cleared and rebuilt each\nboot) and the user's standing pick as a `defaults_to` link (XP's \"Set\nProgram Access and Defaults\"). Both point service → app, so providers\nwhose nodes live in the read-only System volume are reachable\ncross-volume.\n\nKeep the registry small and verb-shaped. If a candidate interface has\nno second potential provider, it probably isn't a service yet.",
+      "leading_comment": "A service — a named interface the engine brokers between strangers.\nThe caller names the interface (web_search, web_read, llm), never the\napp; the engine matchmakes a provider and dispatches. Rendering is NOT\na service — which app opens/renders a shape or mime is the app shape's\n`handles` field, a shell association, not a brokered call.\n\nThere is NO authored service registry. A service exists because an app\n`@provides` it — the engine self-registers a service NODE from the\nunion of provider declarations at boot (same move as edges, which\nself-register from `create`). The node carries `id` (the verb) and\n`description` (the first provider that supplied one); it never declares\na typed `params`/`returns` contract — cross-provider compatibility is a\ndiscipline between providers, not a stamped type. The node also carries\nits live wiring: `provided_by` edges to every providing app (link_vals:\n{via: the bound tool} — derived, cleared and rebuilt each boot) and the\nuser's standing pick as a `defaults_to` link. Both point service → app,\nso providers whose nodes live in the read-only System volume are\nreachable cross-volume.\n\nA service with no provider cannot exist — self-registration enforces\nexactly what \"keep it verb-shaped\" used to ask for by hand.",
       "own_fields": [
         {
           "name": "id",
@@ -26042,20 +26028,6 @@
         {
           "name": "description",
           "type": "text",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "params",
-          "type": "json",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "returns",
-          "type": "string",
           "is_relation": false,
           "is_array": false,
           "target": null
@@ -26080,13 +26052,11 @@
         }
       ],
       "source_path": "agentos/service.yaml",
-      "raw_body": "plural: services\nidentity:\n- id\ndisplay:\n  icon: hub\n  subtitle: description\nfields:\n  id: string\n  description: text\n  params: json\n  returns: string\nlinks:\n  provided_by: app\n  defaults_to: app\nprior_art:\n- source: Debian alternatives system (update-alternatives)\n  url: https://wiki.debian.org/DebianAlternatives\n  notes: \"A generic name (editor) resolves to one of several registered providers\\\n    \\ via a per-name symlink the admin can repoint. Our service id \\u2248 the generic\\\n    \\ name; defaults_to \\u2248 the symlink.\"\n- source: \"Windows XP \\u2014 Set Program Access and Defaults\"\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/default-programs\n  notes: The OS-level \"which program answers this kind of request\" surface. Our defaults_to\n    link is that choice as graph state.\n- source: Android Intents (action + default app)\n  url: https://developer.android.com/guide/components/intents-filters\n  notes: \"Apps declare which actions they answer; the user picks a default per action.\\\n    \\ provided_by \\u2248 intent-filter; defaults_to \\u2248 the user's \\\"always\\\" choice.\"\n",
+      "raw_body": "plural: services\nidentity:\n- id\ndisplay:\n  icon: hub\n  subtitle: description\nfields:\n  id: string\n  description: text\nlinks:\n  provided_by: app\n  defaults_to: app\nprior_art:\n- source: Debian alternatives system (update-alternatives)\n  url: https://wiki.debian.org/DebianAlternatives\n  notes: \"A generic name (editor) resolves to one of several registered providers\\\n    \\ via a per-name symlink the admin can repoint. Our service id \\u2248 the generic\\\n    \\ name; defaults_to \\u2248 the symlink.\"\n- source: \"Windows XP \\u2014 Set Program Access and Defaults\"\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/default-programs\n  notes: The OS-level \"which program answers this kind of request\" surface. Our defaults_to\n    link is that choice as graph state.\n- source: Android Intents (action + default app)\n  url: https://developer.android.com/guide/components/intents-filters\n  notes: \"Apps declare which actions they answer; the user picks a default per action.\\\n    \\ provided_by \\u2248 intent-filter; defaults_to \\u2248 the user's \\\"always\\\" choice.\"\n",
       "ancestors": [],
       "field_order": [
         "id",
-        "description",
-        "params",
-        "returns"
+        "description"
       ],
       "derived": {},
       "groups": [],
@@ -34495,261 +34465,5 @@
         }
       ]
     }
-  },
-  "services": [
-    {
-      "name": "api_key",
-      "description": "Credential provision — an API key for a platform. Same matchmaking path as login_credentials; secret material never transits the LLM.",
-      "params": {
-        "platform": {
-          "type": "string",
-          "doc": "The platform the key is for."
-        }
-      },
-      "returns": null,
-      "leading_comment": "An API key for a platform (credential provision)."
-    },
-    {
-      "name": "audio_transcription",
-      "description": "Transcribe an audio file to a timestamped text transcript. Providers declare which models they serve (`list_models`); `model` is a required input with no default — the caller picks which model transcribes. The spoken language is detected by the model (multilingual models) unless the caller forces one. Results land on the graph as a `transcript` row.",
-      "params": {
-        "audio": {
-          "type": "string",
-          "doc": "Path to an audio file to transcribe."
-        },
-        "model": {
-          "type": "string?",
-          "doc": "Which transcription model to use (provider-specific id, e.g. \"medium.en\", \"large-v3\")."
-        },
-        "language": {
-          "type": "string?",
-          "doc": "Spoken-language code to force, or \"auto\" to detect (default). Ignored by English-only models."
-        }
-      },
-      "returns": "transcript",
-      "leading_comment": "Audio transcription — speech-to-text from an audio file. Providers wrap a\ntranscription engine (whisper.cpp via Vowen, a future native macOS\nSpeechTranscriber, …). The caller names the interface, never the app —\nsame shape as `llm` and `web_search`."
-    },
-    {
-      "name": "browser_session",
-      "description": "High-level, typed session API for driving a live browser, hiding the protocol. The action plane is DOM-native and ref-addressed: `snapshot` returns every visible interactive element with a stable `ref`, role, name, value, and bounds; `click` / `type` / `key` act on those refs with trusted input (works on React/Base-UI); `navigate` drives the tab and returns the fresh snapshot. Lower-level verbs: `eval` (raw JS), `subscribe` (stream marker-tagged console entities to the graph), `close`. This is what reverse-engineering, scraping, and interaction-driving apps consume — never `cdp_access` directly. Pick the verb with the `verb` override on the service call.",
-      "params": {},
-      "returns": null,
-      "leading_comment": "High-level typed browser session API on top of cdp_access."
-    },
-    {
-      "name": "cdp_access",
-      "description": "Raw, protocol-level browser access. A provider returns a CDP WebSocket URL + target descriptor for a debug-attachable Chromium browser. Tiny surface: one `cdp_connect` tool, plus a fixed-name sibling verb every provider ships — `login_window(url, label?|close)`, the headed app-mode swap on the same profile, dispatched by the `login_window` service's provider against whichever app this service resolves to (never a fresh walk). Brave is today's provider; Chrome/Arc could join. Consumers should almost always use `browser_session` instead — this is the layer underneath it.",
-      "params": {},
-      "returns": null,
-      "leading_comment": "Raw protocol-level access to a debug-attachable Chromium browser."
-    },
-    {
-      "name": "cookie_auth",
-      "description": "Auth provision — return fresh cookies for a domain from a live browser profile. Consumed by the engine's auth resolution, never called ad hoc; freshness arbitration picks the newest cookie per domain across providers.",
-      "params": {
-        "domain": {
-          "type": "string",
-          "doc": "Domain to provide cookies for."
-        }
-      },
-      "returns": "cookie",
-      "leading_comment": "Provide fresh browser cookies for a domain (auth provision)."
-    },
-    {
-      "name": "email_lookup",
-      "description": "Look up a person's email address from identity signals (name, organization, domain).",
-      "params": {
-        "name": {
-          "type": "string?",
-          "doc": "Person's name."
-        },
-        "domain": {
-          "type": "string?",
-          "doc": "Organization domain to search within."
-        }
-      },
-      "returns": null,
-      "leading_comment": "Find a person's email address from name/domain signals."
-    },
-    {
-      "name": "file_info",
-      "description": "Return one file's metadata (size, kind, timestamps) without reading its contents.",
-      "params": {
-        "path": {
-          "type": "string",
-          "doc": "File to stat."
-        }
-      },
-      "returns": "file",
-      "leading_comment": "Stat one file — size, kind, timestamps."
-    },
-    {
-      "name": "file_list",
-      "description": "List the entries under a filesystem path, as typed `file` rows.",
-      "params": {
-        "path": {
-          "type": "string",
-          "doc": "Directory to list."
-        }
-      },
-      "returns": "file",
-      "leading_comment": "List files under a path."
-    },
-    {
-      "name": "file_read",
-      "description": "Read a file's contents by path.",
-      "params": {
-        "path": {
-          "type": "string",
-          "doc": "File to read."
-        }
-      },
-      "returns": "file",
-      "leading_comment": "Read one file's contents."
-    },
-    {
-      "name": "flight_search",
-      "description": "Search for flights — origin, destination, dates — returning typed flight/fare results.",
-      "params": {
-        "origin": {
-          "type": "string",
-          "doc": "Origin airport / city code."
-        },
-        "destination": {
-          "type": "string",
-          "doc": "Destination airport / city code."
-        },
-        "date": {
-          "type": "string",
-          "doc": "Departure date (ISO 8601)."
-        }
-      },
-      "returns": null,
-      "leading_comment": "Search flights between airports on a date."
-    },
-    {
-      "name": "geocoding",
-      "description": "Resolve a place name or address to coordinates (and back). Returns typed `place` rows.",
-      "params": {
-        "query": {
-          "type": "string",
-          "doc": "Place name, address, or 'lat,lng'."
-        }
-      },
-      "returns": "place",
-      "leading_comment": "Resolve place names ↔ coordinates."
-    },
-    {
-      "name": "llm",
-      "description": "LLM inference. Providers declare which models they serve; the SDK's matchmaking (`agentos.llm`) ranks providers per model. There is no \"LLM\" category in the engine — it's just another service.",
-      "params": {
-        "model": {
-          "type": "string?",
-          "doc": "Model id filter / request."
-        }
-      },
-      "returns": null,
-      "leading_comment": "LLM inference — completions/chat from a model provider."
-    },
-    {
-      "name": "login_credentials",
-      "description": "Credential provision — an `{email|handle, password}` tuple for a domain, from a password manager, keychain, or vault. Wired through the engine's `credentials.retrieve` matchmaking, so login tools resolve their inputs without the LLM ever seeing raw secret values.",
-      "params": {
-        "domain": {
-          "type": "string",
-          "doc": "Domain the login is for."
-        }
-      },
-      "returns": null,
-      "leading_comment": "{email|handle, password} tuple for a domain (credential provision)."
-    },
-    {
-      "name": "login_window",
-      "description": "Surface the engine-owned (normally headless) browser as a headed Chromium app-mode window (`--app=<url>`) so a human can complete a login the agent can't do autonomously — SSO, MFA, CAPTCHA. One profile, two modes: the window runs on the same user-data-dir the headless session host drives, so the signed-in session is on disk the moment the human finishes — no cookie copying, ever. `login_window(url, label?)` opens the window; `login_window(close=true)` returns the instance to headless. Between the two, poll the target app's `check_session` until it reports authenticated. Provided by the OS browser app, which resolves `cdp_access` once — honoring the human's default pick — and dispatches the provider's fixed-name `login_window` tool, so the headed window always opens on the exact profile the headless session host drives.",
-      "params": {},
-      "returns": null,
-      "leading_comment": "Headed sign-in window on the engine-owned browser profile."
-    },
-    {
-      "name": "map_tiles",
-      "description": "Serve map tiles / static map imagery for coordinates and zoom level. Declared ahead of a shipping provider so the interface name is fixed.",
-      "params": {
-        "lat": {
-          "type": "number",
-          "doc": "Latitude of the viewport center."
-        },
-        "lng": {
-          "type": "number",
-          "doc": "Longitude of the viewport center."
-        },
-        "zoom": {
-          "type": "number?",
-          "doc": "Tile zoom level."
-        }
-      },
-      "returns": null,
-      "leading_comment": "Serve map tile imagery for a viewport."
-    },
-    {
-      "name": "oauth_auth",
-      "description": "Auth provision — return an OAuth credential (access token + refresh metadata) for a platform. Consumed by the engine's auth resolution; the token-refresh path re-dispatches the provider when expiry nears.",
-      "params": {},
-      "returns": "oauth",
-      "leading_comment": "Provide OAuth credentials for a platform (auth provision)."
-    },
-    {
-      "name": "password",
-      "description": "Credential provision — a password for a caller-supplied identifier. Same matchmaking path as login_credentials; secret material never transits the LLM.",
-      "params": {
-        "identifier": {
-          "type": "string",
-          "doc": "The account/identifier the password belongs to."
-        }
-      },
-      "returns": null,
-      "leading_comment": "A password for a caller-supplied identifier (credential provision)."
-    },
-    {
-      "name": "signs_for",
-      "description": "Reserved for passkey / hardware-key providers that sign challenges rather than returning secret material. No resolver ships yet; the name is fixed now so the interface shape is stable.",
-      "params": {},
-      "returns": null,
-      "leading_comment": "Passkey / hardware-key challenge signing (reserved)."
-    },
-    {
-      "name": "volume_transport",
-      "description": "The providing app announces mountable volumes and serves their contents to the finder/graph layer. One service, a fixed three-verb interface: `list_volumes()` → volume[] (ANNOUNCE — called at boot and on refresh; entries upsert as volume nodes under a realm), `list_contents(id, cursor?)` → typed child nodes + nextCursor (SERVE), `read_node(id)` → one node's full detail. The provides binding (`via`) names `list_volumes` only — it marks the app as a transport; `list_contents` / `read_node` are reached by their fixed names on the announcing app (browse binds to the stamped provider, never a fresh service walk). Read-only by construction: the write verbs don't exist yet. Contract: core/_product/p2/realms-transports/plan.md \"The transport contract\".",
-      "params": {},
-      "returns": "volume",
-      "leading_comment": "Announce + serve mountable volumes (the KIO-worker / 9P read-only core)."
-    },
-    {
-      "name": "web_read",
-      "description": "Fetch a URL and return the page as a `webpage` node with a content row — readable text, not raw bytes. Plain HTTP fetch is the baseline technique; JS-rendering providers (CDP-backed) and extraction APIs (Firecrawl, Exa) compete on quality, not interface.",
-      "params": {
-        "url": {
-          "type": "string",
-          "doc": "The URL to fetch."
-        }
-      },
-      "returns": "webpage",
-      "leading_comment": "Fetch one URL and return it as a webpage with content."
-    },
-    {
-      "name": "web_search",
-      "description": "Search the web for a query; results land on the graph as `result` rows. The baseline discovery service — most installed search apps provide it.",
-      "params": {
-        "query": {
-          "type": "string",
-          "doc": "The search query."
-        },
-        "count": {
-          "type": "number?",
-          "doc": "Maximum results to return."
-        }
-      },
-      "returns": "result",
-      "leading_comment": "Search the web. Providers: Brave Search, Exa, SerpAPI, …"
-    }
-  ]
+  }
 }

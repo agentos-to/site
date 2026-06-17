@@ -46,10 +46,17 @@ def returns(shape):
 
 
 def provides(tool, **kwargs):
-    """Declare that this function provides a standard tool service.
+    """Declare that this function provides a brokered service.
+
+    The service is named by its bare string — `@provides("web_search")`.
+    There is no constant to import and no registry to register in: a
+    service exists because some app provides it, the same way an edge
+    verb exists because some `create` mints it. The engine self-registers
+    a `shape:service` node from the union of `@provides` across all apps.
 
     Args:
-        tool: Tool constant (e.g., web_search, web_read, email_lookup).
+        tool: Service name string, e.g. `"web_search"`, `"web_read"`,
+            `"llm"`, `"login_credentials"`.
         urls: Optional URL patterns this tool handles.
         domains: Optional domains (for cookie_auth providers).
         creation_timestamps: Whether provider returns cookie creation timestamps.

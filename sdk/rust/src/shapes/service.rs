@@ -15,8 +15,6 @@ pub struct Service {
     pub date_published: Option<String>,
     pub content: Option<String>,
     pub description: Option<String>,
-    pub params: Option<serde_json::Value>,
-    pub returns: Option<String>,
 }
 
 pub static SERVICE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
@@ -33,8 +31,6 @@ pub static SERVICE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("datePublished", FieldType::String),
         FieldDef::optional("content", FieldType::String),
         FieldDef::optional("description", FieldType::Text),
-        FieldDef::optional("params", FieldType::Json),
-        FieldDef::optional("returns", FieldType::String),
     ],
     identity: vec!["id".into()],
     display: Some(DisplaySpec {

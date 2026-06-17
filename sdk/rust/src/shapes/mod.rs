@@ -1670,7 +1670,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("review", &["rating", "ratingMax", "tags", "isVerified", "externalUrl", "postType", "score", "commentCount", "community"]),
     ("role", &["title", "department", "roleType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("seatmap", &["flightNumber", "origin", "destination", "fareBasisCode", "classOfService", "aircraftCode", "totalSeats", "availableSeats", "cabins", "tiers", "hasExitRow", "hasFreeSeats", "hasPaidSeats", "basicEconomyLocked"]),
-    ("service", &["id", "description", "params", "returns"]),
+    ("service", &["id", "description"]),
     ("settings", &["name"]),
     ("shape", &["plural", "description", "icon", "fields", "out", "in", "display", "groups", "identity", "identity_any", "also", "derived", "shortcuts", "prior_art", "prefsSchemas"]),
     ("shelf", &["isExclusive", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path"]),

@@ -1,7 +1,0 @@
-# Find a person's email address from name/domain signals.
-description: >-
-  Look up a person's email address from identity signals (name,
-  organization, domain).
-params:
-  name:   { type: "string?", doc: "Person's name." }
-  domain: { type: "string?", doc: "Organization domain to search within." }

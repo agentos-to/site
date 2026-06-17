@@ -17,7 +17,11 @@ from __future__ import annotations
 # shape SDK out of contract-generated into `platform/sdk/rust/`. Engine
 # crates `use agentos_sdk::shapes::VOLUME` directly. The engine binary
 # names ZERO shapes in its own source tree.
-_MODULES = ("ops", "services")
+#
+# `services` is intentionally absent — there is no authored service
+# registry. A service exists because an app `@provides` it; the engine
+# self-registers the node from provider declarations at boot.
+_MODULES = ("ops",)
 
 
 def emit_contract_root() -> str:

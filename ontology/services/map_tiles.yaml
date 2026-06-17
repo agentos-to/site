@@ -1,8 +1,0 @@
-# Serve map tile imagery for a viewport.
-description: >-
-  Serve map tiles / static map imagery for coordinates and zoom level.
-  Declared ahead of a shipping provider so the interface name is fixed.
-params:
-  lat:  { type: "number", doc: "Latitude of the viewport center." }
-  lng:  { type: "number", doc: "Longitude of the viewport center." }
-  zoom: { type: "number?", doc: "Tile zoom level." }
