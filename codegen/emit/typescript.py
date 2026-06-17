@@ -78,6 +78,24 @@ def emit_typescript(onto: Ontology) -> str:
     lines.append("};")
     lines.append("")
 
+    # SHAPE_PLURAL — the authored `plural:` per shape. The display label for
+    # a shape folder/group is the AUTHORED plural sentence-cased, never a
+    # hand-rolled pluralizer (which mangles `settings` → `settingses`). One
+    # source of truth: the ontology YAML.
+    lines.extend([
+        "// ─── Plural per shape — the authored `plural:` from the ontology ────────",
+        "// Shape folders/group headers render this sentence-cased. Never re-derive",
+        "// a plural in code — `settings` is its own plural, the YAML knows it.",
+        "",
+        "export const SHAPE_PLURAL: Record<string, string> = {",
+    ])
+    for s in shapes:
+        if not s.plural:
+            continue
+        lines.append(f"    {json.dumps(s.name)}: {json.dumps(s.plural)},")
+    lines.append("};")
+    lines.append("")
+
     # SHAPE_FIELD_ORDER — YAML declaration order per shape, so detail
     # panels render rows in the author's order (e.g. given → middle →
     # family on person, not the alphabetised graph order).
