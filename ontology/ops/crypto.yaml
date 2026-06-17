@@ -26,23 +26,49 @@ crypto.pbkdf2:
   effects: []
 
 crypto.aes:
-  doc: "AES-128-CBC decrypt. Key/data/iv are hex. Returns hex plaintext."
+  doc: "AES-CBC decrypt (128 or 256 by key length). Key/data/iv are hex. Returns hex plaintext."
   doc_full: |
-    AES-128-CBC decrypt. Key, ciphertext, and IV are all hex-encoded.
-    The returned plaintext is hex-encoded on the wire and decoded to
-    bytes by the SDK stub.
+    AES-CBC decrypt with PKCS7 padding. The AES variant is chosen by key
+    length: a 16-byte key → AES-128, a 32-byte key → AES-256. Key,
+    ciphertext, and IV are all hex-encoded; plaintext is hex on the wire
+    and decoded to bytes by the SDK stub.
 
     Args:
-        key: hex (16 bytes = 32 hex chars for AES-128).
+        key: hex — 16 bytes (AES-128) or 32 bytes (AES-256).
         data: ciphertext, hex.
-        iv: hex. Default: 32 zero chars (Chrome convention).
+        iv: hex, 16 bytes. Default: 32 zero chars (Chrome convention).
 
     Returns:
         Plaintext bytes.
   service: crypto
   request:
-    key:  { type: "string", doc: "Key as hex (16 bytes / 32 hex chars for AES-128)." }
+    key:  { type: "string", doc: "Key as hex — 16 bytes (AES-128) or 32 bytes (AES-256)." }
     data: { type: "string", doc: "Ciphertext as hex." }
-    iv:   { type: "string", default: "00000000000000000000000000000000", doc: "Initialization vector as hex. Defaults to 32 zero hex chars." }
+    iv:   { type: "string", default: "00000000000000000000000000000000", doc: "Initialization vector as hex (16 bytes). Defaults to 32 zero hex chars." }
   response: { type: "bytes", doc: "Decrypted plaintext." }
+  effects: []
+
+crypto.hkdf:
+  doc: "HKDF-SHA256 (extract + expand). Returns `length` bytes of key material."
+  doc_full: |
+    HKDF-SHA256 key derivation (RFC 5869): HMAC-extract then expand. The
+    canonical primitive for end-to-end media — WhatsApp/Signal expand a
+    32-byte mediaKey into iv‖cipherKey‖macKey via an application-specific
+    info string (e.g. "WhatsApp Audio Keys").
+
+    Args:
+        key: input keying material (IKM) as hex.
+        info: context/application string (UTF-8). Default empty.
+        salt: optional salt as hex. Empty → 32 zero bytes (SHA-256 block).
+        length: output length in bytes. Default 32.
+
+    Returns:
+        Derived key material as bytes (hex-decoded by the SDK stub).
+  service: crypto
+  request:
+    key:    { type: "string", doc: "Input keying material (IKM) as hex." }
+    info:   { type: "string", default: "", doc: "Context/application info string (UTF-8)." }
+    salt:   { type: "string", default: "", doc: "Optional salt as hex. Empty → 32 zero bytes." }
+    length: { type: "u32", default: 32, doc: "Output length in bytes." }
+  response: { type: "bytes", doc: "Derived key material." }
   effects: []

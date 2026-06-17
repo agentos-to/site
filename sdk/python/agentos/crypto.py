@@ -15,14 +15,15 @@ from agentos._bridge import dispatch
 
 async def aes(key: str, data: str, *, iv: str | None = None) -> bytes:
     """
-    AES-128-CBC decrypt. Key, ciphertext, and IV are all hex-encoded.
-    The returned plaintext is hex-encoded on the wire and decoded to
-    bytes by the SDK stub.
+    AES-CBC decrypt with PKCS7 padding. The AES variant is chosen by key
+    length: a 16-byte key → AES-128, a 32-byte key → AES-256. Key,
+    ciphertext, and IV are all hex-encoded; plaintext is hex on the wire
+    and decoded to bytes by the SDK stub.
 
     Args:
-        key: hex (16 bytes = 32 hex chars for AES-128).
+        key: hex — 16 bytes (AES-128) or 32 bytes (AES-256).
         data: ciphertext, hex.
-        iv: hex. Default: 32 zero chars (Chrome convention).
+        iv: hex, 16 bytes. Default: 32 zero chars (Chrome convention).
 
     Returns:
         Plaintext bytes.
@@ -33,6 +34,34 @@ async def aes(key: str, data: str, *, iv: str | None = None) -> bytes:
     if iv is not None:
         _req['iv'] = iv
     hex_value = await dispatch('crypto.aes', _req)
+    return bytes.fromhex(hex_value)
+
+
+async def hkdf(key: str, *, info: str | None = None, length: int | None = None, salt: str | None = None) -> bytes:
+    """
+    HKDF-SHA256 key derivation (RFC 5869): HMAC-extract then expand. The
+    canonical primitive for end-to-end media — WhatsApp/Signal expand a
+    32-byte mediaKey into iv‖cipherKey‖macKey via an application-specific
+    info string (e.g. "WhatsApp Audio Keys").
+
+    Args:
+        key: input keying material (IKM) as hex.
+        info: context/application string (UTF-8). Default empty.
+        salt: optional salt as hex. Empty → 32 zero bytes (SHA-256 block).
+        length: output length in bytes. Default 32.
+
+    Returns:
+        Derived key material as bytes (hex-decoded by the SDK stub).
+    """
+    _req: dict[str, Any] = {}
+    _req['key'] = key
+    if info is not None:
+        _req['info'] = info
+    if length is not None:
+        _req['length'] = length
+    if salt is not None:
+        _req['salt'] = salt
+    hex_value = await dispatch('crypto.hkdf', _req)
     return bytes.fromhex(hex_value)
 
 
