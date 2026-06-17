@@ -515,7 +515,7 @@ KNOWN_FRONTMATTER = {
     "id", "name", "description", "color", "website",
     "privacy_url", "terms_url", "product",
     "test", "tools", "sources", "accounts",
-    "services",
+    "services", "privileges",
 }
 # Frontmatter keys that used to be allowed but have moved into Python:
 # - `connections` → module-level `connection("name", ...)` calls
