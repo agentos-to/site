@@ -55,7 +55,7 @@ def provides(tool, **kwargs):
     a `shape:service` node from the union of `@provides` across all apps.
 
     Args:
-        tool: Service name string, e.g. `"web_search"`, `"web_read"`,
+        tool: Service name string, e.g. `"web_search"`, `"web_fetch"`,
             `"llm"`, `"login_credentials"`.
         urls: Optional URL patterns this tool handles.
         domains: Optional domains (for cookie_auth providers).

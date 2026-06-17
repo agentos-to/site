@@ -1,5 +1,5 @@
 # A service — a named interface the engine brokers between strangers.
-# The caller names the interface (web_search, web_read, llm), never the
+# The caller names the interface (web_search, web_fetch, llm), never the
 # app; the engine matchmakes a provider and dispatches. Rendering is NOT
 # a service — which app opens/renders a shape or mime is the app shape's
 # `handles` field, a shell association, not a brokered call.
@@ -26,7 +26,7 @@ service:
     icon: hub
     subtitle: description
   fields:
-    id:                string    # the verb: 'web_search' / 'web_read' / 'llm' / ...
+    id:                string    # the verb: 'web_search' / 'web_fetch' / 'llm' / ...
     description:       text
   links:
     provided_by:         app       # every app offering this service — minted
