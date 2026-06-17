@@ -110,6 +110,7 @@ pub mod review;
 pub mod role;
 pub mod seatmap;
 pub mod service;
+pub mod settings;
 pub mod shape;
 pub mod shelf;
 pub mod software;
@@ -226,6 +227,7 @@ pub use review::{REVIEW, Review};
 pub use role::{ROLE, Role};
 pub use seatmap::{SEATMAP, Seatmap};
 pub use service::{SERVICE, Service};
+pub use settings::{SETTINGS, Settings};
 pub use shape::{SHAPE, Shape};
 pub use shelf::{SHELF, Shelf};
 pub use software::{SOFTWARE, Software};
@@ -348,6 +350,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "role" => Some(&ROLE),
         "seatmap" => Some(&SEATMAP),
         "service" => Some(&SERVICE),
+        "settings" => Some(&SETTINGS),
         "shape" => Some(&SHAPE),
         "shelf" => Some(&SHELF),
         "software" => Some(&SOFTWARE),
@@ -1307,6 +1310,16 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &[],
     }),
+    ("settings", Display {
+        title: None,
+        subtitle: Some("name"),
+        image: None,
+        highlights: &[],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &[],
+    }),
     ("shape", Display {
         title: None,
         subtitle: Some("description"),
@@ -1658,6 +1671,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("role", &["title", "department", "roleType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("seatmap", &["flightNumber", "origin", "destination", "fareBasisCode", "classOfService", "aircraftCode", "totalSeats", "availableSeats", "cabins", "tiers", "hasExitRow", "hasFreeSeats", "hasPaidSeats", "basicEconomyLocked"]),
     ("service", &["id", "description", "params", "returns"]),
+    ("settings", &["name"]),
     ("shape", &["plural", "description", "icon", "fields", "out", "in", "display", "groups", "identity", "identity_any", "also", "derived", "shortcuts", "prior_art", "prefsSchemas"]),
     ("shelf", &["isExclusive", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path"]),
     ("software", &["version", "applicationCategory", "runtimePlatform", "codename", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
@@ -1784,6 +1798,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("role", "roles"),
     ("seatmap", "seatmaps"),
     ("service", "services"),
+    ("settings", "settings"),
     ("shape", "shapes"),
     ("shelf", "shelves"),
     ("software", "software"),

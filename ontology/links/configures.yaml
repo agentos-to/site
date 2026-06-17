@@ -1,0 +1,13 @@
+# Single-form link `configures` (Pattern 3). Stem = storage label.
+# Sources: settings
+# Targets: app
+#
+# A per-app settings node configures exactly one app — the graph analog
+# of one ~/Library/Application Support/<App> directory. The settings
+# node lives in the home vault; the app node lives on the System volume,
+# so this is a cross-volume link (home → System). The reverse reading
+# ("app configured by settings") is derived from this one stored
+# direction.
+from: settings
+to: app
+card: one_to_one
