@@ -80,6 +80,8 @@ def _shape_to_wire_def(s: Shape) -> dict:
         out["shortcuts"] = shortcuts
     if s.also:
         out["also"] = list(s.also)
+    if s.timed:
+        out["timed"] = s.timed
     if s.identity:
         out["identity"] = list(s.identity)
     if s.identity_any:

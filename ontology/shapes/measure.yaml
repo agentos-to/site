@@ -4,11 +4,17 @@
 # lab's catalog interval (health-reference-range). One shape fits a biomarker,
 # a survey score, and a mood rating identically.
 #
-# `also: [event]` — a measurement happens at a moment (a sample is drawn, a
-# survey is answered), so it is event-shaped: the *when* rides on the
-# inherited startDate. A point measure (a lab draw) sets startDate only; a
-# measure that spans time (continuous glucose over a night, a mood tracked
-# across a week) uses startDate / endDate. Most measures are points.
+# `timed: self` — a measurement is a self-occurrence, not a happening. Its
+# time is intrinsic valid-time, carried on the measure itself, NOT inherited
+# from `event`. An event is for things with attendees, recurrence, a calendar
+# identity — a measurement is none of those (the call-history shape is the
+# same precedent). This is the third ontological time-category beside
+# event-derived and atemporal: self-timed, declared on the shape. A point
+# measure (a lab draw) sets `at`; a measure that spans time (continuous
+# glucose over a night, a mood tracked across a week) uses `start` / `end`.
+# Most measures are points. (`timed: self` is recognized by codegen rule 1,
+# which then permits these datetime fields on a non-event shape — it is a
+# category the lint reads, not a knob it toggles.)
 #
 # The value's UCUM unit rides on the val itself — every memex val stores a
 # unit alongside it — so there is NO separate `unit` field. 95 mg/dL is not
@@ -29,12 +35,15 @@
 # declare.")
 measure:
   plural: measures
-  also: [event]                 # a measurement happens at a moment; the when
-                                # rides on the inherited startDate (rule 1).
+  timed: self                   # self-timed: the when is intrinsic (at/start/end),
+                                # not inherited from event. Recognized by rule 1.
   display:
     icon: vital_signs
-    subtitle: startDate
+    subtitle: at
   fields:
+    at:               datetime  # point measure — when this value was measured (UTC preferred)
+    start:            datetime  # span measure — when measurement began
+    end:              datetime  # span measure — when measurement ended
     value:            number    # the measured quantity — 95, 1.24, 18; its UCUM unit rides on the val
     valueText:        string    # for non-numeric results — "Negative", "Reactive", "Trace"
     refLow:           number    # SNAPSHOT: reference low as printed on THIS report (unit on the val)
@@ -48,7 +57,7 @@ measure:
       url: https://www.hl7.org/fhir/observation.html
       notes: >-
         The canonical resource for a measured value. value (with its UCUM unit)
-        ≈ valueQuantity; startDate ≈ effectiveDateTime; refLow/refHigh/refText ≈
+        ≈ valueQuantity; at ≈ effectiveDateTime; refLow/refHigh/refText ≈
         the referenceRange backbone (the inline snapshot); flag ≈
         interpretation; status ≈ status. `measures` ≈ code resolved to a
         biomarker. FHIR has no normalized-range link — our `reportedRange` link
@@ -58,7 +67,7 @@ measure:
       notes: >-
         The legacy lab-result segment most labs still emit. OBX-5 (value) and
         OBX-6 (units) together ≈ our value-with-unit; OBX-7 (reference range),
-        OBX-8 (abnormal flag), OBX-14 (datetime) map to refText/flag/startDate.
+        OBX-8 (abnormal flag), OBX-14 (datetime) map to refText/flag/at.
     - source: UCUM — Unified Code for Units of Measure
       url: https://ucum.org/
       notes: >-

@@ -174,6 +174,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "accounts",
       "subtitle": "identifier",
       "display": {
@@ -600,6 +601,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "activities",
       "subtitle": "action",
       "display": {
@@ -770,6 +772,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "actors",
       "subtitle": "actorType",
       "display": {
@@ -1085,6 +1088,7 @@
       "also": [
         "product"
       ],
+      "timed": null,
       "plural": "aircraft",
       "subtitle": "model",
       "display": {
@@ -1313,6 +1317,7 @@
       "also": [
         "organization"
       ],
+      "timed": null,
       "plural": "airlines",
       "subtitle": "iataCode",
       "display": {
@@ -1520,6 +1525,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "airports",
       "subtitle": "iataCode",
       "display": {
@@ -1777,6 +1783,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "apps",
       "subtitle": "description",
       "display": {
@@ -2057,6 +2064,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "auth_challenges",
       "subtitle": "instructions",
       "display": {
@@ -2415,6 +2423,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "births",
       "subtitle": "location",
       "display": {
@@ -2929,6 +2938,7 @@
         "creative_work",
         "product"
       ],
+      "timed": null,
       "plural": "books",
       "subtitle": "written_by",
       "display": {
@@ -3454,6 +3464,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "booking_offers",
       "subtitle": "totalAmount",
       "display": {
@@ -3834,6 +3845,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "bookmarks",
       "subtitle": "name",
       "display": {
@@ -4009,6 +4021,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "branches",
       "subtitle": "commit",
       "display": {
@@ -4187,6 +4200,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "brands",
       "subtitle": "tagline",
       "display": {
@@ -4396,6 +4410,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "calendars",
       "subtitle": "source",
       "display": {
@@ -4592,6 +4607,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "channels",
       "subtitle": "subscriberCount",
       "display": {
@@ -4853,6 +4869,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "classes",
       "subtitle": "activityType",
       "display": {
@@ -5041,6 +5058,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "communities",
       "subtitle": "text",
       "display": {
@@ -5246,6 +5264,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "conversations",
       "subtitle": "text",
       "display": {
@@ -5558,6 +5577,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "conversions",
       "subtitle": "kind",
       "display": {
@@ -5759,6 +5779,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "creative_works",
       "subtitle": "written_by",
       "display": {
@@ -6005,6 +6026,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "credentials",
       "subtitle": "source",
       "display": {
@@ -6328,6 +6350,7 @@
         "creative_work",
         "file"
       ],
+      "timed": null,
       "plural": "cursors",
       "subtitle": "purpose",
       "display": {
@@ -6572,6 +6595,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "dimensions",
       "subtitle": "label",
       "display": {
@@ -6817,6 +6841,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "dns_records",
       "subtitle": "recordType",
       "display": {
@@ -7087,6 +7112,7 @@
       "also": [
         "file"
       ],
+      "timed": null,
       "plural": "documents",
       "subtitle": "contentType",
       "display": {
@@ -7277,6 +7303,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "domains",
       "subtitle": "registrar",
       "display": {
@@ -7632,6 +7659,7 @@
       "also": [
         "message"
       ],
+      "timed": null,
       "plural": "emails",
       "subtitle": "author",
       "display": {
@@ -8008,6 +8036,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "episodes",
       "subtitle": "author",
       "display": {
@@ -8244,6 +8273,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "events",
       "subtitle": "startDate",
       "display": {
@@ -8583,6 +8613,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "fares",
       "subtitle": "fareFamily",
       "display": {
@@ -8891,6 +8922,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "files",
       "subtitle": "path",
       "display": {
@@ -9164,6 +9196,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "financial_accounts",
       "subtitle": "last4",
       "display": {
@@ -9588,6 +9621,7 @@
       "also": [
         "leg"
       ],
+      "timed": null,
       "plural": "flights",
       "subtitle": "airline",
       "display": {
@@ -9894,6 +9928,7 @@
       "also": [
         "creative_work"
       ],
+      "timed": null,
       "plural": "fonts",
       "subtitle": "author",
       "display": {
@@ -10268,6 +10303,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "git_commits",
       "subtitle": "author",
       "display": {
@@ -10461,6 +10497,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "groups",
       "subtitle": "category",
       "display": {
@@ -10617,6 +10654,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "health-biomarkers",
       "subtitle": "category",
       "display": {
@@ -10932,6 +10970,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "health-conditions",
       "subtitle": "clinicalStatus",
       "display": {
@@ -11317,6 +11356,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "health-immunizations",
       "subtitle": "dateAdministered",
       "display": {
@@ -11576,6 +11616,7 @@
       "also": [
         "organization"
       ],
+      "timed": null,
       "plural": "health-labs",
       "subtitle": "labType",
       "display": {
@@ -11953,6 +11994,7 @@
         "list",
         "event"
       ],
+      "timed": null,
       "plural": "health-panels",
       "subtitle": "startDate",
       "display": {
@@ -12283,6 +12325,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "health-procedures",
       "subtitle": "performedDate",
       "display": {
@@ -12691,6 +12734,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "health-reference-ranges",
       "subtitle": "refText",
       "display": {
@@ -13027,6 +13071,7 @@
       "also": [
         "creative_work"
       ],
+      "timed": null,
       "plural": "icons",
       "subtitle": "purpose",
       "display": {
@@ -13368,6 +13413,7 @@
         "creative_work",
         "file"
       ],
+      "timed": null,
       "plural": "images",
       "subtitle": "format",
       "display": {
@@ -13643,6 +13689,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "insurance_coverages",
       "subtitle": "limit",
       "display": {
@@ -14034,6 +14081,7 @@
       "also": [
         "membership"
       ],
+      "timed": null,
       "plural": "insurance_policies",
       "subtitle": "coverageType",
       "display": {
@@ -14289,6 +14337,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "intellectual_properties",
       "subtitle": "category",
       "display": {
@@ -14653,6 +14702,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "invitations",
       "subtitle": "invitationType",
       "display": {
@@ -14891,6 +14941,7 @@
       "also": [
         "post"
       ],
+      "timed": null,
       "plural": "issues",
       "subtitle": "status",
       "display": {
@@ -15236,6 +15287,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "launches",
       "subtitle": "rocketId",
       "display": {
@@ -15632,6 +15684,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "legs",
       "subtitle": "flightNumber",
       "display": {
@@ -15955,6 +16008,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "lists",
       "subtitle": "name",
       "display": {
@@ -16329,6 +16383,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "loaded_models",
       "subtitle": "size",
       "display": {
@@ -16548,6 +16603,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "mcp_sessions",
       "subtitle": "client",
       "display": {
@@ -16722,35 +16778,14 @@
           "target": null
         },
         {
-          "name": "allDay",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "currentUrl",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "dateUpdated",
+          "name": "at",
           "type": "datetime",
           "is_relation": false,
           "is_array": false,
           "target": null
         },
         {
-          "name": "distinctId",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "endDate",
+          "name": "end",
           "type": "datetime",
           "is_relation": false,
           "is_array": false,
@@ -16764,31 +16799,10 @@
           "target": null
         },
         {
-          "name": "icalUid",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
           "name": "notes",
           "type": "text",
           "is_relation": false,
           "is_array": false,
-          "target": null
-        },
-        {
-          "name": "properties",
-          "type": "json",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "recurrence",
-          "type": "string[]",
-          "is_relation": false,
-          "is_array": true,
           "target": null
         },
         {
@@ -16813,28 +16827,7 @@
           "target": null
         },
         {
-          "name": "showAs",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sourceTitle",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sourceUrl",
-          "type": "url",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "startDate",
+          "name": "start",
           "type": "datetime",
           "is_relation": false,
           "is_array": false,
@@ -16842,13 +16835,6 @@
         },
         {
           "name": "status",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "timezone",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -16867,29 +16853,17 @@
           "is_relation": false,
           "is_array": false,
           "target": null
-        },
-        {
-          "name": "visibility",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
         }
       ],
-      "also": [
-        "event"
-      ],
+      "also": [],
+      "timed": "self",
       "plural": "measures",
-      "subtitle": "startDate",
+      "subtitle": "at",
       "display": {
         "title": null,
-        "subtitle": "startDate",
+        "subtitle": "at",
         "image": null,
-        "highlights": [
-          "startDate",
-          "endDate",
-          "location"
-        ],
+        "highlights": [],
         "body": null,
         "mono": null,
         "preview": {},
@@ -16897,8 +16871,29 @@
       },
       "identity": [],
       "identity_any": [],
-      "leading_comment": "A single measured value about a subject, at a time — \"LDL = 95 mg/dL on\n2024-03-20\", \"PHQ-9 = 18 on 2026-06-01\", a mood rating, a blood pressure.\nThe measurement itself — not the definition (health-biomarker) and not the\nlab's catalog interval (health-reference-range). One shape fits a biomarker,\na survey score, and a mood rating identically.\n\n`also: [event]` — a measurement happens at a moment (a sample is drawn, a\nsurvey is answered), so it is event-shaped: the *when* rides on the\ninherited startDate. A point measure (a lab draw) sets startDate only; a\nmeasure that spans time (continuous glucose over a night, a mood tracked\nacross a week) uses startDate / endDate. Most measures are points.\n\nThe value's UCUM unit rides on the val itself — every memex val stores a\nunit alongside it — so there is NO separate `unit` field. 95 mg/dL is not\n95 mmol/L; the value is meaningless without its unit. Links to its\ndefinition via a `measures` link to a health-biomarker.\n\nReference range — TWO complementary mechanisms, on purpose:\n1. SNAPSHOT fields (refLow / refHigh / refText) — the interval THIS report\nactually printed, frozen onto the measure. A historical fact: it never\nchanges, even if the lab later revises its range.\n2. An optional `reportedRange` link to a health-reference-range node, when\nthat lab's interval is known as a first-class entity.\nThe snapshot is the fact; the link is the enrichment. Both can coexist.\n\n`flag` (low / normal / high / critical) is DERIVED — a reader compares\n`value` against the range. Stored as an optional convenience only; never the\nsource of truth. Re-derive it; don't trust a frozen copy. (\"Derive don't\ndeclare.\")",
+      "leading_comment": "A single measured value about a subject, at a time — \"LDL = 95 mg/dL on\n2024-03-20\", \"PHQ-9 = 18 on 2026-06-01\", a mood rating, a blood pressure.\nThe measurement itself — not the definition (health-biomarker) and not the\nlab's catalog interval (health-reference-range). One shape fits a biomarker,\na survey score, and a mood rating identically.\n\n`timed: self` — a measurement is a self-occurrence, not a happening. Its\ntime is intrinsic valid-time, carried on the measure itself, NOT inherited\nfrom `event`. An event is for things with attendees, recurrence, a calendar\nidentity — a measurement is none of those (the call-history shape is the\nsame precedent). This is the third ontological time-category beside\nevent-derived and atemporal: self-timed, declared on the shape. A point\nmeasure (a lab draw) sets `at`; a measure that spans time (continuous\nglucose over a night, a mood tracked across a week) uses `start` / `end`.\nMost measures are points. (`timed: self` is recognized by codegen rule 1,\nwhich then permits these datetime fields on a non-event shape — it is a\ncategory the lint reads, not a knob it toggles.)\n\nThe value's UCUM unit rides on the val itself — every memex val stores a\nunit alongside it — so there is NO separate `unit` field. 95 mg/dL is not\n95 mmol/L; the value is meaningless without its unit. Links to its\ndefinition via a `measures` link to a health-biomarker.\n\nReference range — TWO complementary mechanisms, on purpose:\n1. SNAPSHOT fields (refLow / refHigh / refText) — the interval THIS report\nactually printed, frozen onto the measure. A historical fact: it never\nchanges, even if the lab later revises its range.\n2. An optional `reportedRange` link to a health-reference-range node, when\nthat lab's interval is known as a first-class entity.\nThe snapshot is the fact; the link is the enrichment. Both can coexist.\n\n`flag` (low / normal / high / critical) is DERIVED — a reader compares\n`value` against the range. Stored as an optional convenience only; never the\nsource of truth. Re-derive it; don't trust a frozen copy. (\"Derive don't\ndeclare.\")",
       "own_fields": [
+        {
+          "name": "at",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "start",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "end",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
         {
           "name": "value",
           "type": "number",
@@ -16961,12 +16956,12 @@
         {
           "source": "HL7 FHIR R5 — Observation",
           "url": "https://www.hl7.org/fhir/observation.html",
-          "notes": "The canonical resource for a measured value. value (with its UCUM unit) ≈ valueQuantity; startDate ≈ effectiveDateTime; refLow/refHigh/refText ≈ the referenceRange backbone (the inline snapshot); flag ≈ interpretation; status ≈ status. `measures` ≈ code resolved to a biomarker. FHIR has no normalized-range link — our `reportedRange` link adds that."
+          "notes": "The canonical resource for a measured value. value (with its UCUM unit) ≈ valueQuantity; at ≈ effectiveDateTime; refLow/refHigh/refText ≈ the referenceRange backbone (the inline snapshot); flag ≈ interpretation; status ≈ status. `measures` ≈ code resolved to a biomarker. FHIR has no normalized-range link — our `reportedRange` link adds that."
         },
         {
           "source": "HL7 v2.x — OBX segment",
           "url": "https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX",
-          "notes": "The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6 (units) together ≈ our value-with-unit; OBX-7 (reference range), OBX-8 (abnormal flag), OBX-14 (datetime) map to refText/flag/startDate."
+          "notes": "The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6 (units) together ≈ our value-with-unit; OBX-7 (reference range), OBX-8 (abnormal flag), OBX-14 (datetime) map to refText/flag/at."
         },
         {
           "source": "UCUM — Unified Code for Units of Measure",
@@ -16975,11 +16970,12 @@
         }
       ],
       "source_path": "measure.yaml",
-      "raw_body": "plural: measures\nalso:\n- event\ndisplay:\n  icon: vital_signs\n  subtitle: startDate\nfields:\n  value: number\n  valueText: string\n  refLow: number\n  refHigh: number\n  refText: string\n  flag: string\n  status: string\n  notes: text\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Observation\"\n  url: https://www.hl7.org/fhir/observation.html\n  notes: \"The canonical resource for a measured value. value (with its UCUM unit)\\\n    \\ \\u2248 valueQuantity; startDate \\u2248 effectiveDateTime; refLow/refHigh/refText\\\n    \\ \\u2248 the referenceRange backbone (the inline snapshot); flag \\u2248 interpretation;\\\n    \\ status \\u2248 status. `measures` \\u2248 code resolved to a biomarker. FHIR has\\\n    \\ no normalized-range link \\u2014 our `reportedRange` link adds that.\"\n- source: \"HL7 v2.x \\u2014 OBX segment\"\n  url: https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX\n  notes: \"The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6\\\n    \\ (units) together \\u2248 our value-with-unit; OBX-7 (reference range), OBX-8\\\n    \\ (abnormal flag), OBX-14 (datetime) map to refText/flag/startDate.\"\n- source: \"UCUM \\u2014 Unified Code for Units of Measure\"\n  url: https://ucum.org/\n  notes: \"The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM \\u2014\\\n    \\ the unit system FHIR mandates for Observation.valueQuantity, so measures round-trip\\\n    \\ into FHIR cleanly.\"\n",
-      "ancestors": [
-        "event"
-      ],
+      "raw_body": "plural: measures\ntimed: self\ndisplay:\n  icon: vital_signs\n  subtitle: at\nfields:\n  at: datetime\n  start: datetime\n  end: datetime\n  value: number\n  valueText: string\n  refLow: number\n  refHigh: number\n  refText: string\n  flag: string\n  status: string\n  notes: text\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Observation\"\n  url: https://www.hl7.org/fhir/observation.html\n  notes: \"The canonical resource for a measured value. value (with its UCUM unit)\\\n    \\ \\u2248 valueQuantity; at \\u2248 effectiveDateTime; refLow/refHigh/refText \\u2248\\\n    \\ the referenceRange backbone (the inline snapshot); flag \\u2248 interpretation;\\\n    \\ status \\u2248 status. `measures` \\u2248 code resolved to a biomarker. FHIR has\\\n    \\ no normalized-range link \\u2014 our `reportedRange` link adds that.\"\n- source: \"HL7 v2.x \\u2014 OBX segment\"\n  url: https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX\n  notes: \"The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6\\\n    \\ (units) together \\u2248 our value-with-unit; OBX-7 (reference range), OBX-8\\\n    \\ (abnormal flag), OBX-14 (datetime) map to refText/flag/at.\"\n- source: \"UCUM \\u2014 Unified Code for Units of Measure\"\n  url: https://ucum.org/\n  notes: \"The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM \\u2014\\\n    \\ the unit system FHIR mandates for Observation.valueQuantity, so measures round-trip\\\n    \\ into FHIR cleanly.\"\n",
+      "ancestors": [],
       "field_order": [
+        "at",
+        "start",
+        "end",
         "value",
         "valueText",
         "refLow",
@@ -16987,21 +16983,7 @@
         "refText",
         "flag",
         "status",
-        "notes",
-        "startDate",
-        "endDate",
-        "timezone",
-        "allDay",
-        "recurrence",
-        "visibility",
-        "showAs",
-        "dateUpdated",
-        "sourceUrl",
-        "sourceTitle",
-        "icalUid",
-        "distinctId",
-        "currentUrl",
-        "properties"
+        "notes"
       ],
       "derived": {},
       "groups": [],
@@ -17219,6 +17201,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "meetings",
       "subtitle": "location",
       "display": {
@@ -17551,6 +17534,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "memberships",
       "subtitle": "status",
       "display": {
@@ -17776,6 +17760,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "messages",
       "subtitle": "from",
       "display": {
@@ -18010,6 +17995,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "models",
       "subtitle": "name",
       "display": {
@@ -18267,6 +18253,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "modules",
       "subtitle": "role",
       "display": {
@@ -18439,6 +18426,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "notes",
       "subtitle": "noteType",
       "display": {
@@ -18711,6 +18699,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "offers",
       "subtitle": "price",
       "display": {
@@ -19185,6 +19174,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "orders",
       "subtitle": "total",
       "display": {
@@ -19555,6 +19545,7 @@
       "also": [
         "actor"
       ],
+      "timed": null,
       "plural": "organizations",
       "subtitle": "industry",
       "display": {
@@ -19733,6 +19724,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "outcomes",
       "subtitle": "status",
       "display": {
@@ -20112,6 +20104,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "passes",
       "subtitle": "status",
       "display": {
@@ -20516,6 +20509,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "payment_methods",
       "subtitle": "displayName",
       "display": {
@@ -20850,6 +20844,7 @@
       "also": [
         "actor"
       ],
+      "timed": null,
       "plural": "people",
       "subtitle": "about",
       "display": {
@@ -21310,6 +21305,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "personas",
       "subtitle": "headline",
       "display": {
@@ -21692,6 +21688,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "places",
       "subtitle": "featureType",
       "display": {
@@ -22155,6 +22152,7 @@
       "also": [
         "list"
       ],
+      "timed": null,
       "plural": "playlists",
       "subtitle": "text",
       "display": {
@@ -22279,6 +22277,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "podcasts",
       "subtitle": "host",
       "display": {
@@ -22432,6 +22431,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "posts",
       "subtitle": "author",
       "display": {
@@ -22610,6 +22610,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "practices",
       "subtitle": "parent",
       "display": {
@@ -22782,6 +22783,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "principles",
       "subtitle": "domain",
       "display": {
@@ -23093,6 +23095,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "products",
       "subtitle": "brand",
       "display": {
@@ -23417,6 +23420,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "projects",
       "subtitle": "state",
       "display": {
@@ -23572,6 +23576,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "protocols",
       "subtitle": "name",
       "display": {
@@ -23762,6 +23767,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "qualifications",
       "subtitle": "category",
       "display": {
@@ -23955,6 +23961,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "quantity-kinds",
       "subtitle": "label",
       "display": {
@@ -24089,6 +24096,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "quotes",
       "subtitle": "year",
       "display": {
@@ -24277,6 +24285,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "repositories",
       "subtitle": "language",
       "display": {
@@ -24686,6 +24695,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "reservations",
       "subtitle": "reservationType",
       "display": {
@@ -25028,6 +25038,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "results",
       "subtitle": "url",
       "display": {
@@ -25259,6 +25270,7 @@
       "also": [
         "post"
       ],
+      "timed": null,
       "plural": "reviews",
       "subtitle": "author",
       "display": {
@@ -25528,6 +25540,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "roles",
       "subtitle": "name",
       "display": {
@@ -25773,6 +25786,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "seatmaps",
       "subtitle": null,
       "display": {
@@ -25999,6 +26013,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "services",
       "subtitle": "description",
       "display": {
@@ -26140,6 +26155,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "settings",
       "subtitle": "name",
       "display": {
@@ -26499,6 +26515,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "shapes",
       "subtitle": "description",
       "display": {
@@ -26873,6 +26890,7 @@
       "also": [
         "list"
       ],
+      "timed": null,
       "plural": "shelves",
       "subtitle": "isExclusive",
       "display": {
@@ -27190,6 +27208,7 @@
       "also": [
         "product"
       ],
+      "timed": null,
       "plural": "software",
       "subtitle": "applicationCategory",
       "display": {
@@ -27509,6 +27528,7 @@
         "creative_work",
         "file"
       ],
+      "timed": null,
       "plural": "sounds",
       "subtitle": "purpose",
       "display": {
@@ -27731,6 +27751,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "sources",
       "subtitle": "sourceId",
       "display": {
@@ -28129,6 +28150,7 @@
         "task",
         "file"
       ],
+      "timed": null,
       "plural": "specs",
       "subtitle": "state",
       "display": {
@@ -28313,6 +28335,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "subscriptions",
       "subtitle": "target",
       "display": {
@@ -28496,6 +28519,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "symbols",
       "subtitle": "signature",
       "display": {
@@ -28696,6 +28720,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "tags",
       "subtitle": "tagType",
       "display": {
@@ -29000,6 +29025,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "tasks",
       "subtitle": "state",
       "display": {
@@ -29286,6 +29312,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "tax_lines",
       "subtitle": "description",
       "display": {
@@ -29562,6 +29589,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "themes",
       "subtitle": "family",
       "display": {
@@ -29737,6 +29765,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "tool_calls",
       "subtitle": "name",
       "display": {
@@ -30064,6 +30093,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "transactions",
       "subtitle": "category",
       "display": {
@@ -30324,6 +30354,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "transcripts",
       "subtitle": "language",
       "display": {
@@ -30685,6 +30716,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "transitions",
       "subtitle": "startDate",
       "display": {
@@ -31196,6 +31228,7 @@
       "also": [
         "event"
       ],
+      "timed": null,
       "plural": "trips",
       "subtitle": "tripType",
       "display": {
@@ -31616,6 +31649,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "units",
       "subtitle": "symbol",
       "display": {
@@ -31887,6 +31921,7 @@
       "also": [
         "actor"
       ],
+      "timed": null,
       "plural": "users",
       "subtitle": "name",
       "display": {
@@ -32038,6 +32073,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "user_identities",
       "subtitle": "volume_id",
       "display": {
@@ -32325,6 +32361,7 @@
         "creative_work",
         "file"
       ],
+      "timed": null,
       "plural": "videos",
       "subtitle": "author",
       "display": {
@@ -32598,6 +32635,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "volumes",
       "subtitle": "kind",
       "display": {
@@ -32838,6 +32876,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "votes",
       "subtitle": "direction",
       "display": {
@@ -32999,6 +33038,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "webpages",
       "subtitle": "url",
       "display": {
@@ -33183,6 +33223,7 @@
         }
       ],
       "also": [],
+      "timed": null,
       "plural": "websites",
       "subtitle": "url",
       "display": {
@@ -34490,7 +34531,7 @@
     },
     {
       "name": "browser_session",
-      "description": "High-level, typed session API for driving a live browser: a provider exposes `session_open / navigate / evaluate / on_event / get_cookies / get_storage / close`, hiding the protocol. This is what reverse-engineering, scraping, and interaction-driving apps consume — never `cdp_access` directly.",
+      "description": "High-level, typed session API for driving a live browser, hiding the protocol. The action plane is DOM-native and ref-addressed: `snapshot` returns every visible interactive element with a stable `ref`, role, name, value, and bounds; `click` / `type` / `key` act on those refs with trusted input (works on React/Base-UI); `navigate` drives the tab and returns the fresh snapshot. Lower-level verbs: `eval` (raw JS), `subscribe` (stream marker-tagged console entities to the graph), `close`. This is what reverse-engineering, scraping, and interaction-driving apps consume — never `cdp_access` directly. Pick the verb with the `verb` override on the service call.",
       "params": {},
       "returns": null,
       "leading_comment": "High-level typed browser session API on top of cdp_access."

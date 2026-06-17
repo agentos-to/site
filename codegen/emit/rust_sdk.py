@@ -208,6 +208,10 @@ def _emit_shape_const(s: Shape) -> list[str]:
         also = ", ".join(f'"{a}".into()' for a in s.also)
         lines.append(f"    also: vec![{also}],")
 
+    # timed (intrinsic time category — `self` = self-timed measurement)
+    if s.timed:
+        lines.append(f'    timed: Some("{s.timed}".into()),')
+
     # identity / identity_any
     if s.identity:
         ident_list = ", ".join(f'"{x}".into()' for x in s.identity)

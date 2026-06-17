@@ -93,6 +93,7 @@ class Shape:
     fields: list[Field] = field(default_factory=list)
     # Below fields are ignored by language emitters; used by the MDX doc emitter.
     also: list[str] = field(default_factory=list)           # raw `also:` list (tag chain)
+    timed: str | None = None                                 # `timed:` marker — declares an intrinsic time category. `self` = a self-timed value (its own at/start/end), the third category beside event-derived and atemporal. Recognized by validate() rule 1.
     plural: str | None = None
     subtitle: str | None = None      # back-compat shortcut for display.subtitle
     display: Display | None = None   # per-shape display spec (shape-display plan)
@@ -615,6 +616,7 @@ def _build_shapes(
 
         # Metadata used by the doc emitter
         s.also = list(defn.get("also") or [])
+        s.timed = defn.get("timed")
         s.plural = defn.get("plural")
         # `display:` block — resolved through the `also:` chain so a child
         # shape inherits its parents' role bindings unless it re-declares
@@ -1074,12 +1076,15 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
         # Rule 1: orphan-datetime check. A `datetime` on a non-event shape
         # is a denormalized date for a relationship — should be an link
         # val or an event node. Skip event-derived shapes (the date lives
-        # naturally on the event) and the transaction-time allowlist.
+        # naturally on the event), self-timed shapes (a measurement is its
+        # own occurrence — its `at`/`start`/`end` are intrinsic valid-time,
+        # declared by `timed: self`), and the transaction-time allowlist.
         # Hard error after the life-events migration — the ontology is
         # not allowed to grow a new orphan datetime without an explicit
-        # decision (allowlist, event-derive, or migrate the field).
+        # decision (allowlist, event-derive, self-time, or migrate the field).
         is_event_derived = s.name == "event" or "event" in s.ancestors
-        if not is_event_derived:
+        is_self_timed = s.timed == "self"
+        if not is_event_derived and not is_self_timed:
             for f in s.own_fields:
                 if f.type == "datetime" and f.name not in TRANSACTION_TIME_ALLOWLIST:
                     err(f"shape {s.name!r}: field {f.name!r} is a datetime "
