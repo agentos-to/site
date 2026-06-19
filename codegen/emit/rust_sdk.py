@@ -239,8 +239,14 @@ def _emit_shape_const(s: Shape) -> list[str]:
         for key, body in sorted(s.shortcuts.items()):
             if isinstance(body, dict) and "writes" in body:
                 writes = str(body["writes"]).replace("\\", "\\\\").replace('"', '\\"')
+                if body.get("inverse"):
+                    inv = str(body["inverse"]).replace("\\", "\\\\").replace('"', '\\"')
+                    inverse = f'Some("{inv}".into())'
+                else:
+                    inverse = "None"
                 shortcut_entries.append(
-                    f'        ShortcutDef {{ key: "{key}".into(), writes: "{writes}".into() }},'
+                    f'        ShortcutDef {{ key: "{key}".into(), '
+                    f'writes: "{writes}".into(), inverse: {inverse} }},'
                 )
         if shortcut_entries:
             lines.append("    shortcuts: vec![")

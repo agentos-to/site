@@ -1,9 +1,13 @@
 # A document — any human-readable text content with structure and authorship.
-# Base type for reports, manuscripts, briefs, whitepapers, analyses.
-# article, note, and webpage are siblings (not children) for now; they may
-# gain also: [document] in a future migration once the shape stabilizes.
+# Base type for reports, manuscripts, briefs, whitepapers, analyses, and a
+# fetched web page (the engine's built-in web archive: one document per URL,
+# body = the page HTML, reader markdown derived at render).
 document:
   plural: documents
+  # A web fetch identifies a document by its URL (no content hash); a file-
+  # backed document by its sha. identity_any tries sha first, then url —
+  # so re-fetching a URL updates the same node (latest snapshot wins).
+  identity_any: [sha, url]
   display:
     icon: description
     subtitle: contentType

@@ -57,7 +57,13 @@ def _shape_to_wire_def(s: Shape) -> dict:
 
     derived = [{"key": k, "spec": v} for k, v in sorted(s.derived.items())]
     shortcuts = [
-        {"key": k, "writes": str(v.get("writes", ""))}
+        {
+            "key": k,
+            "writes": str(v.get("writes", "")),
+            # `inverse:` (the synthesized edge's reverse word) rides the
+            # ShapeDef so a pod write can register the verb on first sight.
+            **({"inverse": str(v["inverse"])} if v.get("inverse") else {}),
+        }
         for k, v in sorted(s.shortcuts.items())
         if isinstance(v, dict) and "writes" in v
     ]

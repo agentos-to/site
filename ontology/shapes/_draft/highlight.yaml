@@ -7,7 +7,7 @@ highlight:
     position:          string    # location in source (page number, timestamp, percentage)
     color:             string    # highlight color (yellow, green, blue, etc.)
   links:
-    extracted_from:    book      # or article, webpage — the source work
+    extracted_from:    book      # or article, document — the source work
     created_by:        person    # who highlighted it
   prior_art:
     - source: W3C Web Annotation Data Model

@@ -59,6 +59,7 @@ pub static DOCUMENT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("wordCount", FieldType::Integer),
     ],
     also: vec!["file".into()],
+    identity_any: vec!["sha".into(), "url".into()],
     display: Some(DisplaySpec {
         subtitle: Some("contentType".into()),
         body: Some("abstract".into()),

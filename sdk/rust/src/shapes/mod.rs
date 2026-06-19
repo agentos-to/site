@@ -135,7 +135,6 @@ pub mod user_identity;
 pub mod video;
 pub mod volume;
 pub mod vote;
-pub mod webpage;
 pub mod website;
 
 pub use account::{ACCOUNT, Account};
@@ -253,7 +252,6 @@ pub use user_identity::{USER_IDENTITY, UserIdentity};
 pub use video::{VIDEO, Video};
 pub use volume::{VOLUME, Volume};
 pub use vote::{VOTE, Vote};
-pub use webpage::{WEBPAGE, Webpage};
 pub use website::{WEBSITE, Website};
 
 // ===========================================================
@@ -377,7 +375,6 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "video" => Some(&VIDEO),
         "volume" => Some(&VOLUME),
         "vote" => Some(&VOTE),
-        "webpage" => Some(&WEBPAGE),
         "website" => Some(&WEBSITE),
         _ => None,
     }
@@ -1563,16 +1560,6 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &[],
     }),
-    ("webpage", Display {
-        title: None,
-        subtitle: Some("url"),
-        image: None,
-        highlights: &[],
-        body: None,
-        mono: None,
-        preview: &[],
-        also: &[],
-    }),
     ("website", Display {
         title: None,
         subtitle: Some("url"),
@@ -1709,7 +1696,6 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("video", &["durationMs", "resolution", "frameRate", "codec", "viewCount", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("volume", &["volume_id", "kind", "source", "address", "provider", "auto_mount", "readOnly", "removable", "ejectable", "totalBytes", "freeBytes", "scope", "icon", "default_view"]),
     ("vote", &["direction", "note", "instance"]),
-    ("webpage", &["visitCount", "lastVisitUnix", "contentType", "favicon", "error"]),
     ("website", &["status", "versionId", "anonymous", "claimToken", "claimUrl"]),
 ];
 
@@ -1837,7 +1823,6 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("video", "videos"),
     ("volume", "volumes"),
     ("vote", "votes"),
-    ("webpage", "webpages"),
     ("website", "websites"),
 ];
 
@@ -1918,4 +1903,4 @@ pub static SHAPE_DERIVED_JSON: &str = r#"{"issue": {"upvotes": {"count": "for", 
 // Shortcuts — per-shape `shortcuts:` block as JSON
 // ===========================================================
 
-pub static SHAPE_SHORTCUTS_JSON: &str = r#"{"person": {"birthdate": {"writes": "born_in[is=birth].startDate"}, "givenName": {"writes": "born_in[is=birth].givenName"}, "additionalName": {"writes": "born_in[is=birth].additionalName"}, "familyName": {"writes": "born_in[is=birth].familyName"}, "honorificPrefix": {"writes": "born_in[is=birth].honorificPrefix"}, "honorificSuffix": {"writes": "born_in[is=birth].honorificSuffix"}, "legalName": {"writes": "born_in[is=birth].legalName"}, "maidenName": {"writes": "born_in[is=birth].maidenName"}, "sortAs": {"writes": "born_in[is=birth].sortAs"}, "nameOrder": {"writes": "born_in[is=birth].nameOrder"}, "phoneticGivenName": {"writes": "born_in[is=birth].phoneticGivenName"}, "phoneticFamilyName": {"writes": "born_in[is=birth].phoneticFamilyName"}, "gender": {"writes": "born_in[is=birth].gender"}, "nickname": {"writes": "born_in[is=birth].nickname"}}}"#;
+pub static SHAPE_SHORTCUTS_JSON: &str = r#"{"person": {"birthdate": {"writes": "born_in[is=birth].startDate", "inverse": "birth_of"}, "givenName": {"writes": "born_in[is=birth].givenName"}, "additionalName": {"writes": "born_in[is=birth].additionalName"}, "familyName": {"writes": "born_in[is=birth].familyName"}, "honorificPrefix": {"writes": "born_in[is=birth].honorificPrefix"}, "honorificSuffix": {"writes": "born_in[is=birth].honorificSuffix"}, "legalName": {"writes": "born_in[is=birth].legalName"}, "maidenName": {"writes": "born_in[is=birth].maidenName"}, "sortAs": {"writes": "born_in[is=birth].sortAs"}, "nameOrder": {"writes": "born_in[is=birth].nameOrder"}, "phoneticGivenName": {"writes": "born_in[is=birth].phoneticGivenName"}, "phoneticFamilyName": {"writes": "born_in[is=birth].phoneticFamilyName"}, "gender": {"writes": "born_in[is=birth].gender"}, "nickname": {"writes": "born_in[is=birth].nickname"}}}"#;

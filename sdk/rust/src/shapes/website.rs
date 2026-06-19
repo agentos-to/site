@@ -3,7 +3,7 @@
 
 use super::sdk_prelude::*;
 
-/// A published website (not a single page — see webpage for that).
+/// A published website (not a single page — a single page is a document).
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", default)]
 pub struct Website {
@@ -24,7 +24,7 @@ pub struct Website {
 pub static WEBSITE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "website".into(),
     plural: Some("websites".into()),
-    description: Some("A published website (not a single page — see webpage for that).".into()),
+    description: Some("A published website (not a single page — a single page is a document).".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),

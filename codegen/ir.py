@@ -1043,6 +1043,26 @@ def _check_op_type(tref: TypeRef, known_types: set[str]) -> str | None:
     return None
 
 
+def _parse_writes_target(writes: str) -> tuple[str, str] | None:
+    """Parse a shortcut `writes:` target into `(link, target_shape)`.
+
+    `"born_in[is=birth].startDate"` → `("born_in", "birth")`. Mirrors the
+    engine's `parse_writes` (core `view/display.rs`); used by the lint to
+    group shortcuts by the edge they synthesize. None on malformed input.
+    """
+    link_with_filter, _, field = writes.rpartition(".")
+    if not field or "[" not in link_with_filter:
+        return None
+    link, _, filt = link_with_filter.partition("[")
+    filt = filt.rstrip("]")
+    if not filt.startswith("is="):
+        return None
+    target_shape = filt[len("is="):]
+    if not link or not target_shape:
+        return None
+    return (link, target_shape)
+
+
 def validate(onto: Ontology) -> list[tuple[str, str]]:
     """Lint the normalized tree. Returns `(severity, message)` pairs,
     severity ∈ `"error" | "warn"`.
@@ -1167,6 +1187,17 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
                     _check_binding(f"{where}.latest[{i}]", arm)
             else:
                 _check_binding(where, binding)
+        # A flat shortcut synthesizes an edge engine-side (`birthdate` →
+        # `born_in → birth`), so the ENGINE is the caller that must supply
+        # that edge's inverse — otherwise it mints a one-directional edge,
+        # which `create_link_with_volume_on` refuses at write time (but only
+        # on a fresh volume; a volume that already knows the verb hides the
+        # bug). We make that impossible at the source: every (link,
+        # target_shape) group a shape's shortcuts synthesize MUST declare an
+        # `inverse:` on at least one of its entries. Declared once per group;
+        # the engine expander applies it to the whole group. Hard error — the
+        # build refuses to ship a shortcut that could mint a one-way edge.
+        group_inverse: dict[tuple[str, str], str | None] = {}
         for flat_key, entry in (s.shortcuts or {}).items():
             where = f"shape {s.name!r}: shortcuts.{flat_key}"
             if not isinstance(entry, dict):
@@ -1176,6 +1207,25 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
             writes = entry.get("writes")
             if not isinstance(writes, str):
                 warn(f"{where}: missing or non-string `writes:` value")
+                continue
+            # Parse "born_in[is=birth].startDate" → (link, target_shape).
+            parsed = _parse_writes_target(writes)
+            if parsed is None:
+                err(f"{where}: malformed `writes:` {writes!r} — expected "
+                    f"'<link>[is=<shape>].<field>'")
+                continue
+            key = parsed
+            inv = entry.get("inverse")
+            if inv and not group_inverse.get(key):
+                group_inverse[key] = inv
+            group_inverse.setdefault(key, None)
+        for (link, target_shape), inv in group_inverse.items():
+            if not inv:
+                err(f"shape {s.name!r}: flat shortcut synthesizes edge "
+                    f"{link!r} → {target_shape!r} with no `inverse:`. The engine "
+                    f"would mint a one-directional edge. Declare `inverse: "
+                    f"<reverse word>` on one shortcut writing to "
+                    f"'{link}[is={target_shape}]…' (e.g. born_in ⇄ birth_of).")
 
     for c in onto.auth_contracts:
         for g in c.groups:

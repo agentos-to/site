@@ -7168,8 +7168,11 @@
         "icon": "description"
       },
       "identity": [],
-      "identity_any": [],
-      "leading_comment": "A document — any human-readable text content with structure and authorship.\nBase type for reports, manuscripts, briefs, whitepapers, analyses.\narticle, note, and webpage are siblings (not children) for now; they may\ngain also: [document] in a future migration once the shape stabilizes.",
+      "identity_any": [
+        "sha",
+        "url"
+      ],
+      "leading_comment": "A document — any human-readable text content with structure and authorship.\nBase type for reports, manuscripts, briefs, whitepapers, analyses, and a\nfetched web page (the engine's built-in web archive: one document per URL,\nbody = the page HTML, reader markdown derived at render).",
       "own_fields": [
         {
           "name": "contentType",
@@ -7226,7 +7229,7 @@
         }
       ],
       "source_path": "document.yaml",
-      "raw_body": "plural: documents\ndisplay:\n  icon: description\n  subtitle: contentType\n  highlights:\n  - datePublished\n  - author\n  - wordCount\n  body: abstract\nalso:\n- file\nfields:\n  contentType: string\n  language: string\n  wordCount: integer\n  abstract: text\n  tableOfContents: text\nprior_art:\n- source: Dublin Core Metadata Initiative\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: \"Our contentType \\u2248 dc:format; language = dc:language; author = dc:creator;\\\n    \\ references/citedBy \\u2248 dc:relation.\"\n- source: schema.org/DigitalDocument\n  url: https://schema.org/DigitalDocument\n  notes: \"Our abstract \\u2248 abstract; tableOfContents = hasPart or accessModeSufficient;\\\n    \\ wordCount = wordCount.\"\n- source: W3C Web Annotation Data Model\n  url: https://www.w3.org/TR/annotation-model/\n  notes: Our references[]/citedBy[] are annotation target/body relationships between\n    documents.\n",
+      "raw_body": "plural: documents\nidentity_any:\n- sha\n- url\ndisplay:\n  icon: description\n  subtitle: contentType\n  highlights:\n  - datePublished\n  - author\n  - wordCount\n  body: abstract\nalso:\n- file\nfields:\n  contentType: string\n  language: string\n  wordCount: integer\n  abstract: text\n  tableOfContents: text\nprior_art:\n- source: Dublin Core Metadata Initiative\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: \"Our contentType \\u2248 dc:format; language = dc:language; author = dc:creator;\\\n    \\ references/citedBy \\u2248 dc:relation.\"\n- source: schema.org/DigitalDocument\n  url: https://schema.org/DigitalDocument\n  notes: \"Our abstract \\u2248 abstract; tableOfContents = hasPart or accessModeSufficient;\\\n    \\ wordCount = wordCount.\"\n- source: W3C Web Annotation Data Model\n  url: https://www.w3.org/TR/annotation-model/\n  notes: Our references[]/citedBy[] are annotation target/body relationships between\n    documents.\n",
       "ancestors": [
         "file"
       ],
@@ -20950,7 +20953,7 @@
         }
       ],
       "source_path": "person.yaml",
-      "raw_body": "plural: people\nidentity_any:\n- url\nalso:\n- actor\nfields:\n  url: string\n  notes: text\n  about: text\nderived:\n  birthdate:\n    find: born_in\n    is: birth\n    get: startDate\n  current_residence:\n    find: lived_at\n    where_link:\n      to: null\n    get: name\n  current_role:\n    find: worked_at\n    where_link:\n      to: null\n    get: title\n  givenName:\n    latest:\n    - find: born_in\n      is: birth\n      get: givenName\n    - find: changed\n      is: transition\n      get: givenName\n  additionalName:\n    latest:\n    - find: born_in\n      is: birth\n      get: additionalName\n    - find: changed\n      is: transition\n      get: additionalName\n  familyName:\n    latest:\n    - find: born_in\n      is: birth\n      get: familyName\n    - find: changed\n      is: transition\n      get: familyName\n  honorificPrefix:\n    latest:\n    - find: born_in\n      is: birth\n      get: honorificPrefix\n    - find: changed\n      is: transition\n      get: honorificPrefix\n  honorificSuffix:\n    latest:\n    - find: born_in\n      is: birth\n      get: honorificSuffix\n    - find: changed\n      is: transition\n      get: honorificSuffix\n  legalName:\n    latest:\n    - find: born_in\n      is: birth\n      get: legalName\n    - find: changed\n      is: transition\n      get: legalName\n  maidenName:\n    latest:\n    - find: born_in\n      is: birth\n      get: maidenName\n    - find: changed\n      is: transition\n      get: maidenName\n  sortAs:\n    latest:\n    - find: born_in\n      is: birth\n      get: sortAs\n    - find: changed\n      is: transition\n      get: sortAs\n  nameOrder:\n    latest:\n    - find: born_in\n      is: birth\n      get: nameOrder\n    - find: changed\n      is: transition\n      get: nameOrder\n  phoneticGivenName:\n    latest:\n    - find: born_in\n      is: birth\n      get: phoneticGivenName\n    - find: changed\n      is: transition\n      get: phoneticGivenName\n  phoneticFamilyName:\n    latest:\n    - find: born_in\n      is: birth\n      get: phoneticFamilyName\n    - find: changed\n      is: transition\n      get: phoneticFamilyName\n  gender:\n    latest:\n    - find: born_in\n      is: birth\n      get: gender\n    - find: changed\n      is: transition\n      get: gender\n  nickname:\n    latest:\n    - find: born_in\n      is: birth\n      get: nickname\n    - find: changed\n      is: transition\n      get: nickname\nshortcuts:\n  birthdate:\n    writes: born_in[is=birth].startDate\n  givenName:\n    writes: born_in[is=birth].givenName\n  additionalName:\n    writes: born_in[is=birth].additionalName\n  familyName:\n    writes: born_in[is=birth].familyName\n  honorificPrefix:\n    writes: born_in[is=birth].honorificPrefix\n  honorificSuffix:\n    writes: born_in[is=birth].honorificSuffix\n  legalName:\n    writes: born_in[is=birth].legalName\n  maidenName:\n    writes: born_in[is=birth].maidenName\n  sortAs:\n    writes: born_in[is=birth].sortAs\n  nameOrder:\n    writes: born_in[is=birth].nameOrder\n  phoneticGivenName:\n    writes: born_in[is=birth].phoneticGivenName\n  phoneticFamilyName:\n    writes: born_in[is=birth].phoneticFamilyName\n  gender:\n    writes: born_in[is=birth].gender\n  nickname:\n    writes: born_in[is=birth].nickname\ndisplay:\n  icon: person\n  image: image\n  subtitle: about\n  highlights:\n  - birthdate\n  - gender\n  body: notes\ngroups:\n  Name:\n  - givenName\n  - additionalName\n  - familyName\n  - nickname\n  - legalName\n  - maidenName\n  Personal:\n  - birthdate\n  - gender\n  - current_residence\n  - current_role\n  About:\n  - about\n  - notes\n  - url\nprior_art:\n- source: schema.org/Person\n  url: https://schema.org/Person\n  notes: \"Our givenName / familyName / additionalName / honorificPrefix / honorificSuffix\\\n    \\ live on `birth.yaml` (and `transition.yaml`), not on the person node itself\\\n    \\ \\u2014 schema.org's `birthDate` lives on the `--born_in--> birth { startDate\\\n    \\ }` relationship per rule 1. We diverge by modeling accounts[] as a first-class\\\n    \\ relation rather than sameAs URLs.\"\n- source: \"vCard 4.0 (RFC 6350) \\xA76.2.2 N property + \\xA75.9 SORT-AS\"\n  url: https://datatracker.ietf.org/doc/html/rfc6350#section-6.2.2\n  notes: The N property is `family;given;additional;prefixes;suffixes`, each comma-multi-valued.\n    Round-trips exactly through the birth event's structured name fields.\n- source: \"W3C i18n \\u2014 Personal names around the world\"\n  url: https://www.w3.org/International/questions/qa-personal-names\n  notes: Canonical reference for why \"first/last\" is a Western bias. CJK names put\n    family first. Spanish uses two surnames. Icelandic uses patronymics without family\n    names. The birth event's `nameOrder` field captures the rendering rule; structured\n    fields stay neutral.\n- source: FOAF (Friend of a Friend)\n  url: http://xmlns.com/foaf/spec/\n  notes: Original social-graph vocabulary. Largely superseded by schema.org but still\n    a reference for account-centric modeling.\n",
+      "raw_body": "plural: people\nidentity_any:\n- url\nalso:\n- actor\nfields:\n  url: string\n  notes: text\n  about: text\nderived:\n  birthdate:\n    find: born_in\n    is: birth\n    get: startDate\n  current_residence:\n    find: lived_at\n    where_link:\n      to: null\n    get: name\n  current_role:\n    find: worked_at\n    where_link:\n      to: null\n    get: title\n  givenName:\n    latest:\n    - find: born_in\n      is: birth\n      get: givenName\n    - find: changed\n      is: transition\n      get: givenName\n  additionalName:\n    latest:\n    - find: born_in\n      is: birth\n      get: additionalName\n    - find: changed\n      is: transition\n      get: additionalName\n  familyName:\n    latest:\n    - find: born_in\n      is: birth\n      get: familyName\n    - find: changed\n      is: transition\n      get: familyName\n  honorificPrefix:\n    latest:\n    - find: born_in\n      is: birth\n      get: honorificPrefix\n    - find: changed\n      is: transition\n      get: honorificPrefix\n  honorificSuffix:\n    latest:\n    - find: born_in\n      is: birth\n      get: honorificSuffix\n    - find: changed\n      is: transition\n      get: honorificSuffix\n  legalName:\n    latest:\n    - find: born_in\n      is: birth\n      get: legalName\n    - find: changed\n      is: transition\n      get: legalName\n  maidenName:\n    latest:\n    - find: born_in\n      is: birth\n      get: maidenName\n    - find: changed\n      is: transition\n      get: maidenName\n  sortAs:\n    latest:\n    - find: born_in\n      is: birth\n      get: sortAs\n    - find: changed\n      is: transition\n      get: sortAs\n  nameOrder:\n    latest:\n    - find: born_in\n      is: birth\n      get: nameOrder\n    - find: changed\n      is: transition\n      get: nameOrder\n  phoneticGivenName:\n    latest:\n    - find: born_in\n      is: birth\n      get: phoneticGivenName\n    - find: changed\n      is: transition\n      get: phoneticGivenName\n  phoneticFamilyName:\n    latest:\n    - find: born_in\n      is: birth\n      get: phoneticFamilyName\n    - find: changed\n      is: transition\n      get: phoneticFamilyName\n  gender:\n    latest:\n    - find: born_in\n      is: birth\n      get: gender\n    - find: changed\n      is: transition\n      get: gender\n  nickname:\n    latest:\n    - find: born_in\n      is: birth\n      get: nickname\n    - find: changed\n      is: transition\n      get: nickname\nshortcuts:\n  birthdate:\n    writes: born_in[is=birth].startDate\n    inverse: birth_of\n  givenName:\n    writes: born_in[is=birth].givenName\n  additionalName:\n    writes: born_in[is=birth].additionalName\n  familyName:\n    writes: born_in[is=birth].familyName\n  honorificPrefix:\n    writes: born_in[is=birth].honorificPrefix\n  honorificSuffix:\n    writes: born_in[is=birth].honorificSuffix\n  legalName:\n    writes: born_in[is=birth].legalName\n  maidenName:\n    writes: born_in[is=birth].maidenName\n  sortAs:\n    writes: born_in[is=birth].sortAs\n  nameOrder:\n    writes: born_in[is=birth].nameOrder\n  phoneticGivenName:\n    writes: born_in[is=birth].phoneticGivenName\n  phoneticFamilyName:\n    writes: born_in[is=birth].phoneticFamilyName\n  gender:\n    writes: born_in[is=birth].gender\n  nickname:\n    writes: born_in[is=birth].nickname\ndisplay:\n  icon: person\n  image: image\n  subtitle: about\n  highlights:\n  - birthdate\n  - gender\n  body: notes\ngroups:\n  Name:\n  - givenName\n  - additionalName\n  - familyName\n  - nickname\n  - legalName\n  - maidenName\n  Personal:\n  - birthdate\n  - gender\n  - current_residence\n  - current_role\n  About:\n  - about\n  - notes\n  - url\nprior_art:\n- source: schema.org/Person\n  url: https://schema.org/Person\n  notes: \"Our givenName / familyName / additionalName / honorificPrefix / honorificSuffix\\\n    \\ live on `birth.yaml` (and `transition.yaml`), not on the person node itself\\\n    \\ \\u2014 schema.org's `birthDate` lives on the `--born_in--> birth { startDate\\\n    \\ }` relationship per rule 1. We diverge by modeling accounts[] as a first-class\\\n    \\ relation rather than sameAs URLs.\"\n- source: \"vCard 4.0 (RFC 6350) \\xA76.2.2 N property + \\xA75.9 SORT-AS\"\n  url: https://datatracker.ietf.org/doc/html/rfc6350#section-6.2.2\n  notes: The N property is `family;given;additional;prefixes;suffixes`, each comma-multi-valued.\n    Round-trips exactly through the birth event's structured name fields.\n- source: \"W3C i18n \\u2014 Personal names around the world\"\n  url: https://www.w3.org/International/questions/qa-personal-names\n  notes: Canonical reference for why \"first/last\" is a Western bias. CJK names put\n    family first. Spanish uses two surnames. Icelandic uses patronymics without family\n    names. The birth event's `nameOrder` field captures the rendering rule; structured\n    fields stay neutral.\n- source: FOAF (Friend of a Friend)\n  url: http://xmlns.com/foaf/spec/\n  notes: Original social-graph vocabulary. Largely superseded by schema.org but still\n    a reference for account-centric modeling.\n",
       "ancestors": [
         "actor"
       ],
@@ -21195,7 +21198,8 @@
       ],
       "shortcuts": {
         "birthdate": {
-          "writes": "born_in[is=birth].startDate"
+          "writes": "born_in[is=birth].startDate",
+          "inverse": "birth_of"
         },
         "givenName": {
           "writes": "born_in[is=birth].givenName"
@@ -25091,7 +25095,7 @@
       },
       "identity": [],
       "identity_any": [],
-      "leading_comment": "A search result — a pointer to something found. Not the thing itself.\nA search might return webpages, products, people, articles — anything.\nThe result just carries search-specific metadata (when indexed, what type).",
+      "leading_comment": "A search result — a pointer to something found. Not the thing itself.\nA search might return documents, products, people, articles — anything.\nThe result just carries search-specific metadata (when indexed, what type).",
       "own_fields": [
         {
           "name": "indexedAt",
@@ -33106,191 +33110,6 @@
       "prefs_schemas": {}
     },
     {
-      "name": "webpage",
-      "class_name": "Webpage",
-      "fields": [
-        {
-          "name": "id",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "text",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "url",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "image",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "author",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "datePublished",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "content",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "contentType",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "error",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "favicon",
-          "type": "url",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "lastVisitUnix",
-          "type": "integer",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "visitCount",
-          "type": "integer",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        }
-      ],
-      "also": [],
-      "timed": null,
-      "plural": "webpages",
-      "subtitle": "url",
-      "display": {
-        "title": null,
-        "subtitle": "url",
-        "image": null,
-        "highlights": [],
-        "body": null,
-        "mono": null,
-        "preview": {},
-        "icon": "web"
-      },
-      "identity": [
-        "url"
-      ],
-      "identity_any": [],
-      "leading_comment": "A web page. Base type for search result. Also used for browser history\nand as a generic container when reading arbitrary URLs.",
-      "own_fields": [
-        {
-          "name": "visitCount",
-          "type": "integer",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "lastVisitUnix",
-          "type": "integer",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "contentType",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "favicon",
-          "type": "url",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "error",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        }
-      ],
-      "own_relations": [],
-      "prior_art": [
-        {
-          "source": "schema.org/WebPage",
-          "url": "https://schema.org/WebPage",
-          "notes": "Our URL-as-identity matches schema.org's @id/url convention; contentType ≈ encodingFormat."
-        },
-        {
-          "source": "HTTP semantics (RFC 9110)",
-          "url": "https://datatracker.ietf.org/doc/html/rfc9110",
-          "notes": "Our contentType is the Content-Type response header; error ≈ non-2xx status text."
-        },
-        {
-          "source": "Chrome history / WebExtensions History API",
-          "url": "https://developer.chrome.com/docs/extensions/reference/api/history",
-          "notes": "Practical source. Our visitCount/lastVisitUnix lift from the history API's VisitItem structure."
-        }
-      ],
-      "source_path": "webpage.yaml",
-      "raw_body": "plural: webpages\nidentity: url\ndisplay:\n  icon: web\n  subtitle: url\nfields:\n  visitCount: integer\n  lastVisitUnix: integer\n  contentType: string\n  favicon: url\n  error: string\nprior_art:\n- source: schema.org/WebPage\n  url: https://schema.org/WebPage\n  notes: \"Our URL-as-identity matches schema.org's @id/url convention; contentType\\\n    \\ \\u2248 encodingFormat.\"\n- source: HTTP semantics (RFC 9110)\n  url: https://datatracker.ietf.org/doc/html/rfc9110\n  notes: \"Our contentType is the Content-Type response header; error \\u2248 non-2xx\\\n    \\ status text.\"\n- source: Chrome history / WebExtensions History API\n  url: https://developer.chrome.com/docs/extensions/reference/api/history\n  notes: Practical source. Our visitCount/lastVisitUnix lift from the history API's\n    VisitItem structure.\n",
-      "ancestors": [],
-      "field_order": [
-        "visitCount",
-        "lastVisitUnix",
-        "contentType",
-        "favicon",
-        "error"
-      ],
-      "derived": {},
-      "groups": [],
-      "shortcuts": {},
-      "prefs_schemas": {}
-    },
-    {
       "name": "website",
       "class_name": "Website",
       "fields": [
@@ -33404,7 +33223,7 @@
         "url"
       ],
       "identity_any": [],
-      "leading_comment": "A published website (not a single page — see webpage for that).\nWebsites are created/managed by the here.now publishing app.",
+      "leading_comment": "A published website (not a single page — a single page is a document).\nWebsites are created/managed by the here.now publishing app.",
       "own_fields": [
         {
           "name": "status",

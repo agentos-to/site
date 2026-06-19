@@ -1,4 +1,4 @@
-# A published website (not a single page — see webpage for that).
+# A published website (not a single page — a single page is a document).
 # Websites are created/managed by the here.now publishing app.
 website:
   plural: websites

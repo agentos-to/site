@@ -110,7 +110,11 @@ person:
   # `birthplace` deferred to V2 — relation-write semantics (`location` is
   # a relation on event/birth, not a val) need a richer expander.
   shortcuts:
-    birthdate:          {writes: "born_in[is=birth].startDate"}
+    # `inverse:` declares the synthesized `born_in` edge's reverse word
+    # once for the whole group — the expander applies it to every born_in
+    # shortcut below, so flat-create registers the verb on a fresh pod
+    # instead of hard-erroring `inverse required`.
+    birthdate:          {writes: "born_in[is=birth].startDate", inverse: birth_of}
     givenName:          {writes: "born_in[is=birth].givenName"}
     additionalName:     {writes: "born_in[is=birth].additionalName"}
     familyName:         {writes: "born_in[is=birth].familyName"}
