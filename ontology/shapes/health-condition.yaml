@@ -2,13 +2,17 @@
 # concern. "Asthma", "deviated septum", "seborrheic dermatitis", or a
 # family risk like "aortic aneurysm in extended family".
 #
-# `proximity` is what makes one shape cover both personal conditions and
-# family history: 'self' = a condition you have; 'father' / 'mother' /
-# 'sibling' / 'extended-family' = a hereditary concern. FHIR splits these
-# into Condition vs FamilyMemberHistory; we deliberately unify them,
-# because for a personal health graph "what runs in my family" and "what
-# I have" are the same question asked at different proximities. (Joe's
-# prior LifeOS `concerns` table already modeled it exactly this way.)
+# One shape covers both your own conditions and family history. The
+# difference is never a field — it is which person the condition is wired
+# to: `experienced_by -> person(you)` is a condition you have;
+# `experienced_by -> person(your father)`, reachable via the family tree
+# (`you -child_of-> father`), is a hereditary concern. FHIR splits these
+# into Condition vs FamilyMemberHistory; we unify the noun and let the
+# *edge* carry whose. "Proximity" (self / father / extended-family) is NOT
+# stored — it is a read-time projection of the path from the viewer to the
+# condition's subject, and is viewer-relative (your father's condition is
+# 'father' to you, 'self' to him). The graph stores what happened; FHIR is
+# a lens that reads it, never a schema the graph conforms to.
 #
 # `also: [note]` — a condition is a kind of note: private text content
 # about your health, authored by you. It can reference other notes and
@@ -34,7 +38,6 @@ health-condition:
   fields:
     clinicalStatus:   string    # active | recurrence | relapse | inactive | remission | resolved
     verificationStatus: string  # confirmed | provisional | differential | refuted | unconfirmed
-    proximity:        string    # self | father | mother | sibling | extended-family — WHOSE condition
     bodySite:         string    # anatomical location, plain text — "nasal septum", "upper back"
     severity:         string    # mild | moderate | severe
     # Onset = startDate, abatement = endDate (inherited from event via also).
@@ -52,15 +55,18 @@ health-condition:
       notes: >-
         The resource for a problem/diagnosis. Our clinicalStatus,
         verificationStatus, severity, bodySite, onsetDate, abatementDate
-        map directly. proximity='self' is a plain FHIR Condition.
+        map directly. A condition experienced_by you is a plain FHIR
+        Condition.
     - source: HL7 FHIR R5 — FamilyMemberHistory
       url: https://www.hl7.org/fhir/familymemberhistory.html
       notes: >-
-        FHIR's separate resource for hereditary risk. We fold it in via
-        proximity — proximity='father'|'extended-family' makes a condition
-        node a family-history entry. FamilyMemberHistory.condition ≈ this
-        node; FamilyMemberHistory.relationship ≈ our proximity. Deliberate
-        divergence from FHIR's two-resource split.
+        FHIR's separate resource for hereditary risk. We fold it into the
+        same shape: a family-history entry is this node wired
+        `experienced_by -> person(the relative)`, reachable via the family
+        tree. FamilyMemberHistory.condition ≈ this node;
+        FamilyMemberHistory.relationship ≈ the family-tree path, derived at
+        read, never a stored field. Deliberate divergence from FHIR's
+        two-resource split.
     - source: SNOMED CT
       url: https://www.snomed.org/
       notes: >-

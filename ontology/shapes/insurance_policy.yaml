@@ -4,7 +4,7 @@
 # homeowners, umbrella, travel, life, disability, pet. The `coverageType`
 # discriminator is what lets a single shape span all of them — the same
 # move `membership` makes to fold in subscriptions, and `health-condition`
-# makes to fold in family history via `proximity`.
+# makes to fold in family history via the `experienced_by` edge.
 #
 # `also: [membership]` — an insurance policy IS a membership: a paid,
 # time-bounded, recurring right granted by an organization. The lifecycle

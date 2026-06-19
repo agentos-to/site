@@ -51,6 +51,17 @@ measure:
     refText:          string    # SNAPSHOT: verbatim range string from this specific report
     flag:             string    # DERIVED — low | normal | high | critical. Convenience only.
     status:           string    # FHIR status — final, preliminary, amended, corrected
+    method:           string    # SNAPSHOT: the assay/instrument THIS report used —
+                                # "LC-MS/MS", "direct immunoassay", "ECLIA",
+                                # "calc from total T + SHBG". FHIR Observation.method.
+                                # A frozen historical fact about this one measurement,
+                                # same category as refLow/refHigh/refText: the method is
+                                # what decides whether two values are comparable at all
+                                # (a direct-immunoassay testosterone is NOT the same
+                                # quantity as a mass-spec one). health-reference-range.
+                                # method models method on the range; this carries it on
+                                # the measure itself, because the measure must stay
+                                # interpretable even when no reference-range node exists.
     notes:            text      # annotations on this specific measurement
   prior_art:
     - source: HL7 FHIR R5 — Observation
@@ -59,7 +70,8 @@ measure:
         The canonical resource for a measured value. value (with its UCUM unit)
         ≈ valueQuantity; at ≈ effectiveDateTime; refLow/refHigh/refText ≈
         the referenceRange backbone (the inline snapshot); flag ≈
-        interpretation; status ≈ status. `measures` ≈ code resolved to a
+        interpretation; status ≈ status; method ≈ Observation.method (the
+        assay, snapshotted on the measure). `measures` ≈ code resolved to a
         biomarker. FHIR has no normalized-range link — our `reportedRange` link
         adds that.
     - source: HL7 v2.x — OBX segment
