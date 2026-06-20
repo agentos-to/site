@@ -27,7 +27,6 @@ pub struct HealthCondition {
     pub icd10code: Option<String>,
     pub mitigation: Option<String>,
     pub properties: Option<serde_json::Value>,
-    pub proximity: Option<String>,
     pub recurrence: Option<Vec<String>>,
     pub severity: Option<String>,
     pub show_as: Option<String>,
@@ -66,7 +65,6 @@ pub static HEALTH_CONDITION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("icd10Code", FieldType::String),
         FieldDef::optional("mitigation", FieldType::Text),
         FieldDef::optional("properties", FieldType::Json),
-        FieldDef::optional("proximity", FieldType::String),
         FieldDef::optional("recurrence", FieldType::StringList),
         FieldDef::optional("severity", FieldType::String),
         FieldDef::optional("showAs", FieldType::String),
@@ -87,8 +85,8 @@ pub static HEALTH_CONDITION: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         ..DisplaySpec::default()
     }),
     prior_art: vec![
-        PriorArtDef { source: "HL7 FHIR R5 — Condition".into(), url: Some("https://www.hl7.org/fhir/condition.html".into()), notes: Some("The resource for a problem/diagnosis. Our clinicalStatus, verificationStatus, severity, bodySite, onsetDate, abatementDate map directly. proximity='self' is a plain FHIR Condition.".into()) },
-        PriorArtDef { source: "HL7 FHIR R5 — FamilyMemberHistory".into(), url: Some("https://www.hl7.org/fhir/familymemberhistory.html".into()), notes: Some("FHIR's separate resource for hereditary risk. We fold it in via proximity — proximity='father'|'extended-family' makes a condition node a family-history entry. FamilyMemberHistory.condition ≈ this node; FamilyMemberHistory.relationship ≈ our proximity. Deliberate divergence from FHIR's two-resource split.".into()) },
+        PriorArtDef { source: "HL7 FHIR R5 — Condition".into(), url: Some("https://www.hl7.org/fhir/condition.html".into()), notes: Some("The resource for a problem/diagnosis. Our clinicalStatus, verificationStatus, severity, bodySite, onsetDate, abatementDate map directly. A condition experienced_by you is a plain FHIR Condition.".into()) },
+        PriorArtDef { source: "HL7 FHIR R5 — FamilyMemberHistory".into(), url: Some("https://www.hl7.org/fhir/familymemberhistory.html".into()), notes: Some("FHIR's separate resource for hereditary risk. We fold it into the same shape: a family-history entry is this node wired `experienced_by -> person(the relative)`, reachable via the family tree. FamilyMemberHistory.condition ≈ this node; FamilyMemberHistory.relationship ≈ the family-tree path, derived at read, never a stored field. Deliberate divergence from FHIR's two-resource split.".into()) },
         PriorArtDef { source: "SNOMED CT".into(), url: Some("https://www.snomed.org/".into()), notes: Some("The universal clinical terminology. snomedCode is the canonical identity (asthma 195967001, eczema 43116000). FHIR Condition.code is SNOMED-coded; this is the join key to the wider clinical world.".into()) },
         PriorArtDef { source: "ICD-10-CM".into(), url: Some("https://www.cdc.gov/nchs/icd/icd-10-cm.htm".into()), notes: Some("The diagnosis/billing code system. icd10Code captures the code when it appears on an insurance claim or discharge summary — complements (does not replace) SNOMED.".into()) },
     ],

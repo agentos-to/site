@@ -40,6 +40,11 @@ measure:
   display:
     icon: vital_signs
     subtitle: at
+    # The measured quantity IS the row — promote it so a measures listing
+    # shows the value (with its UCUM unit, which now rides the row) by
+    # default, not just name + date. `flag` rides alongside as the
+    # at-a-glance interpretation (low / normal / high / critical).
+    highlights: [value, flag]
   fields:
     at:               datetime  # point measure — when this value was measured (UTC preferred)
     start:            datetime  # span measure — when measurement began

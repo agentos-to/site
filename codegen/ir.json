@@ -10924,13 +10924,6 @@
           "target": null
         },
         {
-          "name": "proximity",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
           "name": "recurrence",
           "type": "string[]",
           "is_relation": false,
@@ -11033,7 +11026,7 @@
         "snomedCode",
         "name"
       ],
-      "leading_comment": "A health condition — a diagnosis, problem, symptom, or family-history\nconcern. \"Asthma\", \"deviated septum\", \"seborrheic dermatitis\", or a\nfamily risk like \"aortic aneurysm in extended family\".\n\n`proximity` is what makes one shape cover both personal conditions and\nfamily history: 'self' = a condition you have; 'father' / 'mother' /\n'sibling' / 'extended-family' = a hereditary concern. FHIR splits these\ninto Condition vs FamilyMemberHistory; we deliberately unify them,\nbecause for a personal health graph \"what runs in my family\" and \"what\nI have\" are the same question asked at different proximities. (Joe's\nprior LifeOS `concerns` table already modeled it exactly this way.)\n\n`also: [note]` — a condition is a kind of note: private text content\nabout your health, authored by you. It can reference other notes and\ncarry free-form body content (history, mitigation plan).\n\n`bodySite` is a plain string. Anatomy is NOT modeled as its own shape —\na personal health graph has too few distinct sites for an anatomy\nontology to earn its keep. If that changes, a structured body-structure\nshape can be added as a purely additive migration.\n\nSNOMED CT is the universal clinical terminology — `snomedCode` is the\njoin key (asthma = 195967001). ICD-10-CM is the billing/diagnosis code.\n\n`name` (inherited) is the condition name — \"Asthma\", \"Deviated Septum\".",
+      "leading_comment": "A health condition — a diagnosis, problem, symptom, or family-history\nconcern. \"Asthma\", \"deviated septum\", \"seborrheic dermatitis\", or a\nfamily risk like \"aortic aneurysm in extended family\".\n\nOne shape covers both your own conditions and family history. The\ndifference is never a field — it is which person the condition is wired\nto: `experienced_by -> person(you)` is a condition you have;\n`experienced_by -> person(your father)`, reachable via the family tree\n(`you -child_of-> father`), is a hereditary concern. FHIR splits these\ninto Condition vs FamilyMemberHistory; we unify the noun and let the\n*edge* carry whose. \"Proximity\" (self / father / extended-family) is NOT\nstored — it is a read-time projection of the path from the viewer to the\ncondition's subject, and is viewer-relative (your father's condition is\n'father' to you, 'self' to him). The graph stores what happened; FHIR is\na lens that reads it, never a schema the graph conforms to.\n\n`also: [note]` — a condition is a kind of note: private text content\nabout your health, authored by you. It can reference other notes and\ncarry free-form body content (history, mitigation plan).\n\n`bodySite` is a plain string. Anatomy is NOT modeled as its own shape —\na personal health graph has too few distinct sites for an anatomy\nontology to earn its keep. If that changes, a structured body-structure\nshape can be added as a purely additive migration.\n\nSNOMED CT is the universal clinical terminology — `snomedCode` is the\njoin key (asthma = 195967001). ICD-10-CM is the billing/diagnosis code.\n\n`name` (inherited) is the condition name — \"Asthma\", \"Deviated Septum\".",
       "own_fields": [
         {
           "name": "clinicalStatus",
@@ -11044,13 +11037,6 @@
         },
         {
           "name": "verificationStatus",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "proximity",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -11104,12 +11090,12 @@
         {
           "source": "HL7 FHIR R5 — Condition",
           "url": "https://www.hl7.org/fhir/condition.html",
-          "notes": "The resource for a problem/diagnosis. Our clinicalStatus, verificationStatus, severity, bodySite, onsetDate, abatementDate map directly. proximity='self' is a plain FHIR Condition."
+          "notes": "The resource for a problem/diagnosis. Our clinicalStatus, verificationStatus, severity, bodySite, onsetDate, abatementDate map directly. A condition experienced_by you is a plain FHIR Condition."
         },
         {
           "source": "HL7 FHIR R5 — FamilyMemberHistory",
           "url": "https://www.hl7.org/fhir/familymemberhistory.html",
-          "notes": "FHIR's separate resource for hereditary risk. We fold it in via proximity — proximity='father'|'extended-family' makes a condition node a family-history entry. FamilyMemberHistory.condition ≈ this node; FamilyMemberHistory.relationship ≈ our proximity. Deliberate divergence from FHIR's two-resource split."
+          "notes": "FHIR's separate resource for hereditary risk. We fold it into the same shape: a family-history entry is this node wired `experienced_by -> person(the relative)`, reachable via the family tree. FamilyMemberHistory.condition ≈ this node; FamilyMemberHistory.relationship ≈ the family-tree path, derived at read, never a stored field. Deliberate divergence from FHIR's two-resource split."
         },
         {
           "source": "SNOMED CT",
@@ -11123,14 +11109,13 @@
         }
       ],
       "source_path": "health-condition.yaml",
-      "raw_body": "plural: health-conditions\nalso:\n- event\nidentity_any:\n- snomedCode\n- name\ndisplay:\n  icon: sick\n  subtitle: clinicalStatus\nfields:\n  clinicalStatus: string\n  verificationStatus: string\n  proximity: string\n  bodySite: string\n  severity: string\n  snomedCode: string\n  icd10Code: string\n  clinicalArea: string\n  mitigation: text\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Condition\"\n  url: https://www.hl7.org/fhir/condition.html\n  notes: The resource for a problem/diagnosis. Our clinicalStatus, verificationStatus,\n    severity, bodySite, onsetDate, abatementDate map directly. proximity='self' is\n    a plain FHIR Condition.\n- source: \"HL7 FHIR R5 \\u2014 FamilyMemberHistory\"\n  url: https://www.hl7.org/fhir/familymemberhistory.html\n  notes: \"FHIR's separate resource for hereditary risk. We fold it in via proximity\\\n    \\ \\u2014 proximity='father'|'extended-family' makes a condition node a family-history\\\n    \\ entry. FamilyMemberHistory.condition \\u2248 this node; FamilyMemberHistory.relationship\\\n    \\ \\u2248 our proximity. Deliberate divergence from FHIR's two-resource split.\"\n- source: SNOMED CT\n  url: https://www.snomed.org/\n  notes: The universal clinical terminology. snomedCode is the canonical identity\n    (asthma 195967001, eczema 43116000). FHIR Condition.code is SNOMED-coded; this\n    is the join key to the wider clinical world.\n- source: ICD-10-CM\n  url: https://www.cdc.gov/nchs/icd/icd-10-cm.htm\n  notes: \"The diagnosis/billing code system. icd10Code captures the code when it appears\\\n    \\ on an insurance claim or discharge summary \\u2014 complements (does not replace)\\\n    \\ SNOMED.\"\n",
+      "raw_body": "plural: health-conditions\nalso:\n- event\nidentity_any:\n- snomedCode\n- name\ndisplay:\n  icon: sick\n  subtitle: clinicalStatus\nfields:\n  clinicalStatus: string\n  verificationStatus: string\n  bodySite: string\n  severity: string\n  snomedCode: string\n  icd10Code: string\n  clinicalArea: string\n  mitigation: text\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Condition\"\n  url: https://www.hl7.org/fhir/condition.html\n  notes: The resource for a problem/diagnosis. Our clinicalStatus, verificationStatus,\n    severity, bodySite, onsetDate, abatementDate map directly. A condition experienced_by\n    you is a plain FHIR Condition.\n- source: \"HL7 FHIR R5 \\u2014 FamilyMemberHistory\"\n  url: https://www.hl7.org/fhir/familymemberhistory.html\n  notes: \"FHIR's separate resource for hereditary risk. We fold it into the same shape:\\\n    \\ a family-history entry is this node wired `experienced_by -> person(the relative)`,\\\n    \\ reachable via the family tree. FamilyMemberHistory.condition \\u2248 this node;\\\n    \\ FamilyMemberHistory.relationship \\u2248 the family-tree path, derived at read,\\\n    \\ never a stored field. Deliberate divergence from FHIR's two-resource split.\"\n- source: SNOMED CT\n  url: https://www.snomed.org/\n  notes: The universal clinical terminology. snomedCode is the canonical identity\n    (asthma 195967001, eczema 43116000). FHIR Condition.code is SNOMED-coded; this\n    is the join key to the wider clinical world.\n- source: ICD-10-CM\n  url: https://www.cdc.gov/nchs/icd/icd-10-cm.htm\n  notes: \"The diagnosis/billing code system. icd10Code captures the code when it appears\\\n    \\ on an insurance claim or discharge summary \\u2014 complements (does not replace)\\\n    \\ SNOMED.\"\n",
       "ancestors": [
         "event"
       ],
       "field_order": [
         "clinicalStatus",
         "verificationStatus",
-        "proximity",
         "bodySite",
         "severity",
         "snomedCode",
@@ -14145,7 +14130,7 @@
         "policyNumber"
       ],
       "identity_any": [],
-      "leading_comment": "A contract of indemnity — one party (the insured) pays premiums to a\ncarrier in exchange for a promise to cover defined losses. ONE shape\ncovers every line of insurance: health, dental, vision, auto, renters,\nhomeowners, umbrella, travel, life, disability, pet. The `coverageType`\ndiscriminator is what lets a single shape span all of them — the same\nmove `membership` makes to fold in subscriptions, and `health-condition`\nmakes to fold in family history via `proximity`.\n\n`also: [membership]` — an insurance policy IS a membership: a paid,\ntime-bounded, recurring right granted by an organization. The lifecycle\nis identical and fully inherited, not re-declared:\n- status      (active | lapsed | cancelled | expired | pending)\n- price       → the PREMIUM (per-billing-cycle), with currency\n- billingType (monthly | annual | …) + autoRenew\n- term dates  → via membership's own `also: [event]`: the policy's\neffective date = event.startDate, renewal/expiry =\nevent.endDate. Rule 1 — the policy IS the time-bounded\nthing, so the dates live on it as an event, exactly as\na membership's validity window does.\n\nTHE ORG MODEL — insurance is a value chain, not one issuer.\nReal policies involve several distinct organizations playing distinct\nroles, and conflating them hides what the holder actually needs to know\n(\"who bears the risk?\" vs \"who sold it to me?\" vs \"whose portal do I log\ninto?\"). GEICO *sells* renters insurance *underwritten* by Homesite;\nyou log into GEICO's portal. RLI underwrites its own umbrella. Cigna\nunderwrites and sells its own Global plan direct. So instead of one\ngeneric `at_namespace`, the orgs are split into honest domain verbs:\n- underwritten_by → the carrier bearing the risk and issuing the\npolicy number. THE IDENTITY ANCHOR (a policy number\nis namespaced by its carrier). Required.\n- sold_by         → the brand / agent / distributor you bought through\n(GEICO). Null when the carrier sells direct.\n- administered_by → claims administrator / TPA, when distinct from the\ncarrier (e.g. an international claims office).\n\"Who do I log in with?\" is answered separately and honestly by\n`held_via → account`: the account is namespaced to whichever org's\nportal it actually is (account → at → organization), independent of who\nunderwrites. GEICO-sold / Homesite-underwritten / log-into-GEICO is\nthree clean links with no contradiction.\n\nTHE COVERAGE MODEL — the benefit lines are nodes, not a field-bag.\nA policy's terms differ wildly by line (health has inpatient/outpatient\ndeductibles & out-of-pocket maxes; auto has per-incident liability limits\n+ collision/comprehensive deductibles; renters has dwelling/personal-\nproperty/loss-of-use/liability limits; umbrella has one aggregate limit).\nModeling these as ~30 optional fields would violate \"keep shapes\ndomain-agnostic\" and never fit all lines. Instead each benefit line is an\n`insurance_coverage` node, reached via `provides`. This mirrors the\n`health-panel → health-biomarker` split, and it passes the three-trigger\nnode test: many per policy (arity) AND a future `insurance_claim` will\nreference the specific coverage it was paid under (independent reference).\n\nIdentity: [underwritten_by, policyNumber] — one policy per (carrier,\npolicy number). Carrier-keyed (not a string) so a carrier rebrand or\nbook-of-business transfer moves the link without fragmenting the policy.\n\nname (inherited) = human label — \"Cigna Global — Silver\", \"GEICO Renters\".",
+      "leading_comment": "A contract of indemnity — one party (the insured) pays premiums to a\ncarrier in exchange for a promise to cover defined losses. ONE shape\ncovers every line of insurance: health, dental, vision, auto, renters,\nhomeowners, umbrella, travel, life, disability, pet. The `coverageType`\ndiscriminator is what lets a single shape span all of them — the same\nmove `membership` makes to fold in subscriptions, and `health-condition`\nmakes to fold in family history via the `experienced_by` edge.\n\n`also: [membership]` — an insurance policy IS a membership: a paid,\ntime-bounded, recurring right granted by an organization. The lifecycle\nis identical and fully inherited, not re-declared:\n- status      (active | lapsed | cancelled | expired | pending)\n- price       → the PREMIUM (per-billing-cycle), with currency\n- billingType (monthly | annual | …) + autoRenew\n- term dates  → via membership's own `also: [event]`: the policy's\neffective date = event.startDate, renewal/expiry =\nevent.endDate. Rule 1 — the policy IS the time-bounded\nthing, so the dates live on it as an event, exactly as\na membership's validity window does.\n\nTHE ORG MODEL — insurance is a value chain, not one issuer.\nReal policies involve several distinct organizations playing distinct\nroles, and conflating them hides what the holder actually needs to know\n(\"who bears the risk?\" vs \"who sold it to me?\" vs \"whose portal do I log\ninto?\"). GEICO *sells* renters insurance *underwritten* by Homesite;\nyou log into GEICO's portal. RLI underwrites its own umbrella. Cigna\nunderwrites and sells its own Global plan direct. So instead of one\ngeneric `at_namespace`, the orgs are split into honest domain verbs:\n- underwritten_by → the carrier bearing the risk and issuing the\npolicy number. THE IDENTITY ANCHOR (a policy number\nis namespaced by its carrier). Required.\n- sold_by         → the brand / agent / distributor you bought through\n(GEICO). Null when the carrier sells direct.\n- administered_by → claims administrator / TPA, when distinct from the\ncarrier (e.g. an international claims office).\n\"Who do I log in with?\" is answered separately and honestly by\n`held_via → account`: the account is namespaced to whichever org's\nportal it actually is (account → at → organization), independent of who\nunderwrites. GEICO-sold / Homesite-underwritten / log-into-GEICO is\nthree clean links with no contradiction.\n\nTHE COVERAGE MODEL — the benefit lines are nodes, not a field-bag.\nA policy's terms differ wildly by line (health has inpatient/outpatient\ndeductibles & out-of-pocket maxes; auto has per-incident liability limits\n+ collision/comprehensive deductibles; renters has dwelling/personal-\nproperty/loss-of-use/liability limits; umbrella has one aggregate limit).\nModeling these as ~30 optional fields would violate \"keep shapes\ndomain-agnostic\" and never fit all lines. Instead each benefit line is an\n`insurance_coverage` node, reached via `provides`. This mirrors the\n`health-panel → health-biomarker` split, and it passes the three-trigger\nnode test: many per policy (arity) AND a future `insurance_claim` will\nreference the specific coverage it was paid under (independent reference).\n\nIdentity: [underwritten_by, policyNumber] — one policy per (carrier,\npolicy number). Carrier-keyed (not a string) so a carrier rebrand or\nbook-of-business transfer moves the link without fragmenting the policy.\n\nname (inherited) = human label — \"Cigna Global — Silver\", \"GEICO Renters\".",
       "own_fields": [
         {
           "name": "coverageType",
@@ -16840,6 +16825,13 @@
           "target": null
         },
         {
+          "name": "method",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "notes",
           "type": "text",
           "is_relation": false,
@@ -16904,7 +16896,10 @@
         "title": null,
         "subtitle": "at",
         "image": null,
-        "highlights": [],
+        "highlights": [
+          "value",
+          "flag"
+        ],
         "body": null,
         "mono": null,
         "preview": {},
@@ -16985,6 +16980,13 @@
           "target": null
         },
         {
+          "name": "method",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "notes",
           "type": "text",
           "is_relation": false,
@@ -16997,7 +16999,7 @@
         {
           "source": "HL7 FHIR R5 — Observation",
           "url": "https://www.hl7.org/fhir/observation.html",
-          "notes": "The canonical resource for a measured value. value (with its UCUM unit) ≈ valueQuantity; at ≈ effectiveDateTime; refLow/refHigh/refText ≈ the referenceRange backbone (the inline snapshot); flag ≈ interpretation; status ≈ status. `measures` ≈ code resolved to a biomarker. FHIR has no normalized-range link — our `reportedRange` link adds that."
+          "notes": "The canonical resource for a measured value. value (with its UCUM unit) ≈ valueQuantity; at ≈ effectiveDateTime; refLow/refHigh/refText ≈ the referenceRange backbone (the inline snapshot); flag ≈ interpretation; status ≈ status; method ≈ Observation.method (the assay, snapshotted on the measure). `measures` ≈ code resolved to a biomarker. FHIR has no normalized-range link — our `reportedRange` link adds that."
         },
         {
           "source": "HL7 v2.x — OBX segment",
@@ -17011,7 +17013,7 @@
         }
       ],
       "source_path": "measure.yaml",
-      "raw_body": "plural: measures\ntimed: self\ndisplay:\n  icon: vital_signs\n  subtitle: at\nfields:\n  at: datetime\n  start: datetime\n  end: datetime\n  value: number\n  valueText: string\n  refLow: number\n  refHigh: number\n  refText: string\n  flag: string\n  status: string\n  notes: text\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Observation\"\n  url: https://www.hl7.org/fhir/observation.html\n  notes: \"The canonical resource for a measured value. value (with its UCUM unit)\\\n    \\ \\u2248 valueQuantity; at \\u2248 effectiveDateTime; refLow/refHigh/refText \\u2248\\\n    \\ the referenceRange backbone (the inline snapshot); flag \\u2248 interpretation;\\\n    \\ status \\u2248 status. `measures` \\u2248 code resolved to a biomarker. FHIR has\\\n    \\ no normalized-range link \\u2014 our `reportedRange` link adds that.\"\n- source: \"HL7 v2.x \\u2014 OBX segment\"\n  url: https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX\n  notes: \"The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6\\\n    \\ (units) together \\u2248 our value-with-unit; OBX-7 (reference range), OBX-8\\\n    \\ (abnormal flag), OBX-14 (datetime) map to refText/flag/at.\"\n- source: \"UCUM \\u2014 Unified Code for Units of Measure\"\n  url: https://ucum.org/\n  notes: \"The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM \\u2014\\\n    \\ the unit system FHIR mandates for Observation.valueQuantity, so measures round-trip\\\n    \\ into FHIR cleanly.\"\n",
+      "raw_body": "plural: measures\ntimed: self\ndisplay:\n  icon: vital_signs\n  subtitle: at\n  highlights:\n  - value\n  - flag\nfields:\n  at: datetime\n  start: datetime\n  end: datetime\n  value: number\n  valueText: string\n  refLow: number\n  refHigh: number\n  refText: string\n  flag: string\n  status: string\n  method: string\n  notes: text\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Observation\"\n  url: https://www.hl7.org/fhir/observation.html\n  notes: \"The canonical resource for a measured value. value (with its UCUM unit)\\\n    \\ \\u2248 valueQuantity; at \\u2248 effectiveDateTime; refLow/refHigh/refText \\u2248\\\n    \\ the referenceRange backbone (the inline snapshot); flag \\u2248 interpretation;\\\n    \\ status \\u2248 status; method \\u2248 Observation.method (the assay, snapshotted\\\n    \\ on the measure). `measures` \\u2248 code resolved to a biomarker. FHIR has no\\\n    \\ normalized-range link \\u2014 our `reportedRange` link adds that.\"\n- source: \"HL7 v2.x \\u2014 OBX segment\"\n  url: https://hl7-definition.caristix.com/v2/HL7v2.5/Segments/OBX\n  notes: \"The legacy lab-result segment most labs still emit. OBX-5 (value) and OBX-6\\\n    \\ (units) together \\u2248 our value-with-unit; OBX-7 (reference range), OBX-8\\\n    \\ (abnormal flag), OBX-14 (datetime) map to refText/flag/at.\"\n- source: \"UCUM \\u2014 Unified Code for Units of Measure\"\n  url: https://ucum.org/\n  notes: \"The unit on every numeric val (mg/dL, mmol/L, 10*3/uL) follows UCUM \\u2014\\\n    \\ the unit system FHIR mandates for Observation.valueQuantity, so measures round-trip\\\n    \\ into FHIR cleanly.\"\n",
       "ancestors": [],
       "field_order": [
         "at",
@@ -17024,6 +17026,7 @@
         "refText",
         "flag",
         "status",
+        "method",
         "notes"
       ],
       "derived": {},
