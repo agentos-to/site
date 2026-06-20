@@ -5,10 +5,38 @@
 # A panel is both a *catalog* concept (the standard set of biomarkers a
 # "CBC" includes) and, when dated, a *report* concept (the CBC drawn on
 # 2024-03-20). When a panel node represents a specific dated draw,
-# `effectiveDate` is set, its `contains` links point to observations, and
+# `collectedAt` is set, its `contains` links point to observations, and
 # `document` points to the report file. When it represents the abstract
-# catalog panel, `effectiveDate` is null and `contains` points to
+# catalog panel, all the date fields are null and `contains` points to
 # biomarkers.
+#
+# `timed: self` — a dated draw is a SELF-OCCURRENCE, not a calendar event.
+# It has no attendees, no recurrence, no RSVP, no calendar identity — so it
+# is NOT `also: [event]` (that base drags ~15 nonsense fields onto a lab
+# panel: timezone, allDay, recurrence, visibility, showAs, icalUid …). It is
+# the same time-category as `measure` (its own members): the time is
+# intrinsic valid-time carried on the node itself. `timed: self` is what
+# permits these datetime fields here — README rule 1 (no orphan datetime on a
+# node) still catches the real bug (a relationship's date flattened off its
+# verb link, e.g. `datePublished` off `published_by`); a self-occurrence
+# carrying its own multi-stage timeline was never that bug.
+#
+# A dated draw has up to FIVE distinct timestamps, all printed by real labs
+# and none interchangeable (one LabCorp report alone carries four; an
+# Indonesian lab adds the pathologist sign-off). They map 1:1 to FHIR and all
+# live directly on THIS node — there is no separate Specimen / ServiceRequest
+# / DiagnosticReport node, because each is 1:1 with the draw and trips no
+# node-promotion trigger (README rule 3):
+#   - collectedAt → Specimen.collection.collectedDateTime /
+#                   Observation.effectiveDateTime. The draw's occurrence — when
+#                   blood was drawn, the body was measured. THE trend anchor;
+#                   `measure.at` denormalizes it per-analyte.
+#   - orderedAt   → ServiceRequest.authoredOn  (requisition entered / registered)
+#   - receivedAt  → Specimen.receivedTime      (lab received the specimen)
+#   - reportedAt  → DiagnosticReport.issued    (results released / report generated)
+#   - verifiedAt  → report verification stamp  (pathologist authorized / signed off)
+# Sources that print only one date (InsideTracker, a filename-dated CSV) set
+# collectedAt alone. Everything past collectedAt is downstream provenance, optional.
 #
 # `also: [list]` — a panel IS a list: an ordered collection of biomarker
 # (definition) or observation (result) nodes, listType 'health-panel'.
@@ -20,18 +48,27 @@
 # `name` (inherited) is the panel name — "CBC", "Comprehensive Metabolic Panel".
 health-panel:
   plural: health-panels
-  also: [list, event]            # a dated panel IS an event (the draw); also [list] gives
-                                  # us the ordered membership of biomarkers/observations
+  also: [list]                   # a panel IS a list (ordered membership of
+                                  # biomarkers/observations). NOT an event —
+                                  # it is `timed: self` (see header).
+  timed: self                    # self-occurrence: its timeline is intrinsic,
+                                  # carried on the node (collectedAt + the
+                                  # provenance stamps). Recognized by codegen rule 1.
   display:
     icon: lab_panel
-    subtitle: startDate          # inherited from event — when the draw happened
+    subtitle: collectedAt        # when the draw happened (the collection datetime)
   fields:
-    panelCode:        string    # LOINC panel code when known (CBC w/ diff = 58410-2)
-                                  # When the draw happened lives on event.startDate
-                                  # (inherited via `also: [event]`). Catalog panels
-                                  # leave it null. Rule 1.
+    panelCode:        string    # LOINC panel code when known (CBC w/ diff = 58410-2).
+                                  # Catalog panels leave it null.
     fasting:          boolean    # whether the draw was taken fasting
     description:      text      # what this panel evaluates
+    # The draw's intrinsic timeline (see header). All optional; a catalog
+    # panel leaves them null, a one-date source sets only collectedAt.
+    collectedAt:      datetime  # FHIR Specimen.collection.collectedDateTime — the draw. Trend anchor.
+    orderedAt:        datetime  # FHIR ServiceRequest.authoredOn — requisition entered / registered
+    receivedAt:       datetime  # FHIR Specimen.receivedTime — lab received the specimen
+    reportedAt:       datetime  # FHIR DiagnosticReport.issued — results released / report generated
+    verifiedAt:       datetime  # report verification stamp — pathologist authorized / signed off
   prior_art:
     - source: HL7 FHIR R5 — DiagnosticReport
       url: https://www.hl7.org/fhir/diagnosticreport.html
@@ -39,7 +76,10 @@ health-panel:
         A dated panel is a DiagnosticReport: a set of observations grouped
         under one report with an effective date and a performer. Our
         `contains` links (from `list`) ≈ DiagnosticReport.result;
-        effectiveDate ≈ effectiveDateTime; performedAt ≈ performer.
+        collectedAt ≈ Specimen.collection.collectedDateTime (effectiveDateTime);
+        orderedAt ≈ the ServiceRequest.authoredOn; receivedAt ≈
+        Specimen.receivedTime; reportedAt ≈ DiagnosticReport.issued;
+        verifiedAt ≈ the report verification stamp; performedAt ≈ performer.
     - source: LOINC — Panels and Forms
       url: https://loinc.org/panels/
       notes: >-

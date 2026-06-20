@@ -822,13 +822,13 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
     }),
     ("health-panel", Display {
         title: None,
-        subtitle: Some("startDate"),
+        subtitle: Some("collectedAt"),
         image: None,
-        highlights: &["startDate", "endDate", "location"],
+        highlights: &[],
         body: None,
         mono: None,
         preview: &[],
-        also: &["list", "event"],
+        also: &["list"],
     }),
     ("health-procedure", Display {
         title: None,
@@ -1622,7 +1622,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("health-condition", &["clinicalStatus", "verificationStatus", "bodySite", "severity", "snomedCode", "icd10Code", "clinicalArea", "mitigation", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("health-immunization", &["dateAdministered", "cvxCode", "manufacturer", "lotNumber", "doseNumber", "seriesDoses", "site", "route", "diseaseTarget", "notes", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("health-lab", &["cliaNumber", "npi", "ccn", "labType", "accreditation", "industry", "actorType"]),
-    ("health-panel", &["panelCode", "fasting", "description", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
+    ("health-panel", &["panelCode", "fasting", "description", "collectedAt", "orderedAt", "receivedAt", "reportedAt", "verifiedAt", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path"]),
     ("health-procedure", &["performedDate", "procedureType", "bodySite", "outcome", "status", "cptCode", "snomedCode", "findings", "followUp", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("health-reference-range", &["low", "high", "unit", "refText", "category", "provenance", "method", "ageLow", "ageHigh", "sex", "pregnancy", "gestationalAge", "fasting", "timeOfDay", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("icon", &["dimension", "format", "url", "component", "purpose", "style", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "language", "coverage", "tags"]),
@@ -1853,7 +1853,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
     ("health-condition", &["event"]),
     ("health-immunization", &["event"]),
     ("health-lab", &["organization", "actor"]),
-    ("health-panel", &["list", "event"]),
+    ("health-panel", &["list"]),
     ("health-procedure", &["event"]),
     ("health-reference-range", &["event"]),
     ("icon", &["creative_work"]),
@@ -1891,7 +1891,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
 // Event types — shapes whose `also:` chain includes `event`
 // ===========================================================
 
-pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer", "class", "concern", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-panel", "health-procedure", "health-reference-range", "insurance_policy", "invitation", "launch", "leg", "loaded_model", "meeting", "membership", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "transition", "trip"];
+pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer", "class", "concern", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-procedure", "health-reference-range", "insurance_policy", "invitation", "launch", "leg", "loaded_model", "meeting", "membership", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "transition", "trip"];
 
 // ===========================================================
 // Derived bindings — per-shape `derived:` block as JSON

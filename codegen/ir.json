@@ -11799,13 +11799,6 @@
           "target": null
         },
         {
-          "name": "allDay",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
           "name": "arrangement",
           "type": "string",
           "is_relation": false,
@@ -11813,14 +11806,7 @@
           "target": null
         },
         {
-          "name": "currentUrl",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "dateUpdated",
+          "name": "collectedAt",
           "type": "datetime",
           "is_relation": false,
           "is_array": false,
@@ -11841,29 +11827,8 @@
           "target": null
         },
         {
-          "name": "distinctId",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "endDate",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
           "name": "fasting",
           "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "icalUid",
-          "type": "string",
           "is_relation": false,
           "is_array": false,
           "target": null
@@ -11918,6 +11883,13 @@
           "target": null
         },
         {
+          "name": "orderedAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "ordering_mode",
           "type": "string",
           "is_relation": false,
@@ -11946,22 +11918,15 @@
           "target": null
         },
         {
-          "name": "properties",
-          "type": "json",
+          "name": "receivedAt",
+          "type": "datetime",
           "is_relation": false,
           "is_array": false,
           "target": null
         },
         {
-          "name": "recurrence",
-          "type": "string[]",
-          "is_relation": false,
-          "is_array": true,
-          "target": null
-        },
-        {
-          "name": "showAs",
-          "type": "string",
+          "name": "reportedAt",
+          "type": "datetime",
           "is_relation": false,
           "is_array": false,
           "target": null
@@ -11974,64 +11939,24 @@
           "target": null
         },
         {
-          "name": "sourceTitle",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sourceUrl",
-          "type": "url",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "startDate",
+          "name": "verifiedAt",
           "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "timezone",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "visibility",
-          "type": "string",
           "is_relation": false,
           "is_array": false,
           "target": null
         }
       ],
       "also": [
-        "list",
-        "event"
+        "list"
       ],
-      "timed": null,
+      "timed": "self",
       "plural": "health-panels",
-      "subtitle": "startDate",
+      "subtitle": "collectedAt",
       "display": {
         "title": null,
-        "subtitle": "startDate",
+        "subtitle": "collectedAt",
         "image": null,
-        "highlights": [
-          "startDate",
-          "endDate",
-          "location"
-        ],
+        "highlights": [],
         "body": null,
         "mono": null,
         "preview": {},
@@ -12039,7 +11964,7 @@
       },
       "identity": [],
       "identity_any": [],
-      "leading_comment": "A panel — a named grouping of biomarkers ordered and reported together.\nCBC (complete blood count), CMP (comprehensive metabolic panel), Lipid\npanel, Thyroid panel.\n\nA panel is both a *catalog* concept (the standard set of biomarkers a\n\"CBC\" includes) and, when dated, a *report* concept (the CBC drawn on\n2024-03-20). When a panel node represents a specific dated draw,\n`effectiveDate` is set, its `contains` links point to observations, and\n`document` points to the report file. When it represents the abstract\ncatalog panel, `effectiveDate` is null and `contains` points to\nbiomarkers.\n\n`also: [list]` — a panel IS a list: an ordered collection of biomarker\n(definition) or observation (result) nodes, listType 'health-panel'.\nThis reuses the universal list machinery rather than inventing grouping.\n\nFHIR models the dated form as a DiagnosticReport; the catalog form has\nno single FHIR resource (closest is a definitional ServiceRequest).\n\n`name` (inherited) is the panel name — \"CBC\", \"Comprehensive Metabolic Panel\".",
+      "leading_comment": "A panel — a named grouping of biomarkers ordered and reported together.\nCBC (complete blood count), CMP (comprehensive metabolic panel), Lipid\npanel, Thyroid panel.\n\nA panel is both a *catalog* concept (the standard set of biomarkers a\n\"CBC\" includes) and, when dated, a *report* concept (the CBC drawn on\n2024-03-20). When a panel node represents a specific dated draw,\n`collectedAt` is set, its `contains` links point to observations, and\n`document` points to the report file. When it represents the abstract\ncatalog panel, all the date fields are null and `contains` points to\nbiomarkers.\n\n`timed: self` — a dated draw is a SELF-OCCURRENCE, not a calendar event.\nIt has no attendees, no recurrence, no RSVP, no calendar identity — so it\nis NOT `also: [event]` (that base drags ~15 nonsense fields onto a lab\npanel: timezone, allDay, recurrence, visibility, showAs, icalUid …). It is\nthe same time-category as `measure` (its own members): the time is\nintrinsic valid-time carried on the node itself. `timed: self` is what\npermits these datetime fields here — README rule 1 (no orphan datetime on a\nnode) still catches the real bug (a relationship's date flattened off its\nverb link, e.g. `datePublished` off `published_by`); a self-occurrence\ncarrying its own multi-stage timeline was never that bug.\n\nA dated draw has up to FIVE distinct timestamps, all printed by real labs\nand none interchangeable (one LabCorp report alone carries four; an\nIndonesian lab adds the pathologist sign-off). They map 1:1 to FHIR and all\nlive directly on THIS node — there is no separate Specimen / ServiceRequest\n/ DiagnosticReport node, because each is 1:1 with the draw and trips no\nnode-promotion trigger (README rule 3):\n- collectedAt → Specimen.collection.collectedDateTime /\nObservation.effectiveDateTime. The draw's occurrence — when\nblood was drawn, the body was measured. THE trend anchor;\n`measure.at` denormalizes it per-analyte.\n- orderedAt   → ServiceRequest.authoredOn  (requisition entered / registered)\n- receivedAt  → Specimen.receivedTime      (lab received the specimen)\n- reportedAt  → DiagnosticReport.issued    (results released / report generated)\n- verifiedAt  → report verification stamp  (pathologist authorized / signed off)\nSources that print only one date (InsideTracker, a filename-dated CSV) set\ncollectedAt alone. Everything past collectedAt is downstream provenance, optional.\n\n`also: [list]` — a panel IS a list: an ordered collection of biomarker\n(definition) or observation (result) nodes, listType 'health-panel'.\nThis reuses the universal list machinery rather than inventing grouping.\n\nFHIR models the dated form as a DiagnosticReport; the catalog form has\nno single FHIR resource (closest is a definitional ServiceRequest).\n\n`name` (inherited) is the panel name — \"CBC\", \"Comprehensive Metabolic Panel\".",
       "own_fields": [
         {
           "name": "panelCode",
@@ -12061,6 +11986,41 @@
           "is_relation": false,
           "is_array": false,
           "target": null
+        },
+        {
+          "name": "collectedAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "orderedAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "receivedAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "reportedAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "verifiedAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
         }
       ],
       "own_relations": [],
@@ -12068,7 +12028,7 @@
         {
           "source": "HL7 FHIR R5 — DiagnosticReport",
           "url": "https://www.hl7.org/fhir/diagnosticreport.html",
-          "notes": "A dated panel is a DiagnosticReport: a set of observations grouped under one report with an effective date and a performer. Our `contains` links (from `list`) ≈ DiagnosticReport.result; effectiveDate ≈ effectiveDateTime; performedAt ≈ performer."
+          "notes": "A dated panel is a DiagnosticReport: a set of observations grouped under one report with an effective date and a performer. Our `contains` links (from `list`) ≈ DiagnosticReport.result; collectedAt ≈ Specimen.collection.collectedDateTime (effectiveDateTime); orderedAt ≈ the ServiceRequest.authoredOn; receivedAt ≈ Specimen.receivedTime; reportedAt ≈ DiagnosticReport.issued; verifiedAt ≈ the report verification stamp; performedAt ≈ performer."
         },
         {
           "source": "LOINC — Panels and Forms",
@@ -12082,15 +12042,19 @@
         }
       ],
       "source_path": "health-panel.yaml",
-      "raw_body": "plural: health-panels\nalso:\n- list\n- event\ndisplay:\n  icon: lab_panel\n  subtitle: startDate\nfields:\n  panelCode: string\n  fasting: boolean\n  description: text\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 DiagnosticReport\"\n  url: https://www.hl7.org/fhir/diagnosticreport.html\n  notes: \"A dated panel is a DiagnosticReport: a set of observations grouped under\\\n    \\ one report with an effective date and a performer. Our `contains` links (from\\\n    \\ `list`) \\u2248 DiagnosticReport.result; effectiveDate \\u2248 effectiveDateTime;\\\n    \\ performedAt \\u2248 performer.\"\n- source: \"LOINC \\u2014 Panels and Forms\"\n  url: https://loinc.org/panels/\n  notes: \"LOINC defines panel codes and their member observables (CBC panel 58410-2\\\n    \\ enumerates hemoglobin, hematocrit, WBC, \\u2026). panelCode plus the contains\\u2192\\\n    biomarker links mirror a LOINC panel definition.\"\n- source: schema.org/MedicalTest\n  url: https://schema.org/MedicalTest\n  notes: \"Lighter-weight precedent \\u2014 a diagnostic test with usedToDiagnose /\\\n    \\ normalRange. Our panel is the grouping; biomarkers and health-reference-range\\\n    \\ carry the observable detail and the ranges.\"\n",
+      "raw_body": "plural: health-panels\nalso:\n- list\ntimed: self\ndisplay:\n  icon: lab_panel\n  subtitle: collectedAt\nfields:\n  panelCode: string\n  fasting: boolean\n  description: text\n  collectedAt: datetime\n  orderedAt: datetime\n  receivedAt: datetime\n  reportedAt: datetime\n  verifiedAt: datetime\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 DiagnosticReport\"\n  url: https://www.hl7.org/fhir/diagnosticreport.html\n  notes: \"A dated panel is a DiagnosticReport: a set of observations grouped under\\\n    \\ one report with an effective date and a performer. Our `contains` links (from\\\n    \\ `list`) \\u2248 DiagnosticReport.result; collectedAt \\u2248 Specimen.collection.collectedDateTime\\\n    \\ (effectiveDateTime); orderedAt \\u2248 the ServiceRequest.authoredOn; receivedAt\\\n    \\ \\u2248 Specimen.receivedTime; reportedAt \\u2248 DiagnosticReport.issued; verifiedAt\\\n    \\ \\u2248 the report verification stamp; performedAt \\u2248 performer.\"\n- source: \"LOINC \\u2014 Panels and Forms\"\n  url: https://loinc.org/panels/\n  notes: \"LOINC defines panel codes and their member observables (CBC panel 58410-2\\\n    \\ enumerates hemoglobin, hematocrit, WBC, \\u2026). panelCode plus the contains\\u2192\\\n    biomarker links mirror a LOINC panel definition.\"\n- source: schema.org/MedicalTest\n  url: https://schema.org/MedicalTest\n  notes: \"Lighter-weight precedent \\u2014 a diagnostic test with usedToDiagnose /\\\n    \\ normalRange. Our panel is the grouping; biomarkers and health-reference-range\\\n    \\ carry the observable detail and the ranges.\"\n",
       "ancestors": [
-        "list",
-        "event"
+        "list"
       ],
       "field_order": [
         "panelCode",
         "fasting",
         "description",
+        "collectedAt",
+        "orderedAt",
+        "receivedAt",
+        "reportedAt",
+        "verifiedAt",
         "id",
         "listId",
         "listType",
@@ -12104,22 +12068,7 @@
         "default_view",
         "icon_size",
         "sort_by",
-        "path",
-        "startDate",
-        "endDate",
-        "timezone",
-        "allDay",
-        "recurrence",
-        "status",
-        "visibility",
-        "showAs",
-        "dateUpdated",
-        "sourceUrl",
-        "sourceTitle",
-        "icalUid",
-        "distinctId",
-        "currentUrl",
-        "properties"
+        "path"
       ],
       "derived": {},
       "groups": [],
