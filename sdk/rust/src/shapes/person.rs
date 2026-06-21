@@ -70,7 +70,6 @@ pub static PERSON: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     ],
     also: vec!["actor".into()],
     timed: Some("self".into()),
-    identity_any: vec!["url".into()],
     derived: vec![
         DerivedBinding { key: "current_residence".into(), spec: serde_json::from_str("{\"find\": \"lived_at\", \"where_link\": {\"to\": null}, \"get\": \"name\"}").unwrap_or(serde_json::Value::Null) },
         DerivedBinding { key: "current_role".into(), spec: serde_json::from_str("{\"find\": \"worked_at\", \"where_link\": {\"to\": null}, \"get\": \"title\"}").unwrap_or(serde_json::Value::Null) },

@@ -27,11 +27,11 @@ person:
                        # (README rule 1). Same declaration `measure` uses for a
                        # reading's timestamp; generalizes from "self-occurrence"
                        # to "this node owns its dates". No birth event needed.
-  identity_any: [url]  # canonical web identity — GitHub profile, personal
-                       # site, vendor bio. Lets multi-source seeders dedupe
-                       # without guessing on name collisions. (Superseded for
-                       # identity-bearing imports by `identities` resolution —
-                       # the engine matches on (platform, id); see below.)
+  # No `identity_any` — a person is deduplicated on its `identities` set:
+  # the engine OR-matches each `(platform, id)` claim through the generic
+  # `node_identity` index and merges on any collision (see the `identities`
+  # field comment below). `url` is therefore a plain display field, not a
+  # match key.
   also: [actor]        # a person is also an actor
   fields:
     url:     string    # canonical web identifier (GitHub profile, personal
@@ -76,7 +76,14 @@ person:
                        # URL / icon / label / category all DERIVE from the
                        # `platform` node — never stored per entry. The connector emits each
                        # `id` already canonical (it knows what it's talking to);
-                       # the engine resolves identity by matching these (phase 2).
+                       # the engine never normalizes. On upsert the engine
+                       # OR-matches each `(platform, id)` claim through the
+                       # generic `node_identity` index and MERGES into the
+                       # existing person on any collision — unioning both sets so
+                       # no source is lost — and returns a receipt naming the
+                       # matched signal ("merged into X — matched phone +1…").
+                       # Entries with no `id` (handle-only) aren't indexed, so
+                       # they never trigger a merge (conservative until `split`).
 
   # Read-side derived bindings — only genuine relationships remain. `find:`
   # names the verb; `get:` projects the target's field; `where_link: {to: null}`
