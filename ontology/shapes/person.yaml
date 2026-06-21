@@ -37,6 +37,20 @@ person:
                        # site, vendor bio). schema.org/Person/url.
     notes:   text      # private bio text
     about:   text      # public bio text
+    identities: json   # the uniform identity set — one human, every way to
+                       # reach or recognize them:
+                       #   [{platform, id, handle?, instance?, account?}]
+                       # `id` is the stable match key (DID / UUID / numeric id /
+                       # actor URI / Google resourceName / vCard UID, or a
+                       # normalized email / phone). `handle` is the mutable
+                       # human-facing name (@user) — display + URL only, never
+                       # matched alone (handles get recycled). `instance` scopes
+                       # a federated handle (Mastodon homeserver, Matrix).
+                       # `account` (address-book sources only) names which book.
+                       # URL / icon / label / category all DERIVE from the
+                       # `platform` node — never stored per entry. The connector emits each
+                       # `id` already canonical (it knows what it's talking to);
+                       # the engine resolves identity by matching these (phase 2).
 
 
   # Read-side derived bindings. Engine pre-projects via the depth-1

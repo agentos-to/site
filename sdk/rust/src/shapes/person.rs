@@ -16,6 +16,7 @@ pub struct Person {
     pub content: Option<String>,
     pub about: Option<String>,
     pub actor_type: Option<String>,
+    pub identities: Option<serde_json::Value>,
     pub notes: Option<String>,
 }
 
@@ -34,6 +35,7 @@ pub static PERSON: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("content", FieldType::String),
         FieldDef::optional("about", FieldType::Text),
         FieldDef::optional("actorType", FieldType::String),
+        FieldDef::optional("identities", FieldType::Json),
         FieldDef::optional("notes", FieldType::Text),
     ],
     also: vec!["actor".into()],

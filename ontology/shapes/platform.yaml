@@ -1,0 +1,66 @@
+# An identity namespace and how to present it — the registry a person's
+# identity entries derive their URL, icon, label, and federation from, keyed by
+# `platform` alone (never stored per entry).
+#
+# A platform IS a product (`also: [product]`) — X, LinkedIn, Mastodon, Amazon,
+# Gmail are products released into the world — so it inherits name (the label),
+# url (homepage), image (icon), and category (social / messaging / …, the field
+# `platformType` already migrated into) plus brand. Platform adds ONLY the few
+# fields unique to using a namespace as an *identity*: the short addressing slug
+# and the federation / profile-URL mechanics. (We extend product, not software:
+# email and phone are protocol namespaces, not software — product is the
+# broadest correct base.)
+#
+# Not engine code: every platform is a live graph node, so a new network or a
+# rename is a DATA write, never a rebuild. Platforms self-register like shapes
+# and edges — the first identity entry a connector returns carrying a new `slug`
+# (plus its platform-def) teaches the engine that namespace. The engine knows no
+# specific platform, and never normalizes: connectors emit each `id` already
+# canonical (Gmail dot/plus rules live in the Google app; generic E.164 /
+# lowercase in the SDK helpers, both enforced by the app validator) — the engine
+# only matches.
+platform:
+  plural: platforms
+  also: [product]
+  identity: [slug]
+  fields:
+    slug:        string    # short machine key the identity entry's `platform`
+                           # holds — "x", "email", "mastodon" (never the full url)
+    federated:   boolean   # true when a handle is only meaningful scoped by an
+                           # `instance` (Mastodon, Matrix, XMPP) — drives whether
+                           # the identity entry carries `instance`
+    protocol:    string    # federation protocol when federated — activitypub |
+                           # atproto | matrix — groups a network family
+                           # ("all my fediverse contacts") without per-entry data
+    urlTemplate: string    # clickable-profile template interpolating {handle}
+                           # and {instance} — "https://{instance}/@{handle}"
+                           # (Mastodon), "https://t.me/{handle}" (Telegram).
+                           # Absent when a platform has no public profile URL
+                           # (email, phone). label = name, icon = image,
+                           # kind = category — all inherited, never restated here.
+  display:
+    icon: hub
+    subtitle: category
+  groups:
+    Identity: [slug, category]
+    Federation: [federated, protocol]
+    Presentation: [urlTemplate]
+  prior_art:
+    - source: schema.org/SoftwareApplication
+      url: https://schema.org/SoftwareApplication
+      notes: >-
+        A platform is a product (we extend it) — most platforms are software.
+        We stop at `also: [product]` rather than `[software]` because email and
+        phone are protocol namespaces, not software; product is the broadest
+        correct base, and `category` already carries social/messaging/etc.
+    - source: "ActivityPub / WebFinger (acct: URI)"
+      url: https://www.w3.org/TR/activitypub/
+      notes: >-
+        `federated` + `instance` (on the identity entry) + `protocol` model the
+        federated case: a handle is scoped by its homeserver, the canonical id
+        stays the actor URI. WebFinger's user@host split maps to handle@instance.
+    - source: schema.org ContactPoint
+      url: https://schema.org/ContactPoint
+      notes: >-
+        `category: contact` (email, phone) aligns with ContactPoint as a reach
+        key rather than a hosted account.

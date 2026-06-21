@@ -92,6 +92,7 @@ pub mod payment_method;
 pub mod person;
 pub mod persona;
 pub mod place;
+pub mod platform;
 pub mod playlist;
 pub mod podcast;
 pub mod post;
@@ -209,6 +210,7 @@ pub use payment_method::{PAYMENT_METHOD, PaymentMethod};
 pub use person::{PERSON, Person};
 pub use persona::{PERSONA, Persona};
 pub use place::{PLACE, Place};
+pub use platform::{PLATFORM, Platform};
 pub use playlist::{PLAYLIST, Playlist};
 pub use podcast::{PODCAST, Podcast};
 pub use post::{POST, Post};
@@ -332,6 +334,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "person" => Some(&PERSON),
         "persona" => Some(&PERSONA),
         "place" => Some(&PLACE),
+        "platform" => Some(&PLATFORM),
         "playlist" => Some(&PLAYLIST),
         "podcast" => Some(&PODCAST),
         "post" => Some(&POST),
@@ -1130,6 +1133,16 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &[],
     }),
+    ("platform", Display {
+        title: None,
+        subtitle: Some("category"),
+        image: None,
+        highlights: &[],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &["product"],
+    }),
     ("playlist", Display {
         title: None,
         subtitle: Some("text"),
@@ -1650,9 +1663,10 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("outcome", &["statement", "status", "priority", "archived", "metric", "baseline", "current", "target"]),
     ("pass", &["status", "quantity", "purchasedQuantity", "useCount", "isAllDayPass", "price", "currency", "ticketNumber", "nameOnTicket", "seatAssignment", "boardingGroup", "ticketClass", "gate", "terminal", "checkinStatus", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("payment_method", &["identifier", "type", "subtype", "brand", "displayName", "customDescription", "holderName", "last4", "binRange", "expMonth", "expYear", "expirationDate", "currency", "balance", "fingerprint", "isDefault", "isPrimary", "isExpired", "isSelected", "status", "providerTokens", "metadata"]),
-    ("person", &["url", "notes", "about", "actorType"]),
+    ("person", &["url", "notes", "about", "identities", "actorType"]),
     ("persona", &["headline", "who", "goals", "painPoints", "reachesFor", "quote"]),
     ("place", &["fullAddress", "placeFormatted", "streetNumber", "street", "neighborhood", "locality", "city", "district", "region", "postalCode", "country", "countryCode", "latitude", "longitude", "accuracy", "featureType", "categories", "phone", "website", "hours", "businessStatus", "rating", "reviewCount", "priceLevel", "timezone", "eta", "isOrderable", "closedMessage", "productCount", "mapboxId", "wikidataId", "googlePlaceId"]),
+    ("platform", &["slug", "federated", "protocol", "urlTemplate", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("playlist", &["id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path"]),
     ("podcast", &["feedUrl"]),
     ("post", &["externalUrl", "postType", "score", "commentCount", "community"]),
@@ -1780,6 +1794,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("person", "people"),
     ("persona", "personas"),
     ("place", "places"),
+    ("platform", "platforms"),
     ("playlist", "playlists"),
     ("podcast", "podcasts"),
     ("post", "posts"),
@@ -1871,6 +1886,7 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
     ("organization", &["actor"]),
     ("pass", &["event"]),
     ("person", &["actor"]),
+    ("platform", &["product"]),
     ("playlist", &["list"]),
     ("reservation", &["event"]),
     ("review", &["post"]),
