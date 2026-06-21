@@ -14,7 +14,7 @@
 // impossible by construction.
 pub(crate) mod sdk_prelude {
     pub(crate) use agentos_graph::{
-        DerivedBinding, DisplaySpec, FieldDef, FieldGroupDef, FieldType, PriorArtDef, ShapeDef, ShortcutDef,
+        DerivedBinding, DisplaySpec, FieldDef, FieldGroupDef, FieldType, PriorArtDef, ShapeDef,
     };
     pub(crate) use once_cell::sync::Lazy;
     pub(crate) use serde::{Deserialize, Serialize};
@@ -28,7 +28,6 @@ pub mod airline;
 pub mod airport;
 pub mod app;
 pub mod auth_challenge;
-pub mod birth;
 pub mod book;
 pub mod booking_offer;
 pub mod bookmark;
@@ -127,7 +126,6 @@ pub mod theme;
 pub mod tool_call;
 pub mod transaction;
 pub mod transcript;
-pub mod transition;
 pub mod treatment;
 pub mod trip;
 pub mod unit;
@@ -146,7 +144,6 @@ pub use airline::{AIRLINE, Airline};
 pub use airport::{AIRPORT, Airport};
 pub use app::{APP, App};
 pub use auth_challenge::{AUTH_CHALLENGE, AuthChallenge};
-pub use birth::{BIRTH, Birth};
 pub use book::{BOOK, Book};
 pub use booking_offer::{BOOKING_OFFER, BookingOffer};
 pub use bookmark::{BOOKMARK, Bookmark};
@@ -245,7 +242,6 @@ pub use theme::{THEME, Theme};
 pub use tool_call::{TOOL_CALL, ToolCall};
 pub use transaction::{TRANSACTION, Transaction};
 pub use transcript::{TRANSCRIPT, Transcript};
-pub use transition::{TRANSITION, Transition};
 pub use treatment::{TREATMENT, Treatment};
 pub use trip::{TRIP, Trip};
 pub use unit::{UNIT, Unit};
@@ -270,7 +266,6 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "airport" => Some(&AIRPORT),
         "app" => Some(&APP),
         "auth_challenge" => Some(&AUTH_CHALLENGE),
-        "birth" => Some(&BIRTH),
         "book" => Some(&BOOK),
         "booking_offer" => Some(&BOOKING_OFFER),
         "bookmark" => Some(&BOOKMARK),
@@ -369,7 +364,6 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "tool_call" => Some(&TOOL_CALL),
         "transaction" => Some(&TRANSACTION),
         "transcript" => Some(&TRANSCRIPT),
-        "transition" => Some(&TRANSITION),
         "treatment" => Some(&TREATMENT),
         "trip" => Some(&TRIP),
         "unit" => Some(&UNIT),
@@ -492,16 +486,6 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         mono: Some("artifact"),
         preview: &[("artifact", PreviewPolicy::Full)],
         also: &[],
-    }),
-    ("birth", Display {
-        title: None,
-        subtitle: Some("location"),
-        image: None,
-        highlights: &["startDate", "location"],
-        body: None,
-        mono: None,
-        preview: &[],
-        also: &["event"],
     }),
     ("book", Display {
         title: None,
@@ -1107,7 +1091,7 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         title: None,
         subtitle: Some("about"),
         image: Some("image"),
-        highlights: &["birthdate", "gender"],
+        highlights: &["birthDate", "gender"],
         body: Some("notes"),
         mono: None,
         preview: &[],
@@ -1483,16 +1467,6 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &[],
     }),
-    ("transition", Display {
-        title: None,
-        subtitle: Some("startDate"),
-        image: None,
-        highlights: &["startDate", "givenName", "familyName", "gender"],
-        body: None,
-        mono: None,
-        preview: &[],
-        also: &["event"],
-    }),
     ("treatment", Display {
         title: None,
         subtitle: Some("abbreviation"),
@@ -1602,7 +1576,6 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("airport", &["iataCode", "icaoCode", "city", "country", "countryCode", "timezone", "elevationFt", "terminalCount"]),
     ("app", &["id", "name", "description", "color", "status", "error", "iconRole", "route", "defaultRoute", "defaultView", "isSystem", "handles", "composition", "account"]),
     ("auth_challenge", &["kind", "payload", "artifact", "instructions", "retrieval", "expiresAt", "continueWith"]),
-    ("birth", &["givenName", "additionalName", "familyName", "honorificPrefix", "honorificSuffix", "legalName", "maidenName", "sortAs", "nameOrder", "phoneticGivenName", "phoneticFamilyName", "gender", "nickname", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("book", &["isbn", "isbn13", "pages", "genres", "series", "format", "language", "originalTitle", "places", "characters", "awardsWon", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "coverage", "tags", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("booking_offer", &["cartId", "referenceNumber", "status", "preparedAt", "presentedAt", "approvedAt", "expiresAt", "currency", "baseAmount", "taxAmount", "feesAmount", "totalAmount", "itineraryHash", "signature", "signatureAlg", "signedBy", "checkoutUrl", "confirmEndpoint", "isRefundable", "isChangeable", "hasVoidWindow", "voidWindowEndsAt", "conditions", "blob", "review", "contactEmail", "contactPhone", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("bookmark", &["name", "handle", "address"]),
@@ -1663,7 +1636,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("outcome", &["statement", "status", "priority", "archived", "metric", "baseline", "current", "target"]),
     ("pass", &["status", "quantity", "purchasedQuantity", "useCount", "isAllDayPass", "price", "currency", "ticketNumber", "nameOnTicket", "seatAssignment", "boardingGroup", "ticketClass", "gate", "terminal", "checkinStatus", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("payment_method", &["identifier", "type", "subtype", "brand", "displayName", "customDescription", "holderName", "last4", "binRange", "expMonth", "expYear", "expirationDate", "currency", "balance", "fingerprint", "isDefault", "isPrimary", "isExpired", "isSelected", "status", "providerTokens", "metadata"]),
-    ("person", &["url", "notes", "about", "identities", "actorType"]),
+    ("person", &["url", "notes", "about", "givenName", "additionalName", "familyName", "honorificPrefix", "honorificSuffix", "legalName", "maidenName", "sortAs", "nameOrder", "phoneticGivenName", "phoneticFamilyName", "nickname", "gender", "birthDate", "deathDate", "identities", "actorType"]),
     ("persona", &["headline", "who", "goals", "painPoints", "reachesFor", "quote"]),
     ("place", &["fullAddress", "placeFormatted", "streetNumber", "street", "neighborhood", "locality", "city", "district", "region", "postalCode", "country", "countryCode", "latitude", "longitude", "accuracy", "featureType", "categories", "phone", "website", "hours", "businessStatus", "rating", "reviewCount", "priceLevel", "timezone", "eta", "isOrderable", "closedMessage", "productCount", "mapboxId", "wikidataId", "googlePlaceId"]),
     ("platform", &["slug", "federated", "protocol", "urlTemplate", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
@@ -1701,7 +1674,6 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("tool_call", &["name", "input", "output", "isError", "durationMs"]),
     ("transaction", &["amount", "currency", "balance", "category", "postingDate", "pending", "recurring", "notes", "type", "details", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("transcript", &["language", "languageConfidence", "sourceType", "contentRole", "durationMs", "segmentCount", "segments"]),
-    ("transition", &["givenName", "additionalName", "familyName", "honorificPrefix", "honorificSuffix", "legalName", "maidenName", "sortAs", "nameOrder", "phoneticGivenName", "phoneticFamilyName", "gender", "nickname", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("treatment", &["abbreviation", "description", "aliases"]),
     ("trip", &["tripType", "status", "departureTime", "arrivalTime", "duration", "durationMinutes", "distance", "vehicleType", "cabinClass", "fare", "fareAmount", "currency", "rating", "trackingUrl", "isSurge", "isScheduled", "stops", "bookingToken", "carbonEmissions", "isPool", "isReserve", "guest", "marketplace", "vehicle", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("unit", &["ucumCode", "symbol", "label", "kind", "siDigitalFrameworkUri", "unCefactCommonCode", "qudtUnitIri", "wikidataId", "toBaseFactor", "toBaseOffset", "iso4217", "iso4217Numeric", "minorExponent", "logBase"]),
@@ -1730,7 +1702,6 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("airport", "airports"),
     ("app", "apps"),
     ("auth_challenge", "auth_challenges"),
-    ("birth", "births"),
     ("book", "books"),
     ("booking_offer", "booking_offers"),
     ("bookmark", "bookmarks"),
@@ -1829,7 +1800,6 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("tool_call", "tool_calls"),
     ("transaction", "transactions"),
     ("transcript", "transcripts"),
-    ("transition", "transitions"),
     ("treatment", "treatments"),
     ("trip", "trips"),
     ("unit", "units"),
@@ -1853,7 +1823,6 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
     ("activity", &["event"]),
     ("aircraft", &["product"]),
     ("airline", &["organization", "actor"]),
-    ("birth", &["event"]),
     ("book", &["creative_work", "product"]),
     ("booking_offer", &["event"]),
     ("class", &["event"]),
@@ -1897,7 +1866,6 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
     ("spec", &["task", "event", "file"]),
     ("task", &["event"]),
     ("transaction", &["event"]),
-    ("transition", &["event"]),
     ("trip", &["event"]),
     ("user", &["actor"]),
     ("video", &["creative_work", "file"]),
@@ -1907,16 +1875,16 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
 // Event types — shapes whose `also:` chain includes `event`
 // ===========================================================
 
-pub static EVENT_TYPES: &[&'static str] = &["activity", "birth", "booking_offer", "class", "concern", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-procedure", "health-reference-range", "insurance_policy", "invitation", "launch", "leg", "loaded_model", "meeting", "membership", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "transition", "trip"];
+pub static EVENT_TYPES: &[&'static str] = &["activity", "booking_offer", "class", "concern", "conversion", "event", "flight", "git_commit", "health-condition", "health-immunization", "health-procedure", "health-reference-range", "insurance_policy", "invitation", "launch", "leg", "loaded_model", "meeting", "membership", "offer", "order", "pass", "reservation", "role", "spec", "task", "transaction", "trip"];
 
 // ===========================================================
 // Derived bindings — per-shape `derived:` block as JSON
 // ===========================================================
 
-pub static SHAPE_DERIVED_JSON: &str = r#"{"issue": {"upvotes": {"count": "for", "where": {"direction": "up"}}, "downvotes": {"count": "for", "where": {"direction": "down"}}, "weight": {"tally": "for", "by": "direction", "map": {"up": 1, "down": -1}}, "status": {"reverse": "addresses", "get": "status", "prefer": ["achieved", "active", "at-risk", "proposed"], "map": {"achieved": "addressed", "active": "in-progress", "at-risk": "in-progress", "proposed": "planned"}, "default": "open", "authored": {"field": "declined", "equals": true, "then": "declined"}}}, "person": {"birthdate": {"find": "born_in", "is": "birth", "get": "startDate"}, "current_residence": {"find": "lived_at", "where_link": {"to": null}, "get": "name"}, "current_role": {"find": "worked_at", "where_link": {"to": null}, "get": "title"}, "givenName": {"latest": [{"find": "born_in", "is": "birth", "get": "givenName"}, {"find": "changed", "is": "transition", "get": "givenName"}]}, "additionalName": {"latest": [{"find": "born_in", "is": "birth", "get": "additionalName"}, {"find": "changed", "is": "transition", "get": "additionalName"}]}, "familyName": {"latest": [{"find": "born_in", "is": "birth", "get": "familyName"}, {"find": "changed", "is": "transition", "get": "familyName"}]}, "honorificPrefix": {"latest": [{"find": "born_in", "is": "birth", "get": "honorificPrefix"}, {"find": "changed", "is": "transition", "get": "honorificPrefix"}]}, "honorificSuffix": {"latest": [{"find": "born_in", "is": "birth", "get": "honorificSuffix"}, {"find": "changed", "is": "transition", "get": "honorificSuffix"}]}, "legalName": {"latest": [{"find": "born_in", "is": "birth", "get": "legalName"}, {"find": "changed", "is": "transition", "get": "legalName"}]}, "maidenName": {"latest": [{"find": "born_in", "is": "birth", "get": "maidenName"}, {"find": "changed", "is": "transition", "get": "maidenName"}]}, "sortAs": {"latest": [{"find": "born_in", "is": "birth", "get": "sortAs"}, {"find": "changed", "is": "transition", "get": "sortAs"}]}, "nameOrder": {"latest": [{"find": "born_in", "is": "birth", "get": "nameOrder"}, {"find": "changed", "is": "transition", "get": "nameOrder"}]}, "phoneticGivenName": {"latest": [{"find": "born_in", "is": "birth", "get": "phoneticGivenName"}, {"find": "changed", "is": "transition", "get": "phoneticGivenName"}]}, "phoneticFamilyName": {"latest": [{"find": "born_in", "is": "birth", "get": "phoneticFamilyName"}, {"find": "changed", "is": "transition", "get": "phoneticFamilyName"}]}, "gender": {"latest": [{"find": "born_in", "is": "birth", "get": "gender"}, {"find": "changed", "is": "transition", "get": "gender"}]}, "nickname": {"latest": [{"find": "born_in", "is": "birth", "get": "nickname"}, {"find": "changed", "is": "transition", "get": "nickname"}]}}}"#;
+pub static SHAPE_DERIVED_JSON: &str = r#"{"issue": {"upvotes": {"count": "for", "where": {"direction": "up"}}, "downvotes": {"count": "for", "where": {"direction": "down"}}, "weight": {"tally": "for", "by": "direction", "map": {"up": 1, "down": -1}}, "status": {"reverse": "addresses", "get": "status", "prefer": ["achieved", "active", "at-risk", "proposed"], "map": {"achieved": "addressed", "active": "in-progress", "at-risk": "in-progress", "proposed": "planned"}, "default": "open", "authored": {"field": "declined", "equals": true, "then": "declined"}}}, "person": {"current_residence": {"find": "lived_at", "where_link": {"to": null}, "get": "name"}, "current_role": {"find": "worked_at", "where_link": {"to": null}, "get": "title"}}}"#;
 
 // ===========================================================
 // Shortcuts — per-shape `shortcuts:` block as JSON
 // ===========================================================
 
-pub static SHAPE_SHORTCUTS_JSON: &str = r#"{"person": {"birthdate": {"writes": "born_in[is=birth].startDate", "inverse": "birth_of"}, "givenName": {"writes": "born_in[is=birth].givenName"}, "additionalName": {"writes": "born_in[is=birth].additionalName"}, "familyName": {"writes": "born_in[is=birth].familyName"}, "honorificPrefix": {"writes": "born_in[is=birth].honorificPrefix"}, "honorificSuffix": {"writes": "born_in[is=birth].honorificSuffix"}, "legalName": {"writes": "born_in[is=birth].legalName"}, "maidenName": {"writes": "born_in[is=birth].maidenName"}, "sortAs": {"writes": "born_in[is=birth].sortAs"}, "nameOrder": {"writes": "born_in[is=birth].nameOrder"}, "phoneticGivenName": {"writes": "born_in[is=birth].phoneticGivenName"}, "phoneticFamilyName": {"writes": "born_in[is=birth].phoneticFamilyName"}, "gender": {"writes": "born_in[is=birth].gender"}, "nickname": {"writes": "born_in[is=birth].nickname"}}}"#;
+pub static SHAPE_SHORTCUTS_JSON: &str = r#"{}"#;

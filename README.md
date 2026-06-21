@@ -50,6 +50,28 @@ place, or detail for something that happened *to it via another party* —
 that is the denormalization bug. Links carry typed vals (`link_vals`);
 that is what they are for.
 
+**The line is "via another party", not "is a date" — declare it with
+`timed: self`.** A datetime that is an **intrinsic attribute of the one
+entity** — when it began or ended, when it was measured — is a plain field
+on the node, not an event. A person carries `birthDate` / `deathDate`; a
+`measure` carries its own observation timestamp; a `health-panel` carries
+its draw datetime. There is no second party whose *relationship* owns that
+date, so there is nothing to hoist onto a link, and minting a one-off
+`birth` event node to hold it is the over-modeling mirror of the
+denormalization bug (rule 5: a shape with no unique fields is not a shape).
+
+A shape that owns its dates says so with **`timed: self`** at the top
+level — the one declaration that makes intrinsic valid-time first-class
+and *discoverable on the ShapeDef itself* (an agent introspecting the
+shape sees it; no codegen allowlist to read). The codegen lint honours it:
+`timed: self` lets a shape carry `datetime` fields without being an event.
+The test for whether you've earned it: ask "*whose relationship is this
+date a property of?*" — if the honest answer is "the entity's own
+existence / occurrence" it is a `timed: self` field; if it is "the link
+between two parties" (`published_by`, `lived_at`, `worked_at`) it rides the
+link. (Transaction-time stamps — "when AgentOS *learned* this" — are the
+separate `TRANSACTION_TIME_ALLOWLIST` exception per rule 6, not this.)
+
 Vals on an link are not only *when* and *where*. Any **quantity that is a
 property of the relationship** rides there too — `joe —owns→ adavia
 {share: 1.0, units: 10000000}`. The `link_vals` table types a number or

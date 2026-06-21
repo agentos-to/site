@@ -1108,8 +1108,10 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
                         f"on a non-event shape (rule 1). Fix: (a) link val "
                         f"on the verb link that earns this date, (b) promote "
                         f"to an event node with `--<verb>--> event {{startDate}}`, "
-                        f"or (c) add {f.name!r} to TRANSACTION_TIME_ALLOWLIST "
-                        f"in ir.py if it's really 'when AgentOS learned this'.")
+                        f"(c) declare `timed: self` if this shape carries its own "
+                        f"intrinsic valid-time (a measurement, a person's birthDate), "
+                        f"or (d) add {f.name!r} to TRANSACTION_TIME_ALLOWLIST if "
+                        f"it's really 'when AgentOS learned this'.")
         # `display:` block — role bindings must reference a field or relation
         # this shape carries (resolved fields, includes inherited + standard +
         # relations). Unknown bindings are advisory warnings, not errors —

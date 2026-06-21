@@ -2164,436 +2164,6 @@
       "prefs_schemas": {}
     },
     {
-      "name": "birth",
-      "class_name": "Birth",
-      "fields": [
-        {
-          "name": "id",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "text",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "url",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "image",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "author",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "datePublished",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "content",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "additionalName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "allDay",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "currentUrl",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "dateUpdated",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "distinctId",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "endDate",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "familyName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "gender",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "givenName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "honorificPrefix",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "honorificSuffix",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "icalUid",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "legalName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "maidenName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "nameOrder",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "nickname",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "phoneticFamilyName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "phoneticGivenName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "properties",
-          "type": "json",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "recurrence",
-          "type": "string[]",
-          "is_relation": false,
-          "is_array": true,
-          "target": null
-        },
-        {
-          "name": "showAs",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sortAs",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sourceTitle",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sourceUrl",
-          "type": "url",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "startDate",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "timezone",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "visibility",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        }
-      ],
-      "also": [
-        "event"
-      ],
-      "timed": null,
-      "plural": "births",
-      "subtitle": "location",
-      "display": {
-        "title": null,
-        "subtitle": "location",
-        "image": null,
-        "highlights": [
-          "startDate",
-          "location"
-        ],
-        "body": null,
-        "mono": null,
-        "preview": {},
-        "icon": "child_care"
-      },
-      "identity": [],
-      "identity_any": [],
-      "leading_comment": "A person's birth. The canonical event recording given/family names,\ngender, and other birth-time particulars as of the moment of birth.\n\nPer platform/README.md rule 1 (an event is a relationship; time and\nplace ride on it): birthdate is not a person field — it's this event's\n`startDate`. Same for every name part and gender. See `person.yaml`'s\n`derived:` block for how `joe —born_in→ birth(...)` projects to\n`joe.givenName` etc.\n\nField semantics (cultural + legal grounding):\n- `givenName` / `additionalName` / `familyName` — schema.org +\nvCard 4.0 N tuple. \"given\" and \"family\" avoid Western \"first/last\"\nbias (CJK names speak family first).\n- `honorificPrefix` / `honorificSuffix` — \"Dr\", \"Jr\", \"III\", \"PhD\".\nSuffixes matter for TSA Secure Flight if on government ID.\n- `legalName` — verbatim string as on government ID. IATA PNR and\nICAO 9303 MRZ require this exact form; structured reconstruction\nis lossy (diacritics stripped, hyphens vary).\n- `maidenName` — cultural birth surname, often distinct from\n`familyName` in Spanish-system (apellido materno) and similar\ntwo-surname traditions. Used for genealogy + reunion search.\n- `sortAs` — vCard SORT-AS equivalent for particled surnames\n(\"van der Harten\" sorts under H).\n- `nameOrder` — rendering hint: \"given-family\" | \"family-given\" |\n\"patronymic\".\n- `phoneticGivenName` / `phoneticFamilyName` — Apple/Google\nphonetic variants; matter for TTS and call-screening.\n- `nickname` — casual / informal name in use at birth (rare; usually\npopulated on a `transition` event later in life).",
-      "own_fields": [
-        {
-          "name": "givenName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "additionalName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "familyName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "honorificPrefix",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "honorificSuffix",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "legalName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "maidenName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sortAs",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "nameOrder",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "phoneticGivenName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "phoneticFamilyName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "gender",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "nickname",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        }
-      ],
-      "own_relations": [],
-      "prior_art": [
-        {
-          "source": "schema.org/Person.birthDate / birthPlace",
-          "url": "https://schema.org/birthDate",
-          "notes": "schema.org collapses birth into two flat fields on Person; we lift to an event-node so all birth particulars (name, gender, legal-doc form) co-locate per platform README rule 1."
-        },
-        {
-          "source": "GEDCOM 7 INDI.BIRT",
-          "url": "https://gedcom.io/specifications/FamilySearchGEDCOMv7.html",
-          "notes": "Genealogy's canonical model: a typed INDIVIDUAL_EVENT with DATE, PLAC, ADDR sub-records. Our `birth` shape is the equivalent — sub-records map to event-base fields (startDate, location) plus the typed birth-particulars fields above."
-        },
-        {
-          "source": "GEDCOM-X Fact (FactType=Birth)",
-          "url": "https://github.com/FamilySearch/gedcomx/blob/master/specifications/fact-types-specification.md",
-          "notes": "FamilySearch's reified-fact model. We adopt the reified-event pattern; field set is richer (legalName + phonetics + nameOrder) for present-day identity-document interop."
-        }
-      ],
-      "source_path": "birth.yaml",
-      "raw_body": "plural: births\nalso:\n- event\ndisplay:\n  icon: child_care\n  subtitle: location\n  highlights:\n  - startDate\n  - location\nfields:\n  givenName: string\n  additionalName: string\n  familyName: string\n  honorificPrefix: string\n  honorificSuffix: string\n  legalName: string\n  maidenName: string\n  sortAs: string\n  nameOrder: string\n  phoneticGivenName: string\n  phoneticFamilyName: string\n  gender: string\n  nickname: string\nprior_art:\n- source: schema.org/Person.birthDate / birthPlace\n  url: https://schema.org/birthDate\n  notes: schema.org collapses birth into two flat fields on Person; we lift to an\n    event-node so all birth particulars (name, gender, legal-doc form) co-locate per\n    platform README rule 1.\n- source: GEDCOM 7 INDI.BIRT\n  url: https://gedcom.io/specifications/FamilySearchGEDCOMv7.html\n  notes: \"Genealogy's canonical model: a typed INDIVIDUAL_EVENT with DATE, PLAC, ADDR\\\n    \\ sub-records. Our `birth` shape is the equivalent \\u2014 sub-records map to event-base\\\n    \\ fields (startDate, location) plus the typed birth-particulars fields above.\"\n- source: GEDCOM-X Fact (FactType=Birth)\n  url: https://github.com/FamilySearch/gedcomx/blob/master/specifications/fact-types-specification.md\n  notes: FamilySearch's reified-fact model. We adopt the reified-event pattern; field\n    set is richer (legalName + phonetics + nameOrder) for present-day identity-document\n    interop.\n",
-      "ancestors": [
-        "event"
-      ],
-      "field_order": [
-        "givenName",
-        "additionalName",
-        "familyName",
-        "honorificPrefix",
-        "honorificSuffix",
-        "legalName",
-        "maidenName",
-        "sortAs",
-        "nameOrder",
-        "phoneticGivenName",
-        "phoneticFamilyName",
-        "gender",
-        "nickname",
-        "startDate",
-        "endDate",
-        "timezone",
-        "allDay",
-        "recurrence",
-        "status",
-        "visibility",
-        "showAs",
-        "dateUpdated",
-        "sourceUrl",
-        "sourceTitle",
-        "icalUid",
-        "distinctId",
-        "currentUrl",
-        "properties"
-      ],
-      "derived": {},
-      "groups": [],
-      "shortcuts": {},
-      "prefs_schemas": {}
-    },
-    {
       "name": "book",
       "class_name": "Book",
       "fields": [
@@ -8336,7 +7906,7 @@
         "id"
       ],
       "identity_any": [],
-      "leading_comment": "Something that happens — at a time, optionally at a place, involving people.\n\nThe universal base for anything with a when: meetings, classes, parties,\nconferences, concerts, life events. Subtypes extend via `also: [event]`\n— each subtype is its own shape file carrying its own typed fields.\nThis base shape stays universal: when / where / who, nothing per-subtype.\n\nStandard fields (inherited): id, name, url, image, published, content\npublished is when the event was *posted/announced* — NOT when it happens.\nUse startDate / endDate for the actual event timing.\n\nPer-subtype fields live on subtype shapes:\n- birth.yaml      → name + gender particulars at birth\n- transition.yaml → name/gender/etc. changes over a person's lifetime\n- launch.yaml     → rocket-launch fields (SpaceX)\n- meeting.yaml    → calendar-meeting fields\n- ...",
+      "leading_comment": "Something that happens — at a time, optionally at a place, involving people.\n\nThe universal base for anything with a when: meetings, classes, parties,\nconferences, concerts, life events. Subtypes extend via `also: [event]`\n— each subtype is its own shape file carrying its own typed fields.\nThis base shape stays universal: when / where / who, nothing per-subtype.\n\nStandard fields (inherited): id, name, url, image, published, content\npublished is when the event was *posted/announced* — NOT when it happens.\nUse startDate / endDate for the actual event timing.\n\nPer-subtype fields live on subtype shapes:\n- launch.yaml     → rocket-launch fields (SpaceX)\n- meeting.yaml    → calendar-meeting fields\n- ...\n(A person's birth/death dates and name parts are intrinsic attributes of\nthe person, not events — they live as flat fields on person.yaml.)",
       "own_fields": [
         {
           "name": "startDate",
@@ -20827,8 +20397,92 @@
           "target": null
         },
         {
+          "name": "additionalName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "birthDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "deathDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "familyName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "gender",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "givenName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "honorificPrefix",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "honorificSuffix",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "identities",
           "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "legalName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "maidenName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "nameOrder",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "nickname",
+          "type": "string",
           "is_relation": false,
           "is_array": false,
           "target": null
@@ -20839,12 +20493,33 @@
           "is_relation": false,
           "is_array": false,
           "target": null
+        },
+        {
+          "name": "phoneticFamilyName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "phoneticGivenName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sortAs",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
         }
       ],
       "also": [
         "actor"
       ],
-      "timed": null,
+      "timed": "self",
       "plural": "people",
       "subtitle": "about",
       "display": {
@@ -20852,7 +20527,7 @@
         "subtitle": "about",
         "image": "image",
         "highlights": [
-          "birthdate",
+          "birthDate",
           "gender"
         ],
         "body": "notes",
@@ -20864,7 +20539,7 @@
       "identity_any": [
         "url"
       ],
-      "leading_comment": "A real human. People are actors — they can own accounts, hold roles,\nattend meetings, get involved in events. Resolved from contacts, message\nsenders, meeting attendees, etc.\n\nPer platform/README.md rule 1 (an event is a relationship; time and\nplace ride on it), the person node carries IDENTITY only — `url` and\nthe standard `id`. Everything that describes the person at a moment\nlives on a typed event:\n\njoe —born_in→  birth(...)        # birthdate, given/family/legal name, gender, ...\njoe —changed→  transition(...)   # subsequent name/gender/identity changes\njoe —lived_at→ place {from, to}  # residences, time-bracketed via link_vals\njoe —worked_at→ org {from, to}   # roles, same dated-link pattern\n\nRead-side ergonomics: `derived:` block walks events at read time and\nprojects current values (latest by startDate; tie-break = max link id)\nonto the node JSON. So `joe.givenName` Just Works without storing it\nanywhere on the person node.\n\nWrite-side ergonomics: `shortcuts:` block expands `data.create({shape:\nperson, birthdate: ..., givenName: ...})` into a nested birth event\nautomatically. No per-shape engine code; the expansion table is\ncodegen-emitted from this YAML.\n\nName model + cultural grounding (CJK family-first, Spanish two-surname,\nIcelandic patronymic, IATA PNR/ICAO 9303 legal-name verbatim) lives on\n`birth.yaml` and `transition.yaml`. See those shapes + their prior_art\nblocks for the field semantics.",
+      "leading_comment": "A real human. People are actors — they can own accounts, hold roles,\nattend meetings, get involved in events. Resolved from contacts, message\nsenders, meeting attendees, etc.\n\nIdentity + intrinsic attributes live on the node. A person's name parts,\ngender, and birth/death dates are intrinsic temporal attributes of the\none human (README rule 1's intrinsic-attribute case — like a measure's\nown timestamp), so they are plain fields here, not hoisted onto an event.\nWhat genuinely belongs to a *relationship between two parties* still\nrides the link:\n\njoe —lived_at→ place {from, to}  # residences, time-bracketed via link_vals\njoe —worked_at→ org {from, to}   # roles, same dated-link pattern\njoe —born_to→ parent             # parentage (the edge, not the date)\n\n`current_residence` / `current_role` derive from the open (`to: null`)\n`lived_at` / `worked_at` link via the resolver — those stay relationships.\n\nName model + cultural grounding (CJK family-first, Spanish two-surname,\nIcelandic patronymic, IATA PNR / ICAO 9303 legal-name verbatim) lives on\nthe field comments below — vCard 4.0 N tuple + W3C i18n personal-names.",
       "own_fields": [
         {
           "name": "url",
@@ -20888,6 +20563,111 @@
           "target": null
         },
         {
+          "name": "givenName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "additionalName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "familyName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "honorificPrefix",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "honorificSuffix",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "legalName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "maidenName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "sortAs",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "nameOrder",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "phoneticGivenName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "phoneticFamilyName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "nickname",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "gender",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "birthDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
+          "name": "deathDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null
+        },
+        {
           "name": "identities",
           "type": "json",
           "is_relation": false,
@@ -20900,17 +20680,17 @@
         {
           "source": "schema.org/Person",
           "url": "https://schema.org/Person",
-          "notes": "Our givenName / familyName / additionalName / honorificPrefix / honorificSuffix live on `birth.yaml` (and `transition.yaml`), not on the person node itself — schema.org's `birthDate` lives on the `--born_in--> birth { startDate }` relationship per rule 1. We diverge by modeling accounts[] as a first-class relation rather than sameAs URLs."
+          "notes": "givenName / familyName / additionalName / honorificPrefix / honorificSuffix / birthDate map 1:1 onto plain fields. schema.org keeps these flat on Person; so do we — they are intrinsic to the one human. We diverge by modeling `identities[]` as a first-class uniform set rather than scattered sameAs URLs."
         },
         {
           "source": "vCard 4.0 (RFC 6350) §6.2.2 N property + §5.9 SORT-AS",
           "url": "https://datatracker.ietf.org/doc/html/rfc6350#section-6.2.2",
-          "notes": "The N property is `family;given;additional;prefixes;suffixes`, each comma-multi-valued. Round-trips exactly through the birth event's structured name fields."
+          "notes": "The N property is `family;given;additional;prefixes;suffixes`, each comma-multi-valued. Round-trips exactly through the structured name fields; SORT-AS → `sortAs`."
         },
         {
           "source": "W3C i18n — Personal names around the world",
           "url": "https://www.w3.org/International/questions/qa-personal-names",
-          "notes": "Canonical reference for why \"first/last\" is a Western bias. CJK names put family first. Spanish uses two surnames. Icelandic uses patronymics without family names. The birth event's `nameOrder` field captures the rendering rule; structured fields stay neutral."
+          "notes": "Canonical reference for why \"first/last\" is a Western bias. CJK names put family first; Spanish uses two surnames; Icelandic uses patronymics. `nameOrder` captures the rendering rule; structured fields stay neutral."
         },
         {
           "source": "FOAF (Friend of a Friend)",
@@ -20919,7 +20699,7 @@
         }
       ],
       "source_path": "person.yaml",
-      "raw_body": "plural: people\nidentity_any:\n- url\nalso:\n- actor\nfields:\n  url: string\n  notes: text\n  about: text\n  identities: json\nderived:\n  birthdate:\n    find: born_in\n    is: birth\n    get: startDate\n  current_residence:\n    find: lived_at\n    where_link:\n      to: null\n    get: name\n  current_role:\n    find: worked_at\n    where_link:\n      to: null\n    get: title\n  givenName:\n    latest:\n    - find: born_in\n      is: birth\n      get: givenName\n    - find: changed\n      is: transition\n      get: givenName\n  additionalName:\n    latest:\n    - find: born_in\n      is: birth\n      get: additionalName\n    - find: changed\n      is: transition\n      get: additionalName\n  familyName:\n    latest:\n    - find: born_in\n      is: birth\n      get: familyName\n    - find: changed\n      is: transition\n      get: familyName\n  honorificPrefix:\n    latest:\n    - find: born_in\n      is: birth\n      get: honorificPrefix\n    - find: changed\n      is: transition\n      get: honorificPrefix\n  honorificSuffix:\n    latest:\n    - find: born_in\n      is: birth\n      get: honorificSuffix\n    - find: changed\n      is: transition\n      get: honorificSuffix\n  legalName:\n    latest:\n    - find: born_in\n      is: birth\n      get: legalName\n    - find: changed\n      is: transition\n      get: legalName\n  maidenName:\n    latest:\n    - find: born_in\n      is: birth\n      get: maidenName\n    - find: changed\n      is: transition\n      get: maidenName\n  sortAs:\n    latest:\n    - find: born_in\n      is: birth\n      get: sortAs\n    - find: changed\n      is: transition\n      get: sortAs\n  nameOrder:\n    latest:\n    - find: born_in\n      is: birth\n      get: nameOrder\n    - find: changed\n      is: transition\n      get: nameOrder\n  phoneticGivenName:\n    latest:\n    - find: born_in\n      is: birth\n      get: phoneticGivenName\n    - find: changed\n      is: transition\n      get: phoneticGivenName\n  phoneticFamilyName:\n    latest:\n    - find: born_in\n      is: birth\n      get: phoneticFamilyName\n    - find: changed\n      is: transition\n      get: phoneticFamilyName\n  gender:\n    latest:\n    - find: born_in\n      is: birth\n      get: gender\n    - find: changed\n      is: transition\n      get: gender\n  nickname:\n    latest:\n    - find: born_in\n      is: birth\n      get: nickname\n    - find: changed\n      is: transition\n      get: nickname\nshortcuts:\n  birthdate:\n    writes: born_in[is=birth].startDate\n    inverse: birth_of\n  givenName:\n    writes: born_in[is=birth].givenName\n  additionalName:\n    writes: born_in[is=birth].additionalName\n  familyName:\n    writes: born_in[is=birth].familyName\n  honorificPrefix:\n    writes: born_in[is=birth].honorificPrefix\n  honorificSuffix:\n    writes: born_in[is=birth].honorificSuffix\n  legalName:\n    writes: born_in[is=birth].legalName\n  maidenName:\n    writes: born_in[is=birth].maidenName\n  sortAs:\n    writes: born_in[is=birth].sortAs\n  nameOrder:\n    writes: born_in[is=birth].nameOrder\n  phoneticGivenName:\n    writes: born_in[is=birth].phoneticGivenName\n  phoneticFamilyName:\n    writes: born_in[is=birth].phoneticFamilyName\n  gender:\n    writes: born_in[is=birth].gender\n  nickname:\n    writes: born_in[is=birth].nickname\ndisplay:\n  icon: person\n  image: image\n  subtitle: about\n  highlights:\n  - birthdate\n  - gender\n  body: notes\ngroups:\n  Name:\n  - givenName\n  - additionalName\n  - familyName\n  - nickname\n  - legalName\n  - maidenName\n  Personal:\n  - birthdate\n  - gender\n  - current_residence\n  - current_role\n  About:\n  - about\n  - notes\n  - url\nprior_art:\n- source: schema.org/Person\n  url: https://schema.org/Person\n  notes: \"Our givenName / familyName / additionalName / honorificPrefix / honorificSuffix\\\n    \\ live on `birth.yaml` (and `transition.yaml`), not on the person node itself\\\n    \\ \\u2014 schema.org's `birthDate` lives on the `--born_in--> birth { startDate\\\n    \\ }` relationship per rule 1. We diverge by modeling accounts[] as a first-class\\\n    \\ relation rather than sameAs URLs.\"\n- source: \"vCard 4.0 (RFC 6350) \\xA76.2.2 N property + \\xA75.9 SORT-AS\"\n  url: https://datatracker.ietf.org/doc/html/rfc6350#section-6.2.2\n  notes: The N property is `family;given;additional;prefixes;suffixes`, each comma-multi-valued.\n    Round-trips exactly through the birth event's structured name fields.\n- source: \"W3C i18n \\u2014 Personal names around the world\"\n  url: https://www.w3.org/International/questions/qa-personal-names\n  notes: Canonical reference for why \"first/last\" is a Western bias. CJK names put\n    family first. Spanish uses two surnames. Icelandic uses patronymics without family\n    names. The birth event's `nameOrder` field captures the rendering rule; structured\n    fields stay neutral.\n- source: FOAF (Friend of a Friend)\n  url: http://xmlns.com/foaf/spec/\n  notes: Original social-graph vocabulary. Largely superseded by schema.org but still\n    a reference for account-centric modeling.\n",
+      "raw_body": "plural: people\ntimed: self\nidentity_any:\n- url\nalso:\n- actor\nfields:\n  url: string\n  notes: text\n  about: text\n  givenName: string\n  additionalName: string\n  familyName: string\n  honorificPrefix: string\n  honorificSuffix: string\n  legalName: string\n  maidenName: string\n  sortAs: string\n  nameOrder: string\n  phoneticGivenName: string\n  phoneticFamilyName: string\n  nickname: string\n  gender: string\n  birthDate: datetime\n  deathDate: datetime\n  identities: json\nderived:\n  current_residence:\n    find: lived_at\n    where_link:\n      to: null\n    get: name\n  current_role:\n    find: worked_at\n    where_link:\n      to: null\n    get: title\ndisplay:\n  icon: person\n  image: image\n  subtitle: about\n  highlights:\n  - birthDate\n  - gender\n  body: notes\ngroups:\n  Name:\n  - givenName\n  - additionalName\n  - familyName\n  - nickname\n  - legalName\n  - maidenName\n  Personal:\n  - birthDate\n  - gender\n  - current_residence\n  - current_role\n  About:\n  - about\n  - notes\n  - url\nprior_art:\n- source: schema.org/Person\n  url: https://schema.org/Person\n  notes: \"givenName / familyName / additionalName / honorificPrefix / honorificSuffix\\\n    \\ / birthDate map 1:1 onto plain fields. schema.org keeps these flat on Person;\\\n    \\ so do we \\u2014 they are intrinsic to the one human. We diverge by modeling\\\n    \\ `identities[]` as a first-class uniform set rather than scattered sameAs URLs.\"\n- source: \"vCard 4.0 (RFC 6350) \\xA76.2.2 N property + \\xA75.9 SORT-AS\"\n  url: https://datatracker.ietf.org/doc/html/rfc6350#section-6.2.2\n  notes: \"The N property is `family;given;additional;prefixes;suffixes`, each comma-multi-valued.\\\n    \\ Round-trips exactly through the structured name fields; SORT-AS \\u2192 `sortAs`.\"\n- source: \"W3C i18n \\u2014 Personal names around the world\"\n  url: https://www.w3.org/International/questions/qa-personal-names\n  notes: Canonical reference for why \"first/last\" is a Western bias. CJK names put\n    family first; Spanish uses two surnames; Icelandic uses patronymics. `nameOrder`\n    captures the rendering rule; structured fields stay neutral.\n- source: FOAF (Friend of a Friend)\n  url: http://xmlns.com/foaf/spec/\n  notes: Original social-graph vocabulary. Largely superseded by schema.org but still\n    a reference for account-centric modeling.\n",
       "ancestors": [
         "actor"
       ],
@@ -20927,15 +20707,25 @@
         "url",
         "notes",
         "about",
+        "givenName",
+        "additionalName",
+        "familyName",
+        "honorificPrefix",
+        "honorificSuffix",
+        "legalName",
+        "maidenName",
+        "sortAs",
+        "nameOrder",
+        "phoneticGivenName",
+        "phoneticFamilyName",
+        "nickname",
+        "gender",
+        "birthDate",
+        "deathDate",
         "identities",
         "actorType"
       ],
       "derived": {
-        "birthdate": {
-          "find": "born_in",
-          "is": "birth",
-          "get": "startDate"
-        },
         "current_residence": {
           "find": "lived_at",
           "where_link": {
@@ -20949,188 +20739,6 @@
             "to": null
           },
           "get": "title"
-        },
-        "givenName": {
-          "latest": [
-            {
-              "find": "born_in",
-              "is": "birth",
-              "get": "givenName"
-            },
-            {
-              "find": "changed",
-              "is": "transition",
-              "get": "givenName"
-            }
-          ]
-        },
-        "additionalName": {
-          "latest": [
-            {
-              "find": "born_in",
-              "is": "birth",
-              "get": "additionalName"
-            },
-            {
-              "find": "changed",
-              "is": "transition",
-              "get": "additionalName"
-            }
-          ]
-        },
-        "familyName": {
-          "latest": [
-            {
-              "find": "born_in",
-              "is": "birth",
-              "get": "familyName"
-            },
-            {
-              "find": "changed",
-              "is": "transition",
-              "get": "familyName"
-            }
-          ]
-        },
-        "honorificPrefix": {
-          "latest": [
-            {
-              "find": "born_in",
-              "is": "birth",
-              "get": "honorificPrefix"
-            },
-            {
-              "find": "changed",
-              "is": "transition",
-              "get": "honorificPrefix"
-            }
-          ]
-        },
-        "honorificSuffix": {
-          "latest": [
-            {
-              "find": "born_in",
-              "is": "birth",
-              "get": "honorificSuffix"
-            },
-            {
-              "find": "changed",
-              "is": "transition",
-              "get": "honorificSuffix"
-            }
-          ]
-        },
-        "legalName": {
-          "latest": [
-            {
-              "find": "born_in",
-              "is": "birth",
-              "get": "legalName"
-            },
-            {
-              "find": "changed",
-              "is": "transition",
-              "get": "legalName"
-            }
-          ]
-        },
-        "maidenName": {
-          "latest": [
-            {
-              "find": "born_in",
-              "is": "birth",
-              "get": "maidenName"
-            },
-            {
-              "find": "changed",
-              "is": "transition",
-              "get": "maidenName"
-            }
-          ]
-        },
-        "sortAs": {
-          "latest": [
-            {
-              "find": "born_in",
-              "is": "birth",
-              "get": "sortAs"
-            },
-            {
-              "find": "changed",
-              "is": "transition",
-              "get": "sortAs"
-            }
-          ]
-        },
-        "nameOrder": {
-          "latest": [
-            {
-              "find": "born_in",
-              "is": "birth",
-              "get": "nameOrder"
-            },
-            {
-              "find": "changed",
-              "is": "transition",
-              "get": "nameOrder"
-            }
-          ]
-        },
-        "phoneticGivenName": {
-          "latest": [
-            {
-              "find": "born_in",
-              "is": "birth",
-              "get": "phoneticGivenName"
-            },
-            {
-              "find": "changed",
-              "is": "transition",
-              "get": "phoneticGivenName"
-            }
-          ]
-        },
-        "phoneticFamilyName": {
-          "latest": [
-            {
-              "find": "born_in",
-              "is": "birth",
-              "get": "phoneticFamilyName"
-            },
-            {
-              "find": "changed",
-              "is": "transition",
-              "get": "phoneticFamilyName"
-            }
-          ]
-        },
-        "gender": {
-          "latest": [
-            {
-              "find": "born_in",
-              "is": "birth",
-              "get": "gender"
-            },
-            {
-              "find": "changed",
-              "is": "transition",
-              "get": "gender"
-            }
-          ]
-        },
-        "nickname": {
-          "latest": [
-            {
-              "find": "born_in",
-              "is": "birth",
-              "get": "nickname"
-            },
-            {
-              "find": "changed",
-              "is": "transition",
-              "get": "nickname"
-            }
-          ]
         }
       },
       "groups": [
@@ -21148,7 +20756,7 @@
         [
           "Personal",
           [
-            "birthdate",
+            "birthDate",
             "gender",
             "current_residence",
             "current_role"
@@ -21163,51 +20771,7 @@
           ]
         ]
       ],
-      "shortcuts": {
-        "birthdate": {
-          "writes": "born_in[is=birth].startDate",
-          "inverse": "birth_of"
-        },
-        "givenName": {
-          "writes": "born_in[is=birth].givenName"
-        },
-        "additionalName": {
-          "writes": "born_in[is=birth].additionalName"
-        },
-        "familyName": {
-          "writes": "born_in[is=birth].familyName"
-        },
-        "honorificPrefix": {
-          "writes": "born_in[is=birth].honorificPrefix"
-        },
-        "honorificSuffix": {
-          "writes": "born_in[is=birth].honorificSuffix"
-        },
-        "legalName": {
-          "writes": "born_in[is=birth].legalName"
-        },
-        "maidenName": {
-          "writes": "born_in[is=birth].maidenName"
-        },
-        "sortAs": {
-          "writes": "born_in[is=birth].sortAs"
-        },
-        "nameOrder": {
-          "writes": "born_in[is=birth].nameOrder"
-        },
-        "phoneticGivenName": {
-          "writes": "born_in[is=birth].phoneticGivenName"
-        },
-        "phoneticFamilyName": {
-          "writes": "born_in[is=birth].phoneticFamilyName"
-        },
-        "gender": {
-          "writes": "born_in[is=birth].gender"
-        },
-        "nickname": {
-          "writes": "born_in[is=birth].nickname"
-        }
-      },
+      "shortcuts": {},
       "prefs_schemas": {}
     },
     {
@@ -30808,448 +30372,6 @@
         "durationMs",
         "segmentCount",
         "segments"
-      ],
-      "derived": {},
-      "groups": [],
-      "shortcuts": {},
-      "prefs_schemas": {}
-    },
-    {
-      "name": "transition",
-      "class_name": "Transition",
-      "fields": [
-        {
-          "name": "id",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "text",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "url",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "image",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "author",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "datePublished",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "content",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "additionalName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "allDay",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "currentUrl",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "dateUpdated",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "distinctId",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "endDate",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "familyName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "gender",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "givenName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "honorificPrefix",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "honorificSuffix",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "icalUid",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "legalName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "maidenName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "nameOrder",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "nickname",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "phoneticFamilyName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "phoneticGivenName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "properties",
-          "type": "json",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "recurrence",
-          "type": "string[]",
-          "is_relation": false,
-          "is_array": true,
-          "target": null
-        },
-        {
-          "name": "showAs",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sortAs",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sourceTitle",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sourceUrl",
-          "type": "url",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "startDate",
-          "type": "datetime",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "timezone",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "visibility",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        }
-      ],
-      "also": [
-        "event"
-      ],
-      "timed": null,
-      "plural": "transitions",
-      "subtitle": "startDate",
-      "display": {
-        "title": null,
-        "subtitle": "startDate",
-        "image": null,
-        "highlights": [
-          "startDate",
-          "givenName",
-          "familyName",
-          "gender"
-        ],
-        "body": null,
-        "mono": null,
-        "preview": {},
-        "icon": "autorenew"
-      },
-      "identity": [],
-      "identity_any": [],
-      "leading_comment": "An identity change — name, gender, religion, sports team, anything\nidentity-shaped — recorded as a point-in-time event. The event captures\nthe post-change state using the same canonical field names as `birth`;\nunfilled fields = \"this transition didn't touch that field.\"\n\nPer platform/README.md rule 1, the date the change took effect rides\non the event (`startDate`). The verb is `changed`:\n\njoe —changed→ transition(givenName: \"Joey\", startDate: 2010-06-01)\n\nResolver projection: `person.givenName` walks both `born_in → birth`\nand `changed → transition`, picks the latest by `startDate`, returns\nthe projected field. See `person.yaml` `derived:` block.\n\nSame field set as `birth` (single source of vocabulary for name +\ngender + nickname). Future identity axes (religion, race, pronoun,\nsports-team affiliation) land here as new optional fields without\ntouching the resolver — `derived:` bindings on `person.yaml` add\nmatching `latest:` arms as new dimensions are introduced.\n\nNot jurisdiction-flavoured. A transition may be a legal act (deed\npoll, GRC, passport amendment), an administrative filing (Singapore\nICA Change of Particulars), or a non-legal self-identification (going\nby a nickname, social-only gender change). The act's legal character,\nif any, rides on links from this event to authority/document nodes —\nout of scope V1.",
-      "own_fields": [
-        {
-          "name": "givenName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "additionalName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "familyName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "honorificPrefix",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "honorificSuffix",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "legalName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "maidenName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "sortAs",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "nameOrder",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "phoneticGivenName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "phoneticFamilyName",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "gender",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        },
-        {
-          "name": "nickname",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null
-        }
-      ],
-      "own_relations": [],
-      "prior_art": [
-        {
-          "source": "Event Sourcing (Fowler)",
-          "url": "https://martinfowler.com/eaaDev/EventSourcing.html",
-          "notes": "Past-tense events as facts; entity state = fold over the event stream. `transition` is the past-tense event-node; the `latest:` resolver is the fold. Reuses canonical field names — no `new_*` prefix per the event-sourcing convention."
-        },
-        {
-          "source": "Palantir Foundry — Action Log Objects",
-          "url": "https://www.palantir.com/docs/foundry/announcements/2022-10/index.html",
-          "notes": "Palantir reifies every mutation as a queryable Action Log Object — same shape as our reified `transition` event. They type Actions per-mutation (`AssignEmployee` etc.); we collapse to one umbrella shape with optional fields for agent-OS ergonomics (operations not known in advance)."
-        },
-        {
-          "source": "IMO / GISIS maritime registry — particulars change",
-          "url": "https://gisis.imo.org/public/default.aspx",
-          "notes": "50-year-old domain proves the pattern: stable identifier (IMO number) + canonical property names + reified change events (name/flag/owner change). `Person.id` ↔ `Ship.imo`; `transition.gender` ↔ a `flag_change` on a ship."
-        },
-        {
-          "source": "FHIR R5 HumanName.use + HumanName.period",
-          "url": "https://hl7.org/fhir/datatypes.html#HumanName",
-          "notes": "FHIR encodes dated names via multi-value on the Patient (no event-node). We lift the same pattern to an event-node because the change has its own date + place + authority context worth capturing as a first-class graph entity."
-        },
-        {
-          "source": "Wikidata P735/P734/P21 + P580/P582 qualifiers",
-          "url": "https://www.wikidata.org/wiki/Property:P735",
-          "notes": "Property statements with start-time/end-time qualifiers. Validates \"reuse canonical field name + date positions in time\"."
-        }
-      ],
-      "source_path": "transition.yaml",
-      "raw_body": "plural: transitions\nalso:\n- event\ndisplay:\n  icon: autorenew\n  subtitle: startDate\n  highlights:\n  - startDate\n  - givenName\n  - familyName\n  - gender\nfields:\n  givenName: string\n  additionalName: string\n  familyName: string\n  honorificPrefix: string\n  honorificSuffix: string\n  legalName: string\n  maidenName: string\n  sortAs: string\n  nameOrder: string\n  phoneticGivenName: string\n  phoneticFamilyName: string\n  gender: string\n  nickname: string\nprior_art:\n- source: Event Sourcing (Fowler)\n  url: https://martinfowler.com/eaaDev/EventSourcing.html\n  notes: \"Past-tense events as facts; entity state = fold over the event stream. `transition`\\\n    \\ is the past-tense event-node; the `latest:` resolver is the fold. Reuses canonical\\\n    \\ field names \\u2014 no `new_*` prefix per the event-sourcing convention.\"\n- source: \"Palantir Foundry \\u2014 Action Log Objects\"\n  url: https://www.palantir.com/docs/foundry/announcements/2022-10/index.html\n  notes: \"Palantir reifies every mutation as a queryable Action Log Object \\u2014\\\n    \\ same shape as our reified `transition` event. They type Actions per-mutation\\\n    \\ (`AssignEmployee` etc.); we collapse to one umbrella shape with optional fields\\\n    \\ for agent-OS ergonomics (operations not known in advance).\"\n- source: \"IMO / GISIS maritime registry \\u2014 particulars change\"\n  url: https://gisis.imo.org/public/default.aspx\n  notes: \"50-year-old domain proves the pattern: stable identifier (IMO number) +\\\n    \\ canonical property names + reified change events (name/flag/owner change). `Person.id`\\\n    \\ \\u2194 `Ship.imo`; `transition.gender` \\u2194 a `flag_change` on a ship.\"\n- source: FHIR R5 HumanName.use + HumanName.period\n  url: https://hl7.org/fhir/datatypes.html#HumanName\n  notes: FHIR encodes dated names via multi-value on the Patient (no event-node).\n    We lift the same pattern to an event-node because the change has its own date\n    + place + authority context worth capturing as a first-class graph entity.\n- source: Wikidata P735/P734/P21 + P580/P582 qualifiers\n  url: https://www.wikidata.org/wiki/Property:P735\n  notes: Property statements with start-time/end-time qualifiers. Validates \"reuse\n    canonical field name + date positions in time\".\n",
-      "ancestors": [
-        "event"
-      ],
-      "field_order": [
-        "givenName",
-        "additionalName",
-        "familyName",
-        "honorificPrefix",
-        "honorificSuffix",
-        "legalName",
-        "maidenName",
-        "sortAs",
-        "nameOrder",
-        "phoneticGivenName",
-        "phoneticFamilyName",
-        "gender",
-        "nickname",
-        "startDate",
-        "endDate",
-        "timezone",
-        "allDay",
-        "recurrence",
-        "status",
-        "visibility",
-        "showAs",
-        "dateUpdated",
-        "sourceUrl",
-        "sourceTitle",
-        "icalUid",
-        "distinctId",
-        "currentUrl",
-        "properties"
       ],
       "derived": {},
       "groups": [],

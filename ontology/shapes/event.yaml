@@ -10,11 +10,11 @@
 # Use startDate / endDate for the actual event timing.
 #
 # Per-subtype fields live on subtype shapes:
-#   - birth.yaml      → name + gender particulars at birth
-#   - transition.yaml → name/gender/etc. changes over a person's lifetime
 #   - launch.yaml     → rocket-launch fields (SpaceX)
 #   - meeting.yaml    → calendar-meeting fields
 #   - ...
+# (A person's birth/death dates and name parts are intrinsic attributes of
+#  the person, not events — they live as flat fields on person.yaml.)
 event:
   plural: events
   identity: [at, id]
