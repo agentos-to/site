@@ -27,7 +27,7 @@ from agentos import blobs
 from agentos import crypto
 from agentos import oauth
 from agentos import shell
-from agentos import llm
+from agentos.agent import chat, agent, AgentError
 from agentos import checkpoint
 
 # --- Operation decorators (read by engine via AST, no-ops at runtime) ---
@@ -67,8 +67,10 @@ __all__ = [
     # Engine dispatch (external Python scripts)
     "Client", "AsyncClient", "EngineError",
     # Engine-dispatched modules
-    "sql", "blobs", "crypto", "oauth", "shell", "llm", "checkpoint", "credentials",
+    "sql", "blobs", "crypto", "oauth", "shell", "checkpoint", "credentials",
     "services",
+    # Model brokering — chat (one completion) + agent (a tool-loop)
+    "chat", "agent", "AgentError",
     # Identity helpers
     "identity", "normalize_email", "normalize_phone", "normalize_handle",
     # Operation decorators

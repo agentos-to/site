@@ -36345,6 +36345,45 @@
   ],
   "ops": [
     {
+      "name": "agent.resolve_tools",
+      "group": "agent",
+      "action": "resolve_tools",
+      "doc": "Resolve app-scoped tool refs (\"app.operation\") to provider-native tool defs.",
+      "doc_full": "Resolve a list of app-scoped tool refs (`\"app.operation\"`) into\nprovider-native tool definitions. Used by SDK agent loops that need\nto pass the resolved tool list into a chat call.\n\nArgs:\n    tools: list of `\"app.operation\"` strings.\n\nReturns:\n    {tools: [tool_def, …]}.\n",
+      "service": [],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "tools",
+          "type": "string[]",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Tool references (app.operation)."
+        }
+      ],
+      "response": {
+        "scalar": false,
+        "type": "",
+        "type_optional": false,
+        "doc": "",
+        "fields": [
+          {
+            "name": "tools",
+            "type": "json[]",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "Resolved tool definitions, one per input ref (in order)."
+          }
+        ]
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "agent.* ops — schema resolution.\n\nagent.resolve_tools walks apps' `provides` entries to build provider-format\ntool definitions. Handler lives in agentos-core."
+    },
+    {
       "name": "auth_store.read",
       "group": "auth_store",
       "action": "read",
@@ -36876,47 +36915,6 @@
       ],
       "effects": [],
       "leading_comment": "http.request — the one stateless HTTP op.\n\nThe SDK's client module composes cookies/headers and calls this op;\nthe engine is pure transport. Handlers live in agentos-exec-executors."
-    },
-    {
-      "name": "llm.resolve_tools",
-      "group": "llm",
-      "action": "resolve_tools",
-      "doc": "Resolve app-scoped tool refs (\"app.operation\") to provider-native tool defs.",
-      "doc_full": "Resolve a list of app-scoped tool refs (`\"app.operation\"`) into\nprovider-native tool definitions. Used by llm.agent loops that need\nto pass the router's tool list into a chat call.\n\nArgs:\n    tools: list of `\"app.operation\"` strings.\n\nReturns:\n    {tools: [tool_def, …]}.\n",
-      "service": [
-        "llm"
-      ],
-      "trace_span": false,
-      "fire_and_forget": false,
-      "request": [
-        {
-          "name": "tools",
-          "type": "string[]",
-          "optional": false,
-          "has_default": false,
-          "default": null,
-          "doc": "Tool references (app.operation)."
-        }
-      ],
-      "response": {
-        "scalar": false,
-        "type": "",
-        "type_optional": false,
-        "doc": "",
-        "fields": [
-          {
-            "name": "tools",
-            "type": "json[]",
-            "optional": false,
-            "has_default": false,
-            "default": null,
-            "doc": "Resolved tool definitions, one per input ref (in order)."
-          }
-        ]
-      },
-      "log_fields": [],
-      "effects": [],
-      "leading_comment": "llm.* ops — schema resolution.\n\nllm.resolve_tools walks apps' `provides` entries to build provider-format\ntool definitions. Handler lives in agentos-core."
     },
     {
       "name": "plist.parse",

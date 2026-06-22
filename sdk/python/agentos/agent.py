@@ -1,24 +1,35 @@
-"""LLM inference — oneshot calls and agent loops.
+"""Model brokering — `chat` (one completion) and `agent` (a tool-loop).
 
-    from agentos import llm
+    from agentos import chat, agent
 
-    result = await llm.oneshot(prompt="Summarize this.", model="haiku")
-    result = await llm.agent(prompt="Review this code.", model="opus", tools=["exa.search"])
+    msg = await chat(prompt="Summarize this.", model="haiku")
+    out = await agent(prompt="Review this code.", model="opus", tools=["exa.search"])
 
-All functions are async. Apps must use `await` on every call.
-For parallel agents, use `asyncio.gather()`:
+The two functions are named by what they *return*, not by an input
+modality: `chat` hands back a message, `agent` hands back the trace of a
+tool-loop. There is no `llm` synonym at any layer — the SDK function, the
+broker verb, and the `@provides` name are the same word.
+
+All functions are async. Apps must use `await` on every call. For parallel
+agents, use `asyncio.gather()`:
 
     results = await asyncio.gather(
-        llm.agent(prompt="Research A", tools=["exa.search"]),
-        llm.agent(prompt="Research B", tools=["exa.search"]),
+        agent(prompt="Research A", tools=["exa.search"]),
+        agent(prompt="Research B", tools=["exa.search"]),
     )
 
-Provider selection and fallback happen here, not in Rust. The engine
-only ships the generic `services.call` + `services.list_providers`
-primitives; this module stacks ranking + retry on top. Adding a new
-`@provides(llm)` app needs zero Rust — list_providers picks it up
-from the ontology and oneshot/agent route to it like any other
-provider.
+Provider selection and fallback happen here, not in Rust. The engine ships
+the generic `services.call` + `services.list_providers` primitives; this
+module stacks ranking + retry on top. Adding a new `@provides("chat")` or
+`@provides("agent")` app needs zero Rust — list_providers picks it up from
+the ontology and routes to it like any other provider.
+
+Routing:
+  - `chat(model)`  → brokers `@provides("chat")` — one completion, no loop.
+  - `agent(model, tools)` → brokers a native `@provides("agent")` for the
+    model first (e.g. claude_code's `claude -p` loop, which executes tools
+    itself), else runs the SDK loop over `chat` providers (openrouter/ollama
+    emit request-style `tool_calls` the loop executes).
 """
 
 import asyncio
@@ -46,13 +57,24 @@ class AgentError(Exception):
 
 # ---------------------------------------------------------------------------
 # Provider selection — the matchmaking loop that used to live in
-# `ops-llm-router/` (Rust). Moved to Python for the same reason every
-# other bespoke matchmaker went: the engine doesn't need to know about
-# "LLM" as a category. It's just another @provides(X).
+# `ops-llm-router/` (Rust). Moved to Python for the same reason every other
+# bespoke matchmaker went: the engine doesn't need to know "chat" or "agent"
+# as categories. They're just another @provides(X).
 # ---------------------------------------------------------------------------
 
 
 _CRED_PRIORITY = {"not_required": 0, "present": 1, "missing": 2}
+
+
+def _rank(p: dict) -> tuple:
+    """Rank a provider: a declared-model (`exact`) match beats a wildcard
+    provider, then prefer credentialed providers. This is principle 3 — route
+    by the model the provider declares, not by cred-rank luck (an ollama with
+    no `models=` must not shadow a Claude provider that declares `sonnet`).
+    """
+    exact = 0 if p.get("model_match") == "exact" else 1
+    cred = _CRED_PRIORITY.get(p.get("cred_state", "missing"), 2)
+    return (exact, cred)
 
 
 def _is_auth_error(err: str) -> bool:
@@ -71,23 +93,18 @@ def _is_auth_error(err: str) -> bool:
     )
 
 
-async def _call_llm(params: dict) -> dict:
+async def _call_chat(params: dict) -> dict:
     """Run one chat completion via matchmaking + fallback.
 
-    Replaces the old `dispatch("llm.chat", ...)` sideband — the Rust
-    router is gone. Ranks every `@provides(llm)` provider by
-    cred_state, calls the best one, and falls back on auth errors to
-    the next credentialed provider.
+    Ranks every `@provides("chat")` provider by cred_state, calls the best
+    one, and falls back on auth errors to the next credentialed provider.
     """
     model = params.get("model") or "sonnet"
-    listing = await services.list_providers("llm", model=model)
-    providers = sorted(
-        listing.get("providers") or [],
-        key=lambda p: _CRED_PRIORITY.get(p.get("cred_state", "missing"), 2),
-    )
+    listing = await services.list_providers("chat", model=model)
+    providers = sorted(listing.get("providers") or [], key=_rank)
 
     if not providers:
-        raise RuntimeError(f"No LLM provider found for model: {model}")
+        raise RuntimeError(f"No chat provider found for model: {model}")
 
     last_error: str | None = None
     tried: list[str] = []
@@ -97,7 +114,7 @@ async def _call_llm(params: dict) -> dict:
         verb = provider.get("via") or "chat"
         try:
             result = await services.call(
-                "llm", verb=verb, app=app_id, params=params,
+                "chat", verb=verb, app=app_id, params=params,
             )
         except Exception as e:
             err = str(e)
@@ -108,7 +125,7 @@ async def _call_llm(params: dict) -> dict:
             # Non-auth failure — don't keep trying providers. Surface
             # the error to the caller with enough context to diagnose.
             raise RuntimeError(
-                f"LLM provider {app_id}.{verb} failed: {err} "
+                f"chat provider {app_id}.{verb} failed: {err} "
                 f"(tried: {', '.join(tried)})"
             ) from e
 
@@ -123,26 +140,26 @@ async def _call_llm(params: dict) -> dict:
             if _is_auth_error(err_msg):
                 continue
             raise RuntimeError(
-                f"LLM provider {app_id}.{verb} returned error: {err_msg} "
+                f"chat provider {app_id}.{verb} returned error: {err_msg} "
                 f"(tried: {', '.join(tried)})"
             )
 
         return result
 
     raise RuntimeError(
-        f"All LLM providers failed: {last_error} (tried: {', '.join(tried)})"
+        f"All chat providers failed: {last_error} (tried: {', '.join(tried)})"
     )
 
 
-async def oneshot(*, prompt, model="sonnet", system=None,
-                  temperature=0) -> dict:
-    """Single LLM call. No tools, no agent loop.
+async def chat(*, prompt, model="sonnet", system=None, temperature=0) -> dict:
+    """One model completion. No tools, no agent loop.
 
-    The SDK picks the best `@provides(llm)` provider for the model,
-    calls its chat operation, and returns the response.
+    Brokers `@provides("chat")`: picks the best provider for the model,
+    calls its chat operation, returns the response. A single call with no
+    loop *is* `chat` — there is no separate "oneshot".
     """
     messages = [{"role": "user", "content": prompt}]
-    return await _call_llm({
+    return await _call_chat({
         "model": model,
         "messages": messages,
         "system": system or "",
@@ -151,7 +168,7 @@ async def oneshot(*, prompt, model="sonnet", system=None,
 
 
 async def tools(refs: list[str]) -> list[dict]:
-    """Resolve tool refs to LLM tool definitions.
+    """Resolve tool refs to provider-native tool definitions.
 
     Args:
         refs: Tool refs in "app.operation" format (e.g., ["exa.search"])
@@ -163,7 +180,7 @@ async def tools(refs: list[str]) -> list[dict]:
     Raises:
         ValueError: If any tool ref is invalid or not found
     """
-    result = await dispatch("llm.resolve_tools", {"tools": refs})
+    result = await dispatch("agent.resolve_tools", {"tools": refs})
     return result.get("tools", [])
 
 
@@ -172,9 +189,15 @@ async def agent(*, prompt, system="", model="sonnet", tools=None,
                 output_schema=None, timeout=600) -> dict:
     """Multi-turn agent loop with tool dispatch.
 
-    Runs an LLM agent that can call tools and iterate until it produces
-    a final answer. Multiple agent() calls can run concurrently via
-    asyncio.gather() — each runs as an independent async task.
+    Runs an agent that can call tools and iterate until it produces a final
+    answer. Multiple agent() calls can run concurrently via asyncio.gather()
+    — each runs as an independent async task.
+
+    Routing: if a native `@provides("agent")` provider exists for the model
+    (e.g. claude_code's `claude -p` loop, which executes tools itself through
+    the agentOS MCP server), it runs the whole loop. Otherwise the SDK runs
+    the loop here over `chat` providers (which emit request-style `tool_calls`
+    the loop executes).
 
     Args:
         prompt: The task for the agent.
@@ -182,8 +205,8 @@ async def agent(*, prompt, system="", model="sonnet", tools=None,
         model: Model name — "opus", "sonnet", "haiku", or provider-specific.
         tools: Tool refs in "app.operation" format (e.g., ["exa.search"]).
         files: Reserved for future use (file sandbox boundary).
-        max_iterations: Max LLM call iterations (default 20).
-        temperature: LLM temperature (default 0).
+        max_iterations: Max model call iterations (default 20).
+        temperature: Sampling temperature (default 0).
         output_schema: JSON Schema dict for structured output. When set,
             the agent is instructed to respond with JSON matching this schema.
         timeout: Max wall-clock seconds (default 600).
@@ -193,21 +216,17 @@ async def agent(*, prompt, system="", model="sonnet", tools=None,
             "content": str,           # agent's final text response
             "data": dict | None,      # structured output if output_schema set
             "usage": dict,            # aggregate token counts
-            "iterations": int,        # how many LLM calls were made
+            "iterations": int,        # how many model calls were made
             "tool_calls": list,       # every tool call with name, input, output
             "error": str | None,      # error message if agent failed
         }
 
     Raises:
-        AgentError: If the agent loop fails (tool error, LLM error, etc.)
+        AgentError: If the agent loop fails (tool error, model error, etc.)
         asyncio.TimeoutError: If timeout exceeded.
         ValueError: If any tool ref is invalid.
     """
-    # Resolve tool definitions
-    tool_defs = []
     tool_refs = tools or []
-    if tool_refs:
-        tool_defs = await _resolve_tools(tool_refs)
 
     # Build system prompt with output_schema instructions
     full_system = system or ""
@@ -219,8 +238,23 @@ async def agent(*, prompt, system="", model="sonnet", tools=None,
         )
         full_system = (full_system + schema_instruction).strip()
 
-    # Initialize conversation
     messages = [{"role": "user", "content": prompt}]
+
+    # Native agent provider for this model? (e.g. claude_code's claude -p loop —
+    # it executes tools itself via the agentOS MCP server and returns the final
+    # answer.) Matchmaking filters by declared model, so only providers that can
+    # serve this model match.
+    native = await services.list_providers("agent", model=model)
+    native_providers = sorted(native.get("providers") or [], key=_rank)
+    if native_providers:
+        return await _run_native_agent(
+            native_providers[0], model=model, messages=messages,
+            system=full_system, tool_refs=tool_refs, temperature=temperature,
+            output_schema=output_schema, timeout=timeout,
+        )
+
+    # No native loop — run the SDK loop over `chat` providers.
+    tool_defs = await tools(tool_refs) if tool_refs else []
     all_tool_calls = []
     total_usage = {"input_tokens": 0, "output_tokens": 0}
 
@@ -248,7 +282,6 @@ async def agent(*, prompt, system="", model="sonnet", tools=None,
 
     content = result.get("content", "")
 
-    # Extract structured data if output_schema was set
     data = None
     if output_schema and content:
         data = _extract_json(content)
@@ -263,22 +296,63 @@ async def agent(*, prompt, system="", model="sonnet", tools=None,
     }
 
 
-async def _resolve_tools(refs: list[str]) -> list[dict]:
-    """Resolve tool refs. `dispatch` raises RuntimeError on engine failure."""
-    result = await dispatch("llm.resolve_tools", {"tools": refs})
-    return result.get("tools", [])
+# `agent.tools(...)` — resolve tool refs off the agent surface.
+agent.tools = tools
+
+
+async def _run_native_agent(provider, *, model, messages, system, tool_refs,
+                            temperature, output_schema, timeout) -> dict:
+    """Dispatch a native `@provides("agent")` provider and normalize its return.
+
+    The native loop (claude_code's `claude -p`) executes tools itself, so we
+    hand it the task + the tool refs (a truthy `tools` wires its MCP server)
+    and map its response onto the standard agent() result shape.
+    """
+    params = {
+        "model": model,
+        "messages": messages,
+        "system": system,
+        "tools": tool_refs,
+        "temperature": temperature,
+    }
+    if output_schema:
+        params["output_schema"] = output_schema
+
+    result = await asyncio.wait_for(
+        services.call(
+            "agent",
+            verb=provider.get("via") or "agent",
+            app=provider["app_id"],
+            params=params,
+        ),
+        timeout=timeout,
+    )
+
+    content = result.get("content") or ""
+    data = result.get("structured_output")
+    if data is None and output_schema and content:
+        data = _extract_json(content)
+
+    return {
+        "content": content,
+        "data": data,
+        "usage": result.get("usage") or {},
+        "iterations": result.get("num_turns", 0),
+        "tool_calls": result.get("tool_calls") or [],
+        "error": None,
+    }
 
 
 async def _agent_loop(*, model, system, messages, tool_defs, tool_refs,
                       max_iterations, temperature, all_tool_calls,
                       total_usage) -> dict:
-    """Core agent loop — iterate LLM calls and tool dispatches."""
+    """Core agent loop — iterate chat calls and tool dispatches."""
     iterations = 0
 
     for iteration in range(max_iterations):
         iterations += 1
 
-        # Call LLM
+        # Call the chat provider
         chat_params = {
             "model": model,
             "messages": messages,
@@ -289,10 +363,10 @@ async def _agent_loop(*, model, system, messages, tool_defs, tool_refs,
             chat_params["tools"] = tool_defs
 
         try:
-            response = await _call_llm(chat_params)
+            response = await _call_chat(chat_params)
         except Exception as e:
             raise AgentError(
-                f"LLM call failed on iteration {iterations}: {e}",
+                f"chat call failed on iteration {iterations}: {e}",
                 phase="llm_chat",
                 iteration=iterations,
                 cause=str(e),
