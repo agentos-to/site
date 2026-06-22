@@ -18,18 +18,20 @@ agents, use `asyncio.gather()`:
         agent(prompt="Research B", tools=["exa.search"]),
     )
 
-Provider selection and fallback happen here, not in Rust. The engine ships
-the generic `services.call` + `services.list_providers` primitives; this
-module stacks ranking + retry on top. Adding a new `@provides("chat")` or
-`@provides("agent")` app needs zero Rust — list_providers picks it up from
-the ontology and routes to it like any other provider.
+Both functions are thin: the engine does the routing. `chat()` ranks
+`@provides("chat")` providers here (cred + model-match) and dispatches;
+`agent()` just brokers `services.call("agent")` and lets matchmaking pick the
+provider. Adding a new provider app needs zero Rust — it's picked up from the
+ontology and routed like any other.
 
 Routing:
   - `chat(model)`  → brokers `@provides("chat")` — one completion, no loop.
-  - `agent(model, tools)` → brokers a native `@provides("agent")` for the
-    model first (e.g. claude_code's `claude -p` loop, which executes tools
-    itself), else runs the SDK loop over `chat` providers (openrouter/ollama
-    emit request-style `tool_calls` the loop executes).
+  - `agent(model, tools)` → brokers `@provides("agent")`. Matchmaking prefers a
+    native provider that declares the model (claude_code's `claude -p`, which
+    executes tools itself) and falls back to the engine's wildcard `agent-loop`
+    capability (the model-agnostic loop over `chat` providers) for any other
+    model. The loop lives in the engine, not here — `agent()`, the MCP
+    `services.agent` op, and the eval runner all travel the same path.
 """
 
 import asyncio
@@ -187,17 +189,18 @@ async def tools(refs: list[str]) -> list[dict]:
 async def agent(*, prompt, system="", model="sonnet", tools=None,
                 files=None, max_iterations=20, temperature=0,
                 output_schema=None, timeout=600) -> dict:
-    """Multi-turn agent loop with tool dispatch.
+    """Spawn a sub-agent: a tool-loop that iterates to a final answer.
 
-    Runs an agent that can call tools and iterate until it produces a final
-    answer. Multiple agent() calls can run concurrently via asyncio.gather()
-    — each runs as an independent async task.
+    A thin shim over the brokered `agent` capability — it builds the request
+    and hands it to `services.call("agent")`, then normalizes the return. The
+    *broker* does the routing: matchmaking prefers a native `@provides("agent")`
+    provider that declares the model (claude_code's `claude -p`, which executes
+    tools itself), and falls back to the wildcard `agent-loop` provider (the SDK
+    loop over `chat` providers) for any other model. There is no native-vs-loop
+    branch here — `agent()`, the MCP `services.agent` op, and the eval runner all
+    travel the same path.
 
-    Routing: if a native `@provides("agent")` provider exists for the model
-    (e.g. claude_code's `claude -p` loop, which executes tools itself through
-    the agentOS MCP server), it runs the whole loop. Otherwise the SDK runs
-    the loop here over `chat` providers (which emit request-style `tool_calls`
-    the loop executes).
+    Multiple agent() calls can run concurrently via asyncio.gather().
 
     Args:
         prompt: The task for the agent.
@@ -226,105 +229,19 @@ async def agent(*, prompt, system="", model="sonnet", tools=None,
         asyncio.TimeoutError: If timeout exceeded.
         ValueError: If any tool ref is invalid.
     """
-    tool_refs = tools or []
-
-    # Build system prompt with output_schema instructions
-    full_system = system or ""
-    if output_schema:
-        schema_instruction = (
-            "\n\nYou MUST respond with valid JSON matching this schema:\n"
-            f"```json\n{json.dumps(output_schema, indent=2)}\n```\n"
-            "Output ONLY the JSON object, no other text."
-        )
-        full_system = (full_system + schema_instruction).strip()
-
-    messages = [{"role": "user", "content": prompt}]
-
-    # Native agent provider for this model? (e.g. claude_code's claude -p loop —
-    # it executes tools itself via the agentOS MCP server and returns the final
-    # answer.) Matchmaking filters by declared model, so only providers that can
-    # serve this model match.
-    native = await services.list_providers("agent", model=model)
-    native_providers = sorted(native.get("providers") or [], key=_rank)
-    if native_providers:
-        return await _run_native_agent(
-            native_providers[0], model=model, messages=messages,
-            system=full_system, tool_refs=tool_refs, temperature=temperature,
-            output_schema=output_schema, timeout=timeout,
-        )
-
-    # No native loop — run the SDK loop over `chat` providers.
-    tool_defs = await tools(tool_refs) if tool_refs else []
-    all_tool_calls = []
-    total_usage = {"input_tokens": 0, "output_tokens": 0}
-
-    try:
-        result = await asyncio.wait_for(
-            _agent_loop(
-                model=model,
-                system=full_system,
-                messages=messages,
-                tool_defs=tool_defs,
-                tool_refs=tool_refs,
-                max_iterations=max_iterations,
-                temperature=temperature,
-                all_tool_calls=all_tool_calls,
-                total_usage=total_usage,
-            ),
-            timeout=timeout,
-        )
-    except asyncio.TimeoutError:
-        raise AgentError(
-            f"Agent timed out after {timeout}s",
-            phase="timeout",
-            iteration=len(all_tool_calls),
-        )
-
-    content = result.get("content", "")
-
-    data = None
-    if output_schema and content:
-        data = _extract_json(content)
-
-    return {
-        "content": content,
-        "data": data,
-        "usage": total_usage,
-        "iterations": result.get("iterations", 0),
-        "tool_calls": all_tool_calls,
-        "error": None,
-    }
-
-
-# `agent.tools(...)` — resolve tool refs off the agent surface.
-agent.tools = tools
-
-
-async def _run_native_agent(provider, *, model, messages, system, tool_refs,
-                            temperature, output_schema, timeout) -> dict:
-    """Dispatch a native `@provides("agent")` provider and normalize its return.
-
-    The native loop (claude_code's `claude -p`) executes tools itself, so we
-    hand it the task + the tool refs (a truthy `tools` wires its MCP server)
-    and map its response onto the standard agent() result shape.
-    """
     params = {
         "model": model,
-        "messages": messages,
-        "system": system,
-        "tools": tool_refs,
+        "messages": [{"role": "user", "content": prompt}],
+        "system": system or "",
+        "tools": tools or [],
         "temperature": temperature,
+        "max_iterations": max_iterations,
     }
     if output_schema:
         params["output_schema"] = output_schema
 
     result = await asyncio.wait_for(
-        services.call(
-            "agent",
-            verb=provider.get("via") or "agent",
-            app=provider["app_id"],
-            params=params,
-        ),
+        services.call("agent", params=params),
         timeout=timeout,
     )
 
@@ -337,129 +254,14 @@ async def _run_native_agent(provider, *, model, messages, system, tool_refs,
         "content": content,
         "data": data,
         "usage": result.get("usage") or {},
-        "iterations": result.get("num_turns", 0),
+        "iterations": result.get("iterations") or result.get("num_turns", 0),
         "tool_calls": result.get("tool_calls") or [],
         "error": None,
     }
 
 
-async def _agent_loop(*, model, system, messages, tool_defs, tool_refs,
-                      max_iterations, temperature, all_tool_calls,
-                      total_usage) -> dict:
-    """Core agent loop — iterate chat calls and tool dispatches."""
-    iterations = 0
-
-    for iteration in range(max_iterations):
-        iterations += 1
-
-        # Call the chat provider
-        chat_params = {
-            "model": model,
-            "messages": messages,
-            "system": system,
-            "temperature": temperature,
-        }
-        if tool_defs:
-            chat_params["tools"] = tool_defs
-
-        try:
-            response = await _call_chat(chat_params)
-        except Exception as e:
-            raise AgentError(
-                f"chat call failed on iteration {iterations}: {e}",
-                phase="llm_chat",
-                iteration=iterations,
-                cause=str(e),
-            )
-
-        # Accumulate usage
-        usage = response.get("usage") or {}
-        total_usage["input_tokens"] += usage.get("input_tokens", 0)
-        total_usage["output_tokens"] += usage.get("output_tokens", 0)
-
-        content = response.get("content") or ""
-        tool_calls = response.get("tool_calls") or []
-        stop_reason = response.get("stop_reason", "end_turn")
-
-        # If no tool calls, we're done
-        if not tool_calls or stop_reason != "tool_use":
-            return {"content": content, "iterations": iterations}
-
-        # Add assistant message with tool calls
-        messages.append({
-            "role": "assistant",
-            "content": content,
-            "tool_calls": tool_calls,
-        })
-
-        # Execute tool calls (concurrently if multiple)
-        tool_results = await _execute_tool_calls(
-            tool_calls, tool_refs, all_tool_calls, iterations
-        )
-
-        # Add tool results to conversation
-        for result in tool_results:
-            messages.append(result)
-
-    # Hit max iterations
-    raise AgentError(
-        f"Agent hit max iterations ({max_iterations}) without completing",
-        phase="max_iterations",
-        iteration=iterations,
-    )
-
-
-async def _execute_tool_calls(tool_calls, tool_refs, all_tool_calls,
-                              iteration) -> list[dict]:
-    """Execute tool calls and return message dicts for the conversation."""
-
-    async def execute_one(tc):
-        name = tc["name"]
-        inp = tc.get("input", {})
-        tc_id = tc.get("id", "")
-
-        try:
-            result = await dispatch(name, inp)
-            output = json.dumps(result) if isinstance(result, (dict, list)) else str(result)
-            is_error = False
-        except Exception as e:
-            output = f"Tool error: {e}"
-            is_error = True
-
-        all_tool_calls.append({
-            "name": name,
-            "input": inp,
-            "output": output,
-            "error": is_error,
-            "iteration": iteration,
-        })
-
-        return {
-            "role": "tool",
-            "tool_call_id": tc_id,
-            "content": output,
-        }
-
-    # Run all tool calls concurrently
-    results = await asyncio.gather(
-        *(execute_one(tc) for tc in tool_calls),
-        return_exceptions=True,
-    )
-
-    # Convert exceptions to error messages
-    processed = []
-    for i, r in enumerate(results):
-        if isinstance(r, Exception):
-            tc = tool_calls[i]
-            processed.append({
-                "role": "tool",
-                "tool_call_id": tc.get("id", ""),
-                "content": f"Tool execution error: {r}",
-            })
-        else:
-            processed.append(r)
-
-    return processed
+# `agent.tools(...)` — resolve tool refs off the agent surface.
+agent.tools = tools
 
 
 def _extract_json(text: str) -> dict | None:
