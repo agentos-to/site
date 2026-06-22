@@ -61,6 +61,17 @@ class Field:
     is_relation: bool
     is_array: bool
     target: str | None  # for relations: target shape name (e.g. "author", "account")
+    description: str | None = None  # field-level longhand `{type, description}` — carried onto the ShapeDef so `data.shape` shows per-field guidance
+
+
+def _field_spec(raw_ftype) -> tuple[str, str | None]:
+    """A field value in YAML is either a bare type string (shorthand,
+    `name: json`) or a `{type, description}` map (longhand). Returns
+    `(type_str, description)`. The longhand is how a field carries
+    agent-facing guidance all the way to `data.shape`."""
+    if isinstance(raw_ftype, dict):
+        return str(raw_ftype.get("type")), raw_ftype.get("description")
+    return str(raw_ftype), None
 
 
 # `display:` block — the per-shape spec the Finder card / EntityDetail /
@@ -477,18 +488,18 @@ def _build_shapes(
     comments = comments or {}
     source_paths = source_paths or {}
 
-    def resolve_fields(name: str, seen: set | None = None) -> dict[str, str]:
+    def resolve_fields(name: str, seen: set | None = None) -> dict[str, tuple[str, str | None]]:
         if seen is None:
             seen = set()
         if name in seen:
             return {}
         seen.add(name)
         defn = raw.get(name, {})
-        fields = {}
+        fields: dict[str, tuple[str, str | None]] = {}
         for also in defn.get("also", []):
             fields.update(resolve_fields(also, seen))
         for fname, ftype in (defn.get("fields") or {}).items():
-            fields[fname] = str(ftype)
+            fields[fname] = _field_spec(ftype)
         return fields
 
     def resolve_display(name: str, seen: set | None = None) -> Display | None:
@@ -691,19 +702,20 @@ def _build_shapes(
         # carries only its own data; relationships are untyped, self-registering
         # graph structure (edges-self-register), never fields on the noun.
         for fname, ftype in (defn.get("fields") or {}).items():
-            is_array = str(ftype).endswith("[]")
-            s.own_fields.append(Field(fname, str(ftype), False, is_array, None))
+            ty, desc = _field_spec(ftype)
+            is_array = ty.endswith("[]")
+            s.own_fields.append(Field(fname, ty, False, is_array, None, desc))
 
         # Standard fields.
         for wk_name, wk_type in STANDARD_FIELDS:
             s.fields.append(Field(wk_name, wk_type, False, False, None))
 
         # Shape-declared fields.
-        for fname, ftype in sorted(resolve_fields(shape_name).items()):
+        for fname, (ftype, fdesc) in sorted(resolve_fields(shape_name).items()):
             if any(sf[0] == fname for sf in STANDARD_FIELDS):
                 continue
             is_array = ftype.endswith("[]")
-            s.fields.append(Field(fname, ftype, False, is_array, None))
+            s.fields.append(Field(fname, ftype, False, is_array, None, fdesc))
 
         shapes.append(s)
 

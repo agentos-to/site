@@ -30,8 +30,8 @@ person:
   # No `identity_any` — a person is deduplicated on its `identities` set:
   # the engine OR-matches each `(platform, id)` claim through the generic
   # `node_identity` index and merges on any collision (see the `identities`
-  # field comment below). `url` is therefore a plain display field, not a
-  # match key.
+  # field `description` below). `url` is therefore a plain display field, not
+  # a match key.
   also: [actor]        # a person is also an actor
   fields:
     url:     string    # canonical web identifier (GitHub profile, personal
@@ -63,27 +63,35 @@ person:
     birthDate:           datetime
     deathDate:           datetime
 
-    identities: json   # the uniform identity set — one human, every way to
-                       # reach or recognize them:
-                       #   [{platform, id, handle?, instance?, account?}]
-                       # `id` is the stable match key (DID / UUID / numeric id /
-                       # actor URI / Google resourceName / vCard UID, or a
-                       # normalized email / phone). `handle` is the mutable
-                       # human-facing name (@user) — display + URL only, never
-                       # matched alone (handles get recycled). `instance` scopes
-                       # a federated handle (Mastodon homeserver, Matrix).
-                       # `account` (address-book sources only) names which book.
-                       # URL / icon / label / category all DERIVE from the
-                       # `platform` node — never stored per entry. The connector emits each
-                       # `id` already canonical (it knows what it's talking to);
-                       # the engine never normalizes. On upsert the engine
-                       # OR-matches each `(platform, id)` claim through the
-                       # generic `node_identity` index and MERGES into the
-                       # existing person on any collision — unioning both sets so
-                       # no source is lost — and returns a receipt naming the
-                       # matched signal ("merged into X — matched phone +1…").
-                       # Entries with no `id` (handle-only) aren't indexed, so
-                       # they never trigger a merge (conservative until `split`).
+    # The uniform identity set — its `description` is the agent-facing
+    # contract (it surfaces in `data.shape(person)`), so the how-to lives
+    # there, not in a `#` comment the agent never sees.
+    identities:
+      type: json
+      description: >-
+        One human, every way to reach or recognize them — an array of
+        identity claims: [{platform, id, handle?, instance?, account?}].
+        Emit one entry per identity you know: source address-books
+        ({platform:"google", id:<resourceName>, account:<book email>},
+        {platform:"icloud", id:<vCard UID>}), join keys
+        ({platform:"email", id:<address>}, {platform:"phone", id:<number>}),
+        and social ({platform:"x", id:<numeric id>, handle:"conorh"}).
+        `id` is the STABLE MATCH KEY — a canonical, sync-surviving identifier
+        (DID / UUID / numeric id / actor URI / Google resourceName / vCard
+        UID, or a normalized email / E.164 phone). Emit it already canonical:
+        phone → E.164 (+15125551234), email → lowercased (Gmail also strips
+        dots and +tags). `handle` is the mutable human-facing name (@user) —
+        display + URL only, NEVER matched alone (handles get recycled).
+        `instance` scopes a federated handle (Mastodon homeserver, Matrix).
+        `account` (address-book sources only) names which book. URL / icon /
+        label / category all DERIVE from the `platform` registry node — never
+        store them per entry. You do NOT dedup: just upsert what a book
+        returned. On write the engine OR-matches each `(platform, id)` claim,
+        MERGES into the existing person on any collision (unioning both sets,
+        losing no source), and returns a receipt naming the matched signal
+        ("merged into X — matched phone +1…"). Name never matches; handle-only
+        entries (no `id`) are never indexed, so they never trigger a merge.
+        Merges are conservative and will become reversible via `split`.
 
   # Read-side derived bindings — only genuine relationships remain. `find:`
   # names the verb; `get:` projects the target's field; `where_link: {to: null}`

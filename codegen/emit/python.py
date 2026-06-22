@@ -51,6 +51,8 @@ def _shape_to_wire_def(s: Shape) -> dict:
         ty = _WIRE_FIELD_TYPES.get(f.type, "json")
         is_required = f.name == "name" or f.name in required
         fd = {"name": f.name, "ty": ty}
+        if f.description:
+            fd["description"] = f.description
         if is_required:
             fd["required"] = True
         fields_out.append(fd)

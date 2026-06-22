@@ -121,18 +121,6 @@ def _rust_str(s: str | None) -> str:
     return f'Some("{escaped}".into())'
 
 
-def _emit_field_def(f: Field, is_required: bool) -> str:
-    ty = _FIELD_TYPE.get(f.type, "FieldType::Json")
-    parts = [
-        f'name: "{f.name}".into()',
-        f"ty: {ty}",
-        "description: None",
-    ]
-    if is_required:
-        parts.append("required: true")
-    return "FieldDef { " + ", ".join(parts) + ", ..FieldDef::optional(\"_unused\", FieldType::Json) }"
-
-
 def _emit_shape_struct(s: Shape) -> list[str]:
     """The serde-friendly typed payload struct (one per shape)."""
     lines: list[str] = []
@@ -190,7 +178,17 @@ def _emit_shape_const(s: Shape) -> list[str]:
         seen.add(f.name)
         is_required = f.name == "name" or f.name in required
         ty = _FIELD_TYPE.get(f.type, "FieldType::Json")
-        if is_required:
+        if f.description:
+            # Full struct literal — the `required`/`optional` constructors
+            # hardcode `description: None`, so a field carrying guidance
+            # needs every slot spelled out.
+            req = "true" if is_required else "false"
+            field_lines.append(
+                f'        FieldDef {{ name: "{f.name}".into(), ty: {ty}, '
+                f"description: Some({_rust_string_literal(f.description)}.into()), "
+                f"required: {req} }},"
+            )
+        elif is_required:
             field_lines.append(
                 f'        FieldDef::required("{f.name}", {ty}),'
             )
