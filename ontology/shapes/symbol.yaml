@@ -1,12 +1,11 @@
-# A code symbol — one named thing in a source surface: an MCP tool/op, a
-# Rust fn/struct/trait, a TS hook/component, a shape. The unit of the
-# **System Docs** volume's API reference, projected from the canonical
-# source (tool schemas, rustdoc JSON, ts-morph) — never authored by hand.
-# A symbol describes *the code*, so it carries identity (`urn`), a callable
-# `signature`, the `summary` line, and a source pointer back to the truth;
-# the full rendered docstring lives in its content `body` so it reads as a
-# page. The cross-language `urn` is what lets a TS hook link the Rust tool
-# it calls — cross-links are the product, not a flat dump.
+# A symbol — one named thing in the contract surface: an MCP tool/op, or an
+# ontology shape/field. The unit of the **System Docs** volume's API reference,
+# projected from the canonical source (the live tool registry, the ontology
+# YAML) — never authored by hand. A symbol describes *the contract*, so it
+# carries identity (`urn`), a callable `signature`, the `summary` line, and a
+# source pointer back to the truth; the full rendered docstring lives in its
+# content `body` so it reads as a page. The `urn` is what lets a shape link the
+# MCP op that returns it — cross-links are the product, not a flat dump.
 symbol:
   plural: symbols
   display:
@@ -15,9 +14,9 @@ symbol:
     body: summary
     highlights: [kind, lang, sourcePath]
   fields:
-    urn:        string   # cross-language identity — mcp:data.read, rust:agentos_core::pages::render_page, ts:web/src/themes/slots#getAssetUrl
-    kind:       string   # namespace | op | fn | struct | trait | type | hook | component | module | crate | shape
-    lang:       string   # mcp | rust | typescript | yaml
+    urn:        string   # cross-surface identity — mcp:data.read, shape:account
+    kind:       string   # namespace | op | shape | field
+    lang:       string   # mcp | yaml
     signature:  text     # callable / type signature — read({ id, volume?, … })
     summary:    text     # first docstring line (the one-liner)
     sourcePath: string   # repo-relative path back to the canonical source
@@ -34,11 +33,6 @@ symbol:
       notes: >-
         LSIF persists hover/definition/references as a graph of monikers across
         files — exactly our `urn` + calls/called_by trail, made queryable.
-    - source: rustdoc JSON output format
-      url: https://doc.rust-lang.org/rustdoc/unstable-features.html#--output-format-json-output-crate-info-in-json
-      notes: >-
-        The P3 extractor's source — Item{id, name, kind, docs, links} maps
-        item.id → urn, kind → kind, docs → body, inner.decl → signature.
     - source: schema.org/SoftwareSourceCode + ctags
       url: https://schema.org/SoftwareSourceCode
       notes: >-

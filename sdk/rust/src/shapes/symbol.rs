@@ -3,7 +3,7 @@
 
 use super::sdk_prelude::*;
 
-/// A code symbol — one named thing in a source surface: an MCP tool/op, a
+/// A symbol — one named thing in the contract surface: an MCP tool/op, or an
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", default)]
 pub struct Symbol {
@@ -26,7 +26,7 @@ pub struct Symbol {
 pub static SYMBOL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     name: "symbol".into(),
     plural: Some("symbols".into()),
-    description: Some("A code symbol — one named thing in a source surface: an MCP tool/op, a".into()),
+    description: Some("A symbol — one named thing in the contract surface: an MCP tool/op, or an".into()),
     fields: vec![
         FieldDef::optional("id", FieldType::String),
         FieldDef::required("name", FieldType::String),
@@ -53,7 +53,6 @@ pub static SYMBOL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     prior_art: vec![
         PriorArtDef { source: "Language Server Protocol — DocumentSymbol / SymbolKind".into(), url: Some("https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol".into()), notes: Some("SymbolKind (Function/Struct/Interface/Method/Module…) is the canonical `kind` enum; DocumentSymbol's name + detail + range → our name + signature + sourcePath/sourceLine.".into()) },
         PriorArtDef { source: "LSIF — Language Server Index Format".into(), url: Some("https://microsoft.github.io/language-server-protocol/specifications/lsif/0.6.0/specification/".into()), notes: Some("LSIF persists hover/definition/references as a graph of monikers across files — exactly our `urn` + calls/called_by trail, made queryable.".into()) },
-        PriorArtDef { source: "rustdoc JSON output format".into(), url: Some("https://doc.rust-lang.org/rustdoc/unstable-features.html#--output-format-json-output-crate-info-in-json".into()), notes: Some("The P3 extractor's source — Item{id, name, kind, docs, links} maps item.id → urn, kind → kind, docs → body, inner.decl → signature.".into()) },
         PriorArtDef { source: "schema.org/SoftwareSourceCode + ctags".into(), url: Some("https://schema.org/SoftwareSourceCode".into()), notes: Some("codeRepository/programmingLanguage → lang; ctags' (tag, file, kind) triple is the minimal symbol-index prior art for sourcePath + kind.".into()) },
     ],
     ..ShapeDef::default()
