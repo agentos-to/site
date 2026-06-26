@@ -44,8 +44,18 @@ settings:
         description: Desktop theme — window chrome, fonts, sounds.
         group: Theme
         optionsShape: theme
+        # Theme nodes are OS-owned — projected into the engine-owned `system`
+        # volume (rebuilt from the installed theme folders each boot), not
+        # authored in home. The picker reads its options from there; the
+        # user's pick still writes to the home settings node.
+        optionsVolume: system
         optionsValue: themeId
         optionsLabel: name
+        # The floor ("no theme") is the permanent default — a real, always
+        # present choice. Surface it as a prepended empty-value option so the
+        # user can always switch back to the base look, even with zero packs
+        # installed.
+        optionsNone: Base
       # Fonts tab — typography. Its own tab (sibling to Icons / Sounds /
       # Background) so the Appearance tab stays a clean theme + look-knob
       # + preview surface. The `Fonts` group also picks up the
