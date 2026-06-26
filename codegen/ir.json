@@ -32574,30 +32574,6 @@
           "description": null
         },
         {
-          "name": "family",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null
-        },
-        {
-          "name": "startMenu",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null
-        },
-        {
-          "name": "style",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null
-        },
-        {
           "name": "themeId",
           "type": "string",
           "is_relation": false,
@@ -32609,10 +32585,10 @@
       "also": [],
       "timed": null,
       "plural": "themes",
-      "subtitle": "family",
+      "subtitle": null,
       "display": {
         "title": null,
-        "subtitle": "family",
+        "subtitle": null,
         "image": null,
         "highlights": [],
         "body": null,
@@ -32624,7 +32600,7 @@
         "themeId"
       ],
       "identity_any": [],
-      "leading_comment": "An OS theme — a named knob-vector over its family's structure.\nA theme is data, not code: it picks a value for each of its family's\nknobs (`style`, `startMenu`) and bundles a set of assets (fonts,\nsounds, wallpaper, icons). It ships NO css and NO structure — the\nfamily (commons/themes/<family>/family.ts) owns those.\n\nThemes are reference data: each `<family>/<theme>/theme.ts` on disk is\nextracted into `commons/themes/themes.manifest.json`, and the theme\nseeder (core/crates/core/src/sources/themes.rs) upserts one graph node\nper theme. The user's `pref:ui.themeId` selects the active theme; the\ntheme's `style` / `startMenu` are the default knob values, overridable\nper-knob via `pref:ui.style` / `pref:ui.startMenu`.\n\nIdentity: themeId — unique per source namespace (\"windows-xp\",\n\"windows-98\"). Every field below is what the seeder writes to the\nnode; the Rust `Theme` struct is GENERATED from this list\n(docs/generate.py), so the seeder cannot write an undeclared val. The\ntheme's `ontology` block (its product + bundled assets) and its knob\nvar-groups are NOT node fields — the seeder turns `ontology` into\nseparate nodes + links, and knob var-groups are frontend-only code.",
+      "leading_comment": "An OS theme — a self-contained runtime pack.\nA theme is a drop-in `~/.agentos/themes/<id>/` folder with a flat\n`theme.yaml` (vars, structure sheet, bars, slots, names) + static\nassets (fonts, sounds, wallpaper, icons, cursors). It is pure data:\nthe shell's `loadTheme` fetches and projects it; there is no theme\ncode, no build step, no family. The name IS the id — a pack overrides\nany icon by shipping `slots['icon.<name>']` and any label via `names:`,\nstacked over the default floor (the material/lucide layer + contract\nvar floor). The old families/knobs abstraction (a knob-vector over a\nfamily, extracted into a manifest) is gone.\n\nThis shape is the THEME NODE — the System-volume record per installed\npack, so `data.read({volume:\"system\", shape:\"theme\"})` lists every\ninstalled theme. The seeder (core/crates/core/src/sources/themes.rs)\nenumerates the runtime packs and upserts one node per pack; the user's\n`pref:ui.themeId` selects the active theme.\n\nIdentity: themeId — unique per source namespace (\"windows-xp\",\n\"default\"). Every field below is what the seeder writes to the node;\nthe Rust `Theme` struct is GENERATED from this list (codegen), so the\nseeder cannot write an undeclared val. The pack's `attribution` block\n(its product + bundled assets) is NOT node fields — the seeder turns\nit into separate Credits nodes + `bundles`/`represents` links.",
       "own_fields": [
         {
           "name": "themeId",
@@ -32635,32 +32611,8 @@
           "description": null
         },
         {
-          "name": "family",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null
-        },
-        {
           "name": "description",
           "type": "text",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null
-        },
-        {
-          "name": "style",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null
-        },
-        {
-          "name": "startMenu",
-          "type": "string",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -32680,18 +32632,15 @@
         {
           "source": "System theme APIs (macOS NSAppearance, Windows WinUI)",
           "url": "https://developer.apple.com/documentation/appkit/nsappearance",
-          "notes": "OS-level theme abstraction. Our `family` parallels NSAppearance.Name (aqua, darkAqua) and Windows theme families."
+          "notes": "OS-level theme abstraction — a named appearance the whole shell reads (aqua, darkAqua). Ours is a runtime pack stacked over the default floor."
         }
       ],
       "source_path": "agentos/theme.yaml",
-      "raw_body": "plural: themes\nidentity: themeId\ndisplay:\n  icon: palette\n  subtitle: family\nfields:\n  themeId: string\n  family: string\n  description: text\n  style: string\n  startMenu: string\n  defaultBackgroundColor: string\nlinks:\n  represents: product\nprior_art:\n- source: System theme APIs (macOS NSAppearance, Windows WinUI)\n  url: https://developer.apple.com/documentation/appkit/nsappearance\n  notes: OS-level theme abstraction. Our `family` parallels NSAppearance.Name (aqua,\n    darkAqua) and Windows theme families.\n",
+      "raw_body": "plural: themes\nidentity: themeId\ndisplay:\n  icon: palette\nfields:\n  themeId: string\n  description: text\n  defaultBackgroundColor: string\nlinks:\n  represents: product\nprior_art:\n- source: System theme APIs (macOS NSAppearance, Windows WinUI)\n  url: https://developer.apple.com/documentation/appkit/nsappearance\n  notes: \"OS-level theme abstraction \\u2014 a named appearance the whole shell reads\\\n    \\ (aqua, darkAqua). Ours is a runtime pack stacked over the default floor.\"\n",
       "ancestors": [],
       "field_order": [
         "themeId",
-        "family",
         "description",
-        "style",
-        "startMenu",
         "defaultBackgroundColor"
       ],
       "derived": {},

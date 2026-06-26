@@ -1429,7 +1429,7 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
     }),
     ("theme", Display {
         title: None,
-        subtitle: Some("family"),
+        subtitle: None,
         image: None,
         highlights: &[],
         body: None,
@@ -1670,7 +1670,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("tag", &["color", "tagType", "annotated", "hash"]),
     ("task", &["remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("tax_line", &["code", "description", "amount", "currency", "kind", "nature", "country", "appliesToIndex", "refundable", "merchantImposed", "rate", "taxableAmount", "inclusive"]),
-    ("theme", &["themeId", "family", "description", "style", "startMenu", "defaultBackgroundColor"]),
+    ("theme", &["themeId", "description", "defaultBackgroundColor"]),
     ("tool_call", &["name", "input", "output", "isError", "durationMs"]),
     ("transaction", &["amount", "currency", "balance", "category", "postingDate", "pending", "recurring", "notes", "type", "details", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("transcript", &["language", "languageConfidence", "sourceType", "contentRole", "durationMs", "segmentCount", "segments"]),

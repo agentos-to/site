@@ -1,35 +1,34 @@
-# An OS theme — a named knob-vector over its family's structure.
-# A theme is data, not code: it picks a value for each of its family's
-# knobs (`style`, `startMenu`) and bundles a set of assets (fonts,
-# sounds, wallpaper, icons). It ships NO css and NO structure — the
-# family (commons/themes/<family>/family.ts) owns those.
+# An OS theme — a self-contained runtime pack.
+# A theme is a drop-in `~/.agentos/themes/<id>/` folder with a flat
+# `theme.yaml` (vars, structure sheet, bars, slots, names) + static
+# assets (fonts, sounds, wallpaper, icons, cursors). It is pure data:
+# the shell's `loadTheme` fetches and projects it; there is no theme
+# code, no build step, no family. The name IS the id — a pack overrides
+# any icon by shipping `slots['icon.<name>']` and any label via `names:`,
+# stacked over the default floor (the material/lucide layer + contract
+# var floor). The old families/knobs abstraction (a knob-vector over a
+# family, extracted into a manifest) is gone.
 #
-# Themes are reference data: each `<family>/<theme>/theme.ts` on disk is
-# extracted into `commons/themes/themes.manifest.json`, and the theme
-# seeder (core/crates/core/src/sources/themes.rs) upserts one graph node
-# per theme. The user's `pref:ui.themeId` selects the active theme; the
-# theme's `style` / `startMenu` are the default knob values, overridable
-# per-knob via `pref:ui.style` / `pref:ui.startMenu`.
+# This shape is the THEME NODE — the System-volume record per installed
+# pack, so `data.read({volume:"system", shape:"theme"})` lists every
+# installed theme. The seeder (core/crates/core/src/sources/themes.rs)
+# enumerates the runtime packs and upserts one node per pack; the user's
+# `pref:ui.themeId` selects the active theme.
 #
 # Identity: themeId — unique per source namespace ("windows-xp",
-# "windows-98"). Every field below is what the seeder writes to the
-# node; the Rust `Theme` struct is GENERATED from this list
-# (docs/generate.py), so the seeder cannot write an undeclared val. The
-# theme's `ontology` block (its product + bundled assets) and its knob
-# var-groups are NOT node fields — the seeder turns `ontology` into
-# separate nodes + links, and knob var-groups are frontend-only code.
+# "default"). Every field below is what the seeder writes to the node;
+# the Rust `Theme` struct is GENERATED from this list (codegen), so the
+# seeder cannot write an undeclared val. The pack's `attribution` block
+# (its product + bundled assets) is NOT node fields — the seeder turns
+# it into separate Credits nodes + `bundles`/`represents` links.
 theme:
   plural: themes
   identity: themeId
   display:
     icon: palette
-    subtitle: family
   fields:
-    themeId:                string  # unique within its source: "windows-xp", "windows-98"
-    family:                 string  # OS family ("windows") — groups themes; the family is code, not a node
+    themeId:                string  # unique within its source: "windows-xp", "default"
     description:            text
-    style:                  string  # default value of the family's `style` knob ("luna", "classic")
-    startMenu:              string  # default value of the family's `startMenu` knob ("modern", "classic")
     defaultBackgroundColor: string  # CSS color behind the wallpaper; seeded into theme.pref:ui.background.color
   links:
     represents:             product # the OS this theme recreates — "Windows XP theme ⟶ Windows XP"
@@ -37,5 +36,6 @@ theme:
     - source: System theme APIs (macOS NSAppearance, Windows WinUI)
       url: https://developer.apple.com/documentation/appkit/nsappearance
       notes: >-
-        OS-level theme abstraction. Our `family` parallels
-        NSAppearance.Name (aqua, darkAqua) and Windows theme families.
+        OS-level theme abstraction — a named appearance the whole shell
+        reads (aqua, darkAqua). Ours is a runtime pack stacked over the
+        default floor.
