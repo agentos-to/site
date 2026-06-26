@@ -110,7 +110,7 @@ pub static DEVICE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     identity: vec!["macAddress".into()],
     display: Some(DisplaySpec {
         subtitle: Some("ipAddress".into()),
-        highlights: vec!["vendor".into(), "ipAddress".into(), "location".into()],
+        highlights: vec!["vendor".into(), "hostname".into(), "roles".into(), "location".into()],
         ..DisplaySpec::default()
     }),
     prior_art: vec![

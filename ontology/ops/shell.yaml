@@ -10,11 +10,17 @@ shell.run:
     and shell interpreters (sh, bash, zsh, fish, etc.) are rejected to prevent
     command-injection shortcuts.
 
+    For a streaming command that never self-terminates (`dns-sd`, `log stream`,
+    `tcpdump`), pass `stream: true` with a `timeout`: the child is killed at the
+    deadline and whatever it printed so far is returned as a normal result with
+    `timed_out: true` — instead of the default mode, where a timeout raises and
+    the partial output is lost.
+
     Args:
-        binary, args, timeout, cwd, input.
+        binary, args, timeout, cwd, input, stream.
 
     Returns:
-        {exit_code, stdout, stderr}.
+        {exit_code, stdout, stderr, timed_out}.
   service: shell
   trace_span: true
   request:
@@ -23,10 +29,12 @@ shell.run:
     timeout: { type: "number",   default: 30, doc: "Timeout in seconds." }
     cwd:     { type: "string?",  doc: "Working directory. Defaults to the process CWD." }
     input:   { type: "string?",  doc: "Optional stdin bytes written to the child as UTF-8." }
+    stream:  { type: "boolean",  default: false, doc: "Treat `timeout` as the intended run duration of a streaming command: kill the child at the deadline and return its partial output (with `timed_out: true`) instead of raising." }
   response:
-    exit_code: { type: "i32",    doc: "Exit code; -1 if the child was signalled." }
-    stdout:    { type: "string", doc: "Captured stdout (UTF-8 lossy)." }
-    stderr:    { type: "string", doc: "Captured stderr (UTF-8 lossy)." }
+    exit_code: { type: "i32",     doc: "Exit code; -1 if the child was signalled." }
+    stdout:    { type: "string",  doc: "Captured stdout (UTF-8 lossy)." }
+    stderr:    { type: "string",  doc: "Captured stderr (UTF-8 lossy)." }
+    timed_out: { type: "boolean", doc: "True when `stream` was set and the child was killed at the timeout deadline; its partial output is still returned." }
   log_fields:
     - { from: request, path: /binary, as: binary }
   effects: []

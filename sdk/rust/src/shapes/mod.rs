@@ -640,7 +640,7 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         title: None,
         subtitle: Some("ipAddress"),
         image: None,
-        highlights: &["vendor", "ipAddress", "location"],
+        highlights: &["vendor", "hostname", "roles", "location"],
         body: None,
         mono: None,
         preview: &[],

@@ -7092,7 +7092,8 @@
         "image": null,
         "highlights": [
           "vendor",
-          "ipAddress",
+          "hostname",
+          "roles",
           "location"
         ],
         "body": null,
@@ -7217,7 +7218,7 @@
         }
       ],
       "source_path": "device.yaml",
-      "raw_body": "plural: devices\nidentity: macAddress\ndisplay:\n  icon: devices_other\n  subtitle: ipAddress\n  highlights:\n  - vendor\n  - ipAddress\n  - location\nalso:\n- hardware\nfields:\n  macAddress: string\n  ipAddress: string\n  ipv6: string[]\n  hostname: string\n  vendor: string\n  location: string\n  roles: string[]\n  openPorts: integer[]\n  online: boolean\n  macRandomized: boolean\n  discoveredVia: string[]\n  lastSeen: datetime\nprior_art:\n- source: schema.org/IndividualProduct\n  url: https://schema.org/IndividualProduct\n  notes: \"A specific unit vs the ProductModel. macAddress is our stable identity (\\u2248\\\n    \\ serialNumber). Network/runtime state (ipAddress, online, ssid) has no schema.org\\\n    \\ equivalent \\u2014 contextual, kept off the model.\"\n- source: IEEE 802 EUI-48 (MAC) + IEEE OUI registry\n  url: https://standards.ieee.org/products-programs/regauth/\n  notes: macAddress is an EUI-48; the first 3 octets (OUI) resolve to the manufacturing\n    organization. The locally-administered bit (2nd-LSB of the first octet) sets macRandomized.\n",
+      "raw_body": "plural: devices\nidentity: macAddress\ndisplay:\n  icon: devices_other\n  subtitle: ipAddress\n  highlights:\n  - vendor\n  - hostname\n  - roles\n  - location\nalso:\n- hardware\nfields:\n  macAddress: string\n  ipAddress: string\n  ipv6: string[]\n  hostname: string\n  vendor: string\n  location: string\n  roles: string[]\n  openPorts: integer[]\n  online: boolean\n  macRandomized: boolean\n  discoveredVia: string[]\n  lastSeen: datetime\nprior_art:\n- source: schema.org/IndividualProduct\n  url: https://schema.org/IndividualProduct\n  notes: \"A specific unit vs the ProductModel. macAddress is our stable identity (\\u2248\\\n    \\ serialNumber). Network/runtime state (ipAddress, online, ssid) has no schema.org\\\n    \\ equivalent \\u2014 contextual, kept off the model.\"\n- source: IEEE 802 EUI-48 (MAC) + IEEE OUI registry\n  url: https://standards.ieee.org/products-programs/regauth/\n  notes: macAddress is an EUI-48; the first 3 octets (OUI) resolve to the manufacturing\n    organization. The locally-administered bit (2nd-LSB of the first octet) sets macRandomized.\n",
       "ancestors": [
         "hardware",
         "product"
@@ -38232,7 +38233,7 @@
       "group": "shell",
       "action": "run",
       "doc": "Run a binary with controlled arguments. Shell interpreters are blocked.",
-      "doc_full": "Execute a binary with controlled argv. The invocation is NOT shell-parsed,\nand shell interpreters (sh, bash, zsh, fish, etc.) are rejected to prevent\ncommand-injection shortcuts.\n\nArgs:\n    binary, args, timeout, cwd, input.\n\nReturns:\n    {exit_code, stdout, stderr}.\n",
+      "doc_full": "Execute a binary with controlled argv. The invocation is NOT shell-parsed,\nand shell interpreters (sh, bash, zsh, fish, etc.) are rejected to prevent\ncommand-injection shortcuts.\n\nFor a streaming command that never self-terminates (`dns-sd`, `log stream`,\n`tcpdump`), pass `stream: true` with a `timeout`: the child is killed at the\ndeadline and whatever it printed so far is returned as a normal result with\n`timed_out: true` — instead of the default mode, where a timeout raises and\nthe partial output is lost.\n\nArgs:\n    binary, args, timeout, cwd, input, stream.\n\nReturns:\n    {exit_code, stdout, stderr, timed_out}.\n",
       "service": [
         "shell"
       ],
@@ -38278,6 +38279,14 @@
           "has_default": false,
           "default": null,
           "doc": "Optional stdin bytes written to the child as UTF-8."
+        },
+        {
+          "name": "stream",
+          "type": "boolean",
+          "optional": false,
+          "has_default": true,
+          "default": false,
+          "doc": "Treat `timeout` as the intended run duration of a streaming command: kill the child at the deadline and return its partial output (with `timed_out: true`) instead of raising."
         }
       ],
       "response": {
@@ -38309,6 +38318,14 @@
             "has_default": false,
             "default": null,
             "doc": "Captured stderr (UTF-8 lossy)."
+          },
+          {
+            "name": "timed_out",
+            "type": "boolean",
+            "optional": false,
+            "has_default": false,
+            "default": null,
+            "doc": "True when `stream` was set and the child was killed at the timeout deadline; its partial output is still returned."
           }
         ]
       },

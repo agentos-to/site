@@ -9,7 +9,7 @@ device:
   display:
     icon: devices_other        # fallback face; real face derives from formFactor (deviceKindIcon)
     subtitle: ipAddress
-    highlights: [vendor, ipAddress, location]
+    highlights: [vendor, hostname, roles, location]   # ipAddress is the subtitle — don't repeat it as a highlight
   also: [hardware]             # a device is a live instance of hardware
   fields:
     macAddress:       string    # normalized aa:bb:cc:dd:ee:ff — identity
