@@ -62,16 +62,20 @@ class Field:
     is_array: bool
     target: str | None  # for relations: target shape name (e.g. "author", "account")
     description: str | None = None  # field-level longhand `{type, description}` — carried onto the ShapeDef so `data.shape` shows per-field guidance
+    enum: list[str] | None = None   # closed value set (JSON-Schema `enum`) — a `{type: string, enum: [...]}` field. The engine rejects off-set writes; each value doubles as an icon slot for `display.iconFrom`.
 
 
-def _field_spec(raw_ftype) -> tuple[str, str | None]:
+def _field_spec(raw_ftype) -> tuple[str, str | None, list[str] | None]:
     """A field value in YAML is either a bare type string (shorthand,
-    `name: json`) or a `{type, description}` map (longhand). Returns
-    `(type_str, description)`. The longhand is how a field carries
-    agent-facing guidance all the way to `data.shape`."""
+    `name: json`) or a `{type, description, enum}` map (longhand). Returns
+    `(type_str, description, enum)`. The longhand is how a field carries
+    agent-facing guidance (and a closed `enum:` value set) all the way to
+    `data.shape`."""
     if isinstance(raw_ftype, dict):
-        return str(raw_ftype.get("type")), raw_ftype.get("description")
-    return str(raw_ftype), None
+        enum = raw_ftype.get("enum")
+        enum = [str(v) for v in enum] if isinstance(enum, list) else None
+        return str(raw_ftype.get("type")), raw_ftype.get("description"), enum
+    return str(raw_ftype), None, None
 
 
 # `display:` block — the per-shape spec the Finder card / EntityDetail /
@@ -79,7 +83,7 @@ def _field_spec(raw_ftype) -> tuple[str, str | None]:
 # optional. `title` defaults to the standard `name` field when absent;
 # everything not bound is *unpromoted* and renders at detail density in
 # YAML declaration order. See `core/_product/p1/shape-display/plan.md`.
-DISPLAY_ROLES = {"title", "subtitle", "image", "highlights", "body", "mono", "icon"}
+DISPLAY_ROLES = {"title", "subtitle", "image", "highlights", "body", "mono", "icon", "iconFrom"}
 
 
 @dataclass
@@ -95,6 +99,7 @@ class Display:
                                      #   no newline-flattening
     preview: dict[str, object] = field(default_factory=dict)  # per-field content policy at preview density
     icon: str | None = None          # Material Symbols glyph name (outlined, no -fill suffix)
+    icon_from: str | None = None     # `iconFrom:` — an enum field whose value IS the per-record icon slot (e.g. device.formFactor → router/tv/…). The engine icon resolver reads it; each enum value doubles as a pack-overridable slot.
 
 
 @dataclass
@@ -488,14 +493,14 @@ def _build_shapes(
     comments = comments or {}
     source_paths = source_paths or {}
 
-    def resolve_fields(name: str, seen: set | None = None) -> dict[str, tuple[str, str | None]]:
+    def resolve_fields(name: str, seen: set | None = None) -> dict[str, tuple[str, str | None, list[str] | None]]:
         if seen is None:
             seen = set()
         if name in seen:
             return {}
         seen.add(name)
         defn = raw.get(name, {})
-        fields: dict[str, tuple[str, str | None]] = {}
+        fields: dict[str, tuple[str, str | None, list[str] | None]] = {}
         for also in defn.get("also", []):
             fields.update(resolve_fields(also, seen))
         for fname, ftype in (defn.get("fields") or {}).items():
@@ -533,6 +538,7 @@ def _build_shapes(
                     mono=parent.mono,
                     preview=dict(parent.preview),
                     icon=parent.icon,
+                    icon_from=parent.icon_from,
                 )
             else:
                 # Later parent overrides earlier (sibling parents): the
@@ -543,6 +549,7 @@ def _build_shapes(
                 if parent.body is not None:     merged.body = parent.body
                 if parent.mono is not None:     merged.mono = parent.mono
                 if parent.icon is not None:     merged.icon = parent.icon
+                if parent.icon_from is not None: merged.icon_from = parent.icon_from
                 if parent.highlights:           merged.highlights = list(parent.highlights)
                 for k, v in parent.preview.items():
                     merged.preview[k] = v
@@ -563,6 +570,7 @@ def _build_shapes(
                     mono=disp_raw.get("mono"),
                     preview=dict(disp_raw.get("preview") or {}),
                     icon=disp_raw.get("icon"),
+                    icon_from=disp_raw.get("iconFrom"),
                 )
             else:
                 if disp_raw.get("title") is not None:    merged.title = disp_raw["title"]
@@ -571,6 +579,7 @@ def _build_shapes(
                 if disp_raw.get("body") is not None:     merged.body = disp_raw["body"]
                 if disp_raw.get("mono") is not None:     merged.mono = disp_raw["mono"]
                 if disp_raw.get("icon") is not None:     merged.icon = disp_raw["icon"]
+                if disp_raw.get("iconFrom") is not None: merged.icon_from = disp_raw["iconFrom"]
                 if disp_raw.get("highlights"):           merged.highlights = list(disp_raw["highlights"])
                 for k, v in (disp_raw.get("preview") or {}).items():
                     merged.preview[k] = v
@@ -702,20 +711,20 @@ def _build_shapes(
         # carries only its own data; relationships are untyped, self-registering
         # graph structure (edges-self-register), never fields on the noun.
         for fname, ftype in (defn.get("fields") or {}).items():
-            ty, desc = _field_spec(ftype)
+            ty, desc, enum = _field_spec(ftype)
             is_array = ty.endswith("[]")
-            s.own_fields.append(Field(fname, ty, False, is_array, None, desc))
+            s.own_fields.append(Field(fname, ty, False, is_array, None, desc, enum))
 
         # Standard fields.
         for wk_name, wk_type in STANDARD_FIELDS:
             s.fields.append(Field(wk_name, wk_type, False, False, None))
 
         # Shape-declared fields.
-        for fname, (ftype, fdesc) in sorted(resolve_fields(shape_name).items()):
+        for fname, (ftype, fdesc, fenum) in sorted(resolve_fields(shape_name).items()):
             if any(sf[0] == fname for sf in STANDARD_FIELDS):
                 continue
             is_array = ftype.endswith("[]")
-            s.fields.append(Field(fname, ftype, False, is_array, None, fdesc))
+            s.fields.append(Field(fname, ftype, False, is_array, None, fdesc, fenum))
 
         shapes.append(s)
 
@@ -1102,6 +1111,12 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
             base = f.type.rstrip("[]")
             if base not in _SHAPE_TYPES:
                 warn(f"shape {s.name!r}: field {f.name!r} has unknown type {f.type!r}")
+            # An `enum:` closes a string field to a controlled vocabulary.
+            # Only `string` carries one (the value set is the wire form);
+            # an enum on any other type is a modeling mistake.
+            if f.enum is not None and f.type != "string":
+                warn(f"shape {s.name!r}: field {f.name!r} has an enum but "
+                     f"type {f.type!r} — enum is only valid on `string`")
         # Rule 1: orphan-datetime check. A `datetime` on a non-event shape
         # is a denormalized date for a relationship — should be an link
         # val or an event node. Skip event-derived shapes (the date lives
@@ -1158,6 +1173,20 @@ def validate(onto: Ontology) -> list[tuple[str, str]]:
                 if binding and not _known_binding(binding):
                     warn(f"shape {s.name!r}: display.{role} binds to "
                          f"unknown field/relation {binding!r}")
+            # `iconFrom:` names the field whose value IS the per-record icon
+            # slot. It must be a real field on this shape AND carry an `enum`
+            # — a closed vocabulary is what makes each value a known,
+            # pack-overridable slot. An open string would let any value mint
+            # an unbacked icon name.
+            if s.display.icon_from:
+                fld = next((f for f in s.fields if f.name == s.display.icon_from), None)
+                if fld is None:
+                    warn(f"shape {s.name!r}: display.iconFrom names unknown "
+                         f"field {s.display.icon_from!r}")
+                elif not fld.enum:
+                    warn(f"shape {s.name!r}: display.iconFrom field "
+                         f"{s.display.icon_from!r} has no enum — iconFrom requires "
+                         f"a closed value set (each value is an icon slot)")
             for hi in s.display.highlights:
                 if not _known_binding(hi):
                     warn(f"shape {s.name!r}: display.highlights includes "

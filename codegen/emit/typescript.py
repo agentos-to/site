@@ -52,6 +52,7 @@ def emit_typescript(onto: Ontology) -> str:
         "                          //   art): monospace, no re-wrap, keep geometry",
         '    preview?: Record<string, "clip" | "full" | { max_chars: number }>;',
         "    icon?: string;        // Material Symbols glyph name (outlined) for this shape's face",
+        "    iconFrom?: string;    // enum field whose value IS the per-record icon slot (resolved engine-side)",
         "    /** Transitive `also:` closure — the chain this shape inherits from.",
         "     *  The resolver uses it to pick the most-specific shape on a",
         "     *  multi-shape node (`shape[]` is alphabetical, not inheritance). */",
@@ -72,6 +73,7 @@ def emit_typescript(onto: Ontology) -> str:
         if s.display.mono:       d["mono"]       = s.display.mono
         if s.display.preview:    d["preview"]    = dict(s.display.preview)
         if s.display.icon:       d["icon"]       = s.display.icon
+        if s.display.icon_from:  d["iconFrom"]   = s.display.icon_from
         d["also"] = list(s.ancestors)
         # JSON ensures double-quoted keys/strings (valid TS object literal).
         lines.append(f"    {json.dumps(s.name)}: {json.dumps(d)},")
@@ -189,4 +191,6 @@ def _ts_type(f: Field) -> str:
             return "unknown[]" if f.is_array else "unknown"
         cls = to_class_name(f.target)
         return f"{cls}[]" if f.is_array else cls
+    if f.enum:
+        return " | ".join(json.dumps(v) for v in f.enum)
     return _TS_TYPES.get(f.type, "unknown")

@@ -55,6 +55,8 @@ def _shape_to_wire_def(s: Shape) -> dict:
             fd["description"] = f.description
         if is_required:
             fd["required"] = True
+        if f.enum:
+            fd["enum"] = list(f.enum)
         fields_out.append(fd)
 
     derived = [{"key": k, "spec": v} for k, v in sorted(s.derived.items())]
@@ -143,7 +145,7 @@ def emit_python(onto: Ontology) -> str:
         "",
         "from __future__ import annotations",
         "",
-        "from typing import Any, TypedDict",
+        "from typing import Any, Literal, TypedDict",
         "",
     ]
 
@@ -264,4 +266,6 @@ def _py_type(f: Field, s: Shape) -> str:
             return "list[Any]" if f.is_array else "Any"
         cls = to_class_name(f.target)
         return f"list[{cls}]" if f.is_array else cls
+    if f.enum:
+        return "Literal[" + ", ".join(repr(v) for v in f.enum) + "]"
     return _PY_TYPES.get(f.type, "Any")

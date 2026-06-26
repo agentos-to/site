@@ -77,7 +77,7 @@ pub static DEVICE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("customizationGroups", FieldType::Json),
         FieldDef::optional("department", FieldType::String),
         FieldDef::optional("discoveredVia", FieldType::StringList),
-        FieldDef::optional("formFactor", FieldType::String),
+        FieldDef { name: "formFactor".into(), ty: FieldType::String, description: Some("physical kind of the device — drives its face".into()), required: false, enum_values: vec!["router".into(), "printer".into(), "tv".into(), "speaker".into(), "console".into(), "vacuum".into(), "camera".into(), "bulb".into(), "sensor".into(), "computer".into(), "phone".into(), "hub".into(), "iot".into()] },
         FieldDef::optional("hostname", FieldType::String),
         FieldDef::optional("images", FieldType::Json),
         FieldDef::optional("ipAddress", FieldType::String),

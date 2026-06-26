@@ -178,15 +178,23 @@ def _emit_shape_const(s: Shape) -> list[str]:
         seen.add(f.name)
         is_required = f.name == "name" or f.name in required
         ty = _FIELD_TYPE.get(f.type, "FieldType::Json")
-        if f.description:
+        if f.description or f.enum:
             # Full struct literal — the `required`/`optional` constructors
-            # hardcode `description: None`, so a field carrying guidance
-            # needs every slot spelled out.
+            # hardcode `description: None` + empty `enum_values`, so a field
+            # carrying guidance or a closed value set needs every slot spelled
+            # out.
             req = "true" if is_required else "false"
+            desc = (
+                f"Some({_rust_string_literal(f.description)}.into())"
+                if f.description else "None"
+            )
+            enum_vec = (
+                "vec![" + ", ".join(f'"{v}".into()' for v in f.enum) + "]"
+                if f.enum else "vec![]"
+            )
             field_lines.append(
                 f'        FieldDef {{ name: "{f.name}".into(), ty: {ty}, '
-                f"description: Some({_rust_string_literal(f.description)}.into()), "
-                f"required: {req} }},"
+                f"description: {desc}, required: {req}, enum_values: {enum_vec} }},"
             )
         elif is_required:
             field_lines.append(
@@ -492,6 +500,13 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
         "    pub mono: Option<&'static str>,",
         "    pub preview: &'static [(&'static str, PreviewPolicy)],",
         "    pub also: &'static [&'static str],",
+        "    /// Material glyph for this shape's face (`display.icon`). The icon",
+        "    /// resolver picks the most-specific shape carrying one; its slug is",
+        "    /// the stamped `iconRole`, and the floor maps slug → this glyph.",
+        "    pub icon: Option<&'static str>,",
+        "    /// `display.iconFrom` — an enum field whose value IS the per-record",
+        "    /// icon slot (device.formFactor → router/tv/…). Resolved engine-side.",
+        "    pub icon_from: Option<&'static str>,",
         "}",
         "",
         "pub fn lookup_display(shape: &str) -> Option<&'static Display> {",
@@ -538,6 +553,8 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
         lines.append(f"        mono: {_opt(d.mono)},")
         lines.append(f"        preview: {_preview(d.preview)},")
         lines.append(f"        also: {_str_array(list(s.ancestors))},")
+        lines.append(f"        icon: {_opt(d.icon)},")
+        lines.append(f"        icon_from: {_opt(d.icon_from)},")
         lines.append("    }),")
     lines.append("];")
     lines.append("")
