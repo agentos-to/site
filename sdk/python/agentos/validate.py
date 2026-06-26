@@ -1513,7 +1513,10 @@ def _collect_awaited_call_ids(func_node: ast.AST) -> set[int]:
     Covers two cases where a bare coroutine-returning call is legitimate:
       1. `await <call>(...)` — the classic case.
       2. `asyncio.create_task(<call>(...))` / `ensure_future` / `gather` etc. —
-         scheduler functions that consume the coroutine themselves.
+         scheduler functions that consume the coroutine themselves. The
+         coroutine calls may be direct args (`gather(f(1), f(2))`) or buried
+         in a starred comprehension/sequence (`gather(*[f(i) for i in xs])`),
+         the canonical fan-out idiom.
     """
     awaited: set[int] = set()
     for node in ast.walk(func_node):
@@ -1533,9 +1536,13 @@ def _collect_awaited_call_ids(func_node: ast.AST) -> set[int]:
             elif isinstance(callee, ast.Name) and callee.id in _SCHEDULER_NAMES:
                 scheduler = True
             if scheduler:
+                # The coroutine call may be a direct arg or nested inside a
+                # starred comprehension/sequence — walk each arg and mark every
+                # Call the scheduler ultimately consumes.
                 for arg in node.args:
-                    if isinstance(arg, ast.Call):
-                        awaited.add(id(arg))
+                    for sub in ast.walk(arg):
+                        if isinstance(sub, ast.Call):
+                            awaited.add(id(sub))
     return awaited
 
 

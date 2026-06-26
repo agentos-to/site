@@ -42,6 +42,7 @@ pub mod conversation;
 pub mod conversion;
 pub mod creative_work;
 pub mod cursor;
+pub mod device;
 pub mod dimension;
 pub mod dns_record;
 pub mod document;
@@ -56,6 +57,7 @@ pub mod flight;
 pub mod font;
 pub mod git_commit;
 pub mod group;
+pub mod hardware;
 pub mod health_biomarker;
 pub mod health_condition;
 pub mod health_immunization;
@@ -81,6 +83,7 @@ pub mod membership;
 pub mod message;
 pub mod model;
 pub mod module;
+pub mod network;
 pub mod note;
 pub mod offer;
 pub mod order;
@@ -158,6 +161,7 @@ pub use conversation::{CONVERSATION, Conversation};
 pub use conversion::{CONVERSION, Conversion};
 pub use creative_work::{CREATIVE_WORK, CreativeWork};
 pub use cursor::{CURSOR, Cursor};
+pub use device::{DEVICE, Device};
 pub use dimension::{DIMENSION, Dimension};
 pub use dns_record::{DNS_RECORD, DnsRecord};
 pub use document::{DOCUMENT, Document};
@@ -172,6 +176,7 @@ pub use flight::{FLIGHT, Flight};
 pub use font::{FONT, Font};
 pub use git_commit::{GIT_COMMIT, GitCommit};
 pub use group::{GROUP, Group};
+pub use hardware::{HARDWARE, Hardware};
 pub use health_biomarker::{HEALTH_BIOMARKER, HealthBiomarker};
 pub use health_condition::{HEALTH_CONDITION, HealthCondition};
 pub use health_immunization::{HEALTH_IMMUNIZATION, HealthImmunization};
@@ -197,6 +202,7 @@ pub use membership::{MEMBERSHIP, Membership};
 pub use message::{MESSAGE, Message};
 pub use model::{MODEL, Model};
 pub use module::{MODULE, Module};
+pub use network::{NETWORK, Network};
 pub use note::{NOTE, Note};
 pub use offer::{OFFER, Offer};
 pub use order::{ORDER, Order};
@@ -280,6 +286,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "conversion" => Some(&CONVERSION),
         "creative_work" => Some(&CREATIVE_WORK),
         "cursor" => Some(&CURSOR),
+        "device" => Some(&DEVICE),
         "dimension" => Some(&DIMENSION),
         "dns_record" => Some(&DNS_RECORD),
         "document" => Some(&DOCUMENT),
@@ -294,6 +301,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "font" => Some(&FONT),
         "git_commit" => Some(&GIT_COMMIT),
         "group" => Some(&GROUP),
+        "hardware" => Some(&HARDWARE),
         "health-biomarker" => Some(&HEALTH_BIOMARKER),
         "health-condition" => Some(&HEALTH_CONDITION),
         "health-immunization" => Some(&HEALTH_IMMUNIZATION),
@@ -319,6 +327,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "message" => Some(&MESSAGE),
         "model" => Some(&MODEL),
         "module" => Some(&MODULE),
+        "network" => Some(&NETWORK),
         "note" => Some(&NOTE),
         "offer" => Some(&OFFER),
         "order" => Some(&ORDER),
@@ -627,6 +636,16 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &["creative_work", "file"],
     }),
+    ("device", Display {
+        title: None,
+        subtitle: Some("ipAddress"),
+        image: None,
+        highlights: &["vendor", "ipAddress", "location"],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &["hardware", "product"],
+    }),
     ("dimension", Display {
         title: None,
         subtitle: Some("label"),
@@ -766,6 +785,16 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         mono: None,
         preview: &[],
         also: &[],
+    }),
+    ("hardware", Display {
+        title: None,
+        subtitle: Some("modelNumber"),
+        image: None,
+        highlights: &[],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &["product"],
     }),
     ("health-biomarker", Display {
         title: None,
@@ -1012,6 +1041,16 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         subtitle: Some("role"),
         image: None,
         highlights: &["status", "path"],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &[],
+    }),
+    ("network", Display {
+        title: None,
+        subtitle: Some("ssid"),
+        image: None,
+        highlights: &["ssid", "subnet"],
         body: None,
         mono: None,
         preview: &[],
@@ -1590,6 +1629,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("conversion", &["kind", "factor", "rate", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("creative_work", &["name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags"]),
     ("cursor", &["hotspotX", "hotspotY", "dimension", "format", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "encoding", "lineCount", "kind", "sha"]),
+    ("device", &["macAddress", "ipAddress", "ipv6", "hostname", "vendor", "location", "roles", "openPorts", "online", "macRandomized", "discoveredVia", "lastSeen", "model", "modelNumber", "formFactor", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("dimension", &["key", "label", "length", "mass", "time", "current", "temperature", "amount", "luminous", "dimensionless"]),
     ("dns_record", &["domain", "recordName", "recordType", "type", "ttl", "priority", "recordId", "values"]),
     ("document", &["contentType", "language", "wordCount", "abstract", "tableOfContents", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
@@ -1604,6 +1644,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("font", &["family", "genericFamily", "postscriptName", "weights", "styles", "formats", "scripts", "glyphCount", "designerUrl", "vendorUrl", "licenseInfoUrl", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags"]),
     ("git_commit", &["sha", "shortHash", "message", "additions", "deletions", "filesChanged", "committedAt", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("group", &["memberCount", "category"]),
+    ("hardware", &["model", "modelNumber", "formFactor", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("health-biomarker", &["measure", "category", "loincCode", "analyteType", "description"]),
     ("health-condition", &["clinicalStatus", "verificationStatus", "bodySite", "severity", "snomedCode", "icd10Code", "clinicalArea", "mitigation", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("health-immunization", &["dateAdministered", "cvxCode", "manufacturer", "lotNumber", "doseNumber", "seriesDoses", "site", "route", "diseaseTarget", "notes", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
@@ -1629,6 +1670,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("message", &["isOutgoing", "isStarred", "conversationId"]),
     ("model", &["contextLength", "contextWindow", "maxOutput", "pricingInput", "pricingOutput", "modality", "modelType", "quantization", "quantizationLevel", "size", "parameterSize", "format", "family", "digest"]),
     ("module", &["name", "role", "path", "version", "status", "planned"]),
+    ("network", &["ssid", "bssid", "gatewayIp", "gatewayMac", "subnet", "lastSeen"]),
     ("note", &["noteType", "isPinned"]),
     ("offer", &["price", "currency", "offerType", "availability", "bookingToken", "departureToken", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("order", &["orderId", "orderDate", "total", "totalAmount", "originalTotal", "originalTotalAmount", "savings", "currency", "status", "deliveryDate", "eta", "subtotal", "tipAmount", "deliveryFee", "taxes", "summary", "fareBreakdown", "deliveryInstructions", "interactionType", "orderUuid", "body", "head", "messages", "timeline", "itemStates", "latestArrival", "progress", "progressTotal", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
@@ -1716,6 +1758,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("conversion", "conversions"),
     ("creative_work", "creative_works"),
     ("cursor", "cursors"),
+    ("device", "devices"),
     ("dimension", "dimensions"),
     ("dns_record", "dns_records"),
     ("document", "documents"),
@@ -1730,6 +1773,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("font", "fonts"),
     ("git_commit", "git_commits"),
     ("group", "groups"),
+    ("hardware", "hardware"),
     ("health-biomarker", "health-biomarkers"),
     ("health-condition", "health-conditions"),
     ("health-immunization", "health-immunizations"),
@@ -1755,6 +1799,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("message", "messages"),
     ("model", "models"),
     ("module", "modules"),
+    ("network", "networks"),
     ("note", "notes"),
     ("offer", "offers"),
     ("order", "orders"),
@@ -1829,11 +1874,13 @@ pub static SHAPE_ANCESTORS: &[(&'static str, &'static [&'static str])] = &[
     ("concern", &["event"]),
     ("conversion", &["event"]),
     ("cursor", &["creative_work", "file"]),
+    ("device", &["hardware", "product"]),
     ("document", &["file"]),
     ("email", &["message"]),
     ("flight", &["leg", "event"]),
     ("font", &["creative_work"]),
     ("git_commit", &["event"]),
+    ("hardware", &["product"]),
     ("health-condition", &["event"]),
     ("health-immunization", &["event"]),
     ("health-lab", &["organization", "actor"]),

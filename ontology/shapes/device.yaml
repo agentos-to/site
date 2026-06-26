@@ -1,0 +1,39 @@
+# A specific networked device — a powered-on instance on a local network,
+# identified by its MAC address. The live/runtime level: the IP it holds right
+# now, whether it's online, the Wi-Fi it joined, the room it's in. Intrinsic
+# model facts (manufacturer, form factor) live on its `hardware` parent; only
+# runtime/contextual facts live here (intrinsic-vs-contextual, per place.yaml).
+device:
+  plural: devices
+  identity: macAddress         # the MAC is stable identity; IP leases churn
+  display:
+    icon: devices_other        # fallback face; real face derives from formFactor (deviceKindIcon)
+    subtitle: ipAddress
+    highlights: [vendor, ipAddress, location]
+  also: [hardware]             # a device is a live instance of hardware
+  fields:
+    macAddress:       string    # normalized aa:bb:cc:dd:ee:ff — identity
+    ipAddress:        string    # current IPv4 lease (volatile)
+    ipv6:             string[]  # link-local / global IPv6 addresses
+    hostname:         string    # reverse-DNS / DHCP-served name
+    vendor:           string    # OUI-resolved vendor string (before the org link resolves)
+    location:         string    # device-reported room ("Living room")
+    roles:            string[]  # advertised capabilities: airplay, cast, homekit, printer, dns, ssh, upnp
+    openPorts:        integer[] # open TCP ports (service fingerprint)
+    online:           boolean   # responded in the most recent scan
+    macRandomized:   boolean   # locally-administered bit set (randomized/private MAC)
+    discoveredVia:   string[]  # sources that saw it: arp, ndp, mdns, reverse-dns, ecp, eureka
+    lastSeen:         datetime  # when the engine last observed it online (transaction-time)
+  prior_art:
+    - source: schema.org/IndividualProduct
+      url: https://schema.org/IndividualProduct
+      notes: >-
+        A specific unit vs the ProductModel. macAddress is our stable identity
+        (≈ serialNumber). Network/runtime state (ipAddress, online, ssid) has no
+        schema.org equivalent — contextual, kept off the model.
+    - source: IEEE 802 EUI-48 (MAC) + IEEE OUI registry
+      url: https://standards.ieee.org/products-programs/regauth/
+      notes: >-
+        macAddress is an EUI-48; the first 3 octets (OUI) resolve to the
+        manufacturing organization. The locally-administered bit (2nd-LSB of the
+        first octet) sets macRandomized.

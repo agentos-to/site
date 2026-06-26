@@ -1,0 +1,25 @@
+# A local network — a LAN identified by its gateway. "Home" and "Whole Foods
+# guest wifi" are distinct networks; a device links to the one it was seen on.
+# The gateway MAC is the stable identity — an SSID isn't unique (every
+# "xfinitywifi" collides) and subnets repeat (half the world is 192.168.1.0/24).
+network:
+  plural: networks
+  identity: gatewayMac
+  display:
+    icon: wifi
+    subtitle: ssid
+    highlights: [ssid, subnet]
+  fields:
+    ssid:             string    # Wi-Fi name ("Upstairs 5g", "Whole Foods Guest")
+    bssid:            string    # AP radio MAC — distinguishes APs sharing one SSID
+    gatewayIp:        string    # router IPv4 (192.168.50.1)
+    gatewayMac:      string    # router MAC — identity
+    subnet:           string    # CIDR (192.168.50.0/24)
+    lastSeen:         datetime  # when we last joined this network (transaction-time)
+  prior_art:
+    - source: IEEE 802 BSSID / SSID
+      url: https://standards.ieee.org/
+      notes: >-
+        SSID is the human network name (not unique); BSSID is a specific AP's
+        radio MAC. We identify the LAN by its gateway (router) MAC, the most
+        stable per-network handle a client can observe without credentials.

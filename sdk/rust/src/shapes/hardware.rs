@@ -1,0 +1,95 @@
+// DO NOT EDIT — generated from platform/ontology/shapes/hardware.yaml.
+// Regen: `python3 platform/codegen/generate.py`.
+
+use super::sdk_prelude::*;
+
+/// A manufactured electronic product — the model as a thing in the world:
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+pub struct Hardware {
+    pub name: String,
+    pub text: Option<String>,
+    pub url: Option<String>,
+    pub image: Option<String>,
+    pub author: Option<String>,
+    pub date_published: Option<String>,
+    pub content: Option<String>,
+    pub aisle: Option<String>,
+    pub availability: Option<String>,
+    pub barcode: Option<String>,
+    pub calories: Option<f64>,
+    pub categories: Option<Vec<String>>,
+    pub category: Option<String>,
+    pub currency: Option<String>,
+    pub customization_groups: Option<serde_json::Value>,
+    pub department: Option<String>,
+    pub form_factor: Option<String>,
+    pub images: Option<serde_json::Value>,
+    pub model: Option<String>,
+    pub model_number: Option<String>,
+    pub nova_group: Option<i64>,
+    pub nutrition_score: Option<String>,
+    pub original_price: Option<String>,
+    pub original_price_amount: Option<f64>,
+    pub price: Option<String>,
+    pub price_amount: Option<f64>,
+    pub quantity: Option<i64>,
+    pub serving_size: Option<String>,
+    pub sku: Option<String>,
+    pub sold_by_weight: Option<bool>,
+    pub weight: Option<String>,
+    pub weight_unit: Option<String>,
+    pub weight_value: Option<f64>,
+}
+
+pub static HARDWARE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
+    name: "hardware".into(),
+    plural: Some("hardware".into()),
+    description: Some("A manufactured electronic product — the model as a thing in the world:".into()),
+    fields: vec![
+        FieldDef::optional("id", FieldType::String),
+        FieldDef::required("name", FieldType::String),
+        FieldDef::optional("text", FieldType::String),
+        FieldDef::optional("url", FieldType::String),
+        FieldDef::optional("image", FieldType::String),
+        FieldDef::optional("author", FieldType::String),
+        FieldDef::optional("datePublished", FieldType::String),
+        FieldDef::optional("content", FieldType::String),
+        FieldDef::optional("aisle", FieldType::String),
+        FieldDef::optional("availability", FieldType::String),
+        FieldDef::optional("barcode", FieldType::String),
+        FieldDef::optional("calories", FieldType::Number),
+        FieldDef::optional("categories", FieldType::StringList),
+        FieldDef::optional("category", FieldType::String),
+        FieldDef::optional("currency", FieldType::String),
+        FieldDef::optional("customizationGroups", FieldType::Json),
+        FieldDef::optional("department", FieldType::String),
+        FieldDef::optional("formFactor", FieldType::String),
+        FieldDef::optional("images", FieldType::Json),
+        FieldDef::optional("model", FieldType::String),
+        FieldDef::optional("modelNumber", FieldType::String),
+        FieldDef::optional("novaGroup", FieldType::Integer),
+        FieldDef::optional("nutritionScore", FieldType::String),
+        FieldDef::optional("originalPrice", FieldType::String),
+        FieldDef::optional("originalPriceAmount", FieldType::Number),
+        FieldDef::optional("price", FieldType::String),
+        FieldDef::optional("priceAmount", FieldType::Number),
+        FieldDef::optional("quantity", FieldType::Integer),
+        FieldDef::optional("servingSize", FieldType::String),
+        FieldDef::optional("sku", FieldType::String),
+        FieldDef::optional("soldByWeight", FieldType::Boolean),
+        FieldDef::optional("weight", FieldType::String),
+        FieldDef::optional("weightUnit", FieldType::String),
+        FieldDef::optional("weightValue", FieldType::Number),
+    ],
+    also: vec!["product".into()],
+    identity_any: vec!["url".into(), "modelNumber".into()],
+    display: Some(DisplaySpec {
+        subtitle: Some("modelNumber".into()),
+        ..DisplaySpec::default()
+    }),
+    prior_art: vec![
+        PriorArtDef { source: "schema.org/ProductModel vs IndividualProduct".into(), url: Some("https://schema.org/ProductModel".into()), notes: Some("schema.org separates ProductModel (the model) from IndividualProduct (a specific unit). Our hardware = ProductModel; our device = IndividualProduct. formFactor ≈ category / additionalType.".into()) },
+    ],
+    ..ShapeDef::default()
+});

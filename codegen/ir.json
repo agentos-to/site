@@ -6708,6 +6708,566 @@
       "prefs_schemas": {}
     },
     {
+      "name": "device",
+      "class_name": "Device",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "aisle",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "availability",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "barcode",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "calories",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "categories",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "customizationGroups",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "department",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "discoveredVia",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "formFactor",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "hostname",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "images",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "ipAddress",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "ipv6",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "lastSeen",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "macAddress",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "macRandomized",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "modelNumber",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "novaGroup",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "nutritionScore",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "online",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "openPorts",
+          "type": "integer[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "originalPrice",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "originalPriceAmount",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "price",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "priceAmount",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "quantity",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "roles",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "servingSize",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "sku",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "soldByWeight",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "vendor",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "weight",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "weightUnit",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "weightValue",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        }
+      ],
+      "also": [
+        "hardware"
+      ],
+      "timed": null,
+      "plural": "devices",
+      "subtitle": "ipAddress",
+      "display": {
+        "title": null,
+        "subtitle": "ipAddress",
+        "image": null,
+        "highlights": [
+          "vendor",
+          "ipAddress",
+          "location"
+        ],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "icon": "devices_other"
+      },
+      "identity": [
+        "macAddress"
+      ],
+      "identity_any": [],
+      "leading_comment": "A specific networked device — a powered-on instance on a local network,\nidentified by its MAC address. The live/runtime level: the IP it holds right\nnow, whether it's online, the Wi-Fi it joined, the room it's in. Intrinsic\nmodel facts (manufacturer, form factor) live on its `hardware` parent; only\nruntime/contextual facts live here (intrinsic-vs-contextual, per place.yaml).",
+      "own_fields": [
+        {
+          "name": "macAddress",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "ipAddress",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "ipv6",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "hostname",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "vendor",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "roles",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "openPorts",
+          "type": "integer[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "online",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "macRandomized",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "discoveredVia",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "lastSeen",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "schema.org/IndividualProduct",
+          "url": "https://schema.org/IndividualProduct",
+          "notes": "A specific unit vs the ProductModel. macAddress is our stable identity (≈ serialNumber). Network/runtime state (ipAddress, online, ssid) has no schema.org equivalent — contextual, kept off the model."
+        },
+        {
+          "source": "IEEE 802 EUI-48 (MAC) + IEEE OUI registry",
+          "url": "https://standards.ieee.org/products-programs/regauth/",
+          "notes": "macAddress is an EUI-48; the first 3 octets (OUI) resolve to the manufacturing organization. The locally-administered bit (2nd-LSB of the first octet) sets macRandomized."
+        }
+      ],
+      "source_path": "device.yaml",
+      "raw_body": "plural: devices\nidentity: macAddress\ndisplay:\n  icon: devices_other\n  subtitle: ipAddress\n  highlights:\n  - vendor\n  - ipAddress\n  - location\nalso:\n- hardware\nfields:\n  macAddress: string\n  ipAddress: string\n  ipv6: string[]\n  hostname: string\n  vendor: string\n  location: string\n  roles: string[]\n  openPorts: integer[]\n  online: boolean\n  macRandomized: boolean\n  discoveredVia: string[]\n  lastSeen: datetime\nprior_art:\n- source: schema.org/IndividualProduct\n  url: https://schema.org/IndividualProduct\n  notes: \"A specific unit vs the ProductModel. macAddress is our stable identity (\\u2248\\\n    \\ serialNumber). Network/runtime state (ipAddress, online, ssid) has no schema.org\\\n    \\ equivalent \\u2014 contextual, kept off the model.\"\n- source: IEEE 802 EUI-48 (MAC) + IEEE OUI registry\n  url: https://standards.ieee.org/products-programs/regauth/\n  notes: macAddress is an EUI-48; the first 3 octets (OUI) resolve to the manufacturing\n    organization. The locally-administered bit (2nd-LSB of the first octet) sets macRandomized.\n",
+      "ancestors": [
+        "hardware",
+        "product"
+      ],
+      "field_order": [
+        "macAddress",
+        "ipAddress",
+        "ipv6",
+        "hostname",
+        "vendor",
+        "location",
+        "roles",
+        "openPorts",
+        "online",
+        "macRandomized",
+        "discoveredVia",
+        "lastSeen",
+        "model",
+        "modelNumber",
+        "formFactor",
+        "category",
+        "price",
+        "priceAmount",
+        "originalPrice",
+        "originalPriceAmount",
+        "currency",
+        "categories",
+        "availability",
+        "images",
+        "quantity",
+        "weight",
+        "weightValue",
+        "weightUnit",
+        "soldByWeight",
+        "department",
+        "aisle",
+        "sku",
+        "barcode",
+        "nutritionScore",
+        "novaGroup",
+        "calories",
+        "servingSize",
+        "customizationGroups"
+      ],
+      "derived": {},
+      "groups": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
       "name": "dimension",
       "class_name": "Dimension",
       "fields": [
@@ -11240,6 +11800,377 @@
       "field_order": [
         "memberCount",
         "category"
+      ],
+      "derived": {},
+      "groups": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "hardware",
+      "class_name": "Hardware",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "aisle",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "availability",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "barcode",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "calories",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "categories",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "customizationGroups",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "department",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "formFactor",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "images",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "modelNumber",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "novaGroup",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "nutritionScore",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "originalPrice",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "originalPriceAmount",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "price",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "priceAmount",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "quantity",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "servingSize",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "sku",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "soldByWeight",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "weight",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "weightUnit",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "weightValue",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        }
+      ],
+      "also": [
+        "product"
+      ],
+      "timed": null,
+      "plural": "hardware",
+      "subtitle": "modelNumber",
+      "display": {
+        "title": null,
+        "subtitle": "modelNumber",
+        "image": null,
+        "highlights": [],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "icon": "memory"
+      },
+      "identity": [],
+      "identity_any": [
+        "url",
+        "modelNumber"
+      ],
+      "leading_comment": "A manufactured electronic product — the model as a thing in the world:\n\"Roku Ultra 4800X\", \"Brother HL-L3270CDW\", \"Dreame P2009\". Intrinsic facts\nonly (manufacturer, model, form factor). A specific powered-on instance with\nan IP and a MAC is a `device`, not hardware. Fills the \"hardware\" subtype\nproduct.yaml already names but never defined.",
+      "own_fields": [
+        {
+          "name": "model",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "modelNumber",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "formFactor",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "schema.org/ProductModel vs IndividualProduct",
+          "url": "https://schema.org/ProductModel",
+          "notes": "schema.org separates ProductModel (the model) from IndividualProduct (a specific unit). Our hardware = ProductModel; our device = IndividualProduct. formFactor ≈ category / additionalType."
+        }
+      ],
+      "source_path": "hardware.yaml",
+      "raw_body": "plural: hardware\nidentity_any:\n- url\n- modelNumber\ndisplay:\n  icon: memory\n  subtitle: modelNumber\nalso:\n- product\nfields:\n  model: string\n  modelNumber: string\n  formFactor: string\nprior_art:\n- source: schema.org/ProductModel vs IndividualProduct\n  url: https://schema.org/ProductModel\n  notes: \"schema.org separates ProductModel (the model) from IndividualProduct (a\\\n    \\ specific unit). Our hardware = ProductModel; our device = IndividualProduct.\\\n    \\ formFactor \\u2248 category / additionalType.\"\n",
+      "ancestors": [
+        "product"
+      ],
+      "field_order": [
+        "model",
+        "modelNumber",
+        "formFactor",
+        "category",
+        "price",
+        "priceAmount",
+        "originalPrice",
+        "originalPriceAmount",
+        "currency",
+        "categories",
+        "availability",
+        "images",
+        "quantity",
+        "weight",
+        "weightValue",
+        "weightUnit",
+        "soldByWeight",
+        "department",
+        "aisle",
+        "sku",
+        "barcode",
+        "nutritionScore",
+        "novaGroup",
+        "calories",
+        "servingSize",
+        "customizationGroups"
       ],
       "derived": {},
       "groups": [],
@@ -19807,6 +20738,219 @@
         "version",
         "status",
         "planned"
+      ],
+      "derived": {},
+      "groups": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "network",
+      "class_name": "Network",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "bssid",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "gatewayIp",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "gatewayMac",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "lastSeen",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "ssid",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "subnet",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        }
+      ],
+      "also": [],
+      "timed": null,
+      "plural": "networks",
+      "subtitle": "ssid",
+      "display": {
+        "title": null,
+        "subtitle": "ssid",
+        "image": null,
+        "highlights": [
+          "ssid",
+          "subnet"
+        ],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "icon": "wifi"
+      },
+      "identity": [
+        "gatewayMac"
+      ],
+      "identity_any": [],
+      "leading_comment": "A local network — a LAN identified by its gateway. \"Home\" and \"Whole Foods\nguest wifi\" are distinct networks; a device links to the one it was seen on.\nThe gateway MAC is the stable identity — an SSID isn't unique (every\n\"xfinitywifi\" collides) and subnets repeat (half the world is 192.168.1.0/24).",
+      "own_fields": [
+        {
+          "name": "ssid",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "bssid",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "gatewayIp",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "gatewayMac",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "subnet",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        },
+        {
+          "name": "lastSeen",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "IEEE 802 BSSID / SSID",
+          "url": "https://standards.ieee.org/",
+          "notes": "SSID is the human network name (not unique); BSSID is a specific AP's radio MAC. We identify the LAN by its gateway (router) MAC, the most stable per-network handle a client can observe without credentials."
+        }
+      ],
+      "source_path": "network.yaml",
+      "raw_body": "plural: networks\nidentity: gatewayMac\ndisplay:\n  icon: wifi\n  subtitle: ssid\n  highlights:\n  - ssid\n  - subnet\nfields:\n  ssid: string\n  bssid: string\n  gatewayIp: string\n  gatewayMac: string\n  subnet: string\n  lastSeen: datetime\nprior_art:\n- source: IEEE 802 BSSID / SSID\n  url: https://standards.ieee.org/\n  notes: SSID is the human network name (not unique); BSSID is a specific AP's radio\n    MAC. We identify the LAN by its gateway (router) MAC, the most stable per-network\n    handle a client can observe without credentials.\n",
+      "ancestors": [],
+      "field_order": [
+        "ssid",
+        "bssid",
+        "gatewayIp",
+        "gatewayMac",
+        "subnet",
+        "lastSeen"
       ],
       "derived": {},
       "groups": [],
