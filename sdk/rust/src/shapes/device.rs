@@ -33,6 +33,7 @@ pub struct Device {
     pub location: Option<String>,
     pub mac_address: String,
     pub mac_randomized: Option<bool>,
+    pub manufacturer: Option<String>,
     pub model: Option<String>,
     pub model_number: Option<String>,
     pub nova_group: Option<i64>,
@@ -77,7 +78,7 @@ pub static DEVICE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("customizationGroups", FieldType::Json),
         FieldDef::optional("department", FieldType::String),
         FieldDef::optional("discoveredVia", FieldType::StringList),
-        FieldDef { name: "formFactor".into(), ty: FieldType::String, description: Some("physical kind of the device — drives its face".into()), required: false, enum_values: vec!["router".into(), "printer".into(), "tv".into(), "speaker".into(), "console".into(), "vacuum".into(), "camera".into(), "bulb".into(), "sensor".into(), "computer".into(), "phone".into(), "hub".into(), "iot".into()] },
+        FieldDef { name: "formFactor".into(), ty: FieldType::String, description: Some("physical kind of the device — drives its face".into()), required: false, enum_values: vec!["router".into(), "printer".into(), "tv".into(), "speaker".into(), "console".into(), "vacuum".into(), "camera".into(), "bulb".into(), "sensor".into(), "computer".into(), "phone".into(), "car".into(), "hub".into(), "iot".into()] },
         FieldDef::optional("hostname", FieldType::String),
         FieldDef::optional("images", FieldType::Json),
         FieldDef::optional("ipAddress", FieldType::String),
@@ -86,6 +87,7 @@ pub static DEVICE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("location", FieldType::String),
         FieldDef::required("macAddress", FieldType::String),
         FieldDef::optional("macRandomized", FieldType::Boolean),
+        FieldDef::optional("manufacturer", FieldType::String),
         FieldDef::optional("model", FieldType::String),
         FieldDef::optional("modelNumber", FieldType::String),
         FieldDef::optional("novaGroup", FieldType::Integer),
@@ -110,7 +112,7 @@ pub static DEVICE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     identity: vec!["macAddress".into()],
     display: Some(DisplaySpec {
         subtitle: Some("ipAddress".into()),
-        highlights: vec!["vendor".into(), "hostname".into(), "roles".into(), "location".into()],
+        highlights: vec!["manufacturer".into(), "vendor".into(), "hostname".into(), "roles".into(), "location".into()],
         ..DisplaySpec::default()
     }),
     prior_art: vec![

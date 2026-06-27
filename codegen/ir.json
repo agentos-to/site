@@ -7550,6 +7550,7 @@
             "sensor",
             "computer",
             "phone",
+            "car",
             "hub",
             "iot"
           ]
@@ -7620,6 +7621,15 @@
         {
           "name": "macRandomized",
           "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "manufacturer",
+          "type": "string",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -7809,6 +7819,7 @@
         "subtitle": "ipAddress",
         "image": null,
         "highlights": [
+          "manufacturer",
           "vendor",
           "hostname",
           "roles",
@@ -7949,7 +7960,7 @@
         }
       ],
       "source_path": "device.yaml",
-      "raw_body": "plural: devices\nidentity: macAddress\ndisplay:\n  icon: devices_other\n  subtitle: ipAddress\n  highlights:\n  - vendor\n  - hostname\n  - roles\n  - location\nalso:\n- hardware\nfields:\n  macAddress: string\n  ipAddress: string\n  ipv6: string[]\n  hostname: string\n  vendor: string\n  location: string\n  roles: string[]\n  openPorts: integer[]\n  online: boolean\n  macRandomized: boolean\n  discoveredVia: string[]\n  lastSeen: datetime\nprior_art:\n- source: schema.org/IndividualProduct\n  url: https://schema.org/IndividualProduct\n  notes: \"A specific unit vs the ProductModel. macAddress is our stable identity (\\u2248\\\n    \\ serialNumber). Network/runtime state (ipAddress, online, ssid) has no schema.org\\\n    \\ equivalent \\u2014 contextual, kept off the model.\"\n- source: IEEE 802 EUI-48 (MAC) + IEEE OUI registry\n  url: https://standards.ieee.org/products-programs/regauth/\n  notes: macAddress is an EUI-48; the first 3 octets (OUI) resolve to the manufacturing\n    organization. The locally-administered bit (2nd-LSB of the first octet) sets macRandomized.\n",
+      "raw_body": "plural: devices\nidentity: macAddress\ndisplay:\n  icon: devices_other\n  subtitle: ipAddress\n  highlights:\n  - manufacturer\n  - vendor\n  - hostname\n  - roles\n  - location\nalso:\n- hardware\nfields:\n  macAddress: string\n  ipAddress: string\n  ipv6: string[]\n  hostname: string\n  vendor: string\n  location: string\n  roles: string[]\n  openPorts: integer[]\n  online: boolean\n  macRandomized: boolean\n  discoveredVia: string[]\n  lastSeen: datetime\nprior_art:\n- source: schema.org/IndividualProduct\n  url: https://schema.org/IndividualProduct\n  notes: \"A specific unit vs the ProductModel. macAddress is our stable identity (\\u2248\\\n    \\ serialNumber). Network/runtime state (ipAddress, online, ssid) has no schema.org\\\n    \\ equivalent \\u2014 contextual, kept off the model.\"\n- source: IEEE 802 EUI-48 (MAC) + IEEE OUI registry\n  url: https://standards.ieee.org/products-programs/regauth/\n  notes: macAddress is an EUI-48; the first 3 octets (OUI) resolve to the manufacturing\n    organization. The locally-administered bit (2nd-LSB of the first octet) sets macRandomized.\n",
       "ancestors": [
         "hardware",
         "product"
@@ -7967,6 +7978,7 @@
         "macRandomized",
         "discoveredVia",
         "lastSeen",
+        "manufacturer",
         "model",
         "modelNumber",
         "formFactor",
@@ -13170,6 +13182,7 @@
             "sensor",
             "computer",
             "phone",
+            "car",
             "hub",
             "iot"
           ]
@@ -13177,6 +13190,15 @@
         {
           "name": "images",
           "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "manufacturer",
+          "type": "string",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -13344,6 +13366,15 @@
       "leading_comment": "A manufactured electronic product — the model as a thing in the world:\n\"Roku Ultra 4800X\", \"Brother HL-L3270CDW\", \"Dreame P2009\". Intrinsic facts\nonly (manufacturer, model, form factor). A specific powered-on instance with\nan IP and a MAC is a `device`, not hardware. Fills the \"hardware\" subtype\nproduct.yaml already names but never defined.",
       "own_fields": [
         {
+          "name": "manufacturer",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "model",
           "type": "string",
           "is_relation": false,
@@ -13380,6 +13411,7 @@
             "sensor",
             "computer",
             "phone",
+            "car",
             "hub",
             "iot"
           ]
@@ -13394,11 +13426,12 @@
         }
       ],
       "source_path": "hardware.yaml",
-      "raw_body": "plural: hardware\nidentity_any:\n- url\n- modelNumber\ndisplay:\n  icon: memory\n  iconFrom: formFactor\n  subtitle: modelNumber\nalso:\n- product\nfields:\n  model: string\n  modelNumber: string\n  formFactor:\n    type: string\n    enum:\n    - router\n    - printer\n    - tv\n    - speaker\n    - console\n    - vacuum\n    - camera\n    - bulb\n    - sensor\n    - computer\n    - phone\n    - hub\n    - iot\n    description: \"physical kind of the device \\u2014 drives its face\"\nprior_art:\n- source: schema.org/ProductModel vs IndividualProduct\n  url: https://schema.org/ProductModel\n  notes: \"schema.org separates ProductModel (the model) from IndividualProduct (a\\\n    \\ specific unit). Our hardware = ProductModel; our device = IndividualProduct.\\\n    \\ formFactor \\u2248 category / additionalType.\"\n",
+      "raw_body": "plural: hardware\nidentity_any:\n- url\n- modelNumber\ndisplay:\n  icon: memory\n  iconFrom: formFactor\n  subtitle: modelNumber\nalso:\n- product\nfields:\n  manufacturer: string\n  model: string\n  modelNumber: string\n  formFactor:\n    type: string\n    enum:\n    - router\n    - printer\n    - tv\n    - speaker\n    - console\n    - vacuum\n    - camera\n    - bulb\n    - sensor\n    - computer\n    - phone\n    - car\n    - hub\n    - iot\n    description: \"physical kind of the device \\u2014 drives its face\"\nprior_art:\n- source: schema.org/ProductModel vs IndividualProduct\n  url: https://schema.org/ProductModel\n  notes: \"schema.org separates ProductModel (the model) from IndividualProduct (a\\\n    \\ specific unit). Our hardware = ProductModel; our device = IndividualProduct.\\\n    \\ formFactor \\u2248 category / additionalType.\"\n",
       "ancestors": [
         "product"
       ],
       "field_order": [
+        "manufacturer",
         "model",
         "modelNumber",
         "formFactor",

@@ -7,9 +7,11 @@ device:
   plural: devices
   identity: macAddress         # the MAC is stable identity; IP leases churn
   display:
-    icon: devices_other        # fallback face; real face derives from formFactor (deviceKindIcon)
+    icon: devices_other        # fallback face; the real face derives from formFactor via display.iconFrom (inherited from hardware), resolved engine-side
     subtitle: ipAddress
-    highlights: [vendor, hostname, roles, location]   # ipAddress is the subtitle — don't repeat it as a highlight
+    # manufacturer (device-maker brand) leads; vendor (OUI silicon maker) stays
+    # visible too — both are honest, different facts. ipAddress is the subtitle.
+    highlights: [manufacturer, vendor, hostname, roles, location]
   also: [hardware]             # a device is a live instance of hardware
   fields:
     macAddress:       string    # normalized aa:bb:cc:dd:ee:ff — identity

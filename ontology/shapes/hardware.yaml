@@ -12,13 +12,14 @@ hardware:
     subtitle: modelNumber
   also: [product]            # hardware is also a product
   fields:
+    manufacturer:    string    # device-maker brand ("Tesla", "Brother") — the brand that makes the model, distinct from the OUI silicon vendor; the graph-native form is a `manufactured_by` edge to an `organization`
     model:            string    # model name ("Roku Ultra", "HL-L3270CDW")
     modelNumber:     string    # manufacturer part/model number ("4800X", "P2009")
     # Closed vocabulary — each value is also an icon slot (display.iconFrom
     # resolves the per-record face engine-side; a pack overrides `icon.<value>`).
     formFactor:
       type: string
-      enum: [router, printer, tv, speaker, console, vacuum, camera, bulb, sensor, computer, phone, hub, iot]
+      enum: [router, printer, tv, speaker, console, vacuum, camera, bulb, sensor, computer, phone, car, hub, iot]
       description: physical kind of the device — drives its face
   prior_art:
     - source: schema.org/ProductModel vs IndividualProduct
