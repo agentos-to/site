@@ -2114,15 +2114,6 @@
           "enum": null
         },
         {
-          "name": "error",
-          "type": "text",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
-        },
-        {
           "name": "handles",
           "type": "string[]",
           "is_relation": false,
@@ -2157,15 +2148,6 @@
           "target": null,
           "description": null,
           "enum": null
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
         }
       ],
       "also": [],
@@ -2187,7 +2169,7 @@
         "id"
       ],
       "identity_any": [],
-      "leading_comment": "An application — the one installable, launchable unit. System apps\n(Finder, Settings — engine-resident, code-only, seeded by\n`seed_system_apps()` in identity.rs) and installed apps (Python\nconnectors discovered from source directories) are the same shape;\n`isSystem` and the seeding path are the only differences. Installed\napps additionally carry connection lifecycle (`status` / `error`)\nbecause they adapt external platforms.\n\nWhat an app OFFERS the rest of the system is a `service` — see\nshapes/agentos/service.yaml. The service node points at its providers\nwith `provided_by` edges (minted by the engine from each app's own\ndeclarations, never authored). An app may provide zero services or\nseveral.\n\nThemes never reference app ids by string literal. They reference\nrole-based list ids ('primary-launcher', 'tray', 'desktop') and render\nwhatever bookmarks those lists contain. Per-theme renames happen via\nthe theme bundle's `appOverrides[appId] = { name?, icon? }` map — the\ntheme owns presentation, not identity.",
+      "leading_comment": "An app — the launchable program a person opens: a system app (Finder,\nSettings — engine-resident, code-only, seeded by `system_app_nodes()`\nin sources/identity.rs) or an experience app (the Email app — a\nmanifest that composes shell-native panels over a shape family). Both\nare launchable surfaces with a `route` / `composition`; neither adapts\nan external platform, so an app carries no connection lifecycle.\n\nThe sibling shape is `plugin` (shapes/plugin.yaml) — the contract\nbundle (Gmail, Exa) that plugs the OS into an external platform. An\napp is what a person LAUNCHES; a plugin is what apps and the broker\nCONSUME. An experience app never names a plugin: it reads shapes and\ncalls services, the broker is the only coupling.\n\nThemes never reference app ids by string literal. They reference\nrole-based list ids ('primary-launcher', 'tray', 'desktop') and render\nwhatever bookmarks those lists contain. Per-theme renames happen via\nthe theme bundle's `appOverrides[appId] = { name?, icon? }` map — the\ntheme owns presentation, not identity.",
       "own_fields": [
         {
           "name": "id",
@@ -2219,24 +2201,6 @@
         {
           "name": "color",
           "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
-        },
-        {
-          "name": "status",
-          "type": "string",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
-        },
-        {
-          "name": "error",
-          "type": "text",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -2331,29 +2295,17 @@
         {
           "source": "Windows AppUserModelID",
           "url": "https://learn.microsoft.com/en-us/windows/win32/shell/appids",
-          "notes": "Stable per-app identity decoupled from the executable on disk. Our `id` plays the same role — themes and bookmarks reference it, the binary is an implementation detail of seed_system_apps()."
-        },
-        {
-          "source": "Model Context Protocol (MCP) — Server",
-          "url": "https://modelcontextprotocol.io/specification",
-          "notes": "An installed app = an MCP-registerable provider. id ≈ MCP server name; status tracks connection lifecycle."
-        },
-        {
-          "source": "OpenAPI 3.1 (Info + Servers)",
-          "url": "https://spec.openapis.org/oas/v3.1.0",
-          "notes": "Our description/online_at/privacy_at/terms_at ≈ OpenAPI info.description/info.termsOfService/contact."
+          "notes": "Stable per-app identity decoupled from the executable on disk. Our `id` plays the same role — themes and bookmarks reference it, the binary is an implementation detail of system_app_nodes()."
         }
       ],
       "source_path": "app.yaml",
-      "raw_body": "plural: apps\nidentity:\n- id\ndisplay:\n  icon: web_asset\n  subtitle: description\nfields:\n  id: string\n  name: string\n  description: text\n  color: string\n  status: string\n  error: text\n  iconRole: string\n  route: string\n  defaultRoute: string\n  defaultView: string\n  isSystem: boolean\n  handles: string[]\n  composition: json\n  account: json\nprior_art:\n- source: macOS .app bundle (Info.plist)\n  url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html\n  notes: \"CFBundleIdentifier \\u2248 id; CFBundleName \\u2248 name; CFBundleIconFile\\\n    \\ \\u2248 iconRole (we use a role rather than a file path so themes can override).\"\n- source: freedesktop .desktop entry\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: \"Name, Icon, Exec \\u2014 the Linux/XDG peer. We model the launchable surface,\\\n    \\ not the executable (the engine knows how to spawn).\"\n- source: Windows AppUserModelID\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/appids\n  notes: \"Stable per-app identity decoupled from the executable on disk. Our `id`\\\n    \\ plays the same role \\u2014 themes and bookmarks reference it, the binary is\\\n    \\ an implementation detail of seed_system_apps().\"\n- source: \"Model Context Protocol (MCP) \\u2014 Server\"\n  url: https://modelcontextprotocol.io/specification\n  notes: \"An installed app = an MCP-registerable provider. id \\u2248 MCP server name;\\\n    \\ status tracks connection lifecycle.\"\n- source: OpenAPI 3.1 (Info + Servers)\n  url: https://spec.openapis.org/oas/v3.1.0\n  notes: \"Our description/online_at/privacy_at/terms_at \\u2248 OpenAPI info.description/info.termsOfService/contact.\"\n",
+      "raw_body": "plural: apps\nidentity:\n- id\ndisplay:\n  icon: web_asset\n  subtitle: description\nfields:\n  id: string\n  name: string\n  description: text\n  color: string\n  iconRole: string\n  route: string\n  defaultRoute: string\n  defaultView: string\n  isSystem: boolean\n  handles: string[]\n  composition: json\n  account: json\nprior_art:\n- source: macOS .app bundle (Info.plist)\n  url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html\n  notes: \"CFBundleIdentifier \\u2248 id; CFBundleName \\u2248 name; CFBundleIconFile\\\n    \\ \\u2248 iconRole (we use a role rather than a file path so themes can override).\"\n- source: freedesktop .desktop entry\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: \"Name, Icon, Exec \\u2014 the Linux/XDG peer. We model the launchable surface,\\\n    \\ not the executable (the engine knows how to spawn).\"\n- source: Windows AppUserModelID\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/appids\n  notes: \"Stable per-app identity decoupled from the executable on disk. Our `id`\\\n    \\ plays the same role \\u2014 themes and bookmarks reference it, the binary is\\\n    \\ an implementation detail of system_app_nodes().\"\n",
       "ancestors": [],
       "field_order": [
         "id",
         "name",
         "description",
         "color",
-        "status",
-        "error",
         "iconRole",
         "route",
         "defaultRoute",
@@ -28287,6 +28239,305 @@
         "icon_size",
         "sort_by",
         "path"
+      ],
+      "derived": {},
+      "groups": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "plugin",
+      "class_name": "Plugin",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "account",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "composition",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "error",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "handles",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "iconRole",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "also": [],
+      "timed": null,
+      "plural": "plugins",
+      "subtitle": "description",
+      "display": {
+        "title": null,
+        "subtitle": "description",
+        "image": null,
+        "highlights": [],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "icon": "cable",
+        "icon_from": null
+      },
+      "identity": [
+        "id"
+      ],
+      "identity_any": [],
+      "leading_comment": "A plugin — a contract bundle that plugs the OS into an external\nplatform or a local data source (Gmail, WhatsApp, Exa, 1Password, …).\nA plugin is code + connections + `@provides` declarations, discovered\nfrom a source directory (`commons/plugins/<platform>/<name>/`), loaded\nand dispatched through the `plugins` namespace (`load` / `run` /\n`connect` / `enable`). It never draws its own window — the shell\nderives a PluginFace from the contract.\n\nA plugin plugs into the OS, never into an app: it declares the\n`service`s it OFFERS (see shapes/agentos/service.yaml) and the broker\nmatchmakes callers to it. Neither side names the other — that is the\nsecurity-by-architecture boundary. A plugin may provide zero services\nor several. Connection lifecycle (`status` / `error`) is intrinsic to\na plugin because it adapts an external platform; a launchable `app`\n(Finder, the Email experience) has none.\n\nThe sibling shape is `app` (shapes/agentos/app.yaml) — the launchable\nprogram. `plugin` = the bundle apps and the broker consume; `app` =\nthe experience a person launches. Both may declare a `composition`\n(which chrome rows a Navigator window wearing them shows).",
+      "own_fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "error",
+          "type": "text",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "iconRole",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "handles",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "composition",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "account",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "Model Context Protocol (MCP) — Server",
+          "url": "https://modelcontextprotocol.io/specification",
+          "notes": "A plugin = an MCP-registerable provider. id ≈ MCP server name; status tracks connection lifecycle. The engine is the host that brokers between callers and plugins."
+        },
+        {
+          "source": "OpenAPI 3.1 (Info + Servers)",
+          "url": "https://spec.openapis.org/oas/v3.1.0",
+          "notes": "A plugin's readme frontmatter ≈ OpenAPI info — description, website, privacy/terms; each connection ≈ a Server + security scheme."
+        },
+        {
+          "source": "VS Code / Obsidian plugin (contributes)",
+          "url": "https://code.visualstudio.com/api/references/contribution-points",
+          "notes": "A plugin declares what it contributes (tools, services, connections) via decorators; the host discovers and wires it — the plugin never reaches into the host or another plugin."
+        }
+      ],
+      "source_path": "plugin.yaml",
+      "raw_body": "plural: plugins\nidentity:\n- id\ndisplay:\n  icon: cable\n  subtitle: description\nfields:\n  id: string\n  name: string\n  description: text\n  color: string\n  status: string\n  error: text\n  iconRole: string\n  handles: string[]\n  composition: json\n  account: json\nprior_art:\n- source: \"Model Context Protocol (MCP) \\u2014 Server\"\n  url: https://modelcontextprotocol.io/specification\n  notes: \"A plugin = an MCP-registerable provider. id \\u2248 MCP server name; status\\\n    \\ tracks connection lifecycle. The engine is the host that brokers between callers\\\n    \\ and plugins.\"\n- source: OpenAPI 3.1 (Info + Servers)\n  url: https://spec.openapis.org/oas/v3.1.0\n  notes: \"A plugin's readme frontmatter \\u2248 OpenAPI info \\u2014 description, website,\\\n    \\ privacy/terms; each connection \\u2248 a Server + security scheme.\"\n- source: VS Code / Obsidian plugin (contributes)\n  url: https://code.visualstudio.com/api/references/contribution-points\n  notes: \"A plugin declares what it contributes (tools, services, connections) via\\\n    \\ decorators; the host discovers and wires it \\u2014 the plugin never reaches\\\n    \\ into the host or another plugin.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "id",
+        "name",
+        "description",
+        "color",
+        "status",
+        "error",
+        "iconRole",
+        "handles",
+        "composition",
+        "account"
       ],
       "derived": {},
       "groups": [],

@@ -178,8 +178,8 @@ def _write_configured_source_paths(paths: list[str], db_path: Path = AGENTOS_DB_
 _SHAPES_CANDIDATES = (
     "shapes",
     "platform/ontology/shapes",
-    # Apps now live in commons/apps; shapes stay in the sibling platform/ repo.
-    # When the source root is commons/, reach across to its sibling.
+    # Plugins now live in commons/plugins; shapes stay in the sibling
+    # platform/ repo. When the source root is commons/, reach across to its sibling.
     "../platform/ontology/shapes",
     "agentos-sdk/shapes",
 )
@@ -231,7 +231,10 @@ def _probe_source_root(root: Path, origin: str) -> AppSource:
     shapes: Path | None = None
     crates: Path | None = None
 
-    candidate_apps = root / "apps"
+    # Plugins (contract bundles) live in `plugins/`; `apps/` was the old
+    # home before the plugin/app split. A source that keeps its bundles at
+    # the root (a single-plugin repo) is detected by the heuristic.
+    candidate_apps = root / "plugins"
     if candidate_apps.is_dir():
         apps = candidate_apps
     elif _looks_like_apps_dir(root):
@@ -415,9 +418,9 @@ def _find_apps_dir(start: Path | None = None) -> Path | None:
 
     Resolution order:
       1. AGENTOS_APPS_DIR env var
-      2. Walk up from <start> looking for an apps home that contains
-         readme.md files — either `<base>/apps` or `<base>/commons/apps`
-         (apps now ship under commons/ alongside themes/ + wallpapers/).
+      2. Walk up from <start> looking for a plugins home that contains
+         readme.md files — either `<base>/plugins` or `<base>/commons/plugins`
+         (plugins ship under commons/ alongside themes/ + wallpapers/).
     """
     env = os.environ.get("AGENTOS_APPS_DIR")
     if env:
@@ -442,7 +445,7 @@ def _find_apps_dir(start: Path | None = None) -> Path | None:
         return False
 
     for base in [start, *start.parents]:
-        for candidate in (base / "apps", base / "commons" / "apps"):
+        for candidate in (base / "plugins", base / "commons" / "plugins"):
             if _has_apps(candidate):
                 return candidate
 
@@ -2348,7 +2351,7 @@ def run_validate(target: str | None = None, *, validate_all: bool = False,
     if apps_dir is None:
         apps_dir = _find_apps_dir()
     if apps_dir is None:
-        print("error: could not locate apps/ directory", file=sys.stderr)
+        print("error: could not locate plugins/ directory", file=sys.stderr)
         print("  set AGENTOS_APPS_DIR or run from inside the workspace", file=sys.stderr)
         return 1
 

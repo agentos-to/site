@@ -1,0 +1,71 @@
+# A plugin — a contract bundle that plugs the OS into an external
+# platform or a local data source (Gmail, WhatsApp, Exa, 1Password, …).
+# A plugin is code + connections + `@provides` declarations, discovered
+# from a source directory (`commons/plugins/<platform>/<name>/`), loaded
+# and dispatched through the `plugins` namespace (`load` / `run` /
+# `connect` / `enable`). It never draws its own window — the shell
+# derives a PluginFace from the contract.
+#
+# A plugin plugs into the OS, never into an app: it declares the
+# `service`s it OFFERS (see shapes/agentos/service.yaml) and the broker
+# matchmakes callers to it. Neither side names the other — that is the
+# security-by-architecture boundary. A plugin may provide zero services
+# or several. Connection lifecycle (`status` / `error`) is intrinsic to
+# a plugin because it adapts an external platform; a launchable `app`
+# (Finder, the Email experience) has none.
+#
+# The sibling shape is `app` (shapes/agentos/app.yaml) — the launchable
+# program. `plugin` = the bundle apps and the broker consume; `app` =
+# the experience a person launches. Both may declare a `composition`
+# (which chrome rows a Navigator window wearing them shows).
+plugin:
+  plural: plugins
+  identity: [id]
+  display:
+    icon: cable
+    subtitle: description
+  fields:
+    id:                string    # 'gmail' / 'exa' / 'whatsapp' / ...
+    name:              string    # display name
+    description:       text
+    color:             string    # hex color for UI display (frontmatter color)
+    status:            string    # connected, disconnected, error
+    error:             text      # error message if status is "error"
+    iconRole:          string    # resolves through the theme's icon registry
+                                  # (usually the platform favicon)
+    handles:          string[]  # shape names this plugin can render — a shell
+                                  # "open this entity in…" association, NOT a
+                                  # brokered service call. Entries are shape
+                                  # names (strings), not graph references.
+    composition:      json      # which chrome rows a Navigator window wearing
+                                  # this plugin composes (the PluginFace). The
+                                  # typed owner is the web Navigator's
+                                  # `Composition` interface
+                                  # (core/web/src/navigator/composition.ts).
+                                  # The engine stamps it at mint; the web
+                                  # resolves it from the node, never derives.
+    account:           json      # the plugin's declared account ops —
+                                  # {check?, login?, logout?, profile?}, each an
+                                  # op name. Stamped by the engine from
+                                  # `@account.<role>` decorators; the shell
+                                  # dispatches sign-in/out through this, never a
+                                  # literal tool name. Absent → no account flow.
+  prior_art:
+    - source: Model Context Protocol (MCP) — Server
+      url: https://modelcontextprotocol.io/specification
+      notes: >-
+        A plugin = an MCP-registerable provider. id ≈ MCP server name;
+        status tracks connection lifecycle. The engine is the host that
+        brokers between callers and plugins.
+    - source: OpenAPI 3.1 (Info + Servers)
+      url: https://spec.openapis.org/oas/v3.1.0
+      notes: >-
+        A plugin's readme frontmatter ≈ OpenAPI info — description,
+        website, privacy/terms; each connection ≈ a Server + security
+        scheme.
+    - source: VS Code / Obsidian plugin (contributes)
+      url: https://code.visualstudio.com/api/references/contribution-points
+      notes: >-
+        A plugin declares what it contributes (tools, services,
+        connections) via decorators; the host discovers and wires it —
+        the plugin never reaches into the host or another plugin.

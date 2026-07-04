@@ -1,16 +1,15 @@
-# An application — the one installable, launchable unit. System apps
-# (Finder, Settings — engine-resident, code-only, seeded by
-# `seed_system_apps()` in identity.rs) and installed apps (Python
-# connectors discovered from source directories) are the same shape;
-# `isSystem` and the seeding path are the only differences. Installed
-# apps additionally carry connection lifecycle (`status` / `error`)
-# because they adapt external platforms.
+# An app — the launchable program a person opens: a system app (Finder,
+# Settings — engine-resident, code-only, seeded by `system_app_nodes()`
+# in sources/identity.rs) or an experience app (the Email app — a
+# manifest that composes shell-native panels over a shape family). Both
+# are launchable surfaces with a `route` / `composition`; neither adapts
+# an external platform, so an app carries no connection lifecycle.
 #
-# What an app OFFERS the rest of the system is a `service` — see
-# shapes/agentos/service.yaml. The service node points at its providers
-# with `provided_by` edges (minted by the engine from each app's own
-# declarations, never authored). An app may provide zero services or
-# several.
+# The sibling shape is `plugin` (shapes/plugin.yaml) — the contract
+# bundle (Gmail, Exa) that plugs the OS into an external platform. An
+# app is what a person LAUNCHES; a plugin is what apps and the broker
+# CONSUME. An experience app never names a plugin: it reads shapes and
+# calls services, the broker is the only coupling.
 #
 # Themes never reference app ids by string literal. They reference
 # role-based list ids ('primary-launcher', 'tray', 'desktop') and render
@@ -24,12 +23,10 @@ app:
     icon: web_asset
     subtitle: description
   fields:
-    id:                string    # 'finder' / 'settings' / 'gmail' / 'exa' / ...
+    id:                string    # 'finder' / 'settings' / 'email' / ...
     name:              string    # display name (theme may override via appOverrides)
     description:       text
     color:             string    # hex color for UI display (frontmatter color)
-    status:            string    # connected, disconnected, error
-    error:             text      # error message if status is "error"
     iconRole:          string    # 'my-computer' / 'control-panel' / 'graph' / ...
                                   # resolves through the theme's icon registry
     route:             string    # for route-based apps (e.g. 'settings')
@@ -41,27 +38,27 @@ app:
     defaultView:      string    # which view to spawn — usually 'main'
     isSystem:         boolean   # true → engine-resident, never uninstallable
     handles:          string[]  # shape names this app can render (e.g. Finder
-                                  # declares ['*']); shells use this for the
-                                  # "open this entity in…" picker. A shell
-                                  # association, NOT a brokered service call.
-                                  # Stored as a field, not a relation — entries
-                                  # are shape names (strings), not graph
-                                  # references.
+                                  # declares ['*'], the Email app ['email']);
+                                  # shells use this for the "open this entity
+                                  # in…" picker. A shell association, NOT a
+                                  # brokered service call. Stored as a field,
+                                  # not a relation — entries are shape names
+                                  # (strings), not graph references.
     composition:      json      # which chrome rows a Navigator window wearing
                                   # this app composes. The typed owner is the
                                   # web Navigator's `Composition` interface
                                   # (core/web/src/navigator/composition.ts).
                                   # Absent → all-off (bare body under the
-                                  # titlebar); an app with tools derives the
-                                  # app face instead. The shell resolves,
-                                  # never enumerates apps.
+                                  # titlebar). The shell resolves, never
+                                  # enumerates apps.
     account:           json      # the app's declared account ops —
                                   # {check?, login?, logout?, profile?},
                                   # each an op name. Stamped by the engine
                                   # from `@account.<role>` decorators; the
-                                  # shell dispatches sign-in/out through
-                                  # this, never a literal tool name.
-                                  # Absent → the app has no account flow.
+                                  # shell dispatches sign-in/out through this,
+                                  # never a literal tool name. Absent → the app
+                                  # has no account flow. (Experience apps
+                                  # usually delegate accounts to their plugins.)
   prior_art:
     - source: macOS .app bundle (Info.plist)
       url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html
@@ -79,14 +76,4 @@ app:
       notes: >-
         Stable per-app identity decoupled from the executable on disk.
         Our `id` plays the same role — themes and bookmarks reference it,
-        the binary is an implementation detail of seed_system_apps().
-    - source: Model Context Protocol (MCP) — Server
-      url: https://modelcontextprotocol.io/specification
-      notes: >-
-        An installed app = an MCP-registerable provider. id ≈ MCP server
-        name; status tracks connection lifecycle.
-    - source: OpenAPI 3.1 (Info + Servers)
-      url: https://spec.openapis.org/oas/v3.1.0
-      notes: >-
-        Our description/online_at/privacy_at/terms_at ≈ OpenAPI
-        info.description/info.termsOfService/contact.
+        the binary is an implementation detail of system_app_nodes().

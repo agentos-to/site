@@ -96,6 +96,7 @@ pub mod persona;
 pub mod place;
 pub mod platform;
 pub mod playlist;
+pub mod plugin;
 pub mod podcast;
 pub mod post;
 pub mod practice;
@@ -215,6 +216,7 @@ pub use persona::{PERSONA, Persona};
 pub use place::{PLACE, Place};
 pub use platform::{PLATFORM, Platform};
 pub use playlist::{PLAYLIST, Playlist};
+pub use plugin::{PLUGIN, Plugin};
 pub use podcast::{PODCAST, Podcast};
 pub use post::{POST, Post};
 pub use practice::{PRACTICE, Practice};
@@ -340,6 +342,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "place" => Some(&PLACE),
         "platform" => Some(&PLATFORM),
         "playlist" => Some(&PLAYLIST),
+        "plugin" => Some(&PLUGIN),
         "podcast" => Some(&PODCAST),
         "post" => Some(&POST),
         "practice" => Some(&PRACTICE),
@@ -1335,6 +1338,18 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         icon: Some("queue_music"),
         icon_from: None,
     }),
+    ("plugin", Display {
+        title: None,
+        subtitle: Some("description"),
+        image: None,
+        highlights: &[],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &[],
+        icon: Some("cable"),
+        icon_from: None,
+    }),
     ("podcast", Display {
         title: None,
         subtitle: Some("host"),
@@ -1856,7 +1871,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("aircraft", &["model", "variant", "seatCapacity", "rangeKm", "iataCode", "icaoCode", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("airline", &["iataCode", "icaoCode", "callsign", "country", "alliance", "industry", "actorType"]),
     ("airport", &["iataCode", "icaoCode", "city", "country", "countryCode", "timezone", "elevationFt", "terminalCount"]),
-    ("app", &["id", "name", "description", "color", "status", "error", "iconRole", "route", "defaultRoute", "defaultView", "isSystem", "handles", "composition", "account"]),
+    ("app", &["id", "name", "description", "color", "iconRole", "route", "defaultRoute", "defaultView", "isSystem", "handles", "composition", "account"]),
     ("auth_challenge", &["kind", "payload", "artifact", "instructions", "retrieval", "expiresAt", "continueWith"]),
     ("book", &["isbn", "isbn13", "pages", "genres", "series", "format", "language", "originalTitle", "places", "characters", "awardsWon", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "coverage", "tags", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("booking_offer", &["cartId", "referenceNumber", "status", "preparedAt", "presentedAt", "approvedAt", "expiresAt", "currency", "baseAmount", "taxAmount", "feesAmount", "totalAmount", "itineraryHash", "signature", "signatureAlg", "signedBy", "checkoutUrl", "confirmEndpoint", "isRefundable", "isChangeable", "hasVoidWindow", "voidWindowEndsAt", "conditions", "blob", "review", "contactEmail", "contactPhone", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
@@ -1926,6 +1941,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("place", &["fullAddress", "placeFormatted", "streetNumber", "street", "neighborhood", "locality", "city", "district", "region", "postalCode", "country", "countryCode", "latitude", "longitude", "accuracy", "featureType", "categories", "phone", "website", "hours", "businessStatus", "rating", "reviewCount", "priceLevel", "timezone", "eta", "isOrderable", "closedMessage", "productCount", "mapboxId", "wikidataId", "googlePlaceId"]),
     ("platform", &["slug", "federated", "protocol", "urlTemplate", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("playlist", &["id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path"]),
+    ("plugin", &["id", "name", "description", "color", "status", "error", "iconRole", "handles", "composition", "account"]),
     ("podcast", &["feedUrl"]),
     ("post", &["externalUrl", "postType", "score", "commentCount", "community"]),
     ("practice", &["description", "code", "codeSystem", "aliases"]),
@@ -2055,6 +2071,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("place", "places"),
     ("platform", "platforms"),
     ("playlist", "playlists"),
+    ("plugin", "plugins"),
     ("podcast", "podcasts"),
     ("post", "posts"),
     ("practice", "practices"),
