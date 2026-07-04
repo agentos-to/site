@@ -5,7 +5,7 @@ The contract agents work against: the data **shapes**, the auth-flow
 project into. One ontology, one generator, one repo.
 
 GitHub remote: `agentos-to/site`. Sits at `~/dev/agentos/platform/`
-alongside `core/`, `apps/`, `commons/`.
+alongside `core/`, `commons/`.
 
 Narrative docs live on the engine's **system volume**
 (`core/system-docs/`), not here — agentos.to returns as a

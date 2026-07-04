@@ -217,8 +217,8 @@ def _probe_source_root(root: Path, origin: str) -> AppSource:
     """Turn a source root into a AppSource record.
 
     A source root can contribute:
-      - `<root>/apps/` as a apps dir (or the root itself, if it looks
-        like a apps dir)
+      - `<root>/plugins/` as a plugins dir (or the root itself, if it looks
+        like a plugins dir)
       - A shapes dir at one of `_SHAPES_CANDIDATES` (conventional locations
         like `shapes/` or `platform/ontology/shapes/`).
     """
@@ -292,15 +292,15 @@ def _discover_sources(explicit_apps_dir: Path | None = None) -> list[AppSource]:
         seen_roots.add(key)
         sources.append(src)
 
-    # Workspace — infer the root from the apps dir (one level up if apps/
-    # is a subdir, else use the apps dir itself), then probe for shapes
+    # Workspace — infer the root from the plugins dir (one level up if
+    # plugins/ is a subdir, else use the dir itself), then probe for shapes
     # under the root's conventional locations.
     workspace_apps = explicit_apps_dir or _find_apps_dir()
     if workspace_apps:
         workspace_apps = workspace_apps.resolve()
         workspace_root = (
             workspace_apps.parent
-            if workspace_apps.name == "apps"
+            if workspace_apps.name == "plugins"
             else workspace_apps
         )
         ws = _probe_source_root(workspace_root, origin="workspace")

@@ -225,7 +225,7 @@ def _default_apps_roots() -> list[Path]:
     root = _find_workspace_root()
     if not root:
         return []
-    candidates = [root / "apps"]
+    candidates = [root / "plugins"]
     return [p for p in candidates if p.is_dir()]
 
 
