@@ -51,6 +51,17 @@ app:
                                   # Absent → all-off (bare body under the
                                   # titlebar). The shell resolves, never
                                   # enumerates apps.
+    layout:            json      # experience-app body composition: the
+                                  # panels (shell-native), settings, brokered
+                                  # actions, and semantic slots the shell
+                                  # renders over the `handles` shape family.
+                                  # System apps have hand-built bodies and
+                                  # omit this; its PRESENCE is what marks a
+                                  # node an experience app (a manifest, not
+                                  # code). Distinct from `composition` (chrome
+                                  # rows): `composition` frames the window,
+                                  # `layout` fills it. Authored in
+                                  # `commons/apps/<id>/app.yaml`.
     account:           json      # the app's declared account ops —
                                   # {check?, login?, logout?, profile?},
                                   # each an op name. Stamped by the engine

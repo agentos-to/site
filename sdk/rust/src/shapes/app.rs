@@ -23,6 +23,7 @@ pub struct App {
     pub handles: Option<Vec<String>>,
     pub icon_role: Option<String>,
     pub is_system: Option<bool>,
+    pub layout: Option<serde_json::Value>,
     pub route: Option<String>,
 }
 
@@ -48,6 +49,7 @@ pub static APP: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("handles", FieldType::StringList),
         FieldDef::optional("iconRole", FieldType::String),
         FieldDef::optional("isSystem", FieldType::Boolean),
+        FieldDef::optional("layout", FieldType::Json),
         FieldDef::optional("route", FieldType::String),
     ],
     identity: vec!["id".into()],

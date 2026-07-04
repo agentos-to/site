@@ -2141,6 +2141,15 @@
           "enum": null
         },
         {
+          "name": "layout",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "route",
           "type": "string",
           "is_relation": false,
@@ -2271,6 +2280,15 @@
           "enum": null
         },
         {
+          "name": "layout",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "account",
           "type": "json",
           "is_relation": false,
@@ -2299,7 +2317,7 @@
         }
       ],
       "source_path": "app.yaml",
-      "raw_body": "plural: apps\nidentity:\n- id\ndisplay:\n  icon: web_asset\n  subtitle: description\nfields:\n  id: string\n  name: string\n  description: text\n  color: string\n  iconRole: string\n  route: string\n  defaultRoute: string\n  defaultView: string\n  isSystem: boolean\n  handles: string[]\n  composition: json\n  account: json\nprior_art:\n- source: macOS .app bundle (Info.plist)\n  url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html\n  notes: \"CFBundleIdentifier \\u2248 id; CFBundleName \\u2248 name; CFBundleIconFile\\\n    \\ \\u2248 iconRole (we use a role rather than a file path so themes can override).\"\n- source: freedesktop .desktop entry\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: \"Name, Icon, Exec \\u2014 the Linux/XDG peer. We model the launchable surface,\\\n    \\ not the executable (the engine knows how to spawn).\"\n- source: Windows AppUserModelID\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/appids\n  notes: \"Stable per-app identity decoupled from the executable on disk. Our `id`\\\n    \\ plays the same role \\u2014 themes and bookmarks reference it, the binary is\\\n    \\ an implementation detail of system_app_nodes().\"\n",
+      "raw_body": "plural: apps\nidentity:\n- id\ndisplay:\n  icon: web_asset\n  subtitle: description\nfields:\n  id: string\n  name: string\n  description: text\n  color: string\n  iconRole: string\n  route: string\n  defaultRoute: string\n  defaultView: string\n  isSystem: boolean\n  handles: string[]\n  composition: json\n  layout: json\n  account: json\nprior_art:\n- source: macOS .app bundle (Info.plist)\n  url: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html\n  notes: \"CFBundleIdentifier \\u2248 id; CFBundleName \\u2248 name; CFBundleIconFile\\\n    \\ \\u2248 iconRole (we use a role rather than a file path so themes can override).\"\n- source: freedesktop .desktop entry\n  url: https://specifications.freedesktop.org/desktop-entry-spec/latest/\n  notes: \"Name, Icon, Exec \\u2014 the Linux/XDG peer. We model the launchable surface,\\\n    \\ not the executable (the engine knows how to spawn).\"\n- source: Windows AppUserModelID\n  url: https://learn.microsoft.com/en-us/windows/win32/shell/appids\n  notes: \"Stable per-app identity decoupled from the executable on disk. Our `id`\\\n    \\ plays the same role \\u2014 themes and bookmarks reference it, the binary is\\\n    \\ an implementation detail of system_app_nodes().\"\n",
       "ancestors": [],
       "field_order": [
         "id",
@@ -2313,6 +2331,7 @@
         "isSystem",
         "handles",
         "composition",
+        "layout",
         "account"
       ],
       "derived": {},
