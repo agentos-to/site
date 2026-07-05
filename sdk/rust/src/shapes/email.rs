@@ -93,6 +93,7 @@ pub static EMAIL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("unsubscribeOneClick", FieldType::Boolean),
     ],
     also: vec!["message".into()],
+    account_from: Some("accountEmail".into()),
     identity: vec!["at".into(), "id".into()],
     display: Some(DisplaySpec {
         subtitle: Some("author".into()),

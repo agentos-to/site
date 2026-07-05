@@ -87,6 +87,12 @@ def connection(name, **kwargs):
             (module-level form only).
         base_url: Base URL for ``client="http"`` connections
             (module-level form only).
+        issuer: The identity namespace this connection's records belong
+            to, when it differs from the credential domain — a local
+            client for a cloud platform (Mimestream's SQLite is a Gmail
+            client → ``issuer="googleapis.com"``). The engine reads it to
+            stamp ``record —arrived_via→ account`` provenance on shapes
+            declaring ``account_from`` (module-level form only).
         needs: Conjunctive list of credential/service constructors
             (module-level form only).
         label: Display label for ``agentos call accounts``

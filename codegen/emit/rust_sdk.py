@@ -218,6 +218,11 @@ def _emit_shape_const(s: Shape) -> list[str]:
     if s.timed:
         lines.append(f'    timed: Some("{s.timed}".into()),')
 
+    # account_from (the field naming the account a record arrived on —
+    # extraction resolves it and stamps `record —arrived_via→ account`)
+    if s.account_from:
+        lines.append(f'    account_from: Some("{s.account_from}".into()),')
+
     # identity / identity_any
     if s.identity:
         ident_list = ", ".join(f'"{x}".into()' for x in s.identity)

@@ -5,6 +5,12 @@
 email:
   plural: emails
   identity: [at, id]
+  # The field naming the mailbox this record arrived on. The engine resolves
+  # it against the plugin's declared issuer and stamps
+  # `email —arrived_via→ account` at remember time — the provenance edge
+  # reply routing walks. Shape-generic: any comms/social shape (message,
+  # post, …) opts in with one line naming its own field.
+  account_from: accountEmail
   display:
     icon: mail
     subtitle: author

@@ -92,6 +92,8 @@ def _shape_to_wire_def(s: Shape) -> dict:
         out["also"] = list(s.also)
     if s.timed:
         out["timed"] = s.timed
+    if s.account_from:
+        out["account_from"] = s.account_from
     if s.identity:
         out["identity"] = list(s.identity)
     if s.identity_any:

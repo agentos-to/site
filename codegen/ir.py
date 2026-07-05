@@ -110,6 +110,7 @@ class Shape:
     # Below fields are ignored by language emitters; used by the MDX doc emitter.
     also: list[str] = field(default_factory=list)           # raw `also:` list (tag chain)
     timed: str | None = None                                 # `timed:` marker — declares an intrinsic time category. `self` = a self-timed value (its own at/start/end), the third category beside event-derived and atemporal. Recognized by validate() rule 1.
+    account_from: str | None = None                          # `account_from:` — the field naming the account (mailbox/handle) a record arrived on. The engine resolves it against the plugin's declared issuer and stamps `record —arrived_via→ account` at remember time.
     plural: str | None = None
     subtitle: str | None = None      # back-compat shortcut for display.subtitle
     display: Display | None = None   # per-shape display spec (shape-display plan)
@@ -636,6 +637,7 @@ def _build_shapes(
         # Metadata used by the doc emitter
         s.also = list(defn.get("also") or [])
         s.timed = defn.get("timed")
+        s.account_from = defn.get("account_from")
         s.plural = defn.get("plural")
         # `display:` block — resolved through the `also:` chain so a child
         # shape inherits its parents' role bindings unless it re-declares
