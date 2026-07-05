@@ -9306,6 +9306,15 @@
           "enum": null
         },
         {
+          "name": "isInbox",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "isOutgoing",
           "type": "boolean",
           "is_relation": false,
@@ -9586,6 +9595,15 @@
           "enum": null
         },
         {
+          "name": "isInbox",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "hasAttachments",
           "type": "boolean",
           "is_relation": false,
@@ -9794,7 +9812,7 @@
         }
       ],
       "source_path": "email.yaml",
-      "raw_body": "plural: emails\nidentity:\n- at\n- id\naccount_from: accountEmail\ndisplay:\n  icon: mail\n  subtitle: author\nalso:\n- message\nfields:\n  subject: string\n  messageId: string\n  inReplyTo: string\n  isUnread: boolean\n  isStarred: boolean\n  isDraft: boolean\n  isSent: boolean\n  isTrash: boolean\n  isSpam: boolean\n  hasAttachments: boolean\n  draftId: string\n  conversationId: string\n  accountEmail: string\n  sizeEstimate: integer\n  references: string\n  replyTo: string\n  deliveredTo: string\n  attachments: json\n  toRaw: string\n  ccRaw: string\n  bccRaw: string\n  unsubscribe: string\n  unsubscribeOneClick: boolean\n  manageSubscription: string\n  listId: string\n  isAutomated: boolean\n  precedence: string\n  mailer: string\n  returnPath: string\n  authResults: string\nprior_art:\n- source: RFC 5322 (Internet Message Format)\n  url: https://datatracker.ietf.org/doc/html/rfc5322\n  notes: Supersedes RFC 2822. Our messageId/inReplyTo/references/replyTo map directly\n    to Message-ID/In-Reply-To/References/Reply-To headers; toRaw/ccRaw/bccRaw are\n    the literal header values.\n- source: RFC 2369 + RFC 8058 (List headers, one-click unsubscribe)\n  url: https://datatracker.ietf.org/doc/html/rfc2369\n  notes: Our unsubscribe/unsubscribeOneClick/listId are List-Unsubscribe/List-Unsubscribe-Post/List-ID.\n    RFC 8058 defines the one-click POST semantics.\n- source: Gmail API Message resource\n  url: https://developers.google.com/gmail/api/reference/rest/v1/users.messages\n  notes: Practical API mirror. Our sizeEstimate and isUnread/isStarred/isDraft/isSent/isTrash/isSpam\n    correspond to Gmail's sizeEstimate and labelIds (UNREAD, STARRED, DRAFT, SENT,\n    TRASH, SPAM).\n",
+      "raw_body": "plural: emails\nidentity:\n- at\n- id\naccount_from: accountEmail\ndisplay:\n  icon: mail\n  subtitle: author\nalso:\n- message\nfields:\n  subject: string\n  messageId: string\n  inReplyTo: string\n  isUnread: boolean\n  isStarred: boolean\n  isDraft: boolean\n  isSent: boolean\n  isTrash: boolean\n  isSpam: boolean\n  isInbox: boolean\n  hasAttachments: boolean\n  draftId: string\n  conversationId: string\n  accountEmail: string\n  sizeEstimate: integer\n  references: string\n  replyTo: string\n  deliveredTo: string\n  attachments: json\n  toRaw: string\n  ccRaw: string\n  bccRaw: string\n  unsubscribe: string\n  unsubscribeOneClick: boolean\n  manageSubscription: string\n  listId: string\n  isAutomated: boolean\n  precedence: string\n  mailer: string\n  returnPath: string\n  authResults: string\nprior_art:\n- source: RFC 5322 (Internet Message Format)\n  url: https://datatracker.ietf.org/doc/html/rfc5322\n  notes: Supersedes RFC 2822. Our messageId/inReplyTo/references/replyTo map directly\n    to Message-ID/In-Reply-To/References/Reply-To headers; toRaw/ccRaw/bccRaw are\n    the literal header values.\n- source: RFC 2369 + RFC 8058 (List headers, one-click unsubscribe)\n  url: https://datatracker.ietf.org/doc/html/rfc2369\n  notes: Our unsubscribe/unsubscribeOneClick/listId are List-Unsubscribe/List-Unsubscribe-Post/List-ID.\n    RFC 8058 defines the one-click POST semantics.\n- source: Gmail API Message resource\n  url: https://developers.google.com/gmail/api/reference/rest/v1/users.messages\n  notes: Practical API mirror. Our sizeEstimate and isUnread/isStarred/isDraft/isSent/isTrash/isSpam\n    correspond to Gmail's sizeEstimate and labelIds (UNREAD, STARRED, DRAFT, SENT,\n    TRASH, SPAM).\n",
       "ancestors": [
         "message"
       ],
@@ -9808,6 +9826,7 @@
         "isSent",
         "isTrash",
         "isSpam",
+        "isInbox",
         "hasAttachments",
         "draftId",
         "conversationId",

@@ -25,6 +25,7 @@ email:
     isSent:           boolean   # true if sent by the user
     isTrash:          boolean
     isSpam:           boolean
+    isInbox:          boolean   # true if in the inbox (Gmail INBOX label); false = archived
     hasAttachments:   boolean
     draftId:          string    # Gmail draft-specific id alongside the message id
     conversationId:   string    # denormalized thread id (authoritative link is `inConversation` via `also: [message]`)
