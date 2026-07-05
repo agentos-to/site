@@ -2317,6 +2317,99 @@ def _app_id_from_readme(app_dir: Path) -> str | None:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# Commons apps — the `apps/` aisle (manifest + ui/ module)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# What a Commons app's UI may import: the SDK waist, react, and its own
+# files. Anything else — a shell path, another app, a bare package — is a
+# contract violation (the shell provides `agentos-ui` + `react` and
+# nothing more; the store's import map will pin exactly those two).
+_UI_IMPORT_ALLOW = {"react", "agentos-ui"}
+_UI_IMPORT_RE = re.compile(
+    r"""(?m)^\s*(?:import|export)\s+(?:[^'"\n]*?\sfrom\s+)?['"]([^'"]+)['"]"""
+)
+
+
+def audit_commons_apps(aisle: Path) -> int:
+    """Audit one source's Commons-app aisle (`<source>/apps/<id>/`).
+
+    Per app: the manifest parses and its `id` matches the folder (the shell
+    loads `ui/index.tsx` by folder name — a mismatch is a broken launch);
+    the ui module default-exports; ui imports stay inside the contract
+    (react + agentos-ui + the app's own files); app CSS wraps itself in
+    `@layer base` so a lazily-loaded sheet never outranks theme packs.
+    Returns the issue count.
+    """
+    issues = 0
+    app_dirs = sorted(d for d in aisle.iterdir() if d.is_dir() and not d.name.startswith("_"))
+    if not app_dirs:
+        return 0
+    print(f"\n--- Commons apps in {aisle} ---")
+    for app_dir in app_dirs:
+        app_issues: list[str] = []
+        manifest = app_dir / "app.yaml"
+        if not manifest.is_file():
+            app_issues.append("missing app.yaml — the manifest IS the app's identity")
+        else:
+            try:
+                data = yaml.safe_load(manifest.read_text(encoding="utf-8")) or {}
+                if not isinstance(data, dict):
+                    app_issues.append("app.yaml is not a mapping")
+                else:
+                    if data.get("id") != app_dir.name:
+                        app_issues.append(
+                            f"app.yaml id `{data.get('id')}` ≠ folder `{app_dir.name}` — "
+                            "the shell resolves ui/ by folder name"
+                        )
+                    if not data.get("name"):
+                        app_issues.append("app.yaml missing `name`")
+            except yaml.YAMLError as e:
+                app_issues.append(f"app.yaml does not parse: {e}")
+
+        ui_dir = app_dir / "ui"
+        if ui_dir.is_dir():
+            entry = ui_dir / "index.tsx"
+            if not entry.is_file():
+                app_issues.append("ui/ exists but ships no index.tsx — the shell loads exactly that")
+            elif not re.search(r"export\s+default", entry.read_text(encoding="utf-8")):
+                app_issues.append("ui/index.tsx has no default export (the AppUIProps component)")
+
+            for src in sorted(ui_dir.rglob("*")):
+                if src.suffix in (".ts", ".tsx"):
+                    text = src.read_text(encoding="utf-8")
+                    for spec in _UI_IMPORT_RE.findall(text):
+                        if spec in _UI_IMPORT_ALLOW:
+                            continue
+                        if spec.startswith("."):
+                            resolved = (src.parent / spec).resolve()
+                            if str(resolved).startswith(str(app_dir.resolve())):
+                                continue
+                            app_issues.append(
+                                f"{src.relative_to(app_dir)}: import `{spec}` escapes the app folder"
+                            )
+                            continue
+                        app_issues.append(
+                            f"{src.relative_to(app_dir)}: import `{spec}` — app UIs import "
+                            "`agentos-ui`, `react`, and their own files ONLY"
+                        )
+                elif src.suffix == ".css":
+                    if not re.search(r"@layer\s+base\s*\{", src.read_text(encoding="utf-8")):
+                        app_issues.append(
+                            f"{src.relative_to(app_dir)}: app CSS must wrap its rules in "
+                            "`@layer base { … }` (an unlayered sheet outranks theme packs)"
+                        )
+
+        if app_issues:
+            print(f"  ✗ {app_dir.name}")
+            for i in app_issues:
+                print(f"      {i}")
+            issues += len(app_issues)
+        else:
+            print(f"  ✓ {app_dir.name}")
+    return issues
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # Public entry points
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -2425,7 +2518,20 @@ def run_validate(target: str | None = None, *, validate_all: bool = False,
         print(f"{'=' * 50}")
         return 1 if total_issues > 0 else 0
 
-    # Full audit — shape files first, then apps.
+    # Full audit — Commons-app aisles first (the `apps/` sibling of each
+    # source's plugins dir: manifest + ui/ contract), then shape files,
+    # then plugins.
+    if not id_filter and not single_app_dir:
+        seen_aisles: set[Path] = set()
+        for s in sources:
+            if not s.apps_dir:
+                continue
+            aisle = s.apps_dir.parent / "apps"
+            if aisle in seen_aisles or not aisle.is_dir():
+                continue
+            seen_aisles.add(aisle)
+            total_issues += audit_commons_apps(aisle)
+
     if shapes_dir and not id_filter and not single_app_dir:
         for shape_path in sorted(_iter_shape_yamls(shapes_dir)):
             total_issues += audit_shape_file(shape_path, known_shapes)
