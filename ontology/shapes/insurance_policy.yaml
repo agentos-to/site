@@ -63,7 +63,10 @@ insurance_policy:
   display:
     icon: shield
     subtitle: coverageType
-    highlights: [coverageType, memberId, network, policyNumber]
+    labels: { price: premium }       # insurance's word for the recurring charge
+  # Prominence is field-declaration order (IDs lead; coverageType is the
+  # subtitle) — no `highlights` tier. The preview card renders one ordered,
+  # copyable key/value table. See core/_product/p2/preview-card-first-class.
   fields:
     coverageType:  string    # health|dental|vision|auto|renters|homeowners|umbrella|travel|life|disability|pet
     policyNumber:  string    # the policy / certificate number — identity anchor with the carrier

@@ -33,6 +33,7 @@ pub mod booking_offer;
 pub mod bookmark;
 pub mod branch;
 pub mod brand;
+pub mod browser;
 pub mod calendar;
 pub mod channel;
 pub mod class;
@@ -153,6 +154,7 @@ pub use booking_offer::{BOOKING_OFFER, BookingOffer};
 pub use bookmark::{BOOKMARK, Bookmark};
 pub use branch::{BRANCH, Branch};
 pub use brand::{BRAND, Brand};
+pub use browser::{BROWSER, Browser};
 pub use calendar::{CALENDAR, Calendar};
 pub use channel::{CHANNEL, Channel};
 pub use class::{CLASS, Class};
@@ -279,6 +281,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "bookmark" => Some(&BOOKMARK),
         "branch" => Some(&BRANCH),
         "brand" => Some(&BRAND),
+        "browser" => Some(&BROWSER),
         "calendar" => Some(&CALENDAR),
         "channel" => Some(&CHANNEL),
         "class" => Some(&CLASS),
@@ -580,6 +583,18 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &[],
         icon: Some("badge"),
+        icon_from: None,
+    }),
+    ("browser", Display {
+        title: None,
+        subtitle: Some("appName"),
+        image: None,
+        highlights: &[],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &[],
+        icon: Some("public"),
         icon_from: None,
     }),
     ("calendar", Display {
@@ -1006,7 +1021,7 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         title: None,
         subtitle: Some("coverageType"),
         image: None,
-        highlights: &["coverageType", "memberId", "network", "policyNumber"],
+        highlights: &["startDate", "endDate", "location"],
         body: None,
         mono: None,
         preview: &[],
@@ -1878,6 +1893,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("bookmark", &["name", "handle", "address"]),
     ("branch", &["commit", "upstream", "ahead", "behind", "isCurrent", "isRemote"]),
     ("brand", &["tagline", "country", "primaryColor", "textColor"]),
+    ("browser", &["id", "name", "appName", "installed", "macosDefault"]),
     ("calendar", &["calendarId", "color", "backgroundColor", "foregroundColor", "isPrimary", "isReadonly", "accessRole", "source", "timezone"]),
     ("channel", &["banner", "subscriberCount"]),
     ("class", &["activityType", "capacity", "spotsRemaining", "isFull", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
@@ -2008,6 +2024,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("bookmark", "bookmarks"),
     ("branch", "branches"),
     ("brand", "brands"),
+    ("browser", "browsers"),
     ("calendar", "calendars"),
     ("channel", "channels"),
     ("class", "classes"),

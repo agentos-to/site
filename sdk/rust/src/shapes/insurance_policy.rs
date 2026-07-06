@@ -88,7 +88,7 @@ pub static INSURANCE_POLICY: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
     identity: vec!["underwritten_by".into(), "policyNumber".into()],
     display: Some(DisplaySpec {
         subtitle: Some("coverageType".into()),
-        highlights: vec!["coverageType".into(), "memberId".into(), "network".into(), "policyNumber".into()],
+        highlights: vec!["startDate".into(), "endDate".into(), "location".into()],
         ..DisplaySpec::default()
     }),
     prior_art: vec![

@@ -83,7 +83,7 @@ def _field_spec(raw_ftype) -> tuple[str, str | None, list[str] | None]:
 # optional. `title` defaults to the standard `name` field when absent;
 # everything not bound is *unpromoted* and renders at detail density in
 # YAML declaration order. See `core/_product/p1/shape-display/plan.md`.
-DISPLAY_ROLES = {"title", "subtitle", "image", "highlights", "body", "mono", "icon", "iconFrom"}
+DISPLAY_ROLES = {"title", "subtitle", "image", "highlights", "body", "mono", "icon", "iconFrom", "labels"}
 
 
 @dataclass
@@ -98,6 +98,7 @@ class Display:
                                      #   its geometry: monospace, no re-wrap,
                                      #   no newline-flattening
     preview: dict[str, object] = field(default_factory=dict)  # per-field content policy at preview density
+    labels: dict[str, str] = field(default_factory=dict)  # per-field display-label overrides for the preview card (e.g. {price: premium}); humanized field name is the default
     icon: str | None = None          # Material Symbols glyph name (outlined, no -fill suffix)
     icon_from: str | None = None     # `iconFrom:` — an enum field whose value IS the per-record icon slot (e.g. device.formFactor → router/tv/…). The engine icon resolver reads it; each enum value doubles as a pack-overridable slot.
 
@@ -538,6 +539,7 @@ def _build_shapes(
                     body=parent.body,
                     mono=parent.mono,
                     preview=dict(parent.preview),
+                    labels=dict(parent.labels),
                     icon=parent.icon,
                     icon_from=parent.icon_from,
                 )
@@ -554,6 +556,8 @@ def _build_shapes(
                 if parent.highlights:           merged.highlights = list(parent.highlights)
                 for k, v in parent.preview.items():
                     merged.preview[k] = v
+                for k, v in parent.labels.items():
+                    merged.labels[k] = v
 
         # Own display — legacy top-level `subtitle:` accepted as shorthand.
         disp_raw = defn.get("display") or {}
@@ -570,6 +574,7 @@ def _build_shapes(
                     body=disp_raw.get("body"),
                     mono=disp_raw.get("mono"),
                     preview=dict(disp_raw.get("preview") or {}),
+                    labels=dict(disp_raw.get("labels") or {}),
                     icon=disp_raw.get("icon"),
                     icon_from=disp_raw.get("iconFrom"),
                 )
@@ -584,6 +589,8 @@ def _build_shapes(
                 if disp_raw.get("highlights"):           merged.highlights = list(disp_raw["highlights"])
                 for k, v in (disp_raw.get("preview") or {}).items():
                     merged.preview[k] = v
+                for k, v in (disp_raw.get("labels") or {}).items():
+                    merged.labels[k] = v
 
         return merged
 

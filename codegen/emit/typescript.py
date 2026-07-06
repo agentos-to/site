@@ -51,6 +51,7 @@ def emit_typescript(onto: Ontology) -> str:
         "    mono?: string;        // → a preformatted text field (QR block, ASCII",
         "                          //   art): monospace, no re-wrap, keep geometry",
         '    preview?: Record<string, "clip" | "full" | { max_chars: number }>;',
+        "    labels?: Record<string, string>; // per-field display-label overrides for the preview card (e.g. {price: 'premium'}); humanized field name is the default",
         "    icon?: string;        // Material Symbols glyph name (outlined) for this shape's face",
         "    iconFrom?: string;    // enum field whose value IS the per-record icon slot (resolved engine-side)",
         "    /** Transitive `also:` closure — the chain this shape inherits from.",
@@ -72,6 +73,7 @@ def emit_typescript(onto: Ontology) -> str:
         if s.display.body:       d["body"]       = s.display.body
         if s.display.mono:       d["mono"]       = s.display.mono
         if s.display.preview:    d["preview"]    = dict(s.display.preview)
+        if s.display.labels:     d["labels"]     = dict(s.display.labels)
         if s.display.icon:       d["icon"]       = s.display.icon
         if s.display.icon_from:  d["iconFrom"]   = s.display.icon_from
         d["also"] = list(s.ancestors)
@@ -112,6 +114,25 @@ def emit_typescript(onto: Ontology) -> str:
         if not s.field_order:
             continue
         lines.append(f"    {json.dumps(s.name)}: {json.dumps(list(s.field_order))},")
+    lines.append("};")
+    lines.append("")
+
+    # SHAPE_IDENTITY — the `identity:` field list per shape. The preview card
+    # renders these rows in bold — they are what uniquely names the record
+    # (derived from the contract, never a hand-picked "important" flag). A
+    # relation in the list (e.g. `underwritten_by`) bolds its relationship row.
+    lines.extend([
+        "// ─── Identity per shape — the `identity:` field list ───────────────────",
+        "// The preview card bolds these rows — what uniquely names the record,",
+        "// derived from the contract (never a hand-picked \"important\" flag).",
+        "",
+        "export const SHAPE_IDENTITY: Record<string, readonly string[]> = {",
+    ])
+    for s in shapes:
+        ident = list(s.identity) + [f for f in s.identity_any if f not in s.identity]
+        if not ident:
+            continue
+        lines.append(f"    {json.dumps(s.name)}: {json.dumps(ident)},")
     lines.append("};")
     lines.append("")
 
