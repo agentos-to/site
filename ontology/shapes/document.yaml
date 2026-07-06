@@ -16,6 +16,8 @@ document:
   also: [file]
   fields:
     contentType:      string    # markdown, html, pdf, plaintext, rst
+    fidelity:          string    # web-archive tier: source (stored markup; subresources still load live) | self-contained (every resource inlined — offline-complete)
+    url:               string    # source URL of a fetched web page — the archive identity (one document per URL, latest wins)
     language:          string    # ISO 639-1 (e.g. en, es, ja)
     wordCount:        integer
     abstract:          text      # short summary of the document's contents

@@ -8977,6 +8977,15 @@
           "enum": null
         },
         {
+          "name": "fidelity",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "filename",
           "type": "string",
           "is_relation": false,
@@ -9118,6 +9127,24 @@
           "enum": null
         },
         {
+          "name": "fidelity",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "language",
           "type": "string",
           "is_relation": false,
@@ -9173,12 +9200,14 @@
         }
       ],
       "source_path": "document.yaml",
-      "raw_body": "plural: documents\nidentity_any:\n- sha\n- url\ndisplay:\n  icon: description\n  subtitle: contentType\n  highlights:\n  - datePublished\n  - author\n  - wordCount\n  body: abstract\nalso:\n- file\nfields:\n  contentType: string\n  language: string\n  wordCount: integer\n  abstract: text\n  tableOfContents: text\nprior_art:\n- source: Dublin Core Metadata Initiative\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: \"Our contentType \\u2248 dc:format; language = dc:language; author = dc:creator;\\\n    \\ references/citedBy \\u2248 dc:relation.\"\n- source: schema.org/DigitalDocument\n  url: https://schema.org/DigitalDocument\n  notes: \"Our abstract \\u2248 abstract; tableOfContents = hasPart or accessModeSufficient;\\\n    \\ wordCount = wordCount.\"\n- source: W3C Web Annotation Data Model\n  url: https://www.w3.org/TR/annotation-model/\n  notes: Our references[]/citedBy[] are annotation target/body relationships between\n    documents.\n",
+      "raw_body": "plural: documents\nidentity_any:\n- sha\n- url\ndisplay:\n  icon: description\n  subtitle: contentType\n  highlights:\n  - datePublished\n  - author\n  - wordCount\n  body: abstract\nalso:\n- file\nfields:\n  contentType: string\n  fidelity: string\n  url: string\n  language: string\n  wordCount: integer\n  abstract: text\n  tableOfContents: text\nprior_art:\n- source: Dublin Core Metadata Initiative\n  url: https://www.dublincore.org/specifications/dublin-core/dces/\n  notes: \"Our contentType \\u2248 dc:format; language = dc:language; author = dc:creator;\\\n    \\ references/citedBy \\u2248 dc:relation.\"\n- source: schema.org/DigitalDocument\n  url: https://schema.org/DigitalDocument\n  notes: \"Our abstract \\u2248 abstract; tableOfContents = hasPart or accessModeSufficient;\\\n    \\ wordCount = wordCount.\"\n- source: W3C Web Annotation Data Model\n  url: https://www.w3.org/TR/annotation-model/\n  notes: Our references[]/citedBy[] are annotation target/body relationships between\n    documents.\n",
       "ancestors": [
         "file"
       ],
       "field_order": [
         "contentType",
+        "fidelity",
+        "url",
         "language",
         "wordCount",
         "abstract",
