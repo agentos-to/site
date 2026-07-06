@@ -2329,6 +2329,23 @@ _UI_IMPORT_RE = re.compile(
     r"""(?m)^\s*(?:import|export)\s+(?:[^'"\n]*?\sfrom\s+)?['"]([^'"]+)['"]"""
 )
 
+# Chrome class vocabulary apps must never hand-stamp or restyle. The OS
+# emits these through agentos-ui components (Toolbar/ToolButton emit
+# os-toolbar/os-tool-btn; navigator-* is the shell's own) — an app that
+# writes the class by hand recreates the pre-component era where every
+# theme pack needed a per-app section or the bar silently fell to white.
+_UI_CHROME_CLASS_RE = re.compile(
+    r"\b(?:os-toolbar(?:-separator)?|os-tool-btn|os-tool-label|app-toolbar|(?<!data-)navigator-[a-z][a-z-]*)\b"
+)
+# TSX: chrome classes inside string literals (comments stay legal — docs
+# may name the vocabulary, markup may not). `data-navigator-id` is the
+# sanctioned row-addressing attribute (`ui.click {navigatorId}`), not a
+# class — the lookbehind lets it through.
+_UI_TSX_CHROME_RE = re.compile(
+    r"""['"`][^'"`\n]*\b(os-toolbar(?:-separator)?|os-tool-btn|os-tool-label|app-toolbar|(?<!data-)navigator-[a-z][a-z-]*)\b[^'"`\n]*['"`]"""
+)
+_CSS_COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
+
 
 def audit_commons_apps(aisle: Path) -> int:
     """Audit one source's Commons-app aisle (`<source>/apps/<id>/`).
@@ -2337,7 +2354,10 @@ def audit_commons_apps(aisle: Path) -> int:
     loads `ui/index.tsx` by folder name — a mismatch is a broken launch);
     the ui module default-exports; ui imports stay inside the contract
     (react + agentos-ui + the app's own files); app CSS wraps itself in
-    `@layer base` so a lazily-loaded sheet never outranks theme packs.
+    `@layer base` so a lazily-loaded sheet never outranks theme packs; and
+    neither markup nor CSS touches the OS chrome vocabulary (os-toolbar /
+    os-tool-btn / navigator-*) — toolbars come from the SDK Toolbar
+    component, never hand-stamped classes or per-app toolbar paint.
     Returns the issue count.
     """
     issues = 0
@@ -2392,12 +2412,34 @@ def audit_commons_apps(aisle: Path) -> int:
                             f"{src.relative_to(app_dir)}: import `{spec}` — app UIs import "
                             "`agentos-ui`, `react`, and their own files ONLY"
                         )
+                    for m in _UI_TSX_CHROME_RE.finditer(text):
+                        app_issues.append(
+                            f"{src.relative_to(app_dir)}: chrome class `{m.group(1)}` stamped "
+                            "by hand — render the SDK Toolbar/ToolButton instead; the OS owns "
+                            "its chrome vocabulary"
+                        )
                 elif src.suffix == ".css":
-                    if not re.search(r"@layer\s+base\s*\{", src.read_text(encoding="utf-8")):
+                    text = src.read_text(encoding="utf-8")
+                    if not re.search(r"@layer\s+base\s*\{", text):
                         app_issues.append(
                             f"{src.relative_to(app_dir)}: app CSS must wrap its rules in "
                             "`@layer base { … }` (an unlayered sheet outranks theme packs)"
                         )
+                    bare = _CSS_COMMENT_RE.sub("", text)
+                    for m in _UI_CHROME_CLASS_RE.finditer(bare):
+                        app_issues.append(
+                            f"{src.relative_to(app_dir)}: selector touches chrome class "
+                            f"`{m.group(0)}` — apps never restyle OS chrome; the floor and "
+                            "packs paint the SDK Toolbar everywhere at once"
+                        )
+                    for rule_m in re.finditer(r"([^{}]+)\{([^{}]*)\}", bare):
+                        sel, body = rule_m.group(1), rule_m.group(2)
+                        if re.search(r"\.[\w-]*-toolbar\b", sel) and "background" in body:
+                            app_issues.append(
+                                f"{src.relative_to(app_dir)}: `{sel.strip().splitlines()[-1].strip()}` "
+                                "paints its own toolbar — use the SDK Toolbar component; "
+                                "hand-rolled toolbar chrome is exactly what packs can't theme"
+                            )
 
         if app_issues:
             print(f"  ✗ {app_dir.name}")
