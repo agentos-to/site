@@ -209,6 +209,32 @@ def emit_typescript(onto: Ontology) -> str:
     lines.append("};")
     lines.append("")
 
+    # SHAPE_ACTIONS — the ontology `actions:` block: user-facing buttons a
+    # node of this shape offers. `NodeActions` collects entries across
+    # every shape a (possibly multi-shape) node carries, binds `params` —
+    # a "{{field}}" template reads the node's own val, anything else is a
+    # literal — and dispatches `tool` ("app.tool") through `plugins.run`.
+    lines.extend([
+        "// ─── Actions per shape — ontology `actions:` block ──────────────────────",
+        '// `params` values: "{{field}}" binds the node\'s own val; anything else',
+        "// rides through as a literal constant.",
+        "",
+        "export interface ShapeAction { label: string; tool: string; params: Record<string, string>; account?: string }",
+        "export const SHAPE_ACTIONS: Record<string, readonly ShapeAction[]> = {",
+    ])
+    for s in shapes:
+        if not s.actions:
+            continue
+        acts = []
+        for a in s.actions:
+            act: dict = {"label": a.label, "tool": a.tool, "params": a.params}
+            if a.account:
+                act["account"] = a.account
+            acts.append(act)
+        lines.append(f"    {json.dumps(s.name)}: {json.dumps(acts)},")
+    lines.append("};")
+    lines.append("")
+
     return "\n".join(lines)
 
 

@@ -33,6 +33,19 @@ invitation:
     revokedAt:        datetime  # when it was revoked (own lifecycle stamp,
                                   #   legitimate under event-derived shape)
     message:           text      # optional personal message attached to the invite
+  actions:
+    - label: "Yes"
+      tool: google-calendar.respond_event
+      account: "{{email}}"
+      params: {ical_uid: "{{icalUid}}", response: "accepted"}
+    - label: "No"
+      tool: google-calendar.respond_event
+      account: "{{email}}"
+      params: {ical_uid: "{{icalUid}}", response: "declined"}
+    - label: "Maybe"
+      tool: google-calendar.respond_event
+      account: "{{email}}"
+      params: {ical_uid: "{{icalUid}}", response: "tentative"}
   prior_art:
     - source: ActivityStreams 2.0 Invite activity
       url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-invite

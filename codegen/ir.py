@@ -136,6 +136,21 @@ class Display:
 
 
 @dataclass
+class Action:
+    """One entry of an `actions:` block — a user-facing button a node of
+    this shape offers. `tool` is "app.tool" (the plugin id + its op name);
+    `params` binds a tool param to the node's own val via a "{{field}}"
+    template, or passes a literal constant through unchanged. `account`
+    (same template grammar) disambiguates which connected credential to
+    run as, when the plugin has more than one — the dispatch envelope's
+    own `account` field, not a tool param."""
+    label: str
+    tool: str
+    params: dict[str, str] = field(default_factory=dict)
+    account: str | None = None
+
+
+@dataclass
 class Shape:
     name: str           # YAML name (snake_case)
     class_name: str     # PascalCase
@@ -159,6 +174,7 @@ class Shape:
     field_order: list[str] = field(default_factory=list)      # YAML declaration order, this shape's own fields first, then inherited via `also:` (deduped). Drives `SHAPE_FIELD_ORDER` per the life-events plan — author order is meaning.
     derived: dict = field(default_factory=dict)               # `derived:` block — per-field read-side bindings. Values are raw dicts with `find` / `where` / `where_link` / `is` / `get` / `latest`. See event-derived-attributes plan §"The derived block".
     groups: list[tuple[str, list[str]]] = field(default_factory=list)  # `groups:` block — ordered property sections for the detail pane / card. Each entry is (section name, [field names]); the section name renders verbatim (author-cased). Drives `SHAPE_FIELD_GROUPS`. Undeclared vals fall to a trailing "Other" section in the UI.
+    actions: list[Action] = field(default_factory=list)       # `actions:` block — user-facing buttons this shape offers (e.g. "Add to Calendar", "Yes"/"No"/"Maybe"). Drives `SHAPE_ACTIONS`.
     shortcuts: dict = field(default_factory=dict)             # `shortcuts:` block — per-flat-key write-side expansions. Each entry maps a flat create-key to a single canonical write target (e.g. `birthdate: {writes: born_in[is=birth].startDate}`).
     prefs_schemas: dict = field(default_factory=dict)         # `prefsSchemas:` block — shape-level pref vocabulary (namespace → entries[]). Settings reads it off the shape-def node to render its tabs. `user` is the canonical case; any shape can declare one.
 
@@ -737,6 +753,21 @@ def _build_shapes(
                 (str(name), [str(f) for f in (fields or [])])
                 for name, fields in groups.items()
             ]
+
+        # `actions:` block — user-facing buttons this shape offers. Each
+        # entry names a plugin tool ("app.tool") to invoke; `params` binds
+        # "{{field}}" to the node's own val, anything else rides as a
+        # literal constant (e.g. `response: "accepted"`).
+        actions = defn.get("actions") or []
+        if isinstance(actions, list):
+            for entry in actions:
+                if isinstance(entry, dict) and entry.get("label") and entry.get("tool"):
+                    s.actions.append(Action(
+                        label=str(entry["label"]),
+                        tool=str(entry["tool"]),
+                        params={str(k): str(v) for k, v in (entry.get("params") or {}).items()},
+                        account=str(entry["account"]) if entry.get("account") else None,
+                    ))
 
         # `prefsSchemas:` block — shape-level pref vocabulary. Carried
         # through to the Rust/TS SDKs so Settings can render its tabs
