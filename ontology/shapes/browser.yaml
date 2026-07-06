@@ -1,0 +1,27 @@
+# A web browser installed on this machine — a Chromium-family (or, later,
+# BiDi-family) browser the engine can natively drive over CDP. Nodes are
+# OS-owned machine facts: the engine's boot detection pass upserts one per
+# known brand found on disk (System volume, rebuildable), so "what can I
+# drive?" is a graph query and the Settings default-browser picker reads
+# its options here. Live state (a debug port, a running session) is
+# deliberately NOT stored — it goes stale in seconds; ask the browser app.
+browser:
+  plural: browsers
+  display:
+    icon: public
+    subtitle: appName
+  identity: [id]
+  fields:
+    id: string             # stable brand slug — "brave", "chrome", "edge"
+    name: string           # brand display name — "Brave"
+    appName: string        # macOS application name — "Brave Browser"
+    installed: boolean     # bundle present on this machine
+    macosDefault: boolean  # the OS-level default https handler
+  prior_art:
+    - source: xdg-settings / LaunchServices default handler
+      url: https://specifications.freedesktop.org/mime-apps-spec/latest/
+      notes: >-
+        Both macOS (LaunchServices' https handler) and Linux (xdg-settings
+        get default-web-browser) model "the default browser" as an OS
+        registry over detected installs. Same split here: detection owns
+        existence, a user preference owns the pick.

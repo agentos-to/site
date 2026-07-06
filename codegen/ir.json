@@ -234,6 +234,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "alternate_email",
         "icon_from": null
       },
@@ -755,6 +756,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "timeline",
         "icon_from": null
       },
@@ -952,6 +954,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "theater_comedy",
         "icon_from": null
       },
@@ -1346,6 +1349,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "flight",
         "icon_from": null
       },
@@ -1621,6 +1625,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "airlines",
         "icon_from": null
       },
@@ -1871,6 +1876,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "flight_takeoff",
         "icon_from": null
       },
@@ -2178,6 +2184,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "web_asset",
         "icon_from": null
       },
@@ -2501,6 +2508,7 @@
         "preview": {
           "artifact": "full"
         },
+        "labels": {},
         "icon": "qr_code_2",
         "icon_from": null
       },
@@ -3058,6 +3066,7 @@
         "body": "description",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "book",
         "icon_from": null
       },
@@ -3707,6 +3716,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "receipt",
         "icon_from": null
       },
@@ -4160,6 +4170,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "bookmark",
         "icon_from": null
       },
@@ -4372,6 +4383,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "account_tree",
         "icon_from": null
       },
@@ -4589,6 +4601,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "badge",
         "icon_from": null
       },
@@ -4666,6 +4679,202 @@
         "country",
         "primaryColor",
         "textColor"
+      ],
+      "derived": {},
+      "groups": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "browser",
+      "class_name": "Browser",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "appName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "installed",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "macosDefault",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "also": [],
+      "timed": null,
+      "account_from": null,
+      "plural": "browsers",
+      "subtitle": "appName",
+      "display": {
+        "title": null,
+        "subtitle": "appName",
+        "image": null,
+        "highlights": [],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "labels": {},
+        "icon": "public",
+        "icon_from": null
+      },
+      "identity": [
+        "id"
+      ],
+      "identity_any": [],
+      "leading_comment": "A web browser installed on this machine — a Chromium-family (or, later,\nBiDi-family) browser the engine can natively drive over CDP. Nodes are\nOS-owned machine facts: the engine's boot detection pass upserts one per\nknown brand found on disk (System volume, rebuildable), so \"what can I\ndrive?\" is a graph query and the Settings default-browser picker reads\nits options here. Live state (a debug port, a running session) is\ndeliberately NOT stored — it goes stale in seconds; ask the browser app.",
+      "own_fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "appName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "installed",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "macosDefault",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "xdg-settings / LaunchServices default handler",
+          "url": "https://specifications.freedesktop.org/mime-apps-spec/latest/",
+          "notes": "Both macOS (LaunchServices' https handler) and Linux (xdg-settings get default-web-browser) model \"the default browser\" as an OS registry over detected installs. Same split here: detection owns existence, a user preference owns the pick."
+        }
+      ],
+      "source_path": "browser.yaml",
+      "raw_body": "plural: browsers\ndisplay:\n  icon: public\n  subtitle: appName\nidentity:\n- id\nfields:\n  id: string\n  name: string\n  appName: string\n  installed: boolean\n  macosDefault: boolean\nprior_art:\n- source: xdg-settings / LaunchServices default handler\n  url: https://specifications.freedesktop.org/mime-apps-spec/latest/\n  notes: 'Both macOS (LaunchServices'' https handler) and Linux (xdg-settings get\n    default-web-browser) model \"the default browser\" as an OS registry over detected\n    installs. Same split here: detection owns existence, a user preference owns the\n    pick.'\n",
+      "ancestors": [],
+      "field_order": [
+        "id",
+        "name",
+        "appName",
+        "installed",
+        "macosDefault"
       ],
       "derived": {},
       "groups": [],
@@ -4843,6 +5052,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "calendar_today",
         "icon_from": null
       },
@@ -5080,6 +5290,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "subscriptions",
         "icon_from": null
       },
@@ -5406,6 +5617,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "fitness_center",
         "icon_from": null
       },
@@ -5625,6 +5837,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "groups",
         "icon_from": null
       },
@@ -5953,6 +6166,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "cardiology",
         "icon_from": null
       },
@@ -6210,6 +6424,7 @@
         "preview": {
           "content": "full"
         },
+        "labels": {},
         "icon": "forum",
         "icon_from": null
       },
@@ -6597,6 +6812,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "currency_exchange",
         "icon_from": null
       },
@@ -6836,6 +7052,7 @@
         "body": "description",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "palette",
         "icon_from": null
       },
@@ -7248,6 +7465,7 @@
         "body": "description",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "mouse",
         "icon_from": null
       },
@@ -7822,6 +8040,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "devices_other",
         "icon_from": "formFactor"
       },
@@ -8185,6 +8404,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "straighten",
         "icon_from": null
       },
@@ -8485,6 +8705,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "dns",
         "icon_from": null
       },
@@ -8822,6 +9043,7 @@
         "body": "abstract",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "description",
         "icon_from": null
       },
@@ -9048,6 +9270,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "language",
         "icon_from": null
       },
@@ -9503,6 +9726,7 @@
         "preview": {
           "content": "full"
         },
+        "labels": {},
         "icon": "mail",
         "icon_from": null
       },
@@ -9972,6 +10196,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "podcasts",
         "icon_from": null
       },
@@ -10267,6 +10492,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "event",
         "icon_from": null
       },
@@ -10681,6 +10907,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "airline_seat_recline_normal",
         "icon_from": null
       },
@@ -11056,6 +11283,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "draft",
         "icon_from": null
       },
@@ -11392,6 +11620,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "account_balance",
         "icon_from": null
       },
@@ -11923,6 +12152,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "flight_class",
         "icon_from": null
       },
@@ -12293,6 +12523,7 @@
         "body": "description",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "text_fields",
         "icon_from": null
       },
@@ -12753,6 +12984,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "commit",
         "icon_from": null
       },
@@ -12979,6 +13211,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "group",
         "icon_from": null
       },
@@ -13383,6 +13616,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "memory",
         "icon_from": "formFactor"
       },
@@ -13627,6 +13861,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "glucose",
         "icon_from": null
       },
@@ -14014,6 +14249,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "sick",
         "icon_from": null
       },
@@ -14476,6 +14712,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "vaccines",
         "icon_from": null
       },
@@ -14786,6 +15023,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "biotech",
         "icon_from": null
       },
@@ -15161,6 +15399,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "lab_panel",
         "icon_from": null
       },
@@ -15596,6 +15835,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "surgical",
         "icon_from": null
       },
@@ -16099,6 +16339,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "straighten",
         "icon_from": null
       },
@@ -16505,6 +16746,7 @@
         "body": "description",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "glyphs",
         "icon_from": null
       },
@@ -16923,6 +17165,7 @@
         "body": "description",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "image",
         "icon_from": null
       },
@@ -17257,6 +17500,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "health_and_safety",
         "icon_from": null
       },
@@ -17735,14 +17979,16 @@
         "subtitle": "coverageType",
         "image": null,
         "highlights": [
-          "coverageType",
-          "memberId",
-          "network",
-          "policyNumber"
+          "startDate",
+          "endDate",
+          "location"
         ],
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {
+          "price": "premium"
+        },
         "icon": "shield",
         "icon_from": null
       },
@@ -17823,7 +18069,7 @@
         }
       ],
       "source_path": "insurance_policy.yaml",
-      "raw_body": "plural: insurance_policies\nalso:\n- membership\nidentity:\n- underwritten_by\n- policyNumber\ndisplay:\n  icon: shield\n  subtitle: coverageType\n  highlights:\n  - coverageType\n  - memberId\n  - network\n  - policyNumber\nfields:\n  coverageType: string\n  policyNumber: string\n  memberId: string\n  groupNumber: string\n  network: string\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Coverage\"\n  url: https://www.hl7.org/fhir/coverage.html\n  notes: \"The canonical health-insurance enrollment resource. Our memberId \\u2248\\\n    \\ Coverage.subscriberId / Coverage.beneficiary; groupNumber \\u2248 Coverage.class[type=group];\\\n    \\ underwritten_by \\u2248 Coverage.payor; under (plan) \\u2248 Coverage.class[type=plan];\\\n    \\ network \\u2248 Coverage.network. Coverage.period maps to our inherited event.startDate\\\n    \\ / endDate.\"\n- source: \"HL7 FHIR R5 \\u2014 InsurancePlan\"\n  url: https://www.hl7.org/fhir/insuranceplan.html\n  notes: \"Describes the PLAN (the product), distinct from a person's Coverage. We\\\n    \\ split the same way \\u2014 the plan is a `product` reached via `under`; InsurancePlan.coverage[].benefit\\\n    \\ (limits, cost-sharing) is our `insurance_coverage` nodes reached via `provides`.\"\n- source: \"ACORD Reference Architecture \\u2014 Policy / Coverage / Producer\"\n  url: https://www.acord.org/standards-architecture/reference-architecture\n  notes: \"The P&C industry data standard. ACORD separates Insurer (carrier), Producer\\\n    \\ (agent/broker who sells), and Policy \\u2192 Coverage \\u2192 Limit / Deductible.\\\n    \\ Our underwritten_by \\u2248 Insurer, sold_by \\u2248 Producer, and insurance_coverage\\\n    \\ \\u2248 ACORD Coverage with its Limit/Deductible.\"\n- source: schema.org/ProgramMembership & schema.org/Permit\n  url: https://schema.org/ProgramMembership\n  notes: \"schema.org has no first-class insurance policy type; the closest framing\\\n    \\ is a membership/permit granted by an organization for a period \\u2014 which\\\n    \\ is exactly why we model the policy as `also: [membership]` rather than inventing\\\n    \\ a parallel lifecycle.\"\n",
+      "raw_body": "plural: insurance_policies\nalso:\n- membership\nidentity:\n- underwritten_by\n- policyNumber\ndisplay:\n  icon: shield\n  subtitle: coverageType\n  labels:\n    price: premium\nfields:\n  coverageType: string\n  policyNumber: string\n  memberId: string\n  groupNumber: string\n  network: string\nprior_art:\n- source: \"HL7 FHIR R5 \\u2014 Coverage\"\n  url: https://www.hl7.org/fhir/coverage.html\n  notes: \"The canonical health-insurance enrollment resource. Our memberId \\u2248\\\n    \\ Coverage.subscriberId / Coverage.beneficiary; groupNumber \\u2248 Coverage.class[type=group];\\\n    \\ underwritten_by \\u2248 Coverage.payor; under (plan) \\u2248 Coverage.class[type=plan];\\\n    \\ network \\u2248 Coverage.network. Coverage.period maps to our inherited event.startDate\\\n    \\ / endDate.\"\n- source: \"HL7 FHIR R5 \\u2014 InsurancePlan\"\n  url: https://www.hl7.org/fhir/insuranceplan.html\n  notes: \"Describes the PLAN (the product), distinct from a person's Coverage. We\\\n    \\ split the same way \\u2014 the plan is a `product` reached via `under`; InsurancePlan.coverage[].benefit\\\n    \\ (limits, cost-sharing) is our `insurance_coverage` nodes reached via `provides`.\"\n- source: \"ACORD Reference Architecture \\u2014 Policy / Coverage / Producer\"\n  url: https://www.acord.org/standards-architecture/reference-architecture\n  notes: \"The P&C industry data standard. ACORD separates Insurer (carrier), Producer\\\n    \\ (agent/broker who sells), and Policy \\u2192 Coverage \\u2192 Limit / Deductible.\\\n    \\ Our underwritten_by \\u2248 Insurer, sold_by \\u2248 Producer, and insurance_coverage\\\n    \\ \\u2248 ACORD Coverage with its Limit/Deductible.\"\n- source: schema.org/ProgramMembership & schema.org/Permit\n  url: https://schema.org/ProgramMembership\n  notes: \"schema.org has no first-class insurance policy type; the closest framing\\\n    \\ is a membership/permit granted by an organization for a period \\u2014 which\\\n    \\ is exactly why we model the policy as `also: [membership]` rather than inventing\\\n    \\ a parallel lifecycle.\"\n",
       "ancestors": [
         "membership",
         "event"
@@ -18046,6 +18292,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "copyright",
         "icon_from": null
       },
@@ -18493,6 +18740,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "forward_to_inbox",
         "icon_from": null
       },
@@ -18777,6 +19025,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "feedback",
         "icon_from": null
       },
@@ -19194,6 +19443,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "rocket_launch",
         "icon_from": null
       },
@@ -19685,6 +19935,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "transfer_within_a_station",
         "icon_from": null
       },
@@ -20075,6 +20326,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "folder",
         "icon_from": null
       },
@@ -20540,6 +20792,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "memory",
         "icon_from": null
       },
@@ -20800,6 +21053,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "terminal",
         "icon_from": null
       },
@@ -21121,6 +21375,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "vital_signs",
         "icon_from": null
       },
@@ -21562,6 +21817,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "video_call",
         "icon_from": null
       },
@@ -21969,6 +22225,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "card_membership",
         "icon_from": null
       },
@@ -22233,6 +22490,7 @@
         "preview": {
           "content": "full"
         },
+        "labels": {},
         "icon": "chat",
         "icon_from": null
       },
@@ -22518,6 +22776,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "psychology",
         "icon_from": null
       },
@@ -22835,6 +23094,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "extension",
         "icon_from": null
       },
@@ -23078,6 +23338,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "wifi",
         "icon_from": null
       },
@@ -23274,6 +23535,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "sticky_note_2",
         "icon_from": null
       },
@@ -23615,6 +23877,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "sell",
         "icon_from": null
       },
@@ -24204,6 +24467,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "shopping_cart",
         "icon_from": null
       },
@@ -24651,6 +24915,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "apartment",
         "icon_from": null
       },
@@ -24867,6 +25132,7 @@
         "body": "statement",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "flag",
         "icon_from": null
       },
@@ -25340,6 +25606,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "confirmation_number",
         "icon_from": null
       },
@@ -25833,6 +26100,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "credit_card",
         "icon_from": null
       },
@@ -26383,6 +26651,7 @@
         "body": "notes",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "person",
         "icon_from": null
       },
@@ -26808,6 +27077,7 @@
         "body": "who",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "face",
         "icon_from": null
       },
@@ -27286,6 +27556,7 @@
         "body": "fullAddress",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "location_on",
         "icon_from": null
       },
@@ -27980,6 +28251,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "hub",
         "icon_from": null
       },
@@ -28313,6 +28585,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "queue_music",
         "icon_from": null
       },
@@ -28521,6 +28794,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "cable",
         "icon_from": null
       },
@@ -28758,6 +29032,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "podcasts",
         "icon_from": null
       },
@@ -28942,6 +29217,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "newspaper",
         "icon_from": null
       },
@@ -29157,6 +29433,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "sports_gymnastics",
         "icon_from": null
       },
@@ -29367,6 +29644,7 @@
         "body": "rationale",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "gavel",
         "icon_from": null
       },
@@ -29750,6 +30028,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "inventory_2",
         "icon_from": null
       },
@@ -30145,6 +30424,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "view_kanban",
         "icon_from": null
       },
@@ -30331,6 +30611,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "handshake",
         "icon_from": null
       },
@@ -30566,6 +30847,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "workspace_premium",
         "icon_from": null
       },
@@ -30792,6 +31074,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "functions",
         "icon_from": null
       },
@@ -30953,6 +31236,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "format_quote",
         "icon_from": null
       },
@@ -31184,6 +31468,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "source_notes",
         "icon_from": null
       },
@@ -31698,6 +31983,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "event_available",
         "icon_from": null
       },
@@ -32105,6 +32391,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "manage_search",
         "icon_from": null
       },
@@ -32389,6 +32676,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "star_rate",
         "icon_from": null
       },
@@ -32725,6 +33013,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "work",
         "icon_from": null
       },
@@ -33019,6 +33308,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "event_seat",
         "icon_from": null
       },
@@ -33280,6 +33570,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "hub",
         "icon_from": null
       },
@@ -33428,6 +33719,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "tune",
         "icon_from": null
       },
@@ -33459,7 +33751,7 @@
         }
       ],
       "source_path": "settings.yaml",
-      "raw_body": "plural: settings\ndisplay:\n  icon: tune\n  subtitle: name\nfields:\n  name: string\nprefsSchemas:\n  ui:\n  - key: themeId\n    kind: select\n    label: Theme\n    description: \"Desktop theme \\u2014 window chrome, fonts, sounds.\"\n    group: Theme\n    optionsShape: theme\n    optionsVolume: system\n    optionsValue: themeId\n    optionsLabel: name\n    optionsNone: Base\n  - key: fontSize\n    kind: number\n    label: Font Size\n    description: Base UI font size in pixels.\n    group: Fonts\n    tab: Fonts\n    min: 8\n    max: 20\n    step: 1\n    default: 12\n  - key: background.color\n    kind: color\n    label: Background Color\n    description: Solid background tone for this view.\n    group: Background\n    tab: Background\n    default: '#3A6EA5'\n  - key: background.position\n    kind: select\n    label: Position\n    description: How the wallpaper fills the surface.\n    group: Background\n    tab: Background\n    default: fill\n    options:\n    - value: fill\n      label: Fill\n    - value: fit\n      label: Fit\n    - value: stretch\n      label: Stretch\n    - value: center\n      label: Center\n    - value: tile\n      label: Tile\n  - key: icons.iconSize\n    kind: number\n    label: Icon Size\n    description: Icon side length in pixels.\n    group: Icons\n    tab: Icons\n    min: 24\n    max: 96\n    step: 4\n    default: 32\n  - key: icons.iconSpacing\n    kind: number\n    label: Icon Spacing\n    description: Pixels between icon cells.\n    group: Icons\n    tab: Icons\n    min: 4\n    max: 48\n    step: 2\n    default: 8\n  - key: icons.showIcons\n    kind: boolean\n    label: Show Icons\n    description: Render icons on this view.\n    group: Icons\n    tab: Icons\n    default: true\n  - key: icons.startingCorner\n    kind: select\n    label: Starting Corner\n    description: Where the first icon lands.\n    group: Icons\n    tab: Icons\n    default: top-left\n    options:\n    - value: top-left\n      label: Top Left\n    - value: top-right\n      label: Top Right\n    - value: bottom-left\n      label: Bottom Left\n    - value: bottom-right\n      label: Bottom Right\n  - key: icons.flowDirection\n    kind: select\n    label: Flow Direction\n    description: Whether icons fill columns or rows first.\n    group: Icons\n    tab: Icons\n    default: vertical-first\n    options:\n    - value: vertical-first\n      label: Vertical First\n    - value: horizontal-first\n      label: Horizontal First\nprior_art:\n- source: macOS ~/Library/Application Support + Preferences\n  url: https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/MacOSXDirectories/MacOSXDirectories.html\n  notes: \"Direct precedent. macOS keeps per-user, per-app configuration in the user's\\\n    \\ home Library \\u2014 portable with the home directory, one subdirectory per app.\\\n    \\ Our parent settings node mirrors Preferences (the OS defaults domain); each\\\n    \\ `--configures-->` app node mirrors one Application Support/<App> directory.\\\n    \\ We diverge by living in the graph (queryable, cascade-resolved) rather than\\\n    \\ plist files on disk.\"\n- source: XDG Base Directory ($XDG_CONFIG_HOME)\n  url: https://specifications.freedesktop.org/basedir-spec/latest/\n  notes: 'The Linux convention: user config under ~/.config/<app>, machine state kept\n    separate. Same person-vs-machine seam we draw between this home settings store\n    and the System-resident seat.'\n",
+      "raw_body": "plural: settings\ndisplay:\n  icon: tune\n  subtitle: name\nfields:\n  name: string\nprefsSchemas:\n  ui:\n  - key: themeId\n    kind: select\n    label: Theme\n    description: \"Desktop theme \\u2014 window chrome, fonts, sounds.\"\n    group: Theme\n    optionsShape: theme\n    optionsVolume: system\n    optionsValue: themeId\n    optionsLabel: name\n    optionsNone: Base\n  - key: fontSize\n    kind: number\n    label: Font Size\n    description: Base UI font size in pixels.\n    group: Fonts\n    tab: Fonts\n    min: 8\n    max: 20\n    step: 1\n    default: 12\n  - key: background.color\n    kind: color\n    label: Background Color\n    description: Solid background tone for this view.\n    group: Background\n    tab: Background\n    default: '#3A6EA5'\n  - key: background.position\n    kind: select\n    label: Position\n    description: How the wallpaper fills the surface.\n    group: Background\n    tab: Background\n    default: fill\n    options:\n    - value: fill\n      label: Fill\n    - value: fit\n      label: Fit\n    - value: stretch\n      label: Stretch\n    - value: center\n      label: Center\n    - value: tile\n      label: Tile\n  - key: icons.iconSize\n    kind: number\n    label: Icon Size\n    description: Icon side length in pixels.\n    group: Icons\n    tab: Icons\n    min: 24\n    max: 96\n    step: 4\n    default: 32\n  - key: icons.iconSpacing\n    kind: number\n    label: Icon Spacing\n    description: Pixels between icon cells.\n    group: Icons\n    tab: Icons\n    min: 4\n    max: 48\n    step: 2\n    default: 8\n  - key: icons.showIcons\n    kind: boolean\n    label: Show Icons\n    description: Render icons on this view.\n    group: Icons\n    tab: Icons\n    default: true\n  - key: icons.startingCorner\n    kind: select\n    label: Starting Corner\n    description: Where the first icon lands.\n    group: Icons\n    tab: Icons\n    default: top-left\n    options:\n    - value: top-left\n      label: Top Left\n    - value: top-right\n      label: Top Right\n    - value: bottom-left\n      label: Bottom Left\n    - value: bottom-right\n      label: Bottom Right\n  - key: icons.flowDirection\n    kind: select\n    label: Flow Direction\n    description: Whether icons fill columns or rows first.\n    group: Icons\n    tab: Icons\n    default: vertical-first\n    options:\n    - value: vertical-first\n      label: Vertical First\n    - value: horizontal-first\n      label: Horizontal First\n  system:\n  - key: defaultBrowser\n    kind: select\n    label: Default Browser\n    description: The browser the engine drives for sessions, page saves, and login\n      windows.\n    group: Browser\n    optionsShape: browser\n    optionsVolume: system\n    optionsValue: id\n    optionsLabel: name\n    optionsNone: Automatic\nprior_art:\n- source: macOS ~/Library/Application Support + Preferences\n  url: https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/MacOSXDirectories/MacOSXDirectories.html\n  notes: \"Direct precedent. macOS keeps per-user, per-app configuration in the user's\\\n    \\ home Library \\u2014 portable with the home directory, one subdirectory per app.\\\n    \\ Our parent settings node mirrors Preferences (the OS defaults domain); each\\\n    \\ `--configures-->` app node mirrors one Application Support/<App> directory.\\\n    \\ We diverge by living in the graph (queryable, cascade-resolved) rather than\\\n    \\ plist files on disk.\"\n- source: XDG Base Directory ($XDG_CONFIG_HOME)\n  url: https://specifications.freedesktop.org/basedir-spec/latest/\n  notes: 'The Linux convention: user config under ~/.config/<app>, machine state kept\n    separate. Same person-vs-machine seam we draw between this home settings store\n    and the System-resident seat.'\n",
       "ancestors": [],
       "field_order": [
         "name"
@@ -33611,6 +33903,20 @@
                 "label": "Horizontal First"
               }
             ]
+          }
+        ],
+        "system": [
+          {
+            "key": "defaultBrowser",
+            "kind": "select",
+            "label": "Default Browser",
+            "description": "The browser the engine drives for sessions, page saves, and login windows.",
+            "group": "Browser",
+            "optionsShape": "browser",
+            "optionsVolume": "system",
+            "optionsValue": "id",
+            "optionsLabel": "name",
+            "optionsNone": "Automatic"
           }
         ]
       }
@@ -33842,6 +34148,7 @@
         "body": "description",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "category",
         "icon_from": null
       },
@@ -34291,6 +34598,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "shelves",
         "icon_from": null
       },
@@ -34686,6 +34994,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "apps",
         "icon_from": null
       },
@@ -35074,6 +35383,7 @@
         "body": "description",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "music_note",
         "icon_from": null
       },
@@ -35334,6 +35644,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "folder_open",
         "icon_from": null
       },
@@ -35835,6 +36146,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "fact_check",
         "icon_from": null
       },
@@ -36044,6 +36356,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "notifications_active",
         "icon_from": null
       },
@@ -36270,6 +36583,7 @@
         "body": "summary",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "code",
         "icon_from": null
       },
@@ -36502,6 +36816,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "label",
         "icon_from": null
       },
@@ -36883,6 +37198,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "task_alt",
         "icon_from": null
       },
@@ -37226,6 +37542,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "percent",
         "icon_from": null
       },
@@ -37532,6 +37849,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "palette",
         "icon_from": null
       },
@@ -37716,6 +38034,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "build",
         "icon_from": null
       },
@@ -38126,6 +38445,7 @@
         "body": "notes",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "receipt_long",
         "icon_from": null
       },
@@ -38435,6 +38755,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "closed_caption",
         "icon_from": null
       },
@@ -38658,6 +38979,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "healing",
         "icon_from": null
       },
@@ -39165,6 +39487,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "trip",
         "icon_from": null
       },
@@ -39676,6 +39999,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "straighten",
         "icon_from": null
       },
@@ -40000,6 +40324,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "account_circle",
         "icon_from": null
       },
@@ -40185,6 +40510,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "fingerprint",
         "icon_from": null
       },
@@ -40541,6 +40867,7 @@
         "body": "description",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "movie",
         "icon_from": null
       },
@@ -40868,6 +41195,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "hard_drive",
         "icon_from": null
       },
@@ -41161,6 +41489,7 @@
         "body": "note",
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "thumb_up",
         "icon_from": null
       },
@@ -41357,6 +41686,7 @@
         "body": null,
         "mono": null,
         "preview": {},
+        "labels": {},
         "icon": "public",
         "icon_from": null
       },

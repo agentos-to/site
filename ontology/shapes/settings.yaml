@@ -154,6 +154,21 @@ settings:
         options:
           - { value: vertical-first, label: Vertical First }
           - { value: horizontal-first, label: Horizontal First }
+    system:
+      # Which installed browser the engine drives — sessions, page saves,
+      # login windows. Options are the detected `browser` nodes the boot
+      # pass seeds on System; empty pick = Automatic (the macOS default
+      # browser when it's Chromium-family, else the first installed).
+      - key: defaultBrowser
+        kind: select
+        label: Default Browser
+        description: The browser the engine drives for sessions, page saves, and login windows.
+        group: Browser
+        optionsShape: browser
+        optionsVolume: system
+        optionsValue: id
+        optionsLabel: name
+        optionsNone: Automatic
   prior_art:
     - source: macOS ~/Library/Application Support + Preferences
       url: https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/MacOSXDirectories/MacOSXDirectories.html
