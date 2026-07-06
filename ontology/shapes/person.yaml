@@ -58,6 +58,11 @@ person:
     phoneticFamilyName:  string
     nickname:            string  # casual / informal name in use
     gender:              string
+    jobTitle:            string  # vCard TITLE / schema.org jobTitle — the role
+                                 # as a standalone string (a scraped provider, a
+                                 # contact's title) when no employer is modeled;
+                                 # the worked_at link + current_role derive it
+                                 # when there is one.
 
     # — Intrinsic dates (the person's own begin/end instant) —
     birthDate:           datetime
@@ -103,8 +108,16 @@ person:
   display:
     icon: person
     image: image
+    # A person IS a contact card: a circular portrait + name + promoted
+    # header lines (their role + where they live), composed by the card's
+    # media/lines grammar — no per-shape template. `media.shape` is a closed
+    # enum → a theme radius token, so the shape picks the semantic and the
+    # theme picks the pixels. `lines` are what `highlights` becomes for an
+    # image-bearing card: rendered in the header, not the body table.
+    media: {field: image, shape: circle}
     subtitle: about
     highlights: [birthDate, gender]
+    lines: [jobTitle, current_residence]
     body: notes
 
   groups:
