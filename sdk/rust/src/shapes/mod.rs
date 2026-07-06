@@ -2324,7 +2324,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("measure", &["at", "start", "end", "value", "valueText", "refLow", "refHigh", "refText", "flag", "status", "method", "notes"]),
     ("meeting", &["calendarLink", "isVirtual", "meetingUrl", "conferenceProvider", "phoneDialIn", "meetingType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("membership", &["status", "tier", "autoRenew", "price", "currency", "billingType", "useCount", "guestPassQuantity", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
-    ("message", &["isOutgoing", "isStarred", "conversationId"]),
+    ("message", &["isOutgoing", "isStarred", "conversationId", "accountEmail"]),
     ("model", &["contextLength", "contextWindow", "maxOutput", "pricingInput", "pricingOutput", "modality", "modelType", "quantization", "quantizationLevel", "size", "parameterSize", "format", "family", "digest"]),
     ("module", &["name", "role", "path", "version", "status", "planned"]),
     ("network", &["ssid", "bssid", "gatewayIp", "gatewayMac", "subnet", "lastSeen"]),
