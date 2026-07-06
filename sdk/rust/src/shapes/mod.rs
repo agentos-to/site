@@ -404,7 +404,16 @@ pub enum PreviewPolicy {
     MaxChars(usize),
 }
 
-/// The five closed roles every theme + renderer projects against.
+/// The preview card's header composition — a bound portrait field whose
+/// shape/size are a CLOSED enum resolving to theme tokens (never raw px).
+#[derive(Debug, Clone)]
+pub struct Media {
+    pub field: &'static str,
+    pub shape: Option<&'static str>,
+    pub size: Option<&'static str>,
+}
+
+/// The closed roles every theme + renderer projects against.
 #[derive(Debug, Clone)]
 pub struct Display {
     pub title: Option<&'static str>,
@@ -422,10 +431,24 @@ pub struct Display {
     /// `display.iconFrom` — an enum field whose value IS the per-record
     /// icon slot (device.formFactor → router/tv/…). Resolved engine-side.
     pub icon_from: Option<&'static str>,
+    /// `display.labels` — per-field display-label overrides for the preview
+    /// card (e.g. `price` → "premium"); the humanized field name is the default.
+    pub labels: &'static [(&'static str, &'static str)],
+    /// `display.media` — the contact-card portrait binding + shape/size enums.
+    pub media: Option<Media>,
+    /// `display.lines` — promoted header lines under the title.
+    pub lines: &'static [&'static str],
 }
 
 pub fn lookup_display(shape: &str) -> Option<&'static Display> {
     SHAPE_DISPLAY.iter().find(|(name, _)| *name == shape).map(|(_, d)| d)
+}
+
+/// Per-shape display-label override (`display.labels`) — the humanized field
+/// name is the default when a field is absent from the returned slice.
+pub fn lookup_label(shape: &str, field: &str) -> Option<&'static str> {
+    lookup_display(shape)
+        .and_then(|d| d.labels.iter().find(|(k, _)| *k == field).map(|(_, v)| *v))
 }
 
 pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
@@ -440,6 +463,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("alternate_email"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("activity", Display {
         title: None,
@@ -452,6 +478,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("timeline"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("actor", Display {
         title: None,
@@ -464,6 +493,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("theater_comedy"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("aircraft", Display {
         title: None,
@@ -476,6 +508,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["product"],
         icon: Some("flight"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("airline", Display {
         title: None,
@@ -488,6 +523,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["organization", "actor"],
         icon: Some("airlines"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("airport", Display {
         title: None,
@@ -500,6 +538,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("flight_takeoff"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("app", Display {
         title: None,
@@ -512,6 +553,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("web_asset"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("auth_challenge", Display {
         title: None,
@@ -524,6 +568,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("qr_code_2"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("book", Display {
         title: None,
@@ -536,6 +583,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["creative_work", "product"],
         icon: Some("book"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("booking_offer", Display {
         title: None,
@@ -548,6 +598,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("receipt"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("bookmark", Display {
         title: None,
@@ -560,6 +613,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("bookmark"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("branch", Display {
         title: None,
@@ -572,6 +628,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("account_tree"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("brand", Display {
         title: None,
@@ -584,6 +643,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("badge"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("browser", Display {
         title: None,
@@ -596,6 +658,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("public"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("calendar", Display {
         title: None,
@@ -608,6 +673,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("calendar_today"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("channel", Display {
         title: None,
@@ -620,6 +688,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("subscriptions"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("class", Display {
         title: None,
@@ -632,6 +703,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("fitness_center"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("community", Display {
         title: None,
@@ -644,6 +718,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("groups"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("concern", Display {
         title: None,
@@ -656,6 +733,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("cardiology"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("conversation", Display {
         title: None,
@@ -668,6 +748,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("forum"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("conversion", Display {
         title: None,
@@ -680,6 +763,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("currency_exchange"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("creative_work", Display {
         title: None,
@@ -692,6 +778,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("palette"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("cursor", Display {
         title: None,
@@ -704,6 +793,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["creative_work", "file"],
         icon: Some("mouse"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("device", Display {
         title: None,
@@ -716,6 +808,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["hardware", "product"],
         icon: Some("devices_other"),
         icon_from: Some("formFactor"),
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("dimension", Display {
         title: None,
@@ -728,6 +823,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("straighten"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("dns_record", Display {
         title: None,
@@ -740,6 +838,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("dns"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("document", Display {
         title: None,
@@ -752,6 +853,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["file"],
         icon: Some("description"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("domain", Display {
         title: None,
@@ -764,6 +868,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("language"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("email", Display {
         title: None,
@@ -776,6 +883,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["message"],
         icon: Some("mail"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("episode", Display {
         title: None,
@@ -788,6 +898,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("podcasts"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("event", Display {
         title: None,
@@ -800,6 +913,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("event"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("fare", Display {
         title: None,
@@ -812,6 +928,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("airline_seat_recline_normal"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("file", Display {
         title: None,
@@ -824,6 +943,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("draft"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("financial_account", Display {
         title: None,
@@ -836,6 +958,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("account_balance"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("flight", Display {
         title: None,
@@ -848,6 +973,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["leg", "event"],
         icon: Some("flight_class"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("font", Display {
         title: None,
@@ -860,6 +988,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["creative_work"],
         icon: Some("text_fields"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("git_commit", Display {
         title: None,
@@ -872,6 +1003,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("commit"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("group", Display {
         title: None,
@@ -884,6 +1018,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("group"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("hardware", Display {
         title: None,
@@ -896,6 +1033,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["product"],
         icon: Some("memory"),
         icon_from: Some("formFactor"),
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("health-biomarker", Display {
         title: None,
@@ -908,6 +1048,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("glucose"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("health-condition", Display {
         title: None,
@@ -920,6 +1063,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("sick"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("health-immunization", Display {
         title: None,
@@ -932,6 +1078,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("vaccines"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("health-lab", Display {
         title: None,
@@ -944,6 +1093,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["organization", "actor"],
         icon: Some("biotech"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("health-panel", Display {
         title: None,
@@ -956,6 +1108,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["list"],
         icon: Some("lab_panel"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("health-procedure", Display {
         title: None,
@@ -968,6 +1123,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("surgical"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("health-reference-range", Display {
         title: None,
@@ -980,6 +1138,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("straighten"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("icon", Display {
         title: None,
@@ -992,6 +1153,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["creative_work"],
         icon: Some("glyphs"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("image", Display {
         title: None,
@@ -1004,6 +1168,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["creative_work", "file"],
         icon: Some("image"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("insurance_coverage", Display {
         title: None,
@@ -1016,6 +1183,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("health_and_safety"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("insurance_policy", Display {
         title: None,
@@ -1028,6 +1198,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["membership", "event"],
         icon: Some("shield"),
         icon_from: None,
+        labels: &[("price", "premium")],
+        media: None,
+        lines: &[],
     }),
     ("intellectual_property", Display {
         title: None,
@@ -1040,6 +1213,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("copyright"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("invitation", Display {
         title: None,
@@ -1052,6 +1228,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("forward_to_inbox"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("issue", Display {
         title: None,
@@ -1064,6 +1243,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["post"],
         icon: Some("feedback"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("launch", Display {
         title: None,
@@ -1076,6 +1258,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("rocket_launch"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("leg", Display {
         title: None,
@@ -1088,6 +1273,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("transfer_within_a_station"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("list", Display {
         title: None,
@@ -1100,6 +1288,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("folder"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("loaded_model", Display {
         title: None,
@@ -1112,6 +1303,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("memory"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("mcp_session", Display {
         title: None,
@@ -1124,6 +1318,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("terminal"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("measure", Display {
         title: None,
@@ -1136,6 +1333,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("vital_signs"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("meeting", Display {
         title: None,
@@ -1148,6 +1348,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("video_call"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("membership", Display {
         title: None,
@@ -1160,6 +1363,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("card_membership"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("message", Display {
         title: None,
@@ -1172,6 +1378,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("chat"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("model", Display {
         title: None,
@@ -1184,6 +1393,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("psychology"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("module", Display {
         title: None,
@@ -1196,6 +1408,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("extension"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("network", Display {
         title: None,
@@ -1208,6 +1423,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("wifi"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("note", Display {
         title: None,
@@ -1220,6 +1438,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("sticky_note_2"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("offer", Display {
         title: None,
@@ -1232,6 +1453,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("sell"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("order", Display {
         title: None,
@@ -1244,6 +1468,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("shopping_cart"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("organization", Display {
         title: None,
@@ -1256,6 +1483,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["actor"],
         icon: Some("apartment"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("outcome", Display {
         title: None,
@@ -1268,6 +1498,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("flag"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("pass", Display {
         title: None,
@@ -1280,6 +1513,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("confirmation_number"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("payment_method", Display {
         title: None,
@@ -1292,6 +1528,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("credit_card"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("person", Display {
         title: None,
@@ -1304,6 +1543,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["actor"],
         icon: Some("person"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("persona", Display {
         title: None,
@@ -1316,6 +1558,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("face"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("place", Display {
         title: None,
@@ -1328,6 +1573,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("location_on"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("platform", Display {
         title: None,
@@ -1340,6 +1588,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["product"],
         icon: Some("hub"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("playlist", Display {
         title: None,
@@ -1352,6 +1603,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["list"],
         icon: Some("queue_music"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("plugin", Display {
         title: None,
@@ -1364,6 +1618,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("cable"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("podcast", Display {
         title: None,
@@ -1376,6 +1633,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("podcasts"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("post", Display {
         title: None,
@@ -1388,6 +1648,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("newspaper"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("practice", Display {
         title: None,
@@ -1400,6 +1663,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("sports_gymnastics"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("principle", Display {
         title: None,
@@ -1412,6 +1678,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("gavel"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("product", Display {
         title: None,
@@ -1424,6 +1693,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("inventory_2"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("project", Display {
         title: None,
@@ -1436,6 +1708,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("view_kanban"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("protocol", Display {
         title: None,
@@ -1448,6 +1723,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("handshake"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("qualification", Display {
         title: None,
@@ -1460,6 +1738,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("workspace_premium"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("quantity-kind", Display {
         title: None,
@@ -1472,6 +1753,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("functions"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("quote", Display {
         title: None,
@@ -1484,6 +1768,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("format_quote"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("repository", Display {
         title: None,
@@ -1496,6 +1783,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("source_notes"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("reservation", Display {
         title: None,
@@ -1508,6 +1798,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("event_available"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("result", Display {
         title: None,
@@ -1520,6 +1813,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("manage_search"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("review", Display {
         title: None,
@@ -1532,6 +1828,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["post"],
         icon: Some("star_rate"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("role", Display {
         title: None,
@@ -1544,6 +1843,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("work"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("seatmap", Display {
         title: Some("flightNumber"),
@@ -1556,6 +1858,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("event_seat"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("service", Display {
         title: None,
@@ -1568,6 +1873,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("hub"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("settings", Display {
         title: None,
@@ -1580,6 +1888,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("tune"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("shape", Display {
         title: None,
@@ -1592,6 +1903,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("category"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("shelf", Display {
         title: None,
@@ -1604,6 +1918,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["list"],
         icon: Some("shelves"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("software", Display {
         title: None,
@@ -1616,6 +1933,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["product"],
         icon: Some("apps"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("sound", Display {
         title: None,
@@ -1628,6 +1948,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["creative_work", "file"],
         icon: Some("music_note"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("source", Display {
         title: None,
@@ -1640,6 +1963,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("folder_open"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("spec", Display {
         title: None,
@@ -1652,6 +1978,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["task", "event", "file"],
         icon: Some("fact_check"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("subscription", Display {
         title: None,
@@ -1664,6 +1993,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("notifications_active"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("symbol", Display {
         title: None,
@@ -1676,6 +2008,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("code"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("tag", Display {
         title: Some("name"),
@@ -1688,6 +2023,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("label"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("task", Display {
         title: None,
@@ -1700,6 +2038,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("task_alt"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("tax_line", Display {
         title: None,
@@ -1712,6 +2053,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("percent"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("theme", Display {
         title: None,
@@ -1724,6 +2068,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("palette"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("tool_call", Display {
         title: None,
@@ -1736,6 +2083,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("build"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("transaction", Display {
         title: None,
@@ -1748,6 +2098,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("receipt_long"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("transcript", Display {
         title: None,
@@ -1760,6 +2113,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("closed_caption"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("treatment", Display {
         title: None,
@@ -1772,6 +2128,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("healing"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("trip", Display {
         title: None,
@@ -1784,6 +2143,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["event"],
         icon: Some("trip"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("unit", Display {
         title: None,
@@ -1796,6 +2158,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("straighten"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("user", Display {
         title: None,
@@ -1808,6 +2173,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["actor"],
         icon: Some("account_circle"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("user_identity", Display {
         title: None,
@@ -1820,6 +2188,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("fingerprint"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("video", Display {
         title: None,
@@ -1832,6 +2203,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &["creative_work", "file"],
         icon: Some("movie"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("volume", Display {
         title: None,
@@ -1844,6 +2218,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("hard_drive"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("vote", Display {
         title: None,
@@ -1856,6 +2233,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("thumb_up"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
     ("website", Display {
         title: None,
@@ -1868,6 +2248,9 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         also: &[],
         icon: Some("public"),
         icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
     }),
 ];
 
@@ -2000,6 +2383,98 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("volume", &["volume_id", "kind", "source", "address", "provider", "auto_mount", "readOnly", "removable", "ejectable", "totalBytes", "freeBytes", "scope", "icon", "default_view"]),
     ("vote", &["direction", "note", "instance"]),
     ("website", &["status", "versionId", "anonymous", "claimToken", "claimUrl"]),
+];
+
+// ===========================================================
+// Identity — the `identity:` field list per shape
+// ===========================================================
+
+pub fn lookup_identity(shape: &str) -> &'static [&'static str] {
+    SHAPE_IDENTITY.iter().find(|(name, _)| *name == shape).map(|(_, i)| *i).unwrap_or(&[])
+}
+
+pub static SHAPE_IDENTITY: &[(&'static str, &'static [&'static str])] = &[
+    ("account", &["at", "identifier"]),
+    ("aircraft", &["icaoCode"]),
+    ("airline", &["iataCode"]),
+    ("airport", &["iataCode"]),
+    ("app", &["id"]),
+    ("book", &["isbn13", "isbn"]),
+    ("booking_offer", &["at", "cartId"]),
+    ("bookmark", &["points_to"]),
+    ("brand", &["url"]),
+    ("browser", &["id"]),
+    ("calendar", &["at", "calendarId"]),
+    ("channel", &["at", "id"]),
+    ("community", &["at", "id"]),
+    ("concern", &["name"]),
+    ("conversation", &["at", "id"]),
+    ("cursor", &["sha", "url"]),
+    ("device", &["macAddress"]),
+    ("dimension", &["key"]),
+    ("dns_record", &["domain", "recordType", "recordName"]),
+    ("document", &["sha", "url"]),
+    ("domain", &["name"]),
+    ("email", &["at", "id"]),
+    ("event", &["at", "id"]),
+    ("fare", &["at", "identifier"]),
+    ("file", &["sha", "url"]),
+    ("financial_account", &["at", "identifier"]),
+    ("font", &["family", "postscriptName"]),
+    ("group", &["at", "id"]),
+    ("hardware", &["url", "modelNumber"]),
+    ("health-biomarker", &["loincCode", "measure"]),
+    ("health-condition", &["snomedCode", "name"]),
+    ("health-lab", &["cliaNumber", "url"]),
+    ("health-procedure", &["cptCode", "snomedCode", "id"]),
+    ("health-reference-range", &["analyte", "issuingLab", "method", "startDate"]),
+    ("icon", &["component", "url"]),
+    ("image", &["sha", "url"]),
+    ("insurance_policy", &["underwritten_by", "policyNumber"]),
+    ("intellectual_property", &["identifier"]),
+    ("invitation", &["at", "id"]),
+    ("list", &["at", "id"]),
+    ("mcp_session", &["client", "projectId", "gitBranch"]),
+    ("membership", &["at", "id"]),
+    ("message", &["at", "id"]),
+    ("model", &["at", "name"]),
+    ("network", &["gatewayMac"]),
+    ("offer", &["id"]),
+    ("order", &["at", "orderId"]),
+    ("organization", &["name"]),
+    ("pass", &["at", "id"]),
+    ("payment_method", &["at", "identifier"]),
+    ("place", &["googlePlaceId", "mapboxId"]),
+    ("platform", &["slug"]),
+    ("plugin", &["id"]),
+    ("podcast", &["at", "id"]),
+    ("post", &["at", "id"]),
+    ("product", &["url"]),
+    ("project", &["at", "id"]),
+    ("protocol", &["name"]),
+    ("qualification", &["identifier"]),
+    ("quantity-kind", &["key"]),
+    ("repository", &["path", "url"]),
+    ("reservation", &["at", "reservationId"]),
+    ("seatmap", &["id"]),
+    ("service", &["id"]),
+    ("shape", &["name"]),
+    ("software", &["url"]),
+    ("sound", &["sha", "url"]),
+    ("source", &["address"]),
+    ("subscription", &["app", "op"]),
+    ("tag", &["name"]),
+    ("task", &["at", "id"]),
+    ("tax_line", &["at", "id"]),
+    ("theme", &["themeId"]),
+    ("tool_call", &["platform", "id"]),
+    ("transaction", &["at", "id"]),
+    ("treatment", &["name", "abbreviation"]),
+    ("trip", &["at", "id"]),
+    ("unit", &["ucumCode", "siDigitalFrameworkUri", "iso4217"]),
+    ("user", &["osUsername"]),
+    ("video", &["sha", "url"]),
+    ("website", &["url"]),
 ];
 
 // ===========================================================

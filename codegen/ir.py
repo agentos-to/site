@@ -83,7 +83,37 @@ def _field_spec(raw_ftype) -> tuple[str, str | None, list[str] | None]:
 # optional. `title` defaults to the standard `name` field when absent;
 # everything not bound is *unpromoted* and renders at detail density in
 # YAML declaration order. See `core/_product/p1/shape-display/plan.md`.
-DISPLAY_ROLES = {"title", "subtitle", "image", "highlights", "body", "mono", "icon", "iconFrom", "labels"}
+DISPLAY_ROLES = {"title", "subtitle", "image", "highlights", "body", "mono", "icon", "iconFrom", "labels", "media", "lines"}
+
+# The preview card's header composition is a small CLOSED vocabulary — a
+# bound portrait field whose shape/size are enums that resolve to theme
+# tokens (never raw CSS/px), plus a stack of promoted header lines. The
+# shape picks the semantic, the theme picks the pixels.
+MEDIA_SHAPES = {"circle", "square", "rounded"}
+MEDIA_SIZES = {"sm", "md", "lg"}
+
+
+@dataclass
+class Media:
+    field: str                       # the bound portrait/image field (or relation → node.image)
+    shape: str | None = None         # circle | square | rounded — → a theme radius token
+    size: str | None = None          # sm | md | lg — → a theme size token
+
+
+def _parse_media(raw, shape_name: str) -> "Media | None":
+    """Parse + validate a `display.media` block. The shape/size enums are a
+    closed vocabulary (make the wrong thing impossible — a raw px value is a
+    codegen error, not a silently-ignored token)."""
+    if raw is None:
+        return None
+    if not isinstance(raw, dict) or "field" not in raw:
+        raise ValueError(f"{shape_name}: display.media must be a mapping with a `field` (got {raw!r})")
+    m = Media(field=raw["field"], shape=raw.get("shape"), size=raw.get("size"))
+    if m.shape is not None and m.shape not in MEDIA_SHAPES:
+        raise ValueError(f"{shape_name}: display.media.shape={m.shape!r} — must be one of {sorted(MEDIA_SHAPES)}")
+    if m.size is not None and m.size not in MEDIA_SIZES:
+        raise ValueError(f"{shape_name}: display.media.size={m.size!r} — must be one of {sorted(MEDIA_SIZES)}")
+    return m
 
 
 @dataclass
@@ -101,6 +131,8 @@ class Display:
     labels: dict[str, str] = field(default_factory=dict)  # per-field display-label overrides for the preview card (e.g. {price: premium}); humanized field name is the default
     icon: str | None = None          # Material Symbols glyph name (outlined, no -fill suffix)
     icon_from: str | None = None     # `iconFrom:` — an enum field whose value IS the per-record icon slot (e.g. device.formFactor → router/tv/…). The engine icon resolver reads it; each enum value doubles as a pack-overridable slot.
+    media: Media | None = None       # `media:` — the preview card's portrait binding + closed shape/size enums (contact-card composition). A shape with `media` gets a portrait header; one without gets the icon + subtitle header.
+    lines: list[str] = field(default_factory=list)  # `lines:` — promoted header lines under the title (what `highlights` becomes for an image-bearing card): fields/relations rendered in the header, not the body table.
 
 
 @dataclass
@@ -542,6 +574,8 @@ def _build_shapes(
                     labels=dict(parent.labels),
                     icon=parent.icon,
                     icon_from=parent.icon_from,
+                    media=parent.media,
+                    lines=list(parent.lines),
                 )
             else:
                 # Later parent overrides earlier (sibling parents): the
@@ -553,7 +587,9 @@ def _build_shapes(
                 if parent.mono is not None:     merged.mono = parent.mono
                 if parent.icon is not None:     merged.icon = parent.icon
                 if parent.icon_from is not None: merged.icon_from = parent.icon_from
+                if parent.media is not None:    merged.media = parent.media
                 if parent.highlights:           merged.highlights = list(parent.highlights)
+                if parent.lines:                merged.lines = list(parent.lines)
                 for k, v in parent.preview.items():
                     merged.preview[k] = v
                 for k, v in parent.labels.items():
@@ -577,6 +613,8 @@ def _build_shapes(
                     labels=dict(disp_raw.get("labels") or {}),
                     icon=disp_raw.get("icon"),
                     icon_from=disp_raw.get("iconFrom"),
+                    media=_parse_media(disp_raw.get("media"), name),
+                    lines=list(disp_raw.get("lines") or []),
                 )
             else:
                 if disp_raw.get("title") is not None:    merged.title = disp_raw["title"]
@@ -586,7 +624,9 @@ def _build_shapes(
                 if disp_raw.get("mono") is not None:     merged.mono = disp_raw["mono"]
                 if disp_raw.get("icon") is not None:     merged.icon = disp_raw["icon"]
                 if disp_raw.get("iconFrom") is not None: merged.icon_from = disp_raw["iconFrom"]
+                if disp_raw.get("media") is not None:    merged.media = _parse_media(disp_raw["media"], name)
                 if disp_raw.get("highlights"):           merged.highlights = list(disp_raw["highlights"])
+                if disp_raw.get("lines"):                merged.lines = list(disp_raw["lines"])
                 for k, v in (disp_raw.get("preview") or {}).items():
                     merged.preview[k] = v
                 for k, v in (disp_raw.get("labels") or {}).items():

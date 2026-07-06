@@ -494,7 +494,16 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
         "    MaxChars(usize),",
         "}",
         "",
-        "/// The five closed roles every theme + renderer projects against.",
+        "/// The preview card's header composition — a bound portrait field whose",
+        "/// shape/size are a CLOSED enum resolving to theme tokens (never raw px).",
+        "#[derive(Debug, Clone)]",
+        "pub struct Media {",
+        "    pub field: &'static str,",
+        "    pub shape: Option<&'static str>,",
+        "    pub size: Option<&'static str>,",
+        "}",
+        "",
+        "/// The closed roles every theme + renderer projects against.",
         "#[derive(Debug, Clone)]",
         "pub struct Display {",
         "    pub title: Option<&'static str>,",
@@ -512,10 +521,24 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
         "    /// `display.iconFrom` — an enum field whose value IS the per-record",
         "    /// icon slot (device.formFactor → router/tv/…). Resolved engine-side.",
         "    pub icon_from: Option<&'static str>,",
+        "    /// `display.labels` — per-field display-label overrides for the preview",
+        "    /// card (e.g. `price` → \"premium\"); the humanized field name is the default.",
+        "    pub labels: &'static [(&'static str, &'static str)],",
+        "    /// `display.media` — the contact-card portrait binding + shape/size enums.",
+        "    pub media: Option<Media>,",
+        "    /// `display.lines` — promoted header lines under the title.",
+        "    pub lines: &'static [&'static str],",
         "}",
         "",
         "pub fn lookup_display(shape: &str) -> Option<&'static Display> {",
         "    SHAPE_DISPLAY.iter().find(|(name, _)| *name == shape).map(|(_, d)| d)",
+        "}",
+        "",
+        "/// Per-shape display-label override (`display.labels`) — the humanized field",
+        "/// name is the default when a field is absent from the returned slice.",
+        "pub fn lookup_label(shape: &str, field: &str) -> Option<&'static str> {",
+        "    lookup_display(shape)",
+        "        .and_then(|d| d.labels.iter().find(|(k, _)| *k == field).map(|(_, v)| *v))",
         "}",
         "",
         "pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[",
@@ -528,6 +551,16 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
         if not items:
             return "&[]"
         return "&[" + ", ".join(f'"{s}"' for s in items) + "]"
+
+    def _label_array(labels: dict) -> str:
+        if not labels:
+            return "&[]"
+        return "&[" + ", ".join(f'("{k}", "{v}")' for k, v in labels.items()) + "]"
+
+    def _media(m) -> str:
+        if not m:
+            return "None"
+        return f"Some(Media {{ field: \"{m.field}\", shape: {_opt(m.shape)}, size: {_opt(m.size)} }})"
 
     def _preview(preview: dict) -> str:
         if not preview:
@@ -560,6 +593,9 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
         lines.append(f"        also: {_str_array(list(s.ancestors))},")
         lines.append(f"        icon: {_opt(d.icon)},")
         lines.append(f"        icon_from: {_opt(d.icon_from)},")
+        lines.append(f"        labels: {_label_array(d.labels)},")
+        lines.append(f"        media: {_media(d.media)},")
+        lines.append(f"        lines: {_str_array(list(d.lines))},")
         lines.append("    }),")
     lines.append("];")
     lines.append("")
@@ -580,6 +616,29 @@ def _emit_mod_rs(shapes_sorted: list[Shape], onto: Ontology) -> str:
         if not s.field_order:
             continue
         lines.append(f'    ("{s.name}", {_str_array(list(s.field_order))}),')
+    lines.append("];")
+    lines.append("")
+
+    # Identity — the `identity:` field list per shape. The preview card
+    # (both renderers) bolds these rows: what uniquely names the record,
+    # derived from the contract. A relation in the list (e.g.
+    # `underwritten_by`) bolds its relationship row, not a field row.
+    lines += [
+        "// ===========================================================",
+        "// Identity — the `identity:` field list per shape",
+        "// ===========================================================",
+        "",
+        "pub fn lookup_identity(shape: &str) -> &'static [&'static str] {",
+        "    SHAPE_IDENTITY.iter().find(|(name, _)| *name == shape).map(|(_, i)| *i).unwrap_or(&[])",
+        "}",
+        "",
+        "pub static SHAPE_IDENTITY: &[(&'static str, &'static [&'static str])] = &[",
+    ]
+    for s in shapes_sorted:
+        ident = list(s.identity) + [f for f in s.identity_any if f not in s.identity]
+        if not ident:
+            continue
+        lines.append(f'    ("{s.name}", {_str_array(ident)}),')
     lines.append("];")
     lines.append("")
 

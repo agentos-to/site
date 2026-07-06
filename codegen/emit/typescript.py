@@ -54,6 +54,12 @@ def emit_typescript(onto: Ontology) -> str:
         "    labels?: Record<string, string>; // per-field display-label overrides for the preview card (e.g. {price: 'premium'}); humanized field name is the default",
         "    icon?: string;        // Material Symbols glyph name (outlined) for this shape's face",
         "    iconFrom?: string;    // enum field whose value IS the per-record icon slot (resolved engine-side)",
+        "    /** The preview card's header composition — a bound portrait field",
+        "     *  whose shape/size are a CLOSED enum resolving to theme tokens (never",
+        "     *  raw px). A shape with `media` renders a contact-card header; one",
+        "     *  without gets the icon + subtitle header. */",
+        '    media?: { field: string; shape?: "circle" | "square" | "rounded"; size?: "sm" | "md" | "lg" };',
+        "    lines?: string[];     // promoted header lines under the title (what `highlights` becomes for an image-bearing card)",
         "    /** Transitive `also:` closure — the chain this shape inherits from.",
         "     *  The resolver uses it to pick the most-specific shape on a",
         "     *  multi-shape node (`shape[]` is alphabetical, not inheritance). */",
@@ -76,6 +82,12 @@ def emit_typescript(onto: Ontology) -> str:
         if s.display.labels:     d["labels"]     = dict(s.display.labels)
         if s.display.icon:       d["icon"]       = s.display.icon
         if s.display.icon_from:  d["iconFrom"]   = s.display.icon_from
+        if s.display.media:
+            media = {"field": s.display.media.field}
+            if s.display.media.shape: media["shape"] = s.display.media.shape
+            if s.display.media.size:  media["size"]  = s.display.media.size
+            d["media"] = media
+        if s.display.lines:      d["lines"]      = list(s.display.lines)
         d["also"] = list(s.ancestors)
         # JSON ensures double-quoted keys/strings (valid TS object literal).
         lines.append(f"    {json.dumps(s.name)}: {json.dumps(d)},")
