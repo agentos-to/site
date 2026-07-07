@@ -2346,6 +2346,26 @@ _UI_TSX_CHROME_RE = re.compile(
 )
 _CSS_COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
 
+# Raw interactive elements app markup may never render — the component
+# contract's one law: nothing styles a raw element, so nothing may RENDER
+# one either. A hand-rolled <button> inherits whatever a theme pack paints
+# on bare `button` (the recurring beveled-list-rows bug); a hand-stamped
+# listbox/menu role skips the primitive's keyboard model. Apps compose the
+# agentos-ui primitives: Button, OptionList/Option, ContextMenu, Select.
+_UI_TS_COMMENT_RE = re.compile(r"/\*.*?\*/|(?<![:\w])//[^\n]*", re.S)
+_UI_RAW_INTERACTIVE_RE = re.compile(
+    r"<button\b"
+    r"|<select\b"
+    r"|<input\b[^>]*type\s*=\s*['\"](?:button|submit|reset|image)['\"]"
+    r"|<[A-Za-z][\w.]*\b[^>]*\brole\s*=\s*['\"](?:listbox|option|menu|menuitem)['\"]"
+)
+_UI_RAW_INTERACTIVE_HINT = {
+    "<button": "render <Button variant=…> (quiet for flat/icon actions)",
+    "<select": "render the SDK Select",
+    "<input": "render <Button type=\"submit\"> — a command input wears theme button chrome",
+    "role=": "render OptionList/Option or ContextMenu — the primitive owns the role + keyboard model",
+}
+
 
 def audit_commons_apps(aisle: Path) -> int:
     """Audit one source's Commons-app aisle (`<source>/apps/<id>/`).
@@ -2417,6 +2437,16 @@ def audit_commons_apps(aisle: Path) -> int:
                             f"{src.relative_to(app_dir)}: chrome class `{m.group(1)}` stamped "
                             "by hand — render the SDK Toolbar/ToolButton instead; the OS owns "
                             "its chrome vocabulary"
+                        )
+                    uncommented = _UI_TS_COMMENT_RE.sub("", text)
+                    for m in _UI_RAW_INTERACTIVE_RE.finditer(uncommented):
+                        token = m.group(0)
+                        hint = next(
+                            v for k, v in _UI_RAW_INTERACTIVE_HINT.items() if k in token
+                        )
+                        app_issues.append(
+                            f"{src.relative_to(app_dir)}: raw interactive element "
+                            f"`{token[:40]}` — {hint}"
                         )
                 elif src.suffix == ".css":
                     text = src.read_text(encoding="utf-8")
