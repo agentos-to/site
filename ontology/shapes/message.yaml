@@ -14,6 +14,7 @@ message:
     isStarred:        boolean   # user-flagged as important
     conversationId:   string    # denormalized id of the parent conversation (authoritative link is `inConversation`)
     accountEmail:     string    # which account this message belongs to — same grammar as conversation.accountEmail; a reply routes out the account the message arrived on
+    isGroup:          boolean   # denormalized from the conversation — a live-watch entity must let a surface synthesize the chat row for a first-ever message without a follow-up read
   prior_art:
     - source: ActivityStreams 2.0 Note/Activity
       url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note

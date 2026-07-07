@@ -17,6 +17,7 @@ subscription:
     app:           string    # app id the re-arm dispatches: "whatsapp"
     op:              string    # the app op that arms the stream: "watch"
     target:          string    # what is watched: "web.whatsapp.com" — display, and the key `close` deletes by
+    service:         string    # transport service that armed it ("browser_session", "file_watch") — teardown dispatches its `close {target}`
   prior_art:
     - source: W3C WebSub subscriptions
       url: https://www.w3.org/TR/websub/

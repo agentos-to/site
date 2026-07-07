@@ -16,6 +16,7 @@ pub struct Message {
     pub content: Option<String>,
     pub account_email: Option<String>,
     pub conversation_id: Option<String>,
+    pub is_group: Option<bool>,
     pub is_outgoing: Option<bool>,
     pub is_starred: Option<bool>,
 }
@@ -35,6 +36,7 @@ pub static MESSAGE: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("content", FieldType::String),
         FieldDef::optional("accountEmail", FieldType::String),
         FieldDef::optional("conversationId", FieldType::String),
+        FieldDef::optional("isGroup", FieldType::Boolean),
         FieldDef::optional("isOutgoing", FieldType::Boolean),
         FieldDef::optional("isStarred", FieldType::Boolean),
     ],

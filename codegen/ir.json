@@ -9642,6 +9642,15 @@
           "enum": null
         },
         {
+          "name": "isGroup",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "isInbox",
           "type": "boolean",
           "is_relation": false,
@@ -10187,7 +10196,8 @@
         "mailer",
         "returnPath",
         "authResults",
-        "isOutgoing"
+        "isOutgoing",
+        "isGroup"
       ],
       "derived": {},
       "groups": [],
@@ -22718,6 +22728,15 @@
           "enum": null
         },
         {
+          "name": "isGroup",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "isOutgoing",
           "type": "boolean",
           "is_relation": false,
@@ -22799,6 +22818,15 @@
           "target": null,
           "description": null,
           "enum": null
+        },
+        {
+          "name": "isGroup",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
         }
       ],
       "own_relations": [],
@@ -22820,13 +22848,14 @@
         }
       ],
       "source_path": "message.yaml",
-      "raw_body": "plural: messages\nidentity:\n- at\n- id\ndisplay:\n  icon: chat\n  subtitle: from\n  preview:\n    content: full\nfields:\n  isOutgoing: boolean\n  isStarred: boolean\n  conversationId: string\n  accountEmail: string\nprior_art:\n- source: ActivityStreams 2.0 Note/Activity\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note\n  notes: \"Closest open standard for generic messages. Our from \\u2248 actor; inConversation\\\n    \\ \\u2248 context/conversation; repliesTo \\u2248 inReplyTo.\"\n- source: Matrix m.room.message\n  url: https://spec.matrix.org/latest/client-server-api/#mroommessage\n  notes: \"Practical cross-platform message event schema. Our isOutgoing has no Matrix\\\n    \\ analog (sender identity instead); repliesTo \\u2248 m.relates_to rel_type m.thread/m.in_reply_to.\"\n- source: XMPP (RFC 6121) message stanza\n  url: https://datatracker.ietf.org/doc/html/rfc6121\n  notes: IETF instant-messaging baseline. from/to/thread correspond to our from/inConversation;\n    no standardized isStarred.\n",
+      "raw_body": "plural: messages\nidentity:\n- at\n- id\ndisplay:\n  icon: chat\n  subtitle: from\n  preview:\n    content: full\nfields:\n  isOutgoing: boolean\n  isStarred: boolean\n  conversationId: string\n  accountEmail: string\n  isGroup: boolean\nprior_art:\n- source: ActivityStreams 2.0 Note/Activity\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note\n  notes: \"Closest open standard for generic messages. Our from \\u2248 actor; inConversation\\\n    \\ \\u2248 context/conversation; repliesTo \\u2248 inReplyTo.\"\n- source: Matrix m.room.message\n  url: https://spec.matrix.org/latest/client-server-api/#mroommessage\n  notes: \"Practical cross-platform message event schema. Our isOutgoing has no Matrix\\\n    \\ analog (sender identity instead); repliesTo \\u2248 m.relates_to rel_type m.thread/m.in_reply_to.\"\n- source: XMPP (RFC 6121) message stanza\n  url: https://datatracker.ietf.org/doc/html/rfc6121\n  notes: IETF instant-messaging baseline. from/to/thread correspond to our from/inConversation;\n    no standardized isStarred.\n",
       "ancestors": [],
       "field_order": [
         "isOutgoing",
         "isStarred",
         "conversationId",
-        "accountEmail"
+        "accountEmail",
+        "isGroup"
       ],
       "derived": {},
       "groups": [],
@@ -36754,6 +36783,15 @@
           "enum": null
         },
         {
+          "name": "service",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "target",
           "type": "string",
           "is_relation": false,
@@ -36815,6 +36853,15 @@
           "target": null,
           "description": null,
           "enum": null
+        },
+        {
+          "name": "service",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
         }
       ],
       "own_relations": [],
@@ -36836,12 +36883,13 @@
         }
       ],
       "source_path": "agentos/subscription.yaml",
-      "raw_body": "plural: subscriptions\nidentity:\n- app\n- op\ndisplay:\n  icon: notifications_active\n  subtitle: target\nfields:\n  app: string\n  op: string\n  target: string\nprior_art:\n- source: W3C WebSub subscriptions\n  url: https://www.w3.org/TR/websub/\n  notes: \"A subscription is a stored intent (topic + callback) the hub re-delivers\\\n    \\ against \\u2014 content never lives on the subscription. Our app/op \\u2248 topic/callback.\"\n- source: MQTT persistent sessions\n  url: https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html\n  notes: Subscriptions survive connection loss and re-attach on reconnect. Our engine-boot\n    re-arm parallels session resumption.\n- source: systemd unit enablement (systemctl enable)\n  url: https://www.freedesktop.org/software/systemd/man/systemctl.html\n  notes: \"Enablement is a durable on-disk fact distinct from the running process;\\\n    \\ boot re-creates the runtime state from it. Our node \\u2248 the wants/ symlink,\\\n    \\ the live CDP hook \\u2248 the running unit.\"\n",
+      "raw_body": "plural: subscriptions\nidentity:\n- app\n- op\ndisplay:\n  icon: notifications_active\n  subtitle: target\nfields:\n  app: string\n  op: string\n  target: string\n  service: string\nprior_art:\n- source: W3C WebSub subscriptions\n  url: https://www.w3.org/TR/websub/\n  notes: \"A subscription is a stored intent (topic + callback) the hub re-delivers\\\n    \\ against \\u2014 content never lives on the subscription. Our app/op \\u2248 topic/callback.\"\n- source: MQTT persistent sessions\n  url: https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html\n  notes: Subscriptions survive connection loss and re-attach on reconnect. Our engine-boot\n    re-arm parallels session resumption.\n- source: systemd unit enablement (systemctl enable)\n  url: https://www.freedesktop.org/software/systemd/man/systemctl.html\n  notes: \"Enablement is a durable on-disk fact distinct from the running process;\\\n    \\ boot re-creates the runtime state from it. Our node \\u2248 the wants/ symlink,\\\n    \\ the live CDP hook \\u2248 the running unit.\"\n",
       "ancestors": [],
       "field_order": [
         "app",
         "op",
-        "target"
+        "target",
+        "service"
       ],
       "derived": {},
       "groups": [],
