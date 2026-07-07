@@ -31,9 +31,9 @@ app:
                                   # resolves through the theme's icon registry
     route:             string    # for route-based apps (e.g. 'settings')
     defaultRoute:     string    # the shell address a NEW window opens at when
-                                  # this app is launched (finder → '?list=drives',
+                                  # this app is launched (finder → 'list/drives',
                                   # help → 'node/help-home?volume=system').
-                                  # Absent → '?app=<id>'. The shell resolves
+                                  # Absent → the bare app host ('<id>'). The shell resolves
                                   # (routeForApp), never enumerates app ids.
     defaultView:      string    # which view to spawn — usually 'main'
     isSystem:         boolean   # true → engine-resident, never uninstallable
