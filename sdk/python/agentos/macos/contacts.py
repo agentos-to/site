@@ -49,15 +49,38 @@ def handle_key(handle: str | None) -> str | None:
     return handle.strip().lower() if "@" in handle else phone_key(handle)
 
 
+# The worker process is long-lived, so one load serves every later call
+# for free. Keyed by each source DB's (path, mtime): a Contacts edit
+# changes an mtime and the next load() rebuilds — never stale, never
+# re-marshaling the whole address book per call (a live-watch pull pays
+# this on every inbound message; uncached it dominated push latency).
+_CACHE: tuple[tuple[tuple[str, float], ...], dict[str, str]] | None = None
+
+
+def _sources_stamp() -> tuple[tuple[str, float], ...]:
+    paths = sorted(glob.glob(os.path.expanduser(_AB_GLOB), recursive=True))
+    stamp = []
+    for p in paths:
+        try:
+            stamp.append((p, os.stat(p).st_mtime))
+        except OSError:
+            continue
+    return tuple(stamp)
+
+
 async def load() -> dict[str, str]:
     """Build a `{match-key -> display name}` map from every macOS AddressBook source.
 
     Phones are keyed by their last 10 digits and emails by lowercased address, so
     a stored handle matches whatever formatting the source app used. First name
-    wins on collision (`setdefault`).
+    wins on collision (`setdefault`). Cached in-process per source mtime.
     """
+    global _CACHE
+    stamp = _sources_stamp()
+    if _CACHE is not None and _CACHE[0] == stamp:
+        return _CACHE[1]
     names: dict[str, str] = {}
-    for path in glob.glob(os.path.expanduser(_AB_GLOB), recursive=True):
+    for path, _mtime in stamp:
         for query, is_phone in _QUERIES:
             try:
                 rows = await sql.query(query, db=path, params={})
@@ -71,6 +94,7 @@ async def load() -> dict[str, str]:
                 key = phone_key(r.get("v")) if is_phone else (r.get("v") or "").strip().lower()
                 if key:
                     names.setdefault(key, name)
+    _CACHE = (stamp, names)
     return names
 
 
