@@ -224,6 +224,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "accounts",
       "subtitle": "identifier",
       "display": {
@@ -745,6 +746,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "activities",
       "subtitle": "action",
       "display": {
@@ -950,6 +952,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "actors",
       "subtitle": "actorType",
       "display": {
@@ -1348,6 +1351,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "aircraft",
       "subtitle": "model",
       "display": {
@@ -1625,6 +1629,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "airlines",
       "subtitle": "iataCode",
       "display": {
@@ -1881,6 +1886,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "airports",
       "subtitle": "iataCode",
       "display": {
@@ -2192,6 +2198,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "apps",
       "subtitle": "description",
       "display": {
@@ -2517,6 +2524,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "auth_challenges",
       "subtitle": "instructions",
       "display": {
@@ -3077,6 +3085,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "books",
       "subtitle": "written_by",
       "display": {
@@ -3729,6 +3738,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "booking_offers",
       "subtitle": "totalAmount",
       "display": {
@@ -4190,6 +4200,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "bookmarks",
       "subtitle": "name",
       "display": {
@@ -4406,6 +4417,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "branches",
       "subtitle": "commit",
       "display": {
@@ -4627,6 +4639,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "brands",
       "subtitle": "tagline",
       "display": {
@@ -4831,6 +4844,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "browsers",
       "subtitle": "appName",
       "display": {
@@ -5084,6 +5098,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "calendars",
       "subtitle": "source",
       "display": {
@@ -5325,6 +5340,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "channels",
       "subtitle": "subscriberCount",
       "display": {
@@ -5651,6 +5667,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "classes",
       "subtitle": "activityType",
       "display": {
@@ -5878,6 +5895,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "communities",
       "subtitle": "text",
       "display": {
@@ -6206,6 +6224,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "concerns",
       "subtitle": "category",
       "display": {
@@ -6469,6 +6488,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "conversations",
       "subtitle": "text",
       "display": {
@@ -6858,6 +6878,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "conversions",
       "subtitle": "kind",
       "display": {
@@ -7102,6 +7123,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "creative_works",
       "subtitle": "written_by",
       "display": {
@@ -7518,6 +7540,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "cursors",
       "subtitle": "purpose",
       "display": {
@@ -8093,6 +8116,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "devices",
       "subtitle": "ipAddress",
       "display": {
@@ -8466,6 +8490,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "dimensions",
       "subtitle": "label",
       "display": {
@@ -8770,6 +8795,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "dns_records",
       "subtitle": "recordType",
       "display": {
@@ -9116,6 +9142,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "documents",
       "subtitle": "contentType",
       "display": {
@@ -9370,6 +9397,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "domains",
       "subtitle": "registrar",
       "display": {
@@ -9633,25 +9661,7 @@
           "enum": null
         },
         {
-          "name": "isDraft",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
-        },
-        {
           "name": "isGroup",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
-        },
-        {
-          "name": "isInbox",
           "type": "boolean",
           "is_relation": false,
           "is_array": false,
@@ -9669,34 +9679,7 @@
           "enum": null
         },
         {
-          "name": "isSent",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
-        },
-        {
-          "name": "isSpam",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
-        },
-        {
           "name": "isStarred",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
-        },
-        {
-          "name": "isTrash",
           "type": "boolean",
           "is_relation": false,
           "is_array": false,
@@ -9836,6 +9819,10 @@
       ],
       "timed": null,
       "account_from": "accountEmail",
+      "membership": {
+        "service": "mailbox",
+        "key": "mailbox"
+      },
       "plural": "emails",
       "subtitle": "author",
       "display": {
@@ -9899,51 +9886,6 @@
         },
         {
           "name": "isStarred",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
-        },
-        {
-          "name": "isDraft",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
-        },
-        {
-          "name": "isSent",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
-        },
-        {
-          "name": "isTrash",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
-        },
-        {
-          "name": "isSpam",
-          "type": "boolean",
-          "is_relation": false,
-          "is_array": false,
-          "target": null,
-          "description": null,
-          "enum": null
-        },
-        {
-          "name": "isInbox",
           "type": "boolean",
           "is_relation": false,
           "is_array": false,
@@ -10156,11 +10098,11 @@
         {
           "source": "Gmail API Message resource",
           "url": "https://developers.google.com/gmail/api/reference/rest/v1/users.messages",
-          "notes": "Practical API mirror. Our sizeEstimate and isUnread/isStarred/isDraft/isSent/isTrash/isSpam correspond to Gmail's sizeEstimate and labelIds (UNREAD, STARRED, DRAFT, SENT, TRASH, SPAM)."
+          "notes": "Practical API mirror. Our sizeEstimate and isUnread/isStarred correspond to Gmail's sizeEstimate and the UNREAD/STARRED labels. The FOLDER labels (INBOX, TRASH, SPAM, SENT, DRAFT) are membership, not node flags — answered by the `mailbox` mirror-lists (`membership:` above), never stamped as as-of-last-sight booleans on the record."
         }
       ],
       "source_path": "email.yaml",
-      "raw_body": "plural: emails\nidentity:\n- at\n- id\naccount_from: accountEmail\ndisplay:\n  icon: mail\n  subtitle: author\nalso:\n- message\nfields:\n  subject: string\n  messageId: string\n  inReplyTo: string\n  isUnread: boolean\n  isStarred: boolean\n  isDraft: boolean\n  isSent: boolean\n  isTrash: boolean\n  isSpam: boolean\n  isInbox: boolean\n  hasAttachments: boolean\n  draftId: string\n  conversationId: string\n  accountEmail: string\n  sizeEstimate: integer\n  references: string\n  replyTo: string\n  deliveredTo: string\n  attachments: json\n  toRaw: string\n  ccRaw: string\n  bccRaw: string\n  unsubscribe: string\n  unsubscribeOneClick: boolean\n  manageSubscription: string\n  listId: string\n  isAutomated: boolean\n  precedence: string\n  mailer: string\n  returnPath: string\n  authResults: string\nprior_art:\n- source: RFC 5322 (Internet Message Format)\n  url: https://datatracker.ietf.org/doc/html/rfc5322\n  notes: Supersedes RFC 2822. Our messageId/inReplyTo/references/replyTo map directly\n    to Message-ID/In-Reply-To/References/Reply-To headers; toRaw/ccRaw/bccRaw are\n    the literal header values.\n- source: RFC 2369 + RFC 8058 (List headers, one-click unsubscribe)\n  url: https://datatracker.ietf.org/doc/html/rfc2369\n  notes: Our unsubscribe/unsubscribeOneClick/listId are List-Unsubscribe/List-Unsubscribe-Post/List-ID.\n    RFC 8058 defines the one-click POST semantics.\n- source: Gmail API Message resource\n  url: https://developers.google.com/gmail/api/reference/rest/v1/users.messages\n  notes: Practical API mirror. Our sizeEstimate and isUnread/isStarred/isDraft/isSent/isTrash/isSpam\n    correspond to Gmail's sizeEstimate and labelIds (UNREAD, STARRED, DRAFT, SENT,\n    TRASH, SPAM).\n",
+      "raw_body": "plural: emails\nidentity:\n- at\n- id\naccount_from: accountEmail\nmembership:\n  service: mailbox\n  key: mailbox\ndisplay:\n  icon: mail\n  subtitle: author\nalso:\n- message\nfields:\n  subject: string\n  messageId: string\n  inReplyTo: string\n  isUnread: boolean\n  isStarred: boolean\n  hasAttachments: boolean\n  draftId: string\n  conversationId: string\n  accountEmail: string\n  sizeEstimate: integer\n  references: string\n  replyTo: string\n  deliveredTo: string\n  attachments: json\n  toRaw: string\n  ccRaw: string\n  bccRaw: string\n  unsubscribe: string\n  unsubscribeOneClick: boolean\n  manageSubscription: string\n  listId: string\n  isAutomated: boolean\n  precedence: string\n  mailer: string\n  returnPath: string\n  authResults: string\nprior_art:\n- source: RFC 5322 (Internet Message Format)\n  url: https://datatracker.ietf.org/doc/html/rfc5322\n  notes: Supersedes RFC 2822. Our messageId/inReplyTo/references/replyTo map directly\n    to Message-ID/In-Reply-To/References/Reply-To headers; toRaw/ccRaw/bccRaw are\n    the literal header values.\n- source: RFC 2369 + RFC 8058 (List headers, one-click unsubscribe)\n  url: https://datatracker.ietf.org/doc/html/rfc2369\n  notes: Our unsubscribe/unsubscribeOneClick/listId are List-Unsubscribe/List-Unsubscribe-Post/List-ID.\n    RFC 8058 defines the one-click POST semantics.\n- source: Gmail API Message resource\n  url: https://developers.google.com/gmail/api/reference/rest/v1/users.messages\n  notes: \"Practical API mirror. Our sizeEstimate and isUnread/isStarred correspond\\\n    \\ to Gmail's sizeEstimate and the UNREAD/STARRED labels. The FOLDER labels (INBOX,\\\n    \\ TRASH, SPAM, SENT, DRAFT) are membership, not node flags \\u2014 answered by\\\n    \\ the `mailbox` mirror-lists (`membership:` above), never stamped as as-of-last-sight\\\n    \\ booleans on the record.\"\n",
       "ancestors": [
         "message"
       ],
@@ -10170,11 +10112,6 @@
         "inReplyTo",
         "isUnread",
         "isStarred",
-        "isDraft",
-        "isSent",
-        "isTrash",
-        "isSpam",
-        "isInbox",
         "hasAttachments",
         "draftId",
         "conversationId",
@@ -10312,6 +10249,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "episodes",
       "subtitle": "author",
       "display": {
@@ -10607,6 +10545,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "events",
       "subtitle": "startDate",
       "display": {
@@ -11029,6 +10968,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "fares",
       "subtitle": "fareFamily",
       "display": {
@@ -11408,6 +11348,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "files",
       "subtitle": "path",
       "display": {
@@ -11748,6 +11689,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "financial_accounts",
       "subtitle": "last4",
       "display": {
@@ -12279,6 +12221,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "flights",
       "subtitle": "airline",
       "display": {
@@ -12654,6 +12597,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "fonts",
       "subtitle": "author",
       "display": {
@@ -13117,6 +13061,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "git_commits",
       "subtitle": "author",
       "display": {
@@ -13351,6 +13296,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "groups",
       "subtitle": "category",
       "display": {
@@ -13759,6 +13705,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "hardware",
       "subtitle": "modelNumber",
       "display": {
@@ -14007,6 +13954,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "health-biomarkers",
       "subtitle": "category",
       "display": {
@@ -14394,6 +14342,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "health-conditions",
       "subtitle": "clinicalStatus",
       "display": {
@@ -14860,6 +14809,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "health-immunizations",
       "subtitle": "dateAdministered",
       "display": {
@@ -15176,6 +15126,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "health-labs",
       "subtitle": "labType",
       "display": {
@@ -15611,6 +15562,7 @@
       ],
       "timed": "self",
       "account_from": null,
+      "membership": null,
       "plural": "health-panels",
       "subtitle": "collectedAt",
       "display": {
@@ -16052,6 +16004,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "health-procedures",
       "subtitle": "performedDate",
       "display": {
@@ -16559,6 +16512,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "health-reference-ranges",
       "subtitle": "refText",
       "display": {
@@ -16970,6 +16924,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "icons",
       "subtitle": "purpose",
       "display": {
@@ -17392,6 +17347,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "images",
       "subtitle": "format",
       "display": {
@@ -17728,6 +17684,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "insurance_coverages",
       "subtitle": "limit",
       "display": {
@@ -18218,6 +18175,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "insurance_policies",
       "subtitle": "coverageType",
       "display": {
@@ -18527,6 +18485,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "intellectual_properties",
       "subtitle": "category",
       "display": {
@@ -18978,6 +18937,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "invitations",
       "subtitle": "invitationType",
       "display": {
@@ -19295,6 +19255,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "issues",
       "subtitle": "status",
       "display": {
@@ -19715,6 +19676,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "launches",
       "subtitle": "rocketId",
       "display": {
@@ -20210,6 +20172,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "legs",
       "subtitle": "flightNumber",
       "display": {
@@ -20662,6 +20625,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "lists",
       "subtitle": "name",
       "display": {
@@ -21187,6 +21151,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "loaded_models",
       "subtitle": "size",
       "display": {
@@ -21455,6 +21420,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "mcp_sessions",
       "subtitle": "client",
       "display": {
@@ -21777,6 +21743,7 @@
       "also": [],
       "timed": "self",
       "account_from": null,
+      "membership": null,
       "plural": "measures",
       "subtitle": "at",
       "display": {
@@ -22221,6 +22188,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "meetings",
       "subtitle": "location",
       "display": {
@@ -22644,6 +22612,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "memberships",
       "subtitle": "status",
       "display": {
@@ -22932,6 +22901,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "messages",
       "subtitle": "from",
       "display": {
@@ -23243,6 +23213,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "models",
       "subtitle": "name",
       "display": {
@@ -23561,6 +23532,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "modules",
       "subtitle": "role",
       "display": {
@@ -23808,6 +23780,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "networks",
       "subtitle": "ssid",
       "display": {
@@ -24011,6 +23984,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "notes",
       "subtitle": "noteType",
       "display": {
@@ -24352,6 +24326,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "offers",
       "subtitle": "price",
       "display": {
@@ -24945,6 +24920,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "orders",
       "subtitle": "total",
       "display": {
@@ -25398,6 +25374,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "organizations",
       "subtitle": "industry",
       "display": {
@@ -25617,6 +25594,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "outcomes",
       "subtitle": "status",
       "display": {
@@ -26093,6 +26071,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "passes",
       "subtitle": "status",
       "display": {
@@ -26594,6 +26573,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "payment_methods",
       "subtitle": "displayName",
       "display": {
@@ -27154,6 +27134,7 @@
       ],
       "timed": "self",
       "account_from": null,
+      "membership": null,
       "plural": "people",
       "subtitle": "about",
       "display": {
@@ -27600,6 +27581,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "personas",
       "subtitle": "headline",
       "display": {
@@ -28081,6 +28063,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "places",
       "subtitle": "featureType",
       "display": {
@@ -28783,6 +28766,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "platforms",
       "subtitle": "category",
       "display": {
@@ -29174,6 +29158,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "playlists",
       "subtitle": "text",
       "display": {
@@ -29392,6 +29377,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "plugins",
       "subtitle": "description",
       "display": {
@@ -29633,6 +29619,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "podcasts",
       "subtitle": "host",
       "display": {
@@ -29821,6 +29808,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "posts",
       "subtitle": "author",
       "display": {
@@ -30040,6 +30028,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "practices",
       "subtitle": "parent",
       "display": {
@@ -30251,6 +30240,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "principles",
       "subtitle": "domain",
       "display": {
@@ -30641,6 +30631,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "products",
       "subtitle": "brand",
       "display": {
@@ -31040,6 +31031,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "projects",
       "subtitle": "state",
       "display": {
@@ -31230,6 +31222,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "protocols",
       "subtitle": "name",
       "display": {
@@ -31465,6 +31458,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "qualifications",
       "subtitle": "category",
       "display": {
@@ -31699,6 +31693,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "quantity-kinds",
       "subtitle": "label",
       "display": {
@@ -31864,6 +31859,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "quotes",
       "subtitle": "year",
       "display": {
@@ -32099,6 +32095,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "repositories",
       "subtitle": "language",
       "display": {
@@ -32613,6 +32610,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "reservations",
       "subtitle": "reservationType",
       "display": {
@@ -33028,6 +33026,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "results",
       "subtitle": "url",
       "display": {
@@ -33316,6 +33315,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "reviews",
       "subtitle": "author",
       "display": {
@@ -33652,6 +33652,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "roles",
       "subtitle": "name",
       "display": {
@@ -33954,6 +33955,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "seatmaps",
       "subtitle": null,
       "display": {
@@ -34219,6 +34221,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "services",
       "subtitle": "description",
       "display": {
@@ -34371,6 +34374,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "settings",
       "subtitle": "name",
       "display": {
@@ -34801,6 +34805,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "shapes",
       "subtitle": "description",
       "display": {
@@ -35310,6 +35315,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "shelves",
       "subtitle": "isExclusive",
       "display": {
@@ -35712,6 +35718,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "software",
       "subtitle": "applicationCategory",
       "display": {
@@ -36104,6 +36111,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "sounds",
       "subtitle": "purpose",
       "display": {
@@ -36371,6 +36379,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "sources",
       "subtitle": "sourceId",
       "display": {
@@ -36872,6 +36881,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "specs",
       "subtitle": "state",
       "display": {
@@ -37098,6 +37108,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "subscriptions",
       "subtitle": "target",
       "display": {
@@ -37334,6 +37345,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "symbols",
       "subtitle": "signature",
       "display": {
@@ -37574,6 +37586,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "tags",
       "subtitle": "tagType",
       "display": {
@@ -37955,6 +37968,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "tasks",
       "subtitle": "state",
       "display": {
@@ -38306,6 +38320,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "tax_lines",
       "subtitle": "description",
       "display": {
@@ -38616,6 +38631,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "themes",
       "subtitle": null,
       "display": {
@@ -38804,6 +38820,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "tool_calls",
       "subtitle": "name",
       "display": {
@@ -39214,6 +39231,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "transactions",
       "subtitle": "category",
       "display": {
@@ -39531,6 +39549,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "transcripts",
       "subtitle": "language",
       "display": {
@@ -39758,6 +39777,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "treatments",
       "subtitle": "abbreviation",
       "display": {
@@ -40265,6 +40285,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "trips",
       "subtitle": "tripType",
       "display": {
@@ -40784,6 +40805,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "units",
       "subtitle": "symbol",
       "display": {
@@ -41112,6 +41134,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "users",
       "subtitle": "name",
       "display": {
@@ -41298,6 +41321,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "user_identities",
       "subtitle": "volume_id",
       "display": {
@@ -41658,6 +41682,7 @@
       ],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "videos",
       "subtitle": "author",
       "display": {
@@ -41992,6 +42017,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "volumes",
       "subtitle": "kind",
       "display": {
@@ -42289,6 +42315,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "votes",
       "subtitle": "direction",
       "display": {
@@ -42489,6 +42516,7 @@
       "also": [],
       "timed": null,
       "account_from": null,
+      "membership": null,
       "plural": "websites",
       "subtitle": "url",
       "display": {

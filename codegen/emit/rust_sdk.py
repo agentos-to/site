@@ -223,6 +223,17 @@ def _emit_shape_const(s: Shape) -> list[str]:
     if s.account_from:
         lines.append(f'    account_from: Some("{s.account_from}".into()),')
 
+    # membership ({service, key}) — how this shape's folder membership is
+    # answered (a brokered service's mirror-lists); the data.list resolver reads
+    # it here (directives live in the compiled registry, not the graph node).
+    if s.membership:
+        _svc = s.membership.get("service", "")
+        _key = s.membership.get("key", "")
+        lines.append(
+            f'    membership: Some(agentos_graph::MembershipDef {{ '
+            f'service: "{_svc}".into(), key: "{_key}".into() }}),'
+        )
+
     # identity / identity_any
     if s.identity:
         ident_list = ", ".join(f'"{x}".into()' for x in s.identity)

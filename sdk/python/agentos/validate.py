@@ -2366,6 +2366,16 @@ _UI_RAW_INTERACTIVE_HINT = {
     "role=": "render OptionList/Option or ContextMenu — the primitive owns the role + keyboard model",
 }
 
+# Waist names an app may NOT import — the toolbar primitives left the public
+# surface when the toolbar became `<CommandBar>` fed by `useCommands`. A
+# button IS a capability-command; a raw Toolbar/ToolButton is a dead-button
+# primitive, so it's structurally absent from `agentos-ui` and importing it
+# is caught here with the fix (not just a bare "no exported member").
+_UI_AGENTOS_IMPORT_BLOCK_RE = re.compile(
+    r"""(?:import|export)\s*\{([^}]*)\}\s*from\s*['"]agentos-ui['"]""", re.S
+)
+_UI_BANNED_WAIST_NAMES = ("Toolbar", "ToolButton", "ToolbarSeparator")
+
 
 _PY_PROVIDES_RE = re.compile(r"""@provides\(\s*['"]([\w-]+)['"]""")
 _RS_PROVIDES_RE = re.compile(r'tool:\s*"([\w-]+)"')
@@ -2562,11 +2572,21 @@ def audit_commons_apps(aisle: Path, provided_services: set[str] | None = None) -
                             f"{src.relative_to(app_dir)}: import `{spec}` — app UIs import "
                             "`agentos-ui`, `react`, and their own files ONLY"
                         )
+                    for block in _UI_AGENTOS_IMPORT_BLOCK_RE.findall(text):
+                        for banned in _UI_BANNED_WAIST_NAMES:
+                            if re.search(rf"\b{banned}\b", block):
+                                app_issues.append(
+                                    f"{src.relative_to(app_dir)}: imports `{banned}` from "
+                                    "agentos-ui — the toolbar is `<CommandBar commands={…}>` fed "
+                                    "by `useCommands` (declare the verbs in `layout.commands[]`). "
+                                    "There is no raw Toolbar/ToolButton in the waist: a button IS "
+                                    "a capability-command, so a dead button is unspellable"
+                                )
                     for m in _UI_TSX_CHROME_RE.finditer(text):
                         app_issues.append(
                             f"{src.relative_to(app_dir)}: chrome class `{m.group(1)}` stamped "
-                            "by hand — render the SDK Toolbar/ToolButton instead; the OS owns "
-                            "its chrome vocabulary"
+                            "by hand — render `<CommandBar>` (or the SDK primitives) instead; "
+                            "the OS owns its chrome vocabulary"
                         )
                     uncommented = _UI_TS_COMMENT_RE.sub("", text)
                     for m in _UI_RAW_INTERACTIVE_RE.finditer(uncommented):
@@ -2590,14 +2610,14 @@ def audit_commons_apps(aisle: Path, provided_services: set[str] | None = None) -
                         app_issues.append(
                             f"{src.relative_to(app_dir)}: selector touches chrome class "
                             f"`{m.group(0)}` — apps never restyle OS chrome; the floor and "
-                            "packs paint the SDK Toolbar everywhere at once"
+                            "packs paint the CommandBar toolbar everywhere at once"
                         )
                     for rule_m in re.finditer(r"([^{}]+)\{([^{}]*)\}", bare):
                         sel, body = rule_m.group(1), rule_m.group(2)
                         if re.search(r"\.[\w-]*-toolbar\b", sel) and "background" in body:
                             app_issues.append(
                                 f"{src.relative_to(app_dir)}: `{sel.strip().splitlines()[-1].strip()}` "
-                                "paints its own toolbar — use the SDK Toolbar component; "
+                                "paints its own toolbar — render `<CommandBar>` instead; "
                                 "hand-rolled toolbar chrome is exactly what packs can't theme"
                             )
 

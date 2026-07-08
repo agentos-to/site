@@ -11,6 +11,19 @@ email:
   # reply routing walks. Shape-generic: any comms/social shape (message,
   # post, …) opts in with one line naming its own field.
   account_from: accountEmail
+  # Folder membership is NOT a node val — it is answered by the live
+  # `mailbox` service's mirror-lists (one per account × mailbox, membership
+  # pruned by every read, down to zero on an authoritative-empty result).
+  # `data.list({shape:"email", mailbox:"inbox", account:"…"})` resolves
+  # through that membership; the engine reads this directive off the
+  # ShapeDef (it NEVER hardcodes "email"→"mailbox" — Rust stays generic).
+  # This is why the old `isInbox`/`isTrash`/… flags are gone: they were
+  # as-of-last-sight duplicates of membership, and a live-read scope is the
+  # one honest record. Shape-generic: any provider-brokered shape opts in
+  # by naming its read `service` + the `key` that selects a folder.
+  membership:
+    service: mailbox
+    key: mailbox
   display:
     icon: mail
     subtitle: author
@@ -19,13 +32,8 @@ email:
     subject:           string    # email subject line
     messageId:        string    # RFC 2822 Message-ID header
     inReplyTo:       string    # RFC 2822 In-Reply-To header
-    isUnread:         boolean
-    isStarred:        boolean
-    isDraft:          boolean
-    isSent:           boolean   # true if sent by the user
-    isTrash:          boolean
-    isSpam:           boolean
-    isInbox:          boolean   # true if in the inbox (Gmail INBOX label); false = archived
+    isUnread:         boolean   # message state (not folder membership)
+    isStarred:        boolean   # message state (not folder membership)
     hasAttachments:   boolean
     draftId:          string    # Gmail draft-specific id alongside the message id
     conversationId:   string    # denormalized thread id (authoritative link is `inConversation` via `also: [message]`)
@@ -66,6 +74,8 @@ email:
     - source: Gmail API Message resource
       url: https://developers.google.com/gmail/api/reference/rest/v1/users.messages
       notes: >-
-        Practical API mirror. Our sizeEstimate and
-        isUnread/isStarred/isDraft/isSent/isTrash/isSpam correspond to Gmail's
-        sizeEstimate and labelIds (UNREAD, STARRED, DRAFT, SENT, TRASH, SPAM).
+        Practical API mirror. Our sizeEstimate and isUnread/isStarred
+        correspond to Gmail's sizeEstimate and the UNREAD/STARRED labels.
+        The FOLDER labels (INBOX, TRASH, SPAM, SENT, DRAFT) are membership,
+        not node flags — answered by the `mailbox` mirror-lists (`membership:`
+        above), never stamped as as-of-last-sight booleans on the record.
