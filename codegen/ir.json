@@ -9617,6 +9617,15 @@
           "enum": null
         },
         {
+          "name": "blocks",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "ccRaw",
           "type": "string",
           "is_relation": false,
@@ -10153,7 +10162,8 @@
         "returnPath",
         "authResults",
         "isOutgoing",
-        "isGroup"
+        "isGroup",
+        "blocks"
       ],
       "derived": {},
       "groups": [],
@@ -22881,6 +22891,15 @@
           "enum": null
         },
         {
+          "name": "blocks",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "conversationId",
           "type": "string",
           "is_relation": false,
@@ -22990,6 +23009,15 @@
           "target": null,
           "description": null,
           "enum": null
+        },
+        {
+          "name": "blocks",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
         }
       ],
       "own_relations": [],
@@ -23011,14 +23039,15 @@
         }
       ],
       "source_path": "message.yaml",
-      "raw_body": "plural: messages\nidentity:\n- at\n- id\ndisplay:\n  icon: chat\n  subtitle: from\n  preview:\n    content: full\nfields:\n  isOutgoing: boolean\n  isStarred: boolean\n  conversationId: string\n  accountEmail: string\n  isGroup: boolean\nprior_art:\n- source: ActivityStreams 2.0 Note/Activity\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note\n  notes: \"Closest open standard for generic messages. Our from \\u2248 actor; inConversation\\\n    \\ \\u2248 context/conversation; repliesTo \\u2248 inReplyTo.\"\n- source: Matrix m.room.message\n  url: https://spec.matrix.org/latest/client-server-api/#mroommessage\n  notes: \"Practical cross-platform message event schema. Our isOutgoing has no Matrix\\\n    \\ analog (sender identity instead); repliesTo \\u2248 m.relates_to rel_type m.thread/m.in_reply_to.\"\n- source: XMPP (RFC 6121) message stanza\n  url: https://datatracker.ietf.org/doc/html/rfc6121\n  notes: IETF instant-messaging baseline. from/to/thread correspond to our from/inConversation;\n    no standardized isStarred.\n",
+      "raw_body": "plural: messages\nidentity:\n- at\n- id\ndisplay:\n  icon: chat\n  subtitle: from\n  preview:\n    content: full\nfields:\n  isOutgoing: boolean\n  isStarred: boolean\n  conversationId: string\n  accountEmail: string\n  isGroup: boolean\n  blocks: json\nprior_art:\n- source: ActivityStreams 2.0 Note/Activity\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note\n  notes: \"Closest open standard for generic messages. Our from \\u2248 actor; inConversation\\\n    \\ \\u2248 context/conversation; repliesTo \\u2248 inReplyTo.\"\n- source: Matrix m.room.message\n  url: https://spec.matrix.org/latest/client-server-api/#mroommessage\n  notes: \"Practical cross-platform message event schema. Our isOutgoing has no Matrix\\\n    \\ analog (sender identity instead); repliesTo \\u2248 m.relates_to rel_type m.thread/m.in_reply_to.\"\n- source: XMPP (RFC 6121) message stanza\n  url: https://datatracker.ietf.org/doc/html/rfc6121\n  notes: IETF instant-messaging baseline. from/to/thread correspond to our from/inConversation;\n    no standardized isStarred.\n",
       "ancestors": [],
       "field_order": [
         "isOutgoing",
         "isStarred",
         "conversationId",
         "accountEmail",
-        "isGroup"
+        "isGroup",
+        "blocks"
       ],
       "derived": {},
       "groups": [],

@@ -245,6 +245,19 @@ async def agent(*, prompt, system="", model="sonnet", tools=None,
         timeout=timeout,
     )
 
+    # A failed/capped run comes back as a first-class conversation with
+    # status "error"/"timeout" (so the run is still recorded on the graph),
+    # not as a raised dispatch error. Re-raise it here so a Python caller
+    # keeps its fail-loud contract — the run's transcript is on the graph.
+    status = result.get("status")
+    if status in ("error", "timeout"):
+        raise AgentError(
+            result.get("error") or f"agent run ended: {status}",
+            phase="timeout" if status == "timeout" else "run",
+            iteration=result.get("iterations") or 0,
+            cause=result.get("error"),
+        )
+
     content = result.get("content") or ""
     data = result.get("structured_output")
     if data is None and output_schema and content:
