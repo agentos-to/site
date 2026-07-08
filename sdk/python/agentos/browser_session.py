@@ -21,8 +21,85 @@ See the system doc `apps-browser-driven` (§ "The honest account check").
 from . import services
 from .results import app_error
 
+# Browser-driven connectors are HEADLESS-BY-DEFAULT: they run in the engine's
+# background profile, and their payload surfaces in an app (Mail, Messaging, a
+# feed) — the shared surface rule 19 asks for, so no browser window is needed
+# for a read. This is the connector-facing default; the engine's own verb
+# handlers still default to `attach` for interactive UI driving. A connector
+# passes `mode="attach"` ONLY for an action a human should watch live in their
+# own browser (an irreversible purchase / booking / submit).
+CONNECTOR_MODE = "background"
 
-async def read_cookies(target, *, mode="launch", urls=None):
+
+async def eval(target, js, *, mode=CONNECTOR_MODE, await_promise=True, timeout=None):
+    """Evaluate `js` in `target`'s tab and return its value — headless by
+    default (`CONNECTOR_MODE`). This is the one call a browser-driven connector
+    makes for programmatic in-origin work (same-origin `fetch()`, the platform's
+    own JS modules); it pins the background profile so the mode never has to be
+    threaded per call (the WhatsApp `_MODE` boilerplate, now in the SDK).
+    """
+    params = {"target": target, "js": js, "await_promise": await_promise, "mode": mode}
+    if timeout is not None:
+        params["timeout"] = timeout
+    return await services.call("browser_session", verb="eval", params=params)
+
+
+async def navigate(target, url, *, mode=CONNECTOR_MODE, timeout=None):
+    """Move `target`'s tab to `url` — background profile by default."""
+    params = {"target": target, "url": url, "mode": mode}
+    if timeout is not None:
+        params["timeout"] = timeout
+    return await services.call("browser_session", verb="navigate", params=params)
+
+
+async def login_window(login_url, *, label=None, instructions=None, retrieval=None):
+    """Begin an interactive login the connector can't drive headless: open a
+    headed sign-in window ON the engine's background profile (a chromeless
+    `--app` flip of that profile — reads like a native dialog), and return the
+    `login_window`-kind `auth_challenge` telling the agent what to do next.
+
+    The one headed moment of a headless connector. Because the window is a flip
+    of the SAME profile every headless op reads, the session the human creates
+    persists straight through to the daemon. The `login_window` service does the
+    flip; the agent waits for the human, polls `check_session` until
+    authenticated, then calls the service again with `close=True` to return the
+    profile to its headless daemon.
+
+    Return it from a connector's `login` (declare `@returns("account |
+    auth_challenge")`). One protocol, three kinds: `qr` (an artifact),
+    `code`/`magic_link` (read from the inbox by judgment), `login_window` (this).
+
+    `retrieval` carries a where-to-look hint when the sign-in has a 2FA/email
+    sub-step the agent can finish autonomously (e.g. Instagram's login code) —
+    the same hint shape the `code`/`magic_link` kinds use.
+    """
+    name = label or "Sign in"
+    await services.call(
+        "browser_session",
+        verb="login_window",
+        params={"url": login_url, "label": name},
+    )
+    challenge = {
+        "shape": "auth_challenge",
+        "kind": "login_window",
+        "name": name,
+        "url": login_url,
+        "instructions": instructions
+        or (
+            "A sign-in window opened on the engine's background profile. Ask the "
+            "human to sign in there, then poll check_session until it reports "
+            "authenticated — the session lands in the same profile every "
+            "headless op reads from. When done, call the login_window service "
+            "with close=true to return the profile to its headless daemon."
+        ),
+        "continueWith": "check_session",
+    }
+    if retrieval:
+        challenge["retrieval"] = retrieval
+    return challenge
+
+
+async def read_cookies(target, *, mode=CONNECTOR_MODE, urls=None):
     """All cookies the browser would send to `target`, INCLUDING httpOnly.
 
     Returns ``{name: {name, value, httpOnly, secure, domain, path, expires,
@@ -43,7 +120,7 @@ async def read_cookies(target, *, mode="launch", urls=None):
     return jar
 
 
-async def session_cookie_present(target, name, *, mode="launch"):
+async def session_cookie_present(target, name, *, mode=CONNECTOR_MODE):
     """True iff the httpOnly session cookie `name` exists for `target`.
 
     THE honest gate for a browser-driven `check_session`: present → the
