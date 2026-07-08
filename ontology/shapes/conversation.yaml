@@ -18,6 +18,23 @@ conversation:
     source:            string    # transcript provenance (e.g., granola's "manual" vs "recording")
     cwd:               string    # working directory (for dev-tool transcripts)
     gitBranch:        string    # git branch at the time of the conversation
+    # Agent-run telemetry — the engine's own agent-loop stamps these; a person's
+    # chat transcript leaves them empty. Spend rides here so Activity groups cost
+    # by model/account/day off the graph.
+    model:            string    # the model the provider RESOLVED to — the pricing key
+    inputTokens:      integer
+    outputTokens:     integer
+    reasoningTokens:  integer   # thinking tokens — a subset of output, broken out for the record
+    costUsd:          number    # USD, provider-reported or graph-computed (see costSource)
+    costSource:                  # closed set; the engine rejects any other value
+      type: string
+      enum: [reported, computed, unpriced]
+      description: where costUsd came from — provider-reported, graph-computed from list price, or unknown
+    iterations:       integer   # agent-loop turns taken
+    status:                      # terminal state of an agent run
+      type: string
+      enum: [done, error, timeout]
+      description: how an agent run ended — completed, errored, or hit its iteration cap
   prior_art:
     - source: ActivityStreams 2.0 context/inReplyTo
       url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-context

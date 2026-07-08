@@ -6432,6 +6432,28 @@
           "enum": null
         },
         {
+          "name": "costSource",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": "where costUsd came from — provider-reported, graph-computed from list price, or unknown",
+          "enum": [
+            "reported",
+            "computed",
+            "unpriced"
+          ]
+        },
+        {
+          "name": "costUsd",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "cwd",
           "type": "string",
           "is_relation": false,
@@ -6459,6 +6481,15 @@
           "enum": null
         },
         {
+          "name": "inputTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "isArchived",
           "type": "boolean",
           "is_relation": false,
@@ -6477,7 +6508,43 @@
           "enum": null
         },
         {
+          "name": "iterations",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "messageCount",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "outputTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "reasoningTokens",
           "type": "integer",
           "is_relation": false,
           "is_array": false,
@@ -6493,6 +6560,19 @@
           "target": null,
           "description": null,
           "enum": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": "how an agent run ended — completed, errored, or hit its iteration cap",
+          "enum": [
+            "done",
+            "error",
+            "timeout"
+          ]
         },
         {
           "name": "unreadCount",
@@ -6613,6 +6693,86 @@
           "target": null,
           "description": null,
           "enum": null
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "inputTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "outputTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "reasoningTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "costUsd",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "costSource",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": "where costUsd came from — provider-reported, graph-computed from list price, or unknown",
+          "enum": [
+            "reported",
+            "computed",
+            "unpriced"
+          ]
+        },
+        {
+          "name": "iterations",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": "how an agent run ended — completed, errored, or hit its iteration cap",
+          "enum": [
+            "done",
+            "error",
+            "timeout"
+          ]
         }
       ],
       "own_relations": [],
@@ -6634,7 +6794,7 @@
         }
       ],
       "source_path": "conversation.yaml",
-      "raw_body": "plural: conversations\nidentity:\n- at\n- id\ndisplay:\n  icon: forum\n  subtitle: text\n  preview:\n    content: full\nfields:\n  isGroup: boolean\n  isArchived: boolean\n  unreadCount: integer\n  messageCount: integer\n  accountEmail: string\n  historyId: string\n  source: string\n  cwd: string\n  gitBranch: string\nprior_art:\n- source: ActivityStreams 2.0 context/inReplyTo\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-context\n  notes: \"Conversations are AS2 contexts \\u2014 the thread that groups replies. Our\\\n    \\ participant[] \\u2248 to/cc/audience.\"\n- source: Matrix Room (m.room)\n  url: https://spec.matrix.org/latest/client-server-api/#room-events\n  notes: \"Practical thread model. Our isGroup \\u2248 room.join_rules; unreadCount\\\n    \\ \\u2248 unread_notifications.highlight_count.\"\n- source: \"Gmail API \\u2014 Thread resource\"\n  url: https://developers.google.com/gmail/api/reference/rest/v1/users.threads\n  notes: \"Our messageCount \\u2248 messages.length; unreadCount derived from UNREAD\\\n    \\ labels on Thread messages.\"\n",
+      "raw_body": "plural: conversations\nidentity:\n- at\n- id\ndisplay:\n  icon: forum\n  subtitle: text\n  preview:\n    content: full\nfields:\n  isGroup: boolean\n  isArchived: boolean\n  unreadCount: integer\n  messageCount: integer\n  accountEmail: string\n  historyId: string\n  source: string\n  cwd: string\n  gitBranch: string\n  model: string\n  inputTokens: integer\n  outputTokens: integer\n  reasoningTokens: integer\n  costUsd: number\n  costSource:\n    type: string\n    enum:\n    - reported\n    - computed\n    - unpriced\n    description: \"where costUsd came from \\u2014 provider-reported, graph-computed\\\n      \\ from list price, or unknown\"\n  iterations: integer\n  status:\n    type: string\n    enum:\n    - done\n    - error\n    - timeout\n    description: \"how an agent run ended \\u2014 completed, errored, or hit its iteration\\\n      \\ cap\"\nprior_art:\n- source: ActivityStreams 2.0 context/inReplyTo\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-context\n  notes: \"Conversations are AS2 contexts \\u2014 the thread that groups replies. Our\\\n    \\ participant[] \\u2248 to/cc/audience.\"\n- source: Matrix Room (m.room)\n  url: https://spec.matrix.org/latest/client-server-api/#room-events\n  notes: \"Practical thread model. Our isGroup \\u2248 room.join_rules; unreadCount\\\n    \\ \\u2248 unread_notifications.highlight_count.\"\n- source: \"Gmail API \\u2014 Thread resource\"\n  url: https://developers.google.com/gmail/api/reference/rest/v1/users.threads\n  notes: \"Our messageCount \\u2248 messages.length; unreadCount derived from UNREAD\\\n    \\ labels on Thread messages.\"\n",
       "ancestors": [],
       "field_order": [
         "isGroup",
@@ -6645,7 +6805,15 @@
         "historyId",
         "source",
         "cwd",
-        "gitBranch"
+        "gitBranch",
+        "model",
+        "inputTokens",
+        "outputTokens",
+        "reasoningTokens",
+        "costUsd",
+        "costSource",
+        "iterations",
+        "status"
       ],
       "derived": {},
       "groups": [],
@@ -23214,7 +23382,7 @@
         },
         {
           "name": "pricingInput",
-          "type": "string",
+          "type": "number",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -23223,7 +23391,7 @@
         },
         {
           "name": "pricingOutput",
-          "type": "string",
+          "type": "number",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -23314,7 +23482,7 @@
         },
         {
           "name": "pricingInput",
-          "type": "string",
+          "type": "number",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -23323,7 +23491,7 @@
         },
         {
           "name": "pricingOutput",
-          "type": "string",
+          "type": "number",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -23431,7 +23599,7 @@
         }
       ],
       "source_path": "model.yaml",
-      "raw_body": "plural: models\nidentity:\n- at\n- name\ndisplay:\n  icon: psychology\n  subtitle: name\nfields:\n  contextLength: integer\n  contextWindow: integer\n  maxOutput: integer\n  pricingInput: string\n  pricingOutput: string\n  modality: string[]\n  modelType: string\n  quantization: string\n  quantizationLevel: string\n  size: string\n  parameterSize: string\n  format: string\n  family: string\n  digest: string\nprior_art:\n- source: Hugging Face Model Cards\n  url: https://huggingface.co/docs/hub/en/model-cards\n  notes: Our provider/contextLength/modality/family/quantization/ parameterSize align\n    with HF model-card metadata conventions.\n- source: Ollama /api/show + Modelfile\n  url: https://github.com/ollama/ollama/blob/main/docs/modelfile.md\n  notes: Our quantization/quantizationLevel/format/digest/parameterSize come directly\n    from Ollama's show-model response.\n- source: OpenRouter Models API\n  url: https://openrouter.ai/docs/models\n  notes: Our contextLength/contextWindow/maxOutput/pricingInput/ pricingOutput mirror\n    OpenRouter's model spec.\n",
+      "raw_body": "plural: models\nidentity:\n- at\n- name\ndisplay:\n  icon: psychology\n  subtitle: name\nfields:\n  contextLength: integer\n  contextWindow: integer\n  maxOutput: integer\n  pricingInput: number\n  pricingOutput: number\n  modality: string[]\n  modelType: string\n  quantization: string\n  quantizationLevel: string\n  size: string\n  parameterSize: string\n  format: string\n  family: string\n  digest: string\nprior_art:\n- source: Hugging Face Model Cards\n  url: https://huggingface.co/docs/hub/en/model-cards\n  notes: Our provider/contextLength/modality/family/quantization/ parameterSize align\n    with HF model-card metadata conventions.\n- source: Ollama /api/show + Modelfile\n  url: https://github.com/ollama/ollama/blob/main/docs/modelfile.md\n  notes: Our quantization/quantizationLevel/format/digest/parameterSize come directly\n    from Ollama's show-model response.\n- source: OpenRouter Models API\n  url: https://openrouter.ai/docs/models\n  notes: Our contextLength/contextWindow/maxOutput/pricingInput/ pricingOutput mirror\n    OpenRouter's model spec.\n",
       "ancestors": [],
       "field_order": [
         "contextLength",

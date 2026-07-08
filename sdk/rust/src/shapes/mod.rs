@@ -2282,7 +2282,7 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("class", &["activityType", "capacity", "spotsRemaining", "isFull", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("community", &["privacy", "memberCount", "subscriberCount", "allowCrypto"]),
     ("concern", &["category", "status", "intensity", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
-    ("conversation", &["isGroup", "isArchived", "unreadCount", "messageCount", "accountEmail", "historyId", "source", "cwd", "gitBranch"]),
+    ("conversation", &["isGroup", "isArchived", "unreadCount", "messageCount", "accountEmail", "historyId", "source", "cwd", "gitBranch", "model", "inputTokens", "outputTokens", "reasoningTokens", "costUsd", "costSource", "iterations", "status"]),
     ("conversion", &["kind", "factor", "rate", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("creative_work", &["name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags"]),
     ("cursor", &["hotspotX", "hotspotY", "dimension", "format", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "encoding", "lineCount", "kind", "sha"]),

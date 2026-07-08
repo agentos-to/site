@@ -14,8 +14,12 @@ model:
     contextLength:    integer
     contextWindow:    integer   # alias for context_length (OpenRouter uses this name)
     maxOutput:        integer
-    pricingInput:     string    # e.g., "$3/1M tokens"
-    pricingOutput:    string
+    # Price is machine-readable so the engine can compute the cost of a call the
+    # provider itself didn't price — the graph IS the deleted Rust price table's
+    # replacement, never a constant. USD per 1,000,000 tokens; each provider's
+    # list_models converts its native unit. A free/local model is 0, not absent.
+    pricingInput:     number    # USD per 1M input tokens
+    pricingOutput:    number    # USD per 1M output tokens
     modality:          string[]  # e.g., ["text", "vision"]
     modelType:        string    # e.g., "chat", "completion", "embedding"
     quantization:      string    # e.g., "Q4_K_M"
