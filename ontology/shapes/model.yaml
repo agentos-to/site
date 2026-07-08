@@ -7,6 +7,16 @@
 model:
   plural: models
   identity: [at, name]
+  # Price is a property of the (provider, model) OFFER, not of the model itself:
+  # the same model is served at different prices by different accounts, and `at`
+  # here is the MAKER (Anthropic/OpenAI), never the seller. So the price rides
+  # the `model —arrived_via→ account` edge (stamped at remember time) as typed
+  # link_vals, keyed by (account, model) — the plugin returns pricingInput/
+  # pricingOutput in the model dict as usual, and `arrival_vals` tells the engine
+  # to hoist those declared fields onto that edge instead of storing them on the
+  # node. The graph IS the deleted Rust price table's replacement; the computed-
+  # cost path reads these off the serving account's edge, never a constant.
+  arrival_vals: [pricingInput, pricingOutput]
   display:
     icon: psychology
     subtitle: name
@@ -14,10 +24,9 @@ model:
     contextLength:    integer
     contextWindow:    integer   # alias for context_length (OpenRouter uses this name)
     maxOutput:        integer
-    # Price is machine-readable so the engine can compute the cost of a call the
-    # provider itself didn't price — the graph IS the deleted Rust price table's
-    # replacement, never a constant. USD per 1,000,000 tokens; each provider's
-    # list_models converts its native unit. A free/local model is 0, not absent.
+    # USD per 1,000,000 tokens; each provider's list_models converts its native
+    # unit. A free/local model is 0, not absent. Declared here for typing +
+    # return-validation, but STORED on the arrived_via edge (see arrival_vals).
     pricingInput:     number    # USD per 1M input tokens
     pricingOutput:    number    # USD per 1M output tokens
     modality:          string[]  # e.g., ["text", "vision"]

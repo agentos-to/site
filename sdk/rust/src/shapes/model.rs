@@ -58,6 +58,7 @@ pub static MODEL: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("quantizationLevel", FieldType::String),
         FieldDef::optional("size", FieldType::String),
     ],
+    arrival_vals: vec!["pricingInput".into(), "pricingOutput".into()],
     identity: vec!["at".into(), "name".into()],
     display: Some(DisplaySpec {
         subtitle: Some("name".into()),

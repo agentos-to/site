@@ -223,6 +223,12 @@ def _emit_shape_const(s: Shape) -> list[str]:
     if s.account_from:
         lines.append(f'    account_from: Some("{s.account_from}".into()),')
 
+    # arrival_vals (declared fields whose value rides the arrived_via edge as
+    # link_vals — extraction hoists them off the node onto that edge)
+    if s.arrival_vals:
+        av = ", ".join(f'"{f}".into()' for f in s.arrival_vals)
+        lines.append(f"    arrival_vals: vec![{av}],")
+
     # membership ({service, key}) — how this shape's folder membership is
     # answered (a brokered service's mirror-lists); the data.list resolver reads
     # it here (directives live in the compiled registry, not the graph node).
