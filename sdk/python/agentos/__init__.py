@@ -39,6 +39,12 @@ from agentos import qr
 # --- Engine-dispatched modules (auth bridge) ---
 from agentos import credentials
 
+# --- Browser-driven session helpers — honest check + typed NeedsAuth ---
+# The honest "will writes work?" signal for a connector running inside the
+# engine-owned browser tab: the real httpOnly session cookie, read via the
+# browser plane. Every browser-driven check_session gates on this.
+from agentos import browser_session
+
 # --- The service broker — the primitive under every @provides("name") ---
 # Services are named by their bare string, never a constant — a service
 # is self-registered from `@provides`, the same way an edge verb is from
@@ -68,7 +74,7 @@ __all__ = [
     "Client", "AsyncClient", "EngineError",
     # Engine-dispatched modules
     "sql", "blobs", "crypto", "oauth", "shell", "checkpoint", "credentials",
-    "services",
+    "services", "browser_session",
     # Model brokering — chat (one completion) + agent (a tool-loop)
     "chat", "agent", "AgentError",
     # Identity helpers
