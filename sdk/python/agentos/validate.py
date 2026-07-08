@@ -995,6 +995,31 @@ def _account_role(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str | None:
     return None
 
 
+def _op_connection(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str | None:
+    """The default connection a tool binds to — the first arg of its
+    `@connection(...)` decorator (a bare string, or the first of a list).
+    Returns None when the tool declares no connection."""
+    for dec in node.decorator_list:
+        func = dec.func if isinstance(dec, ast.Call) else dec
+        name = (
+            func.id if isinstance(func, ast.Name)
+            else func.attr if isinstance(func, ast.Attribute)
+            else None
+        )
+        if name == "connection" and isinstance(dec, ast.Call) and dec.args:
+            arg = dec.args[0]
+            if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
+                return arg.value
+            if (
+                isinstance(arg, ast.List)
+                and arg.elts
+                and isinstance(arg.elts[0], ast.Constant)
+                and isinstance(arg.elts[0].value, str)
+            ):
+                return arg.elts[0].value
+    return None
+
+
 def _is_tool_function(node: ast.AST) -> bool:
     """True if a top-level function is a tool (decorated + not underscore-prefixed)."""
     if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
@@ -1926,32 +1951,52 @@ def check_account_trio(app_dir: Path) -> list[str]:
       the app. Every app that can log in must be able to log out —
       server-side revocation is what makes "logout" more than a cosmetic
       local-cache delete.
-    - At most one op per role — the app's tool namespace is flat and the
-      engine resolves exactly one op per role.
+    - `login`/`logout`/`profile`: at most one op each — the app's tool
+      namespace is flat and the engine resolves exactly one.
+    - `check`: one op **per connection** — a multi-connection app (Claude:
+      `code` subscription, `web` login, `api` key) carries a distinct identity
+      per connection, and the engine resolves the check bound to the connection
+      that served. Two checks on the *same* connection would shadow each other.
 
     Errors, not warnings: the decorators are new, so there is no installed
     base to migrate — the wrong thing is impossible from day one.
     """
     issues: list[str] = []
-    sites: dict[str, list[tuple[str, int, str]]] = {}
+    sites: dict[str, list[tuple[str, int, str, str | None]]] = {}
     for rel, _py, _src, tree in _iter_app_py_files(app_dir):
         for node in tree.body:
             if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 continue
             role = _account_role(node)
             if role is not None:
-                sites.setdefault(role, []).append((rel, node.lineno, node.name))
+                sites.setdefault(role, []).append(
+                    (rel, node.lineno, node.name, _op_connection(node))
+                )
 
     for role, where in sorted(sites.items()):
+        if role == "check":
+            # One check per connection — flag only duplicates on the SAME one.
+            by_conn: dict[str | None, list[tuple[str, int, str]]] = {}
+            for rel, lineno, name, conn in where:
+                by_conn.setdefault(conn, []).append((rel, lineno, name))
+            for conn, group in by_conn.items():
+                if len(group) > 1:
+                    locs = ", ".join(f"{rel}:{lineno} {name}" for rel, lineno, name in group)
+                    issues.append(
+                        f"@account.check declared on {len(group)} ops for the same "
+                        f"connection {conn!r} ({locs}) — one check per connection; "
+                        f"the engine resolves the check bound to the serving connection."
+                    )
+            continue
         if len(where) > 1:
-            locs = ", ".join(f"{rel}:{lineno} {name}" for rel, lineno, name in where)
+            locs = ", ".join(f"{rel}:{lineno} {name}" for rel, lineno, name, _ in where)
             issues.append(
                 f"@account.{role} declared on {len(where)} ops ({locs}) — "
                 f"one op per role; the engine resolves exactly one."
             )
 
     if "login" in sites and "logout" not in sites:
-        rel, lineno, name = sites["login"][0]
+        rel, lineno, name, _ = sites["login"][0]
         issues.append(
             f"{rel}:{lineno}: `{name}` is @account.login but no op is "
             f"@account.logout. Every app that can log in must be able to "
