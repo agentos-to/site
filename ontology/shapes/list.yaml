@@ -63,6 +63,16 @@ list:
     sort_by:          string    # view-time sort field (unordered lists)
     # filesystem-mirrored lists (listType: 'folder') only
     path:              string    # POSIX path when this list mirrors a real directory
+    # live-surface mirror lists (listType: 'mirror') only — engine-stamped
+    # by trail::record_mirror; membership is reconciled by every live read
+    # (pruned to zero on an authoritative-empty result), so these lists ARE
+    # the honest offline record an app UI serves when a provider is down.
+    service:           string    # brokered service the surface belongs to ('mailbox', 'chats')
+    provider:          string    # winning app id at mirror time
+    tool:              string    # the provider tool the read dispatched
+    account:           string    # account the read was pinned to ('default' = accountless)
+    mirrorKey:         string    # stable surface identity — {provider}.{tool}|acct=…|params
+    surface:           json      # the read's identity params ({mailbox: 'inbox'}, {conversation_id})
   prior_art:
     - source: schema.org/ItemList
       url: https://schema.org/ItemList

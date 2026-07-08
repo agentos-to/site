@@ -15363,6 +15363,15 @@
           "enum": null
         },
         {
+          "name": "account",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "arrangement",
           "type": "string",
           "is_relation": false,
@@ -15471,6 +15480,15 @@
           "enum": null
         },
         {
+          "name": "mirrorKey",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "orderedAt",
           "type": "datetime",
           "is_relation": false,
@@ -15516,6 +15534,15 @@
           "enum": null
         },
         {
+          "name": "provider",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "receivedAt",
           "type": "datetime",
           "is_relation": false,
@@ -15534,7 +15561,34 @@
           "enum": null
         },
         {
+          "name": "service",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "sort_by",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "surface",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "tool",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -15695,7 +15749,13 @@
         "default_view",
         "icon_size",
         "sort_by",
-        "path"
+        "path",
+        "service",
+        "provider",
+        "tool",
+        "account",
+        "mirrorKey",
+        "surface"
       ],
       "derived": {},
       "groups": [],
@@ -20428,6 +20488,15 @@
           "enum": null
         },
         {
+          "name": "account",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "arrangement",
           "type": "string",
           "is_relation": false,
@@ -20509,6 +20578,15 @@
           "enum": null
         },
         {
+          "name": "mirrorKey",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "ordering_mode",
           "type": "string",
           "is_relation": false,
@@ -20536,7 +20614,43 @@
           "enum": null
         },
         {
+          "name": "provider",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "service",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "sort_by",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "surface",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "tool",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -20696,6 +20810,60 @@
           "target": null,
           "description": null,
           "enum": null
+        },
+        {
+          "name": "service",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "provider",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "tool",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "account",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "mirrorKey",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "surface",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
         }
       ],
       "own_relations": [],
@@ -20727,7 +20895,7 @@
         }
       ],
       "source_path": "list.yaml",
-      "raw_body": "plural: lists\nidentity:\n- at\n- id\ndisplay:\n  icon: folder\n  subtitle: name\nfields:\n  id: string\n  listId: string\n  listType: string\n  ordering_mode: string\n  member_shape: string\n  privacy: string\n  isDefault: boolean\n  isPublic: boolean\n  itemCount: integer\n  arrangement: string\n  default_view: string\n  icon_size: integer\n  sort_by: string\n  path: string\nprior_art:\n- source: schema.org/ItemList\n  url: https://schema.org/ItemList\n  notes: \"listType \\u2248 itemListOrder; contains \\u2248 itemListElement; isPublic\\\n    \\ \\u2248 publicAccess.\"\n- source: ActivityStreams 2.0 Collection / OrderedCollection\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection\n  notes: \"contains[] \\u2248 items; ordering_mode='linear' \\u2248 OrderedCollection,\\\n    \\ ordering_mode='unordered' \\u2248 Collection.\"\n- source: WinFS Item / FolderMember\n  url: https://learn.microsoft.com/en-us/archive/msdn-magazine/2004/january/winfs-lets-users-search-and-manage-files-based-on-content\n  notes: 'WinFS unified Folder + Contact + Photo under a single Item base, with FolderMember\n    as a holding link. Our list-with-contains is the same pattern: one shape, one\n    link mechanism, view-time projections handle the \"I want it to look like an album\"\n    case.'\n- source: \"Vannevar Bush \\u2014 As We May Think (Memex trails)\"\n  url: https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/\n  notes: A Memex trail is a named, ordered list of associative jumps. A `list` with\n    ordering_mode='linear' and contains-bookmarks IS Bush's trail. Foundational precedent\n    for the everything-is-a-list thesis.\n- source: POSIX / Single Unix Specification (directories)\n  url: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html\n  notes: listType='folder' with optional `path` field mirrors a POSIX directory. The\n    engine treats it as a list; the filesystem mirror is a projection, not a separate\n    primitive.\n",
+      "raw_body": "plural: lists\nidentity:\n- at\n- id\ndisplay:\n  icon: folder\n  subtitle: name\nfields:\n  id: string\n  listId: string\n  listType: string\n  ordering_mode: string\n  member_shape: string\n  privacy: string\n  isDefault: boolean\n  isPublic: boolean\n  itemCount: integer\n  arrangement: string\n  default_view: string\n  icon_size: integer\n  sort_by: string\n  path: string\n  service: string\n  provider: string\n  tool: string\n  account: string\n  mirrorKey: string\n  surface: json\nprior_art:\n- source: schema.org/ItemList\n  url: https://schema.org/ItemList\n  notes: \"listType \\u2248 itemListOrder; contains \\u2248 itemListElement; isPublic\\\n    \\ \\u2248 publicAccess.\"\n- source: ActivityStreams 2.0 Collection / OrderedCollection\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection\n  notes: \"contains[] \\u2248 items; ordering_mode='linear' \\u2248 OrderedCollection,\\\n    \\ ordering_mode='unordered' \\u2248 Collection.\"\n- source: WinFS Item / FolderMember\n  url: https://learn.microsoft.com/en-us/archive/msdn-magazine/2004/january/winfs-lets-users-search-and-manage-files-based-on-content\n  notes: 'WinFS unified Folder + Contact + Photo under a single Item base, with FolderMember\n    as a holding link. Our list-with-contains is the same pattern: one shape, one\n    link mechanism, view-time projections handle the \"I want it to look like an album\"\n    case.'\n- source: \"Vannevar Bush \\u2014 As We May Think (Memex trails)\"\n  url: https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/\n  notes: A Memex trail is a named, ordered list of associative jumps. A `list` with\n    ordering_mode='linear' and contains-bookmarks IS Bush's trail. Foundational precedent\n    for the everything-is-a-list thesis.\n- source: POSIX / Single Unix Specification (directories)\n  url: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html\n  notes: listType='folder' with optional `path` field mirrors a POSIX directory. The\n    engine treats it as a list; the filesystem mirror is a projection, not a separate\n    primitive.\n",
       "ancestors": [],
       "field_order": [
         "id",
@@ -20743,7 +20911,13 @@
         "default_view",
         "icon_size",
         "sort_by",
-        "path"
+        "path",
+        "service",
+        "provider",
+        "tool",
+        "account",
+        "mirrorKey",
+        "surface"
       ],
       "derived": {},
       "groups": [],
@@ -28824,6 +28998,15 @@
           "enum": null
         },
         {
+          "name": "account",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "arrangement",
           "type": "string",
           "is_relation": false,
@@ -28905,6 +29088,15 @@
           "enum": null
         },
         {
+          "name": "mirrorKey",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "ordering_mode",
           "type": "string",
           "is_relation": false,
@@ -28932,7 +29124,43 @@
           "enum": null
         },
         {
+          "name": "provider",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "service",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "sort_by",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "surface",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "tool",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -28998,7 +29226,13 @@
         "default_view",
         "icon_size",
         "sort_by",
-        "path"
+        "path",
+        "service",
+        "provider",
+        "tool",
+        "account",
+        "mirrorKey",
+        "surface"
       ],
       "derived": {},
       "groups": [],
@@ -34891,6 +35125,15 @@
           "enum": null
         },
         {
+          "name": "account",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "arrangement",
           "type": "string",
           "is_relation": false,
@@ -34981,6 +35224,15 @@
           "enum": null
         },
         {
+          "name": "mirrorKey",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "ordering_mode",
           "type": "string",
           "is_relation": false,
@@ -35008,7 +35260,43 @@
           "enum": null
         },
         {
+          "name": "provider",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "service",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "sort_by",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "surface",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "tool",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -35085,7 +35373,13 @@
         "default_view",
         "icon_size",
         "sort_by",
-        "path"
+        "path",
+        "service",
+        "provider",
+        "tool",
+        "account",
+        "mirrorKey",
+        "surface"
       ],
       "derived": {},
       "groups": [],

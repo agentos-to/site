@@ -14,6 +14,7 @@ pub struct Playlist {
     pub author: Option<String>,
     pub date_published: Option<String>,
     pub content: Option<String>,
+    pub account: Option<String>,
     pub arrangement: Option<String>,
     #[serde(rename = "default_view")]
     pub default_view: Option<String>,
@@ -26,12 +27,17 @@ pub struct Playlist {
     pub list_type: Option<String>,
     #[serde(rename = "member_shape")]
     pub member_shape: Option<String>,
+    pub mirror_key: Option<String>,
     #[serde(rename = "ordering_mode")]
     pub ordering_mode: Option<String>,
     pub path: Option<String>,
     pub privacy: Option<String>,
+    pub provider: Option<String>,
+    pub service: Option<String>,
     #[serde(rename = "sort_by")]
     pub sort_by: Option<String>,
+    pub surface: Option<serde_json::Value>,
+    pub tool: Option<String>,
 }
 
 pub static PLAYLIST: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
@@ -47,6 +53,7 @@ pub static PLAYLIST: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("author", FieldType::String),
         FieldDef::optional("datePublished", FieldType::String),
         FieldDef::optional("content", FieldType::String),
+        FieldDef::optional("account", FieldType::String),
         FieldDef::optional("arrangement", FieldType::String),
         FieldDef::optional("default_view", FieldType::String),
         FieldDef::optional("icon_size", FieldType::Integer),
@@ -56,10 +63,15 @@ pub static PLAYLIST: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("listId", FieldType::String),
         FieldDef::optional("listType", FieldType::String),
         FieldDef::optional("member_shape", FieldType::String),
+        FieldDef::optional("mirrorKey", FieldType::String),
         FieldDef::optional("ordering_mode", FieldType::String),
         FieldDef::optional("path", FieldType::String),
         FieldDef::optional("privacy", FieldType::String),
+        FieldDef::optional("provider", FieldType::String),
+        FieldDef::optional("service", FieldType::String),
         FieldDef::optional("sort_by", FieldType::String),
+        FieldDef::optional("surface", FieldType::Json),
+        FieldDef::optional("tool", FieldType::String),
     ],
     also: vec!["list".into()],
     display: Some(DisplaySpec {
