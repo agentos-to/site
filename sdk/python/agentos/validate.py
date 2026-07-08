@@ -2367,17 +2367,144 @@ _UI_RAW_INTERACTIVE_HINT = {
 }
 
 
-def audit_commons_apps(aisle: Path) -> int:
+_PY_PROVIDES_RE = re.compile(r"""@provides\(\s*['"]([\w-]+)['"]""")
+_RS_PROVIDES_RE = re.compile(r'tool:\s*"([\w-]+)"')
+
+
+def collect_provided_services(plugin_roots: list[Path]) -> set[str]:
+    """Every service name some installed provider `@provides` — the same
+    registry the engine self-registers at boot, harvested statically:
+    Python plugins by decorator, Rust system apps (`crates/system-apps`)
+    by their `ProvidesEntry { tool: "…" }` literals. This is the universe
+    a manifest command's `action.service` must land in — a command naming
+    a service NOTHING provides is a dead button by construction."""
+    provided: set[str] = set()
+    for root in plugin_roots:
+        if not root.is_dir():
+            continue
+        for py in root.rglob("*.py"):
+            try:
+                provided.update(_PY_PROVIDES_RE.findall(py.read_text(encoding="utf-8")))
+            except OSError:
+                continue
+        # A workspace source sits beside core/ — harvest the engine's
+        # Rust-native providers too so a command on `browser_session`
+        # (a system app) doesn't false-fail.
+        system_apps = root.parent.parent / "core" / "crates" / "system-apps" / "src"
+        if system_apps.is_dir():
+            for rs in system_apps.glob("*.rs"):
+                try:
+                    provided.update(_RS_PROVIDES_RE.findall(rs.read_text(encoding="utf-8")))
+                except OSError:
+                    continue
+    return provided
+
+
+_COMMAND_TARGETS = {"selection", "view", "none"}
+
+
+def check_manifest_commands(
+    data: dict, ui_dir: Path, provided_services: set[str] | None
+) -> list[str]:
+    """The capability-command gate — a dead button must be unconstructable.
+
+    `layout.commands[]` is the ONLY chrome vocabulary (`layout.actions`
+    died with it): every entry must parse (id/label/action), ids must be
+    unique AND handled (the id appears in the app's ui/ dispatch — a
+    command nothing runs is chrome that lies), a brokered command's
+    `action.service` must resolve to a real `@provides` somewhere in the
+    sources (else the button could never route), and `ui:` commands are
+    local-only (no account strategy to validate).
+    """
+    issues: list[str] = []
+    layout = data.get("layout")
+    if not isinstance(layout, dict):
+        return issues
+    if "actions" in layout:
+        issues.append(
+            "layout.actions is dead vocabulary — declare layout.commands[] "
+            "(id/label/icon/group/target/action); useCommands resolves them"
+        )
+    commands = layout.get("commands")
+    if commands is None:
+        return issues
+    if not isinstance(commands, list):
+        return ["layout.commands must be a list of command entries"]
+
+    ui_text = ""
+    if ui_dir.is_dir():
+        ui_text = "\n".join(
+            src.read_text(encoding="utf-8")
+            for src in sorted(ui_dir.rglob("*"))
+            if src.suffix in (".ts", ".tsx")
+        )
+
+    seen_ids: set[str] = set()
+    for i, cmd in enumerate(commands):
+        where = f"layout.commands[{i}]"
+        if not isinstance(cmd, dict):
+            issues.append(f"{where}: not a mapping")
+            continue
+        cid = cmd.get("id")
+        if not isinstance(cid, str) or not cid:
+            issues.append(f"{where}: missing `id`")
+            continue
+        where = f"layout.commands[{cid}]"
+        if cid in seen_ids:
+            issues.append(f"{where}: duplicate id")
+        seen_ids.add(cid)
+        if not cmd.get("label"):
+            issues.append(f"{where}: missing `label`")
+        action = cmd.get("action")
+        if not isinstance(action, dict):
+            issues.append(f"{where}: missing `action` ({{service, account}} or {{ui}})")
+            action = {}
+        service = action.get("service")
+        ui_action = action.get("ui")
+        if bool(service) == bool(ui_action):
+            issues.append(
+                f"{where}: action must carry exactly one of `service` (brokered) "
+                "or `ui` (local)"
+            )
+        if ui_action and action.get("account"):
+            issues.append(f"{where}: `account` strategy is meaningless on a ui-only action")
+        if (
+            service
+            and provided_services is not None
+            and service not in provided_services
+        ):
+            issues.append(
+                f"{where}: service `{service}` resolves to NO @provides in any "
+                "source — the button could never route; declare the provider "
+                "first (or fix the typo)"
+            )
+        target = cmd.get("target")
+        if target is not None and target not in _COMMAND_TARGETS:
+            issues.append(f"{where}: target `{target}` — one of {sorted(_COMMAND_TARGETS)}")
+        key = cmd.get("key")
+        if key is not None and (not isinstance(key, str) or len(key) != 1):
+            issues.append(f"{where}: `key` must be a single character")
+        if ui_text and f"'{cid}'" not in ui_text and f'"{cid}"' not in ui_text:
+            issues.append(
+                f"{where}: id `{cid}` never appears in ui/ — every command needs "
+                "a handler in the app's dispatch (runCommand)"
+            )
+    return issues
+
+
+def audit_commons_apps(aisle: Path, provided_services: set[str] | None = None) -> int:
     """Audit one source's Commons-app aisle (`<source>/apps/<id>/`).
 
     Per app: the manifest parses and its `id` matches the folder (the shell
     loads `ui/index.tsx` by folder name — a mismatch is a broken launch);
-    the ui module default-exports; ui imports stay inside the contract
-    (react + agentos-ui + the app's own files); app CSS wraps itself in
-    `@layer base` so a lazily-loaded sheet never outranks theme packs; and
-    neither markup nor CSS touches the OS chrome vocabulary (os-toolbar /
-    os-tool-btn / navigator-*) — toolbars come from the SDK Toolbar
-    component, never hand-stamped classes or per-app toolbar paint.
+    `layout.commands[]` passes the capability-command gate (parses, ids
+    unique + handled, every brokered service resolves to a real
+    `@provides`); the ui module default-exports; ui imports stay inside
+    the contract (react + agentos-ui + the app's own files); app CSS wraps
+    itself in `@layer base` so a lazily-loaded sheet never outranks theme
+    packs; and neither markup nor CSS touches the OS chrome vocabulary
+    (os-toolbar / os-tool-btn / navigator-*) — toolbars come from the SDK
+    CommandBar, never hand-stamped classes or per-app toolbar paint.
     Returns the issue count.
     """
     issues = 0
@@ -2403,6 +2530,9 @@ def audit_commons_apps(aisle: Path) -> int:
                         )
                     if not data.get("name"):
                         app_issues.append("app.yaml missing `name`")
+                    app_issues.extend(
+                        check_manifest_commands(data, app_dir / "ui", provided_services)
+                    )
             except yaml.YAMLError as e:
                 app_issues.append(f"app.yaml does not parse: {e}")
 
@@ -2594,6 +2724,9 @@ def run_validate(target: str | None = None, *, validate_all: bool = False,
     # source's plugins dir: manifest + ui/ contract), then shape files,
     # then plugins.
     if not id_filter and not single_app_dir:
+        provided_services = collect_provided_services(
+            [s.apps_dir for s in sources if s.apps_dir]
+        )
         seen_aisles: set[Path] = set()
         for s in sources:
             if not s.apps_dir:
@@ -2602,7 +2735,7 @@ def run_validate(target: str | None = None, *, validate_all: bool = False,
             if aisle in seen_aisles or not aisle.is_dir():
                 continue
             seen_aisles.add(aisle)
-            total_issues += audit_commons_apps(aisle)
+            total_issues += audit_commons_apps(aisle, provided_services)
 
     if shapes_dir and not id_filter and not single_app_dir:
         for shape_path in sorted(_iter_shape_yamls(shapes_dir)):
