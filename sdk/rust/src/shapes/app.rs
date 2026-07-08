@@ -25,6 +25,7 @@ pub struct App {
     pub is_system: Option<bool>,
     pub layout: Option<serde_json::Value>,
     pub route: Option<String>,
+    pub windows: Option<serde_json::Value>,
 }
 
 pub static APP: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
@@ -51,6 +52,7 @@ pub static APP: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::optional("isSystem", FieldType::Boolean),
         FieldDef::optional("layout", FieldType::Json),
         FieldDef::optional("route", FieldType::String),
+        FieldDef::optional("windows", FieldType::Json),
     ],
     identity: vec!["id".into()],
     display: Some(DisplaySpec {

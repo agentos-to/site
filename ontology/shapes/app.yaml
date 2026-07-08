@@ -51,6 +51,21 @@ app:
                                   # Absent → all-off (bare body under the
                                   # titlebar). The shell resolves, never
                                   # enumerates apps.
+    windows:           json      # per-window-kind FRAMING — `{<kind>: {size,
+                                  # multiplicity?}}`. An app opens more than one
+                                  # window (an inbox AND a composer AND a
+                                  # popped-out message); each KIND declares its
+                                  # own size policy (the web `WindowSize`) and
+                                  # whether it is `singleton` (one window, re-
+                                  # targeted) or `instance` (one window per
+                                  # distinct address — every compose / message /
+                                  # chat its own window). The route path-head
+                                  # names the kind (`email/compose` → 'compose'),
+                                  # falling back to 'main'. Sibling to
+                                  # `composition` (which frames chrome rows): the
+                                  # engine PROJECTS it, never interprets it; the
+                                  # shell resolves per kind (windowSpecs.ts +
+                                  # positionBucket.ts), never enumerates apps.
     layout:            json      # experience-app body composition: the
                                   # panels (shell-native), settings, brokered
                                   # actions, and semantic slots the shell
