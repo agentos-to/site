@@ -2470,6 +2470,12 @@ def check_manifest_commands(
     `action.service` must resolve to a real `@provides` somewhere in the
     sources (else the button could never route), and `ui:` commands are
     local-only (no account strategy to validate).
+
+    A REVERSIBLE verb (`reverses: {apply, revert}`) is one toggling button
+    that wears the action for the other state; it declares no top-level
+    label/action — each face carries its own label + brokered
+    `action.service`, and BOTH must resolve (either may be the direction
+    that decides visibility for a given target).
     """
     issues: list[str] = []
     layout = data.get("layout")
@@ -2508,31 +2514,76 @@ def check_manifest_commands(
         if cid in seen_ids:
             issues.append(f"{where}: duplicate id")
         seen_ids.add(cid)
-        if not cmd.get("label"):
-            issues.append(f"{where}: missing `label`")
-        action = cmd.get("action")
-        if not isinstance(action, dict):
-            issues.append(f"{where}: missing `action` ({{service, account}} or {{ui}})")
-            action = {}
-        service = action.get("service")
-        ui_action = action.get("ui")
-        if bool(service) == bool(ui_action):
-            issues.append(
-                f"{where}: action must carry exactly one of `service` (brokered) "
-                "or `ui` (local)"
-            )
-        if ui_action and action.get("account"):
-            issues.append(f"{where}: `account` strategy is meaningless on a ui-only action")
-        if (
-            service
-            and provided_services is not None
-            and service not in provided_services
-        ):
-            issues.append(
-                f"{where}: service `{service}` resolves to NO @provides in any "
-                "source — the button could never route; declare the provider "
-                "first (or fix the typo)"
-            )
+        reverses = cmd.get("reverses")
+        if reverses is not None:
+            # A REVERSIBLE verb — two faces (`apply` / `revert`), each its own
+            # label + brokered action; the resolver projects the active face,
+            # so there is no top-level label/action to validate. Each face's
+            # service must resolve, exactly like a plain brokered verb — a
+            # direction the manifest can't route is the same dead button.
+            if cmd.get("action"):
+                issues.append(
+                    f"{where}: a `reverses` verb carries no top-level `action` — "
+                    "each face names its own"
+                )
+            if cmd.get("label"):
+                issues.append(
+                    f"{where}: a `reverses` verb carries no top-level `label` — "
+                    "each face labels itself"
+                )
+            if not isinstance(reverses, dict) or set(reverses) != {"apply", "revert"}:
+                issues.append(
+                    f"{where}: `reverses` must be a mapping of exactly `apply` + "
+                    "`revert` faces"
+                )
+                reverses = {}
+            for fname in ("apply", "revert"):
+                face = reverses.get(fname)
+                fwhere = f"{where}.{fname}"
+                if not isinstance(face, dict):
+                    issues.append(f"{fwhere}: missing face ({{label, action.service}})")
+                    continue
+                if not face.get("label"):
+                    issues.append(f"{fwhere}: missing `label`")
+                faction = face.get("action")
+                fservice = faction.get("service") if isinstance(faction, dict) else None
+                if not fservice:
+                    issues.append(
+                        f"{fwhere}: missing `action.service` — a reversible face "
+                        "is always brokered"
+                    )
+                elif provided_services is not None and fservice not in provided_services:
+                    issues.append(
+                        f"{fwhere}: service `{fservice}` resolves to NO @provides "
+                        "in any source — the button could never route; declare "
+                        "the provider first (or fix the typo)"
+                    )
+        else:
+            if not cmd.get("label"):
+                issues.append(f"{where}: missing `label`")
+            action = cmd.get("action")
+            if not isinstance(action, dict):
+                issues.append(f"{where}: missing `action` ({{service, account}} or {{ui}})")
+                action = {}
+            service = action.get("service")
+            ui_action = action.get("ui")
+            if bool(service) == bool(ui_action):
+                issues.append(
+                    f"{where}: action must carry exactly one of `service` (brokered) "
+                    "or `ui` (local)"
+                )
+            if ui_action and action.get("account"):
+                issues.append(f"{where}: `account` strategy is meaningless on a ui-only action")
+            if (
+                service
+                and provided_services is not None
+                and service not in provided_services
+            ):
+                issues.append(
+                    f"{where}: service `{service}` resolves to NO @provides in any "
+                    "source — the button could never route; declare the provider "
+                    "first (or fix the typo)"
+                )
         target = cmd.get("target")
         if target is not None and target not in _COMMAND_TARGETS:
             issues.append(f"{where}: target `{target}` — one of {sorted(_COMMAND_TARGETS)}")
