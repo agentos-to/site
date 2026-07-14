@@ -57,6 +57,7 @@ pub mod financial_account;
 pub mod flight;
 pub mod font;
 pub mod git_commit;
+pub mod grant;
 pub mod group;
 pub mod hardware;
 pub mod health_biomarker;
@@ -178,6 +179,7 @@ pub use financial_account::{FINANCIAL_ACCOUNT, FinancialAccount};
 pub use flight::{FLIGHT, Flight};
 pub use font::{FONT, Font};
 pub use git_commit::{GIT_COMMIT, GitCommit};
+pub use grant::{GRANT, Grant};
 pub use group::{GROUP, Group};
 pub use hardware::{HARDWARE, Hardware};
 pub use health_biomarker::{HEALTH_BIOMARKER, HealthBiomarker};
@@ -305,6 +307,7 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "flight" => Some(&FLIGHT),
         "font" => Some(&FONT),
         "git_commit" => Some(&GIT_COMMIT),
+        "grant" => Some(&GRANT),
         "group" => Some(&GROUP),
         "hardware" => Some(&HARDWARE),
         "health-biomarker" => Some(&HEALTH_BIOMARKER),
@@ -1002,6 +1005,21 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &["event"],
         icon: Some("commit"),
+        icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
+    }),
+    ("grant", Display {
+        title: None,
+        subtitle: Some("status"),
+        image: None,
+        highlights: &[],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &[],
+        icon: Some("lock"),
         icon_from: None,
         labels: &[],
         media: None,
@@ -2264,7 +2282,7 @@ pub fn lookup_field_order(shape: &str) -> &'static [&'static str] {
 
 pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("account", &["identifier", "handle", "displayName", "display", "email", "phone", "bio", "accountType", "color", "isActive", "joinedDate", "lastActive", "lastProfileFetch", "userId", "issuer", "metadata"]),
-    ("activity", &["action", "changedKeys", "toolName", "duration", "success", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
+    ("activity", &["action", "changedKeys", "source", "caller", "targetShape", "targetVolume", "created", "updated", "deleted", "record", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("actor", &["actorType"]),
     ("aircraft", &["model", "variant", "seatCapacity", "rangeKm", "iataCode", "icaoCode", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("airline", &["iataCode", "icaoCode", "callsign", "country", "alliance", "industry", "actorType"]),
@@ -2300,13 +2318,14 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("flight", &["flightNumber", "durationMinutes", "cabinClass", "stops", "carbonEmissions", "sequence", "departureTime", "arrivalTime", "duration", "vehicleType", "layoverMinutes", "trace", "tracePointCount", "polyline", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("font", &["family", "genericFamily", "postscriptName", "weights", "styles", "formats", "scripts", "glyphCount", "designerUrl", "vendorUrl", "licenseInfoUrl", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags"]),
     ("git_commit", &["sha", "shortHash", "message", "additions", "deletions", "filesChanged", "committedAt", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
+    ("grant", &["status", "caller", "service", "account", "shapes", "shapesKey", "requestedAt", "decidedAt"]),
     ("group", &["memberCount", "category"]),
     ("hardware", &["manufacturer", "model", "modelNumber", "formFactor", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("health-biomarker", &["measure", "category", "loincCode", "analyteType", "description"]),
     ("health-condition", &["clinicalStatus", "verificationStatus", "bodySite", "severity", "snomedCode", "icd10Code", "clinicalArea", "mitigation", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("health-immunization", &["dateAdministered", "cvxCode", "manufacturer", "lotNumber", "doseNumber", "seriesDoses", "site", "route", "diseaseTarget", "notes", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("health-lab", &["cliaNumber", "npi", "ccn", "labType", "accreditation", "industry", "actorType"]),
-    ("health-panel", &["panelCode", "fasting", "description", "collectedAt", "orderedAt", "receivedAt", "reportedAt", "verifiedAt", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path", "service", "provider", "tool", "account", "mirrorKey", "surface"]),
+    ("health-panel", &["panelCode", "fasting", "description", "collectedAt", "orderedAt", "receivedAt", "reportedAt", "verifiedAt", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path", "service", "provider", "tool", "account", "mirrorKey", "surface", "callerKind", "callerId", "shapes", "status", "latencyMs", "error", "session", "client", "query", "payloadBytes", "model", "inputTokens", "outputTokens", "reasoningTokens", "costUsd", "costSource"]),
     ("health-procedure", &["performedDate", "procedureType", "bodySite", "outcome", "status", "cptCode", "snomedCode", "findings", "followUp", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("health-reference-range", &["low", "high", "unit", "refText", "category", "provenance", "method", "ageLow", "ageHigh", "sex", "pregnancy", "gestationalAge", "fasting", "timeOfDay", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("icon", &["dimension", "format", "url", "component", "purpose", "style", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "language", "coverage", "tags"]),
@@ -2315,10 +2334,10 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("insurance_policy", &["coverageType", "policyNumber", "memberId", "groupNumber", "network", "status", "tier", "autoRenew", "price", "currency", "billingType", "useCount", "guestPassQuantity", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("intellectual_property", &["category", "mark", "identifier", "register", "status", "filingBasis", "niceClass", "validIn", "renewalPeriod", "verificationUrl"]),
     ("invitation", &["invitationType", "email", "role", "status", "token", "acceptedAt", "revokedAt", "message", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
-    ("issue", &["declined", "externalUrl", "postType", "score", "commentCount", "community"]),
+    ("issue", &["declined", "externalUrl", "postType", "score", "commentCount", "community", "expiresAt", "isOutgoing"]),
     ("launch", &["flightNumber", "rocketId", "launchpadId", "crewIds", "reusedBoosters", "landingOutcomes", "articleUrl", "webcastUrl", "wikipediaUrl", "patchImage", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("leg", &["sequence", "departureTime", "arrivalTime", "duration", "durationMinutes", "flightNumber", "cabinClass", "vehicleType", "layoverMinutes", "carbonEmissions", "trace", "tracePointCount", "polyline", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
-    ("list", &["id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path", "service", "provider", "tool", "account", "mirrorKey", "surface"]),
+    ("list", &["id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path", "service", "provider", "tool", "account", "mirrorKey", "surface", "callerKind", "callerId", "shapes", "status", "latencyMs", "error", "session", "client", "query", "payloadBytes", "model", "inputTokens", "outputTokens", "reasoningTokens", "costUsd", "costSource"]),
     ("loaded_model", &["size", "quantization", "vramUsage", "sizeVram", "digest", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("mcp_session", &["client", "projectId", "gitBranch", "sessionType", "startedAt", "endedAt", "messageCount", "tokenCount"]),
     ("measure", &["at", "start", "end", "value", "valueText", "refLow", "refHigh", "refText", "flag", "status", "method", "notes"]),
@@ -2339,10 +2358,10 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("persona", &["headline", "who", "goals", "painPoints", "reachesFor", "quote"]),
     ("place", &["fullAddress", "placeFormatted", "streetNumber", "street", "neighborhood", "locality", "city", "district", "region", "postalCode", "country", "countryCode", "latitude", "longitude", "accuracy", "featureType", "categories", "phone", "website", "hours", "businessStatus", "rating", "reviewCount", "priceLevel", "timezone", "eta", "isOrderable", "closedMessage", "productCount", "mapboxId", "wikidataId", "googlePlaceId"]),
     ("platform", &["slug", "federated", "protocol", "urlTemplate", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
-    ("playlist", &["id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path", "service", "provider", "tool", "account", "mirrorKey", "surface"]),
+    ("playlist", &["id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path", "service", "provider", "tool", "account", "mirrorKey", "surface", "callerKind", "callerId", "shapes", "status", "latencyMs", "error", "session", "client", "query", "payloadBytes", "model", "inputTokens", "outputTokens", "reasoningTokens", "costUsd", "costSource"]),
     ("plugin", &["id", "name", "description", "color", "status", "error", "iconRole", "handles", "composition", "account"]),
     ("podcast", &["feedUrl"]),
-    ("post", &["externalUrl", "postType", "score", "commentCount", "community"]),
+    ("post", &["externalUrl", "postType", "score", "commentCount", "community", "expiresAt", "isOutgoing"]),
     ("practice", &["description", "code", "codeSystem", "aliases"]),
     ("principle", &["name", "statement", "rationale", "domain", "status"]),
     ("product", &["category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
@@ -2354,13 +2373,13 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("repository", &["stars", "forks", "language", "topics", "openIssues", "isArchived", "isPrivate", "defaultBranch", "license", "size"]),
     ("reservation", &["reservationType", "reservationId", "status", "bookingType", "bookingTime", "modifiedTime", "startTime", "endTime", "partySize", "totalAmount", "baseAmount", "taxAmount", "currency", "checkinUrl", "conditions", "voidWindowEndsAt", "availableActions", "startDate", "endDate", "timezone", "allDay", "recurrence", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("result", &["indexedAt", "resultType", "favicon", "externalUrl", "postId", "score", "similarity", "community"]),
-    ("review", &["rating", "ratingMax", "tags", "isVerified", "externalUrl", "postType", "score", "commentCount", "community"]),
+    ("review", &["rating", "ratingMax", "tags", "isVerified", "externalUrl", "postType", "score", "commentCount", "community", "expiresAt", "isOutgoing"]),
     ("role", &["title", "department", "roleType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("seatmap", &["flightNumber", "origin", "destination", "fareBasisCode", "classOfService", "aircraftCode", "totalSeats", "availableSeats", "cabins", "tiers", "hasExitRow", "hasFreeSeats", "hasPaidSeats", "basicEconomyLocked"]),
     ("service", &["id", "description"]),
     ("settings", &["name"]),
     ("shape", &["plural", "description", "icon", "fields", "out", "in", "display", "groups", "identity", "identity_any", "also", "derived", "shortcuts", "prior_art", "prefsSchemas"]),
-    ("shelf", &["isExclusive", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path", "service", "provider", "tool", "account", "mirrorKey", "surface"]),
+    ("shelf", &["isExclusive", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path", "service", "provider", "tool", "account", "mirrorKey", "surface", "callerKind", "callerId", "shapes", "status", "latencyMs", "error", "session", "client", "query", "payloadBytes", "model", "inputTokens", "outputTokens", "reasoningTokens", "costUsd", "costSource"]),
     ("software", &["version", "applicationCategory", "runtimePlatform", "codename", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("sound", &["durationMs", "channels", "sampleRate", "bitDepth", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("source", &["sourceId", "address", "scanner", "enabled", "description", "lastSynced"]),
@@ -2421,6 +2440,7 @@ pub static SHAPE_IDENTITY: &[(&'static str, &'static [&'static str])] = &[
     ("file", &["sha", "url"]),
     ("financial_account", &["at", "identifier"]),
     ("font", &["family", "postscriptName"]),
+    ("grant", &["caller", "service", "account", "shapesKey"]),
     ("group", &["at", "id"]),
     ("hardware", &["url", "modelNumber"]),
     ("health-biomarker", &["loincCode", "measure"]),
@@ -2523,6 +2543,7 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("flight", "flights"),
     ("font", "fonts"),
     ("git_commit", "git_commits"),
+    ("grant", "grants"),
     ("group", "groups"),
     ("hardware", "hardware"),
     ("health-biomarker", "health-biomarkers"),

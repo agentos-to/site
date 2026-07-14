@@ -1,4 +1,6 @@
-# An immutable change event — a graph mutation, app run, search, or load.
+# An immutable change event — a graph mutation or shell window op.
+# Brokered plugin/service *runs* are NOT recorded here; they land as
+# memex trail acts (`listType: run|search`) — see architecture-broker-run-audit.
 # Fields for what happened, relations for who/what/where.
 activity:
   plural: activities
@@ -7,13 +9,26 @@ activity:
     icon: timeline
     subtitle: action
   fields:
-    action:           string      # create, update, delete, run, read, search, load
+    action:           string      # create, update, delete, sync, merge, windows.open, …
                                     # When the activity happened lives on event.startDate
                                     # (inherited via `also: [event]`), per rule 1.
     changedKeys:      string[]    # which fields changed (for updates)
-    toolName:         string      # for app runs: which operation
-    duration:         number      # for app runs: execution time in ms
-    success:          boolean     # for app runs: did it succeed
+    # Wide-event provenance — stamped on EVERY activity at write time from
+    # the one in-flight request context, so the feed filters without joins
+    # (Foundry audit.3 precedent: each event stands alone). Immutable event
+    # properties, never copies of live state. Run-axis facts (status,
+    # latency, account) stay on the memex trail act — `produced_by` links
+    # a sync activity to the run that produced it.
+    source:           string      # the instrument: `data.update`, `windows.open`, `hackernews.list_posts`
+    caller:           string      # principal, grants-canonical: `mcp:claude-code`, `app:email`; absent = engine-internal
+    targetShape:      string      # target's primary shape at action time (per-shape rollup key)
+    targetVolume:     string      # where the target lives: home, system, a pod id
+    # Batch sync counts — records touched, deduped by node (one activity
+    # per shape per remembered run; never one per record).
+    created:          integer
+    updated:          integer
+    deleted:          integer
+    record:           json        # merge only: the payload data.split needs to reverse a merge
   prior_art:
     - source: ActivityStreams 2.0
       url: https://www.w3.org/TR/activitystreams-core/
@@ -21,8 +36,3 @@ activity:
         AS2's Create/Update/Delete activities match our action values. We
         diverge by tracking changedKeys explicitly instead of encoding full
         object replacement.
-    - source: OpenTelemetry Traces
-      url: https://opentelemetry.io/docs/concepts/signals/traces/
-      notes: >-
-        Closest fit for toolName/duration/success — span-shaped. Our activity
-        is closer to a span event than a full span.

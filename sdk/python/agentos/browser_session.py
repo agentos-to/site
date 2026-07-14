@@ -52,6 +52,29 @@ async def navigate(target, url, *, mode=CONNECTOR_MODE, timeout=None):
     return await services.call("browser_session", verb="navigate", params=params)
 
 
+async def snapshot(target, *, mode=CONNECTOR_MODE, timeout=None):
+    """The tab's accessibility tree — `{title, url, tree:[{ref, role, name, bounds, …}]}`.
+    Headless by default. Find a control's `ref` here, then act on it with `click`.
+    """
+    params = {"target": target, "mode": mode}
+    if timeout is not None:
+        params["timeout"] = timeout
+    return await services.call("browser_session", verb="snapshot", params=params)
+
+
+async def click(target, ref, *, mode=CONNECTOR_MODE, timeout=None):
+    """A TRUSTED click (real CDP input, not a synthetic DOM `.click()`) on the
+    element `ref` names, from a prior `snapshot`. Use this — not `eval` +
+    `element.click()` — whenever a site's own code checks `event.isTrusted`
+    (jsaction dispatchers commonly do); a synthetic click silently no-ops there.
+    Returns the tab's fresh post-click snapshot.
+    """
+    params = {"target": target, "ref": ref, "mode": mode}
+    if timeout is not None:
+        params["timeout"] = timeout
+    return await services.call("browser_session", verb="click", params=params)
+
+
 async def login_window(login_url, *, label=None, instructions=None, retrieval=None):
     """Begin an interactive login the connector can't drive headless: open a
     headed sign-in window ON the engine's background profile (a chromeless
@@ -118,6 +141,23 @@ async def read_cookies(target, *, mode=CONNECTOR_MODE, urls=None):
         if name:
             jar[name] = c
     return jar
+
+
+async def response_body(target, url, *, mode=CONNECTOR_MODE, timeout=None):
+    """Read CDN / cross-origin media bytes via CDP ``Network.getResponseBody``.
+
+    Page ``fetch(cdnUrl)`` is CORS-blocked for hosts like ``fbcdn`` /
+    ``scontent``, but the site paints the same URL with ``<img src>`` /
+    ``<video src>``. This verb watches the browser network plane (or falls
+    back to ``Network.loadNetworkResource`` + ``IO.read``) and returns
+    ``{data (base64), mime, size, url, via}``. Cap 15MB. Use this for story /
+    DM media hydrate — not in-page ``fetch``, not a second engine HTTP hop
+    unless you must.
+    """
+    params = {"target": target, "url": url, "mode": mode}
+    if timeout is not None:
+        params["timeout"] = timeout
+    return await services.call("browser_session", verb="response_body", params=params)
 
 
 async def session_cookie_present(target, name, *, mode=CONNECTOR_MODE):
