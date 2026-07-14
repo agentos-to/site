@@ -2463,19 +2463,13 @@ def check_manifest_commands(
 ) -> list[str]:
     """The capability-command gate — a dead button must be unconstructable.
 
-    `layout.commands[]` is the ONLY chrome vocabulary (`layout.actions`
-    died with it): every entry must parse (id/label/action), ids must be
-    unique AND handled (the id appears in the app's ui/ dispatch — a
-    command nothing runs is chrome that lies), a brokered command's
-    `action.service` must resolve to a real `@provides` somewhere in the
-    sources (else the button could never route), and `ui:` commands are
-    local-only (no account strategy to validate).
-
-    A REVERSIBLE verb (`reverses: {apply, revert}`) is one toggling button
-    that wears the action for the other state; it declares no top-level
-    label/action — each face carries its own label + brokered
-    `action.service`, and BOTH must resolve (either may be the direction
-    that decides visibility for a given target).
+    `layout.commands[]` is the ONLY capability vocabulary (`layout.actions`
+    died with it): every entry must parse; labelled (chrome) entries need
+    an id handled in ui/; headless entries (`action.service`, no `label`)
+    declare broker verbs with no chrome projection — themes may move
+    buttons, they never invent capabilities. Brokered `action.service`
+    must resolve to a real `@provides`. UI→manifest: every
+    `callService` / `services.*` call in ui/ must appear on some command.
     """
     issues: list[str] = []
     layout = data.get("layout")
@@ -2500,6 +2494,7 @@ def check_manifest_commands(
             if src.suffix in (".ts", ".tsx")
         )
 
+    declared_services: set[str] = set()
     seen_ids: set[str] = set()
     for i, cmd in enumerate(commands):
         where = f"layout.commands[{i}]"
@@ -2552,21 +2547,24 @@ def check_manifest_commands(
                         f"{fwhere}: missing `action.service` — a reversible face "
                         "is always brokered"
                     )
-                elif provided_services is not None and fservice not in provided_services:
-                    issues.append(
-                        f"{fwhere}: service `{fservice}` resolves to NO @provides "
-                        "in any source — the button could never route; declare "
-                        "the provider first (or fix the typo)"
-                    )
+                else:
+                    declared_services.add(fservice)
+                    if provided_services is not None and fservice not in provided_services:
+                        issues.append(
+                            f"{fwhere}: service `{fservice}` resolves to NO @provides "
+                            "in any source — the button could never route; declare "
+                            "the provider first (or fix the typo)"
+                        )
         else:
-            if not cmd.get("label"):
-                issues.append(f"{where}: missing `label`")
             action = cmd.get("action")
             if not isinstance(action, dict):
                 issues.append(f"{where}: missing `action` ({{service, account}} or {{ui}})")
                 action = {}
             service = action.get("service")
             ui_action = action.get("ui")
+            headless = bool(service) and not cmd.get("label") and not ui_action
+            if not headless and not cmd.get("label"):
+                issues.append(f"{where}: missing `label` (or omit label for a headless service-only command)")
             if bool(service) == bool(ui_action):
                 issues.append(
                     f"{where}: action must carry exactly one of `service` (brokered) "
@@ -2574,29 +2572,80 @@ def check_manifest_commands(
                 )
             if ui_action and action.get("account"):
                 issues.append(f"{where}: `account` strategy is meaningless on a ui-only action")
-            if (
-                service
-                and provided_services is not None
-                and service not in provided_services
-            ):
-                issues.append(
-                    f"{where}: service `{service}` resolves to NO @provides in any "
-                    "source — the button could never route; declare the provider "
-                    "first (or fix the typo)"
-                )
+            if service:
+                declared_services.add(service)
+                if provided_services is not None and service not in provided_services:
+                    issues.append(
+                        f"{where}: service `{service}` resolves to NO @provides in any "
+                        "source — the button could never route; declare the provider "
+                        "first (or fix the typo)"
+                    )
         target = cmd.get("target")
         if target is not None and target not in _COMMAND_TARGETS:
             issues.append(f"{where}: target `{target}` — one of {sorted(_COMMAND_TARGETS)}")
         key = cmd.get("key")
         if key is not None and (not isinstance(key, str) or len(key) != 1):
             issues.append(f"{where}: `key` must be a single character")
-        if ui_text and f"'{cid}'" not in ui_text and f'"{cid}"' not in ui_text:
+        # Headless (service, no label) — declare-only; no chrome handler required.
+        is_headless = (
+            reverses is None
+            and isinstance(cmd.get("action"), dict)
+            and bool(cmd["action"].get("service"))
+            and not cmd.get("label")
+        )
+        if (
+            not is_headless
+            and ui_text
+            and f"'{cid}'" not in ui_text
+            and f'"{cid}"' not in ui_text
+        ):
             issues.append(
-                f"{where}: id `{cid}` never appears in ui/ — every command needs "
+                f"{where}: id `{cid}` never appears in ui/ — every chrome command needs "
                 "a handler in the app's dispatch (runCommand)"
             )
+
+    # UI → manifest: every brokered call in ui/ must be declared on commands.
+    if ui_text:
+        issues.extend(
+            check_ui_services_declared(ui_text, declared_services, where="ui/")
+        )
     return issues
 
+
+# Platform ops — not app consent surface; apps may call without declaring.
+_PLATFORM_SERVICES = frozenset(
+    {
+        "capabilities",
+    }
+)
+
+_UI_SERVICE_PATTERNS = (
+    # callService('mailbox', …) / callService("mailbox", …
+    re.compile(r"""\bcallService\s*\(\s*['"]([a-z][a-z0-9_]*)['"]"""),
+    # callOp('services.mailbox', …)
+    re.compile(r"""\bcallOp\s*\(\s*['"]services\.([a-z][a-z0-9_]*)['"]"""),
+    # useLiveFanout('order_history', …) — shopping helper
+    re.compile(r"""\buseLiveFanout\s*\(\s*['"]([a-z][a-z0-9_]*)['"]"""),
+    # useServiceFanout({ service: 'feeds', … })
+    re.compile(r"""\bservice\s*:\s*['"]([a-z][a-z0-9_]*)['"]"""),
+)
+
+
+def check_ui_services_declared(
+    ui_text: str, declared: set[str], *, where: str = "ui/"
+) -> list[str]:
+    """Every broker service string in ui/ must appear on layout.commands."""
+    used: set[str] = set()
+    for pat in _UI_SERVICE_PATTERNS:
+        for m in pat.finditer(ui_text):
+            used.add(m.group(1))
+    issues: list[str] = []
+    for svc in sorted(used - declared - _PLATFORM_SERVICES):
+        issues.append(
+            f"{where}: calls service `{svc}` but layout.commands never declares it — "
+            "add a command (labelled chrome or headless service-only entry)"
+        )
+    return issues
 
 def audit_commons_apps(aisle: Path, provided_services: set[str] | None = None) -> int:
     """Audit one source's Commons-app aisle (`<source>/apps/<id>/`).

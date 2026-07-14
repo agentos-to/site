@@ -1,0 +1,51 @@
+# A permission to broker a call — caller × service × account × shapes.
+#
+# The broker denies `services.*` / `plugins.run` without a matching
+# **approved** grant (structured `NEEDS_GRANT`, carrying the exact
+# `grants.request({…})` call). Consent is one graph: MCP
+# `grants.approve` / `grants.deny` and any desktop face write the same
+# pending/approved/denied nodes — never a second store.
+#
+# Narrow by default. `*` on account or shapes is an explicit broaden.
+# Distinct from macOS TCC / `privileges` ([[engine-capabilities]]) —
+# those gate the engine principal on the host OS; these gate a caller
+# on a brokered capability.
+grant:
+  plural: grants
+  identity: [caller, service, account, shapesKey]
+  display:
+    icon: lock
+    subtitle: status
+  groups:
+    Scope: [caller, service, account, shapes]
+    Status: [status, requestedAt, decidedAt]
+  fields:
+    status:      string      # pending | approved | denied
+    caller:      string      # app id, or "mcp:<client>" / "agent:<id>"
+    service:     string      # capability verb (message_send, …) or "*"
+    account:     string      # identity acted as, or "*"
+    shapes:      string[]    # shape names touched, or ["*"]
+    shapesKey:   string      # identity canonical: "*" or sorted ","-join
+    requestedAt: datetime    # when the request was recorded (transaction time)
+    decidedAt:   datetime    # when approve/deny was recorded (transaction time)
+  prior_art:
+    - source: OAuth 2.0 Device Authorization Grant (RFC 8628)
+      url: https://datatracker.ietf.org/doc/html/rfc8628
+      notes: >-
+        Human consent is asynchronous: the client gets a structured
+        "go get approval" signal, polls/retries after the human acts.
+        NEEDS_GRANT + grants.request/approve mirrors that — the grant
+        node is the durable consent record, not a side-channel dialog.
+    - source: Delegated Agent Authorization Protocol (DAAP)
+      url: https://datatracker.ietf.org/doc/html/draft-mishra-oauth-agent-grants-00
+      notes: >-
+        Agent grants as first-class objects with approve/deny and an
+        audit trail — same pending|approved|denied lifecycle; we keep
+        the axes local (caller × service × account × shapes) instead of
+        issuing a bearer token.
+    - source: Android runtime permissions / iOS TCC prompts
+      url: https://developer.android.com/guide/topics/permissions/overview
+      notes: >-
+        Capability access fails closed until the human grants; the
+        denial carries enough structure to re-request. Host OS TCC is
+        a different principal (engine vs app) — see engine-capabilities.
