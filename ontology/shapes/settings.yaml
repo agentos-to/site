@@ -155,6 +155,19 @@ settings:
           - { value: vertical-first, label: Vertical First }
           - { value: horizontal-first, label: Horizontal First }
     system:
+      # Where apps / windows.open land by default. Menubar toggle and
+      # Settings share this one pref — standalone (native Tauri / shim)
+      # is the default; desktop opens in-shell session tiles. Explicit
+      # `windows.open { surface: "shell" }` still overrides for agents.
+      - key: windowSurface
+        kind: select
+        label: Open Windows
+        description: Where apps open by default — native standalone windows on the machine, or inside the Desktop.
+        group: Windows
+        default: standalone
+        options:
+          - { value: standalone, label: Standalone }
+          - { value: desktop, label: Desktop }
       # Which installed browser the engine drives — sessions, page saves,
       # login windows. Options are the detected `browser` nodes the boot
       # pass seeds on System; empty pick = Automatic (the macOS default
