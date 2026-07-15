@@ -72,3 +72,71 @@ crypto.hkdf:
     length: { type: "u32", default: 32, doc: "Output length in bytes." }
   response: { type: "bytes", doc: "Derived key material." }
   effects: []
+
+# ── Local vault / modern AEAD primitives (1Password B5, etc.) ──
+
+crypto.pbkdf2_sha256:
+  doc: "PBKDF2-HMAC-SHA256 key derivation. Salt is hex. Returns hex-encoded bytes."
+  doc_full: |
+    PBKDF2-HMAC-SHA256. Companion to crypto.pbkdf2 (which is SHA1 for
+    Chromium cookie unlock). Salt is hex so callers can pass binary
+    material from a prior HKDF step.
+
+    Args:
+        password: UTF-8 password string.
+        salt: salt as hex.
+        iterations: iteration count.
+        length: output byte length (default 32).
+
+    Returns:
+        Derived key as bytes (hex-decoded by the SDK stub).
+  service: crypto
+  request:
+    password:   { type: "string", doc: "Password to stretch (UTF-8)." }
+    salt:       { type: "string", doc: "Salt as hex." }
+    iterations: { type: "u32", doc: "Iteration count." }
+    length:     { type: "u32", default: 32, doc: "Desired output length in bytes." }
+  response: { type: "bytes", doc: "Derived key." }
+  effects: []
+
+crypto.aes_gcm:
+  doc: "AES-GCM decrypt (128 or 256 by key length). Key/iv/data are hex. Returns hex plaintext."
+  doc_full: |
+    AES-GCM authenticated decrypt. Key length selects AES-128 (16) or
+    AES-256 (32). Ciphertext must include the trailing GCM tag (as produced
+    by A256GCM / similar). IV/nonce is typically 12 bytes.
+
+    Args:
+        key: hex — 16 or 32 bytes.
+        data: ciphertext ‖ tag, hex.
+        iv: nonce as hex.
+
+    Returns:
+        Plaintext bytes.
+  service: crypto
+  request:
+    key:  { type: "string", doc: "Key as hex — 16 bytes (AES-128) or 32 bytes (AES-256)." }
+    data: { type: "string", doc: "Ciphertext including GCM tag, as hex." }
+    iv:   { type: "string", doc: "Nonce / IV as hex." }
+  response: { type: "bytes", doc: "Decrypted plaintext." }
+  effects: []
+
+crypto.rsa_oaep:
+  doc: "RSA-OAEP decrypt (SHA-1). Private key is a JWK JSON string; ciphertext is hex."
+  doc_full: |
+    RSA-OAEP with SHA-1 (the common default used by 1Password keysets).
+    The private key is a JSON Web Key object as a string (`kty=RSA` with
+    `n`, `e`, `d`, `p`, `q` as base64url). Ciphertext is hex.
+
+    Args:
+        jwk: RSA private JWK as a JSON string.
+        data: ciphertext as hex.
+
+    Returns:
+        Plaintext bytes.
+  service: crypto
+  request:
+    jwk:  { type: "string", doc: "RSA private key JWK as a JSON string." }
+    data: { type: "string", doc: "Ciphertext as hex." }
+  response: { type: "bytes", doc: "Decrypted plaintext." }
+  effects: []

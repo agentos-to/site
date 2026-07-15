@@ -37,6 +37,28 @@ async def aes(key: str, data: str, *, iv: str | None = None) -> bytes:
     return bytes.fromhex(hex_value)
 
 
+async def aes_gcm(key: str, data: str, iv: str) -> bytes:
+    """
+    AES-GCM authenticated decrypt. Key length selects AES-128 (16) or
+    AES-256 (32). Ciphertext must include the trailing GCM tag (as produced
+    by A256GCM / similar). IV/nonce is typically 12 bytes.
+
+    Args:
+        key: hex — 16 or 32 bytes.
+        data: ciphertext ‖ tag, hex.
+        iv: nonce as hex.
+
+    Returns:
+        Plaintext bytes.
+    """
+    _req: dict[str, Any] = {}
+    _req['key'] = key
+    _req['data'] = data
+    _req['iv'] = iv
+    hex_value = await dispatch('crypto.aes_gcm', _req)
+    return bytes.fromhex(hex_value)
+
+
 async def hkdf(key: str, *, info: str | None = None, length: int | None = None, salt: str | None = None) -> bytes:
     """
     HKDF-SHA256 key derivation (RFC 5869): HMAC-extract then expand. The
@@ -86,4 +108,49 @@ async def pbkdf2(password: str, salt: str, *, iterations: int | None = None, len
     if length is not None:
         _req['length'] = length
     hex_value = await dispatch('crypto.pbkdf2', _req)
+    return bytes.fromhex(hex_value)
+
+
+async def pbkdf2_sha256(password: str, salt: str, iterations: int, *, length: int | None = None) -> bytes:
+    """
+    PBKDF2-HMAC-SHA256. Companion to crypto.pbkdf2 (which is SHA1 for
+    Chromium cookie unlock). Salt is hex so callers can pass binary
+    material from a prior HKDF step.
+
+    Args:
+        password: UTF-8 password string.
+        salt: salt as hex.
+        iterations: iteration count.
+        length: output byte length (default 32).
+
+    Returns:
+        Derived key as bytes (hex-decoded by the SDK stub).
+    """
+    _req: dict[str, Any] = {}
+    _req['password'] = password
+    _req['salt'] = salt
+    _req['iterations'] = iterations
+    if length is not None:
+        _req['length'] = length
+    hex_value = await dispatch('crypto.pbkdf2_sha256', _req)
+    return bytes.fromhex(hex_value)
+
+
+async def rsa_oaep(jwk: str, data: str) -> bytes:
+    """
+    RSA-OAEP with SHA-1 (the common default used by 1Password keysets).
+    The private key is a JSON Web Key object as a string (`kty=RSA` with
+    `n`, `e`, `d`, `p`, `q` as base64url). Ciphertext is hex.
+
+    Args:
+        jwk: RSA private JWK as a JSON string.
+        data: ciphertext as hex.
+
+    Returns:
+        Plaintext bytes.
+    """
+    _req: dict[str, Any] = {}
+    _req['jwk'] = jwk
+    _req['data'] = data
+    hex_value = await dispatch('crypto.rsa_oaep', _req)
     return bytes.fromhex(hex_value)

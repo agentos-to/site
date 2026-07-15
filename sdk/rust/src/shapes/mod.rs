@@ -55,8 +55,10 @@ pub mod fare;
 pub mod file;
 pub mod financial_account;
 pub mod flight;
+pub mod floorplan;
 pub mod font;
 pub mod git_commit;
+pub mod government_id;
 pub mod grant;
 pub mod group;
 pub mod hardware;
@@ -115,11 +117,14 @@ pub mod result;
 pub mod review;
 pub mod role;
 pub mod seatmap;
+pub mod secure_note;
+pub mod server;
 pub mod service;
 pub mod settings;
 pub mod shape;
 pub mod shelf;
 pub mod software;
+pub mod software_license;
 pub mod sound;
 pub mod source;
 pub mod spec;
@@ -177,8 +182,10 @@ pub use fare::{FARE, Fare};
 pub use file::{FILE, File};
 pub use financial_account::{FINANCIAL_ACCOUNT, FinancialAccount};
 pub use flight::{FLIGHT, Flight};
+pub use floorplan::{FLOORPLAN, Floorplan};
 pub use font::{FONT, Font};
 pub use git_commit::{GIT_COMMIT, GitCommit};
+pub use government_id::{GOVERNMENT_ID, GovernmentId};
 pub use grant::{GRANT, Grant};
 pub use group::{GROUP, Group};
 pub use hardware::{HARDWARE, Hardware};
@@ -237,11 +244,14 @@ pub use result::{RESULT, Result};
 pub use review::{REVIEW, Review};
 pub use role::{ROLE, Role};
 pub use seatmap::{SEATMAP, Seatmap};
+pub use secure_note::{SECURE_NOTE, SecureNote};
+pub use server::{SERVER, Server};
 pub use service::{SERVICE, Service};
 pub use settings::{SETTINGS, Settings};
 pub use shape::{SHAPE, Shape};
 pub use shelf::{SHELF, Shelf};
 pub use software::{SOFTWARE, Software};
+pub use software_license::{SOFTWARE_LICENSE, SoftwareLicense};
 pub use sound::{SOUND, Sound};
 pub use source::{SOURCE, Source};
 pub use spec::{SPEC, Spec};
@@ -305,8 +315,10 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "file" => Some(&FILE),
         "financial_account" => Some(&FINANCIAL_ACCOUNT),
         "flight" => Some(&FLIGHT),
+        "floorplan" => Some(&FLOORPLAN),
         "font" => Some(&FONT),
         "git_commit" => Some(&GIT_COMMIT),
+        "government_id" => Some(&GOVERNMENT_ID),
         "grant" => Some(&GRANT),
         "group" => Some(&GROUP),
         "hardware" => Some(&HARDWARE),
@@ -365,11 +377,14 @@ pub fn lookup_def(shape: &str) -> Option<&'static agentos_graph::ShapeDef> {
         "review" => Some(&REVIEW),
         "role" => Some(&ROLE),
         "seatmap" => Some(&SEATMAP),
+        "secure_note" => Some(&SECURE_NOTE),
+        "server" => Some(&SERVER),
         "service" => Some(&SERVICE),
         "settings" => Some(&SETTINGS),
         "shape" => Some(&SHAPE),
         "shelf" => Some(&SHELF),
         "software" => Some(&SOFTWARE),
+        "software_license" => Some(&SOFTWARE_LICENSE),
         "sound" => Some(&SOUND),
         "source" => Some(&SOURCE),
         "spec" => Some(&SPEC),
@@ -980,6 +995,21 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         media: None,
         lines: &[],
     }),
+    ("floorplan", Display {
+        title: Some("name"),
+        subtitle: Some("venueName"),
+        image: None,
+        highlights: &[],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &[],
+        icon: Some("map"),
+        icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
+    }),
     ("font", Display {
         title: None,
         subtitle: Some("author"),
@@ -1005,6 +1035,21 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &["event"],
         icon: Some("commit"),
+        icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
+    }),
+    ("government_id", Display {
+        title: None,
+        subtitle: Some("category"),
+        image: None,
+        highlights: &["identifier", "issuingCountry", "expiryDate"],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &[],
+        icon: Some("badge"),
         icon_from: None,
         labels: &[],
         media: None,
@@ -1880,6 +1925,36 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         media: None,
         lines: &[],
     }),
+    ("secure_note", Display {
+        title: None,
+        subtitle: Some("category"),
+        image: None,
+        highlights: &[],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &[],
+        icon: Some("lock"),
+        icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
+    }),
+    ("server", Display {
+        title: None,
+        subtitle: Some("hostname"),
+        image: None,
+        highlights: &["protocol", "hostname", "username"],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &[],
+        icon: Some("dns"),
+        icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
+    }),
     ("service", Display {
         title: None,
         subtitle: Some("description"),
@@ -1950,6 +2025,21 @@ pub static SHAPE_DISPLAY: &[(&'static str, Display)] = &[
         preview: &[],
         also: &["product"],
         icon: Some("apps"),
+        icon_from: None,
+        labels: &[],
+        media: None,
+        lines: &[],
+    }),
+    ("software_license", Display {
+        title: None,
+        subtitle: Some("productName"),
+        image: None,
+        highlights: &["version", "seats", "expiryDate"],
+        body: None,
+        mono: None,
+        preview: &[],
+        also: &[],
+        icon: Some("vpn_key"),
         icon_from: None,
         labels: &[],
         media: None,
@@ -2316,9 +2406,11 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("file", &["filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("financial_account", &["identifier", "accountId", "accountNumber", "routingNumber", "last4", "currency", "accountType", "balance", "available", "creditLimit", "minimumPayment", "cardType", "interestRate"]),
     ("flight", &["flightNumber", "durationMinutes", "cabinClass", "stops", "carbonEmissions", "sequence", "departureTime", "arrivalTime", "duration", "vehicleType", "layoverMinutes", "trace", "tracePointCount", "polyline", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
+    ("floorplan", &["name", "venueName", "viewBox", "layoutSvg", "sourceUrl", "resources", "mobileRotationDegrees", "indicatorSize", "timezone"]),
     ("font", &["family", "genericFamily", "postscriptName", "weights", "styles", "formats", "scripts", "glyphCount", "designerUrl", "vendorUrl", "licenseInfoUrl", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags"]),
     ("git_commit", &["sha", "shortHash", "message", "additions", "deletions", "filesChanged", "committedAt", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
-    ("grant", &["status", "caller", "service", "account", "shapes", "shapesKey", "requestedAt", "decidedAt"]),
+    ("government_id", &["category", "identifier", "issuingCountry", "issuingState", "fullName", "birthDate", "sex", "nationality", "issueDate", "expiryDate", "class", "placeOfIssue", "status", "nationalIdLast4"]),
+    ("grant", &["status", "caller", "service", "account", "shapes", "shapesKey", "resource", "requestedAt", "decidedAt"]),
     ("group", &["memberCount", "category"]),
     ("hardware", &["manufacturer", "model", "modelNumber", "formFactor", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
     ("health-biomarker", &["measure", "category", "loincCode", "analyteType", "description"]),
@@ -2376,11 +2468,14 @@ pub static SHAPE_FIELD_ORDER: &[(&'static str, &'static [&'static str])] = &[
     ("review", &["rating", "ratingMax", "tags", "isVerified", "externalUrl", "postType", "score", "commentCount", "community", "expiresAt", "isOutgoing"]),
     ("role", &["title", "department", "roleType", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties"]),
     ("seatmap", &["flightNumber", "origin", "destination", "fareBasisCode", "classOfService", "aircraftCode", "totalSeats", "availableSeats", "cabins", "tiers", "hasExitRow", "hasFreeSeats", "hasPaidSeats", "basicEconomyLocked"]),
+    ("secure_note", &["category", "secretRef", "isPinned"]),
+    ("server", &["hostname", "port", "protocol", "username", "database", "path", "secretRef"]),
     ("service", &["id", "description"]),
     ("settings", &["name"]),
     ("shape", &["plural", "description", "icon", "fields", "out", "in", "display", "groups", "identity", "identity_any", "also", "derived", "shortcuts", "prior_art", "prefsSchemas"]),
     ("shelf", &["isExclusive", "id", "listId", "listType", "ordering_mode", "member_shape", "privacy", "isDefault", "isPublic", "itemCount", "arrangement", "default_view", "icon_size", "sort_by", "path", "service", "provider", "tool", "account", "mirrorKey", "surface", "callerKind", "callerId", "shapes", "status", "latencyMs", "error", "session", "client", "query", "payloadBytes", "model", "inputTokens", "outputTokens", "reasoningTokens", "costUsd", "costSource"]),
     ("software", &["version", "applicationCategory", "runtimePlatform", "codename", "category", "price", "priceAmount", "originalPrice", "originalPriceAmount", "currency", "categories", "availability", "images", "quantity", "weight", "weightValue", "weightUnit", "soldByWeight", "department", "aisle", "sku", "barcode", "nutritionScore", "novaGroup", "calories", "servingSize", "customizationGroups"]),
+    ("software_license", &["productName", "version", "licensedTo", "licenseKeyLast4", "secretRef", "seats", "purchaseDate", "expiryDate", "orderNumber"]),
     ("sound", &["durationMs", "channels", "sampleRate", "bitDepth", "purpose", "name", "description", "license", "copyrightYear", "datePublished", "dateCreated", "url", "language", "coverage", "tags", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
     ("source", &["sourceId", "address", "scanner", "enabled", "description", "lastSynced"]),
     ("spec", &["problem", "successCriteria", "remoteId", "priority", "state", "labels", "targetDate", "target", "parentId", "projectId", "startDate", "endDate", "timezone", "allDay", "recurrence", "status", "visibility", "showAs", "dateUpdated", "sourceUrl", "sourceTitle", "icalUid", "distinctId", "currentUrl", "properties", "filename", "mimeType", "size", "path", "format", "encoding", "lineCount", "kind", "sha"]),
@@ -2439,7 +2534,9 @@ pub static SHAPE_IDENTITY: &[(&'static str, &'static [&'static str])] = &[
     ("fare", &["at", "identifier"]),
     ("file", &["sha", "url"]),
     ("financial_account", &["at", "identifier"]),
+    ("floorplan", &["id"]),
     ("font", &["family", "postscriptName"]),
+    ("government_id", &["issuingCountry", "category", "identifier"]),
     ("grant", &["caller", "service", "account", "shapesKey"]),
     ("group", &["at", "id"]),
     ("hardware", &["url", "modelNumber"]),
@@ -2477,9 +2574,12 @@ pub static SHAPE_IDENTITY: &[(&'static str, &'static [&'static str])] = &[
     ("repository", &["path", "url"]),
     ("reservation", &["at", "reservationId"]),
     ("seatmap", &["id"]),
+    ("secure_note", &["at", "id"]),
+    ("server", &["hostname", "protocol", "username"]),
     ("service", &["id"]),
     ("shape", &["name"]),
     ("software", &["url"]),
+    ("software_license", &["productName", "licensedTo"]),
     ("sound", &["sha", "url"]),
     ("source", &["address"]),
     ("subscription", &["app", "op"]),
@@ -2541,8 +2641,10 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("file", "files"),
     ("financial_account", "financial_accounts"),
     ("flight", "flights"),
+    ("floorplan", "floorplans"),
     ("font", "fonts"),
     ("git_commit", "git_commits"),
+    ("government_id", "government_ids"),
     ("grant", "grants"),
     ("group", "groups"),
     ("hardware", "hardware"),
@@ -2601,11 +2703,14 @@ pub static SHAPE_PLURALS: &[(&'static str, &'static str)] = &[
     ("review", "reviews"),
     ("role", "roles"),
     ("seatmap", "seatmaps"),
+    ("secure_note", "secure_notes"),
+    ("server", "servers"),
     ("service", "services"),
     ("settings", "settings"),
     ("shape", "shapes"),
     ("shelf", "shelves"),
     ("software", "software"),
+    ("software_license", "software_licenses"),
     ("sound", "sounds"),
     ("source", "sources"),
     ("spec", "specs"),

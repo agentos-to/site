@@ -496,16 +496,16 @@ BANNED_IMPORTS: dict[str, str] = {
     # Runtime-sandboxed (mirror of python_worker.rs)
     "subprocess":      "agentos.shell.run()",
     "sqlite3":         "agentos.sql.query()",
-    "httpx":           "agentos.http",
-    "requests":        "agentos.http",
-    "urllib3":         "agentos.http",
-    "aiohttp":         "agentos.http",
+    "httpx":           "agentos.client (client.get/post/…)",
+    "requests":        "agentos.client (client.get/post/…)",
+    "urllib3":         "agentos.client (client.get/post/…)",
+    "aiohttp":         "agentos.client (client.get/post/…)",
     "socket":          "an SDK module (no raw sockets in apps)",
     "ctypes":          "an SDK module (no FFI in apps)",
     "multiprocessing": "the engine's own task scheduling",
     "signal":          "an SDK module (no signal handling in apps)",
     # Validator-only (not worker-banned but forbidden in app code):
-    "urllib":          "agentos.http.build_url / parse_url / encode / decode",
+    "urllib":          "agentos.url (build/parse/encode/decode) or client params=",
 }
 
 

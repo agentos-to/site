@@ -1,0 +1,90 @@
+# A government-issued identity document — passport, driver license,
+# national ID card, residence permit. The physical/credential artifact a
+# state issues to attest a person's legal identity, right to drive, or
+# right to reside. One shape, `category` discriminates.
+#
+# --- WHAT THIS SHAPE IS FOR, AND WHAT IT ISN'T ---
+# This carries the FACE data a document prints — the same fields an ICAO
+# 9303 MRZ or an AAMVA DL barcode encodes: document number, issuing
+# authority, holder name, dates, sex, nationality. That is identity
+# metadata, not a secret; it is what you read off the card.
+# It is NOT a secret store. National identifiers that double as secrets —
+# a US SSN, a tax ID — are NEVER stored as required identity here; if a
+# provider surfaces one, keep it OPTIONAL and masked (last4 only), and
+# prefer sidebanding the full value into `__secrets__` / the encrypted
+# credential store rather than the graph. The document NUMBER (passport
+# no., DL no.) is face data and is fine on the node.
+#
+# --- DISTINCT FROM ADJACENT SHAPES ---
+# - `person` holds the human and their intrinsic name/birthDate/sex; a
+#   government_id is one issued DOCUMENT about that person. One person may
+#   hold many (passport + DL + residence permit). The holder rides a
+#   `held_by --> person` link.
+# - `qualification` is an EARNED professional credential (a medical
+#   license, a bar admission). A driver license is a government identity /
+#   right-to-drive document, NOT a qualification — do not model DLs there.
+# - `pass` is a right-of-use (a boarding pass); a government_id is a
+#   right-of-identity.
+#
+# Identity: [issuingCountry, category, identifier] — a document number is
+# unique within (issuing country, document type). Falls back to
+# identity_any on `identifier` when the number is globally unambiguous
+# (machine-readable passport numbers with issuing-state in the MRZ).
+# `name` (inherited) is the display label — "US Passport", "CA Driver
+# License", "SG NRIC".
+government_id:
+  plural: government_ids
+  identity: [issuingCountry, category, identifier]
+  # Printed DOB / issue / expiry are intrinsic valid-time on the document
+  # itself (same pattern as person.birthDate), not transaction time.
+  timed: self
+  display:
+    icon: badge
+    subtitle: category
+    highlights: [identifier, issuingCountry, expiryDate]
+  fields:
+    category:          string    # passport | driver_license | national_id |
+                                  #   residence_permit | other
+    identifier:        string    # document number (passport no., DL no.,
+                                  #   national ID no.) — face data, not a secret
+    issuingCountry:    string    # ISO 3166-1 alpha-2/alpha-3 issuing state ("US", "SG")
+    issuingState:      string    # sub-national issuer for DL / state IDs ("US-CA")
+    fullName:          string    # name exactly as printed on the document
+                                  #   (verbatim; may differ from person.legalName
+                                  #   in transliteration / ordering)
+    birthDate:         datetime  # date of birth as printed
+    sex:               string    # as printed — "M" | "F" | "X" (ICAO 9303 §4.1)
+    nationality:       string    # ISO 3166 nationality code (MRZ field; may
+                                  #   differ from issuingCountry for permits)
+    issueDate:         datetime  # date of issue printed on the document
+    expiryDate:        datetime  # expiration printed on the document
+    class:             string    # driver-license class / endorsements ("C", "CDL-A")
+    placeOfIssue:      string    # issuing office / city ("London", "DMV Oakland")
+    status:            string    # active | expired | revoked | suspended | lost
+    # Sensitive national identifiers (SSN, tax ID) are NEVER required and
+    # NEVER stored in full here. If present, keep masked + note masking:
+    nationalIdLast4:   string    # OPTIONAL last-4 only; full value sidebands
+                                  #   into `__secrets__` / vault, never the graph
+  prior_art:
+    - source: ICAO Doc 9303 (Machine Readable Travel Documents)
+      url: https://www.icao.int/publications/pages/publication.aspx?docnum=9303
+      notes: >-
+        The MRTD standard behind every e-passport MRZ. Our identifier =
+        document number, issuingCountry = issuing state code, fullName /
+        birthDate / sex / nationality / expiryDate map 1:1 onto the MRZ
+        data groups. We store the parsed face values, never the chip's
+        private keys or the full MRZ checksum secrets.
+    - source: schema.org/Permit
+      url: https://schema.org/Permit
+      notes: >-
+        schema.org's closest peer — issuedBy, validFor, validIn,
+        validUntil, permitAudience. Our issuingCountry / issuingState ≈
+        issuedBy authority; expiryDate ≈ validUntil. Permit is generic; we
+        specialize into identity documents with an ICAO/AAMVA field set.
+    - source: AAMVA DL/ID Card Design Standard (PDF417 barcode)
+      url: https://www.aamva.org/topics/dl-id-card-design-standard
+      notes: >-
+        North American driver-license barcode spec. Our identifier =
+        customer/DL number, class = vehicle class + endorsements,
+        issuingState = jurisdiction, fullName / birthDate / sex / issueDate
+        / expiryDate map onto the AAMVA data elements (DAQ, DCA, DBB, DBA).

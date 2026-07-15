@@ -18,10 +18,10 @@ Shape of the flow:
        written row back so the caller gets the concrete `value:
        {email, password, ...}` dict without the provider having to
        return plaintext inline.
-
-There is no read-side cache in v1 — every call re-invokes the provider
-(which means Touch ID every time for 1Password). User consent on each
-access is a feature, not a bug; cache can land later as a config knob.
+    4. If a provider needs an interactive unlock (e.g. 1Password Master
+       Password via AgentOS Security), retrieve stops and returns
+       `{found: false, unlock_required: true, challengeId, ...}` so the
+       caller can surface the challenge instead of fake NeedsCredentials.
 """
 
 from __future__ import annotations
@@ -40,6 +40,42 @@ _CRED_PRIORITY = {"not_required": 0, "present": 1, "missing": 2}
 # a cache). Everything else sorts by cred_state + insertion order.
 _VAULT_APP_ID = "vault"
 
+_UNLOCK_CODES = frozenset(
+    {
+        "OnePasswordUnlockRequired",
+        "UnlockRequired",
+        "SecretChallengePending",
+    }
+)
+
+
+def _unlock_pending(result: Any) -> bool:
+    """True when a credential provider opened (or needs) AgentOS Security."""
+    if not isinstance(result, dict):
+        return False
+    code = str(result.get("code") or "")
+    if code in _UNLOCK_CODES:
+        return True
+    if result.get("prompt") == "secret_challenge":
+        return True
+    if result.get("challengeId") and not result.get("provided"):
+        return True
+    return False
+
+
+def _unlock_envelope(result: dict[str, Any], *, source: str) -> dict[str, Any]:
+    return {
+        "found": False,
+        "unlock_required": True,
+        "challengeId": result.get("challengeId"),
+        "prompt": result.get("prompt") or "secret_challenge",
+        "forApp": result.get("forApp"),
+        "code": result.get("code") or "OnePasswordUnlockRequired",
+        "error": result.get("error") or result.get("message"),
+        "hint": result.get("hint"),
+        "source": source,
+    }
+
 
 async def retrieve(
     domain: str,
@@ -55,8 +91,9 @@ async def retrieve(
         account: Optional disambiguator when multiple items match.
 
     Returns:
-        A `{found, identifier, value, source}` envelope. On no-match,
-        `found` is `False` and the caller should raise `NeedsCredentials`.
+        On success: `{found: true, identifier, value, source}`.
+        On unlock needed: `{found: false, unlock_required: true, challengeId, …}`.
+        On no-match: `{found: false}` — caller should raise `NeedsCredentials`.
     """
     req_fields = required or []
 
@@ -70,16 +107,33 @@ async def retrieve(
     )
 
     for provider in providers:
-        provider_result = await services.call(
-            "login_credentials",
-            verb=provider.get("via") or "get_credentials",
-            app=provider["app_id"],
-            params={
-                "domain": domain,
-                "account": account,
-                "required": req_fields,
-            },
-        )
+        try:
+            provider_result = await services.call(
+                "login_credentials",
+                verb=provider.get("via") or "get_credentials",
+                app=provider["app_id"],
+                params={
+                    "domain": domain,
+                    "account": account,
+                    "required": req_fields,
+                },
+            )
+        except RuntimeError as e:
+            # Some paths surface unlock as a dispatch failure string.
+            msg = str(e)
+            if "OnePasswordUnlockRequired" in msg or "UnlockRequired" in msg:
+                return _unlock_envelope(
+                    {"code": "OnePasswordUnlockRequired", "error": msg},
+                    source=provider["app_id"],
+                )
+            continue
+
+        if _unlock_pending(provider_result):
+            return _unlock_envelope(
+                provider_result if isinstance(provider_result, dict) else {},
+                source=provider["app_id"],
+            )
+
         if not provider_result or not provider_result.get("provided"):
             continue
 

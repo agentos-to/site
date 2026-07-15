@@ -12676,6 +12676,286 @@
       "prefs_schemas": {}
     },
     {
+      "name": "floorplan",
+      "class_name": "Floorplan",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "indicatorSize",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "layoutSvg",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "mobileRotationDegrees",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "resources",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "sourceUrl",
+          "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "timezone",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "venueName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "viewBox",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "also": [],
+      "timed": null,
+      "account_from": null,
+      "arrival_vals": [],
+      "membership": null,
+      "plural": "floorplans",
+      "subtitle": "venueName",
+      "display": {
+        "title": "name",
+        "subtitle": "venueName",
+        "image": null,
+        "highlights": [],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "labels": {},
+        "icon": "map",
+        "icon_from": null,
+        "media": null,
+        "lines": []
+      },
+      "identity": [
+        "id"
+      ],
+      "identity_any": [],
+      "leading_comment": "A renderable floor / venue map — walls, furniture, and hit targets for\nbookable spaces (phone booths, meeting rooms, desks). Sibling to\n`seatmap` (airline cabin) for indoor / coworking layouts.\n\nA floorplan is the RENDERABLE STATE of a floor at a moment in time:\nthe SVG (or equivalent) artwork plus axis-aligned resource rects that\nlink to `place` nodes. Availability is NOT stored here — join live\noccupancy from bookings / reservations against `resources[].place`.\n\nDistinct from `place` — a place is the space itself; the floorplan is\nthe map you pick that space from. Distinct from `seatmap` — seatmap\nis cabin > row > seat; floorplan is freeform SVG + rect hit targets\n(Skedda, IMDF-lite, office IWMS).\n\nPrior art:\n- Skedda venue maps — mapsStructure.maps[] + SVG-in-JSON\n(staticDefs + staticGraphics) + dynamicRectangles[{spaceId,x,y,w,h}]\n- Apple IMDF (Indoor Mapping Data Format) — lighter: we keep SVG +\nrects rather than full GeoJSON footprints for v1\n- schema.org/FloorPlan — too thin (numberOfRooms); skip\n\nIdentity: synthetic id from the provider map id (stable across fetches).\nDiscover maps from the provider at runtime — never hardcode map ids.",
+      "own_fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "venueName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "viewBox",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "layoutSvg",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "sourceUrl",
+          "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "resources",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "mobileRotationDegrees",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "indicatorSize",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "timezone",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [],
+      "source_path": "floorplan.yaml",
+      "raw_body": "plural: floorplans\nidentity:\n- id\ndisplay:\n  icon: map\n  title: name\n  subtitle: venueName\nfields:\n  name: string\n  venueName: string\n  viewBox: string\n  layoutSvg: string\n  sourceUrl: url\n  resources: json\n  mobileRotationDegrees: number\n  indicatorSize: number\n  timezone: string\n",
+      "ancestors": [],
+      "field_order": [
+        "name",
+        "venueName",
+        "viewBox",
+        "layoutSvg",
+        "sourceUrl",
+        "resources",
+        "mobileRotationDegrees",
+        "indicatorSize",
+        "timezone"
+      ],
+      "derived": {},
+      "groups": [],
+      "actions": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
       "name": "font",
       "class_name": "Font",
       "fields": [
@@ -13523,6 +13803,412 @@
       "prefs_schemas": {}
     },
     {
+      "name": "government_id",
+      "class_name": "GovernmentId",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "birthDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "expiryDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "fullName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "identifier",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "issueDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "issuingCountry",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "issuingState",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "nationalIdLast4",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "nationality",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "placeOfIssue",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "sex",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "also": [],
+      "timed": "self",
+      "account_from": null,
+      "arrival_vals": [],
+      "membership": null,
+      "plural": "government_ids",
+      "subtitle": "category",
+      "display": {
+        "title": null,
+        "subtitle": "category",
+        "image": null,
+        "highlights": [
+          "identifier",
+          "issuingCountry",
+          "expiryDate"
+        ],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "labels": {},
+        "icon": "badge",
+        "icon_from": null,
+        "media": null,
+        "lines": []
+      },
+      "identity": [
+        "issuingCountry",
+        "category",
+        "identifier"
+      ],
+      "identity_any": [],
+      "leading_comment": "A government-issued identity document — passport, driver license,\nnational ID card, residence permit. The physical/credential artifact a\nstate issues to attest a person's legal identity, right to drive, or\nright to reside. One shape, `category` discriminates.\n\n--- WHAT THIS SHAPE IS FOR, AND WHAT IT ISN'T ---\nThis carries the FACE data a document prints — the same fields an ICAO\n9303 MRZ or an AAMVA DL barcode encodes: document number, issuing\nauthority, holder name, dates, sex, nationality. That is identity\nmetadata, not a secret; it is what you read off the card.\nIt is NOT a secret store. National identifiers that double as secrets —\na US SSN, a tax ID — are NEVER stored as required identity here; if a\nprovider surfaces one, keep it OPTIONAL and masked (last4 only), and\nprefer sidebanding the full value into `__secrets__` / the encrypted\ncredential store rather than the graph. The document NUMBER (passport\nno., DL no.) is face data and is fine on the node.\n\n--- DISTINCT FROM ADJACENT SHAPES ---\n- `person` holds the human and their intrinsic name/birthDate/sex; a\ngovernment_id is one issued DOCUMENT about that person. One person may\nhold many (passport + DL + residence permit). The holder rides a\n`held_by --> person` link.\n- `qualification` is an EARNED professional credential (a medical\nlicense, a bar admission). A driver license is a government identity /\nright-to-drive document, NOT a qualification — do not model DLs there.\n- `pass` is a right-of-use (a boarding pass); a government_id is a\nright-of-identity.\n\nIdentity: [issuingCountry, category, identifier] — a document number is\nunique within (issuing country, document type). Falls back to\nidentity_any on `identifier` when the number is globally unambiguous\n(machine-readable passport numbers with issuing-state in the MRZ).\n`name` (inherited) is the display label — \"US Passport\", \"CA Driver\nLicense\", \"SG NRIC\".",
+      "own_fields": [
+        {
+          "name": "category",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "identifier",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "issuingCountry",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "issuingState",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "fullName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "birthDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "sex",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "nationality",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "issueDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "expiryDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "placeOfIssue",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "nationalIdLast4",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "ICAO Doc 9303 (Machine Readable Travel Documents)",
+          "url": "https://www.icao.int/publications/pages/publication.aspx?docnum=9303",
+          "notes": "The MRTD standard behind every e-passport MRZ. Our identifier = document number, issuingCountry = issuing state code, fullName / birthDate / sex / nationality / expiryDate map 1:1 onto the MRZ data groups. We store the parsed face values, never the chip's private keys or the full MRZ checksum secrets."
+        },
+        {
+          "source": "schema.org/Permit",
+          "url": "https://schema.org/Permit",
+          "notes": "schema.org's closest peer — issuedBy, validFor, validIn, validUntil, permitAudience. Our issuingCountry / issuingState ≈ issuedBy authority; expiryDate ≈ validUntil. Permit is generic; we specialize into identity documents with an ICAO/AAMVA field set."
+        },
+        {
+          "source": "AAMVA DL/ID Card Design Standard (PDF417 barcode)",
+          "url": "https://www.aamva.org/topics/dl-id-card-design-standard",
+          "notes": "North American driver-license barcode spec. Our identifier = customer/DL number, class = vehicle class + endorsements, issuingState = jurisdiction, fullName / birthDate / sex / issueDate / expiryDate map onto the AAMVA data elements (DAQ, DCA, DBB, DBA)."
+        }
+      ],
+      "source_path": "government_id.yaml",
+      "raw_body": "plural: government_ids\nidentity:\n- issuingCountry\n- category\n- identifier\ntimed: self\ndisplay:\n  icon: badge\n  subtitle: category\n  highlights:\n  - identifier\n  - issuingCountry\n  - expiryDate\nfields:\n  category: string\n  identifier: string\n  issuingCountry: string\n  issuingState: string\n  fullName: string\n  birthDate: datetime\n  sex: string\n  nationality: string\n  issueDate: datetime\n  expiryDate: datetime\n  class: string\n  placeOfIssue: string\n  status: string\n  nationalIdLast4: string\nprior_art:\n- source: ICAO Doc 9303 (Machine Readable Travel Documents)\n  url: https://www.icao.int/publications/pages/publication.aspx?docnum=9303\n  notes: The MRTD standard behind every e-passport MRZ. Our identifier = document\n    number, issuingCountry = issuing state code, fullName / birthDate / sex / nationality\n    / expiryDate map 1:1 onto the MRZ data groups. We store the parsed face values,\n    never the chip's private keys or the full MRZ checksum secrets.\n- source: schema.org/Permit\n  url: https://schema.org/Permit\n  notes: \"schema.org's closest peer \\u2014 issuedBy, validFor, validIn, validUntil,\\\n    \\ permitAudience. Our issuingCountry / issuingState \\u2248 issuedBy authority;\\\n    \\ expiryDate \\u2248 validUntil. Permit is generic; we specialize into identity\\\n    \\ documents with an ICAO/AAMVA field set.\"\n- source: AAMVA DL/ID Card Design Standard (PDF417 barcode)\n  url: https://www.aamva.org/topics/dl-id-card-design-standard\n  notes: North American driver-license barcode spec. Our identifier = customer/DL\n    number, class = vehicle class + endorsements, issuingState = jurisdiction, fullName\n    / birthDate / sex / issueDate / expiryDate map onto the AAMVA data elements (DAQ,\n    DCA, DBB, DBA).\n",
+      "ancestors": [],
+      "field_order": [
+        "category",
+        "identifier",
+        "issuingCountry",
+        "issuingState",
+        "fullName",
+        "birthDate",
+        "sex",
+        "nationality",
+        "issueDate",
+        "expiryDate",
+        "class",
+        "placeOfIssue",
+        "status",
+        "nationalIdLast4"
+      ],
+      "derived": {},
+      "groups": [],
+      "actions": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
       "name": "grant",
       "class_name": "Grant",
       "fields": [
@@ -13628,6 +14314,15 @@
         {
           "name": "requestedAt",
           "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "resource",
+          "type": "string",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -13756,6 +14451,15 @@
           "enum": null
         },
         {
+          "name": "resource",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "requestedAt",
           "type": "datetime",
           "is_relation": false,
@@ -13793,7 +14497,7 @@
         }
       ],
       "source_path": "grant.yaml",
-      "raw_body": "plural: grants\nidentity:\n- caller\n- service\n- account\n- shapesKey\ndisplay:\n  icon: lock\n  subtitle: status\ngroups:\n  Scope:\n  - caller\n  - service\n  - account\n  - shapes\n  Status:\n  - status\n  - requestedAt\n  - decidedAt\nfields:\n  status: string\n  caller: string\n  service: string\n  account: string\n  shapes: string[]\n  shapesKey: string\n  requestedAt: datetime\n  decidedAt: datetime\nprior_art:\n- source: OAuth 2.0 Device Authorization Grant (RFC 8628)\n  url: https://datatracker.ietf.org/doc/html/rfc8628\n  notes: \"Human consent is asynchronous: the client gets a structured \\\"go get approval\\\"\\\n    \\ signal, polls/retries after the human acts. NEEDS_GRANT + grants.request/approve\\\n    \\ mirrors that \\u2014 the grant node is the durable consent record, not a side-channel\\\n    \\ dialog.\"\n- source: Delegated Agent Authorization Protocol (DAAP)\n  url: https://datatracker.ietf.org/doc/html/draft-mishra-oauth-agent-grants-00\n  notes: \"Agent grants as first-class objects with approve/deny and an audit trail\\\n    \\ \\u2014 same pending|approved|denied lifecycle; we keep the axes local (caller\\\n    \\ \\xD7 service \\xD7 account \\xD7 shapes) instead of issuing a bearer token.\"\n- source: Android runtime permissions / iOS TCC prompts\n  url: https://developer.android.com/guide/topics/permissions/overview\n  notes: \"Capability access fails closed until the human grants; the denial carries\\\n    \\ enough structure to re-request. Host OS TCC is a different principal (engine\\\n    \\ vs app) \\u2014 see engine-capabilities.\"\n",
+      "raw_body": "plural: grants\nidentity:\n- caller\n- service\n- account\n- shapesKey\ndisplay:\n  icon: lock\n  subtitle: status\ngroups:\n  Scope:\n  - caller\n  - service\n  - account\n  - shapes\n  - resource\n  Status:\n  - status\n  - requestedAt\n  - decidedAt\nfields:\n  status: string\n  caller: string\n  service: string\n  account: string\n  shapes: string[]\n  shapesKey: string\n  resource: string\n  requestedAt: datetime\n  decidedAt: datetime\nprior_art:\n- source: OAuth 2.0 Device Authorization Grant (RFC 8628)\n  url: https://datatracker.ietf.org/doc/html/rfc8628\n  notes: \"Human consent is asynchronous: the client gets a structured \\\"go get approval\\\"\\\n    \\ signal, polls/retries after the human acts. NEEDS_GRANT + grants.request/approve\\\n    \\ mirrors that \\u2014 the grant node is the durable consent record, not a side-channel\\\n    \\ dialog.\"\n- source: Delegated Agent Authorization Protocol (DAAP)\n  url: https://datatracker.ietf.org/doc/html/draft-mishra-oauth-agent-grants-00\n  notes: \"Agent grants as first-class objects with approve/deny and an audit trail\\\n    \\ \\u2014 same pending|approved|denied lifecycle; we keep the axes local (caller\\\n    \\ \\xD7 service \\xD7 account \\xD7 shapes) instead of issuing a bearer token.\"\n- source: Android runtime permissions / iOS TCC prompts\n  url: https://developer.android.com/guide/topics/permissions/overview\n  notes: \"Capability access fails closed until the human grants; the denial carries\\\n    \\ enough structure to re-request. Host OS TCC is a different principal (engine\\\n    \\ vs app) \\u2014 see engine-capabilities.\"\n",
       "ancestors": [],
       "field_order": [
         "status",
@@ -13802,6 +14506,7 @@
         "account",
         "shapes",
         "shapesKey",
+        "resource",
         "requestedAt",
         "decidedAt"
       ],
@@ -13813,7 +14518,8 @@
             "caller",
             "service",
             "account",
-            "shapes"
+            "shapes",
+            "resource"
           ]
         ],
         [
@@ -35545,6 +36251,471 @@
       "prefs_schemas": {}
     },
     {
+      "name": "secure_note",
+      "class_name": "SecureNote",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "isPinned",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "secretRef",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "also": [],
+      "timed": null,
+      "account_from": null,
+      "arrival_vals": [],
+      "membership": null,
+      "plural": "secure_notes",
+      "subtitle": "category",
+      "display": {
+        "title": null,
+        "subtitle": "category",
+        "image": null,
+        "highlights": [],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "labels": {},
+        "icon": "lock",
+        "icon_from": null,
+        "media": null,
+        "lines": []
+      },
+      "identity": [
+        "at",
+        "id"
+      ],
+      "identity_any": [],
+      "leading_comment": "A secret free-text note — the \"Secure Note\" a password manager stores\n(1Password / Bitwarden): a titled blob of sensitive text (recovery\ncodes, safe combinations, private instructions, seed phrases written in\nprose). The whole POINT is that the body is a secret.\n\n--- WHY THIS IS NOT `note` ---\n`note` is private text FOR THE AUTHOR, but its body rides the inherited\n`content` field as GRAPH PLAINTEXT by design (journal entries, PKM\nnotes are queryable, linkable, full-text-indexed). A secure note's body\nmust NEVER be graph plaintext — it sidebands into `__secrets__` / the\nencrypted credential store. Adding `noteType: secure` to `note` would\nnot fit that model: agents would keep populating `content`, leaking the\nsecret into the graph. There is no per-noteType way to make `content`\nconditionally sidebanded. So this is a distinct shape whose body is\nALWAYS secret, and which deliberately does NOT do `also: [note]` (that\nwould re-inherit the plaintext `content` field).\n\n--- WHAT LIVES WHERE ---\nOn the graph (non-secret): the title (inherited `name`), tags (via a\n`tagged --> tag` relation), and an opaque `secretRef` handle. The BODY\nnever touches the graph — `secretRef` points at the vault entry that\nholds it.\n\nIdentity: [at, id] — one secure note per (vault namespace, item id),\nmatching how the source manager keys it. `name` (inherited) is the\ntitle.",
+      "own_fields": [
+        {
+          "name": "category",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "secretRef",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "isPinned",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "1Password \"Secure Note\" item category",
+          "url": "https://support.1password.com/item-categories/",
+          "notes": "The direct source. 1P's Secure Note is title + one big concealed notes field + tags. We keep the title (name) and tags on the graph and route the concealed body into secrets (secretRef), exactly matching 1P's field concealment."
+        },
+        {
+          "source": "AgentOS `note` shape",
+          "url": "",
+          "notes": "Deliberately NOT reused. `note.content` is graph plaintext for full-text PKM; a secure note's body must be encrypted-sidebanded. Distinct storage contract => distinct shape, no `also: [note]`."
+        },
+        {
+          "source": "Bitwarden \"Secure Note\" type",
+          "url": "https://bitwarden.com/help/managing-items/",
+          "notes": "Same primitive — a named item whose notes field is encrypted at rest. Confirms the title-on-metadata / body-as-secret split."
+        }
+      ],
+      "source_path": "secure_note.yaml",
+      "raw_body": "plural: secure_notes\nidentity:\n- at\n- id\ndisplay:\n  icon: lock\n  subtitle: category\nfields:\n  category: string\n  secretRef: string\n  isPinned: boolean\nprior_art:\n- source: 1Password \"Secure Note\" item category\n  url: https://support.1password.com/item-categories/\n  notes: The direct source. 1P's Secure Note is title + one big concealed notes field\n    + tags. We keep the title (name) and tags on the graph and route the concealed\n    body into secrets (secretRef), exactly matching 1P's field concealment.\n- source: AgentOS `note` shape\n  url: ''\n  notes: 'Deliberately NOT reused. `note.content` is graph plaintext for full-text\n    PKM; a secure note''s body must be encrypted-sidebanded. Distinct storage contract\n    => distinct shape, no `also: [note]`.'\n- source: Bitwarden \"Secure Note\" type\n  url: https://bitwarden.com/help/managing-items/\n  notes: \"Same primitive \\u2014 a named item whose notes field is encrypted at rest.\\\n    \\ Confirms the title-on-metadata / body-as-secret split.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "category",
+        "secretRef",
+        "isPinned"
+      ],
+      "derived": {},
+      "groups": [],
+      "actions": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "server",
+      "class_name": "Server",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "database",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "hostname",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "path",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "port",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "protocol",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "secretRef",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "username",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "also": [],
+      "timed": null,
+      "account_from": null,
+      "arrival_vals": [],
+      "membership": null,
+      "plural": "servers",
+      "subtitle": "hostname",
+      "display": {
+        "title": null,
+        "subtitle": "hostname",
+        "image": null,
+        "highlights": [
+          "protocol",
+          "hostname",
+          "username"
+        ],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "labels": {},
+        "icon": "dns",
+        "icon_from": null,
+        "media": null,
+        "lines": []
+      },
+      "identity": [
+        "hostname",
+        "protocol",
+        "username"
+      ],
+      "identity_any": [],
+      "leading_comment": "A remote host / administrative endpoint — the connection record a\npassword manager stores under \"Server\" (1Password): a hostname, the\nprotocol and port you reach it on, and the admin username. An SSH box,\nan RDP host, an SFTP drop, an SMB share, an admin HTTPS panel.\n\n--- WHAT THIS SHAPE IS FOR, AND WHAT IT ISN'T ---\nThe authenticating secrets — password, SSH private key, passphrase —\nare NEVER shape fields. They sideband into `__secrets__` / the\nencrypted credential store; the shape holds only the non-secret\nconnection coordinates plus an opaque `secretRef` to the vault entry.\n\n--- DISTINCT FROM ADJACENT SHAPES ---\n- `device` is a specific piece of LAN hardware identified by its MAC\naddress (a powered-on box the scanner saw). A `server` is a LOGICAL\nconnection endpoint keyed by hostname/protocol/username — it may be a\ncloud VM you never see the MAC of, a shared-hosting account, or a\njump host. A server MAY resolve to a device (`runs_on --> device`)\nbut usually does not.\n- `account` is a login identity within a namespace; a `server` is the\nnetwork endpoint that account authenticates to. The admin `account`\ncan ride an `authenticates_as --> account` link.\n- `network`/`dns_record` describe naming and topology; `server` is the\nactionable \"how I connect and administer this host\" record.\n\nIdentity: [hostname, protocol, username] — one endpoint record per\n(host, protocol, admin user); the same host reached over ssh and rdp,\nor as two different admin users, are distinct connection records.\n`name` (inherited) is the display label — \"prod-web-01 (ssh)\".",
+      "own_fields": [
+        {
+          "name": "hostname",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "port",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "protocol",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "username",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "database",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "path",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "secretRef",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "1Password \"Server\" item category",
+          "url": "https://support.1password.com/item-categories/",
+          "notes": "The direct source. 1P's Server item holds URL/hostname, username, password, and admin console fields. We keep hostname + username as graph face data and route the password/key into secrets (secretRef only), matching how 1P scopes the concealed fields."
+        },
+        {
+          "source": "OpenSSH ssh_config / RFC 4251",
+          "url": "https://man.openbsd.org/ssh_config",
+          "notes": "HostName / Port / User are exactly our hostname / port / username; IdentityFile (the private key) is the secret we sideband. protocol generalizes ssh_config to the other admin transports (rdp, sftp, smb)."
+        },
+        {
+          "source": "RFC 3986 URI authority (scheme://user@host:port/path)",
+          "url": "https://datatracker.ietf.org/doc/html/rfc3986#section-3",
+          "notes": "Our protocol/username/hostname/port/path decompose the URI authority + path components. We keep them as separate fields (not a single URL string) so identity keys and connection tooling can read them without re-parsing, and so the userinfo secret never lands in a stored URL."
+        }
+      ],
+      "source_path": "server.yaml",
+      "raw_body": "plural: servers\nidentity:\n- hostname\n- protocol\n- username\ndisplay:\n  icon: dns\n  subtitle: hostname\n  highlights:\n  - protocol\n  - hostname\n  - username\nfields:\n  hostname: string\n  port: integer\n  protocol: string\n  username: string\n  database: string\n  path: string\n  secretRef: string\nprior_art:\n- source: 1Password \"Server\" item category\n  url: https://support.1password.com/item-categories/\n  notes: The direct source. 1P's Server item holds URL/hostname, username, password,\n    and admin console fields. We keep hostname + username as graph face data and route\n    the password/key into secrets (secretRef only), matching how 1P scopes the concealed\n    fields.\n- source: OpenSSH ssh_config / RFC 4251\n  url: https://man.openbsd.org/ssh_config\n  notes: HostName / Port / User are exactly our hostname / port / username; IdentityFile\n    (the private key) is the secret we sideband. protocol generalizes ssh_config to\n    the other admin transports (rdp, sftp, smb).\n- source: RFC 3986 URI authority (scheme://user@host:port/path)\n  url: https://datatracker.ietf.org/doc/html/rfc3986#section-3\n  notes: Our protocol/username/hostname/port/path decompose the URI authority + path\n    components. We keep them as separate fields (not a single URL string) so identity\n    keys and connection tooling can read them without re-parsing, and so the userinfo\n    secret never lands in a stored URL.\n",
+      "ancestors": [],
+      "field_order": [
+        "hostname",
+        "port",
+        "protocol",
+        "username",
+        "database",
+        "path",
+        "secretRef"
+      ],
+      "derived": {},
+      "groups": [],
+      "actions": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
       "name": "service",
       "class_name": "Service",
       "fields": [
@@ -37409,6 +38580,316 @@
         "calories",
         "servingSize",
         "customizationGroups"
+      ],
+      "derived": {},
+      "groups": [],
+      "actions": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
+      "name": "software_license",
+      "class_name": "SoftwareLicense",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "expiryDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "licenseKeyLast4",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "licensedTo",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "orderNumber",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "productName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "purchaseDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "seats",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "secretRef",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "version",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "also": [],
+      "timed": "self",
+      "account_from": null,
+      "arrival_vals": [],
+      "membership": null,
+      "plural": "software_licenses",
+      "subtitle": "productName",
+      "display": {
+        "title": null,
+        "subtitle": "productName",
+        "image": null,
+        "highlights": [
+          "version",
+          "seats",
+          "expiryDate"
+        ],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "labels": {},
+        "icon": "vpn_key",
+        "icon_from": null,
+        "media": null,
+        "lines": []
+      },
+      "identity": [
+        "productName",
+        "licensedTo"
+      ],
+      "identity_any": [],
+      "leading_comment": "A purchased entitlement to use a software product — the license record\na password manager stores under \"Software License\" (1Password) or\n\"Software\" (Bitwarden): product name, version, who it's licensed to,\nthe seat count, the order it came from. The proof-of-purchase that\nunlocks a `software` product for a `person`.\n\n--- WHAT THIS SHAPE IS FOR, AND WHAT IT ISN'T ---\nThe license KEY is a secret. It is NEVER stored in full on the graph —\nit sidebands into `__secrets__` / the encrypted credential store, and\nthe shape holds only a masked tail (`licenseKeyLast4`) and a presence\nflag / opaque reference (`secretRef`). Everything else here (product,\nversion, seats, order number) is non-secret purchase metadata.\n\n--- DISTINCT FROM ADJACENT SHAPES ---\n- `software` is the PRODUCT (\"Photoshop\", \"VS Code\") — the thing that\nwas released into the world. A software_license is one person's RIGHT\nto run a copy of it. The product rides a `licenses --> software` link.\n- `qualification` is an EARNED credential attesting competency; a\nsoftware_license is a PURCHASED entitlement. Different primitive.\n- `membership` / `subscription` is open-ended recurring access (Adobe\nCC subscription); a software_license is a discrete, often perpetual,\nper-seat purchase. Recurring SaaS belongs on `membership`.\n\nIdentity: [productName, licensedTo] — one license per (product, holder).\n`orderNumber`, when present, is a globally-unique alternate key (a\nprovider order/receipt id); dedup falls back to it when the\nproduct/holder pair is ambiguous. `name` (inherited) is the display\nlabel — \"Photoshop CC License\", \"Sublime Text 4 (personal)\".",
+      "own_fields": [
+        {
+          "name": "productName",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "version",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "licensedTo",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "licenseKeyLast4",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "secretRef",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "seats",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "purchaseDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "expiryDate",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "orderNumber",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "1Password \"Software License\" item category",
+          "url": "https://support.1password.com/item-categories/",
+          "notes": "The direct source. 1P's Software License item holds product version, licensed to, license key, order number, order date, seats. We keep every field EXCEPT the key value — the key is a `password`/secret field in 1P and stays a secret here too (licenseKeyLast4 + secretRef only)."
+        },
+        {
+          "source": "schema.org/SoftwareApplication + Offer/Order",
+          "url": "https://schema.org/SoftwareApplication",
+          "notes": "The licensed product is a schema.org SoftwareApplication (our `software` relation); the license itself is closer to an Order / Offer acceptance — orderNumber ≈ Order.orderNumber, purchaseDate ≈ orderDate. No single schema.org type covers a seat-based key, so we model it explicitly."
+        },
+        {
+          "source": "SPDX license identifiers",
+          "url": "https://spdx.org/licenses/",
+          "notes": "For OSS the \"license\" is a well-known SPDX id (MIT, GPL-3.0) with no key or seat count — that lives on the `software` product, not here. This shape is for PURCHASED per-seat commercial keys, which SPDX does not model."
+        }
+      ],
+      "source_path": "software_license.yaml",
+      "raw_body": "plural: software_licenses\nidentity:\n- productName\n- licensedTo\ntimed: self\ndisplay:\n  icon: vpn_key\n  subtitle: productName\n  highlights:\n  - version\n  - seats\n  - expiryDate\nfields:\n  productName: string\n  version: string\n  licensedTo: string\n  licenseKeyLast4: string\n  secretRef: string\n  seats: integer\n  purchaseDate: datetime\n  expiryDate: datetime\n  orderNumber: string\nprior_art:\n- source: 1Password \"Software License\" item category\n  url: https://support.1password.com/item-categories/\n  notes: \"The direct source. 1P's Software License item holds product version, licensed\\\n    \\ to, license key, order number, order date, seats. We keep every field EXCEPT\\\n    \\ the key value \\u2014 the key is a `password`/secret field in 1P and stays a\\\n    \\ secret here too (licenseKeyLast4 + secretRef only).\"\n- source: schema.org/SoftwareApplication + Offer/Order\n  url: https://schema.org/SoftwareApplication\n  notes: \"The licensed product is a schema.org SoftwareApplication (our `software`\\\n    \\ relation); the license itself is closer to an Order / Offer acceptance \\u2014\\\n    \\ orderNumber \\u2248 Order.orderNumber, purchaseDate \\u2248 orderDate. No single\\\n    \\ schema.org type covers a seat-based key, so we model it explicitly.\"\n- source: SPDX license identifiers\n  url: https://spdx.org/licenses/\n  notes: \"For OSS the \\\"license\\\" is a well-known SPDX id (MIT, GPL-3.0) with no key\\\n    \\ or seat count \\u2014 that lives on the `software` product, not here. This shape\\\n    \\ is for PURCHASED per-seat commercial keys, which SPDX does not model.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "productName",
+        "version",
+        "licensedTo",
+        "licenseKeyLast4",
+        "secretRef",
+        "seats",
+        "purchaseDate",
+        "expiryDate",
+        "orderNumber"
       ],
       "derived": {},
       "groups": [],
@@ -44772,6 +46253,150 @@
         "type": "bytes",
         "type_optional": false,
         "doc": "Derived key material.",
+        "fields": []
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "crypto.* ops — key derivation and symmetric decryption.\n\nUsed almost exclusively by browser apps decrypting stored cookies.\nHandlers live in agentos-exec-executors."
+    },
+    {
+      "name": "crypto.pbkdf2_sha256",
+      "group": "crypto",
+      "action": "pbkdf2_sha256",
+      "doc": "PBKDF2-HMAC-SHA256 key derivation. Salt is hex. Returns hex-encoded bytes.",
+      "doc_full": "PBKDF2-HMAC-SHA256. Companion to crypto.pbkdf2 (which is SHA1 for\nChromium cookie unlock). Salt is hex so callers can pass binary\nmaterial from a prior HKDF step.\n\nArgs:\n    password: UTF-8 password string.\n    salt: salt as hex.\n    iterations: iteration count.\n    length: output byte length (default 32).\n\nReturns:\n    Derived key as bytes (hex-decoded by the SDK stub).\n",
+      "service": [
+        "crypto"
+      ],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "password",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Password to stretch (UTF-8)."
+        },
+        {
+          "name": "salt",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Salt as hex."
+        },
+        {
+          "name": "iterations",
+          "type": "u32",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Iteration count."
+        },
+        {
+          "name": "length",
+          "type": "u32",
+          "optional": false,
+          "has_default": true,
+          "default": 32,
+          "doc": "Desired output length in bytes."
+        }
+      ],
+      "response": {
+        "scalar": true,
+        "type": "bytes",
+        "type_optional": false,
+        "doc": "Derived key.",
+        "fields": []
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "crypto.* ops — key derivation and symmetric decryption.\n\nUsed almost exclusively by browser apps decrypting stored cookies.\nHandlers live in agentos-exec-executors."
+    },
+    {
+      "name": "crypto.aes_gcm",
+      "group": "crypto",
+      "action": "aes_gcm",
+      "doc": "AES-GCM decrypt (128 or 256 by key length). Key/iv/data are hex. Returns hex plaintext.",
+      "doc_full": "AES-GCM authenticated decrypt. Key length selects AES-128 (16) or\nAES-256 (32). Ciphertext must include the trailing GCM tag (as produced\nby A256GCM / similar). IV/nonce is typically 12 bytes.\n\nArgs:\n    key: hex — 16 or 32 bytes.\n    data: ciphertext ‖ tag, hex.\n    iv: nonce as hex.\n\nReturns:\n    Plaintext bytes.\n",
+      "service": [
+        "crypto"
+      ],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "key",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Key as hex — 16 bytes (AES-128) or 32 bytes (AES-256)."
+        },
+        {
+          "name": "data",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Ciphertext including GCM tag, as hex."
+        },
+        {
+          "name": "iv",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Nonce / IV as hex."
+        }
+      ],
+      "response": {
+        "scalar": true,
+        "type": "bytes",
+        "type_optional": false,
+        "doc": "Decrypted plaintext.",
+        "fields": []
+      },
+      "log_fields": [],
+      "effects": [],
+      "leading_comment": "crypto.* ops — key derivation and symmetric decryption.\n\nUsed almost exclusively by browser apps decrypting stored cookies.\nHandlers live in agentos-exec-executors."
+    },
+    {
+      "name": "crypto.rsa_oaep",
+      "group": "crypto",
+      "action": "rsa_oaep",
+      "doc": "RSA-OAEP decrypt (SHA-1). Private key is a JWK JSON string; ciphertext is hex.",
+      "doc_full": "RSA-OAEP with SHA-1 (the common default used by 1Password keysets).\nThe private key is a JSON Web Key object as a string (`kty=RSA` with\n`n`, `e`, `d`, `p`, `q` as base64url). Ciphertext is hex.\n\nArgs:\n    jwk: RSA private JWK as a JSON string.\n    data: ciphertext as hex.\n\nReturns:\n    Plaintext bytes.\n",
+      "service": [
+        "crypto"
+      ],
+      "trace_span": false,
+      "fire_and_forget": false,
+      "request": [
+        {
+          "name": "jwk",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "RSA private key JWK as a JSON string."
+        },
+        {
+          "name": "data",
+          "type": "string",
+          "optional": false,
+          "has_default": false,
+          "default": null,
+          "doc": "Ciphertext as hex."
+        }
+      ],
+      "response": {
+        "scalar": true,
+        "type": "bytes",
+        "type_optional": false,
+        "doc": "Decrypted plaintext.",
         "fields": []
       },
       "log_fields": [],

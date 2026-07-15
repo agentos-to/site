@@ -1,0 +1,61 @@
+# A secret free-text note — the "Secure Note" a password manager stores
+# (1Password / Bitwarden): a titled blob of sensitive text (recovery
+# codes, safe combinations, private instructions, seed phrases written in
+# prose). The whole POINT is that the body is a secret.
+#
+# --- WHY THIS IS NOT `note` ---
+# `note` is private text FOR THE AUTHOR, but its body rides the inherited
+# `content` field as GRAPH PLAINTEXT by design (journal entries, PKM
+# notes are queryable, linkable, full-text-indexed). A secure note's body
+# must NEVER be graph plaintext — it sidebands into `__secrets__` / the
+# encrypted credential store. Adding `noteType: secure` to `note` would
+# not fit that model: agents would keep populating `content`, leaking the
+# secret into the graph. There is no per-noteType way to make `content`
+# conditionally sidebanded. So this is a distinct shape whose body is
+# ALWAYS secret, and which deliberately does NOT do `also: [note]` (that
+# would re-inherit the plaintext `content` field).
+#
+# --- WHAT LIVES WHERE ---
+# On the graph (non-secret): the title (inherited `name`), tags (via a
+# `tagged --> tag` relation), and an opaque `secretRef` handle. The BODY
+# never touches the graph — `secretRef` points at the vault entry that
+# holds it.
+#
+# Identity: [at, id] — one secure note per (vault namespace, item id),
+# matching how the source manager keys it. `name` (inherited) is the
+# title.
+secure_note:
+  plural: secure_notes
+  identity: [at, id]
+  display:
+    icon: lock
+    subtitle: category
+  fields:
+    category:          string    # optional flavor ("recovery_codes", "safe_combo",
+                                  #   "instructions") — never the body itself
+    secretRef:         string    # opaque handle to the vault entry holding the
+                                  #   body; the body NEVER lands on the graph
+    isPinned:          boolean
+    # Title rides the inherited `name`; tags ride a `tagged --> tag`
+    # relation (see tag.yaml) rather than a flat field. The body is
+    # ALWAYS secret-sidebanded via `secretRef` — there is no `content`
+    # field here, deliberately.
+  prior_art:
+    - source: 1Password "Secure Note" item category
+      url: https://support.1password.com/item-categories/
+      notes: >-
+        The direct source. 1P's Secure Note is title + one big concealed
+        notes field + tags. We keep the title (name) and tags on the graph
+        and route the concealed body into secrets (secretRef), exactly
+        matching 1P's field concealment.
+    - source: AgentOS `note` shape
+      url: ""
+      notes: >-
+        Deliberately NOT reused. `note.content` is graph plaintext for
+        full-text PKM; a secure note's body must be encrypted-sidebanded.
+        Distinct storage contract => distinct shape, no `also: [note]`.
+    - source: Bitwarden "Secure Note" type
+      url: https://bitwarden.com/help/managing-items/
+      notes: >-
+        Same primitive — a named item whose notes field is encrypted at
+        rest. Confirms the title-on-metadata / body-as-secret split.

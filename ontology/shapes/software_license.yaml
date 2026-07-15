@@ -1,0 +1,74 @@
+# A purchased entitlement to use a software product — the license record
+# a password manager stores under "Software License" (1Password) or
+# "Software" (Bitwarden): product name, version, who it's licensed to,
+# the seat count, the order it came from. The proof-of-purchase that
+# unlocks a `software` product for a `person`.
+#
+# --- WHAT THIS SHAPE IS FOR, AND WHAT IT ISN'T ---
+# The license KEY is a secret. It is NEVER stored in full on the graph —
+# it sidebands into `__secrets__` / the encrypted credential store, and
+# the shape holds only a masked tail (`licenseKeyLast4`) and a presence
+# flag / opaque reference (`secretRef`). Everything else here (product,
+# version, seats, order number) is non-secret purchase metadata.
+#
+# --- DISTINCT FROM ADJACENT SHAPES ---
+# - `software` is the PRODUCT ("Photoshop", "VS Code") — the thing that
+#   was released into the world. A software_license is one person's RIGHT
+#   to run a copy of it. The product rides a `licenses --> software` link.
+# - `qualification` is an EARNED credential attesting competency; a
+#   software_license is a PURCHASED entitlement. Different primitive.
+# - `membership` / `subscription` is open-ended recurring access (Adobe
+#   CC subscription); a software_license is a discrete, often perpetual,
+#   per-seat purchase. Recurring SaaS belongs on `membership`.
+#
+# Identity: [productName, licensedTo] — one license per (product, holder).
+# `orderNumber`, when present, is a globally-unique alternate key (a
+# provider order/receipt id); dedup falls back to it when the
+# product/holder pair is ambiguous. `name` (inherited) is the display
+# label — "Photoshop CC License", "Sublime Text 4 (personal)".
+software_license:
+  plural: software_licenses
+  identity: [productName, licensedTo]
+  # purchaseDate / expiryDate are intrinsic to the entitlement (valid-time),
+  # not "when AgentOS learned this".
+  timed: self
+  display:
+    icon: vpn_key
+    subtitle: productName
+    highlights: [version, seats, expiryDate]
+  fields:
+    productName:       string    # licensed product ("Sublime Text", "1Password")
+    version:           string    # licensed version / edition ("4", "Pro 2023")
+    licensedTo:        string    # name / email the license is registered to
+    licenseKeyLast4:   string    # masked tail of the key ONLY — full key sidebands
+                                  #   into `__secrets__` / vault, never the graph
+    secretRef:         string    # opaque handle to the vault entry holding the
+                                  #   full key; presence => a key exists
+    seats:             integer   # licensed seat / device count
+    purchaseDate:      datetime  # date of purchase
+    expiryDate:        datetime  # expiration for time-limited / subscription keys (null = perpetual)
+    orderNumber:       string    # provider order / receipt id — globally-unique alt key
+  prior_art:
+    - source: 1Password "Software License" item category
+      url: https://support.1password.com/item-categories/
+      notes: >-
+        The direct source. 1P's Software License item holds product
+        version, licensed to, license key, order number, order date,
+        seats. We keep every field EXCEPT the key value — the key is a
+        `password`/secret field in 1P and stays a secret here too
+        (licenseKeyLast4 + secretRef only).
+    - source: schema.org/SoftwareApplication + Offer/Order
+      url: https://schema.org/SoftwareApplication
+      notes: >-
+        The licensed product is a schema.org SoftwareApplication (our
+        `software` relation); the license itself is closer to an Order /
+        Offer acceptance — orderNumber ≈ Order.orderNumber, purchaseDate ≈
+        orderDate. No single schema.org type covers a seat-based key, so
+        we model it explicitly.
+    - source: SPDX license identifiers
+      url: https://spdx.org/licenses/
+      notes: >-
+        For OSS the "license" is a well-known SPDX id (MIT, GPL-3.0) with
+        no key or seat count — that lives on the `software` product, not
+        here. This shape is for PURCHASED per-seat commercial keys, which
+        SPDX does not model.

@@ -1,0 +1,67 @@
+# A remote host / administrative endpoint — the connection record a
+# password manager stores under "Server" (1Password): a hostname, the
+# protocol and port you reach it on, and the admin username. An SSH box,
+# an RDP host, an SFTP drop, an SMB share, an admin HTTPS panel.
+#
+# --- WHAT THIS SHAPE IS FOR, AND WHAT IT ISN'T ---
+# The authenticating secrets — password, SSH private key, passphrase —
+# are NEVER shape fields. They sideband into `__secrets__` / the
+# encrypted credential store; the shape holds only the non-secret
+# connection coordinates plus an opaque `secretRef` to the vault entry.
+#
+# --- DISTINCT FROM ADJACENT SHAPES ---
+# - `device` is a specific piece of LAN hardware identified by its MAC
+#   address (a powered-on box the scanner saw). A `server` is a LOGICAL
+#   connection endpoint keyed by hostname/protocol/username — it may be a
+#   cloud VM you never see the MAC of, a shared-hosting account, or a
+#   jump host. A server MAY resolve to a device (`runs_on --> device`)
+#   but usually does not.
+# - `account` is a login identity within a namespace; a `server` is the
+#   network endpoint that account authenticates to. The admin `account`
+#   can ride an `authenticates_as --> account` link.
+# - `network`/`dns_record` describe naming and topology; `server` is the
+#   actionable "how I connect and administer this host" record.
+#
+# Identity: [hostname, protocol, username] — one endpoint record per
+# (host, protocol, admin user); the same host reached over ssh and rdp,
+# or as two different admin users, are distinct connection records.
+# `name` (inherited) is the display label — "prod-web-01 (ssh)".
+server:
+  plural: servers
+  identity: [hostname, protocol, username]
+  display:
+    icon: dns
+    subtitle: hostname
+    highlights: [protocol, hostname, username]
+  fields:
+    hostname:          string    # host / FQDN / IP you connect to ("prod-web-01.example.com")
+    port:              integer   # connection port (null => protocol default, e.g. 22 for ssh)
+    protocol:          string    # ssh | rdp | ftp | sftp | smb | https | other
+    username:          string    # admin / login username on the host (NOT the password)
+    database:          string    # optional target database / schema name (DB admin endpoints)
+    path:              string    # optional share path / base path ("/var/www", "\\host\share")
+    secretRef:         string    # opaque handle to the vault entry holding the
+                                  #   password / private key; presence => a secret exists
+  prior_art:
+    - source: 1Password "Server" item category
+      url: https://support.1password.com/item-categories/
+      notes: >-
+        The direct source. 1P's Server item holds URL/hostname, username,
+        password, and admin console fields. We keep hostname + username as
+        graph face data and route the password/key into secrets
+        (secretRef only), matching how 1P scopes the concealed fields.
+    - source: OpenSSH ssh_config / RFC 4251
+      url: https://man.openbsd.org/ssh_config
+      notes: >-
+        HostName / Port / User are exactly our hostname / port / username;
+        IdentityFile (the private key) is the secret we sideband. protocol
+        generalizes ssh_config to the other admin transports (rdp, sftp,
+        smb).
+    - source: RFC 3986 URI authority (scheme://user@host:port/path)
+      url: https://datatracker.ietf.org/doc/html/rfc3986#section-3
+      notes: >-
+        Our protocol/username/hostname/port/path decompose the URI
+        authority + path components. We keep them as separate fields (not
+        a single URL string) so identity keys and connection tooling can
+        read them without re-parsing, and so the userinfo secret never
+        lands in a stored URL.
