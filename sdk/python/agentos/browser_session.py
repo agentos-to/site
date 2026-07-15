@@ -21,22 +21,24 @@ See the system doc `apps-browser-driven` (§ "The honest account check").
 from . import services
 from .results import app_error
 
-# Browser-driven connectors are HEADLESS-BY-DEFAULT: they run in the engine's
-# background profile, and their payload surfaces in an app (Mail, Messaging, a
-# feed) — the shared surface rule 19 asks for, so no browser window is needed
-# for a read. This is the connector-facing default; the engine's own verb
-# handlers still default to `attach` for interactive UI driving. A connector
-# passes `mode="attach"` ONLY for an action a human should watch live in their
-# own browser (an irreversible purchase / booking / submit).
+# Two defaults, by caller:
+#   • Engine raw/agent `browser_session` verbs default to `attach` — the human's
+#     daily headed browser (already open, live logins). Watch while developing.
+#   • Connector SDK helpers pin `CONNECTOR_MODE = "background"` — headless bg
+#     profile; payload surfaces in an app. Standing watches stay here.
+#   • `login_window` flips that SAME bg profile headed for sign-in, then back.
+# Pass `mode="attach"` from a connector ONLY for a watch-live irreversible
+# action (purchase / booking / submit) in the human's own browser.
 CONNECTOR_MODE = "background"
 
 
 async def eval(target, js, *, mode=CONNECTOR_MODE, await_promise=True, timeout=None):
-    """Evaluate `js` in `target`'s tab and return its value — headless by
+    """Evaluate `js` in `target`'s tab and return its value — headless bg by
     default (`CONNECTOR_MODE`). This is the one call a browser-driven connector
     makes for programmatic in-origin work (same-origin `fetch()`, the platform's
     own JS modules); it pins the background profile so the mode never has to be
     threaded per call (the WhatsApp `_MODE` boilerplate, now in the SDK).
+    Raw agent MCP calls (no SDK) default to `attach` at the engine instead.
     """
     params = {"target": target, "js": js, "await_promise": await_promise, "mode": mode}
     if timeout is not None:
