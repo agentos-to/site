@@ -182,6 +182,29 @@ settings:
         optionsValue: id
         optionsLabel: name
         optionsNone: Automatic
+      # Connector login cascade — OS-owned. Registry app will own a richer
+      # UI later; these prefs ship on Settings ▸ System first.
+      - key: autoLogin
+        kind: boolean
+        label: Auto Login
+        description: When a connector returns NeedsAuth, automatically run its login op and retry once. Off leaves recovery to the agent.
+        group: Login
+        default: true
+      - key: defaultCredentialProvider
+        kind: select
+        label: Default Credential Provider
+        description: After the local vault, prefer this login_credentials provider (1Password, Keychain, …). Never required — vault always wins when it has the row.
+        group: Login
+        options:
+          - { value: onepassword, label: 1Password }
+          - { value: macos-keychain, label: macOS Keychain }
+        optionsNone: Automatic
+      - key: otpOrder
+        kind: text
+        label: OTP Channel Order
+        description: Comma-separated preference for verification codes (default email, sms, whatsapp, voice). Per-account lastAuthMethod still wins when set.
+        group: Login
+        default: email, sms, whatsapp, voice
   prior_art:
     - source: macOS ~/Library/Application Support + Preferences
       url: https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/MacOSXDirectories/MacOSXDirectories.html

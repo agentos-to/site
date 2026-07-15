@@ -1,8 +1,11 @@
 """Agent-driven credential resolution.
 
 `credentials.retrieve(domain, required)` matchmakes every installed
-`@provides(login_credentials)` app (1Password, Keychain, etc.) and
-returns the resolved field values from the first one that answers.
+`@provides(login_credentials)` app and returns the resolved field
+values from the first one that answers. **Never hardcode a provider
+id in a login cascade** — vault first, then the user's
+`pref:system.defaultCredentialProvider` pick, then everyone else.
+
 Apps call this from their `login` tools when the caller didn't pass
 credentials explicitly.
 
@@ -37,8 +40,33 @@ _CRED_PRIORITY = {"not_required": 0, "present": 1, "missing": 2}
 # Vault wins ties. The local encrypted store is ~ms and never prompts —
 # asking any other provider first when the answer is sitting in the vault
 # is architecturally backwards (vault is the user's durable state, not
-# a cache). Everything else sorts by cred_state + insertion order.
+# a cache). Everything else sorts by defaultCredentialProvider, then
+# cred_state + insertion order.
 _VAULT_APP_ID = "vault"
+
+
+async def _default_credential_provider() -> str | None:
+    """`pref:system.defaultCredentialProvider` — optional preferred app id
+    after vault (e.g. ``onepassword``, ``macos-keychain``). Never required.
+    """
+    try:
+        settings = await dispatch(
+            "data.read",
+            {"id": "settings", "fields": ["pref:system"]},
+        )
+        if not isinstance(settings, dict):
+            return None
+        blob = settings.get("pref:system")
+        if isinstance(blob, str):
+            import json
+
+            blob = json.loads(blob)
+        if not isinstance(blob, dict):
+            return None
+        pick = (blob.get("defaultCredentialProvider") or "").strip()
+        return pick or None
+    except Exception:
+        return None
 
 _UNLOCK_CODES = frozenset(
     {
@@ -97,12 +125,16 @@ async def retrieve(
     """
     req_fields = required or []
 
+    preferred = await _default_credential_provider()
     listing = await services.list_providers("login_credentials")
+    # Order: vault → user default (if set) → everyone else by cred_state.
+    # Never name a provider in cascade code — only this pref + vault.
     providers = sorted(
         listing.get("providers") or [],
         key=lambda p: (
-            _CRED_PRIORITY.get(p.get("cred_state", "missing"), 2),
             0 if p.get("app_id") == _VAULT_APP_ID else 1,
+            0 if preferred and p.get("app_id") == preferred else 1,
+            _CRED_PRIORITY.get(p.get("cred_state", "missing"), 2),
         ),
     )
 
@@ -133,6 +165,17 @@ async def retrieve(
                 provider_result if isinstance(provider_result, dict) else {},
                 source=provider["app_id"],
             )
+
+        # Ambiguous match — surface it; don't silently fall through.
+        if isinstance(provider_result, dict) and provider_result.get("code") == "MultipleMatches":
+            return {
+                "found": False,
+                "error": provider_result.get("error"),
+                "code": "MultipleMatches",
+                "domain": domain,
+                "candidates": provider_result.get("candidates"),
+                "source": provider["app_id"],
+            }
 
         if not provider_result or not provider_result.get("provided"):
             continue
