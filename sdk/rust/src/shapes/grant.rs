@@ -18,6 +18,7 @@ pub struct Grant {
     pub caller: String,
     pub decided_at: Option<String>,
     pub requested_at: Option<String>,
+    pub resource: Option<String>,
     pub service: String,
     pub shapes: Option<Vec<String>>,
     pub shapes_key: String,
@@ -41,6 +42,7 @@ pub static GRANT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         FieldDef::required("caller", FieldType::String),
         FieldDef::optional("decidedAt", FieldType::Datetime),
         FieldDef::optional("requestedAt", FieldType::Datetime),
+        FieldDef::optional("resource", FieldType::String),
         FieldDef::required("service", FieldType::String),
         FieldDef::optional("shapes", FieldType::StringList),
         FieldDef::required("shapesKey", FieldType::String),
@@ -52,7 +54,7 @@ pub static GRANT: Lazy<ShapeDef> = Lazy::new(|| ShapeDef {
         ..DisplaySpec::default()
     }),
     groups: vec![
-        FieldGroupDef { name: "Scope".into(), fields: vec!["caller".into(), "service".into(), "account".into(), "shapes".into()] },
+        FieldGroupDef { name: "Scope".into(), fields: vec!["caller".into(), "service".into(), "account".into(), "shapes".into(), "resource".into()] },
         FieldGroupDef { name: "Status".into(), fields: vec!["status".into(), "requestedAt".into(), "decidedAt".into()] },
     ],
     prior_art: vec![

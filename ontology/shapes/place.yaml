@@ -52,7 +52,7 @@ place:
     rating:            number    # 1.0-5.0
     reviewCount:      integer
     priceLevel:       string    # free, inexpensive, moderate, expensive, very_expensive
-    timezone:          string    # IANA timezone (e.g. "America/Chicago")
+    timezone:          string    # IANA tz for THIS place (provider venue tz). Never a brand-wide constant — multi-city orgs differ per location.
     # Uber-Eats-specific runtime/store flags (contextual — only meaningful for stores)
     eta:               string    # estimated delivery time window ("20-30 min")
     isOrderable:      boolean   # store is currently accepting orders

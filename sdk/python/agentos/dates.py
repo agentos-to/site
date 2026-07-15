@@ -1,8 +1,19 @@
 """Date parsing utilities for apps.
 
 Converts display dates, fuzzy dates, and timestamps to ISO 8601.
-Instants are always UTC with an explicit ``Z`` — naive / space-separated
-forms from Gmail and SQLite ``unixepoch`` are treated as UTC wall clock.
+
+**Instant contract (graph + UI):**
+  - ``datetime`` fields are always absolute — UTC with an explicit ``Z``
+    (or a numeric offset that ``canonicalize_datetime`` folds to ``Z``).
+  - Offset-less / space-separated strings fed to ``canonicalize_datetime``
+    are treated as **UTC wall clock** (Gmail, SQLite ``unixepoch``).
+  - Provider APIs that speak **venue-local** naive ISO must go through
+    ``wall_to_utc(local, iana_tz)`` before return. Never emit naive
+    ``startDate`` + ``timezone`` and hope the consumer reinterprets —
+    ``timezone`` is display/recurrence only.
+
+**Write-back:** ``utc_to_wall(utc, iana_tz)`` for APIs that want local naive
+(e.g. Skedda bookings).
 """
 
 from __future__ import annotations
@@ -10,12 +21,15 @@ from __future__ import annotations
 import re
 from datetime import datetime, timezone
 from typing import Any
+from zoneinfo import ZoneInfo
 
 _MONTHS = {
     "january": "01", "february": "02", "march": "03", "april": "04",
     "may": "05", "june": "06", "july": "07", "august": "08",
     "september": "09", "october": "10", "november": "11", "december": "12",
 }
+
+_AWARE_TAIL = re.compile(r"(?:Z|[+-]\d{2}:?\d{2})$")
 
 
 def parse_date(s: str | None) -> str | None:
@@ -66,6 +80,9 @@ def canonicalize_datetime(s: str | None) -> str | None:
 
     Offset-less / space-separated strings are UTC wall clock (Gmail,
     SQLite ``datetime(..., 'unixepoch')``). Date-only stays date-only.
+
+    For venue-local naive strings from a booking provider, use
+    ``wall_to_utc`` instead — this helper will mis-stamp them as UTC.
     """
     if not s:
         return None
@@ -98,6 +115,80 @@ def canonicalize_datetime(s: str | None) -> str | None:
             continue
 
     return s.strip()
+
+
+def _normalize_iso_sep(raw: str) -> str:
+    s = raw.strip()
+    if len(s) > 10 and s[10] == " ":
+        s = s[:10] + "T" + s[11:]
+    return s
+
+
+def wall_to_utc(value: str | None, tz_name: str | None) -> str | None:
+    """Venue-local (or already-aware) ISO → UTC instant with ``Z``.
+
+    Use this when a provider returns offset-less wall clocks in a known
+    IANA zone (Skedda ``start``, store hours, …). Aware inputs (``Z`` /
+    numeric offset) are folded to UTC; ``tz_name`` is ignored for those.
+
+    Naive + missing ``tz_name`` falls through to ``canonicalize_datetime``
+    (UTC wall) — prefer always passing the venue zone.
+    """
+    if not value:
+        return None
+    raw = _normalize_iso_sep(str(value))
+    if not raw:
+        return None
+
+    if raw.endswith("Z") or _AWARE_TAIL.search(raw):
+        return canonicalize_datetime(raw)
+
+    if not tz_name:
+        return canonicalize_datetime(raw)
+
+    naive = raw[:19]
+    if len(naive) == 16:  # YYYY-MM-DDTHH:MM
+        naive += ":00"
+    try:
+        dt = datetime.fromisoformat(naive)
+    except ValueError:
+        return canonicalize_datetime(raw)
+
+    try:
+        aware = dt.replace(tzinfo=ZoneInfo(tz_name))
+    except Exception:
+        aware = dt.replace(tzinfo=timezone.utc)
+    return aware.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def utc_to_wall(value: str | None, tz_name: str | None) -> str | None:
+    """UTC/aware ISO → venue-local naive ``YYYY-MM-DDTHH:MM:SS`` for provider writes.
+
+    Naive inputs are returned trimmed (already wall). Missing ``tz_name`` with
+    an aware instant yields UTC wall clock digits (no conversion).
+    """
+    if not value:
+        return None
+    raw = _normalize_iso_sep(str(value))
+    if not raw:
+        return None
+
+    if raw.endswith("Z") or _AWARE_TAIL.search(raw):
+        try:
+            dt = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        except ValueError as e:
+            raise ValueError(f"invalid datetime: {value!r}") from e
+        if tz_name:
+            try:
+                return dt.astimezone(ZoneInfo(tz_name)).strftime("%Y-%m-%dT%H:%M:%S")
+            except Exception:
+                pass
+        return dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
+
+    # Already naive — assume venue-local.
+    if len(raw) == 16:
+        raw = raw + ":00"
+    return raw[:19]
 
 
 def iso_from_ms(value: Any) -> str | None:

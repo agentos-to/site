@@ -1,0 +1,47 @@
+# A renderable floor / venue map — walls, furniture, and hit targets for
+# bookable spaces (phone booths, meeting rooms, desks). Sibling to
+# `seatmap` (airline cabin) for indoor / coworking layouts.
+#
+# A floorplan is the RENDERABLE STATE of a floor at a moment in time:
+# the SVG (or equivalent) artwork plus axis-aligned resource rects that
+# link to `place` nodes. Availability is NOT stored here — join live
+# occupancy from bookings / reservations against `resources[].place`.
+#
+# Distinct from `place` — a place is the space itself; the floorplan is
+# the map you pick that space from. Distinct from `seatmap` — seatmap
+# is cabin > row > seat; floorplan is freeform SVG + rect hit targets
+# (Skedda, IMDF-lite, office IWMS).
+#
+# Prior art:
+#   - Skedda venue maps — mapsStructure.maps[] + SVG-in-JSON
+#     (staticDefs + staticGraphics) + dynamicRectangles[{spaceId,x,y,w,h}]
+#   - Apple IMDF (Indoor Mapping Data Format) — lighter: we keep SVG +
+#     rects rather than full GeoJSON footprints for v1
+#   - schema.org/FloorPlan — too thin (numberOfRooms); skip
+#
+# Identity: synthetic id from the provider map id (stable across fetches).
+# Discover maps from the provider at runtime — never hardcode map ids.
+floorplan:
+  plural: floorplans
+  identity: [id]
+  display:
+    icon: map
+    title: name
+    subtitle: venueName
+  fields:
+    # Provider map identity / display
+    name:              string    # club/floor label from provider ("Hyde Park")
+    venueName:        string    # parent venue display name
+    viewBox:           string    # SVG viewBox ("0 0 1200 800")
+    # Artwork — prefer assembled SVG; keep sourceUrl for cache/refresh
+    layoutSvg:        string    # full <svg>…</svg> ready to render
+    sourceUrl:         url      # provider artwork URL (e.g. venuemaps/{id}.json)
+    # Hit targets → bookable places. Each entry:
+    #   { placeId, x, y, w, h, indicatorPos? }
+    # placeId matches the Skedda asset / space id on the linked place.
+    resources:         json
+    # UI hints from provider (optional)
+    mobileRotationDegrees: number
+    indicatorSize:    number
+    # Venue timezone stamped for consumers joining availability windows
+    timezone:          string    # IANA tz from the venue — never a brand constant

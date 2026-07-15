@@ -23,9 +23,9 @@ event:
     subtitle: startDate
     highlights: [startDate, endDate, location]
   fields:
-    startDate:        datetime  # when the event starts (UTC preferred)
-    endDate:          datetime  # when the event ends
-    timezone:          string    # IANA timezone (e.g. America/Chicago) — for display + recurrence
+    startDate:        datetime  # absolute instant (UTC …Z). Use wall_to_utc for venue-local provider strings; timezone below is display only
+    endDate:          datetime  # absolute instant (UTC …Z)
+    timezone:          string    # IANA tz of the event's place (from place.timezone / provider). Display + recurrence — NOT how to interpret startDate
     allDay:           boolean
     recurrence:        string[]  # iCal RRULE/EXDATE/RDATE list (e.g. ["RRULE:FREQ=WEEKLY;BYDAY=MO"])
     status:            string    # confirmed, tentative, cancelled

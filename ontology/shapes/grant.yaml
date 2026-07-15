@@ -17,7 +17,7 @@ grant:
     icon: lock
     subtitle: status
   groups:
-    Scope: [caller, service, account, shapes]
+    Scope: [caller, service, account, shapes, resource]
     Status: [status, requestedAt, decidedAt]
   fields:
     status:      string      # pending | approved | denied
@@ -26,6 +26,7 @@ grant:
     account:     string      # identity acted as, or "*"
     shapes:      string[]    # shape names touched, or ["*"]
     shapesKey:   string      # identity canonical: "*" or sorted ","-join
+    resource:    string      # domain/URL for credential grants (consent); not identity
     requestedAt: datetime    # when the request was recorded (transaction time)
     decidedAt:   datetime    # when approve/deny was recorded (transaction time)
   prior_art:

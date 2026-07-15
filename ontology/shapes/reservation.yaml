@@ -48,7 +48,7 @@ reservation:
     icon: event_available
     subtitle: reservationType
   fields:
-    reservationType:     string    # flight, lodging, dining, rental_car, rail, event
+    reservationType:     string    # flight, lodging, dining, rental_car, rail, event, phone_booth, meeting_room, fitness_class, restaurant
     reservationId:       string    # PNR / record locator / confirmation number ("ABC123")
     status:              string    # pending, hold, confirmed, cancelled, no_show, completed, changed
     bookingType:         string    # instant, hold, award (miles), corporate, companion

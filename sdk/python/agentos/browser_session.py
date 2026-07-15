@@ -44,12 +44,27 @@ async def eval(target, js, *, mode=CONNECTOR_MODE, await_promise=True, timeout=N
     return await services.call("browser_session", verb="eval", params=params)
 
 
-async def navigate(target, url, *, mode=CONNECTOR_MODE, timeout=None):
-    """Move `target`'s tab to `url` — background profile by default."""
+async def navigate(target, url, *, mode=CONNECTOR_MODE, timeout=None, force=False):
+    """Move `target`'s tab to `url` — background profile by default.
+
+    Soft by default: if the tab is already at `url` (engine canonical match),
+    skip the reload. Tabs are demuxed one-per-host already; this keeps SPA
+    state warm across connector ops. Pass `force=True` (or use `reload`) for
+    an intentional refresh.
+    """
     params = {"target": target, "url": url, "mode": mode}
     if timeout is not None:
         params["timeout"] = timeout
+    if force:
+        params["force"] = True
     return await services.call("browser_session", verb="navigate", params=params)
+
+
+async def ensure(target, url, *, mode=CONNECTOR_MODE, timeout=None):
+    """Alias for soft `navigate` — land on `url` without reloading if already
+    there. Prefer this in connectors that only need the right page warm.
+    """
+    return await navigate(target, url, mode=mode, timeout=timeout, force=False)
 
 
 async def snapshot(target, *, mode=CONNECTOR_MODE, timeout=None):
