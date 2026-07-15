@@ -58,7 +58,7 @@ from agentos.identity import normalize_email, normalize_phone, normalize_handle
 # --- Fine-grained (available when you need specific control) ---
 from agentos.text import clean_text, clean_html, clean_sentinel, strip_tags
 from agentos.text import parse_int, parse_float
-from agentos.dates import parse_date, iso_from_ms, iso_from_seconds
+from agentos.dates import parse_date, iso_from_ms, iso_from_seconds, canonicalize_datetime
 
 # Engine dispatch Client — talks to a running engine over its MCP socket.
 # Auto-generated from the registry in crates/core/src/tools.rs (see D11
@@ -89,5 +89,5 @@ __all__ = [
     "clean_text", "clean_html", "clean_sentinel", "strip_tags",
     # Parsers (specific)
     "parse_int", "parse_float", "parse_date",
-    "iso_from_ms", "iso_from_seconds",
+    "iso_from_ms", "iso_from_seconds", "canonicalize_datetime",
 ]

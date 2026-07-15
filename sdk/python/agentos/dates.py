@@ -1,7 +1,8 @@
 """Date parsing utilities for apps.
 
-Converts display dates, fuzzy dates, and timestamps to ISO 8601 partial dates.
-Apps should store dates as ISO — the engine and test harness reject display strings.
+Converts display dates, fuzzy dates, and timestamps to ISO 8601.
+Instants are always UTC with an explicit ``Z`` — naive / space-separated
+forms from Gmail and SQLite ``unixepoch`` are treated as UTC wall clock.
 """
 
 from __future__ import annotations
@@ -60,21 +61,68 @@ def parse_date(s: str | None) -> str | None:
     return None
 
 
+def canonicalize_datetime(s: str | None) -> str | None:
+    """Normalize an instant to UTC RFC 3339 with ``Z``.
+
+    Offset-less / space-separated strings are UTC wall clock (Gmail,
+    SQLite ``datetime(..., 'unixepoch')``). Date-only stays date-only.
+    """
+    if not s:
+        return None
+    raw = s.strip()
+    if not raw:
+        return None
+
+    # Date-only civil date.
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", raw):
+        return raw
+
+    # Space → T.
+    if len(raw) > 10 and raw[10] == " ":
+        raw = raw[:10] + "T" + raw[11:]
+
+    # Already offset-aware.
+    if raw.endswith("Z") or re.search(r"[+-]\d{2}:?\d{2}$", raw):
+        try:
+            dt = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+            return dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+        except ValueError:
+            return s.strip()
+
+    # Naive datetime → UTC.
+    for fmt in ("%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M"):
+        try:
+            dt = datetime.strptime(raw, fmt).replace(tzinfo=timezone.utc)
+            return dt.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+        except ValueError:
+            continue
+
+    return s.strip()
+
+
 def iso_from_ms(value: Any) -> str | None:
-    """Convert a millisecond Unix timestamp to ISO 8601 datetime string."""
+    """Convert a millisecond Unix timestamp to UTC ISO 8601 with ``Z``."""
     if not isinstance(value, (int, float)):
         return None
     try:
-        return datetime.fromtimestamp(value / 1000, tz=timezone.utc).isoformat()
+        return (
+            datetime.fromtimestamp(value / 1000, tz=timezone.utc)
+            .strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
+            + "Z"
+        )
     except (ValueError, OSError):
         return None
 
 
 def iso_from_seconds(value: Any) -> str | None:
-    """Convert a second Unix timestamp to ISO 8601 datetime string."""
+    """Convert a second Unix timestamp to UTC ISO 8601 with ``Z``."""
     if not isinstance(value, (int, float)):
         return None
     try:
-        return datetime.fromtimestamp(value, tz=timezone.utc).isoformat()
+        return (
+            datetime.fromtimestamp(value, tz=timezone.utc)
+            .strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
+            + "Z"
+        )
     except (ValueError, OSError):
         return None

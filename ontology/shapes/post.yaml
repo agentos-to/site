@@ -13,6 +13,8 @@ post:
     score:             integer   # net upvotes - downvotes (Reddit, HN, Moltbook)
     commentCount:     integer   # number of comments/replies
     community:         string    # denormalized community slug/name (for display; authoritative link is `publish`)
+    expiresAt:        datetime  # hard TTL — WhatsApp/IG stories (published+24h); durable posts leave unset
+    isOutgoing:       boolean   # true if authored by the connected account (mirrors message.isOutgoing)
   prior_art:
     - source: ActivityStreams 2.0 (Note/Article + Create)
       url: https://www.w3.org/TR/activitystreams-vocabulary/

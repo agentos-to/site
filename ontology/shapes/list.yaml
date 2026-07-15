@@ -68,11 +68,31 @@ list:
     # (pruned to zero on an authoritative-empty result), so these lists ARE
     # the honest offline record an app UI serves when a provider is down.
     service:           string    # brokered service the surface belongs to ('mailbox', 'chats')
-    provider:          string    # winning app id at mirror time
-    tool:              string    # the provider tool the read dispatched
+                                   # ALSO on listType run|search when routed via services.*
+    provider:          string    # winning PLUGIN id at act/mirror time (not a product "provider")
+    tool:              string    # the plugin tool the call dispatched
     account:           string    # account the read was pinned to ('default' = accountless)
     mirrorKey:         string    # stable surface identity — {provider}.{tool}|acct=…|params
     surface:           json      # the read's identity params ({mailbox: 'inbox'}, {conversation_id})
+    # remembered broker-run / search acts (listType: 'run'|'search') — THE
+    # durable broker audit stream (not System shape:activity). See
+    # architecture-broker-run-audit.
+    callerKind:        string    # 'app' | 'mcp' | 'agent' — shell-attested for apps
+    callerId:          string    # experience app id, or MCP/agent client name
+    shapes:            json      # distinct shape names touched (from extracted entities)
+    status:            string    # 'ok' | 'error'
+    latencyMs:         integer
+    error:             string    # failure message when status=error (never secrets)
+    session:           string    # MCP session node id
+    client:            string    # MCP client label
+    query:             string    # search acts only
+    payloadBytes:      integer
+    model:             string    # spend telemetry when a model call
+    inputTokens:       integer
+    outputTokens:      integer
+    reasoningTokens:   integer
+    costUsd:           number
+    costSource:        string
   prior_art:
     - source: schema.org/ItemList
       url: https://schema.org/ItemList

@@ -580,10 +580,28 @@
           "enum": null
         },
         {
+          "name": "caller",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "changedKeys",
           "type": "string[]",
           "is_relation": false,
           "is_array": true,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "created",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
           "target": null,
           "description": null,
           "enum": null
@@ -607,8 +625,8 @@
           "enum": null
         },
         {
-          "name": "distinctId",
-          "type": "string",
+          "name": "deleted",
+          "type": "integer",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -616,8 +634,8 @@
           "enum": null
         },
         {
-          "name": "duration",
-          "type": "number",
+          "name": "distinctId",
+          "type": "string",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -652,6 +670,15 @@
           "enum": null
         },
         {
+          "name": "record",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "recurrence",
           "type": "string[]",
           "is_relation": false,
@@ -662,6 +689,15 @@
         },
         {
           "name": "showAs",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "source",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -706,8 +742,17 @@
           "enum": null
         },
         {
-          "name": "success",
-          "type": "boolean",
+          "name": "targetShape",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "targetVolume",
+          "type": "string",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -724,8 +769,8 @@
           "enum": null
         },
         {
-          "name": "toolName",
-          "type": "string",
+          "name": "updated",
+          "type": "integer",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -771,7 +816,7 @@
       },
       "identity": [],
       "identity_any": [],
-      "leading_comment": "An immutable change event — a graph mutation, app run, search, or load.\nFields for what happened, relations for who/what/where.",
+      "leading_comment": "An immutable change event — a graph mutation or shell window op.\nBrokered plugin/service *runs* are NOT recorded here; they land as\nmemex trail acts (`listType: run|search`) — see architecture-broker-run-audit.\nFields for what happened, relations for who/what/where.",
       "own_fields": [
         {
           "name": "action",
@@ -792,7 +837,7 @@
           "enum": null
         },
         {
-          "name": "toolName",
+          "name": "source",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -801,8 +846,8 @@
           "enum": null
         },
         {
-          "name": "duration",
-          "type": "number",
+          "name": "caller",
+          "type": "string",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -810,8 +855,53 @@
           "enum": null
         },
         {
-          "name": "success",
-          "type": "boolean",
+          "name": "targetShape",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "targetVolume",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "created",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "updated",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "deleted",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "record",
+          "type": "json",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -825,24 +915,24 @@
           "source": "ActivityStreams 2.0",
           "url": "https://www.w3.org/TR/activitystreams-core/",
           "notes": "AS2's Create/Update/Delete activities match our action values. We diverge by tracking changedKeys explicitly instead of encoding full object replacement."
-        },
-        {
-          "source": "OpenTelemetry Traces",
-          "url": "https://opentelemetry.io/docs/concepts/signals/traces/",
-          "notes": "Closest fit for toolName/duration/success — span-shaped. Our activity is closer to a span event than a full span."
         }
       ],
       "source_path": "activity.yaml",
-      "raw_body": "plural: activities\nalso:\n- event\ndisplay:\n  icon: timeline\n  subtitle: action\nfields:\n  action: string\n  changedKeys: string[]\n  toolName: string\n  duration: number\n  success: boolean\nprior_art:\n- source: ActivityStreams 2.0\n  url: https://www.w3.org/TR/activitystreams-core/\n  notes: AS2's Create/Update/Delete activities match our action values. We diverge\n    by tracking changedKeys explicitly instead of encoding full object replacement.\n- source: OpenTelemetry Traces\n  url: https://opentelemetry.io/docs/concepts/signals/traces/\n  notes: \"Closest fit for toolName/duration/success \\u2014 span-shaped. Our activity\\\n    \\ is closer to a span event than a full span.\"\n",
+      "raw_body": "plural: activities\nalso:\n- event\ndisplay:\n  icon: timeline\n  subtitle: action\nfields:\n  action: string\n  changedKeys: string[]\n  source: string\n  caller: string\n  targetShape: string\n  targetVolume: string\n  created: integer\n  updated: integer\n  deleted: integer\n  record: json\nprior_art:\n- source: ActivityStreams 2.0\n  url: https://www.w3.org/TR/activitystreams-core/\n  notes: AS2's Create/Update/Delete activities match our action values. We diverge\n    by tracking changedKeys explicitly instead of encoding full object replacement.\n",
       "ancestors": [
         "event"
       ],
       "field_order": [
         "action",
         "changedKeys",
-        "toolName",
-        "duration",
-        "success",
+        "source",
+        "caller",
+        "targetShape",
+        "targetVolume",
+        "created",
+        "updated",
+        "deleted",
+        "record",
         "startDate",
         "endDate",
         "timezone",
@@ -13433,6 +13523,313 @@
       "prefs_schemas": {}
     },
     {
+      "name": "grant",
+      "class_name": "Grant",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "datePublished",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "account",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "caller",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "decidedAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "requestedAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "service",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "shapes",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "shapesKey",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "also": [],
+      "timed": null,
+      "account_from": null,
+      "arrival_vals": [],
+      "membership": null,
+      "plural": "grants",
+      "subtitle": "status",
+      "display": {
+        "title": null,
+        "subtitle": "status",
+        "image": null,
+        "highlights": [],
+        "body": null,
+        "mono": null,
+        "preview": {},
+        "labels": {},
+        "icon": "lock",
+        "icon_from": null,
+        "media": null,
+        "lines": []
+      },
+      "identity": [
+        "caller",
+        "service",
+        "account",
+        "shapesKey"
+      ],
+      "identity_any": [],
+      "leading_comment": "A permission to broker a call — caller × service × account × shapes.\n\nThe broker denies `services.*` / `plugins.run` without a matching\n**approved** grant (structured `NEEDS_GRANT`, carrying the exact\n`grants.request({…})` call). Consent is one graph: MCP\n`grants.approve` / `grants.deny` and any desktop face write the same\npending/approved/denied nodes — never a second store.\n\nNarrow by default. `*` on account or shapes is an explicit broaden.\nDistinct from macOS TCC / `privileges` ([[engine-capabilities]]) —\nthose gate the engine principal on the host OS; these gate a caller\non a brokered capability.",
+      "own_fields": [
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "caller",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "service",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "account",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "shapes",
+          "type": "string[]",
+          "is_relation": false,
+          "is_array": true,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "shapesKey",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "requestedAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "decidedAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        }
+      ],
+      "own_relations": [],
+      "prior_art": [
+        {
+          "source": "OAuth 2.0 Device Authorization Grant (RFC 8628)",
+          "url": "https://datatracker.ietf.org/doc/html/rfc8628",
+          "notes": "Human consent is asynchronous: the client gets a structured \"go get approval\" signal, polls/retries after the human acts. NEEDS_GRANT + grants.request/approve mirrors that — the grant node is the durable consent record, not a side-channel dialog."
+        },
+        {
+          "source": "Delegated Agent Authorization Protocol (DAAP)",
+          "url": "https://datatracker.ietf.org/doc/html/draft-mishra-oauth-agent-grants-00",
+          "notes": "Agent grants as first-class objects with approve/deny and an audit trail — same pending|approved|denied lifecycle; we keep the axes local (caller × service × account × shapes) instead of issuing a bearer token."
+        },
+        {
+          "source": "Android runtime permissions / iOS TCC prompts",
+          "url": "https://developer.android.com/guide/topics/permissions/overview",
+          "notes": "Capability access fails closed until the human grants; the denial carries enough structure to re-request. Host OS TCC is a different principal (engine vs app) — see engine-capabilities."
+        }
+      ],
+      "source_path": "grant.yaml",
+      "raw_body": "plural: grants\nidentity:\n- caller\n- service\n- account\n- shapesKey\ndisplay:\n  icon: lock\n  subtitle: status\ngroups:\n  Scope:\n  - caller\n  - service\n  - account\n  - shapes\n  Status:\n  - status\n  - requestedAt\n  - decidedAt\nfields:\n  status: string\n  caller: string\n  service: string\n  account: string\n  shapes: string[]\n  shapesKey: string\n  requestedAt: datetime\n  decidedAt: datetime\nprior_art:\n- source: OAuth 2.0 Device Authorization Grant (RFC 8628)\n  url: https://datatracker.ietf.org/doc/html/rfc8628\n  notes: \"Human consent is asynchronous: the client gets a structured \\\"go get approval\\\"\\\n    \\ signal, polls/retries after the human acts. NEEDS_GRANT + grants.request/approve\\\n    \\ mirrors that \\u2014 the grant node is the durable consent record, not a side-channel\\\n    \\ dialog.\"\n- source: Delegated Agent Authorization Protocol (DAAP)\n  url: https://datatracker.ietf.org/doc/html/draft-mishra-oauth-agent-grants-00\n  notes: \"Agent grants as first-class objects with approve/deny and an audit trail\\\n    \\ \\u2014 same pending|approved|denied lifecycle; we keep the axes local (caller\\\n    \\ \\xD7 service \\xD7 account \\xD7 shapes) instead of issuing a bearer token.\"\n- source: Android runtime permissions / iOS TCC prompts\n  url: https://developer.android.com/guide/topics/permissions/overview\n  notes: \"Capability access fails closed until the human grants; the denial carries\\\n    \\ enough structure to re-request. Host OS TCC is a different principal (engine\\\n    \\ vs app) \\u2014 see engine-capabilities.\"\n",
+      "ancestors": [],
+      "field_order": [
+        "status",
+        "caller",
+        "service",
+        "account",
+        "shapes",
+        "shapesKey",
+        "requestedAt",
+        "decidedAt"
+      ],
+      "derived": {},
+      "groups": [
+        [
+          "Scope",
+          [
+            "caller",
+            "service",
+            "account",
+            "shapes"
+          ]
+        ],
+        [
+          "Status",
+          [
+            "status",
+            "requestedAt",
+            "decidedAt"
+          ]
+        ]
+      ],
+      "actions": [],
+      "shortcuts": {},
+      "prefs_schemas": {}
+    },
+    {
       "name": "group",
       "class_name": "Group",
       "fields": [
@@ -15572,8 +15969,53 @@
           "enum": null
         },
         {
+          "name": "callerId",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "callerKind",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "client",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "collectedAt",
           "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "costSource",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "costUsd",
+          "type": "number",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -15599,6 +16041,15 @@
           "enum": null
         },
         {
+          "name": "error",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "fasting",
           "type": "boolean",
           "is_relation": false,
@@ -15609,6 +16060,15 @@
         },
         {
           "name": "icon_size",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "inputTokens",
           "type": "integer",
           "is_relation": false,
           "is_array": false,
@@ -15636,6 +16096,15 @@
         },
         {
           "name": "itemCount",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "latencyMs",
           "type": "integer",
           "is_relation": false,
           "is_array": false,
@@ -15680,6 +16149,15 @@
           "enum": null
         },
         {
+          "name": "model",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "orderedAt",
           "type": "datetime",
           "is_relation": false,
@@ -15691,6 +16169,15 @@
         {
           "name": "ordering_mode",
           "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "outputTokens",
+          "type": "integer",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -15716,6 +16203,15 @@
           "enum": null
         },
         {
+          "name": "payloadBytes",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "privacy",
           "type": "string",
           "is_relation": false,
@@ -15727,6 +16223,24 @@
         {
           "name": "provider",
           "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "query",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "reasoningTokens",
+          "type": "integer",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -15761,7 +16275,34 @@
           "enum": null
         },
         {
+          "name": "session",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "shapes",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "sort_by",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "status",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -15948,7 +16489,23 @@
         "tool",
         "account",
         "mirrorKey",
-        "surface"
+        "surface",
+        "callerKind",
+        "callerId",
+        "shapes",
+        "status",
+        "latencyMs",
+        "error",
+        "session",
+        "client",
+        "query",
+        "payloadBytes",
+        "model",
+        "inputTokens",
+        "outputTokens",
+        "reasoningTokens",
+        "costUsd",
+        "costSource"
       ],
       "derived": {},
       "groups": [],
@@ -19472,8 +20029,26 @@
           "enum": null
         },
         {
+          "name": "expiresAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "externalUrl",
           "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "isOutgoing",
+          "type": "boolean",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -19568,7 +20143,9 @@
         "postType",
         "score",
         "commentCount",
-        "community"
+        "community",
+        "expiresAt",
+        "isOutgoing"
       ],
       "derived": {
         "upvotes": {
@@ -20721,6 +21298,51 @@
           "enum": null
         },
         {
+          "name": "callerId",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "callerKind",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "client",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "costSource",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "costUsd",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "default_view",
           "type": "string",
           "is_relation": false,
@@ -20730,7 +21352,25 @@
           "enum": null
         },
         {
+          "name": "error",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "icon_size",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "inputTokens",
           "type": "integer",
           "is_relation": false,
           "is_array": false,
@@ -20758,6 +21398,15 @@
         },
         {
           "name": "itemCount",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "latencyMs",
           "type": "integer",
           "is_relation": false,
           "is_array": false,
@@ -20802,6 +21451,15 @@
           "enum": null
         },
         {
+          "name": "model",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "ordering_mode",
           "type": "string",
           "is_relation": false,
@@ -20811,8 +21469,26 @@
           "enum": null
         },
         {
+          "name": "outputTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "path",
           "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "payloadBytes",
+          "type": "integer",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -20838,6 +21514,24 @@
           "enum": null
         },
         {
+          "name": "query",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "reasoningTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "service",
           "type": "string",
           "is_relation": false,
@@ -20847,7 +21541,34 @@
           "enum": null
         },
         {
+          "name": "session",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "shapes",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "sort_by",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "status",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -21081,6 +21802,150 @@
           "target": null,
           "description": null,
           "enum": null
+        },
+        {
+          "name": "callerKind",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "callerId",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "shapes",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "latencyMs",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "session",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "client",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "query",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "payloadBytes",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "inputTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "outputTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "reasoningTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "costUsd",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "costSource",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
         }
       ],
       "own_relations": [],
@@ -21112,7 +21977,7 @@
         }
       ],
       "source_path": "list.yaml",
-      "raw_body": "plural: lists\nidentity:\n- at\n- id\ndisplay:\n  icon: folder\n  subtitle: name\nfields:\n  id: string\n  listId: string\n  listType: string\n  ordering_mode: string\n  member_shape: string\n  privacy: string\n  isDefault: boolean\n  isPublic: boolean\n  itemCount: integer\n  arrangement: string\n  default_view: string\n  icon_size: integer\n  sort_by: string\n  path: string\n  service: string\n  provider: string\n  tool: string\n  account: string\n  mirrorKey: string\n  surface: json\nprior_art:\n- source: schema.org/ItemList\n  url: https://schema.org/ItemList\n  notes: \"listType \\u2248 itemListOrder; contains \\u2248 itemListElement; isPublic\\\n    \\ \\u2248 publicAccess.\"\n- source: ActivityStreams 2.0 Collection / OrderedCollection\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection\n  notes: \"contains[] \\u2248 items; ordering_mode='linear' \\u2248 OrderedCollection,\\\n    \\ ordering_mode='unordered' \\u2248 Collection.\"\n- source: WinFS Item / FolderMember\n  url: https://learn.microsoft.com/en-us/archive/msdn-magazine/2004/january/winfs-lets-users-search-and-manage-files-based-on-content\n  notes: 'WinFS unified Folder + Contact + Photo under a single Item base, with FolderMember\n    as a holding link. Our list-with-contains is the same pattern: one shape, one\n    link mechanism, view-time projections handle the \"I want it to look like an album\"\n    case.'\n- source: \"Vannevar Bush \\u2014 As We May Think (Memex trails)\"\n  url: https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/\n  notes: A Memex trail is a named, ordered list of associative jumps. A `list` with\n    ordering_mode='linear' and contains-bookmarks IS Bush's trail. Foundational precedent\n    for the everything-is-a-list thesis.\n- source: POSIX / Single Unix Specification (directories)\n  url: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html\n  notes: listType='folder' with optional `path` field mirrors a POSIX directory. The\n    engine treats it as a list; the filesystem mirror is a projection, not a separate\n    primitive.\n",
+      "raw_body": "plural: lists\nidentity:\n- at\n- id\ndisplay:\n  icon: folder\n  subtitle: name\nfields:\n  id: string\n  listId: string\n  listType: string\n  ordering_mode: string\n  member_shape: string\n  privacy: string\n  isDefault: boolean\n  isPublic: boolean\n  itemCount: integer\n  arrangement: string\n  default_view: string\n  icon_size: integer\n  sort_by: string\n  path: string\n  service: string\n  provider: string\n  tool: string\n  account: string\n  mirrorKey: string\n  surface: json\n  callerKind: string\n  callerId: string\n  shapes: json\n  status: string\n  latencyMs: integer\n  error: string\n  session: string\n  client: string\n  query: string\n  payloadBytes: integer\n  model: string\n  inputTokens: integer\n  outputTokens: integer\n  reasoningTokens: integer\n  costUsd: number\n  costSource: string\nprior_art:\n- source: schema.org/ItemList\n  url: https://schema.org/ItemList\n  notes: \"listType \\u2248 itemListOrder; contains \\u2248 itemListElement; isPublic\\\n    \\ \\u2248 publicAccess.\"\n- source: ActivityStreams 2.0 Collection / OrderedCollection\n  url: https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection\n  notes: \"contains[] \\u2248 items; ordering_mode='linear' \\u2248 OrderedCollection,\\\n    \\ ordering_mode='unordered' \\u2248 Collection.\"\n- source: WinFS Item / FolderMember\n  url: https://learn.microsoft.com/en-us/archive/msdn-magazine/2004/january/winfs-lets-users-search-and-manage-files-based-on-content\n  notes: 'WinFS unified Folder + Contact + Photo under a single Item base, with FolderMember\n    as a holding link. Our list-with-contains is the same pattern: one shape, one\n    link mechanism, view-time projections handle the \"I want it to look like an album\"\n    case.'\n- source: \"Vannevar Bush \\u2014 As We May Think (Memex trails)\"\n  url: https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/\n  notes: A Memex trail is a named, ordered list of associative jumps. A `list` with\n    ordering_mode='linear' and contains-bookmarks IS Bush's trail. Foundational precedent\n    for the everything-is-a-list thesis.\n- source: POSIX / Single Unix Specification (directories)\n  url: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html\n  notes: listType='folder' with optional `path` field mirrors a POSIX directory. The\n    engine treats it as a list; the filesystem mirror is a projection, not a separate\n    primitive.\n",
       "ancestors": [],
       "field_order": [
         "id",
@@ -21134,7 +21999,23 @@
         "tool",
         "account",
         "mirrorKey",
-        "surface"
+        "surface",
+        "callerKind",
+        "callerId",
+        "shapes",
+        "status",
+        "latencyMs",
+        "error",
+        "session",
+        "client",
+        "query",
+        "payloadBytes",
+        "model",
+        "inputTokens",
+        "outputTokens",
+        "reasoningTokens",
+        "costUsd",
+        "costSource"
       ],
       "derived": {},
       "groups": [],
@@ -29295,6 +30176,51 @@
           "enum": null
         },
         {
+          "name": "callerId",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "callerKind",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "client",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "costSource",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "costUsd",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "default_view",
           "type": "string",
           "is_relation": false,
@@ -29304,7 +30230,25 @@
           "enum": null
         },
         {
+          "name": "error",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "icon_size",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "inputTokens",
           "type": "integer",
           "is_relation": false,
           "is_array": false,
@@ -29332,6 +30276,15 @@
         },
         {
           "name": "itemCount",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "latencyMs",
           "type": "integer",
           "is_relation": false,
           "is_array": false,
@@ -29376,6 +30329,15 @@
           "enum": null
         },
         {
+          "name": "model",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "ordering_mode",
           "type": "string",
           "is_relation": false,
@@ -29385,8 +30347,26 @@
           "enum": null
         },
         {
+          "name": "outputTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "path",
           "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "payloadBytes",
+          "type": "integer",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -29412,6 +30392,24 @@
           "enum": null
         },
         {
+          "name": "query",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "reasoningTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "service",
           "type": "string",
           "is_relation": false,
@@ -29421,7 +30419,34 @@
           "enum": null
         },
         {
+          "name": "session",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "shapes",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "sort_by",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "status",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -29513,7 +30538,23 @@
         "tool",
         "account",
         "mirrorKey",
-        "surface"
+        "surface",
+        "callerKind",
+        "callerId",
+        "shapes",
+        "status",
+        "latencyMs",
+        "error",
+        "session",
+        "client",
+        "query",
+        "payloadBytes",
+        "model",
+        "inputTokens",
+        "outputTokens",
+        "reasoningTokens",
+        "costUsd",
+        "costSource"
       ],
       "derived": {},
       "groups": [],
@@ -30076,8 +31117,26 @@
           "enum": null
         },
         {
+          "name": "expiresAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "externalUrl",
           "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "isOutgoing",
+          "type": "boolean",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -30175,6 +31234,24 @@
           "target": null,
           "description": null,
           "enum": null
+        },
+        {
+          "name": "expiresAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "isOutgoing",
+          "type": "boolean",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
         }
       ],
       "own_relations": [],
@@ -30196,14 +31273,16 @@
         }
       ],
       "source_path": "post.yaml",
-      "raw_body": "plural: posts\nidentity:\n- at\n- id\ndisplay:\n  icon: newspaper\n  subtitle: author\nfields:\n  externalUrl: url\n  postType: string\n  score: integer\n  commentCount: integer\n  community: string\nprior_art:\n- source: ActivityStreams 2.0 (Note/Article + Create)\n  url: https://www.w3.org/TR/activitystreams-vocabulary/\n  notes: \"Fediverse post model. Our postedBy \\u2248 actor/attributedTo; publish(community)\\\n    \\ \\u2248 audience/to; repliesTo/replies \\u2248 inReplyTo/replies; media/attachment\\\n    \\ \\u2248 attachment.\"\n- source: OpenGraph protocol\n  url: https://ogp.me/\n  notes: How posts surface when linked. Our externalUrl + media[] correspond to og:url\n    and og:image/og:video; postType loosely parallels og:type (article, video).\n- source: ATProto app.bsky.feed.post\n  url: https://atproto.com/lexicons/app-bsky-feed\n  notes: \"Modern practical lexicon. Our repliesTo \\u2248 reply.parent; media \\u2248\\\n    \\ embed.images; externalUrl \\u2248 embed.external.\"\n",
+      "raw_body": "plural: posts\nidentity:\n- at\n- id\ndisplay:\n  icon: newspaper\n  subtitle: author\nfields:\n  externalUrl: url\n  postType: string\n  score: integer\n  commentCount: integer\n  community: string\n  expiresAt: datetime\n  isOutgoing: boolean\nprior_art:\n- source: ActivityStreams 2.0 (Note/Article + Create)\n  url: https://www.w3.org/TR/activitystreams-vocabulary/\n  notes: \"Fediverse post model. Our postedBy \\u2248 actor/attributedTo; publish(community)\\\n    \\ \\u2248 audience/to; repliesTo/replies \\u2248 inReplyTo/replies; media/attachment\\\n    \\ \\u2248 attachment.\"\n- source: OpenGraph protocol\n  url: https://ogp.me/\n  notes: How posts surface when linked. Our externalUrl + media[] correspond to og:url\n    and og:image/og:video; postType loosely parallels og:type (article, video).\n- source: ATProto app.bsky.feed.post\n  url: https://atproto.com/lexicons/app-bsky-feed\n  notes: \"Modern practical lexicon. Our repliesTo \\u2248 reply.parent; media \\u2248\\\n    \\ embed.images; externalUrl \\u2248 embed.external.\"\n",
       "ancestors": [],
       "field_order": [
         "externalUrl",
         "postType",
         "score",
         "commentCount",
-        "community"
+        "community",
+        "expiresAt",
+        "isOutgoing"
       ],
       "derived": {},
       "groups": [],
@@ -33557,8 +34636,26 @@
           "enum": null
         },
         {
+          "name": "expiresAt",
+          "type": "datetime",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "externalUrl",
           "type": "url",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "isOutgoing",
+          "type": "boolean",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -33711,7 +34808,9 @@
         "postType",
         "score",
         "commentCount",
-        "community"
+        "community",
+        "expiresAt",
+        "isOutgoing"
       ],
       "derived": {},
       "groups": [],
@@ -35464,6 +36563,51 @@
           "enum": null
         },
         {
+          "name": "callerId",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "callerKind",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "client",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "costSource",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "costUsd",
+          "type": "number",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "default_view",
           "type": "string",
           "is_relation": false,
@@ -35473,7 +36617,25 @@
           "enum": null
         },
         {
+          "name": "error",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "icon_size",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "inputTokens",
           "type": "integer",
           "is_relation": false,
           "is_array": false,
@@ -35518,6 +36680,15 @@
           "enum": null
         },
         {
+          "name": "latencyMs",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "listId",
           "type": "string",
           "is_relation": false,
@@ -35554,6 +36725,15 @@
           "enum": null
         },
         {
+          "name": "model",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "ordering_mode",
           "type": "string",
           "is_relation": false,
@@ -35563,8 +36743,26 @@
           "enum": null
         },
         {
+          "name": "outputTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "path",
           "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "payloadBytes",
+          "type": "integer",
           "is_relation": false,
           "is_array": false,
           "target": null,
@@ -35590,6 +36788,24 @@
           "enum": null
         },
         {
+          "name": "query",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "reasoningTokens",
+          "type": "integer",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "service",
           "type": "string",
           "is_relation": false,
@@ -35599,7 +36815,34 @@
           "enum": null
         },
         {
+          "name": "session",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "shapes",
+          "type": "json",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
           "name": "sort_by",
+          "type": "string",
+          "is_relation": false,
+          "is_array": false,
+          "target": null,
+          "description": null,
+          "enum": null
+        },
+        {
+          "name": "status",
           "type": "string",
           "is_relation": false,
           "is_array": false,
@@ -35702,7 +36945,23 @@
         "tool",
         "account",
         "mirrorKey",
-        "surface"
+        "surface",
+        "callerKind",
+        "callerId",
+        "shapes",
+        "status",
+        "latencyMs",
+        "error",
+        "session",
+        "client",
+        "query",
+        "payloadBytes",
+        "model",
+        "inputTokens",
+        "outputTokens",
+        "reasoningTokens",
+        "costUsd",
+        "costSource"
       ],
       "derived": {},
       "groups": [],

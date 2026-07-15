@@ -1114,6 +1114,8 @@ TRANSACTION_TIME_ALLOWLIST = {
     "indexedAt",
     # account onboarding-time
     "joinedDate",
+    # broker grant consent lifecycle — when the request/decision was recorded
+    "requestedAt", "decidedAt",
 }
 
 
