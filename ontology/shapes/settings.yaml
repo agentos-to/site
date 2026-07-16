@@ -168,6 +168,21 @@ settings:
         options:
           - { value: standalone, label: Standalone }
           - { value: desktop, label: Desktop }
+      # Engine-owned shell surface. Off = MCP-only: the bridge stays up to
+      # serve a clear "Apps disabled" page, but the desktop/apps do not mount.
+      - key: ui.enabled
+        kind: boolean
+        label: Apps UI
+        description: When off, AgentOS runs MCP-only — standalone apps show that apps are disabled instead of connecting.
+        group: Runtime
+        default: true
+      # Engine supervises the localhost HTTP bridge (API + built SPA on :3456).
+      - key: runtime.bridge
+        kind: boolean
+        label: Keep Bridge Running
+        description: Engine keeps the web bridge (shell HTTP on port 3456) alive. Turn off only for headless MCP-only troubleshooting.
+        group: Runtime
+        default: true
       # Which installed browser the engine drives — sessions, page saves,
       # login windows. Options are the detected `browser` nodes the boot
       # pass seeds on System; empty pick = Automatic (the macOS default
