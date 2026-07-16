@@ -69,6 +69,10 @@ What this script checks:
   16. **Connection client kind** — `connection(..., client="X")` where
       `X` isn't one of `{"browser", "fetch", "api"}` is a static error.
 
+  17. **Session connection domain** — a no-auth connection used by
+      `@account.check` must declare `domain=` explicitly (browser-driven
+      session identity namespace). `base_url` alone is not enough.
+
 Run:
     agent-sdk validate                   # audit every app under cwd
     agent-sdk validate <app-dir>       # single app
@@ -1387,6 +1391,102 @@ def check_connection_client_value(app_dir: Path) -> list[str]:
     return issues
 
 
+def _module_connection_decls(
+    app_dir: Path,
+) -> dict[str, tuple[str, int, dict[str, ast.AST]]]:
+    """Map connection name → (rel, lineno, kwargs AST) for module-level
+    ``connection("name", ...)`` declarations."""
+    decls: dict[str, tuple[str, int, dict[str, ast.AST]]] = {}
+    for rel, _py, _src, tree in _iter_app_py_files(app_dir):
+        for node in tree.body:
+            if not (isinstance(node, ast.Expr) and isinstance(node.value, ast.Call)):
+                continue
+            call = node.value
+            if not (isinstance(call.func, ast.Name) and call.func.id == "connection"):
+                continue
+            if not call.args:
+                continue
+            name_arg = call.args[0]
+            if not (isinstance(name_arg, ast.Constant) and isinstance(name_arg.value, str)):
+                continue
+            kwargs = {kw.arg: kw.value for kw in call.keywords if kw.arg}
+            decls[name_arg.value] = (rel, call.lineno, kwargs)
+    return decls
+
+
+def check_session_connection_domain(app_dir: Path) -> list[str]:
+    """Require explicit ``domain=`` on no-auth connections used by
+    ``@account.check``.
+
+    Browser-driven connectors bind ``@connection("none")`` (no vault auth)
+    and self-register a session identity. Domain derivation from ``base_url``
+    (or falling back to the app id) made ownership brittle — Email/Messaging
+    could not attribute ``efisio@gmail.com`` on ``google.com`` to
+    ``gmail-cdp``. Authors must declare the platform identity namespace
+    explicitly; ``base_url`` is for ``client.*`` relative URLs, not browse
+    targets or silent domain derivation for sessions.
+    """
+    issues: list[str] = []
+    decls = _module_connection_decls(app_dir)
+
+    # Connections referenced by @account.check ops.
+    check_conns: set[str | None] = set()
+    check_sites: list[tuple[str, int, str, str | None]] = []
+    for rel, _py, _src, tree in _iter_app_py_files(app_dir):
+        for node in tree.body:
+            if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            if _account_role(node) != "check":
+                continue
+            conn = _op_connection(node)
+            check_conns.add(conn)
+            check_sites.append((rel, node.lineno, node.name, conn))
+
+    if not check_sites:
+        return issues
+
+    for conn_name in check_conns:
+        if conn_name is None:
+            # Auto-inferred sole connection — check that declaration if present.
+            if len(decls) == 1:
+                conn_name = next(iter(decls))
+            else:
+                continue
+        decl = decls.get(conn_name)
+        if decl is None:
+            # `@connection("none")` sentinel with no module declaration is
+            # still legal (session domain falls back to app id) — but warn
+            # via a soft note only when it's the conventional "none" name
+            # used by browser-driven connectors that SHOULD declare domain.
+            if conn_name == "none":
+                for rel, lineno, name, bound in check_sites:
+                    if bound == "none" or bound is None:
+                        issues.append(
+                            f"{rel}:{lineno}: `{name}` is @account.check with "
+                            f'@connection("none") but no module-level '
+                            f'connection("none", domain="...") — declare the '
+                            f"platform identity namespace explicitly so session "
+                            f"accounts attribute to this plugin. "
+                            f"See apps-browser-driven / apps-connections."
+                        )
+                        break
+            continue
+        rel, lineno, kwargs = decl
+        has_auth = "auth" in kwargs
+        has_domain = "domain" in kwargs
+        if has_auth:
+            continue  # vault-backed — domain may derive from base_url
+        if not has_domain:
+            issues.append(
+                f"{rel}:{lineno}: connection({conn_name!r}, ...) has no auth "
+                f"and is used by @account.check but omits domain= — set "
+                f'domain="<platform>" (e.g. "google.com") so session identity '
+                f"ownership is explicit. base_url is for client.* relative "
+                f"URLs, not the browse target or silent domain derivation."
+            )
+    return issues
+
+
 def check_tool_name_collisions(app_dir: Path) -> list[str]:
     """Flag duplicate tool (function) names across .py files in an app."""
     defs: dict[str, list[tuple[str, int]]] = {}
@@ -2288,6 +2388,7 @@ def audit_app_dir(app_dir: Path, shapes_dir: Path | None) -> tuple[int, str | No
     # Python checks — errors
     all_issues.extend(check_params_double_nesting(app_dir))
     all_issues.extend(check_connection_client_value(app_dir))
+    all_issues.extend(check_session_connection_domain(app_dir))
     all_issues.extend(check_tool_name_collisions(app_dir))
     all_issues.extend(check_tool_shape(app_dir))
     all_issues.extend(check_sdk_surface_existence(app_dir))
