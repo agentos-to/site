@@ -2748,6 +2748,32 @@ def check_ui_services_declared(
         )
     return issues
 
+
+# Create verbs that `@returns` an entity confirm from the response body —
+# see useOptimisticCreate / apps-commons. A discarded await + list
+# invalidate is the classic "Book still says Book" bug.
+_CREATE_SERVICE_LIT_RE = re.compile(r"""['"]([a-z][a-z0-9_]*_create)['"]""")
+
+
+def check_ui_create_receipt_pattern(ui_text: str, *, where: str = "ui/") -> list[str]:
+    """Soft gate: `*_create` service strings should use `useOptimisticCreate`.
+
+    Can't prove pending UI in AST; can require the helper that encodes
+    pending → receipt → held so authors don't re-invent overlay maps.
+    """
+    creates = set(_CREATE_SERVICE_LIT_RE.findall(ui_text))
+    if not creates:
+        return []
+    if "useOptimisticCreate" in ui_text:
+        return []
+    listed = ", ".join(f"`{s}`" for s in sorted(creates))
+    return [
+        f"{where}: calls create verb(s) {listed} without `useOptimisticCreate` — "
+        "a create that `@returns` the entity confirms from the response "
+        "(pending → receipt → held); see apps-commons mutation shapes. "
+        "Import `useOptimisticCreate` from agentos-ui."
+    ]
+
 def audit_commons_apps(aisle: Path, provided_services: set[str] | None = None) -> int:
     """Audit one source's Commons-app aisle (`<source>/apps/<id>/`).
 
@@ -2758,9 +2784,11 @@ def audit_commons_apps(aisle: Path, provided_services: set[str] | None = None) -
     `@provides`); the ui module default-exports; ui imports stay inside
     the contract (react + agentos-ui + the app's own files); app CSS wraps
     itself in `@layer base` so a lazily-loaded sheet never outranks theme
-    packs; and neither markup nor CSS touches the OS chrome vocabulary
+    packs; neither markup nor CSS touches the OS chrome vocabulary
     (os-toolbar / os-tool-btn / navigator-*) — toolbars come from the SDK
-    CommandBar, never hand-stamped classes or per-app toolbar paint.
+    CommandBar, never hand-stamped classes or per-app toolbar paint; and
+    any `*_create` service string in ui/ must use `useOptimisticCreate`
+    (create confirms from the response, not a discarded list re-read).
     Returns the issue count.
     """
     issues = 0
@@ -2800,9 +2828,11 @@ def audit_commons_apps(aisle: Path, provided_services: set[str] | None = None) -
             elif not re.search(r"export\s+default", entry.read_text(encoding="utf-8")):
                 app_issues.append("ui/index.tsx has no default export (the AppUIProps component)")
 
+            ui_all = ""
             for src in sorted(ui_dir.rglob("*")):
                 if src.suffix in (".ts", ".tsx"):
                     text = src.read_text(encoding="utf-8")
+                    ui_all += "\n" + text
                     for spec in _UI_IMPORT_RE.findall(text):
                         if spec in _UI_IMPORT_ALLOW:
                             continue
@@ -2866,6 +2896,9 @@ def audit_commons_apps(aisle: Path, provided_services: set[str] | None = None) -
                                 "paints its own toolbar — render `<CommandBar>` instead; "
                                 "hand-rolled toolbar chrome is exactly what packs can't theme"
                             )
+
+            if ui_all:
+                app_issues.extend(check_ui_create_receipt_pattern(ui_all, where="ui/"))
 
         if app_issues:
             print(f"  ✗ {app_dir.name}")
